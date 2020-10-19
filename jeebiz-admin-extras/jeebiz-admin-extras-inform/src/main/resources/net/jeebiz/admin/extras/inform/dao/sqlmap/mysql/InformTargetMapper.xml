@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.inform.dao.IInformTargetDao" >
+
+	<resultMap id="InformTargetMap" type="InformTargetModel">
+		<!-- 消息通知模板ID -->
+		<result property="tid" column="T_ID" />
+		<!-- 消息通知模板创建人ID -->
+		<result property="uid" column="T_UID" />
+		<!-- 消息通知发送状态：（0:待发送、1:已发送） -->
+		<result property="status" column="T_STATUS" />
+		<!-- 消息通知发送时间 -->
+		<result property="time24" column="TIME24"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="InformTargetModel">
+		insert into SYS_INFORM_TARGETS(T_ID,T_UID,T_STATUS) values(#{tid},#{uid},0)
+	</insert>
+	
+	<delete id="deleteByTid">
+		delete from SYS_INFORM_TARGETS where T_ID = #{tid}
+	</delete>
+	
+	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_INFORM_TARGETS t 
+		   SET t.T_STATUS = #{status}
+		 WHERE t.T_ID = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.authz.rbac0.dao.IAuthorizedFeatureDao">
+	
+	<resultMap id="AuthzFeatureMap" type="AuthzFeatureModel">
+		<result property="id" column="F_ID" />
+		<result property="name" column="F_NAME" />
+		<result property="abb" column="F_ABB" />
+		<result property="code" column="F_CODE" />
+		<result property="url" column="F_URL" />
+		<result property="path" column="F_PATH" />
+		<result property="type" column="F_TYPE" />
+		<result property="icon" column="F_ICON" />
+		<result property="order" column="F_ORDER" />
+		<result property="parent" column="F_PARENT" />
+		<result property="visible" column="F_VISIBLE" />
+		<result property="root" column="F_ROOT" />
+		<result property="perms" column="F_PERMS" />
+		<result property="checked" column="F_CHECKED" />
+	</resultMap>
+	
+	<resultMap id="AuthzFeatureOptMap" type="AuthzFeatureOptModel">
+		<result property="featureId" column="F_ID" />
+		<result property="id" column="OPT_ID" />
+		<result property="name" column="OPT_NAME" />
+		<result property="icon" column="OPT_ICON" />
+		<result property="order" column="OPT_ORDER" />
+		<result property="visible" column="OPT_VISIBLE" />
+		<result property="perms" column="OPT_PERMS" />
+		<result property="checked" column="OPT_CHECKED" />
+	</resultMap>
+	
+	<select id="getFeatures" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.F_ID,
+			t.F_NAME,
+			t.F_ABB,
+			t.F_CODE,
+			t.F_URL,
+			t.F_PATH,
+			t.F_TYPE,
+			t.F_ICON,
+			t.F_ORDER,
+			t.F_PARENT,
+			t.F_VISIBLE, 
+			(CASE WHEN (t.F_PARENT = '#' OR t.F_PARENT = '0') THEN 1 ELSE 0 END) as F_ROOT,
+			(SELECT GROUP_CONCAT(t1.OPT_PERMS) PERMS
+				 FROM SYS_AUTHZ_FEATURE_OPTS t1 
+				INNER JOIN SYS_AUTHZ_ROLE_PERMS x ON ( x.PERMS = t1.OPT_PERMS or x.PERMS = '*' or x.PERMS = '*:*') 
+				WHERE t1.F_ID = t.F_ID
+				  AND x.R_ID = #{roleId}
+			 ) F_PERMS
+		FROM SYS_AUTHZ_FEATURE_LIST t
+		WHERE t.F_URL != '#'
+		  AND t.F_VISIBLE = 1
+		  AND EXISTS (
+		   SELECT DISTINCT t1.F_ID
+			 FROM SYS_AUTHZ_FEATURE_OPTS t1
+			INNER JOIN SYS_AUTHZ_ROLE_PERMS x ON ( x.PERMS = t1.OPT_PERMS or x.PERMS = '*' or x.PERMS = '*:*') 
+			WHERE t1.F_ID = t.F_ID
+			  AND x.R_ID = #{roleId}			 
+		)
+	</select>
+    
+    <select id="getFeatureOpts" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.F_ID,
+			t.OPT_ID,
+			t.OPT_NAME,
+			t.OPT_ICON,
+			t.OPT_ORDER,
+			t.OPT_VISIBLE,
+			t.OPT_PERMS,
+			(CASE WHEN (SELECT COUNT(x.PERMS)
+				 FROM SYS_AUTHZ_ROLE_PERMS x
+				WHERE x.R_ID = #{roleId,jdbcType=VARCHAR}
+				 AND ( x.PERMS = t.OPT_PERMS or x.PERMS = '*' or x.PERMS = '*:*') 
+			 ) > 0 THEN 1 ELSE 0 END) OPT_CHECKED 
+		FROM SYS_AUTHZ_FEATURE_OPTS t
+	</select>
+	
+	<select id="getChildFeatures" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.F_ID,
+			t.F_NAME,
+			t.F_ABB,
+			t.F_CODE,
+			t.F_URL,
+			t.F_PATH,
+			t.F_TYPE,
+			t.F_ICON,
+			t.F_ORDER,
+			t.F_PARENT,
+			t.F_VISIBLE,
+			(CASE WHEN (t.F_PARENT = '#' OR t.F_PARENT = '0') THEN 1 ELSE 0 END) as F_ROOT,
+			(CASE WHEN (SELECT COUNT(t1.F_ID)
+		             FROM SYS_FEATURE_OPTS t1
+		            INNER JOIN SYS_AUTHZ_ROLE_PERMS x  ON (x.PERMS = t1.OPT_PERMS or x.PERMS = '*' or x.PERMS = '*:*')
+		            WHERE t1.F_ID = t.F_ID
+		              AND x.R_ID = #{roleId}
+       	    ) > 0 THEN 1 ELSE 0 END) F_CHECKED,
+       	    (SELECT wm_concat(t1.OPT_PERMS) PERMS
+				 FROM SYS_FEATURE_OPTS t1 
+				INNER JOIN SYS_AUTHZ_ROLE_PERMS x ON ( x.PERMS = t1.OPT_PERMS or x.PERMS = '*' or x.PERMS = '*:*') 
+				WHERE t1.F_ID = t.F_ID
+				  AND x.R_ID = #{roleId}
+		    ) F_PERMS
+		FROM SYS_FEATURE_LIST t
+	   WHERE t.F_VISIBLE = 1
+	</select>
+	
+	<select id="getChildFeatureOpts" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="false">
+	 SELECT distinct
+			t.F_ID,
+			t.OPT_ID,
+			t.OPT_NAME,
+			t.OPT_ICON,
+			t.OPT_ORDER,
+			t.OPT_VISIBLE,
+			t.OPT_PERMS,
+			(CASE WHEN (SELECT COUNT(x.PERMS)
+				 FROM SYS_AUTHZ_ROLE_PERMS x
+				WHERE x.R_ID = #{roleId}
+				 AND ( x.PERMS = t.OPT_PERMS or x.PERMS = '*' or x.PERMS = '*:*') 
+			 ) > 0 THEN 1 ELSE 0 END) OPT_CHECKED 
+		FROM SYS_FEATURE_OPTS t
+       INNER JOIN SYS_AUTHZ_ROLE_PERMS t2 ON (t2.PERMS = t.OPT_PERMS or t2.PERMS = '*' or t2.PERMS = '*:*')
+       WHERE t2.R_ID = #{roleId}
+	</select>
+	
+</mapper>

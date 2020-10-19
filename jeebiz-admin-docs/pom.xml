@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<!-- 父级依赖 -->
+	<parent>
+		<groupId>net.jeebiz</groupId>
+		<artifactId>jeebiz-admin-parent</artifactId>
+		<version>1.0.1-ce-SNAPSHOT</version>
+		<relativePath>../jeebiz-admin-parent</relativePath>
+	</parent>
+	
+	<!-- 子工程pom配置 -->
+	<artifactId>jeebiz-admin-docs</artifactId>
+	<packaging>pom</packaging>
+
+</project>

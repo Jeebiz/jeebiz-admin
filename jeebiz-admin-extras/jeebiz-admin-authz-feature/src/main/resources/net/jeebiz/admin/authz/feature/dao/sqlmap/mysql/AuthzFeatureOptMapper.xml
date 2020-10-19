@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.authz.feature.dao.IAuthzFeatureOptDao">
+	
+    <resultMap id="AuthzFeatureOptMap" type="AuthzFeatureOptModel">
+		<result property="featureId" column="F_ID" />
+		<result property="id" column="OPT_ID" />
+		<result property="name" column="OPT_NAME" />
+		<result property="icon" column="OPT_ICON" />
+		<result property="order" column="OPT_ORDER" />
+		<result property="visible" column="OPT_VISIBLE" />
+		<result property="perms" column="OPT_PERMS" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="AuthzFeatureOptModel" flushCache="true">
+		insert into SYS_AUTHZ_FEATURE_OPTS(F_ID,OPT_NAME,OPT_ICON,OPT_ORDER,OPT_VISIBLE,OPT_PERMS)
+		values(#{featureId},#{name},#{icon},#{order},#{visible},#{perms})
+	</insert>
+	
+	<delete id="delete" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_AUTHZ_FEATURE_OPTS WHERE OPT_ID = #{id}
+	</delete>
+	
+	<delete id="deleteByParent" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_AUTHZ_FEATURE_OPTS WHERE F_ID = #{id}
+	</delete>
+	
+	<update id="update" parameterType="AuthzFeatureOptModel" flushCache="true">
+		update SYS_AUTHZ_FEATURE_OPTS t
+		<set>
+			<if test="name != null and name != ''">t.OPT_NAME = #{name},</if>
+			<if test="icon != null and icon != ''">t.OPT_ICON = #{icon},</if>
+			<if test="order != null and order != ''">t.OPT_ORDER = #{order},</if>
+			<if test="visible != null and visible != ''">t.OPT_VISIBLE = #{visible},</if>
+			<if test="perms != null and perms != ''">t.OPT_PERMS = #{perms}</if>
+		</set>
+		where t.OPT_ID = #{id}
+	</update>
+	
+	<select id="getOptCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.OPT_ID) 
+		  FROM SYS_AUTHZ_FEATURE_OPTS t 
+		 WHERE t.OPT_NAME = #{name}
+		   AND t.F_ID = #{featureId}
+		 <if test="optId != null and optId != ''">
+			AND t.OPT_ID != #{optId}
+		 </if>
+	</select>
+	
+	<select id="getFeatureOpts" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.F_ID,
+			t.OPT_ID,
+			t.OPT_NAME,
+			t.OPT_ICON,
+			t.OPT_ORDER,
+			t.OPT_VISIBLE,
+			t.OPT_PERMS 
+		FROM SYS_AUTHZ_FEATURE_OPTS t
+	</select>
+	
+	<select id="getFeatureOptList" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.F_ID,
+			t.OPT_ID,
+			t.OPT_NAME,
+			t.OPT_ICON,
+			t.OPT_ORDER,
+			t.OPT_VISIBLE,
+			t.OPT_PERMS 
+		FROM SYS_AUTHZ_FEATURE_OPTS t 
+	   <where>
+			<if test="featureId != null and featureId != ''">
+				and t.F_ID = #{featureId}
+			</if>
+			<if test="visible != null and visible != ''">
+				and t.OPT_VISIBLE = #{visible}
+			</if>
+		</where>
+	</select>
+
+	<select id="getModel" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+		t.F_ID,
+		t.OPT_ID,
+		t.OPT_NAME,
+		t.OPT_ICON,
+		t.OPT_ORDER,
+		t.OPT_VISIBLE,
+		t.OPT_PERMS
+		FROM SYS_AUTHZ_FEATURE_OPTS t
+		WHERE t.OPT_ID = #{id}
+	</select>
+
+</mapper>

@@ -1,0 +1,191 @@
+package net.jeebiz.admin.extras.article.web.mvc;//
+
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
+import org.apache.shiro.biz.utils.SubjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.annotation.AllowableValues;
+import net.jeebiz.boot.api.annotation.BusinessLog;
+import net.jeebiz.boot.api.annotation.BusinessType;
+import net.jeebiz.boot.api.dao.entities.PairModel;
+import net.jeebiz.boot.api.utils.StringUtils;
+import net.jeebiz.boot.api.web.BaseApiController;
+import net.jeebiz.boot.api.web.Result;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleCategoryModel;
+import net.jeebiz.admin.extras.article.service.IArticleCategoryService;
+import net.jeebiz.admin.extras.article.setup.Constants;
+import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryNewVo;
+import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryPaginationVo;
+import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryRenewVo;
+import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryVo;
+
+
+@Api(tags = "文章分类查询")
+@RestController
+@RequestMapping("/article/category/")
+@Validated
+public class ArticleCategoryController extends BaseApiController {
+
+    @Autowired
+    private IArticleCategoryService articleCategoryService;
+
+    @ApiOperation(value = "分页查询文章分类", notes = "分页查询文章分类")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "ArticleCategoryPaginationVo")
+	})
+	@PostMapping("list")
+    @RequiresPermissions("article-category:list")
+	public Result<ArticleCategoryVo> list(@Valid @RequestBody ArticleCategoryPaginationVo paginationVo){
+		
+    	ArticleCategoryModel model =  getBeanMapper().map(paginationVo, ArticleCategoryModel.class);
+		Page<ArticleCategoryModel> pageResult = getArticleCategoryService().getPagedList(model);
+		List<ArticleCategoryVo> retList = Lists.newArrayList();
+		for (ArticleCategoryModel keyvalueModel : pageResult.getRecords()) {
+			retList.add(getBeanMapper().map(keyvalueModel, ArticleCategoryVo.class));
+		}
+		return new Result<ArticleCategoryVo>(pageResult, retList);
+		
+	}
+
+	@ApiOperation(value = "根据分组查询文章分类（键值对）", notes = "根据分组查询文章分类（键值对）")
+	@GetMapping("pairs")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<List<PairModel>> pairs() throws Exception {
+		return ApiRestResponse.success(getArticleCategoryService().getPairList());
+	}
+ 
+	@ApiOperation(value = "创建文章分类", notes = "增加一个新的文章分类")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章分类传输对象", dataType = "ArticleCategoryNewVo") 
+	})
+	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "创建文章分类", opt = BusinessType.INSERT)
+	@PostMapping("new")
+	@RequiresPermissions("article-category:new")
+	@ResponseBody
+	public ApiRestResponse<String> keygroup(@Valid @RequestBody ArticleCategoryNewVo vo) throws Exception {
+		
+		// 检查名称是否存在
+		int ct = getArticleCategoryService().getCountByName(vo.getName(), null);
+		if(ct > 0) {
+			return fail("article.category.new.name.conflict");
+		}
+		// 登录账号信息
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+
+		// 新增一条数据库配置记录
+		ArticleCategoryModel model = getBeanMapper().map(vo, ArticleCategoryModel.class);
+		model.setUid(principal.getUserid());
+		int result = getArticleCategoryService().insert(model);
+		if(result == 1) {
+			return success("article.category.new.success", result);
+		}
+		// 逻辑代码，如果发生异常将不会被执行
+		return fail("article.category.new.fail", result);
+	}
+	
+	@ApiOperation(value = "删除文章分类", notes = "删除文章分类")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章分类ID,多个用,拼接", required = true, dataType = "String")
+	})
+	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "删除文章分类", opt = BusinessType.UPDATE)
+	@GetMapping("delete")
+	@RequiresPermissions("article-category:renew")
+	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
+		// 执行文章分类删除操作
+		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
+		int result = getArticleCategoryService().batchDelete(idList);
+		if(result > 0) {
+			return success("article.category.delete.success", result);
+		}
+		// 逻辑代码，如果发生异常将不会被执行
+		return fail("article.category.delete.fail", result);
+	}
+	 
+	@ApiOperation(value = "更新文章分类", notes = "更新文章分类")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章分类", required = true, dataType = "ArticleCategoryRenewVo"),
+	})
+	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "更新文章分类", opt = BusinessType.UPDATE)
+	@PostMapping("renew")
+	@RequiresPermissions("article-category:renew")
+	@ResponseBody
+	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleCategoryRenewVo vo) throws Exception {
+		
+		// 检查名称是否存在
+		int ct = getArticleCategoryService().getCountByName(vo.getName(), vo.getId());
+		if(ct > 0) {
+			return fail("article.category.renew.value.conflict");
+		}
+		
+		ArticleCategoryModel model = getBeanMapper().map(vo, ArticleCategoryModel.class);
+		int result = getArticleCategoryService().update(model);
+		if(result == 1) {
+			return success("article.category.renew.success", result);
+		}
+		// 逻辑代码，如果发生异常将不会被执行
+		return fail("article.category.renew.fail", result);
+	}
+	
+	@ApiOperation(value = "更新文章分类状态", notes = "更新文章分类状态")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章分类ID", dataType = "String"),
+		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章分类状态", dataType = "String", allowableValues = "1,0")
+	})
+	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "更新文章分类状态", opt = BusinessType.UPDATE)
+	@GetMapping("status")
+	@RequiresPermissions("article-category:status")
+	@ResponseBody
+	public ApiRestResponse<String> status(@RequestParam String id, @AllowableValues(allows = "0,1",message = "数据状态错误") @RequestParam String status) throws Exception {
+		int result = getArticleCategoryService().setStatus(id, status);
+		if(result == 1) {
+			return success("article.category.status.success", result);
+		}
+		// 逻辑代码，如果发生异常将不会被执行
+		return fail("article.category.status.fail", result);
+	}
+	
+	@ApiOperation(value = "查询文章分类信息", notes = "根据ID查询文章分类信息")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章分类ID", dataType = "String")
+	})
+	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "查询文章分类信息", opt = BusinessType.SELECT)
+	@GetMapping("detail")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<ArticleCategoryVo> detail(@RequestParam("id") String id) throws Exception { 
+		ArticleCategoryModel model = getArticleCategoryService().getModel(id);
+		if(model == null) {
+			return ApiRestResponse.empty(getMessage("article.category.get.empty"));
+		}
+		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCategoryVo.class));
+	}
+
+    public IArticleCategoryService getArticleCategoryService() {
+		return articleCategoryService;
+	}
+
+}

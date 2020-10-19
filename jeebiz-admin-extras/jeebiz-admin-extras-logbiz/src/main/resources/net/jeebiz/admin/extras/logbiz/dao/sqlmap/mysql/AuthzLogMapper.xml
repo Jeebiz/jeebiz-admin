@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.logbiz.dao.IAuthzLogDao" >
+	
+	 <resultMap id="AuthzLogMap" type="AuthzLogModel">
+		<result property="id" column="LOG_ID" />
+		<result property="userId" column="LOG_USERID" />
+		<result property="userName" column="LOG_USERNAME" />
+		<result property="opt" column="LOG_OPT" />
+		<result property="protocol" column="LOG_PROTOCOL" />
+		<result property="realm" column="LOG_REALM" />
+		<result property="level" column="LOG_LEVEL" />
+		<result property="addr" column="LOG_ADDR" />
+		<result property="status" column="LOG_STATUS" />
+		<result property="msg" column="LOG_MSG" />
+		<result property="exception" column="LOG_EXCP" />
+		<result property="timestamp" column="TIME24"/>
+	</resultMap>
+	 
+	<select id="getPagedList" resultMap="AuthzLogMap" parameterType="AuthzLogModel">
+		SELECT
+			t.LOG_ID,
+			t.LOG_USERID,
+			IFNULL(t2.U_ALIAS,t2.U_USERNAME) as LOG_USERNAME,
+			t.LOG_OPT,
+			t.LOG_PROTOCOL,
+			t.LOG_REALM,
+			t.LOG_LEVEL,
+			t.LOG_ADDR,
+			t.LOG_STATUS,
+			t.LOG_MSG,
+			t.LOG_EXCP,
+			t.TIME24 
+		FROM SYS_DATA_LOG_AUTHZ t, SYS_AUTHZ_USER_LIST t2
+		WHERE t.LOG_USERID = t2.U_ID
+		<if test="model.userId != null and model.userId != '' ">
+			AND t.LOG_USERID = #{model.userId}
+		</if>
+		<if test="model.opt != null and model.opt != '' ">
+			AND t.LOG_OPT = #{model.opt}
+		</if>
+		<if test="model.level != null and model.level != '' ">
+			AND t.LOG_LEVEL = #{model.level}
+		</if>
+		<if test="model.addr != null and model.addr != '' ">
+			AND t.LOG_ADDR like CONCAT('%',#{model.addr},'%')
+		</if>
+		<if test="model.begintime != null and model.begintime != '' 
+				  and model.endtime != null and model.endtime != '' ">
+			<![CDATA[ AND date(t.TIME24) BETWEEN date(#{model.begintime}) AND date( #{model.endtime}) ]]> 
+		</if>
+		<if test="model.keywords != null and model.keywords != '' ">
+			AND (t2.U_USERNAME like CONCAT('%',#{model.keywords},'%')
+			 OR t2.U_ALIAS like CONCAT('%',#{model.keywords},'%')
+			  OR t2.U_PHONE like CONCAT('%',#{model.keywords},'%'))
+		</if>
+	</select>
+	
+</mapper>

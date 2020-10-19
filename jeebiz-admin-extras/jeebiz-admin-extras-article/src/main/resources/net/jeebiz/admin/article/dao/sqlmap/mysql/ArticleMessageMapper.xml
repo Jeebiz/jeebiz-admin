@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleMessageDao">
+
+	<resultMap id="ArticleMessageMap" type="ArticleMessageModel">
+        <!-- 文章消息ID -->
+		<result property="id" column="M_ID" />
+		<!-- 文章ID -->
+		<result property="cid" column="M_CID" />
+		<!-- 文章消息接收者ID -->
+		<result property="uid" column="M_UID" />
+		<!-- 文章消息接收者姓名 -->
+		<result property="uname" column="M_UNAME" />
+		<!-- 文章消息内容 -->
+		<result property="msg" column="M_MSG" />
+		<!-- 文章消息状态（0:未读|1:已读） -->
+		<result property="status" column="M_STATUS" />
+		<!-- 文章消息发送时间 -->
+		<result property="time24" column="M_TIME24" />
+    </resultMap>
+
+	<insert id="insert" parameterType="ArticleMessageModel" flushCache="true">
+		INSERT INTO SYS_ARTICLE_MESSAGES(M_CID,M_UID,M_MSG,M_STATUS) VALUES (#{cid},#{uid},#{msg},0)
+	</insert>
+	
+	<delete id="batchDelete" flushCache="true">
+		DELETE FROM SYS_ARTICLE_MESSAGES WHERE M_ID IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+	
+	<select id="getPagedList" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.M_ID,
+			t.M_CID,
+			t.M_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.M_UID) as M_UNAME,
+			t.M_MSG,
+			t.M_STATUS,
+			t.M_TIME24
+		FROM SYS_ARTICLE_MESSAGES t
+		<where>
+			<if test="model.cid != null and model.cid != ''">
+				and t.M_CID = #{model.cid}
+			</if>
+			<if test="model.uid != null and model.uid != ''">
+				and t.M_UID = #{model.uid}
+			</if>
+		</where>
+		ORDER By t.M_TIME24 ASC
+	</select>
+	
+	<select id="getModel" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.M_ID,
+			t.M_CID,
+			t.M_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.M_UID) as M_UNAME,
+			t.M_MSG,
+			t.M_STATUS,
+			t.M_TIME24
+		FROM SYS_ARTICLE_MESSAGES t
+	  WHERE t.M_ID = #{id} 
+	</select>
+	
+	<select id="getRowList" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.M_ID,
+			t.M_CID,
+			t.M_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.M_UID) as M_UNAME,
+			t.M_MSG,
+			t.M_STATUS,
+			t.M_TIME24
+		FROM SYS_ARTICLE_MESSAGES t
+	   WHERE t.M_CID = #{cid}
+	ORDER By t.M_TIME24 ASC
+	</select>
+
+</mapper>

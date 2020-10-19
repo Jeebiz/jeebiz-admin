@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.jeebiz</groupId>
+		<artifactId>jeebiz-admin-dependencies</artifactId>
+		<version>1.0.1-ce-SNAPSHOT</version>
+		<relativePath>../jeebiz-admin-dependencies</relativePath>
+	</parent>
+	<artifactId>jeebiz-admin-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<properties>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!--docker build、push地址 -->
+		<docker.workdir>/u01/boot/${project.artifactId}</docker.workdir>
+		<docker.push.repostory>127.0.0.1</docker.push.repostory>
+		<docker.build.repostory>http://127.0.0.1:2376</docker.build.repostory>
+		<!--push镜像到私有库项目的名称 -->
+		<docker.registry.name>jeebiz-admin</docker.registry.name>
+
+	</properties>
+	
+	<modules>
+		<!--<module>jeebiz-admin-shadow</module>-->
+	</modules>
+	
+</project>

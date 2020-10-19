@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao">
+	
+	<resultMap id="ThirdpartyMap" type="AuthzThirdpartyModel">
+		<!-- 用户Id -->
+		<result property="uid" column="U_ID" />
+		<!-- 用户名称 -->
+		<result property="uname" column="U_NAME" />
+		<!-- 第三方账号登录表ID -->
+		<result property="id" column="T_ID" />
+		<!-- 第三方账号类型：（qq：腾讯QQ，wx：微信） -->
+		<result property="type" column="T_TYPE" />
+		<!-- 第三方平台UnionID（通常指第三方账号体系下用户的唯一ID） -->
+		<result property="unionid" column="T_UNIONID" />
+		<!-- 第三方平台OpenID（通常指第三方账号体系下某应用中用户的唯一ID） -->
+		<result property="openid" column="T_OPENID" />
+		<!-- 当前认证对接平台开发者账号ID（通常指与第三方平台进行认证对接的开发者账号的唯一ID） -->
+		<result property="devid" column="T_DEVID" />
+		<!-- 第三方认证账号扩展信息 -->
+		<result property="rawdata" column="T_RAWDATA" />
+		<!-- 第三方账号绑定时间 -->
+		<result property="time24" column="T_TIME24" />
+	</resultMap>
+	
+	<resultMap id="ThirdpartyUserMap" type="AuthzThirdpartyUserModel">
+		<result property="id" column="U_ID" />
+		<result property="username" column="U_USERNAME" />
+		<result property="password" column="U_PASSWORD" />
+		<result property="salt" column="U_SALT" />
+		<result property="secret" column="U_SECRET" />
+		<result property="alias" column="U_ALIAS" />
+		<result property="avatar" column="U_AVATAR" />
+		<result property="phone" column="U_PHONE" />
+		<result property="email" column="U_EMAIL" />
+		<result property="gender" column="U_GENDER" />
+		<result property="birthday" column="U_BIRTHDAY" />
+		<result property="idcard" column="U_IDCARD" />
+		<result property="remark" column="U_REMARK" />
+		<result property="status" column="U_STATUS" />
+		<result property="time24" column="U_TIME24" />
+	</resultMap>
+	
+	<insert id="insertUser" parameterType="AuthzThirdpartyUserModel" flushCache="true">
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
+	        SELECT sys_guid() FROM dual
+	    </selectKey>
+	    INSERT INTO SYS_AUTHZ_USER_LIST(U_ID,U_USERNAME,U_ALIAS,U_SALT,U_PASSWORD,U_AVATAR,U_PHONE,U_EMAIL,U_GENDER,U_BIRTHDAY,U_IDCARD,U_UID,U_CODE,U_REMARK,U_STATUS)
+		VALUES(#{id},#{username},#{alias},#{salt},#{password},#{avatar,jdbcType=VARCHAR},#{phone},#{email,jdbcType=VARCHAR},#{gender,jdbcType=VARCHAR},#{birthday,jdbcType=VARCHAR},
+		#{idcard,jdbcType=VARCHAR},#{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{remark,jdbcType=CLOB},'1')
+	</insert>
+	
+	<insert id="insert" parameterType="AuthzThirdpartyModel" flushCache="true">
+	    insert into SYS_AUTHZ_USER_THIRDPARTY(U_ID,T_TYPE,T_UNIONID,T_OPENID,T_DEVID,T_RAWDATA)
+		values(#{uid},#{type},#{unionid,jdbcType=VARCHAR},#{openid},#{devid,jdbcType=VARCHAR},#{rawdata,jdbcType=VARCHAR})
+	</insert>
+	
+	<delete id="delete" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_AUTHZ_USER_THIRDPARTY WHERE T_ID = #{id}
+	</delete>
+	
+	<select id="getCount" resultType="int" parameterType="AuthzThirdpartyModel" useCache="false">
+		SELECT count(t.T_ID) 
+		  FROM SYS_AUTHZ_USER_THIRDPARTY t 
+		 WHERE t.U_ID = #{uid}
+		   AND t.T_TYPE = #{type}
+		<if test="id != null and id != ''">
+			AND t.T_ID != #{id}
+		 </if>
+	</select>
+	
+	<select id="getCountByUid" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.T_ID) 
+		  FROM SYS_AUTHZ_USER_THIRDPARTY t 
+		 WHERE t.U_ID = #{uid}
+		   AND t.T_TYPE = #{type}
+	</select>
+	
+	<select id="getCountByOpenId" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.T_ID) 
+		  FROM SYS_AUTHZ_USER_THIRDPARTY t 
+		 WHERE t.T_OPENID = #{openid}
+	</select>
+	
+	<select id="getModelByUid" resultMap="ThirdpartyMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.U_ID,
+			NVL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
+			t2.T_ID,
+			t2.T_TYPE,
+			t2.T_UNIONID,
+			t2.T_OPENID,
+			t2.T_DEVID,
+			t2.T_RAWDATA,
+			t2.T_TIME24
+		FROM SYS_AUTHZ_USER_LIST t
+		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
+	   WHERE t2.U_ID = #{uid}
+	     AND t2.T_TYPE = #{type}
+	</select>
+	
+	<select id="getModelByOpenId" resultMap="ThirdpartyMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.U_ID,
+			NVL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
+			t2.T_ID,
+			t2.T_TYPE,
+			t2.T_UNIONID,
+			t2.T_OPENID,
+			t2.T_DEVID,
+			t2.T_RAWDATA,
+			t2.T_TIME24
+		FROM SYS_AUTHZ_USER_LIST t
+		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
+	   WHERE t2.T_OPENID = #{openid}
+	     AND t2.T_TYPE = #{type}
+	</select>
+	
+	<select id="getModel" resultMap="ThirdpartyMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.U_ID,
+			NVL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
+			t2.T_ID,
+			t2.T_TYPE,
+			t2.T_UNIONID,
+			t2.T_OPENID,
+			t2.T_DEVID,
+			t2.T_RAWDATA,
+			t2.T_TIME24
+		FROM SYS_AUTHZ_USER_LIST t
+		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
+	   WHERE t2.T_ID = #{id}
+	</select>
+	
+	<select id="getPagedList" resultMap="ThirdpartyMap" parameterType="AuthzThirdpartyModel" useCache="false">
+		SELECT
+			t.U_ID,
+			NVL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
+			t2.T_ID,
+			t2.T_TYPE,
+			t2.T_UNIONID,
+			t2.T_OPENID,
+			t2.T_DEVID,
+			t2.T_RAWDATA,
+			t2.T_TIME24
+		FROM SYS_AUTHZ_USER_LIST t
+		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
+	</select>
+
+</mapper>

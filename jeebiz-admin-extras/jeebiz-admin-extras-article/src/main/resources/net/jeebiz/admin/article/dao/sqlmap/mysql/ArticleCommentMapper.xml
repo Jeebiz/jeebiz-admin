@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleCommentDao">
+
+    <resultMap id="ArticleCommentMap" type="ArticleCommentModel">
+        <!-- 文章评论ID -->
+		<result property="id" column="C_ID" />
+		<!-- 文章ID -->
+		<result property="cid" column="C_CID" />
+		<!-- 上级文章评论ID -->
+		<result property="pid" column="C_PID" />
+		<!-- 文章评论者ID -->
+		<result property="uid" column="C_UID" />
+		<!-- 文章评论者姓名 -->
+		<result property="uname" column="C_UNAME" />
+		<!-- 文章评论类型 -->
+		<result property="type" column="C_TYPE" />
+		<!-- 文章评论内容 -->
+		<result property="text" column="C_TEXT" />
+		<!-- 文章评论审核状态（0:未通过|1:通过） -->
+		<result property="review" column="C_REVIEW" />
+		<!-- 文章评论状态（0:删除|1:正常） -->
+		<result property="status" column="C_STATUS" />
+		<!-- 文章评论推荐（0:未推荐|1:推荐） -->
+		<result property="recommend" column="C_RCMD" />
+		<!-- 文章评论排序 -->
+		<result property="order" column="C_ORDER" />
+		<!-- 文章评论时间 -->
+		<result property="time24" column="C_TIME24" />
+    </resultMap>
+
+	<insert id="insert" parameterType="ArticleCommentModel" flushCache="true">
+		INSERT INTO SYS_ARTICLE_CONTENT_COMMENTS(C_CID,C_PID,C_UID,C_TYPE,C_TEXT,C_REVIEW,C_STATUS,C_RCMD,C_ORDER)
+		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,IFNULL((SELECT MAX(x.C_ORDER) FROM SYS_ARTICLE_CONTENT_COMMENTS x WHERE x.C_ID = #{cid}),0))
+	</insert> 
+	
+	<delete id="batchDelete" flushCache="true">
+		DELETE FROM SYS_ARTICLE_CONTENT_COMMENTS WHERE C_ID IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+	
+	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
+		   SET D_STATUS = #{status}
+		 WHERE C_ID = #{id}
+	</update>
+	
+	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
+		   SET C_RCMD = #{recommend}
+		 WHERE C_ID = #{id}
+	</update>
+	
+	<update id="setReview" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
+		   SET C_REVIEW = #{review}
+		 WHERE C_ID = #{id}
+	</update>
+	
+	<update id="update" parameterType="ArticleCommentModel" flushCache="true">
+		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
+		   SET C_TEXT = #{text},
+		   	   C_TIME24 = to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss')
+		 WHERE C_ID = #{id}
+	</update>
+    
+	<select id="getPagedList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.C_ID,
+			t.C_CID,
+			t.C_PID,
+			t.C_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			t.C_TYPE,
+			t.C_TEXT,
+			t.C_REVIEW,
+			t.C_STATUS,
+			t.C_RCMD,
+			t.C_ORDER,
+			t.C_TIME24
+		FROM SYS_ARTICLE_CONTENT_COMMENTS t
+		<where>
+			<if test="model.cid != null and model.cid != ''">
+				and t.C_CID = #{model.cid}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getModel" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.C_ID,
+			t.C_CID,
+			t.C_PID,
+			t.C_UID,
+		    (SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			t.C_TYPE,
+			t.C_TEXT,
+			t.C_REVIEW,
+			t.C_STATUS,
+			t.C_RCMD,
+			t.C_ORDER,
+			t.C_TIME24
+	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
+	  WHERE t.C_ID = #{id} 
+	</select>
+
+	<select id="getRowList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.C_ID,
+			t.C_CID,
+			t.C_PID,
+			t.C_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			t.C_TYPE,
+			t.C_TEXT,
+			t.C_REVIEW,
+			t.C_STATUS,
+			t.C_RCMD,
+			t.C_ORDER,
+			t.C_TIME24
+	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
+	  WHERE t.C_STATUS != 0
+	    AND t.C_UID = #{uid}
+	</select>
+	
+	<select id="getTreeList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.C_ID,
+			t.C_CID,
+			t.C_PID,
+			t.C_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			t.C_TYPE,
+			t.C_TEXT,
+			t.C_REVIEW,
+			t.C_STATUS,
+			t.C_RCMD,
+			t.C_ORDER,
+			t.C_TIME24
+	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
+	  WHERE t.C_STATUS != 0
+	    AND t.C_UID = #{uid}
+	  START WITH t.C_PID = 0 CONNECT BY t.C_PID = PRIOR t.C_ID
+	</select>
+
+</mapper>

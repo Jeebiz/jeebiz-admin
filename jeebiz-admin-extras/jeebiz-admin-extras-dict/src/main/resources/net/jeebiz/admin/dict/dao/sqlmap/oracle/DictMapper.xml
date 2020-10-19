@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.dict.dao.IDictDao">
+	
+	<resultMap id="PairMap" type="PairModel">
+		<result property="key" column="D_KEY" />
+		<result property="value" column="D_TEXT" />
+	</resultMap>
+	
+	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
+		   SELECT t.D_KEY,t.D_TEXT
+			 FROM SYS_DATA_PAIRVALUE t 
+			WHERE t.D_GROUP = #{key} 
+			  AND t.D_STATUS = 1
+		 ORDER By t.D_ORDER ASC
+	</select>
+
+</mapper>

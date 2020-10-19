@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.filestore.dao.IFilestoreDao" >
+
+	<!-- 开启二级缓存 -->
+	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
+	
+	<resultMap id="FilestoreMap" type="FilestoreModel">
+		<result property="id" column="F_ID" />
+		<result property="uuid" column="F_UUID" />
+		<result property="ext" column="F_EXT" />
+		<result property="name" column="F_NAME" />
+		<result property="to" column="F_TO" />
+		<result property="group" column="F_GROUP" />
+		<result property="path" column="F_PATH" />
+		<result property="thumb" column="F_THUMB" />
+		<result property="uid" column="F_UID" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="FilestoreModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO SYS_DATA_FILES(F_UUID,F_EXT,F_NAME,F_TO,F_GROUP,F_PATH,F_THUMB,F_UID) 
+		VALUES(#{uuid},#{ext},#{name},#{to},#{group},#{path},#{thumb,jdbcType=VARCHAR},#{uid}) 
+	</insert>
+	
+	<delete id="delete" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_DATA_FILES t WHERE t.F_UUID = #{id}
+	</delete>
+	
+	<delete id="deleteByPaths" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_DATA_FILES t WHERE t.F_PATH IN 
+		<foreach collection="paths" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+	
+	<delete id="deleteByUuids" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_DATA_FILES t WHERE t.F_UUID IN 
+		<foreach collection="uuids" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+	
+	<update id="update" parameterType="FilestoreModel" flushCache="true">
+		UPDATE SYS_DATA_FILES t
+		<set>
+			<if test="ext != null and ext != ''">t.F_EXT = #{ext},</if>
+			<if test="name != null and name != ''">t.F_NAME = #{name},</if>
+			<if test="to != null and to != ''">t.F_TO = #{to},</if>
+			<if test="group != null and group != ''">t.F_GROUP = #{group},</if>
+			<if test="path != null and path != ''">t.F_PATH = #{path},</if>
+			<if test="thumb != null and thumb != ''">t.F_THUMB = #{thumb},</if>
+		</set>
+		WHERE t.F_UUID = #{uuid}
+	</update>
+	
+	<select id="getByPath" resultMap="FilestoreMap" parameterType="java.lang.String" useCache="true">
+		select t.F_ID,t.F_UUID,t.F_EXT,t.F_NAME,t.F_TO,t.F_GROUP,t.F_PATH,t.F_THUMB,t.F_UID from SYS_DATA_FILES t WHERE t.F_PATH = #{path}
+	</select>
+	
+	<select id="getByUuid" resultMap="FilestoreMap" parameterType="java.lang.String" useCache="true">
+		select t.F_ID,t.F_UUID,t.F_EXT,t.F_NAME,t.F_TO,t.F_GROUP,t.F_PATH,t.F_THUMB,t.F_UID from SYS_DATA_FILES t WHERE t.F_UUID = #{uuid}
+	</select>
+	
+	<select id="getFiles" resultMap="FilestoreMap" parameterType="List" useCache="true">
+		select t.F_ID,t.F_UUID,t.F_EXT,t.F_NAME,t.F_TO,t.F_GROUP,t.F_PATH,t.F_THUMB,t.F_UID from SYS_DATA_FILES t 
+		WHERE t.F_UUID  IN 
+		<foreach collection="uuids" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</select>
+	
+	<select id="getPaths" resultMap="FilestoreMap" parameterType="List" useCache="true">
+		select t.F_ID,t.F_UUID,t.F_EXT,t.F_NAME,t.F_TO,t.F_GROUP,t.F_PATH,t.F_THUMB,t.F_UID from SYS_DATA_FILES t 
+		WHERE t.F_PATH  IN 
+		<foreach collection="paths" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</select>
+	
+</mapper>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.shadow.dao.IAuthzLoginDao">
+
+	<resultMap id="LoginMap" type="AuthzLoginModel">
+		<result property="userid" column="U_ID" />
+		<result property="username" column="U_USERNAME" />
+		<result property="password" column="U_PASSWORD" />
+		<result property="salt" column="U_SALT" />
+		<result property="secret" column="U_SECRET" />
+		<result property="alias" column="U_ALIAS" />
+		<result property="phone" column="U_PHONE" />
+		<result property="email" column="U_EMAIL" />
+		<result property="status" column="U_STATUS" />
+		<result property="time24" column="U_TIME24" />
+	</resultMap>
+	
+	<resultMap id="LoginStatusMap" type="AuthzLoginStatusModel">
+		<result property="ucount" column="U_COUNT" />
+		<result property="pcount" column="P_COUNT" />
+		<result property="rcount" column="R_COUNT" />
+		<result property="status" column="U_STATUS" />
+		<result property="salt" column="U_SALT" />
+	</resultMap>
+	
+	<resultMap id="ProfileMap" type="net.jeebiz.boot.api.dao.entities.BaseMap">
+		<!-- 用户ID -->
+		<result property="uid" column="U_ID" />
+		<!-- 用户别名（昵称） -->
+		<result property="alias" column="U_ALIAS" />
+		<!-- 用户头像：图片路径或图标样式 -->
+		<result property="avatar" column="U_AVATAR" />
+		<!-- 手机号码 -->
+		<result property="phone" column="U_PHONE" />
+		<!-- 电子邮箱 -->
+		<result property="email" column="U_EMAIL" />
+		<!-- 用户备注 -->
+		<result property="remark" column="U_REMARK" />
+		<!-- 用户详情ID -->
+		<result property="id" column="D_ID" />
+		<!-- 性别：（male：男，female：女） -->
+		<result property="gender" column="D_GENDER" />
+		<!-- 出生日期 -->
+		<result property="birthday" column="D_BIRTHDAY" />
+		<!-- 身份证号码 -->
+		<result property="idcard" column="D_IDCARD" />
+	</resultMap>
+	
+    <select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
+	    select (select count('1') from SYS_AUTHZ_USER_LIST a where a.U_USERNAME = #{username}) U_COUNT,
+		       (select count('1') from SYS_AUTHZ_USER_LIST b where b.U_USERNAME = #{username} and b.U_PASSWORD = #{password,jdbcType=VARCHAR} ) P_COUNT,
+		       (select count('1') from SYS_AUTHZ_USER_LIST c, SYS_AUTHZ_USER_ROLE_RELATION x where c.U_ID = x.U_ID and c.U_USERNAME = #{username}) R_COUNT,
+		       NVL((select NVL(d.U_STATUS,'0') from SYS_AUTHZ_USER_LIST d where d.U_USERNAME = #{username}),'0') U_STATUS,
+		       (select d.U_SALT from SYS_AUTHZ_USER_LIST d where d.U_USERNAME = #{username}) as U_SALT
+		from dual
+    </select>
+
+    <select id="getAccountStatusWithoutPwd" parameterType="string" resultMap="LoginStatusMap" useCache="false">
+	    select (select count('1') from SYS_AUTHZ_USER_LIST a where a.U_USERNAME = #{username}) U_COUNT,
+		       (select count('1') from SYS_AUTHZ_USER_LIST c, SYS_AUTHZ_USER_ROLE_RELATION x where c.U_ID = x.U_ID and c.U_USERNAME = #{username}) R_COUNT,
+		       NVL((select NVL(d.U_STATUS,'0') from SYS_AUTHZ_USER_LIST d where d.U_USERNAME = #{username}),'0') U_STATUS,
+		       (select d.U_SALT from SYS_AUTHZ_USER_LIST d where d.U_USERNAME = #{username}) as U_SALT
+		from dual
+    </select>
+    
+    <select id="getAccountStatusByUid" parameterType="string" resultMap="LoginStatusMap" useCache="false">
+	    select (select count('1') from SYS_AUTHZ_USER_LIST a where a.U_ID = #{uid}) U_COUNT,
+		       (select count('1') from SYS_AUTHZ_USER_LIST c,SYS_AUTHZ_USER_ROLE_RELATION x where c.U_ID = x.U_ID and c.U_ID = #{uid}) R_COUNT,
+		       NVL((select NVL(d.U_STATUS,'0') from SYS_AUTHZ_USER_LIST d where d.U_ID = #{uid}),'0') U_STATUS,
+		       (select d.U_SALT from SYS_AUTHZ_USER_LIST d where d.U_ID = #{uid}) as U_SALT
+		from dual
+    </select>
+    
+    <sql id="AccountSQL">
+		select t.U_ID,
+		       t.U_USERNAME,
+		       t.U_PASSWORD,       
+		       t.U_PHONE,
+		       t.U_ALIAS,
+		       t.U_EMAIL,
+		       t.U_SALT,
+			   t.U_SECRET,
+		       NVL(t.U_STATUS, '0') U_STATUS
+		  from SYS_AUTHZ_USER_LIST t
+		 where t.U_USERNAME = #{username}
+	</sql>
+
+    <!-- 根据用户ID和密码查询用户信息  -->
+    <select id="getAccount" parameterType="string" resultMap="LoginMap" useCache="false">
+        <include refid="AccountSQL"/>
+        and t.U_PASSWORD = #{password}
+    </select>
+
+    <!-- 无密码根据用户ID用户信息  -->
+    <select id="getAccountWithoutPwd" parameterType="string" resultMap="LoginMap" useCache="false">
+        <include refid="AccountSQL"/>
+    </select>
+	
+	<select id="getAccountByUkey" parameterType="string" resultMap="LoginMap" useCache="false">
+        select t.U_ID,
+		       t.U_USERNAME,       
+		       t.U_PASSWORD,
+		       t.U_PHONE,
+		       t.U_ALIAS,
+		       t.U_EMAIL,
+		       t.U_SALT,
+			   t.U_SECRET,
+		       NVL(t.U_STATUS, '0') U_STATUS
+		  from SYS_AUTHZ_USER_LIST t
+		 where t.U_ID = #{ukey}
+    </select>
+
+    <select id="getAccountByUid" parameterType="string" resultMap="LoginMap" useCache="false">
+        select t.U_ID,
+		       t.U_USERNAME,       
+		       t.U_PASSWORD,
+		       t.U_PHONE,
+		       t.U_ALIAS,
+		       t.U_EMAIL,
+		       t.U_SALT,
+			   t.U_SECRET,
+		       NVL(t.U_STATUS, '0') U_STATUS
+		  from SYS_AUTHZ_USER_LIST t
+		 where t.U_ID = #{uid}
+    </select>
+    
+    <select id="getAccountProfile" parameterType="string" resultMap="ProfileMap">
+	    SELECT
+			t.U_ID,
+			t.U_ALIAS,
+			t.U_AVATAR,
+			t.U_PHONE,
+			t.U_EMAIL,
+			t.U_REMARK,
+			t.U_BIRTHDAY,
+			t.U_GENDER,
+			t.U_IDCARD
+		FROM SYS_AUTHZ_USER_LIST t
+	   WHERE t.U_ID = #{userid}
+    </select> 
+
+</mapper>

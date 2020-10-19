@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.authz.org.dao.IAuthzPostDao">
+
+	<!-- 开启二级缓存 -->
+    <cache-ref namespace="net.jeebiz.admin.authz.org.dao.IAuthzOrganizationDao"/>
+
+	<resultMap id="AuthzPostMap" type="AuthzPostModel">
+		<id property="id" column="POST_ID" />
+		<result property="orgId" column="ORG_ID" />
+		<result property="orgName" column="ORG_NAME" />
+		<result property="deptId" column="DEPT_ID" />
+		<result property="deptName" column="DEPT_NAME" />
+		<result property="code" column="POST_CODE" />
+		<result property="name" column="POST_NAME" />
+		<result property="intro" column="POST_INTRO" />
+		<result property="uid" column="POST_UID" />
+		<result property="status" column="POST_STATUS" />
+		<result property="time24" column="TIME24" />
+	</resultMap>
+
+	<resultMap id="PairMap" type="PairModel">
+		<result property="key" column="POST_ID" />
+		<result property="value" column="POST_NAME" />
+	</resultMap>
+
+	<insert id="insert" parameterType="AuthzPostModel" flushCache="true">
+		insert into SYS_AUTHZ_ORG_POST(DEPT_ID,POST_CODE,POST_NAME,POST_INTRO,POST_STATUS,POST_UID)
+		values(#{deptId},#{code},#{name},#{intro,jdbcType=VARCHAR},'1',#{uid})
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_AUTHZ_ORG_POST WHERE POST_ID = #{id}
+	</delete>
+
+	<delete id="batchDelete" flushCache="true">
+		DELETE FROM SYS_AUTHZ_ORG_POST WHERE POST_ID IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_AUTHZ_ORG_POST t
+		   SET POST_STATUS = #{status}
+		 WHERE POST_ID = #{id}
+	</update>
+
+	<update id="update" parameterType="AuthzPostModel" flushCache="true">
+		update SYS_AUTHZ_ORG_POST t
+		<set>
+			<if test="deptId != null and deptId != ''">t.DEPT_ID = #{deptId},</if>
+			<if test="code != null and code != ''">t.POST_CODE = #{code},</if>
+			<if test="name != null and name != ''">t.POST_NAME = #{name},</if>
+			<if test="intro != null and intro != ''">t.POST_INTRO = #{intro},</if>
+			<if test="status != null and status != ''">t.POST_STATUS = #{status}</if>
+		</set>
+		where t.POST_ID = #{id}
+	</update>
+
+	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.POST_ID) 
+		  FROM SYS_AUTHZ_ORG_POST t 
+		 WHERE t.POST_CODE = #{code}
+		<if test="origin != null and origin != ''">
+			AND t.POST_ID != #{origin}
+		 </if>
+	</select>
+	
+	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.POST_ID) 
+		  FROM SYS_AUTHZ_ORG_POST t 
+		 WHERE t.POST_NAME = #{name}
+		 <if test="origin != null and origin != ''">
+			AND t.POST_ID != #{origin}
+		 </if>
+	</select>
+
+	<select id="getPagedList" resultMap="AuthzPostMap" parameterType="AuthzPostModel" useCache="false">
+		SELECT
+			t2.ORG_ID,
+			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
+			t.DEPT_ID,
+			t2.DEPT_NAME,
+			t.POST_ID,
+			t.POST_CODE,
+			t.POST_NAME,
+			t.POST_INTRO,
+			t.POST_UID,
+			t.POST_STATUS,
+			t.TIME24
+		FROM SYS_AUTHZ_ORG_POST t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
+		<where>
+			<if test="model.orgId != null and model.orgId != ''">
+				and t2.ORG_ID = #{model.orgId}
+			</if>
+			<if test="model.deptId != null and model.deptId != ''">
+				and t.DEPT_ID = #{model.deptId}
+			</if>
+			<if test="model.name != null and model.name != ''">
+				and t.POST_NAME like '%'||#{model.name}||'%'
+			</if>
+		</where>
+		ORDER By t.TIME24 ASC
+	</select>
+
+	<select id="getModel" resultMap="AuthzPostMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t2.ORG_ID,
+			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
+			t.DEPT_ID,
+			t2.DEPT_NAME,
+			t.POST_ID,
+			t.POST_CODE,
+			t.POST_NAME,
+			t.POST_INTRO,
+			t.POST_UID,
+			t.POST_STATUS,
+			t.TIME24
+		FROM SYS_AUTHZ_ORG_POST t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
+	   WHERE t.POST_ID = #{id} 
+	</select>
+	
+	<select id="getModelList" resultMap="AuthzPostMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t2.ORG_ID,
+			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
+			t.DEPT_ID,
+			t2.DEPT_NAME,
+			t.POST_ID,
+			t.POST_CODE,
+			t.POST_NAME,
+			t.POST_INTRO,
+			t.POST_UID,
+			t.POST_STATUS,
+			t.TIME24
+		FROM SYS_AUTHZ_ORG_POST t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
+		<if test="key != null and key != ''">
+			WHERE t.POST_ID = #{key} 
+		</if>
+	</select>
+	
+	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
+	   SELECT t.POST_ID,t.POST_NAME
+		 FROM SYS_AUTHZ_ORG_POST t 
+		WHERE t.POST_STATUS = 1
+		<if test="key != null and key != ''">
+			AND t.DEPT_ID = #{key}
+		</if>
+	</select>
+
+</mapper>

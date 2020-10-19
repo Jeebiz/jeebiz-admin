@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleCategoryDao">
+
+    <resultMap id="ArticleCategoryMap" type="ArticleCategoryModel">
+        <!-- 文章分类ID -->
+		<result property="id" column="C_ID" />
+		<!-- 文章分类创建者ID -->
+		<result property="uid" column="C_UID" />
+		<!-- 文章分类创建者姓名 -->
+		<result property="uname" column="C_UNAME" />
+		<!-- 文章分类名称 -->
+		<result property="name" column="C_NAME" />
+		<!-- 文章分类等级 -->
+		<result property="grade" column="C_GRADE" />
+		<!-- 文章分类简介 -->
+		<result property="intro" column="C_INTRO" />
+		<!-- 文章分类关键字 -->
+		<result property="keywords" column="C_KEYWORDS" />
+		<!-- 文章分类排序 -->
+		<result property="order" column="C_ORDER" />
+		<!-- 文章分类状态（0:禁用|1:可用） -->
+		<result property="status" column="C_STATUS" />
+		<!--文章分类创建时间 -->
+		<result property="time24" column="C_TIME24" />
+    </resultMap>
+    
+    <resultMap id="PairMap" type="PairModel">
+        <result property="key" column="C_ID"/>
+        <result property="value" column="C_NAME"/>
+    </resultMap>
+
+	<insert id="insert" parameterType="ArticleCategoryModel" flushCache="true">
+		INSERT INTO SYS_ARTICLE_CATEGORY(C_UID,C_NAME,C_GRADE,C_INTRO,C_KEYWORDS,C_ORDER,C_STATUS)
+		VALUES (#{uid},#{name},#{grade},#{intro,jdbcType=VARCHAR},#{keywords,jdbcType=VARCHAR},#{order},1)
+	</insert>
+	
+	<delete id="batchDelete" flushCache="true">
+		DELETE FROM SYS_ARTICLE_CATEGORY WHERE C_ID IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+	
+	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_ARTICLE_CATEGORY t 
+		   SET C_STATUS = #{status}
+		 WHERE C_ID = #{id}
+	</update>
+	
+	<update id="update" parameterType="ArticleCategoryModel" flushCache="true">
+		UPDATE SYS_ARTICLE_CATEGORY t 
+		   SET C_NAME = #{name},
+		   	   C_GRADE = #{grade},
+		   	   C_INTRO = #{intro},
+		   	   C_KEYWORDS = #{keywords},
+		       C_ORDER = #{order}
+		 WHERE C_ID = #{id}
+	</update>
+	
+	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.C_ID) 
+		  FROM SYS_ARTICLE_CATEGORY t 
+		 WHERE t.C_NAME = #{name}
+		<if test="origin != null and origin != ''">
+			AND t.C_ID != #{origin}
+		 </if>
+	</select>
+	
+	<select id="getPagedList" resultMap="ArticleCategoryMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.C_ID,
+			t.C_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			t.C_NAME,
+			t.C_GRADE,
+			t.C_INTRO,
+			t.C_KEYWORDS,
+			t.C_STATUS,
+			t.C_ORDER,
+			t.C_TIME24
+		FROM SYS_ARTICLE_CATEGORY t
+		<where>
+			<if test="model.status != null and model.status != ''">
+				and t.C_STATUS = #{model.status}
+			</if>
+		</where>
+		ORDER By t.C_ORDER ASC
+	</select>
+	
+	<select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
+	  SELECT t.C_ID, 
+	         t.C_NAME
+		FROM SYS_ARTICLE_CATEGORY t
+	   WHERE t.C_STATUS != 0
+	   ORDER BY t.C_ORDER ASC
+	</select>
+	
+	<select id="getModel" resultMap="ArticleCategoryMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.C_ID,
+			t.C_UID,
+			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			t.C_NAME,
+			t.C_GRADE,
+			t.C_INTRO,
+			t.C_KEYWORDS,
+			t.C_STATUS,
+			t.C_ORDER,
+			t.C_TIME24
+		FROM SYS_ARTICLE_CATEGORY t
+	   WHERE t.C_ID = #{id} 
+	</select>
+
+</mapper>

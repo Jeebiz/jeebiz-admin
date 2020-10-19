@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.jeebiz</groupId>
+		<artifactId>jeebiz-admin-extras</artifactId>
+		<version>1.0.1-ce-SNAPSHOT</version>
+	</parent>
+	<artifactId>jeebiz-admin-authz-thirdparty</artifactId>
+	
+	<dependencies>
+		
+		<!-- For Jeebiz API -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-boot-api</artifactId>
+			<version>${jeebiz-boot.version}</version>
+		</dependency>
+		
+		<!-- For Validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- For Shiro -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-biz-spring-boot-starter</artifactId>
+		</dependency>
+		
+		<!-- For 微信 -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-weixin-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For 钉钉 -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>dingtalk-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dingtalk</groupId>
+			<artifactId>dingtalk-sdk</artifactId>
+		</dependency>
+		<!-- For Mybatis -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.oschina.j2cache</groupId>
+			<artifactId>j2cache-mybatis</artifactId>
+		</dependency>
+		<!-- For Flyway -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>flyway-plus-spring-boot-starter</artifactId>
+		</dependency>
+		
+
+	</dependencies>
+	
+</project>

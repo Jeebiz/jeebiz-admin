@@ -1,0 +1,132 @@
+/** 
+ * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
+ * All Rights Reserved. 
+ */
+package net.jeebiz.admin.authz.feature.web.mvc;
+
+import javax.validation.Valid;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
+import net.jeebiz.admin.authz.feature.setup.Constants;
+import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureOptNewVo;
+import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureOptRenewVo;
+import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureOptVo;
+import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.annotation.BusinessLog;
+import net.jeebiz.boot.api.annotation.BusinessType;
+import net.jeebiz.boot.api.web.BaseMapperController;
+
+@Api(tags = "功能操作：数据维护（Ok）")
+@RestController
+@RequestMapping(value = "/extras/feature/opt/")
+public class AuthzFeatureOptController extends BaseMapperController{
+
+	@Autowired
+	protected IAuthzFeatureOptService authzFeatureOptService;
+
+	@Autowired
+	private RedisTemplate<String, Object> redisTemplate;
+	
+	@ApiOperation(value = "增加功能操作代码信息", notes = "增加功能操作代码信息")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "body", name = "optVo", value = "功能操作代码信息", required = true, dataType = "AuthzFeatureOptNewVo")
+	})
+	@BusinessLog(module = Constants.AUTHZ_FEATURE_OPT, business = Constants.Biz.AUTHZ_FEATURE_OPT_NEW, opt = BusinessType.INSERT)
+	@PostMapping("new")
+	@RequiresPermissions("opt:new")
+	@ResponseBody
+	public ApiRestResponse<String> newOpt(@Valid @RequestBody AuthzFeatureOptNewVo optVo) throws Exception {
+		int count = getAuthzFeatureOptService().getOptCountByName(optVo.getName(), optVo.getFeatureId(), null);
+		if(count > 0) {
+			return fail("opt.new.name-exists");
+		}
+		AuthzFeatureOptModel model = getBeanMapper().map(optVo, AuthzFeatureOptModel.class);
+		int total = getAuthzFeatureOptService().insert(model);
+		if(total > 0) {
+			// 删除菜单缓存
+			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+			return success("opt.new.success", total);
+		}
+		return fail("opt.new.fail", total);
+	}
+	
+	@ApiOperation(value = "修改功能操作代码", notes = "修改功能操作代码信息")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "body", name = "optVo", value = "功能操作代码信息", required = true, dataType = "AuthzFeatureOptRenewVo")
+	})
+	@BusinessLog(module = Constants.AUTHZ_FEATURE_OPT, business = Constants.Biz.AUTHZ_FEATURE_OPT_RENEW, opt = BusinessType.UPDATE)
+	@PostMapping("renew")
+	@RequiresPermissions("opt:renew")
+	@ResponseBody
+	public ApiRestResponse<String> renewOpt(@Valid @RequestBody AuthzFeatureOptRenewVo optVo) throws Exception {
+		int count = getAuthzFeatureOptService().getOptCountByName(optVo.getName(), optVo.getFeatureId(), optVo.getId());
+		if(count > 0) {
+			return fail("opt.new.name-exists");
+		}
+		AuthzFeatureOptModel model = getBeanMapper().map(optVo, AuthzFeatureOptModel.class);
+		int total = getAuthzFeatureOptService().update(model);
+		if(total > 0) {
+			// 删除菜单缓存
+	        getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+			return success("opt.renew.success", total);
+		}
+		return fail("opt.renew.fail", total);
+	}
+	
+	@ApiOperation(value = "查询功能操作代码信息", notes = "根据功能操作代码ID查询功能操作代码信息")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "功能操作代码ID", dataType = "String")
+	})
+	@GetMapping("detail")
+	@RequiresPermissions("opt:detail")
+	@ResponseBody
+	public ApiRestResponse<AuthzFeatureOptVo> detail(@RequestParam("id") String id) throws Exception {
+		AuthzFeatureOptModel model = getAuthzFeatureOptService().getModel(id);
+		if( model == null) {
+			return ApiRestResponse.empty(getMessage("opt.get.empty"));
+		}
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzFeatureOptVo.class));
+	}
+	
+	@ApiOperation(value = "删除功能操作代码信息", notes = "删除功能操作代码信息")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam( paramType = "path", name = "id", required = true, value = "功能操作代码ID", dataType = "String")
+	})
+	@BusinessLog(module = Constants.AUTHZ_FEATURE_OPT, business = Constants.Biz.AUTHZ_FEATURE_OPT_DETAIL, opt = BusinessType.DELETE)
+	@GetMapping("delete")
+	@RequiresPermissions("opt:delete")
+	@ResponseBody
+	public ApiRestResponse<String> delOpt(@RequestParam("id") String id) throws Exception { 
+		int total = getAuthzFeatureOptService().delete(id);
+		if(total > 0) {
+			// 删除菜单缓存
+			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+			return success("opt.delete.success", total);
+		}
+		return success("opt.delete.fail", total);
+	}
+
+	public IAuthzFeatureOptService getAuthzFeatureOptService() {
+		return authzFeatureOptService;
+	}
+
+	public RedisTemplate<String, Object> getRedisTemplate() {
+		return redisTemplate;
+	}
+}

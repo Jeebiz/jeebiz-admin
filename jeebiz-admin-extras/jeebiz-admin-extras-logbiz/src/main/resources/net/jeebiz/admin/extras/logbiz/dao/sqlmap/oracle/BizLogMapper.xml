@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.logbiz.dao.IBizLogDao" >
+	
+	 <resultMap id="BizLogMap" type="BizLogModel">
+		<result property="id" column="LOG_ID" />
+		<result property="module" column="LOG_MODULE" />
+		<result property="business" column="LOG_BIZ" />
+		<result property="opt" column="LOG_OPT" />
+		<result property="level" column="LOG_LEVEL" />
+		<result property="userId" column="LOG_USERID" />
+		<result property="userName" column="LOG_USERNAME" />
+		<result property="addr" column="LOG_ADDR" />
+		<result property="msg" column="LOG_MSG" />
+		<result property="exception" column="LOG_EXCP" />
+		<result property="timestamp" column="TIME24"/>
+	</resultMap>
+	
+	<select id="getPagedList" resultMap="BizLogMap" parameterType="BizLogModel">
+		SELECT
+			t.LOG_ID,
+			t.LOG_MODULE,
+			t.LOG_BIZ,
+			t.LOG_OPT,
+			t.LOG_LEVEL,
+			t.LOG_USERID,
+			NVL(t2.U_ALIAS,t2.U_USERNAME) as LOG_USERNAME,
+			t.LOG_ADDR,
+			t.LOG_MSG,
+			t.LOG_EXCP,
+			t.TIME24 
+		FROM SYS_DATA_LOG_BIZ t, SYS_AUTHZ_USER_LIST t2
+		WHERE t.LOG_USERID = t2.U_ID
+		<if test="model.userId != null and model.userId != '' ">
+			and t.LOG_USERID = #{model.userId}
+		</if>
+		<if test="model.module != null and model.module != '' ">
+			and t.LOG_MODULE = #{model.module}
+		</if>
+		<if test="model.business != null and model.business != '' ">
+			AND t.LOG_BIZ like '%' || #{model.business} || '%'
+		</if>
+		<if test="model.opt != null and model.opt != '' ">
+			and t.LOG_OPT = #{model.opt}
+		</if>
+		<if test="model.level != null and model.level != '' ">
+			and t.LOG_LEVEL = #{model.level}
+		</if>
+		<if test="model.addr != null and model.addr != '' ">
+			AND t.LOG_ADDR like '%' || #{model.addr} || '%'
+		</if>
+		<if test="model.begintime != null and model.begintime != '' 
+				  and model.endtime != null and model.endtime != '' ">
+			<![CDATA[ AND t.TIME24 BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
+		</if>
+		<if test="model.keywords != null and model.keywords != '' ">
+			AND (t2.U_USERNAME like '%' || #{model.keywords} || '%'
+			 OR t2.U_ALIAS like '%' || #{model.keywords} || '%'
+			  OR t2.U_PHONE like '%' || #{model.keywords} || '%'
+		</if>
+	</select>
+	
+</mapper>

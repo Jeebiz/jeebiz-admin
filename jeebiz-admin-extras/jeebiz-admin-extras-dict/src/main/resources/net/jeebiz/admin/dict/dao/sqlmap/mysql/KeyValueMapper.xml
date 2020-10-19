@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.dict.dao.IKeyValueDao" >
+	
+	<!-- 开启二级缓存 -->
+	<cache-ref namespace="net.jeebiz.admin.extras.dict.dao.IKeyGroupDao"/>
+	
+	<resultMap id="KeyValueMap" type="KeyValueModel">
+		<result property="id" column="D_ID" />
+		<result property="gkey" column="D_GROUP_KEY" />
+		<result property="gtext" column="D_GROUP_TEXT" />
+		<result property="label" column="D_LABEL" />
+		<result property="key" column="D_KEY" />
+		<result property="value" column="D_VALUE" />
+		<result property="text" column="D_TEXT" />
+		<result property="status" column="D_STATUS" />
+		<result property="order" column="D_ORDER" />
+	</resultMap>
+	
+	<resultMap id="PairMap" type="PairModel">
+		<result property="key" column="D_KEY" />
+		<result property="value" column="D_VALUE" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="KeyValueModel" flushCache="true">
+		insert into SYS_DATA_PAIRVALUE(D_GROUP,D_LABEL,D_KEY,D_VALUE,D_TEXT,D_STATUS,D_ORDER)
+		values(#{gkey},#{label},#{key},#{value},#{text,jdbcType=VARCHAR},#{status},#{order})
+	</insert>
+	
+	<delete id="batchDelete" flushCache="true">
+		DELETE FROM SYS_DATA_PAIRVALUE WHERE D_ID IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+	
+	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_DATA_PAIRVALUE t 
+		   SET D_STATUS = #{status}
+		 WHERE D_ID = #{id}
+	</update>
+	
+	<update id="update" parameterType="KeyValueModel" flushCache="true">
+		UPDATE SYS_DATA_PAIRVALUE t 
+		   SET D_LABEL = #{label},
+		   	   D_VALUE = #{value},
+		   	   D_TEXT = #{text,jdbcType=VARCHAR},
+		       D_STATUS = #{status},
+		       D_ORDER = #{order}
+		 WHERE D_ID = #{id}
+	</update>
+	
+	<update id="batchUpdate" flushCache="true">
+    	<foreach collection="list" index="index" item="item" open="" separator=";" close="">  
+            update SYS_DATA_PAIRVALUE 
+               set D_LABEL = #{item.label},
+               	   D_VALUE = #{item.value},
+               	   D_TEXT = #{item.text,jdbcType=VARCHAR},
+               	   D_STATUS = #{item.status},
+		       	   D_ORDER = #{item.order}
+             WHERE D_ID = #{item.id} 
+               AND D_GROUP = #{item.gkey} 
+        </foreach>
+    </update>
+    
+	<select id="getPagedList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.D_ID,
+			t.D_GROUP as D_GROUP_KEY,
+			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.D_GROUP) as D_GROUP_TEXT,
+			t.D_LABEL,
+			t.D_KEY,
+			t.D_VALUE,
+			t.D_TEXT,
+			t.D_STATUS,
+			t.D_ORDER
+		FROM SYS_DATA_PAIRVALUE t
+		<where>
+			<if test="model.gkey != null and model.gkey != ''">
+				and t.D_GROUP = #{model.gkey}
+			</if>
+		</where>
+		ORDER By t.D_GROUP,t.D_ORDER ASC
+	</select>
+	
+	<select id="getModel" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.D_ID,
+			t.D_GROUP as D_GROUP_KEY,
+			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.D_GROUP) as D_GROUP_TEXT,
+			t.D_LABEL,
+			t.D_KEY,
+			t.D_VALUE,
+			t.D_TEXT,
+			t.D_STATUS,
+			t.D_ORDER
+		FROM SYS_DATA_PAIRVALUE t
+		WHERE t.D_ID = #{id} 
+	</select>
+	
+	<select id="getModelList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.D_ID,
+			t.D_GROUP as D_GROUP_KEY,
+			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.D_GROUP) as D_GROUP,
+			t.D_LABEL,
+			t.D_KEY,
+			t.D_VALUE,
+			t.D_TEXT,
+			t.D_STATUS,
+			t.D_ORDER
+		FROM SYS_DATA_PAIRVALUE t
+		WHERE t.D_GROUP = #{gkey} 
+		ORDER By t.D_GROUP,t.D_ORDER ASC
+	</select>
+	
+	<select id="getKeyValueList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.D_ID,
+			t.D_GROUP as D_GROUP_KEY,
+			t.D_LABEL,
+			t.D_KEY,
+			t.D_VALUE,
+			t.D_TEXT,
+			t.D_STATUS,
+			t.D_ORDER
+		FROM SYS_DATA_PAIRVALUE t
+		<where>
+			<if test="gkeys != null">
+			<foreach collection="gkeys" index="index" item="item" open="  (" separator=" OR " close=")">  
+	          t.D_GROUP = #{item} 
+	        </foreach>
+		    </if>
+        </where>
+		ORDER By t.D_GROUP,t.D_ORDER ASC
+	</select>
+	
+	<select id="getGroupList" resultType="java.lang.String" useCache="false">
+		 SELECT DISTINCT t.D_GROUP 
+		   FROM SYS_DATA_PAIRVALUE t
+		    WHERE t.D_ID IN
+		<foreach collection="gkeys" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</select>
+	
+	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
+		   SELECT t.D_KEY,t.D_VALUE
+			 FROM SYS_DATA_PAIRVALUE t 
+			WHERE t.D_GROUP = #{key} 
+			  AND t.D_STATUS = 1
+		 ORDER By t.D_ORDER ASC
+	</select>
+	
+	<select id="getValue" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
+		 SELECT t.D_GROUP FROM SYS_DATA_PAIRVALUE t  WHERE t.D_ID = #{key} 
+	</select>
+	
+	<select id="getCount" parameterType="KeyValueModel" resultType="java.lang.Integer" useCache="false">
+		SELECT COUNT(1)  
+		  FROM SYS_DATA_PAIRVALUE t 
+		 WHERE t.D_GROUP = #{gkey} 
+		   AND t.D_KEY = #{key}
+		   <if test="id != null and id != ''">
+			AND t.D_ID != #{id}
+		   </if>
+		  LIMIT 1
+	</select>
+		
+</mapper>

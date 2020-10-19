@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleTargetDao">
+
+    <resultMap id="ArticleTargetMap" type="ArticleTargetModel">
+	    <!-- 文章发布对象记录ID -->
+		<result property="id" column="T_ID" />
+		<!-- 文章ID -->
+		<result property="cid" column="T_CID" />
+		<!-- 文章发布对象ID（学院ID|专业ID|班级ID|账户ID） -->
+		<result property="tid" column="T_TID" />
+		<!-- 文章发布对象名称（学院|专业|班级|账户） -->
+		<result property="tname" column="T_TNAME" />
+    </resultMap>
+
+	<insert id="insert" parameterType="ArticleTargetModel" flushCache="true">
+		INSERT INTO SYS_ARTICLE_CONTENT_TARGETS(T_CID,T_TID) VALUES (#{cid},#{tid})
+	</insert>
+	
+	<delete id="batchDelete" flushCache="true">
+		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE T_ID IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+	
+	<delete id="delete" flushCache="true">
+		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE T_ID = #{id}
+	</delete>
+	
+	<delete id="deleteTarget" flushCache="true">
+		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE T_CID = #{cid}
+	</delete>
+	
+	<update id="update" parameterType="ArticleTargetModel" flushCache="true">
+		UPDATE SYS_ARTICLE_CONTENT_TARGETS t 
+		   SET T_TID = #{tid}
+		 WHERE T_ID = #{id}
+	</update>
+	
+	<select id="getTargetList" resultMap="ArticleTargetMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.T_ID,
+			t.T_CID,
+			t.T_TID
+		FROM SYS_ARTICLE_CONTENT_TARGETS t
+	   WHERE t.T_CID = #{cid}
+	</select>
+	
+</mapper>
