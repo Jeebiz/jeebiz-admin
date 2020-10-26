@@ -29,9 +29,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
 import net.jeebiz.admin.authz.thirdparty.setup.Constants;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
@@ -90,7 +90,7 @@ public class AuthzWeixinMpController extends BaseMapperController {
 		
 		AuthzWeixinMpCode2AccessTokenVo code2TokenVo = new AuthzWeixinMpCode2AccessTokenVo();
 		
-		WxMpOAuth2AccessToken oAuth2AccessToken = getWxMpService().getOAuth2Service().getAccessToken(code);
+		WxOAuth2AccessToken oAuth2AccessToken = getWxMpService().getOAuth2Service().getAccessToken(code);
 		
 		code2TokenVo.setAccessToken(oAuth2AccessToken);
 		code2TokenVo.setBind(getAuthzThirdpartyService().getCountByOpenId(oAuth2AccessToken.getOpenId()) > 0);

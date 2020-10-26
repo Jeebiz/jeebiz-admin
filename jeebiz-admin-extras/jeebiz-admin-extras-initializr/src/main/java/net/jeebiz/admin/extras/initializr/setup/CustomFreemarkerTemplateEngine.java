@@ -55,7 +55,7 @@ public class CustomFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
                 GlobalConfig globalConfig = getConfigBuilder().getGlobalConfig();
                 if (null != entityName && null != pathInfo.get(ConstVal.ENTITY_PATH)) {
                     String entityFile;
-                    if(StringUtils.isNotEmpty(name)){
+                    if(StringUtils.isNotBlank(name)){
                         entityFile = String.format((pathInfo.get(ConstVal.ENTITY_PATH) + File.separator + globalConfig.getEntityName() +suffixJavaOrKt()), name);
                     }else{
                         entityFile = String.format((pathInfo.get(ConstVal.ENTITY_PATH) + File.separator + "%s" + suffixJavaOrKt()), entityName);
@@ -67,7 +67,7 @@ public class CustomFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
                 // MpMapper.java
                 if (null != tableInfo.getMapperName() && null != pathInfo.get(ConstVal.MAPPER_PATH)) {
                     String mapperFile;
-                    if(StringUtils.isNotEmpty(name)){
+                    if(StringUtils.isNotBlank(name)){
                         mapperFile = String.format((pathInfo.get(ConstVal.MAPPER_PATH) + File.separator + globalConfig.getMapperName() +suffixJavaOrKt()), name);
                     }else{
                         mapperFile = String.format((pathInfo.get(ConstVal.MAPPER_PATH) + File.separator + tableInfo.getMapperName() + suffixJavaOrKt()), entityName);
@@ -79,7 +79,7 @@ public class CustomFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
                 // MpMapper.xml
                 if (null != tableInfo.getXmlName() && null != pathInfo.get(ConstVal.XML_PATH)) {
                     String xmlFile;
-                    if(StringUtils.isNotEmpty(name)){
+                    if(StringUtils.isNotBlank(name)){
                         xmlFile = String.format((pathInfo.get(ConstVal.XML_PATH) + File.separator + globalConfig.getXmlName() + ConstVal.XML_SUFFIX ), name);
                     }else{
                         xmlFile = String.format((pathInfo.get(ConstVal.XML_PATH) + File.separator + tableInfo.getXmlName() + ConstVal.XML_SUFFIX), entityName);
@@ -91,7 +91,7 @@ public class CustomFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
                 // IMpService.java
                 if (null != tableInfo.getServiceName() && null != pathInfo.get(ConstVal.SERVICE_PATH)) {
                     String serviceFile;
-                    if(StringUtils.isNotEmpty(name)){
+                    if(StringUtils.isNotBlank(name)){
                         serviceFile = String.format((pathInfo.get(ConstVal.SERVICE_PATH) + File.separator + globalConfig.getServiceName() + suffixJavaOrKt() ), name);
                     }else{
                         serviceFile =  String.format((pathInfo.get(ConstVal.SERVICE_PATH) + File.separator + tableInfo.getServiceName() + suffixJavaOrKt()), entityName);
@@ -103,7 +103,7 @@ public class CustomFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
                 // MpServiceImpl.java
                 if (null != tableInfo.getServiceImplName() && null != pathInfo.get(ConstVal.SERVICE_IMPL_PATH)) {
                     String implFile;
-                    if(StringUtils.isNotEmpty(name)){
+                    if(StringUtils.isNotBlank(name)){
                         implFile = String.format((pathInfo.get(ConstVal.SERVICE_IMPL_PATH) + File.separator + globalConfig.getServiceImplName() + suffixJavaOrKt() ), name);
                     }else{
                         implFile =  String.format((pathInfo.get(ConstVal.SERVICE_IMPL_PATH) + File.separator + tableInfo.getServiceImplName() + suffixJavaOrKt()), entityName);
@@ -115,7 +115,7 @@ public class CustomFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
                 // MpController.java
                 if (null != tableInfo.getControllerName() && null != pathInfo.get(ConstVal.CONTROLLER_PATH)) {
                     String controllerFile;
-                    if(StringUtils.isNotEmpty(name)){
+                    if(StringUtils.isNotBlank(name)){
                         controllerFile = String.format((pathInfo.get(ConstVal.CONTROLLER_PATH) + File.separator + globalConfig.getControllerName() + suffixJavaOrKt() ), name);
                     }else{
                         controllerFile =  String.format((pathInfo.get(ConstVal.CONTROLLER_PATH) + File.separator + tableInfo.getControllerName() + suffixJavaOrKt()), entityName);

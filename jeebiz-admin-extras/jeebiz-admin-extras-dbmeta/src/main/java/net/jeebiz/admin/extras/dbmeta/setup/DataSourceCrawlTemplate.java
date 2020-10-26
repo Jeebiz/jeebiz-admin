@@ -20,6 +20,7 @@ import schemacrawler.schema.Catalog;
 import schemacrawler.schema.Table;
 import schemacrawler.schemacrawler.SchemaCrawlerException;
 import schemacrawler.schemacrawler.SchemaCrawlerOptions;
+import schemacrawler.schemacrawler.SchemaCrawlerOptionsBuilder;
 import schemacrawler.schemacrawler.SchemaInfoLevel;
 import schemacrawler.schemacrawler.SchemaInfoLevelBuilder;
 import schemacrawler.spring.boot.utils.SchemaCrawlerOptionBuilder;
@@ -48,15 +49,16 @@ public class DataSourceCrawlTemplate {
 			.setRetrieveUserDefinedColumnDataTypes(true)
 			.setRetrieveViewInformation(true)
 			.toOptions()*/;
-		final SchemaCrawlerOptions options = SchemaCrawlerOptionBuilder
-				.tablecolumns(schemaInclusionRule, "TABLE", "VIEW" )
+		SchemaCrawlerOptionBuilder
+				.tablecolumns(schemaInclusionRule, "TABLE", "VIEW" );
+		final SchemaCrawlerOptions options = SchemaCrawlerOptionsBuilder
 				//.includeAllRoutines()
 				//.includeTables(new IncludeAll())
 				//.includeColumns(new IncludeAll())
 				//.tableNamePattern("%")
 				//.tableTypes(Arrays.asList("TABLE","VIEW"))
 				//.withSchemaInfoLevel(schemaInfoLevel)
-				.toOptions();
+				.newSchemaCrawlerOptions();
 		
 		return options;
 	}

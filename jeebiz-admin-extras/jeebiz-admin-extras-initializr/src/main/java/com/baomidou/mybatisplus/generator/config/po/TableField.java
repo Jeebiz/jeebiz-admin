@@ -101,7 +101,7 @@ public class TableField {
         }
         String setGetName = propertyName;
         if (DbColumnType.BASE_BOOLEAN.getType().equalsIgnoreCase(columnType.getType())) {
-            setGetName = StringUtils.removeIsPrefixIfBoolean(setGetName, Boolean.class);
+            //setGetName = StringUtils.removePrefixAfterPrefixToLower(rawString, index)(setGetName, Boolean.class);
         }
         // 第一个字母 小写、 第二个字母 大写 ，特殊处理
         String firstChar = setGetName.substring(0, 1);

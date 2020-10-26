@@ -283,7 +283,7 @@ public class CodeGeneratorService {
      * @return
      */
     private String processPackage(String packageName) {
-        if (StringUtils.isEmpty(packageName)) {
+        if (StringUtils.isBlank(packageName)) {
             packageName = System.getProperty("java.io.tmpdir");
         }
         if (!StringUtils.endsWith(packageName, File.separator)) {

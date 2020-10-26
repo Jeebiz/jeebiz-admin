@@ -7,8 +7,8 @@ package net.jeebiz.admin.authz.thirdparty.web.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
+import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 
 @Data
 @ApiModel(value = "AuthzWeixinMpCode2AccessTokenVo", description = "通过code换取accesstoken")
@@ -32,12 +32,12 @@ public class AuthzWeixinMpCode2AccessTokenVo {
 	/**
 	 * 网页授权接口调用凭证
 	 */
-	@ApiModelProperty(name = "accessToken", dataType = "WxMpOAuth2AccessToken", value = "网页授权接口调用凭证")
-	private WxMpOAuth2AccessToken accessToken;
+	@ApiModelProperty(name = "accessToken", dataType = "WxOAuth2AccessToken", value = "网页授权接口调用凭证")
+	private WxOAuth2AccessToken accessToken;
 	/**
 	 * 微信用户信息
 	 */
-	@ApiModelProperty(name = "userInfo", dataType = "WxMpUser", value = "微信用户信息")
-	protected WxMpUser userInfo;
+	@ApiModelProperty(name = "userInfo", dataType = "WxOAuth2UserInfo", value = "微信用户信息")
+	private WxOAuth2UserInfo userInfo;
 	
 }
