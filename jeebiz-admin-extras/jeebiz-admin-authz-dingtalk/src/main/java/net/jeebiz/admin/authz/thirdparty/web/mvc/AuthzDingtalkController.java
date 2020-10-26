@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import me.chanjar.weixin.common.error.WxErrorException;
 import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkConfigVo;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.web.BaseMapperController;
@@ -33,7 +32,7 @@ public class AuthzDingtalkController extends BaseMapperController {
    
 	@ApiOperation(value = "钉钉登录第1步：获取配置", notes = "构造小程序前端配置初始化需要的参数")
 	@GetMapping("config")
-	public ApiRestResponse<AuthzDingtalkConfigVo> ddConfig() throws WxErrorException, NoSuchAlgorithmException {
+	public ApiRestResponse<AuthzDingtalkConfigVo> ddConfig() throws NoSuchAlgorithmException {
 		
 		AuthzDingtalkConfigVo configVo = new AuthzDingtalkConfigVo();
        configVo.setCorpId(properties.getCorpId());

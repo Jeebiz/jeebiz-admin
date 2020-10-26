@@ -37,10 +37,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
 import net.jeebiz.admin.authz.thirdparty.setup.Constants;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
+import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkBindVo;
 import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkCode2SessionVo;
 import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkMpConfigVo;
 import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzThirdpartyVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzWeixinMaBindVo;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
@@ -162,7 +162,7 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 	})
 	@PostMapping("binding")
 	@ResponseBody
-	public ApiRestResponse<AuthzThirdpartyVo> binding(@Valid @RequestBody AuthzWeixinMaBindVo bindVo) throws Exception { 
+	public ApiRestResponse<AuthzThirdpartyVo> binding(@Valid @RequestBody AuthzDingtalkBindVo bindVo) throws Exception { 
 		AuthzThirdpartyVo model = getAuthzThirdpartyService().binding(bindVo);
 		if(model != null) {
 			return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("authz.thirdparty.binding.success"), model);

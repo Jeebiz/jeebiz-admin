@@ -7,7 +7,7 @@
 		<artifactId>jeebiz-admin-extras</artifactId>
 		<version>1.0.1-ce-SNAPSHOT</version>
 	</parent>
-	<artifactId>jeebiz-admin-authz-thirdparty</artifactId>
+	<artifactId>jeebiz-admin-authz-dingtalk</artifactId>
 	
 	<dependencies>
 		
@@ -16,6 +16,11 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-boot-api</artifactId>
 			<version>${jeebiz-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-admin-authz-thirdparty</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		
 		<!-- For Validation -->
@@ -35,6 +40,21 @@
 			<artifactId>shiro-biz-spring-boot-starter</artifactId>
 		</dependency>
 		
+		<!-- For 钉钉 -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>dingtalk-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dingtalk</groupId>
+			<artifactId>dingtalk-sdk</artifactId>
+			<scope>system</scope>
+			<systemPath>${basedir}/dingtalk-sdk-20200617.jar</systemPath>
+		</dependency>
 		<!-- For Mybatis -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
