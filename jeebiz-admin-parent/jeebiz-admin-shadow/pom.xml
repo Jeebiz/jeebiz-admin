@@ -160,7 +160,6 @@
         <dependency>
 	        <groupId>io.goeasy</groupId>
 	        <artifactId>goeasy-sdk</artifactId>
-	        <version>0.3.8</version>
 	    </dependency>
 		<!-- For XXL-JOB -->
 		<dependency>
