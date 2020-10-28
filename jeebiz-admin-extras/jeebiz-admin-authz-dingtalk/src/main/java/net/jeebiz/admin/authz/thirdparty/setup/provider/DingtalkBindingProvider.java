@@ -14,7 +14,7 @@ import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkBindVo;
 
 @Component
-public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzDingtalkBindVo> {
+public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzDingtalkBindVo> {
 
 	@Autowired
 	private IAuthzThirdpartyDao authzThirdpartyDao;
