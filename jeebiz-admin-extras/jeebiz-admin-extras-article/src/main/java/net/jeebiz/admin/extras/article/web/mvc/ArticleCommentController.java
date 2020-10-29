@@ -197,7 +197,7 @@ public class ArticleCommentController extends BaseApiController {
    	public ApiRestResponse<ArticleCommentVo> detail(@RequestParam("id") String id) throws Exception { 
    		ArticleCommentModel model = getArticleCommentService().getModel(id);
    		if(model == null) {
-   			return ApiRestResponse.empty(getMessage("article.comment.get.empty"));
+   			return ApiRestResponse.fail(getMessage("article.comment.get.empty"));
    		}
    		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCommentVo.class));
    	}

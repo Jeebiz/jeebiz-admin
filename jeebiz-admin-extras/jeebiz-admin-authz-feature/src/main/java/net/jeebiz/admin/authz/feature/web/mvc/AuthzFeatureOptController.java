@@ -99,7 +99,7 @@ public class AuthzFeatureOptController extends BaseMapperController{
 	public ApiRestResponse<AuthzFeatureOptVo> detail(@RequestParam("id") String id) throws Exception {
 		AuthzFeatureOptModel model = getAuthzFeatureOptService().getModel(id);
 		if( model == null) {
-			return ApiRestResponse.empty(getMessage("opt.get.empty"));
+			return ApiRestResponse.fail(getMessage("opt.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzFeatureOptVo.class));
 	}

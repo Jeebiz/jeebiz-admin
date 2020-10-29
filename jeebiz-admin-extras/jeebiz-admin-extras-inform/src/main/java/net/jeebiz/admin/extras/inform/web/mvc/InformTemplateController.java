@@ -163,7 +163,7 @@ public class InformTemplateController extends BaseMapperController {
 		
 		InformTemplateModel model = getInformTemplateService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("inform.template.get.empty"));
+			return ApiRestResponse.fail(getMessage("inform.template.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, InformTemplateVo.class));
 	}

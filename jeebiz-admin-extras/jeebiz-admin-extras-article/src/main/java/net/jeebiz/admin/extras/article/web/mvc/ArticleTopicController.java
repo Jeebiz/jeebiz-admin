@@ -181,7 +181,7 @@ public class ArticleTopicController extends BaseApiController {
 	public ApiRestResponse<ArticleTopicVo> detail(@RequestParam("id") String id) throws Exception { 
 		ArticleTopicModel model = getArticleTopicService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("article.topic.get.empty"));
+			return ApiRestResponse.fail(getMessage("article.topic.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, ArticleTopicVo.class));
 	}

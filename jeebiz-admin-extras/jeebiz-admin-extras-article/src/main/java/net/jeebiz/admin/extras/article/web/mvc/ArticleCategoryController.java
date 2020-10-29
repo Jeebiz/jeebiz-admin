@@ -179,7 +179,7 @@ public class ArticleCategoryController extends BaseApiController {
 	public ApiRestResponse<ArticleCategoryVo> detail(@RequestParam("id") String id) throws Exception { 
 		ArticleCategoryModel model = getArticleCategoryService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("article.category.get.empty"));
+			return ApiRestResponse.fail(getMessage("article.category.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCategoryVo.class));
 	}

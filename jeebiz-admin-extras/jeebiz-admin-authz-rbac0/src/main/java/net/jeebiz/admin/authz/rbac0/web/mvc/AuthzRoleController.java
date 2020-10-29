@@ -75,7 +75,7 @@ public class AuthzRoleController extends BaseApiController {
 	public ApiRestResponse<List<PairModel>> list() throws Exception {
 		List<PairModel> roleList = getAuthzRoleService().getPairList();
 		if(roleList == null) {
-			return ApiRestResponse.empty(getMessage("role.get.empty"));
+			return ApiRestResponse.fail(getMessage("role.get.empty"));
 		}
 		return ApiRestResponse.success(roleList);
 	}
@@ -186,7 +186,7 @@ public class AuthzRoleController extends BaseApiController {
 	public ApiRestResponse<AuthzRoleVo> detail(@RequestParam("id") String id) throws Exception {
 		AuthzRoleModel model = getAuthzRoleService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("role.get.empty"));
+			return ApiRestResponse.fail(getMessage("role.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzRoleVo.class));
 	}

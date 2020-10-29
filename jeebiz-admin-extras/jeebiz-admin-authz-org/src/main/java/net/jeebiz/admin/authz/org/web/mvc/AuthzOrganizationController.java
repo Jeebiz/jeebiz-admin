@@ -192,7 +192,7 @@ public class AuthzOrganizationController extends BaseMapperController {
 	public ApiRestResponse<AuthzOrganizationVo> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzOrganizationModel model = getAuthzOrganizationService().getModel(id);
 		if( model == null) {
-			return ApiRestResponse.empty(getMessage("authz.org.not-found"));
+			return ApiRestResponse.fail(getMessage("authz.org.not-found"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzOrganizationVo.class));
 	}

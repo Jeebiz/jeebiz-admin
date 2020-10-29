@@ -138,7 +138,7 @@ public class AuthzStaffController extends BaseApiController {
 	public ApiRestResponse<AuthzStaffVo> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzStaffModel model = getAuthzStaffService().getModel(id);
 		if( model == null) {
-			return ApiRestResponse.empty(getMessage("authz.staff.get.empty"));
+			return ApiRestResponse.fail(getMessage("authz.staff.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzStaffVo.class));
 	}

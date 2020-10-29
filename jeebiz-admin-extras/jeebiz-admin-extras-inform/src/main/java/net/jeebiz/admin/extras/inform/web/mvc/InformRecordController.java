@@ -106,7 +106,7 @@ public class InformRecordController extends BaseMapperController {
 		
 		InformRecordModel model = getInformService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("inform.get.empty"));
+			return ApiRestResponse.fail(getMessage("inform.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, InformRecordVo.class));
 		

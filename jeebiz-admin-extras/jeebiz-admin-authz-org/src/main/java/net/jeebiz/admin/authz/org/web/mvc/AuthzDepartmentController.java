@@ -77,7 +77,7 @@ public class AuthzDepartmentController extends BaseApiController {
 		
 		List<AuthzDepartmentModel> resultList = getAuthzDepartmentService().getModelList(orgId);
 		if( CollectionUtils.isEmpty(resultList)) {
-			return ApiRestResponse.empty(getMessage("authz.dept.not-found"));
+			return ApiRestResponse.fail(getMessage("authz.dept.not-found"));
 		}
 		List<AuthzDepartmentVo> retList = Lists.newArrayList();
 		for (AuthzDepartmentModel model : resultList) {
@@ -207,7 +207,7 @@ public class AuthzDepartmentController extends BaseApiController {
 	public ApiRestResponse<AuthzDepartmentVo> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzDepartmentModel model = getAuthzDepartmentService().getModel(id);
 		if( model == null) {
-			return ApiRestResponse.empty(getMessage("authz.dept.not-found"));
+			return ApiRestResponse.fail(getMessage("authz.dept.not-found"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzDepartmentVo.class));
 	}

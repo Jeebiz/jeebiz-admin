@@ -212,7 +212,7 @@ public class ArticleController extends BaseApiController {
 	public ApiRestResponse<ArticleVo> detail(@RequestParam("id") String id) throws Exception { 
 		ArticleModel model = getArticleService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("article.get.empty"));
+			return ApiRestResponse.fail(getMessage("article.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, ArticleVo.class));
 	}
@@ -227,7 +227,7 @@ public class ArticleController extends BaseApiController {
 	public ApiRestResponse<ArticleDetailVo> detail2(@RequestParam("id") String id) throws Exception { 
 		ArticleDetailVo model = getArticleService().getDetail(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("article.get.empty"));
+			return ApiRestResponse.fail(getMessage("article.get.empty"));
 		}
 		return ApiRestResponse.success(model);
 	}

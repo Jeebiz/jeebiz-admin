@@ -231,7 +231,7 @@ public class KeyValueController extends BaseApiController {
 	public ApiRestResponse<KeyValueVo> detail(@RequestParam("id") String id) throws Exception { 
 		KeyValueModel model = getKeyValueService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("keyvalue.get.empty"));
+			return ApiRestResponse.fail(getMessage("keyvalue.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, KeyValueVo.class));
 	}

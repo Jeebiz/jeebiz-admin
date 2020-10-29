@@ -192,7 +192,7 @@ public class KeyGroupController extends BaseApiController {
 	public ApiRestResponse<KeyGroupVo> detail(@RequestParam("id") String id) throws Exception { 
 		KeyGroupModel model = getKeyGroupService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("keygroup.get.empty"));
+			return ApiRestResponse.fail(getMessage("keygroup.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, KeyGroupVo.class));
 	}

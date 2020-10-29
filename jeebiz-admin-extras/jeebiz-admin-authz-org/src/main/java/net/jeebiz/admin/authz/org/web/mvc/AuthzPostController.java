@@ -88,7 +88,7 @@ public class AuthzPostController extends BaseApiController {
 		
 		List<AuthzPostModel> resultList = getAuthzPostService().getModelList(deptId);
 		if( CollectionUtils.isEmpty(resultList)) {
-			return ApiRestResponse.empty(getMessage("authz.post.not-found"));
+			return ApiRestResponse.fail(getMessage("authz.post.not-found"));
 		}
 		List<AuthzPostVo> retList = Lists.newArrayList();
 		for (AuthzPostModel model : resultList) {
@@ -178,7 +178,7 @@ public class AuthzPostController extends BaseApiController {
 	public ApiRestResponse<AuthzPostVo> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzPostModel model = getAuthzPostService().getModel(id);
 		if( model == null) {
-			return ApiRestResponse.empty(getMessage("authz.post.not-found"));
+			return ApiRestResponse.fail(getMessage("authz.post.not-found"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzPostVo.class));
 	}

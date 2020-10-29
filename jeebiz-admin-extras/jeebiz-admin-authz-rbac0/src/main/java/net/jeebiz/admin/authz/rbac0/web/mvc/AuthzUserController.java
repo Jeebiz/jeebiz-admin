@@ -92,7 +92,7 @@ public class AuthzUserController extends BaseMapperController {
 	public ApiRestResponse<AuthzUserVo> detailById(@RequestParam String id) throws Exception {
 		AuthzUserModel model = getAuthzUserService().getModel(id);
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("user.get.empty"));
+			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserVo.class));
 	}
@@ -105,7 +105,7 @@ public class AuthzUserController extends BaseMapperController {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		AuthzUserModel model = getAuthzUserService().getModel(principal.getUserid());
 		if(model == null) {
-			return ApiRestResponse.empty(getMessage("user.get.empty"));
+			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserVo.class));
 	}

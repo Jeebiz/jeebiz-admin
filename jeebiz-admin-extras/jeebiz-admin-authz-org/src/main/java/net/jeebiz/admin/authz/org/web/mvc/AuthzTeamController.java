@@ -76,7 +76,7 @@ public class AuthzTeamController extends BaseApiController {
 	public ApiRestResponse<List<AuthzTeamVo>> list(@RequestParam(required = false) String deptId) throws Exception {
 		List<AuthzTeamModel> resultList = getAuthzTeamService().getModelList(deptId);
 		if( CollectionUtils.isEmpty(resultList)) {
-			return ApiRestResponse.empty(getMessage("authz.team.not-found"));
+			return ApiRestResponse.fail(getMessage("authz.team.not-found"));
 		}
 		List<AuthzTeamVo> retList = Lists.newArrayList();
 		for (AuthzTeamModel model : resultList) {
@@ -190,7 +190,7 @@ public class AuthzTeamController extends BaseApiController {
 	public ApiRestResponse<AuthzTeamVo> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzTeamModel model = getAuthzTeamService().getModel(id);
 		if( model == null) {
-			return ApiRestResponse.empty(getMessage("authz.team.not-found"));
+			return ApiRestResponse.fail(getMessage("authz.team.not-found"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzTeamVo.class));
 	}
