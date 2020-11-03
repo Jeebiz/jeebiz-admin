@@ -25,6 +25,7 @@ import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
 import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.admin.shadow.setup.Constants;
+import net.jeebiz.boot.api.exception.BizRuntimeException;
 
 @Slf4j
 @Component
@@ -59,7 +60,7 @@ public class TencentSmsOperationConsumer extends AbstractMessageListener {
  				.setNationalNumber(Long.parseLong(phone));
  		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
  		if (!validNumberForRegion) {
- 			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_ERROR);
+ 			throw new BizRuntimeException(SMS_PHONE_ERROR);
  		}
  		
  		// 2、生成验证码
@@ -69,11 +70,11 @@ public class TencentSmsOperationConsumer extends AbstractMessageListener {
  		String phoneTimeKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
  		String key = redisOperationTemplate.getKey(phoneTimeKey);
  		if (key != null && Integer.parseInt(key) > RedisConstant.SMS_TIME_MAX) {
- 			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_MAX_ERROR);
+ 			throw new BizRuntimeException(SMS_PHONE_MAX_ERROR);
  		}
  		
  		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
- 			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_ERROR);
+ 			throw new BizRuntimeException(SMS_PHONE_ERROR);
  		}
  		
  		try {
@@ -98,7 +99,7 @@ public class TencentSmsOperationConsumer extends AbstractMessageListener {
  			}
  		} catch (TencentCloudSDKException e) {
  			e.printStackTrace();
- 			throw new KlRuntimeException(KlExceptionCode.SMS_ERROR);
+ 			throw new BizRuntimeException(SMS_ERROR);
  		}
 
  		// 3、发送短信并记录缓存

@@ -24,9 +24,6 @@ import net.jeebiz.boot.api.sequence.Sequence;
 
 /**
  *   极光推送与消息队列集成逻辑操作模板对象
- * 
- * @author wandalong <wandalong@kding.com>
- * @date 2020-7-24
  */
 @Component
 public class JPushOperationTemplate {

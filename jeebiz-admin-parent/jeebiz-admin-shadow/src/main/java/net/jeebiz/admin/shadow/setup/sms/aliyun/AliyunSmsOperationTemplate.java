@@ -26,6 +26,7 @@ import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
 import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.admin.shadow.setup.Constants;
+import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.utils.CalendarUtils;
 
@@ -72,7 +73,7 @@ public class AliyunSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_ERROR);
 		}
 		
 		// 2、检查短信发送权限
@@ -80,17 +81,17 @@ public class AliyunSmsOperationTemplate {
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
 		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
 		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_MAX_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_MAX_ERROR);
 		}
 		
 		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
 		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
 		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_MAX_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_MAX_ERROR);
 		}
 		
 		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_ERROR);
 		}
 		
 		// 3、生成验证码和发送
@@ -115,7 +116,7 @@ public class AliyunSmsOperationTemplate {
 			}
 		} catch (ClientException e) {
 			e.printStackTrace();
-			throw new KlRuntimeException(KlExceptionCode.SMS_ERROR);
+			throw new BizRuntimeException(SMS_ERROR);
 		}
 
 		// 4、发送短信并记录缓存
@@ -145,18 +146,18 @@ public class AliyunSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_ERROR);
 		}
 		
 		// 2、检查短信发送权限
 		String phoneTimeKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
 		String key = redisOperationTemplate.getKey(phoneTimeKey);
 		if (key != null && Integer.parseInt(key) > RedisConstant.SMS_TIME_MAX) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_MAX_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_MAX_ERROR);
 		}
 		
 		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_ERROR);
 		}
 		
 		// 3、发送短信队列
@@ -176,7 +177,7 @@ public class AliyunSmsOperationTemplate {
 		
 		boolean state = aliyunOnsMqTemplate.sendOrderMes(orderProducer, message, orderId);
 		if(!state) {
-			//throw new KlRuntimeException(KlExceptionCode.YOU_ARE_NOT_SUPPORT_TO_DO_MULTIPLE_PAYMENT_OPERATIONS);
+			//throw new BizRuntimeException(YOU_ARE_NOT_SUPPORT_TO_DO_MULTIPLE_PAYMENT_OPERATIONS);
 		}
 		
 		return Boolean.TRUE;
@@ -190,18 +191,18 @@ public class AliyunSmsOperationTemplate {
 	 * @param countryCode
 	 * @return
 	 */
-	public Boolean check(String phone, Integer type, Integer countryCode, String vcode) throws KlRuntimeException {
+	public Boolean check(String phone, Integer type, Integer countryCode, String vcode) throws BizRuntimeException {
 		// 验证手机号
 		PhoneNumber swissMobileNumber = new PhoneNumber().setCountryCode(countryCode)
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion && !vcode.equals("000000")) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_PHONE_ERROR);
+			throw new BizRuntimeException(SMS_PHONE_ERROR);
 		}
 		String smsKey = RedisKeyGenerator.getSmsCode(type, phone);
 		String smsCode = (String) redisOperationTemplate.get(smsKey);
 		if (!vcode.equals(smsCode) && !vcode.equals("000000")) {
-			throw new KlRuntimeException(KlExceptionCode.SMS_CODE_ERROR);
+			throw new BizRuntimeException(SMS_CODE_ERROR);
 		}
 		redisOperationTemplate.del(smsKey);
 		redisOperationTemplate.del(RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone));
