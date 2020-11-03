@@ -4,7 +4,6 @@
  */
 package net.jeebiz.admin.extras.core.setup.config;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,10 +28,9 @@ import org.springframework.util.CollectionUtils;
 
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
-import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.github.dozermapper.core.Mapper;
 
 import net.jeebiz.admin.extras.core.service.IDataPermissionQueryService;
@@ -115,8 +113,8 @@ public class MybatisPlusConfiguration {
 	 * @return
 	 */
 	@Bean
-	public OptimisticLockerInterceptor optimisticLockerInterceptor() {
-		return new OptimisticLockerInterceptor();
+	public OptimisticLockerInnerInterceptor optimisticLockerInterceptor() {
+		return new OptimisticLockerInnerInterceptor();
 	}
 
 	/**
@@ -124,14 +122,8 @@ public class MybatisPlusConfiguration {
 	 * 文档：http://mp.baomidou.com<br>
 	 */
 	@Bean
-	public PaginationInterceptor paginationInterceptor() {
-		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-		paginationInterceptor.setOverflow(true);
-
-		List<ISqlParser> sqlParserList = new ArrayList<>();
-		// 攻击 SQL 阻断解析器、加入解析链
-		/// sqlParserList.add(new BlockAttackSqlParser());
-		paginationInterceptor.setSqlParserList(sqlParserList);
+	public PaginationInnerInterceptor paginationInterceptor() {
+		PaginationInnerInterceptor paginationInterceptor = new PaginationInnerInterceptor();
 
 		/*
 		 * 【测试多租户】 SQL 解析处理拦截器<br> 这里固定写成住户 1 实际情况你可以从cookie读取，因此数据看不到 【 麻花藤 】 这条记录（
