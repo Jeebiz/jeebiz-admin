@@ -204,6 +204,28 @@
 	        <scope>runtime</scope>
 	    </dependency>
 	    
+	    <!-- For JPush -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>jpush-spring-boot-starter</artifactId>
+		</dependency>
+	    <!-- For Aliyun Cloud SMS -->
+		<dependency>
+		    <groupId>com.alibaba.cloud</groupId>
+		    <artifactId>spring-cloud-starter-alicloud-sms</artifactId>
+		    <version>2.2.0.RELEASE</version>
+		</dependency>
+		<!-- For Aliyun ONS -->
+        <dependency>
+            <groupId>com.github.hiwepy</groupId>
+            <artifactId>aliyun-ons-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- For TenCent API -->
+        <dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>tencentapi-spring-boot-starter</artifactId>
+		</dependency>	
+		
 	    <dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-initializr</artifactId>
