@@ -5,7 +5,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
  * All Rights Reserved. 
  */
 
-public class Test {
+public class Test1 {
 
 	public static void main(String[] args) {
 		String hashAlgorithmName = "MD5";//加密方式
