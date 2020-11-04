@@ -45,4 +45,11 @@ public class CircuitBreakerServiceImplTest{
         }
     }
     
+    @Test
+    public void circuitBreakerTimeLimiterTest() {
+        for (int i=0; i<10; i++){
+            circuitService.circuitBreakerTimeLimiter();
+        }
+    }
+    
 }
