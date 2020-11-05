@@ -24,6 +24,7 @@ import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
 import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.admin.shadow.setup.Constants;
+import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.utils.CalendarUtils;
@@ -71,25 +72,35 @@ public class TencentSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion) {
-			throw new BizRuntimeException(SMS_PHONE_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.phone.invalid");
 		}
 		
 		// 2、检查短信发送权限
+
+		// 短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
+		// 短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日 
 		
+		// 2.1、1条/分钟
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
 		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
 		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
-			throw new BizRuntimeException(SMS_PHONE_MAX_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.second.limit");
 		}
-		
+		// 2.2、5条/小时
+		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
+		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
+		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.hour.limit");
+		}
+		// 2.3、10条/天
 		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
 		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
 		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
-			throw new BizRuntimeException(SMS_PHONE_MAX_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.day.limit");
 		}
-		
+		// 2.4、黑名单
 		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
-			throw new BizRuntimeException(SMS_PHONE_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.backlist.limit");
 		}
 		
 		// 3、生成验证码和发送
@@ -112,8 +123,7 @@ public class TencentSmsOperationTemplate {
 			}
 			
 		} catch (TencentCloudSDKException e) {
-			e.printStackTrace();
-			throw new BizRuntimeException(SMS_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.fail");
 		}
 
 		// 4、发送短信并记录缓存
@@ -143,18 +153,35 @@ public class TencentSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion) {
-			throw new BizRuntimeException(SMS_PHONE_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.phone.invalid");
 		}
 		
 		// 2、检查短信发送权限
-		String phoneTimeKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
-		String key = redisOperationTemplate.getKey(phoneTimeKey);
-		if (key != null && Integer.parseInt(key) > RedisConstant.SMS_TIME_MAX) {
-			throw new BizRuntimeException(SMS_PHONE_MAX_ERROR);
-		}
+
+		// 短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
+		// 短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日 
 		
+		// 2.1、1条/分钟
+		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
+		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
+		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.second.limit");
+		}
+		// 2.2、5条/小时
+		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
+		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
+		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.hour.limit");
+		}
+		// 2.3、10条/天
+		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
+		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
+		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.day.limit");
+		}
+		// 2.4、黑名单
 		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
-			throw new BizRuntimeException(SMS_PHONE_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.backlist.limit");
 		}
 		
 		// 3、发送短信队列
@@ -194,15 +221,14 @@ public class TencentSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion && !vcode.equals("000000")) {
-			throw new BizRuntimeException(SMS_PHONE_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.phone.invalid");
 		}
 		String smsKey = RedisKeyGenerator.getSmsCode(type, phone);
 		String smsCode = (String) redisOperationTemplate.get(smsKey);
 		if (!vcode.equals(smsCode) && !vcode.equals("000000")) {
-			throw new BizRuntimeException(SMS_CODE_ERROR);
+			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.check.vcode.invalid");
 		}
 		redisOperationTemplate.del(smsKey);
-		redisOperationTemplate.del(RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone));
 		return true;
 	}
  
