@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.biz.utils.DateUtils;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,9 @@ import net.jeebiz.boot.api.utils.CalendarUtils;
 @Log4j2
 public class AliyunSmsOperationTemplate {
 
+	protected static final String CODE_OK = "OK";
+	protected static final String CODE_BUSINESS_LIMIT_CONTROL = "isv.BUSINESS_LIMIT_CONTROL";
+	
 	/**
 	 * 验证码短信模板
 	 */
@@ -74,7 +78,7 @@ public class AliyunSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.phone.invalid");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.phone.invalid");
 		}
 		
 		// 2、检查短信发送权限
@@ -86,23 +90,23 @@ public class AliyunSmsOperationTemplate {
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
 		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
 		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.second.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.second.limit");
 		}
 		// 2.2、5条/小时
 		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
 		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
 		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.hour.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.hour.limit");
 		}
 		// 2.3、10条/天
 		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
 		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
 		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.day.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.day.limit");
 		}
 		// 2.4、黑名单
 		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.backlist.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.backlist.limit");
 		}
 		
 		// 3、生成验证码和发送
@@ -122,11 +126,14 @@ public class AliyunSmsOperationTemplate {
 			Map<String, Object> templateParams = new HashMap<>();
 			templateParams.put("code", vcode);
 			SendSmsResponse res = aliyunSmsTemplate.send(phoneNumber, TEMPLATE_ID, templateParams);
-			if (!res.getCode().equals("Ok")) {
+			if(StringUtils.equalsIgnoreCase(res.getCode(), CODE_BUSINESS_LIMIT_CONTROL)) {
+				throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.max.limit");
+			}
+			if (!res.getCode().equals(CODE_OK)) {
 				return Boolean.FALSE;
 			}
 		} catch (ClientException e) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.fail");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.fail");
 		}
 
 		// 4、发送短信并记录缓存
@@ -156,7 +163,7 @@ public class AliyunSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.phone.invalid");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.phone.invalid");
 		}
 		
 		// 2、检查短信发送权限
@@ -168,23 +175,23 @@ public class AliyunSmsOperationTemplate {
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
 		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
 		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.second.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.second.limit");
 		}
 		// 2.2、5条/小时
 		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
 		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
 		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.hour.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.hour.limit");
 		}
 		// 2.3、10条/天
 		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
 		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
 		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.day.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.day.limit");
 		}
 		// 2.4、黑名单
 		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.backlist.limit");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.backlist.limit");
 		}
 		
 		// 3、发送短信队列
@@ -224,12 +231,12 @@ public class AliyunSmsOperationTemplate {
 				.setNationalNumber(Long.parseLong(phone));
 		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
 		if (!validNumberForRegion && !vcode.equals("000000")) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.phone.invalid");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.phone.invalid");
 		}
 		String smsKey = RedisKeyGenerator.getSmsCode(type, phone);
 		String smsCode = (String) redisOperationTemplate.get(smsKey);
 		if (!vcode.equals(smsCode) && !vcode.equals("000000")) {
-			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.check.vcode.invalid");
+			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.check.vcode.invalid");
 		}
 		redisOperationTemplate.del(smsKey);
 		return true;
