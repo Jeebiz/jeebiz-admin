@@ -15,6 +15,7 @@ import net.jeebiz.admin.shadow.setup.sms.aliyun.AliyunSmsOperationTemplate;
 import net.jeebiz.admin.shadow.web.vo.SmsCheckDTO;
 import net.jeebiz.admin.shadow.web.vo.SmsSendDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.annotation.Idempotent;
 import net.jeebiz.boot.api.web.BaseMapperController;
 
 @Api(tags = "短信消息：发送和校验")
@@ -30,6 +31,7 @@ public class SmsInformController extends BaseMapperController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "sendDTO", value = "发送短信DTO", dataType = "SmsSendDTO") 
 	})
+	@Idempotent(value = "#{sendDTO.countryCode}#{sendDTO.phone}-#{sendDTO.type}", spel = true, expireMillis = 50000)
 	@PostMapping("send")
 	public ApiRestResponse<String> send(@Validated @RequestBody SmsSendDTO sendDTO) {
 		// 1、调用公共代码发送短信
@@ -39,7 +41,7 @@ public class SmsInformController extends BaseMapperController {
 		}
 		return fail("sms.send.fail");
 	}
-	 
+	
 	@ApiOperation(value = "短信校验", notes = "验证手机号码收到的验证码")
 	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "checkDTO", value = "短信验证DTO", dataType = "SmsCheckDTO") 
