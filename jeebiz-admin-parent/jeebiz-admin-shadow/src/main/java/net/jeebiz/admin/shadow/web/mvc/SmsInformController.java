@@ -31,8 +31,8 @@ public class SmsInformController extends BaseMapperController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "sendDTO", value = "发送短信DTO", dataType = "SmsSendDTO") 
 	})
-	@Idempotent(value = "#{sendDTO.countryCode}#{sendDTO.phone}-#{sendDTO.type}", spel = true, expireMillis = 50000)
 	@PostMapping("send")
+	@Idempotent(value = "#{sendDTO.countryCode}#{sendDTO.phone}-#{sendDTO.type}", spel = true, expireMillis = 50000)
 	public ApiRestResponse<String> send(@Validated @RequestBody SmsSendDTO sendDTO) {
 		// 1、调用公共代码发送短信
 		boolean rt = getSmsOperationTemplate().send(sendDTO.getPhone(), sendDTO.getType(), sendDTO.getCountryCode());
