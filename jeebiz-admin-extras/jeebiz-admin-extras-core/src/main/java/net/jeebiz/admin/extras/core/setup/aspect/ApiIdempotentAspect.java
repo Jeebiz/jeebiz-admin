@@ -36,15 +36,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.boot.api.ApiCode;
-import net.jeebiz.boot.api.annotation.Idempotent;
-import net.jeebiz.boot.api.annotation.IdempotentType;
+import net.jeebiz.boot.api.annotation.ApiIdempotent;
+import net.jeebiz.boot.api.annotation.ApiIdempotentType;
 import net.jeebiz.boot.api.exception.IdempotentException;
 
 // https://blog.csdn.net/hanchao5272/article/details/92073405
 @Slf4j
 @Component
 @Aspect
-public class IdempotentAspect {
+public class ApiIdempotentAspect {
 
 	private final ExpressionParser expressionParser = new SpelExpressionParser();
 
@@ -58,7 +58,7 @@ public class IdempotentAspect {
 	 */
 	private static final String KEY_TEMPLATE = "idempotent_%s";
 
-	@Pointcut("@annotation(net.jeebiz.boot.api.annotation.Idempotent)")
+	@Pointcut("@annotation(net.jeebiz.boot.api.annotation.ApiIdempotent)")
 	public void aspect() {
 		// do nothing
 	}
@@ -71,9 +71,9 @@ public class IdempotentAspect {
 		String[] parameterNames = methodSignature.getParameterNames(); 
 		Object[] parameters = joinPoint.getArgs();
 		// 2、获取幂等注解
-		Idempotent idempotent = AnnotationUtils.findAnnotation(method, Idempotent.class);
+		ApiIdempotent idempotent = AnnotationUtils.findAnnotation(method, ApiIdempotent.class);
 		if(Objects.isNull(idempotent)) {
-			idempotent = AnnotationUtils.findAnnotation(method.getDeclaringClass(), Idempotent.class);
+			idempotent = AnnotationUtils.findAnnotation(method.getDeclaringClass(), ApiIdempotent.class);
 		}
 		// 3、不进行幂等
 		if(Objects.isNull(idempotent)) {
@@ -81,7 +81,7 @@ public class IdempotentAspect {
 		}
 		// 4、通过参数值构造唯一标记实现幂等
 		String idempotentKey = idempotent.value();
-		if(IdempotentType.ARGS.equals(idempotent.type())) {
+		if(ApiIdempotentType.ARGS.equals(idempotent.type())) {
 			// 4.1、在指定幂等值的情况下，判断是否需要进行 Spring Expression Language(SpEL) 表达式解析，如果需要，则进行SpEL解析
 			if(StringUtils.hasText(idempotentKey) && idempotent.spel()) {
 				// 解析表达式需要的上下文，解析时有一个默认的上下文
@@ -128,7 +128,7 @@ public class IdempotentAspect {
 					idempotentKey = putMapping.value()[0];
 				}
 			}
-			// 4.3、根据 key前缀 + @Idempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @Idempotent.value() + 方法签名 + 参数
+			// 4.3、根据 key前缀 + @ApiIdempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @ApiIdempotent.value() + 方法签名 + 参数
 			String lockKey = String.format(KEY_TEMPLATE, idempotentKey + "_" + this.generate(method, joinPoint.getArgs()));
 			// 4.4、通过setnx确保只有一个接口能够正常访问
 			if (this.tryLock(lockKey, idempotent.expireMillis())) {
@@ -140,7 +140,7 @@ public class IdempotentAspect {
 		}
 		
 		// 5、通过请求参数中的token值实现幂等
-		else if(IdempotentType.TOKEN.equals(idempotent.type())) {
+		else if(ApiIdempotentType.TOKEN.equals(idempotent.type())) {
 			// 5.1、获取Request对象
 			RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 			ServletRequestAttributes sra = (ServletRequestAttributes)ra;
