@@ -68,8 +68,6 @@ public class ApiIdempotentAspect {
 		// 1、获取方法
 		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 		Method method = methodSignature.getMethod();
-		String[] parameterNames = methodSignature.getParameterNames(); 
-		Object[] parameters = joinPoint.getArgs();
 		// 2、获取幂等注解
 		ApiIdempotent idempotent = AnnotationUtils.findAnnotation(method, ApiIdempotent.class);
 		if(Objects.isNull(idempotent)) {
@@ -82,6 +80,8 @@ public class ApiIdempotentAspect {
 		// 4、通过参数值构造唯一标记实现幂等
 		String idempotentKey = idempotent.value();
 		if(ApiIdempotentType.ARGS.equals(idempotent.type())) {
+			String[] parameterNames = methodSignature.getParameterNames(); 
+			Object[] parameters = joinPoint.getArgs();
 			// 4.1、在指定幂等值的情况下，判断是否需要进行 Spring Expression Language(SpEL) 表达式解析，如果需要，则进行SpEL解析
 			if(StringUtils.hasText(idempotentKey) && idempotent.spel()) {
 				// 解析表达式需要的上下文，解析时有一个默认的上下文
@@ -166,21 +166,22 @@ public class ApiIdempotentAspect {
 	
 	public boolean tryLock(String lockKey, long expireMillis) {
         return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+        	byte[] serLockKey = redisTemplate.getStringSerializer().serialize(lockKey);
             // 1、获取时间毫秒值
             long expireAt = System.currentTimeMillis() + expireMillis + 1;
             // 2、获取锁
-            Boolean acquire = connection.setNX(lockKey.getBytes(), String.valueOf(expireAt).getBytes());
+            Boolean acquire = connection.setNX(serLockKey, String.valueOf(expireAt).getBytes());
             if (acquire) {
                 return true;
             } else {
-                byte[] bytes = connection.get(lockKey.getBytes());
+                byte[] bytes = connection.get(serLockKey);
                 // 3、非空判断
                 if (Objects.nonNull(bytes) && bytes.length > 0) {
                     long expireTime = Long.parseLong(new String(bytes));
                     // 4、如果锁已经过期
                     if (expireTime < System.currentTimeMillis()) {
                         // 5、重新加锁，防止死锁
-                        byte[] set = connection.getSet(lockKey.getBytes(), String.valueOf(System.currentTimeMillis() + expireMillis + 1).getBytes());
+                        byte[] set = connection.getSet(serLockKey, String.valueOf(System.currentTimeMillis() + expireMillis + 1).getBytes());
                         return Long.parseLong(new String(set)) < System.currentTimeMillis();
                     }
                 }
