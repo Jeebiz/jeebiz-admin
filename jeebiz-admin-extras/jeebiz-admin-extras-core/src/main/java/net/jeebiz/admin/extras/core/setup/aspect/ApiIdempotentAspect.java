@@ -89,7 +89,7 @@ public class ApiIdempotentAspect {
 		        for (int i = 0; i < parameterNames.length; i++) {
 			        context.setVariable(parameterNames[i], parameters[i]);
 				}
-				expressionParser.parseExpression(idempotentKey).getValue(context);;
+		        idempotentKey = String.valueOf(expressionParser.parseExpression(idempotentKey).getValue(context));
 			}
 			// 4.2、没指定幂等值的情况下，尝试获取 @RequestMapping、@PostMapping、@GetMapping、@PutMapping、@DeleteMapping、@PatchMapping 的 value 值作为幂等值的一部分
 			if(!StringUtils.hasText(idempotentKey)) {
