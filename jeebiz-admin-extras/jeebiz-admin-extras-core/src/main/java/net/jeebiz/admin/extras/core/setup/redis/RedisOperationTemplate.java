@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
@@ -1593,6 +1594,17 @@ public class RedisOperationTemplate {
 	
 	public List<Object> executePipelined(RedisCallback<List<Object>> action) {
 		return redisTemplate.executePipelined(action);
+	}
+	
+	public List<Object> executePipelined(Function<RedisConnection, List<Object>> action) {
+		return redisTemplate.executePipelined((RedisCallback<Object>) redisConnection -> {
+			// 开启事务
+			redisConnection.multi();
+			action.apply(redisConnection);
+			// 执行命令
+			redisConnection.exec();
+			return null;
+		});
 	}
 
 	/**

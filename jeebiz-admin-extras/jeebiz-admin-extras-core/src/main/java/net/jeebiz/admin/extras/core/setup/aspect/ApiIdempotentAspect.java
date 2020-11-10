@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
+import org.apache.shiro.biz.utils.SubjectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -56,7 +58,7 @@ public class ApiIdempotentAspect {
 	/**
 	 * redis缓存key的模板
 	 */
-	private static final String KEY_TEMPLATE = "idempotent_%s";
+	private static final String KEY_TEMPLATE = "idempotent_%s_%s";
 
 	@Pointcut("@annotation(net.jeebiz.boot.api.annotation.ApiIdempotent)")
 	public void aspect() {
@@ -129,7 +131,8 @@ public class ApiIdempotentAspect {
 				}
 			}
 			// 4.3、根据 key前缀 + @ApiIdempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @ApiIdempotent.value() + 方法签名 + 参数
-			String lockKey = String.format(KEY_TEMPLATE, idempotentKey + "_" + this.generate(method, joinPoint.getArgs()));
+			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(ShiroPrincipal.class).getUserid() : "";
+			String lockKey = String.format(KEY_TEMPLATE, uid, idempotentKey + "_" + this.generate(method, joinPoint.getArgs()));
 			// 4.4、通过setnx确保只有一个接口能够正常访问
 			if (this.tryLock(lockKey, idempotent.expireMillis())) {
 				return joinPoint.proceed();
