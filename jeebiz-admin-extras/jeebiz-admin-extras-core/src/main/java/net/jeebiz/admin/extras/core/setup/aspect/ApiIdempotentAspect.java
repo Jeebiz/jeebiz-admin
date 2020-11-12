@@ -1,7 +1,9 @@
 package net.jeebiz.admin.extras.core.setup.aspect;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,6 +43,7 @@ import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.ApiIdempotentType;
 import net.jeebiz.boot.api.exception.IdempotentException;
+import springfox.documentation.annotations.ApiIgnore;
 
 // https://blog.csdn.net/hanchao5272/article/details/92073405
 @Slf4j
@@ -199,8 +202,12 @@ public class ApiIdempotentAspect {
 	 */
 	public String generate(Method method, Object... args) throws JsonProcessingException {
 		StringBuilder sb = new StringBuilder(method.toString());
-		for (Object arg : args) {
-			sb.append(objectMapper.writeValueAsString(arg));
+		Annotation[][]  paramAnnotations = method.getParameterAnnotations();
+		for (int i = 0; i < args.length; i++) {
+			if(Stream.of(paramAnnotations[i]).anyMatch(annt -> annt instanceof ApiIgnore)) {
+				continue;
+			}
+			sb.append(objectMapper.writeValueAsString(args[i]));
 		}
 		return DigestUtils.md5DigestAsHex(sb.toString().getBytes());
 	}
