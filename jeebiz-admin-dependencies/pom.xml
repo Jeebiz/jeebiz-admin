@@ -12,11 +12,81 @@
 	
 	<properties>
 		<jeebiz-admin.version>1.0.1-ce-SNAPSHOT</jeebiz-admin.version>
+		<jeebiz-fastxls.version>1.0.0-SNAPSHOT</jeebiz-fastxls.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-core</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-jexcel</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-poi</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-beetl</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-freemarker</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-httl</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-jetbrick</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-jxls1</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-jxls2</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-rythm</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-thymeleaf</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-velocity</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-template-webit</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.jeebiz</groupId>
+				<artifactId>fastxls-spring-boot-starter</artifactId>
+				<version>${jeebiz-fastxls.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
