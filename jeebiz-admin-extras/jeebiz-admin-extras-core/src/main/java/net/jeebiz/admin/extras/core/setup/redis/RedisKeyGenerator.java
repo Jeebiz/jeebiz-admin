@@ -4,18 +4,18 @@ import java.io.UnsupportedEncodingException;
 
 public class RedisKeyGenerator {
 
-	private static String DELIMITER = "_";
+	private static String DELIMITER = ":";
 
 	public static String getDELIMITER() {
 		return DELIMITER;
 	}
 	
 	public static String getUserLoginNum(String userId) {
-		return getKeyStr(RedisConstant.STR_LOGIN_NUM, userId);
+		return getKeyStr(RedisConstant.USER_LOGIN_NUM, userId);
 	}
 	
 	public static String getUserToken(String userId) {
-		return getKeyStr(RedisConstant.STR_TOKEN, userId);
+		return getKeyStr(RedisConstant.USER_TOKEN, userId);
 	}
 
 	public static String getUserSso() {
@@ -113,18 +113,18 @@ public class RedisKeyGenerator {
 	 * @param args
 	 * @return
 	 */
-	public static byte[] getKeyByteArr(String... args) {
+	public static byte[] getKeyByteArr(String prefix, String... args) {
 		byte[] bytes = null;
 		try {
-			bytes = getKeyStr(args).getBytes("utf-8");
+			bytes = getKeyStr(prefix, args).getBytes("utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// log.error(e.getMessage());
 		}
 		return bytes;
 	}
 
-	public static String getKeyStr(String... args) {
-		StringBuilder tempKey = new StringBuilder("SYS");
+	public static String getKeyStr(String prefix, String... args) {
+		StringBuilder tempKey = new StringBuilder(prefix);
 		for (String s : args) {
 			if (s.length() <= 0) {
 				continue;

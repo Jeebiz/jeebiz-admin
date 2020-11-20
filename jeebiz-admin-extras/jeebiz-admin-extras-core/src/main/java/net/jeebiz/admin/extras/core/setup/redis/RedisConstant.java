@@ -3,14 +3,9 @@ package net.jeebiz.admin.extras.core.setup.redis;
 public interface RedisConstant {
 
 	/**
-	 * 用户登陆次数
-	 */
-	String STR_LOGIN_NUM = "STR:LOGIN:NUM:";
-
-	/**
 	 * 手机号黑名单
 	 */
-	String SET_SMS_BLACK_LIST = "SET:SMS:BLACK:LIST";
+	String SET_SMS_BLACK_LIST = "sms:blacklist";
 	/**
 	 * 短信发送次数最大值
 	 */
@@ -26,43 +21,47 @@ public interface RedisConstant {
 	/**
 	 * 记录手机号发短信次数
 	 */
-	String STR_SMS_MOBILE_TIME = "STR:SMS:MOBILE:TIME:";
+	String STR_SMS_MOBILE_TIME = "sms:mobile:time";
 	/**
 	 * 记录设备发短信次数
 	 */
-	String STR_SMS_DEV_TIME = "STR:SMS:DEV:TIME:";
+	String STR_SMS_DEV_TIME = "sms:dev:time";
 	/**
 	 * 发送短信锁
 	 */
-	String STR_SMS_LOCK_MOBILE = "STR:SMS:LOCK:";
+	String STR_SMS_LOCK_MOBILE = "sms:lock";
 	/**
 	 * 短信验证码 type + 手机号
 	 */
-	String STR_SMS_CODE = "STR:SMS:CODE:";
+	String STR_SMS_CODE = "sms:code";
+	/**
+	 * 用户登陆次数
+	 */
+	String USER_LOGIN_NUM = "user:login:num";
 	/**
 	 * 用户token过期时间
 	 */
-	Long TOKEN_EXPIRE = 7 * 86400L;
+	Long USER_TOKEN_EXPIRE = 7 * 86400L;
 	/**
 	 * 用户token
 	 */
-	String STR_TOKEN = "STR:TOKEN:";
+	String USER_TOKEN = "user:token";
 	/**
 	 * redis 用户信息前缀
 	 */
-	String USER_INFO_PREFIX = "USER_INFO_PREFIX";
+	String USER_INFO_PREFIX = "user:info";
 	/**
 	 * redis 用户单点登录状态
 	 */
-	String USER_SSO_STATE = "USER_SSO_STATE";
+	String USER_SSO_STATE = "user:sso.state";
 	/**
 	 * 用户查询前缀
 	 */
-	String USER_QUERY_PREFIX = "USER_QUERY_PREFIX";
+	String USER_QUERY_PREFIX = "user:query";
 	/**
 	 * 用户坐标缓存
 	 */
-	String USER_GEO_LOCATION = "USER_GEO_LOCATION";
+	String USER_GEO_LOCATION = "user:geo:location";
 	/**
 	 * 锁过期时间5秒钟
 	 */
@@ -70,38 +69,38 @@ public interface RedisConstant {
 	/**
 	 * 查询数据库用户信息时加锁
 	 */
-	String USER_INFO_LOCK = "USER_INFO_LOCK";
+	String USER_INFO_LOCK = "user:info:lock";
 	/**
 	 * 用户信息解锁缓存
 	 */
-	String USER_INFO_UNLOCK = "USER_INFO_UNLOCK";
+	String USER_INFO_UNLOCK = "user:info:unlock";
 	/**
 	 * 用户信息预览缓存
 	 */
-	String USER_INFO_PREVIEW = "USER_INFO_PREVIEW";
+	String USER_INFO_PREVIEW = "user:info:preview";
 	/**
 	 * 用户任务列表
 	 */
-	String USER_TASK_LIST = "USER_TASK_LIST";
+	String USER_TASK_LIST = "user:task:list";
 	/**
 	 * 用户金币增量缓存
 	 */
-	String USER_COIN_AMOUNT = "USER_COIN_AMOUNT";
+	String USER_COIN_AMOUNT = "user:coin:amount";
 	/**
 	 * 用户珍珠增量缓存
 	 */
-	String USER_PEARL_AMOUNT = "USER_PEARL_AMOUNT";
+	String USER_PEARL_AMOUNT = "user:pearl:amount";
 	/**
 	 * 用户经验增量缓存
 	 */
-	String USER_EXP_AMOUNT = "USER_EXP_AMOUNT";
+	String USER_EXP_AMOUNT = "user:exp:amount";
 	/**
 	 * 用户会员类型缓存
 	 */
-	String USER_VIP_TYPES = "USER_VIP_TYPES";
+	String USER_VIP_TYPES = "user:vip:types";
 	/**
 	 * 用户会员权益缓存
 	 */
-	String USER_VIP_INTEREST = "USER_VIP_INTEREST";
+	String USER_VIP_INTEREST = "user:vip:interest";
 
 }
