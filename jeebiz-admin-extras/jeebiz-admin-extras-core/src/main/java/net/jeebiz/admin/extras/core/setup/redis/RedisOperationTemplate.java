@@ -462,28 +462,13 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 
-	/**
+    /**
 	 * 获取hashKey对应的所有键值
 	 *
 	 * @param key 键
 	 * @return 对应的多个键值
 	 */
-	public Map<Object, Object> hmget(String key) {
-		try {
-			return getOperations().opsForHash().entries(key);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return Maps.newHashMap();
-		}
-	}
-
-	/**
-	 * 获取hashKey对应的所有键值
-	 *
-	 * @param key 键
-	 * @return 对应的多个键值
-	 */
-	public Map<String, Object> hmget2(String key) {
+	public Map<String, Object> hmget(String key) {
 		try {
 			HashOperations<String, String, Object> opsForHash = getOperations().opsForHash();
 			return opsForHash.entries(key);

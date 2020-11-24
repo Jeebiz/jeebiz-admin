@@ -148,37 +148,75 @@
 		    <groupId>com.github.binarywang</groupId>
 		    <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
 		</dependency>
+		
+		<!-- For Docx4j -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>docx4j-spring-boot-starter</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>hitool-core</artifactId>
-		</dependency>
+		<!-- For Zxing -->
 		<dependency>
             <groupId>com.github.hiwepy</groupId>
             <artifactId>zxing-spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-	        <groupId>io.goeasy</groupId>
-	        <artifactId>goeasy-sdk</artifactId>
-	    </dependency>
 		<!-- For XXL-JOB -->
 		<dependency>
 		   <groupId>com.github.hiwepy</groupId>
 			<artifactId>xxljob-spring-boot-starter</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		
+		<!-- For Resilience4j -->
+		<dependency>
+		    <groupId>io.github.resilience4j</groupId>
+		    <artifactId>resilience4j-spring-boot2</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.github.resilience4j</groupId>
+		    <artifactId>resilience4j-micrometer</artifactId>
+		</dependency>
+	    <!-- For JPush -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>jpush-spring-boot-starter</artifactId>
+		</dependency>
+	    <!-- For Aliyun Cloud SMS -->
+		<dependency>
+		    <groupId>com.alibaba.cloud</groupId>
+		    <artifactId>spring-cloud-starter-alicloud-sms</artifactId>
+		    <version>2.2.0.RELEASE</version>
+		</dependency>
+		<!-- For Aliyun ONS -->
+        <dependency>
+            <groupId>com.github.hiwepy</groupId>
+            <artifactId>aliyun-ons-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- For TenCent API -->
+        <dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>tencentapi-spring-boot-starter</artifactId>
+		</dependency>	
+		<!-- For GoEasy API -->
+		<dependency>
+	        <groupId>io.goeasy</groupId>
+	        <artifactId>goeasy-sdk</artifactId>
+	    </dependency>
+		<!-- For RocketMQ -->
 		<dependency>
 	        <groupId>org.apache.rocketmq</groupId>
 	        <artifactId>rocketmq-spring-boot-starter</artifactId>
 	    </dependency>
+	    <!-- For Dubbo -->
 	    <dependency>
 		    <groupId>org.apache.dubbo</groupId>
 		    <artifactId>dubbo-spring-boot-starter</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>hitool-core</artifactId>
+		</dependency>
+		
+		
 		<!-- For Javamelody -->
 		<dependency>
 		    <groupId>net.bull.javamelody</groupId>
@@ -215,42 +253,7 @@
 	        <artifactId>ojdbc8dms</artifactId>
 	        <scope>runtime</scope>
 	    </dependency>
-	    <!-- For Resilience4j -->
-		<dependency>
-		    <groupId>io.github.resilience4j</groupId>
-		    <artifactId>resilience4j-spring-boot2</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>io.github.resilience4j</groupId>
-		    <artifactId>resilience4j-micrometer</artifactId>
-		</dependency>
-	    <!-- For JPush -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>jpush-spring-boot-starter</artifactId>
-		</dependency>
-	    <!-- For Aliyun Cloud SMS -->
-		<dependency>
-		    <groupId>com.alibaba.cloud</groupId>
-		    <artifactId>spring-cloud-starter-alicloud-sms</artifactId>
-		    <version>2.2.0.RELEASE</version>
-		</dependency>
-		<!-- For Aliyun ONS -->
-        <dependency>
-            <groupId>com.github.hiwepy</groupId>
-            <artifactId>aliyun-ons-spring-boot-starter</artifactId>
-        </dependency>
-        <!-- For TenCent API -->
-        <dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>tencentapi-spring-boot-starter</artifactId>
-		</dependency>	
-		
-	    <dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-initializr</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
+	   
 		
 		<!-- For Embed Tomcat -->
         <!-- <dependency>

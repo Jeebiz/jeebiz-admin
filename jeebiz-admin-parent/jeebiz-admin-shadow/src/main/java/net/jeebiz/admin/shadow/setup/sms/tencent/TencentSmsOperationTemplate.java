@@ -82,19 +82,19 @@ public class TencentSmsOperationTemplate {
 		
 		// 2.1、1条/分钟
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
-		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
+		String timesOfSecond = redisOperationTemplate.getString(phoneTimeSecondKey);
 		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.second.limit");
 		}
 		// 2.2、5条/小时
 		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
-		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
+		String timesOfHour = redisOperationTemplate.getString(phoneTimeHourKey);
 		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.hour.limit");
 		}
 		// 2.3、10条/天
 		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
-		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
+		String timesOfDay = redisOperationTemplate.getString(phoneTimeDayKey);
 		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.day.limit");
 		}
@@ -163,19 +163,19 @@ public class TencentSmsOperationTemplate {
 		
 		// 2.1、1条/分钟
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
-		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
+		String timesOfSecond = redisOperationTemplate.getString(phoneTimeSecondKey);
 		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.second.limit");
 		}
 		// 2.2、5条/小时
 		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
-		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
+		String timesOfHour = redisOperationTemplate.getString(phoneTimeHourKey);
 		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.hour.limit");
 		}
 		// 2.3、10条/天
 		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
-		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
+		String timesOfDay = redisOperationTemplate.getString(phoneTimeDayKey);
 		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.day.limit");
 		}
@@ -228,7 +228,7 @@ public class TencentSmsOperationTemplate {
 		if (!vcode.equals(smsCode) && !vcode.equals("000000")) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.check.vcode.invalid");
 		}
-		redisOperationTemplate.del(smsKey);
+		redisOperationTemplate.delete(smsKey);
 		return true;
 	}
  
