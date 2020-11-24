@@ -84,7 +84,7 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 			
 			// 创建调用jsapi时所需要的签名.
 			
-	        JsapiTicketSignature jsapiSignature = dingTalkTemplate.createJsapiSignature(url, appId, accessToken);
+	        JsapiTicketSignature jsapiSignature = dingTalkTemplate.opsForJsapi().createSignature(url, appId, accessToken);
 	        configVo.setAgentId(jsapiSignature.getAgentId());
 	        configVo.setNonceStr(jsapiSignature.getNonceStr());
 	        configVo.setSignature(jsapiSignature.getSignature());
@@ -112,7 +112,7 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 		String accessToken = dingTalkTemplate.getAccessToken(appKey, appSecret);
 		
 		// 第三方应用钉钉扫码登录：通过临时授权码Code获取用户信息，临时授权码只能使用一次
-		OapiSnsGetuserinfoBycodeResponse response = dingTalkTemplate.getSnsGetuserinfoBycode(loginTmpCode, appKey, appSecret);
+		OapiSnsGetuserinfoBycodeResponse response = dingTalkTemplate.opsForSns().getUserinfoByTmpCode(loginTmpCode, appKey, appSecret);
 		/*{ 
 		    "errcode": 0,
 		    "errmsg": "ok",
@@ -133,14 +133,14 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 		UserInfo userInfo = response.getUserInfo();
 
 		// 根据unionid获取userid
-		OapiUserGetUseridByUnionidResponse unionidResponse = dingTalkTemplate.getUseridByUnionid(userInfo.getUnionid(), accessToken);
+		OapiUserGetUseridByUnionidResponse unionidResponse = dingTalkTemplate.opsForAccount().getUseridByUnionid(userInfo.getUnionid(), accessToken);
 		if(!unionidResponse.isSuccess()) {
 			logger.error(unionidResponse.getBody());
 			return ApiRestResponse.of(unionidResponse.getErrorCode(), unionidResponse.getErrmsg());
 		}
 		
 		// 根据UserId 获取用户信息
-		OapiUserGetResponse userInfoResponse = dingTalkTemplate.getUserByUserid(unionidResponse.getUserid(), accessToken);
+		OapiUserGetResponse userInfoResponse = dingTalkTemplate.opsForAccount().getUserByUserid(unionidResponse.getUserid(), accessToken);
 		if(!userInfoResponse.isSuccess()) {
 			logger.error(userInfoResponse.getBody());
 			return ApiRestResponse.of(userInfoResponse.getErrorCode(), userInfoResponse.getErrmsg());

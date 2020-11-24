@@ -118,25 +118,28 @@
 		    <groupId>com.github.scribejava</groupId>
 		    <artifactId>scribejava-apis</artifactId>
 		</dependency>
-        <!-- For 钉钉和钉钉机器人  
+        <!-- For 钉钉和钉钉机器人  -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>dingtalk-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- <dependency>
 		    <groupId>cn.snowheart</groupId>
 		    <artifactId>spring-boot-dingtalk-robot-starter</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.dingtalk</groupId>
 			<artifactId>dingtalk-sdk</artifactId>
-		</dependency>-->
-		<!--<dependency>
-			<groupId>com.dingtalk</groupId>
-			<artifactId>dingtalk-sdk-source</artifactId>
-			<version>20190425</version>
-		</dependency>-->
+		</dependency>
 		<!-- For 微信公众号 、微信小程序   -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-weixin-spring-boot-starter</artifactId>
+		</dependency>
 		<dependency>
 		    <groupId>com.github.binarywang</groupId>
 		    <artifactId>wx-java-mp-spring-boot-starter</artifactId>

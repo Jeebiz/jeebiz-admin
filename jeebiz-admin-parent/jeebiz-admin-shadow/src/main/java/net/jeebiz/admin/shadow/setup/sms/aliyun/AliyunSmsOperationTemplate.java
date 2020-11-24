@@ -42,11 +42,6 @@ public class AliyunSmsOperationTemplate {
 	protected static final String CODE_OK = "OK";
 	protected static final String CODE_BUSINESS_LIMIT_CONTROL = "isv.BUSINESS_LIMIT_CONTROL";
 	
-	/**
-	 * 验证码短信模板
-	 */
-	private static final String TEMPLATE_ID = "40294";
-	
 	@Autowired
 	private OrderProducer orderProducer;
 	//@Autowired
@@ -65,7 +60,7 @@ public class AliyunSmsOperationTemplate {
 	 * 发送验证码
 	 * 
 	 * @param phone
-	 * @param type 业务类型：（0：注册、1：绑定、2：修改密码、3：忘记密码）
+	 * @param type 业务类型：（0：注册、1：绑定、2：修改密码、3：忘记密码，4：手机号码登录）
 	 * @param countryCode
 	 * @return
 	 */
@@ -82,25 +77,25 @@ public class AliyunSmsOperationTemplate {
 		}
 		
 		// 2、检查短信发送权限
-
+		
 		// 短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
 		// 短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日 
 		
 		// 2.1、1条/分钟
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
-		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
+		String timesOfSecond = redisOperationTemplate.getString(phoneTimeSecondKey);
 		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.second.limit");
 		}
 		// 2.2、5条/小时
 		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
-		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
+		String timesOfHour = redisOperationTemplate.getString(phoneTimeHourKey);
 		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.hour.limit");
 		}
 		// 2.3、10条/天
 		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
-		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
+		String timesOfDay = redisOperationTemplate.getString(phoneTimeDayKey);
 		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.day.limit");
 		}
@@ -125,12 +120,31 @@ public class AliyunSmsOperationTemplate {
 			 */
 			Map<String, Object> templateParams = new HashMap<>();
 			templateParams.put("code", vcode);
-			SendSmsResponse res = aliyunSmsTemplate.send(phoneNumber, TEMPLATE_ID, templateParams);
+			/**
+			 * 验证码短信模板
+			 */
+			String templateCode = "SMS_203740130";
+			switch (type) {
+				case 0: 
+				case 1: {
+					templateCode ="SMS_203740130"; // 用户注册验证码
+				};break; 
+				case 2:
+				case 3: {
+					templateCode ="SMS_203740129"; // 修改密码验证码
+				};break; 
+				case 4: { 
+					templateCode ="SMS_203740132"; // 登录确认验证码
+				};break; 
+				default:{};break;
+			}
+			
+			SendSmsResponse res = aliyunSmsTemplate.send(phoneNumber, templateCode, templateParams);
 			if(StringUtils.equalsIgnoreCase(res.getCode(), CODE_BUSINESS_LIMIT_CONTROL)) {
 				throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.max.limit");
 			}
 			if (!res.getCode().equals(CODE_OK)) {
-				return Boolean.FALSE;
+				return Boolean.FALSE.booleanValue();
 			}
 		} catch (ClientException e) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.fail");
@@ -140,13 +154,14 @@ public class AliyunSmsOperationTemplate {
 		String smsKey = RedisKeyGenerator.getSmsCode(type, phone);
 		redisOperationTemplate.set(smsKey, vcode, RedisConstant.SMS_EXPIRE);
 		redisOperationTemplate.incr(phoneTimeDayKey, 1, CalendarUtils.getSecondsNextEarlyMorning());
+		redisOperationTemplate.incr(phoneTimeHourKey, 1, 60 * 60);
 		redisOperationTemplate.incr(phoneTimeSecondKey, 1, 60);
 		
 		log.info("短信发送用时：{} 毫秒", (System.currentTimeMillis() - start) );
 
-		return Boolean.TRUE;
+		return Boolean.TRUE.booleanValue();
 	}
-	
+
 	/**
 	 * 发送验证码
 	 * 
@@ -167,29 +182,12 @@ public class AliyunSmsOperationTemplate {
 		}
 		
 		// 2、检查短信发送权限
-
-		// 短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
-		// 短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日 
-		
-		// 2.1、1条/分钟
-		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
-		String timesOfSecond = redisOperationTemplate.getKey(phoneTimeSecondKey);
-		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
-			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.second.limit");
-		}
-		// 2.2、5条/小时
-		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
-		String timesOfHour = redisOperationTemplate.getKey(phoneTimeHourKey);
-		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
-			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.hour.limit");
-		}
-		// 2.3、10条/天
-		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
-		String timesOfDay = redisOperationTemplate.getKey(phoneTimeDayKey);
-		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
+		String phoneTimeKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
+		String phoneTime = redisOperationTemplate.getString(phoneTimeKey);
+		if (phoneTime != null && Integer.parseInt(phoneTime) > RedisConstant.SMS_TIME_MAX) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.day.limit");
 		}
-		// 2.4、黑名单
+		
 		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.backlist.limit");
 		}
@@ -211,10 +209,10 @@ public class AliyunSmsOperationTemplate {
 		
 		boolean state = aliyunOnsMqTemplate.sendOrderMes(orderProducer, message, orderId);
 		if(!state) {
-			//throw new BizRuntimeException(YOU_ARE_NOT_SUPPORT_TO_DO_MULTIPLE_PAYMENT_OPERATIONS);
+			//throw new BizRuntimeException(KlExceptionCode.YOU_ARE_NOT_SUPPORT_TO_DO_MULTIPLE_PAYMENT_OPERATIONS);
 		}
 		
-		return Boolean.TRUE;
+		return Boolean.TRUE.booleanValue();
 	}
 
 	/**
@@ -225,7 +223,7 @@ public class AliyunSmsOperationTemplate {
 	 * @param countryCode
 	 * @return
 	 */
-	public Boolean check(String phone, Integer type, Integer countryCode, String vcode) throws BizRuntimeException {
+	public Boolean check(String phone, Integer type, Integer countryCode, String vcode) {
 		// 验证手机号
 		PhoneNumber swissMobileNumber = new PhoneNumber().setCountryCode(countryCode)
 				.setNationalNumber(Long.parseLong(phone));
@@ -238,7 +236,7 @@ public class AliyunSmsOperationTemplate {
 		if (!vcode.equals(smsCode) && !vcode.equals("000000")) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.check.vcode.invalid");
 		}
-		redisOperationTemplate.del(smsKey);
+		redisOperationTemplate.delete(smsKey);
 		return true;
 	}
  

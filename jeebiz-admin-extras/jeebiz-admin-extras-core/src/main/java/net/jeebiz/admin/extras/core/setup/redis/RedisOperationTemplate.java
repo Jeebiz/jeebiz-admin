@@ -219,8 +219,8 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		try {
 			//return getOperations().opsForValue().setIfAbsent(key, value);
 			return this.execute((RedisCallback<Boolean>) redisConnection -> {
-				byte[] serKey = this.stringSerializer().serialize(key);
-				byte[] serValue = this.stringSerializer().serialize(value);
+				byte[] serKey = rawString(key);
+				byte[] serValue = rawString(value);
 				return redisConnection.setNX(serKey, serValue);
 			});
 		} catch (Exception e) {
@@ -251,6 +251,18 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	public Object get(String key) {
 		try {
 			return !StringUtils.hasText(key) ? null : getOperations().opsForValue().get(key);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+	
+	public String getString(String key) {
+		try {
+			return !StringUtils.hasText(key) ? null : getOperations().execute((RedisCallback<String>) redisConnection -> {
+				byte[] serValue = redisConnection.get(rawKey(key));
+				return deserializeString(serValue);
+			});
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
@@ -1414,7 +1426,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 
 	public boolean tryLock(String lockKey, long expireMillis) {
         return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
-        	byte[] serLockKey = stringSerializer().serialize(lockKey);
+        	byte[] serLockKey = rawString(lockKey);
             // 1、获取时间毫秒值
             long expireAt = System.currentTimeMillis() + expireMillis + 1;
             // 2、获取锁

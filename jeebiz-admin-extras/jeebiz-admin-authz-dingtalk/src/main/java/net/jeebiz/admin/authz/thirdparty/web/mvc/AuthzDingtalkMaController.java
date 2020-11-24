@@ -77,8 +77,8 @@ public class AuthzDingtalkMaController extends BaseMapperController {
 			String accessToken = dingTalkTemplate.getAccessToken(appKey, appSecret);
 			
 			AuthzDingtalkConfigVo configVo = new AuthzDingtalkConfigVo();
-			 
-			dingTalkTemplate.createJsapiSignature(url, appKey, accessToken);
+			
+			dingTalkTemplate.opsForJsapi().createSignature(url, appKey, accessToken);
 			
 			configVo.setCorpId(properties.getCorpId());
 			
@@ -101,7 +101,7 @@ public class AuthzDingtalkMaController extends BaseMapperController {
 		// 获取access_token
 		String accessToken = dingTalkTemplate.getAccessToken(appKey, appSecret);
 		
-		OapiUserGetuserinfoResponse response = dingTalkTemplate.getUserinfoBycode(code, accessToken);
+		OapiUserGetuserinfoResponse response = dingTalkTemplate.opsForAccount().getUserinfoBycode(code, accessToken);
 		
 		/*{
 		    "userid": "****",
@@ -118,7 +118,7 @@ public class AuthzDingtalkMaController extends BaseMapperController {
 			return ApiRestResponse.of(response.getErrorCode(), response.getErrmsg());
 		}
 		
-		OapiUserGetResponse userInfoResponse = dingTalkTemplate.getUserByUserid(response.getUserid(), accessToken);
+		OapiUserGetResponse userInfoResponse = dingTalkTemplate.opsForAccount().getUserByUserid(response.getUserid(), accessToken);
 		if(!userInfoResponse.isSuccess()) {
 			logger.debug(response.getBody());
 			return ApiRestResponse.of(response.getErrorCode(), response.getErrmsg());

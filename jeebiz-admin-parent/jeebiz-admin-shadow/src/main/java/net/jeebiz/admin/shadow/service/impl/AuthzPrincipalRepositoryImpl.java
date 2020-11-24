@@ -43,7 +43,7 @@ import com.google.common.collect.Sets;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthzRolePermsDao;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthzUserDao;
@@ -244,7 +244,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			} else {
 
 				// 获取用户信息
-				WxMpUser userInfo = wxToken.getUserInfo();
+				WxOAuth2UserInfo userInfo = wxToken.getUserInfo();
 				
 				// 创建本地关联用户
 				AuthzThirdpartyUserModel userModel = new AuthzThirdpartyUserModel();
