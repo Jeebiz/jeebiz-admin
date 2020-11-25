@@ -14,10 +14,18 @@
 		<jeebiz-admin.version>1.0.1-ce-SNAPSHOT</jeebiz-admin.version>
 		<jeebiz-fastxls.version>1.0.0-SNAPSHOT</jeebiz-fastxls.version>
 		<dingtalk-sdk.version>20200617</dingtalk-sdk.version>
+		<spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			
+			<!-- For Aliyun Cloud SMS -->
+			<dependency>
+			    <groupId>com.alibaba.cloud</groupId>
+			    <artifactId>spring-cloud-starter-alicloud-sms</artifactId>
+			    <version>${spring-cloud-alibaba.version}</version>
+			</dependency>
 			
 			<dependency>
 				<groupId>com.dingtalk</groupId>

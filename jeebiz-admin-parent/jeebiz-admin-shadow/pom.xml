@@ -183,7 +183,6 @@
 		<dependency>
 		    <groupId>com.alibaba.cloud</groupId>
 		    <artifactId>spring-cloud-starter-alicloud-sms</artifactId>
-		    <version>2.2.0.RELEASE</version>
 		</dependency>
 		<!-- For Aliyun ONS -->
         <dependency>
