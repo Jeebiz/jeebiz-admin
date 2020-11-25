@@ -14,15 +14,14 @@ import net.jeebiz.boot.api.web.BaseApiController;
 
 @Api(tags = "极光推送")
 @RestController
-@RequestMapping("/inform/push/")
+@RequestMapping("/inform/jpush/")
 public class JPushController extends BaseApiController {
     @Autowired
     private JPushOperationTemplate jPushOperationTemplate;
 
     @ApiOperation(value = "极光推送", notes = "测试推送")
-
-    @GetMapping("testPush")
-    public ApiRestResponse<String> testPush(String userId, String tag, String content, String alert){
+    @GetMapping("send")
+    public ApiRestResponse<String> push(String userId, String tag, String content, String alert){
         PushObject pushObject = new PushObject();
         pushObject.setMsgContent(content);
         pushObject.setAlert(alert);

@@ -9,8 +9,10 @@ import java.util.concurrent.TimeoutException;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
+import net.jeebiz.boot.api.exception.BizCheckedException;
+
 public interface IRemoteService {
 
-	List<User> process() throws TimeoutException, InterruptedException;
+	List<User> process() throws BizCheckedException;
 	
 }

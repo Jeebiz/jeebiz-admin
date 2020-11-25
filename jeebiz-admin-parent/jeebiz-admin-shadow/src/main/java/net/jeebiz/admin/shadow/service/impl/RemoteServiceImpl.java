@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.shadow.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,7 +20,7 @@ public class RemoteServiceImpl implements IRemoteService {
     
     private static AtomicInteger count = new AtomicInteger(0);
 
-    public List<User> process() {
+    public List<User> process() throws BizCheckedException {
         int num = count.getAndIncrement();
         log.info("count的值 = " + num);
         if (num % 4 == 1){
@@ -30,6 +31,6 @@ public class RemoteServiceImpl implements IRemoteService {
         }
         log.info("服务正常运行，获取用户列表");
         // 模拟数据库的正常查询
-        return repository.findAll();
+        return new ArrayList<>();
     }
 }
