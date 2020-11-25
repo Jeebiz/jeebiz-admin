@@ -1,7 +1,6 @@
 package net.jeebiz.admin.extras.core.setup.redis;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
@@ -22,6 +21,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
@@ -301,6 +301,16 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
+	public List<Object> multiGet(Collection<Object> keys, String redisPrefix) {
+		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
+			keys.stream().forEach(key -> {
+				connection.get(rawString(RedisKeyGenerator.getKeyStr(redisPrefix, key.toString())));
+			});
+			return null;
+		}, getOperations().getValueSerializer());
+		return result;
+	}
+	
 	/**
 	 * 递增
 	 * @param key   键
@@ -429,7 +439,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return increment;
 	}
 
-	// ================================Map=================================
+	// ================================Hash=================================
 
 	/**
 	 * HashGet
@@ -460,6 +470,31 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			log.error(e.getMessage());
 			return Lists.newArrayList();
 		}
+	}
+    
+    /**
+	 * 批量获取用户信息
+	 */
+	public List<Object> hmultiGet(Collection<Object> keys) {
+		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
+			keys.stream().forEach(key -> {
+				String hashKey = RedisKeyGenerator.getUserInfoPrefix(key.toString());
+				connection.hGetAll(rawString(hashKey));
+			});
+			return null;
+		}, getOperations().getValueSerializer());
+		return result;
+	}
+	
+	public List<Object> hmultiGetByField(Collection<Object> keys, String redisPrefix, String redisField) {
+		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
+			keys.stream().forEach(key -> {
+				String hashKey = RedisKeyGenerator.getKeyStr(redisPrefix, key.toString());
+				connection.hGet(rawHashKey(hashKey), rawHashValue(redisField));
+			});
+			return null;
+		}, getOperations().getValueSerializer());
+		return result;
 	}
 
     /**
@@ -796,7 +831,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().opsForHash().increment(key, item, -delta);
 	}
 	
-	// ============================set=============================
+	// ============================Set=============================
 
 	/**
 	 * 根据key获取Set中的所有值
@@ -988,7 +1023,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().opsForSet().distinctRandomMembers(key, count);
 	}
 
-	// ===============================list=================================
+	// ===============================List=================================
 
 	/**
 	 * 获取list缓存的内容
@@ -1207,7 +1242,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 
-	public boolean lRemoveAll(String key, int start, int end) {
+	public boolean lRemove(String key, int start, int end) {
 		try {
 			getOperations().opsForList().trim(key, start, end);
 			return true;
@@ -1219,13 +1254,6 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	
 	// ===============================ZSet=================================
 	
-	/**
-	 * Zset添加元素
-	 * 
-	 * @param key
-	 * @param value
-	 * @param score
-	 */
 	public Double zincr(String key, String value, double delta) {
 		return getOperations().opsForZSet().incrementScore(key, value, delta);
 	}
@@ -1238,24 +1266,12 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return result;
 	}
 
-	public Boolean updateZsetScore(String key, String value, double score) {
+	public Boolean zadd(String key, String value, double score) {
 		return getOperations().opsForZSet().add(key, value, score);
 	}
 
-	public Long addZsetScore(String key, Set<ZSetOperations.TypedTuple<Object>> tuples) {
+	public Long zadd(String key, Set<ZSetOperations.TypedTuple<Object>> tuples) {
 		return getOperations().opsForZSet().add(key, tuples);
-	}
-
-	/**
-	 * 获取指定key的scores正序，指定start-end位置的元素
-	 * 
-	 * @param key
-	 * @param start
-	 * @param end
-	 * @return
-	 */
-	public Set<ZSetOperations.TypedTuple<Object>> reverseRangeWithScores(String key, Integer start, Integer end) {
-		return getOperations().opsForZSet().reverseRangeWithScores(key, start, end);
 	}
 
 	/**
@@ -1265,7 +1281,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param min
 	 * @param max
 	 */
-	public Long zsetCountByscores(String key, double min, double max) {
+	public Long zCount(String key, double min, double max) {
 		return getOperations().opsForZSet().count(key, min, max);
 	}
 
@@ -1275,7 +1291,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param key
 	 * @param value
 	 */
-	public Long removeZsetValue(String key, Object... value) {
+	public Long zrem(String key, Object... value) {
 		return getOperations().opsForZSet().remove(key, value);
 	}
 
@@ -1286,63 +1302,90 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param min
 	 * @param max
 	 */
-	public void removeZetRangeByScore(String key, double min, double max) {
+	public void zremByScore(String key, double min, double max) {
 		getOperations().opsForZSet().removeRangeByScore(key, min, max);
 	}
 
-	public Double getZscore(String key, Object value) {
+	public Double zscore(String key, Object value) {
 		return getOperations().opsForZSet().score(key, value);
 	}
-
-	public Long reverseRank(String key, Object value) {
+	
+	public Long zRevRank(String key, Object value) {
 		return getOperations().opsForZSet().reverseRank(key, value);
 	}
 
-	public Long getZcard(String key) {
+	public Long zCard(String key) {
 		return getOperations().opsForZSet().zCard(key);
 	}
 
+	public Set<Object> zRange(String key, long start, long end) {
+		return getOperations().opsForZSet().range(key, start, end);
+	}
+	
+	public Set<Object> zRangeByScore(String key, double min, double max) {
+		return getOperations().opsForZSet().rangeByScore(key, min, max);
+	}
+	
+	public Set<TypedTuple<Object>> zRangeWithScores(String key, long start, long end) {
+		return getOperations().opsForZSet().rangeWithScores(key, start, end);
+	}
+	
 	/**
-	 * @Author: cmm
-	 * @Description:
-	 * @Date: 2020/6/7
+	 * 在min到max范围内倒序获取zset及对应的score
+	 */
+	public Set<ZSetOperations.TypedTuple<Object>> zRangeByScoreWithScores(String key, double min, double max) {
+		return getOperations().opsForZSet().rangeByScoreWithScores(key, min, max);  
+	}
+
+	/**
 	 * @param key   :
 	 * @param start :
 	 * @param end   :0 到-1表示查全部
 	 * @return {@link Set< Object>}
 	 */
-	public Set<Object> getZrevrange(String key, int start, int end) {
+	public Set<Object> zRevrange(String key, long start, long end) {
 		return getOperations().opsForZSet().reverseRange(key, start, end);
 	}
 
 	/**
-	 * @Author: cmm
-	 * @Description:
-	 * @Date: 2020/6/7
 	 * @param key   :
 	 * @param start :
 	 * @param end   :0 到-1表示查全部
 	 * @return {@link Set< Long>}
 	 */
-	public Set<Long> getLongZrevrange(String key, int start, int end) {
+	public Set<Long> zRevrangeForLong(String key, long  start, long end) {
 		Set<Object> objects = getOperations().opsForZSet().reverseRange(key, start, end);
 		Set<Long> collect = objects.stream().map(object -> Long.valueOf(object.toString()))
 				.collect(Collectors.toCollection(LinkedHashSet::new));
 		return collect;
 	}
-
-	public Set<Object> getZetRangeByScore(String key, double min, double max) {
-		return getOperations().opsForZSet().rangeByScore(key, min, max);
-	}
-
+	
 	/**
-	 * 在min到max范围内倒序获取zset及对应的score
+	 * 获取指定key的scores正序，指定start-end位置的元素
+	 * 
+	 * @param key
+	 * @param start
+	 * @param end
+	 * @return
 	 */
-	public Set<ZSetOperations.TypedTuple<Object>> getZetRangeByScoreWithScores(String key, double min, double max) {
-		return getOperations().opsForZSet().rangeByScoreWithScores(key, min, max);
+	public Set<ZSetOperations.TypedTuple<Object>> zRevrangeWithScores(String key, long start, long end) {
+		return getOperations().opsForZSet().reverseRangeWithScores(key, start, end);
 	}
-
-
+	
+	/**
+	 * 获取指定key的scores正序，指定start-end位置的元素
+	 * 
+	 * @param key
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public Set<ZSetOperations.TypedTuple<Object>> zRevrangeByScoreWithScores(String key, double min, double max) {
+		return getOperations().opsForZSet().reverseRangeByScoreWithScores(key, min, max);
+	}
+	
+	// ===============================Scan=================================
+	
 	/**
 	 * scan 实现
 	 * 
@@ -1350,9 +1393,8 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param consumer 对迭代到的key进行操作
 	 */
 	public void scan(String pattern, Consumer<byte[]> consumer) {
-		this.getOperations().execute((RedisConnection connection) -> {
-			try (Cursor<byte[]> cursor = connection
-					.scan(ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
+		this.getOperations().execute((RedisConnection redisConnection) -> {
+			try (Cursor<byte[]> cursor = redisConnection.scan(ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
 				cursor.forEachRemaining(consumer);
 				return null;
 			} catch (IOException e) {
@@ -1368,17 +1410,36 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param pattern 表达式
 	 * @return
 	 */
-	public List<String> keys(String pattern) {
+	public List<String> scanKeys(String pattern) {
 		List<String> keys = Lists.newArrayList();
-		this.scan(pattern, item -> {
-			// 符合条件的key
-			String key = new String(item, StandardCharsets.UTF_8);
-			keys.add(key);
+		this.scan(pattern, value -> {
+			keys.add(deserializeString(value));
 		});
 		return keys;
 	}
-	
 
+	// ===============================Message=================================
+	
+	/**
+	 * 发送消息
+	 *
+	 * @param channel
+	 * @param message
+	 */
+	public void sendMessage(String channel, String message) {
+		getOperations().convertAndSend(channel, message);
+	}
+	
+	/**
+	 * push消息
+	 * 
+	 * @param key
+	 * @param message
+	 */
+	public void pushMessage(String key, String message) {
+		getOperations().opsForList().leftPush(key, message);
+	}
+	
 	// ===============================Lock=================================
  
 	/**
@@ -1410,24 +1471,24 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	}
 
 	public boolean tryLock(String lockKey, long expireMillis) {
-        return redisTemplate.execute((RedisCallback<Boolean>) connection -> {
+        return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
         	byte[] serLockKey = rawString(lockKey);
             // 1、获取时间毫秒值
-            long expireAt = System.currentTimeMillis() + expireMillis + 1;
+            long expireAt = redisConnection.time() + expireMillis + 1;
             // 2、获取锁
-            Boolean acquire = connection.setNX(serLockKey, String.valueOf(expireAt).getBytes());
+            Boolean acquire = redisConnection.setNX(serLockKey, String.valueOf(expireAt).getBytes());
             if (acquire) {
                 return true;
             } else {
-                byte[] bytes = connection.get(serLockKey);
+                byte[] bytes = redisConnection.get(serLockKey);
                 // 3、非空判断
                 if (Objects.nonNull(bytes) && bytes.length > 0) {
                     long expireTime = Long.parseLong(new String(bytes));
                     // 4、如果锁已经过期
                     if (expireTime < System.currentTimeMillis()) {
                         // 5、重新加锁，防止死锁
-                        byte[] set = connection.getSet(serLockKey, String.valueOf(System.currentTimeMillis() + expireMillis + 1).getBytes());
-                        return Long.parseLong(new String(set)) < System.currentTimeMillis();
+                        byte[] set = redisConnection.getSet(serLockKey, String.valueOf(redisConnection.time() + expireMillis + 1).getBytes());
+                        return Long.parseLong(new String(set)) < redisConnection.time();
                     }
                 }
             }
@@ -1458,86 +1519,21 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().executePipelined(action, resultSerializer);
 	}
 	
-	/**
-	 * 批量获取hash 某个值
-	 * @param redisKey
-	 * @param redisField
-	 */
-	public List<Object> batchGetHashKeyField(Collection<Object> keys, String redisKey, String redisField) {
-		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
-			keys.stream().forEach(id -> {
-				String key = RedisKeyGenerator.getKeyStr(redisKey, id.toString());
-				connection.hGet(key.getBytes(), redisField.getBytes());
-			});
-			return null;
-		}, getOperations().getValueSerializer());
-		
-		
-		byte[][] rawKeys = new byte[keys.size()][];
-
-		int counter = 0;
-		for (Object hashKey : keys) {
-			rawKeys[counter++] = rawKey(hashKey);
-		}
-
-		List<byte[]> rawValues = this.execute(connection -> connection.mGet(rawKeys), true);   
-
-		return deserializeValues(rawValues);
-		
-		
-	}
-
-	 
 	
-	/**
-	 * 批量获取用户信息
-	 */
-	public List<Object> batchGetUserInfo(Collection<String> userIds) {
-		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
-			userIds.stream().forEach(userId -> {
-				String key = RedisKeyGenerator.getUserInfoPrefix(userId);
-				connection.hGetAll(key.getBytes());
-			});
-			return null;
-		}, getOperations().getValueSerializer());
-		return result;
-	}
-
-	/**
-	 * 批量获取用户信息
-	 */
-	public List<Object> batchGetUserInfoByImUser(Collection<String> userIds) {
-		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
-			userIds.stream().forEach(userId -> {
-				String key = RedisKeyGenerator.getKeyStr(RedisConstant.USER_INFO_PREFIX, userId);
-				connection.hGetAll(key.getBytes());
-			});
-			return null;
-		}, getOperations().getValueSerializer());
-		return result;
-	}
-
+	 
 	public List<String> multiGet(String key, Integer count) {
-		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
-			connection.lRange(key.getBytes(), 0, count - 1);
-			connection.lTrim(key.getBytes(), count, -1);
+		List<Object> result = getOperations().executePipelined((RedisConnection redisConnection) -> {
+			byte[] serKey = rawString(key);
+			redisConnection.lRange(serKey, 0, count - 1);
+			redisConnection.lTrim(serKey, count, -1);
 			return null;
 		}, getOperations().getValueSerializer());
 		
 		return (List<String>) result.get(0);
 	}
 
-	public List<Object> batchGetCapitalList(Collection<Long> userIds, String redisPrefix) {
-		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
-			userIds.stream().forEach(userId -> {
-				String key = RedisKeyGenerator.getKeyStr(redisPrefix, userId.toString());
-				connection.get(key.getBytes());
-			});
-			return null;
-		}, getOperations().getValueSerializer());
-		return result;
-	}
-
+	// ===============================RedisScript=================================
+	
 	/**
 	 * 执行lua脚本
 	 * 
@@ -1565,27 +1561,15 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		RedisScript redisScript = RedisScript.of(luaScript, resultType);
 		return (T) getOperations().execute(redisScript, keys, values);
 	}
-	// ===============================Message=================================
 	
-	/**
-	 * 发送消息
-	 *
-	 * @param channel
-	 * @param message
-	 */
-	public void sendMsg(String channel, String message) {
-		getOperations().convertAndSend(channel, message);
-	}
 	
-	// ===============================Command=================================
+	// ===============================RedisCommand=================================
 	
 	/**
 	 * 获取redis服务器时间 保证集群环境下时间一致
-	 * 
-	 * @return
+	 * @return Redis服务器时间戳
 	 */
-	
-	public Long currtTimeFromRedis() {
+	public Long timeNow() {
 		return getOperations().execute((RedisCallback<Long>) redisConnection -> {
 			return redisConnection.time();
 		});
