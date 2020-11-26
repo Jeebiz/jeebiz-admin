@@ -50,7 +50,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return redisTemplate;
 	}
 
-	// =============================common============================
+	// =============================Keys============================
 
 	/**
 	 * 指定缓存失效时间
@@ -135,23 +135,6 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().keys(prefixPattern + "*");
 	}
 	
-	/**
-	 * 删除缓存
-	 * @param keys 可以传一个值 或多个
-	 */
-	public void delete(String... keys) {
-		try {
-			if (keys != null && keys.length > 0) {
-				if (keys.length == 1) {
-					getOperations().delete(keys[0]);
-				} else {
-					getOperations().delete(CollectionUtils.arrayToList(keys));
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-	}
 	
 	// ============================String=============================
 
@@ -437,6 +420,254 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			expire(key, seconds);
 		}
 		return increment;
+	}
+	
+	/**
+	 * 删除缓存
+	 * @param keys 可以传一个值 或多个
+	 */
+	public void delete(String... keys) {
+		try {
+			if (keys != null && keys.length > 0) {
+				if (keys.length == 1) {
+					getOperations().delete(keys[0]);
+				} else {
+					getOperations().delete(CollectionUtils.arrayToList(keys));
+				}
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}
+	
+
+	// ===============================List=================================
+
+	/**
+	 * 获取list缓存的内容
+	 *
+	 * @param key   键
+	 * @param start 开始
+	 * @param end   结束 0 到 -1代表所有值
+	 * @return
+	 */
+	public List<Object> lGet(String key, long start, long end) {
+		try {
+			return getOperations().opsForList().range(key, start, end);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * 获取list缓存的内容
+	 *
+	 * @param key   键
+	 * @param start 开始
+	 * @param end   结束 0 到 -1代表所有值
+	 * @return
+	 */
+	public List<Long> lGetLong(String key, long start, long end) {
+		try {
+			List<Object> range = getOperations().opsForList().range(key, start, end);
+			List<Long> result = range.stream().map(object -> Long.valueOf(object.toString()))
+					.collect(Collectors.toList());
+			return result;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * 获取list缓存的长度
+	 *
+	 * @param key 键
+	 * @return
+	 */
+	public long lGetListSize(String key) {
+		try {
+			return getOperations().opsForList().size(key);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0;
+		}
+	}
+
+	/**
+	 * 通过索引 获取list中的值
+	 *
+	 * @param key   键
+	 * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
+	 * @return
+	 */
+	public Object lGetIndex(String key, long index) {
+		try {
+			return getOperations().opsForList().index(key, index);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * 将list放入缓存
+	 *
+	 * @param key   键
+	 * @param value 值
+	 * @return
+	 */
+	public boolean lRightPush(String key, Object value) {
+		try {
+			getOperations().opsForList().rightPush(key, value);
+			return true;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return false;
+		}
+	}
+
+	/**
+	 * 将list放入缓存
+	 *
+	 * @param key   键
+	 * @param value 值
+	 * @param time  时间(秒)
+	 * @return
+	 */
+	public Long lRightPush(String key, Object value, long seconds) {
+		try {
+			Long rt = getOperations().opsForList().rightPush(key, value);
+			if (seconds > 0) {
+				expire(key, seconds);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+
+	/**
+	 * 将list放入缓存
+	 *
+	 * @param key   键
+	 * @param values 值
+	 * @return
+	 */
+	public Long lRightPush(String key, List<Object> values) {
+		try {
+			return getOperations().opsForList().rightPushAll(key, values);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	/**
+	 * 将元素放到list左边
+	 *
+	 * @param key   键
+	 * @param value 值
+	 * @return
+	 */
+	public Long lLeftPush(String key, Object value) {
+		try {
+			return getOperations().opsForList().leftPush(key, value);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+
+	/**
+	 * 将list放入缓存
+	 *
+	 * @param key   键
+	 * @param values 值
+	 * @param seconds  时间(秒)
+	 * @return
+	 */
+	public Long lLeftPush(String key, List<Object> values, long seconds) {
+		try {
+			Long rt = getOperations().opsForList().rightPushAll(key, values);
+			if (seconds > 0) {
+				expire(key, seconds);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	public Long lLeftPush(String key, List<Object> values, Duration duration) {
+		try {
+			Long rt = getOperations().opsForList().rightPushAll(key, values);
+			if(!duration.isNegative()) {
+				expire(key, duration);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	public Object lLeftPop(String key) {
+		try {
+			return getOperations().opsForList().leftPop(key);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * 根据索引修改list中的某条数据
+	 *
+	 * @param key   键
+	 * @param index 索引
+	 * @param value 值
+	 * @return
+	 */
+	public boolean lUpdateIndex(String key, long index, Object value) {
+		try {
+			getOperations().opsForList().set(key, index, value);
+			return true;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return false;
+		}
+	}
+
+	/**
+	 * 移除N个值为value
+	 *
+	 * @param key   键
+	 * @param count 移除多少个
+	 * @param value 值
+	 * @return 移除的个数
+	 */
+	public long lRemove(String key, long count, Object value) {
+		try {
+			Long remove = getOperations().opsForList().remove(key, count, value);
+			return remove;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0;
+		}
+	}
+
+	public boolean lRemove(String key, int start, int end) {
+		try {
+			getOperations().opsForList().trim(key, start, end);
+			return true;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return false;
+		}
 	}
 
 	// ================================Hash=================================
@@ -1021,235 +1252,6 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 */
 	public Set<Object> sRandomSetDistinct(String key, long count) {
 		return getOperations().opsForSet().distinctRandomMembers(key, count);
-	}
-
-	// ===============================List=================================
-
-	/**
-	 * 获取list缓存的内容
-	 *
-	 * @param key   键
-	 * @param start 开始
-	 * @param end   结束 0 到 -1代表所有值
-	 * @return
-	 */
-	public List<Object> lGet(String key, long start, long end) {
-		try {
-			return getOperations().opsForList().range(key, start, end);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}
-	}
-
-	/**
-	 * 获取list缓存的内容
-	 *
-	 * @param key   键
-	 * @param start 开始
-	 * @param end   结束 0 到 -1代表所有值
-	 * @return
-	 */
-	public List<Long> lGetLong(String key, long start, long end) {
-		try {
-			List<Object> range = getOperations().opsForList().range(key, start, end);
-			List<Long> result = range.stream().map(object -> Long.valueOf(object.toString()))
-					.collect(Collectors.toList());
-			return result;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}
-	}
-
-	/**
-	 * 获取list缓存的长度
-	 *
-	 * @param key 键
-	 * @return
-	 */
-	public long lGetListSize(String key) {
-		try {
-			return getOperations().opsForList().size(key);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0;
-		}
-	}
-
-	/**
-	 * 通过索引 获取list中的值
-	 *
-	 * @param key   键
-	 * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
-	 * @return
-	 */
-	public Object lGetIndex(String key, long index) {
-		try {
-			return getOperations().opsForList().index(key, index);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}
-	}
-
-	/**
-	 * 将list放入缓存
-	 *
-	 * @param key   键
-	 * @param value 值
-	 * @return
-	 */
-	public boolean lRightPush(String key, Object value) {
-		try {
-			getOperations().opsForList().rightPush(key, value);
-			return true;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return false;
-		}
-	}
-
-	/**
-	 * 将list放入缓存
-	 *
-	 * @param key   键
-	 * @param value 值
-	 * @param time  时间(秒)
-	 * @return
-	 */
-	public Long lRightPush(String key, Object value, long seconds) {
-		try {
-			Long rt = getOperations().opsForList().rightPush(key, value);
-			if (seconds > 0) {
-				expire(key, seconds);
-			}
-			return rt;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-
-	/**
-	 * 将list放入缓存
-	 *
-	 * @param key   键
-	 * @param values 值
-	 * @return
-	 */
-	public Long lRightPush(String key, List<Object> values) {
-		try {
-			return getOperations().opsForList().rightPushAll(key, values);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-	
-	/**
-	 * 将元素放到list左边
-	 *
-	 * @param key   键
-	 * @param value 值
-	 * @return
-	 */
-	public Long lLeftPush(String key, Object value) {
-		try {
-			return getOperations().opsForList().leftPush(key, value);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-
-	/**
-	 * 将list放入缓存
-	 *
-	 * @param key   键
-	 * @param values 值
-	 * @param seconds  时间(秒)
-	 * @return
-	 */
-	public Long lLeftPush(String key, List<Object> values, long seconds) {
-		try {
-			Long rt = getOperations().opsForList().rightPushAll(key, values);
-			if (seconds > 0) {
-				expire(key, seconds);
-			}
-			return rt;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-	
-	public Long lLeftPush(String key, List<Object> values, Duration duration) {
-		try {
-			Long rt = getOperations().opsForList().rightPushAll(key, values);
-			if(!duration.isNegative()) {
-				expire(key, duration);
-			}
-			return rt;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-	
-	public Object lLeftPop(String key) {
-		try {
-			return getOperations().opsForList().leftPop(key);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}
-	}
-
-	/**
-	 * 根据索引修改list中的某条数据
-	 *
-	 * @param key   键
-	 * @param index 索引
-	 * @param value 值
-	 * @return
-	 */
-	public boolean lUpdateIndex(String key, long index, Object value) {
-		try {
-			getOperations().opsForList().set(key, index, value);
-			return true;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return false;
-		}
-	}
-
-	/**
-	 * 移除N个值为value
-	 *
-	 * @param key   键
-	 * @param count 移除多少个
-	 * @param value 值
-	 * @return 移除的个数
-	 */
-	public long lRemove(String key, long count, Object value) {
-		try {
-			Long remove = getOperations().opsForList().remove(key, count, value);
-			return remove;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0;
-		}
-	}
-
-	public boolean lRemove(String key, int start, int end) {
-		try {
-			getOperations().opsForList().trim(key, start, end);
-			return true;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return false;
-		}
 	}
 	
 	// ===============================ZSet=================================
