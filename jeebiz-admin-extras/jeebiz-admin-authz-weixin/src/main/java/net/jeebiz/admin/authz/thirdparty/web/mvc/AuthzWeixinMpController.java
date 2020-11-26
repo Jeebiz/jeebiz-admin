@@ -164,7 +164,7 @@ public class AuthzWeixinMpController extends BaseMapperController {
 		if(model != null) {
 			return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("authz.thirdparty.binding.success"), model);
 		}
-		return success("authz.thirdparty.binding.fail");
+		return success("authz.weixin.binding.fail");
 	}
 	
 	@ApiOperation(value = "微信（公共号、服务号）登录第4步： 解除登录绑定", notes = "删除账号绑定的微信认证登录")
@@ -177,13 +177,13 @@ public class AuthzWeixinMpController extends BaseMapperController {
 		// 判断用户是否已经有绑定
 		int count = getAuthzThirdpartyService().getCountByUid(ThirdpartyType.WXMP, principal.getUserid());
 		if(count == 0) {
-			return fail("authz.thirdparty.unbind.not-found"); 
+			return fail("authz.weixin.unbind.not-found"); 
 		}
 		int total = getAuthzThirdpartyService().unbindByUid(ThirdpartyType.WXMP, principal.getUserid());
 		if(total > 0) {
-			return success("authz.thirdparty.unbind.success", total); 
+			return success("authz.weixin.unbind.success", total); 
 		}
-		return fail("authz.thirdparty.unbind.fail"); 
+		return fail("authz.weixin.unbind.fail"); 
 	}
 	
     public IAuthzThirdpartyService getAuthzThirdpartyService() {

@@ -39,8 +39,7 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-biz-spring-boot-starter</artifactId>
 		</dependency>
-		
-		<!-- For 微信 -->
+		<!-- For 微信公共号、小程序登录 -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-weixin-spring-boot-starter</artifactId>
