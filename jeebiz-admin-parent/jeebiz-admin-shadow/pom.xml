@@ -84,6 +84,16 @@
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-authz-dingtalk</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-authz-weixin</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-pac4j-spring-boot-starter</artifactId>
 		</dependency>
@@ -118,37 +128,6 @@
 		    <groupId>com.github.scribejava</groupId>
 		    <artifactId>scribejava-apis</artifactId>
 		</dependency>
-        <!-- For 钉钉和钉钉机器人  -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>dingtalk-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- <dependency>
-		    <groupId>cn.snowheart</groupId>
-		    <artifactId>spring-boot-dingtalk-robot-starter</artifactId>
-		</dependency> -->
-		<dependency>
-			<groupId>com.dingtalk</groupId>
-			<artifactId>dingtalk-sdk</artifactId>
-		</dependency>
-		<!-- For 微信公众号 、微信小程序   -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-weixin-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.binarywang</groupId>
-		    <artifactId>wx-java-mp-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.binarywang</groupId>
-		    <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
-		</dependency>
-		
 		<!-- For Docx4j -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
