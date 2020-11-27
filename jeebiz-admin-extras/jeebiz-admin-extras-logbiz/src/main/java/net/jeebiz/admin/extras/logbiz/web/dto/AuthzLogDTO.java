@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.logbiz.web.vo;
+package net.jeebiz.admin.extras.logbiz.web.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,13 +11,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 认证授权日志信息Vo
+ * 认证授权日志信息DTO
  */
-@ApiModel(value = "AuthzLogVo", description = "认证授权日志信息Vo")
+@ApiModel(value = "AuthzLogDTO", description = "认证授权日志信息DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzLogVo {
+public class AuthzLogDTO {
 
 	/**
 	 * 日志ID
@@ -44,16 +44,6 @@ public class AuthzLogVo {
 	 */
 	@ApiModelProperty(name = "protocol", dataType = "String", value = "认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等")
 	private String protocol;
-	/**
-	 * 负责此次认证授权的realm名称
-	 */
-	@ApiModelProperty(name = "realm", dataType = "String", value = "负责此次认证授权的realm名称")
-	private String realm;
-	/**
-	 * 日志级别：（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）
-	 */
-	@ApiModelProperty(name = "level", dataType = "String", value = "日志级别：（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）")
-	private String level;
 	/**
 	 * 认证请求来源IP地址
 	 */

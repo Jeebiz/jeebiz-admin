@@ -30,9 +30,8 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.logbiz.dao.entities.AuthzLogModel;
 import net.jeebiz.admin.extras.logbiz.service.IAuthzLogService;
 import net.jeebiz.admin.extras.logbiz.utils.enums.AuthzOptEnum;
-import net.jeebiz.admin.extras.logbiz.utils.enums.LoggerLevelEnum;
-import net.jeebiz.admin.extras.logbiz.web.vo.AuthzLogPaginationVo;
-import net.jeebiz.admin.extras.logbiz.web.vo.AuthzLogVo;
+import net.jeebiz.admin.extras.logbiz.web.dto.AuthzLogDTO;
+import net.jeebiz.admin.extras.logbiz.web.dto.AuthzLogPaginationDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.web.BaseApiController;
 import net.jeebiz.boot.api.web.Result;
@@ -41,7 +40,7 @@ import net.jeebiz.boot.api.web.Result;
 @Validated
 @RestController
 @RequestMapping("/logs/authz/")
-public class AuthzLogsController extends BaseApiController {
+public class AuthzLogController extends BaseApiController {
 
 	@Autowired
 	private IAuthzLogService authzLogService;
@@ -53,14 +52,6 @@ public class AuthzLogsController extends BaseApiController {
 	public ApiRestResponse<List<Map<String, String>>> authzOpts() throws Exception {
 		return ApiRestResponse.success(AuthzOptEnum.toList());
 	}
-
-	@ApiOperation(value = "日志级别", notes = "日志级别（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）")
-	@GetMapping("levels")
-	@RequiresAuthentication
-	@ResponseBody
-	public ApiRestResponse<List<Map<String, String>>> levels() throws Exception {
-		return ApiRestResponse.success(LoggerLevelEnum.toList());
-	}
 	
 	@ApiOperation(value = "认证授权日志", notes = "分页查询用户登录、登出日志信息")
 	@ApiImplicitParams({ 
@@ -69,17 +60,17 @@ public class AuthzLogsController extends BaseApiController {
 	@PostMapping("list")
 	@RequiresPermissions("logs-authz:list")
 	@ResponseBody
-	public Result<AuthzLogVo> list(@Valid @RequestBody AuthzLogPaginationVo paginationVo)
+	public ApiRestResponse<Result<AuthzLogDTO>> list(@Valid @RequestBody AuthzLogPaginationDTO paginationVo)
 			throws Exception {
 		
 		AuthzLogModel model = getBeanMapper().map(paginationVo, AuthzLogModel.class);
 		Page<AuthzLogModel> pageResult = getAuthzLogService().getPagedList(model);
-		List<AuthzLogVo> retList = new ArrayList<AuthzLogVo>();
+		List<AuthzLogDTO> retList = new ArrayList<AuthzLogDTO>();
 		for (AuthzLogModel logModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(logModel, AuthzLogVo.class));
+			retList.add(getBeanMapper().map(logModel, AuthzLogDTO.class));
 		}
 		
-		return new Result<AuthzLogVo>(pageResult, retList);
+		return ApiRestResponse.success(new Result<AuthzLogDTO>(pageResult, retList));
 	}
 
 	public IAuthzLogService getAuthzLogService() {

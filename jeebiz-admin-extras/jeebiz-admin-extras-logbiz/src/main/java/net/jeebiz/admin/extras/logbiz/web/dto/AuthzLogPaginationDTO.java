@@ -2,23 +2,23 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.logbiz.web.vo;
+package net.jeebiz.admin.extras.logbiz.web.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.boot.api.vo.AbstractPaginationVo;
+import net.jeebiz.boot.api.vo.AbstractPaginationDTO;
 
 /**
- * 认证授权日志数据筛选条件Vo
+ * 认证授权日志数据筛选条件DTO
  */
-@ApiModel(value = "AuthzLogPaginationVo", description = "认证授权日志数据筛选条件Vo")
+@ApiModel(value = "AuthzLogPaginationDTO", description = "认证授权日志数据筛选条件DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzLogPaginationVo extends AbstractPaginationVo {
+public class AuthzLogPaginationDTO extends AbstractPaginationDTO {
 
 	/**
 	 * 认证授权类型（login:登录认证、logout:会话注销）
@@ -30,11 +30,6 @@ public class AuthzLogPaginationVo extends AbstractPaginationVo {
 	 */
 	@ApiModelProperty(name = "protocol", dataType = "String", value = "认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等")
 	private String protocol;
-	/**
-	 * 日志级别：（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）
-	 */
-	@ApiModelProperty(name = "level", dataType = "String", value = "日志级别：（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）", allowableValues = "debug,info,warn,error,fetal")
-	private String level;
 	/**
 	 * 认证请求来源IP地址
 	 */

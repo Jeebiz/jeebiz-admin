@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.logbiz.web.vo;
+package net.jeebiz.admin.extras.logbiz.web.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,11 +13,11 @@ import lombok.ToString;
 /**
  * 业务操作日志信息Vo
  */
-@ApiModel(value = "BizLogVo", description = "业务操作日志信息Vo")
+@ApiModel(value = "BizLogDTO", description = "业务操作日志信息DTO")
 @Getter
 @Setter
 @ToString
-public class BizLogVo {
+public class BizLogDTO {
 
 	/**
 	 * 日志ID

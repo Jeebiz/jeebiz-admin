@@ -8,13 +8,12 @@
 		<result property="module" column="LOG_MODULE" />
 		<result property="business" column="LOG_BIZ" />
 		<result property="opt" column="LOG_OPT" />
-		<result property="level" column="LOG_LEVEL" />
 		<result property="userId" column="LOG_USERID" />
 		<result property="userName" column="LOG_USERNAME" />
 		<result property="addr" column="LOG_ADDR" />
 		<result property="msg" column="LOG_MSG" />
 		<result property="exception" column="LOG_EXCP" />
-		<result property="timestamp" column="TIME24"/>
+		<result property="timestamp" column="LOG_TIME"/>
 	</resultMap>
 	
 	<select id="getPagedList" resultMap="BizLogMap" parameterType="BizLogModel">
@@ -23,17 +22,16 @@
 			t.LOG_MODULE,
 			t.LOG_BIZ,
 			t.LOG_OPT,
-			t.LOG_LEVEL,
-			t.LOG_USERID,
+			t.CREATOR as LOG_USERID,
 			IFNULL(t2.U_ALIAS,t2.U_USERNAME) as LOG_USERNAME,
 			t.LOG_ADDR,
 			t.LOG_MSG,
 			t.LOG_EXCP,
-			t.TIME24 
+			t.CREATE_TIME as LOG_TIME
 		FROM SYS_DATA_LOG_BIZ t, SYS_AUTHZ_USER_LIST t2
-		WHERE t.LOG_USERID = t2.U_ID
+		WHERE t.CREATOR = t2.U_ID
 		<if test="model.userId != null and model.userId != '' ">
-			and t.LOG_USERID = #{model.userId}
+			and t.CREATOR = #{model.userId}
 		</if>
 		<if test="model.business != null and model.business != '' ">
 			AND t.LOG_BIZ like CONCAT('%',#{model.business},'%')
@@ -44,22 +42,19 @@
 		<if test="model.opt != null and model.opt != '' ">
 			and t.LOG_OPT = #{model.opt}
 		</if>
-		<if test="model.level != null and model.level != '' ">
-			and t.LOG_LEVEL = #{model.level}
-		</if>
 		<if test="model.addr != null and model.addr != '' ">
 			and t.LOG_ADDR like CONCAT('%',#{model.addr},'%')
 		</if>
 		<if test="model.begintime != null and model.begintime != '' 
 				  and model.endtime != null and model.endtime != '' ">
-			<![CDATA[ AND date(t.TIME24) BETWEEN date(#{model.begintime}) AND date( #{model.endtime}) ]]> 
+			<![CDATA[ AND date(t.CREATE_TIME) BETWEEN date(#{model.begintime}) AND date( #{model.endtime}) ]]> 
 		</if>
 		<if test="model.keywords != null and model.keywords != '' ">
 			AND (t2.U_USERNAME like CONCAT('%',#{model.keywords},'%')
 			 OR t2.U_ALIAS like CONCAT('%',#{model.keywords},'%')
 			  OR t2.U_PHONE like CONCAT('%',#{model.keywords},'%'))
 		</if>
-	 	ORDER BY t.TIME24 DESC
+	 	ORDER BY t.CREATE_TIME DESC
 	</select>
 	
 </mapper>

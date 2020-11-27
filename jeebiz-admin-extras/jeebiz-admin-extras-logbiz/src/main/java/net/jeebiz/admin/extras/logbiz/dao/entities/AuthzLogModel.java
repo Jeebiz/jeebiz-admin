@@ -42,14 +42,6 @@ public class AuthzLogModel extends PaginationModel<AuthzLogModel> {
 	 */
 	private String protocol;
 	/**
-	 * 负责此次认证授权的realm名称
-	 */
-	private String realm;
-	/**
-	 * 日志级别：（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）
-	 */
-	private String level;
-	/**
 	 * 认证请求来源IP地址
 	 */
 	private String addr;

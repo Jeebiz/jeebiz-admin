@@ -29,9 +29,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.logbiz.dao.entities.BizLogModel;
 import net.jeebiz.admin.extras.logbiz.service.IBizLogService;
-import net.jeebiz.admin.extras.logbiz.utils.enums.LoggerLevelEnum;
-import net.jeebiz.admin.extras.logbiz.web.vo.BizLogPaginationVo;
-import net.jeebiz.admin.extras.logbiz.web.vo.BizLogVo;
+import net.jeebiz.admin.extras.logbiz.web.dto.BizLogDTO;
+import net.jeebiz.admin.extras.logbiz.web.dto.BizLogPaginationDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.web.BaseApiController;
@@ -41,7 +40,7 @@ import net.jeebiz.boot.api.web.Result;
 @Validated
 @RestController
 @RequestMapping("/logs/biz/")
-public class BizLogsController extends BaseApiController {
+public class BizLogController extends BaseApiController {
 
 	@Autowired
 	private IBizLogService bizLogService;
@@ -54,14 +53,6 @@ public class BizLogsController extends BaseApiController {
 		return ApiRestResponse.success(BusinessType.toList());
 	}
 
-	@ApiOperation(value = "日志级别", notes = "日志级别（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）")
-	@GetMapping("levels")
-	@RequiresAuthentication
-	@ResponseBody
-	public ApiRestResponse<List<Map<String, String>>> levels() throws Exception {
-		return ApiRestResponse.success(LoggerLevelEnum.toList());
-	}
-	
 	@ApiOperation(value = "功能操作日志", notes = "分页查询除登录外的功能操作日志信息")
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "数据筛选条件", dataType = "BizLogPaginationVo")
@@ -69,17 +60,17 @@ public class BizLogsController extends BaseApiController {
 	@PostMapping("list")
 	@RequiresPermissions("logs-biz:list")
 	@ResponseBody
-	public Result<BizLogVo> list(@Valid @RequestBody BizLogPaginationVo paginationVo)
+	public ApiRestResponse<Result<BizLogDTO>> list(@Valid @RequestBody BizLogPaginationDTO paginationVo)
 			throws Exception {
 		
 		BizLogModel model = getBeanMapper().map(paginationVo, BizLogModel.class);
 		Page<BizLogModel> pageResult = getBizLogService().getPagedList(model);
-		List<BizLogVo> retList = new ArrayList<BizLogVo>();
+		List<BizLogDTO> retList = new ArrayList<BizLogDTO>();
 		for (BizLogModel logModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(logModel, BizLogVo.class));
+			retList.add(getBeanMapper().map(logModel, BizLogDTO.class));
 		}
 		
-		return new Result<BizLogVo>(pageResult, retList);
+		return ApiRestResponse.success(new Result<BizLogDTO>(pageResult, retList));
 	}
 	
 	public IBizLogService getBizLogService() {

@@ -38,10 +38,6 @@ public class BizLogModel extends PaginationModel<BizLogModel> {
 	 */
 	private String opt;
 	/**
-	 * 日志级别：（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）
-	 */
-	private String level;
-	/**
 	 * 功能操作请求来源IP地址
 	 */
 	private String addr;

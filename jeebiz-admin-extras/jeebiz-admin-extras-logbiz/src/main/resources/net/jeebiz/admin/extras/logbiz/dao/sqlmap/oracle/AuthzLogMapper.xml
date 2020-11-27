@@ -15,40 +15,35 @@
 		<result property="status" column="LOG_STATUS" />
 		<result property="msg" column="LOG_MSG" />
 		<result property="exception" column="LOG_EXCP" />
-		<result property="timestamp" column="TIME24"/>
+		<result property="timestamp" column="LOG_TIME"/>
 	</resultMap>
 	 
 	<select id="getPagedList" resultMap="AuthzLogMap" parameterType="AuthzLogModel">
 		SELECT
 			t.LOG_ID,
-			t.LOG_USERID,
+			t.CREATOR as LOG_USERID,
 			NVL(t2.U_ALIAS,t2.U_USERNAME) as LOG_USERNAME,
 			t.LOG_OPT,
 			t.LOG_PROTOCOL,
-			t.LOG_REALM,
-			t.LOG_LEVEL,
 			t.LOG_ADDR,
 			t.LOG_STATUS,
 			t.LOG_MSG,
 			t.LOG_EXCP,
-			t.TIME24 
+			t.CREATE_TIME as LOG_TIME
 		FROM SYS_DATA_LOG_AUTHZ t, SYS_AUTHZ_USER_LIST t2
-		WHERE t.LOG_USERID = t2.U_ID
+		WHERE t.CREATOR = t2.U_ID
 		<if test="model.userId != null and model.userId != '' ">
-			AND t.LOG_USERID = #{model.userId}
+			AND t.CREATOR = #{model.userId}
 		</if>
 		<if test="model.opt != null and model.opt != '' ">
 			AND t.LOG_OPT = #{model.opt}
-		</if>
-		<if test="model.level != null and model.level != '' ">
-			AND t.LOG_LEVEL = #{model.level}
 		</if>
 		<if test="model.addr != null and model.addr != '' ">
 			AND t.LOG_ADDR like '%' || #{model.addr} || '%'
 		</if>
 		<if test="model.begintime != null and model.begintime != '' 
 				  and model.endtime != null and model.endtime != '' ">
-			<![CDATA[ AND t.TIME24 BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
+			<![CDATA[ AND t.CREATE_TIME BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
 		</if>
 		<if test="model.keywords != null and model.keywords != '' ">
 			AND (t2.U_USERNAME like '%' || #{model.keywords} || '%'
