@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -34,6 +35,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -145,42 +147,78 @@ public class ApiIdempotentAspect {
 			StringJoiner joiner = new StringJoiner("");
 			RequestMapping requestMapping = AnnotationUtils.findAnnotation(method.getDeclaringClass(), RequestMapping.class);
 			if(!Objects.isNull(requestMapping)) {
-				joiner.add(requestMapping.value()[0]);
+				log.debug("requestMapping: {}", JSONObject.toJSONString(requestMapping));
+				Stream.of(Objects.isNull(requestMapping.value()) || ArrayUtils.isEmpty(requestMapping.value())
+						? requestMapping.path()
+						: requestMapping.value()).findFirst().ifPresent(path -> {
+							joiner.add(path);
+						});
 			}
 			if(!StringUtils.hasText(idempotentKey)) {
 				PostMapping postMapping = AnnotationUtils.findAnnotation(method, PostMapping.class);
 				if(!Objects.isNull(postMapping)) {
-					joiner.add(postMapping.value()[0]);
+					log.debug("postMapping: {}", JSONObject.toJSONString(postMapping));
+					Stream.of(Objects.isNull(postMapping.value()) || ArrayUtils.isEmpty(postMapping.value())
+							? postMapping.path()
+							: postMapping.value()).findFirst().ifPresent(path -> {
+								joiner.add(path);
+							});
 				}
 			}
 			if(!StringUtils.hasText(idempotentKey)) {
 				GetMapping getMapping = AnnotationUtils.findAnnotation(method, GetMapping.class);
 				if(!Objects.isNull(getMapping)) {
-					joiner.add(getMapping.value()[0]);
+					Stream.of(Objects.isNull(getMapping.value()) || ArrayUtils.isEmpty(getMapping.value())
+							? getMapping.path()
+							: getMapping.value()).findFirst().ifPresent(path -> {
+								joiner.add(path);
+							});
+					log.debug("getMapping: {}", JSONObject.toJSONString(getMapping));
+					joiner.add(getMapping.path()[0]);
 				}
 			}
 			if(!StringUtils.hasText(idempotentKey)) {
 				RequestMapping methodRequestMapping = AnnotationUtils.findAnnotation(method, RequestMapping.class);
 				if(!Objects.isNull(methodRequestMapping)) {
-					joiner.add(methodRequestMapping.value()[0]);
+					log.debug("requestMapping: {}", JSONObject.toJSONString(methodRequestMapping));
+					Stream.of(Objects.isNull(methodRequestMapping.value()) || ArrayUtils.isEmpty(methodRequestMapping.value())
+							? methodRequestMapping.path()
+							: methodRequestMapping.value()).findFirst().ifPresent(path -> {
+								joiner.add(path);
+							});
 				}
 			}
 			if(!StringUtils.hasText(idempotentKey)) {
 				DeleteMapping deleteMapping = AnnotationUtils.findAnnotation(method, DeleteMapping.class);
 				if(!Objects.isNull(deleteMapping)) {
-					joiner.add(deleteMapping.value()[0]);
+					log.debug("deleteMapping: {}", JSONObject.toJSONString(deleteMapping));
+					Stream.of(Objects.isNull(deleteMapping.value()) || ArrayUtils.isEmpty(deleteMapping.value())
+							? deleteMapping.path()
+							: deleteMapping.value()).findFirst().ifPresent(path -> {
+								joiner.add(path);
+							});
 				}
 			}
 			if(!StringUtils.hasText(idempotentKey)) {
 				PatchMapping patchMapping = AnnotationUtils.findAnnotation(method, PatchMapping.class);
 				if(!Objects.isNull(patchMapping)) {
-					joiner.add(patchMapping.value()[0]);
+					log.debug("patchMapping: {}", JSONObject.toJSONString(patchMapping));
+					Stream.of(Objects.isNull(patchMapping.value()) || ArrayUtils.isEmpty(patchMapping.value())
+							? patchMapping.path()
+							: patchMapping.value()).findFirst().ifPresent(path -> {
+								joiner.add(path);
+							});
 				}
 			}
 			if(!StringUtils.hasText(idempotentKey)) {
 				PutMapping putMapping = AnnotationUtils.findAnnotation(method, PutMapping.class);
 				if(!Objects.isNull(putMapping)) {
-					joiner.add(putMapping.value()[0]);
+					log.debug("putMapping: {}", JSONObject.toJSONString(putMapping));
+					Stream.of(Objects.isNull(putMapping.value()) || ArrayUtils.isEmpty(putMapping.value())
+							? putMapping.path()
+							: putMapping.value()).findFirst().ifPresent(path -> {
+								joiner.add(path);
+							});
 				}
 			}
 			idempotentKey = joiner.toString();
