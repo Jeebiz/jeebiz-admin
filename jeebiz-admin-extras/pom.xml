@@ -29,6 +29,7 @@
 		<module>jeebiz-admin-extras-sessions</module>		
 		<module>jeebiz-admin-extras-settings</module>
 		<module>jeebiz-admin-extras-dbmeta</module>
+		<module>jeebiz-admin-extras-ops</module>
 	</modules>
 	
 	<build>
