@@ -33,11 +33,11 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
 import net.jeebiz.admin.extras.inform.service.IInformTemplateService;
 import net.jeebiz.admin.extras.inform.setup.Constants;
-import net.jeebiz.admin.extras.inform.web.vo.InformTemplateNewVo;
-import net.jeebiz.admin.extras.inform.web.vo.InformTemplatePaginationVo;
-import net.jeebiz.admin.extras.inform.web.vo.InformTemplateRenewVo;
-import net.jeebiz.admin.extras.inform.web.vo.InformTemplateStatsVo;
-import net.jeebiz.admin.extras.inform.web.vo.InformTemplateVo;
+import net.jeebiz.admin.extras.inform.web.dto.InformTemplateNewDTO;
+import net.jeebiz.admin.extras.inform.web.dto.InformTemplatePaginationDTO;
+import net.jeebiz.admin.extras.inform.web.dto.InformTemplateRenewDTO;
+import net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO;
+import net.jeebiz.admin.extras.inform.web.dto.InformTemplateDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -54,26 +54,26 @@ public class InformTemplateController extends BaseMapperController {
 	
 	@ApiOperation(value = "查询消息通知模板", notes = "分页查询消息通知模板")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "消息筛选条件", dataType = "InformTemplatePaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "消息筛选条件", dataType = "InformTemplatePaginationDTO")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "分页查询消息通知模板", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresAuthentication
 	@ResponseBody
-	public Result<InformTemplateVo> list(@Valid @RequestBody InformTemplatePaginationVo paginationVo) throws Exception {
+	public Result<InformTemplateDTO> list(@Valid @RequestBody InformTemplatePaginationDTO paginationDTO) throws Exception {
 		
-		InformTemplateModel model = getBeanMapper().map(paginationVo, InformTemplateModel.class);
+		InformTemplateModel model = getBeanMapper().map(paginationDTO, InformTemplateModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		if(!principal.isAdmin()) {
 			model.setUid(principal.getUserid());
 		}
 		Page<InformTemplateModel> pageResult = getInformTemplateService().getPagedList(model);
-		List<InformTemplateVo> retList = new ArrayList<InformTemplateVo>();
+		List<InformTemplateDTO> retList = new ArrayList<InformTemplateDTO>();
 		for (InformTemplateModel registryModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(registryModel, InformTemplateVo.class));
+			retList.add(getBeanMapper().map(registryModel, InformTemplateDTO.class));
 		}
 		
-		return new Result<InformTemplateVo>(pageResult, retList);
+		return new Result<InformTemplateDTO>(pageResult, retList);
 		
 	}
 
@@ -82,20 +82,20 @@ public class InformTemplateController extends BaseMapperController {
 	@GetMapping("stats")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<InformTemplateStatsVo>> stats() throws Exception {
+	public ApiRestResponse<List<InformTemplateStatsDTO>> stats() throws Exception {
 		return ApiRestResponse.success(getInformTemplateService().getStats());
 	}
 	
 	@ApiOperation(value = "创建消息通知模板", notes = "增加一个新的消息通知模板")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "newVo", value = "消息通知模板传输对象", dataType = "InformTemplateNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "newDTO", value = "消息通知模板传输对象", dataType = "InformTemplateNewDTO") 
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "创建消息通知模板", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("inform-tmpl:new")
 	@ResponseBody
-	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformTemplateNewVo newVo) throws Exception {
-		InformTemplateModel model = getBeanMapper().map(newVo, InformTemplateModel.class);
+	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformTemplateNewDTO newDTO) throws Exception {
+		InformTemplateModel model = getBeanMapper().map(newDTO, InformTemplateModel.class);
 		
 		int ct = getInformTemplateService().getCount(model);
 		if(ct > 0) {
@@ -131,14 +131,14 @@ public class InformTemplateController extends BaseMapperController {
 	
 	@ApiOperation(value = "更新消息通知模板", notes = "更新消息通知模板")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "renewVo", value = "消息通知模板", required = true, dataType = "InformTemplateRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "renewDTO", value = "消息通知模板", required = true, dataType = "InformTemplateRenewDTO"),
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "更新消息通知模板", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("inform-tmpl:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody InformTemplateRenewVo renewVo) throws Exception {
-		InformTemplateModel model = getBeanMapper().map(renewVo, InformTemplateModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody InformTemplateRenewDTO renewDTO) throws Exception {
+		InformTemplateModel model = getBeanMapper().map(renewDTO, InformTemplateModel.class);
 		int ct = getInformTemplateService().getCount(model);
 		if(ct > 0) {
 			return fail("inform.template.renew.conflict");
@@ -159,13 +159,13 @@ public class InformTemplateController extends BaseMapperController {
 	@GetMapping("detail")
 	@RequiresPermissions("inform-tmpl:detail")
 	@ResponseBody
-	public ApiRestResponse<InformTemplateVo> detail(@RequestParam("id") String id) throws Exception {
+	public ApiRestResponse<InformTemplateDTO> detail(@RequestParam("id") String id) throws Exception {
 		
 		InformTemplateModel model = getInformTemplateService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("inform.template.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, InformTemplateVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, InformTemplateDTO.class));
 	}
 
 	public IInformTemplateService getInformTemplateService() {

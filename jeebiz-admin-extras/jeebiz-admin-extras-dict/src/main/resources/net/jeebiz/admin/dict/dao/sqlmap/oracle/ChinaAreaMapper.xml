@@ -41,7 +41,7 @@
 		<result property="pcode" column="PARENT_CODE" />
 	</resultMap>
 	
-	<resultMap id="AreaPairMap" type="net.jeebiz.admin.extras.dict.web.vo.ChinaAreaPairVo">
+	<resultMap id="AreaPairMap" type="net.jeebiz.admin.extras.dict.web.dto.ChinaAreaPairDTO">
 		<!-- 名称 -->
 		<result property="name" column="NAME" />
 		<!-- 行政代码 -->

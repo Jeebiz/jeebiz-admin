@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import net.jeebiz.admin.extras.dbmeta.dao.entities.DatabaseMetaModel;
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableColumnVo;
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableVo;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableColumnDTO;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 import schemacrawler.schemacrawler.SchemaCrawlerException;
 
@@ -28,7 +28,7 @@ public interface IDatabaseMetaService extends IBaseService<DatabaseMetaModel> {
 	 * @throws SchemaCrawlerException
 	 * @throws SQLException
 	 */
-	public List<TableVo> getTables() throws SchemaCrawlerException, SQLException;
+	public List<TableDTO> getTables() throws SchemaCrawlerException, SQLException;
 
 	/**
 	 * 获取所有的表名与注释
@@ -37,7 +37,7 @@ public interface IDatabaseMetaService extends IBaseService<DatabaseMetaModel> {
 	 * @throws SchemaCrawlerException
 	 * @throws SQLException
 	 */
-	public List<TableVo> getViews() throws SchemaCrawlerException, SQLException;
+	public List<TableDTO> getViews() throws SchemaCrawlerException, SQLException;
 
 	/**
 	 * 获取表中对应的字段与注释
@@ -45,6 +45,6 @@ public interface IDatabaseMetaService extends IBaseService<DatabaseMetaModel> {
 	 * @param table
 	 * @return
 	 */
-	public List<TableColumnVo> getColumns(String table) throws SchemaCrawlerException, SQLException;
+	public List<TableColumnDTO> getColumns(String table) throws SchemaCrawlerException, SQLException;
 
 }

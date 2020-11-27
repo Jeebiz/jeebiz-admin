@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.inform.dao.IInformRecordDao;
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
 import net.jeebiz.admin.extras.inform.service.IInformRecordService;
-import net.jeebiz.admin.extras.inform.web.vo.InformRecordStatsVo;
+import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
@@ -19,7 +19,7 @@ public class InformRecordServiceImpl extends BaseServiceImpl<InformRecordModel, 
 		implements IInformRecordService {
 
 	@Override
-	public List<InformRecordStatsVo> getStats(String uid) {
+	public List<InformRecordStatsDTO> getStats(String uid) {
 		return getDao().getStats(uid);
 	}
 

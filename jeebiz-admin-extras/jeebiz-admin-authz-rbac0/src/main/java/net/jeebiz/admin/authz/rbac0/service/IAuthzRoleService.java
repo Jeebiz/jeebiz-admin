@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzRoleAllotUserPaginationVo;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
 /**
@@ -53,13 +53,13 @@ public interface IAuthzRoleService extends IBaseService<AuthzRoleModel>{
 	 * @param model
 	 * @return
 	 */
-	public Page<AuthzUserModel> getPagedAllocatedList(AuthzRoleAllotUserPaginationVo paginationVo);
+	public Page<AuthzUserModel> getPagedAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO);
 	
 	/**
 	 * 分页查询角色未分配用户信息
 	 * @param model
 	 * @return
 	 */
-	public Page<AuthzUserModel> getPagedUnAllocatedList(AuthzRoleAllotUserPaginationVo paginationVo);
+	public Page<AuthzUserModel> getPagedUnAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO);
 	
 }

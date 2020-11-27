@@ -37,10 +37,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
 import net.jeebiz.admin.authz.thirdparty.setup.Constants;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkBindVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkCode2SessionVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkMpConfigVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzThirdpartyVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkBindDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkCode2SessionDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkMpConfigDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
@@ -71,7 +71,7 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 		@ApiImplicitParam(name = "url", required = true, value = "当前网页的URL，不包含#及其后面部分", dataType = "String")
 	})
 	@GetMapping("config")
-	public ApiRestResponse<AuthzDingtalkMpConfigVo> ddConfig(@Valid @RequestParam("appId") String appId, 
+	public ApiRestResponse<AuthzDingtalkMpConfigDTO> ddConfig(@Valid @RequestParam("appId") String appId, 
 			@RequestParam("url")  String url) {
 		
 		try {
@@ -80,19 +80,19 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 			// 获取access_token
 			String accessToken = dingTalkTemplate.getAccessToken(appId, appSecret);
 			
-			AuthzDingtalkMpConfigVo configVo = new AuthzDingtalkMpConfigVo();
+			AuthzDingtalkMpConfigDTO configDTO = new AuthzDingtalkMpConfigDTO();
 			
 			// 创建调用jsapi时所需要的签名.
 			
 	        JsapiTicketSignature jsapiSignature = dingTalkTemplate.opsForJsapi().createSignature(url, appId, accessToken);
-	        configVo.setAgentId(jsapiSignature.getAgentId());
-	        configVo.setNonceStr(jsapiSignature.getNonceStr());
-	        configVo.setSignature(jsapiSignature.getSignature());
-	        configVo.setTimestamp(jsapiSignature.getTimestamp());
-	        configVo.setUrl(jsapiSignature.getUrl());
-			configVo.setCorpId(properties.getCorpId());
+	        configDTO.setAgentId(jsapiSignature.getAgentId());
+	        configDTO.setNonceStr(jsapiSignature.getNonceStr());
+	        configDTO.setSignature(jsapiSignature.getSignature());
+	        configDTO.setTimestamp(jsapiSignature.getTimestamp());
+	        configDTO.setUrl(jsapiSignature.getUrl());
+			configDTO.setCorpId(properties.getCorpId());
 			
-	        return ApiRestResponse.success(configVo);
+	        return ApiRestResponse.success(configDTO);
 		} catch (ApiException e) {
 			e.printStackTrace();
 			return ApiRestResponse.of(e.getErrCode(), e.getErrMsg());
@@ -105,7 +105,7 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 	})
 	@GetMapping("code2Session")
 	@ResponseBody 
-	public ApiRestResponse<AuthzDingtalkCode2SessionVo> code2Session(@Valid @RequestParam("key") String appKey, @RequestParam("loginTmpCode") String loginTmpCode) throws Exception {
+	public ApiRestResponse<AuthzDingtalkCode2SessionDTO> code2Session(@Valid @RequestParam("key") String appKey, @RequestParam("loginTmpCode") String loginTmpCode) throws Exception {
 		
 		String appSecret = dingTalkTemplate.getAppSecret(appKey);
 		// 获取access_token
@@ -146,24 +146,24 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 			return ApiRestResponse.of(userInfoResponse.getErrorCode(), userInfoResponse.getErrmsg());
 		}
 		
-		AuthzDingtalkCode2SessionVo code2SessionVo = new AuthzDingtalkCode2SessionVo();
-		code2SessionVo.setUnionid(userInfo.getUnionid());
-		code2SessionVo.setOpenid(userInfo.getOpenid());
-		code2SessionVo.setUserid(userInfoResponse.getUserid());
-		code2SessionVo.setUserInfo(userInfoResponse);
-		code2SessionVo.setBind(getAuthzThirdpartyService().getCountByOpenId(userInfo.getOpenid()) > 0);
+		AuthzDingtalkCode2SessionDTO code2SessionDTO = new AuthzDingtalkCode2SessionDTO();
+		code2SessionDTO.setUnionid(userInfo.getUnionid());
+		code2SessionDTO.setOpenid(userInfo.getOpenid());
+		code2SessionDTO.setUserid(userInfoResponse.getUserid());
+		code2SessionDTO.setUserInfo(userInfoResponse);
+		code2SessionDTO.setBind(getAuthzThirdpartyService().getCountByOpenId(userInfo.getOpenid()) > 0);
 		
-		return ApiRestResponse.success(code2SessionVo); 
+		return ApiRestResponse.success(code2SessionDTO); 
 	}
 	
 	@ApiOperation(value = "钉钉（微应用）登录第3步：绑定钉钉登录", notes = "钉钉小程序登录绑定（用于当前登录账户的绑定，认证绑定请使用过滤器）")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "bindVo", value = "绑定信息", dataType = "AuthzWeixinMaBindVo")
+		@ApiImplicitParam(paramType = "body", name = "bindDTO", value = "绑定信息", dataType = "AuthzWeixinMaBindDTO")
 	})
 	@PostMapping("binding")
 	@ResponseBody
-	public ApiRestResponse<AuthzThirdpartyVo> binding(@Valid @RequestBody AuthzDingtalkBindVo bindVo) throws Exception { 
-		AuthzThirdpartyVo model = getAuthzThirdpartyService().binding(bindVo);
+	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzDingtalkBindDTO bindDTO) throws Exception { 
+		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(bindDTO);
 		if(model != null) {
 			return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("authz.dingtalk.binding.success"), model);
 		}

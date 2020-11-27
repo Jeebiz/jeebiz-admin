@@ -17,9 +17,9 @@ import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
 import net.jeebiz.admin.extras.filestore.service.IFilestoreService;
 import net.jeebiz.admin.extras.filestore.setup.FilestoreProperties;
 import net.jeebiz.admin.extras.filestore.setup.provider.FilestoreProvider;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreDownloadVo;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreVo;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
@@ -42,7 +42,7 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	
 	
 	@Override
-	public FilestoreVo upload(MultipartFile file, int width, int height) throws Exception {
+	public FilestoreDTO upload(MultipartFile file, int width, int height) throws Exception {
 		for (FilestoreProvider provider : getFilestoreProviders()) {
 			if(provider.getProvider().equals(getFilestoreProperties().getStorage())) {
 				return provider.upload(file, width, height);
@@ -52,7 +52,7 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	}
 	
 	@Override
-	public List<FilestoreVo> upload(MultipartFile[] files, int width, int height) throws Exception {
+	public List<FilestoreDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
 		for (FilestoreProvider provider : getFilestoreProviders()) {
 			if(provider.getProvider().equals(getFilestoreProperties().getStorage())) {
 				return provider.upload(files, width, height);
@@ -82,7 +82,7 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	}
 
 	@Override
-	public FilestoreVo reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
+	public FilestoreDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
 		for (FilestoreProvider provider : getFilestoreProviders()) {
 			if(provider.getProvider().equals(getFilestoreProperties().getStorage())) {
 				return provider.reupload(uuid, file, width, height);
@@ -92,7 +92,7 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	}
 	
 	@Override
-	public List<FilestoreVo> listByPath(List<String> paths) throws Exception {
+	public List<FilestoreDTO> listByPath(List<String> paths) throws Exception {
 		for (FilestoreProvider provider : getFilestoreProviders()) {
 			if(provider.getProvider().equals(getFilestoreProperties().getStorage())) {
 				return provider.listByPath(paths);
@@ -102,7 +102,7 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	}
 
 	@Override
-	public List<FilestoreVo> listByUuid(List<String> uuids) throws Exception {
+	public List<FilestoreDTO> listByUuid(List<String> uuids) throws Exception {
 		for (FilestoreProvider provider : getFilestoreProviders()) {
 			if(provider.getProvider().equals(getFilestoreProperties().getStorage())) {
 				return provider.listByUuid(uuids);
@@ -112,7 +112,7 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	}
 	
 	@Override
-	public FilestoreDownloadVo downloadByPath(String path) throws Exception {
+	public FilestoreDownloadDTO downloadByPath(String path) throws Exception {
 		for (FilestoreProvider provider : getFilestoreProviders()) {
 			if(provider.getProvider().equals(getFilestoreProperties().getStorage())) {
 				return provider.downloadByPath(path); 
@@ -122,7 +122,7 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	}
 
 	@Override
-	public FilestoreDownloadVo downloadByUuid(String uuid) throws Exception {
+	public FilestoreDownloadDTO downloadByUuid(String uuid) throws Exception {
 		for (FilestoreProvider provider : getFilestoreProviders()) {
 			if(provider.getProvider().equals(getFilestoreProperties().getStorage())) {
 				return provider.downloadByUuid(uuid);

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.dict.dao.entities.ChinaAreaModel;
-import net.jeebiz.admin.extras.dict.web.vo.ChinaAreaPairVo;
+import net.jeebiz.admin.extras.dict.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
 
@@ -33,12 +33,12 @@ public interface IChinaAreaDao extends BaseDao<ChinaAreaModel> {
 	 * 查询中国省、直辖市、特别行政区键值对
 	 * @return
 	 */
-	List<ChinaAreaPairVo> getChinaProvPairList();
+	List<ChinaAreaPairDTO> getChinaProvPairList();
 	/**
 	 * 查询中国市、县、区键值对
 	 * @return
 	 */
-	List<ChinaAreaPairVo> getChinaAreaPairList(@Param("pcode") String pcode);
+	List<ChinaAreaPairDTO> getChinaAreaPairList(@Param("pcode") String pcode);
 	/**
 	 * 查询中国市、县、区列表
 	 * @return

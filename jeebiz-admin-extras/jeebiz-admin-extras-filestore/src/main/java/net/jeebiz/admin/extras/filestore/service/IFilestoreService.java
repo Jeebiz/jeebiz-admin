@@ -9,9 +9,9 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreDownloadVo;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreVo;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
 public interface IFilestoreService extends IBaseService<FilestoreModel>{
@@ -29,7 +29,7 @@ public interface IFilestoreService extends IBaseService<FilestoreModel>{
 	 * @param height 缩放高度
 	 * @return
 	 */
-	FilestoreVo upload(MultipartFile file, int width, int height) throws Exception;
+	FilestoreDTO upload(MultipartFile file, int width, int height) throws Exception;
 	
 	/**
 	 * 文件存储
@@ -38,7 +38,7 @@ public interface IFilestoreService extends IBaseService<FilestoreModel>{
 	 * @param height 缩放高度
 	 * @return
 	 */
-	List<FilestoreVo> upload(MultipartFile[] files, int width, int height) throws Exception;
+	List<FilestoreDTO> upload(MultipartFile[] files, int width, int height) throws Exception;
 
 	/**
 	 * 删除文件
@@ -60,21 +60,21 @@ public interface IFilestoreService extends IBaseService<FilestoreModel>{
 	 * @param file	文件
 	 * @return
 	 */
-	FilestoreVo reupload(String uuid,  MultipartFile file, int width, int height) throws Exception;
+	FilestoreDTO reupload(String uuid,  MultipartFile file, int width, int height) throws Exception;
 	
 	/**
 	  *   根据给出的文件相对路径获取文件信息
 	 * @param paths
 	 * @return
 	 */
-	List<FilestoreVo> listByPath(List<String> paths) throws Exception;
+	List<FilestoreDTO> listByPath(List<String> paths) throws Exception;
 
 	/**
 	  *   根据给出的文件相对路径获取文件信息
 	 * @param uuids
 	 * @return
 	 */
-	List<FilestoreVo> listByUuid(List<String> uuids) throws Exception;
+	List<FilestoreDTO> listByUuid(List<String> uuids) throws Exception;
 	
 
 	/**
@@ -82,14 +82,14 @@ public interface IFilestoreService extends IBaseService<FilestoreModel>{
 	 * @param path	要下载的文件path
 	 * @return
 	 */
-	FilestoreDownloadVo downloadByPath(String path) throws Exception;
+	FilestoreDownloadDTO downloadByPath(String path) throws Exception;
 
 	/**
 	 * 根据给出的文件Uuid下载文件
 	 * @param uuid	要下载的文件Uuid
 	 * @return
 	 */
-	FilestoreDownloadVo downloadByUuid(String uuid) throws Exception;
+	FilestoreDownloadDTO downloadByUuid(String uuid) throws Exception;
 	
 	
 }

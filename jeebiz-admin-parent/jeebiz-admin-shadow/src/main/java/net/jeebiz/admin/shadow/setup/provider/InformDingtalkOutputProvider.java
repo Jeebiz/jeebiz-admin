@@ -17,9 +17,9 @@ import com.taobao.api.ApiException;
 
 import net.jeebiz.admin.extras.inform.setup.InformProvider;
 import net.jeebiz.admin.extras.inform.setup.provider.InformOutputProvider;
-import net.jeebiz.admin.extras.inform.web.vo.InformRecordVo;
+import net.jeebiz.admin.extras.inform.web.dto.InformRecordDTO;
 
-public class InformDingtalkOutputProvider implements InformOutputProvider<InformRecordVo> {
+public class InformDingtalkOutputProvider implements InformOutputProvider<InformRecordDTO> {
 
 	private DingTalkClient dingTalkClient = new DefaultDingTalkClient("https://oapi.dingtalk.com/message/send_to_conversation");
 
@@ -32,7 +32,7 @@ public class InformDingtalkOutputProvider implements InformOutputProvider<Inform
 	}
 	
 	@Override
-	public boolean output(InformRecordVo informVo) {
+	public boolean output(InformRecordDTO informDTO) {
 		
 		try {
 			

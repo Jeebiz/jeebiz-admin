@@ -95,28 +95,28 @@ public class Constants {
     public static final String RESOURCE_PATH = "\\src\\main\\resources\\";
 
     /**
-     * 自定义返回列表Vo模板地址
+     * 自定义返回列表DTO模板地址
      */
-    public static final String RESULT_VO_PATH = "/templates/resultVo.java.ftl";
+    public static final String RESULT_DTO_PATH = "/templates/resultDTO.java.ftl";
 
     /**
-     * 自定义返回新增Vo模板地址
+     * 自定义返回新增DTO模板地址
      */
-    public static final String NEW_VO_PATH = "/templates/newVo.java.ftl";
+    public static final String NEW_DTO_PATH = "/templates/newDTO.java.ftl";
 
     /**
-     * 自定义返回修改Vo模板地址
+     * 自定义返回修改DTO模板地址
      */
-    public static final String RENEW_VO_PATH = "/templates/reNewVo.java.ftl";
+    public static final String RENEW_DTO_PATH = "/templates/reNewDTO.java.ftl";
 
     /**
-     * 自定义返回分页查询Vo模板地址
+     * 自定义返回分页查询DTO模板地址
      */
-    public static final String PAGINATION_VO_PATH = "/templates/paginationVo.java.ftl";
+    public static final String PAGINATION_DTO_PATH = "/templates/paginationDTO.java.ftl";
 
     /**
-     * 自定义返回列表查询Vo模板地址
+     * 自定义返回列表查询DTO模板地址
      */
-    public static final String QUERY_VO_PATH = "/templates/queryVo.java.ftl";
+    public static final String QUERY_DTO_PATH = "/templates/queryDTO.java.ftl";
 
 }

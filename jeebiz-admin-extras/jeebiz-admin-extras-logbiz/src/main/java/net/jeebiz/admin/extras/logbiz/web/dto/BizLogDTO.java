@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 业务操作日志信息Vo
+ * 业务操作日志信息DTO
  */
 @ApiModel(value = "BizLogDTO", description = "业务操作日志信息DTO")
 @Getter

@@ -14,109 +14,109 @@ import com.google.common.collect.Lists;
 
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureOptVo;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureVo;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureOptDTO;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 
 public final class FeatureNavUtils {
 	
-	protected static List<AuthzFeatureOptVo> getFeatureOptList(AuthzFeatureModel feature, List<AuthzFeatureOptModel> featureOptList) {
-		List<AuthzFeatureOptVo> featureOpts = Lists.newArrayList();
+	protected static List<AuthzFeatureOptDTO> getFeatureOptList(AuthzFeatureModel feature, List<AuthzFeatureOptModel> featureOptList) {
+		List<AuthzFeatureOptDTO> featureOpts = Lists.newArrayList();
 		// 筛选当前菜单对应的操作按钮
 		List<AuthzFeatureOptModel> optList = featureOptList.stream()
 				.filter(featureOpt -> StringUtils.equals(feature.getId(), featureOpt.getFeatureId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(optList)){
 			for (AuthzFeatureOptModel opt : optList) {
-				AuthzFeatureOptVo optVo  = new AuthzFeatureOptVo();
+				AuthzFeatureOptDTO optDTO  = new AuthzFeatureOptDTO();
 				// 功能菜单ID
-				optVo.setId(feature.getId() + "_" + opt.getId());
+				optDTO.setId(feature.getId() + "_" + opt.getId());
 				// 功能操作名称
-				optVo.setName(opt.getName());
+				optDTO.setName(opt.getName());
 				// 功能操作图标样式
-				optVo.setIcon(opt.getIcon());
+				optDTO.setIcon(opt.getIcon());
 				// 功能操作排序
-				optVo.setOrder(opt.getOrder());
+				optDTO.setOrder(opt.getOrder());
 				// 功能菜单ID
-				optVo.setFeatureId( opt.getFeatureId());
-				optVo.setParent(opt.getFeatureId());
+				optDTO.setFeatureId( opt.getFeatureId());
+				optDTO.setParent(opt.getFeatureId());
 				// 功能操作是否可见(1:可见|0:不可见)
-				optVo.setVisible(opt.getVisible());
+				optDTO.setVisible(opt.getVisible());
 				// 功能操作权限标记
-				optVo.setPerms(opt.getPerms());
+				optDTO.setPerms(opt.getPerms());
 				// 是否已经授权
-				optVo.setChecked(StringUtils.equalsIgnoreCase(opt.getChecked(), "1"));
+				optDTO.setChecked(StringUtils.equalsIgnoreCase(opt.getChecked(), "1"));
 				
-				featureOpts.add(optVo);
+				featureOpts.add(optDTO);
 			}
 			return featureOpts.stream().sorted().collect(Collectors.toList());
 		}
 		return featureOpts;
 	}
 	
-	protected static List<AuthzFeatureVo> getSubFeatureList(AuthzFeatureModel parentNav,List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
+	protected static List<AuthzFeatureDTO> getSubFeatureList(AuthzFeatureModel parentNav,List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
 		
-		List<AuthzFeatureVo> features = Lists.newArrayList();
+		List<AuthzFeatureDTO> features = Lists.newArrayList();
 		//筛选当前父功能模块节点的子功能模块节点数据
 		List<AuthzFeatureModel> childFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParent()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(childFeatureList)){
 			for (AuthzFeatureModel feature : childFeatureList) {
-				AuthzFeatureVo featureVo = new AuthzFeatureVo();
+				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
 				// 功能菜单ID
-				featureVo.setId(feature.getId());
+				featureDTO.setId(feature.getId());
 				// 功能菜单简称
-				featureVo.setAbb(feature.getAbb());
+				featureDTO.setAbb(feature.getAbb());
 				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureVo.setCode(feature.getCode());
+				featureDTO.setCode(feature.getCode());
 				// 功能菜单名称
-				featureVo.setName(feature.getName());
+				featureDTO.setName(feature.getName());
 				// 菜单类型(1:原生|2:自定义)
-				featureVo.setType(feature.getType());
+				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
-				featureVo.setIcon(feature.getIcon());
+				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureVo.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrder());
 				// 父级功能菜单ID
-				featureVo.setParent(feature.getParent());
-				featureVo.setPid(feature.getParent());
+				featureDTO.setParent(feature.getParent());
+				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
-				featureVo.setUrl(feature.getUrl());
+				featureDTO.setUrl(feature.getUrl());
 				// 功能菜单对应页面相对路径
-				featureVo.setPath(feature.getPath());
+				featureDTO.setPath(feature.getPath());
 				// 菜单是否可见(1:可见|0:不可见)
-				featureVo.setVisible(feature.getVisible());
+				featureDTO.setVisible(feature.getVisible());
 				// 菜单所拥有的权限标记
-				featureVo.setPerms(feature.getPerms());
+				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有子菜单
 				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 				if(isParent){
 					// 子菜单
-					List<AuthzFeatureVo> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
+					List<AuthzFeatureDTO> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
 					if(null != subFeatures && subFeatures.size() > 0) {
 						boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
-							featureVo.setChecked(true);
+							featureDTO.setChecked(true);
 						} else {
-							featureVo.setChecked(false);
+							featureDTO.setChecked(false);
 						}
-						featureVo.setChildren(subFeatures);
+						featureDTO.setChildren(subFeatures);
 					}
 				} else {
-					featureVo.setLeaf(true);
+					featureDTO.setLeaf(true);
 					// 当前菜单的操作按钮
-					List<AuthzFeatureOptVo> featureOpts  = getFeatureOptList(feature, featureOptList);
+					List<AuthzFeatureOptDTO> featureOpts  = getFeatureOptList(feature, featureOptList);
 					if(null != featureOpts && featureOpts.size() > 0) {
 						boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
-							featureVo.setChecked(true);
+							featureDTO.setChecked(true);
 						} else {
-							featureVo.setChecked(false);
+							featureDTO.setChecked(false);
 						}
-						featureVo.setOpts( featureOpts);
+						featureDTO.setOpts( featureOpts);
 					}
 				}
-				features.add(featureVo);
+				features.add(featureDTO);
 			}
 			return features.stream().sorted().collect(Collectors.toList());
 		}
@@ -129,77 +129,77 @@ public final class FeatureNavUtils {
 	 * @param featureOptList
 	 * @return
 	 */
-	public static List<AuthzFeatureVo> getFeatureTreeList(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
+	public static List<AuthzFeatureDTO> getFeatureTreeList(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
 		
 		// 优先获得最顶层的菜单集合
 		List<AuthzFeatureModel> topFeatureList = featureList.stream()
 				.filter(feature -> feature.isRoot())
 				.collect(Collectors.toList());
-		List<AuthzFeatureVo> features = Lists.newArrayList();
+		List<AuthzFeatureDTO> features = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(topFeatureList)){
 			
 			for (AuthzFeatureModel feature : topFeatureList) {
 				
-				AuthzFeatureVo featureVo = new AuthzFeatureVo();
+				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
 				// 功能菜单ID
-				featureVo.setId(feature.getId());
+				featureDTO.setId(feature.getId());
 				// 功能菜单简称
-				featureVo.setAbb(feature.getAbb());
+				featureDTO.setAbb(feature.getAbb());
 				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureVo.setCode(feature.getCode());
+				featureDTO.setCode(feature.getCode());
 				// 功能菜单名称
-				featureVo.setName(feature.getName());
+				featureDTO.setName(feature.getName());
 				// 菜单类型(1:原生|2:自定义)
-				featureVo.setType(feature.getType());
+				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
-				featureVo.setIcon(feature.getIcon());
+				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureVo.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrder());
 				// 父级功能菜单ID
-				featureVo.setParent(feature.getParent());
-				featureVo.setPid(feature.getParent());
+				featureDTO.setParent(feature.getParent());
+				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
-				featureVo.setUrl(feature.getUrl());
+				featureDTO.setUrl(feature.getUrl());
 				// 功能菜单对应页面相对路径
-				featureVo.setPath(feature.getPath());
+				featureDTO.setPath(feature.getPath());
 				// 菜单是否可见(1:可见|0:不可见)
-				featureVo.setVisible(feature.getVisible());
+				featureDTO.setVisible(feature.getVisible());
 				// 菜单所拥有的权限标记
-				featureVo.setPerms(feature.getPerms());
+				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有子菜单
 				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 				if(isParent){
-					featureVo.setLeaf(false);
-					featureVo.setLabel( feature.getName());
+					featureDTO.setLeaf(false);
+					featureDTO.setLabel( feature.getName());
 					// 子菜单
-					List<AuthzFeatureVo> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
+					List<AuthzFeatureDTO> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
 					// 有子菜单
 					if(CollectionUtils.isNotEmpty(subFeatures)) {
 						boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
-							featureVo.setChecked(true);
+							featureDTO.setChecked(true);
 						} else {
-							featureVo.setChecked(false);
+							featureDTO.setChecked(false);
 						}
-						featureVo.setChildren(subFeatures);
+						featureDTO.setChildren(subFeatures);
 					}
 				} else {
-					featureVo.setLeaf(true);
-					featureVo.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
+					featureDTO.setLeaf(true);
+					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 					// 当前菜单的操作按钮
-					List<AuthzFeatureOptVo> featureOpts = getFeatureOptList(feature, featureOptList);
+					List<AuthzFeatureOptDTO> featureOpts = getFeatureOptList(feature, featureOptList);
 					if(null != featureOpts && featureOpts.size() > 0) {
 						boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
-							featureVo.setChecked(true);
+							featureDTO.setChecked(true);
 						} else {
-							featureVo.setChecked(false);
+							featureDTO.setChecked(false);
 						}
-						featureVo.setOpts(featureOpts);
+						featureDTO.setOpts(featureOpts);
 					}
 				}
-				//System.out.println(JSONObject.toJSONString(featureVo));
-				features.add(featureVo);
+				//System.out.println(JSONObject.toJSONString(featureDTO));
+				features.add(featureDTO);
 			}
 			
 			return features.stream().sorted().collect(Collectors.toList());
@@ -207,8 +207,8 @@ public final class FeatureNavUtils {
 		return features;
 	}
 	
-	public static List<AuthzFeatureVo> getFeatureFlatList(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
-		List<AuthzFeatureVo> features = Lists.newArrayList();
+	public static List<AuthzFeatureDTO> getFeatureFlatList(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
+		List<AuthzFeatureDTO> features = Lists.newArrayList();
 		// 筛选菜单中的末节点的功能菜单
 		List<AuthzFeatureModel> leafFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.isNotEmpty(feature.getParent())
@@ -218,54 +218,54 @@ public final class FeatureNavUtils {
 			
 			for (AuthzFeatureModel feature : leafFeatureList) {
 				
-				AuthzFeatureVo featureVo = new AuthzFeatureVo();
+				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
 				// 功能菜单ID
-				featureVo.setId(feature.getId());
+				featureDTO.setId(feature.getId());
 				// 功能菜单简称
-				featureVo.setAbb(feature.getAbb());
+				featureDTO.setAbb(feature.getAbb());
 				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureVo.setCode(feature.getCode());
+				featureDTO.setCode(feature.getCode());
 				// 功能菜单名称
-				featureVo.setName(feature.getName());
+				featureDTO.setName(feature.getName());
 				// 菜单类型(1:原生|2:自定义)
-				featureVo.setType(feature.getType());
+				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
-				featureVo.setIcon(feature.getIcon());
+				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureVo.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrder());
 				// 父级功能菜单ID
-				featureVo.setParent(feature.getParent());
-				featureVo.setPid(feature.getParent());
+				featureDTO.setParent(feature.getParent());
+				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
-				featureVo.setUrl(feature.getUrl());
+				featureDTO.setUrl(feature.getUrl());
 				// 功能菜单对应页面相对路径
-				featureVo.setPath(feature.getPath());
+				featureDTO.setPath(feature.getPath());
 				// 菜单是否可见(1:可见|0:不可见)
-				featureVo.setVisible(feature.getVisible());
+				featureDTO.setVisible(feature.getVisible());
 				// 菜单所拥有的权限标记
-				featureVo.setPerms(feature.getPerms());
+				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有父菜单
 				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 				if(isLeaf){
-					featureVo.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
+					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 				} else {
-					featureVo.setLeaf(isLeaf);
-					featureVo.setLabel( feature.getName());
+					featureDTO.setLeaf(isLeaf);
+					featureDTO.setLabel( feature.getName());
 				}
 				
 				// 当前菜单的操作按钮
-				List<AuthzFeatureOptVo> featureOpts  = getFeatureOptList(feature, featureOptList);
+				List<AuthzFeatureOptDTO> featureOpts  = getFeatureOptList(feature, featureOptList);
 				if(null != featureOpts && featureOpts.size() > 0) {
 					boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 					if(checked) {
-						featureVo.setChecked(true);
+						featureDTO.setChecked(true);
 					} else {
-						featureVo.setChecked(false);
+						featureDTO.setChecked(false);
 					}
-					featureVo.setOpts(featureOpts);
+					featureDTO.setOpts(featureOpts);
 				}
 				
-				features.add(featureVo);
+				features.add(featureDTO);
 			}
 			return features.stream().sorted().collect(Collectors.toList());
 		}
@@ -344,74 +344,74 @@ public final class FeatureNavUtils {
 	 * @param featureOptList
 	 * @return
 	 */
-	public static List<AuthzFeatureVo> getFeatureTree(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
+	public static List<AuthzFeatureDTO> getFeatureTree(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
 		
 		//优先获得最顶层的菜单集合
 		List<AuthzFeatureModel> topFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.equals("#", feature.getUrl()))
 				.collect(Collectors.toList());
-		List<AuthzFeatureVo> features = Lists.newArrayList();
+		List<AuthzFeatureDTO> features = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(topFeatureList)){
 			
 			for (AuthzFeatureModel feature : topFeatureList) {
 				
-				AuthzFeatureVo featureVo = new AuthzFeatureVo();
+				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
 				// 功能菜单ID
-				featureVo.setId(feature.getId());
+				featureDTO.setId(feature.getId());
 				// 功能菜单简称
-				featureVo.setAbb(feature.getAbb());
+				featureDTO.setAbb(feature.getAbb());
 				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureVo.setCode(feature.getCode());
+				featureDTO.setCode(feature.getCode());
 				// 功能菜单名称
-				featureVo.setName(feature.getName());
+				featureDTO.setName(feature.getName());
 				// 菜单类型(1:原生|2:自定义)
-				featureVo.setType(feature.getType());
+				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
-				featureVo.setIcon(feature.getIcon());
+				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureVo.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrder());
 				// 父级功能菜单ID
-				featureVo.setParent(feature.getParent());
-				featureVo.setPid(feature.getParent());
+				featureDTO.setParent(feature.getParent());
+				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
-				featureVo.setUrl(feature.getUrl());
+				featureDTO.setUrl(feature.getUrl());
 				// 功能组件路径
-				featureVo.setPath(feature.getPath());
+				featureDTO.setPath(feature.getPath());
 				// 菜单是否可见(1:可见|0:不可见)
-				featureVo.setVisible(feature.getVisible());
+				featureDTO.setVisible(feature.getVisible());
 				// 菜单所拥有的权限标记
-				featureVo.setPerms(feature.getPerms());
+				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有父菜单
 				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 				if(isLeaf){
-					featureVo.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
+					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 				} else {
-					featureVo.setLeaf(isLeaf);
-					featureVo.setLabel( feature.getName());
+					featureDTO.setLeaf(isLeaf);
+					featureDTO.setLabel( feature.getName());
 				}
 				// 子菜单
-				List<AuthzFeatureVo> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
+				List<AuthzFeatureDTO> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
 				if(null != subFeatures && subFeatures.size() > 0) {
 					boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 					if(checked) {
-						featureVo.setChecked(true);
+						featureDTO.setChecked(true);
 					} else {
-						featureVo.setChecked(false);
+						featureDTO.setChecked(false);
 					}
-					featureVo.setChildren(subFeatures);
+					featureDTO.setChildren(subFeatures);
 				}
-				features.add(featureVo);
+				features.add(featureDTO);
 			}
 			return features.stream().sorted().collect(Collectors.toList());
 		}
 		return features;
 	}
 
-	public static AuthzFeatureVo getFeatureTree(String servId, List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
+	public static AuthzFeatureDTO getFeatureTree(String servId, List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
 		
-		AuthzFeatureVo featureVo = new AuthzFeatureVo();
+		AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
 		if(CollectionUtils.isEmpty(featureList)) {
-			return featureVo;
+			return featureDTO;
 		}
 		
 		//优先获得最顶层的菜单集合
@@ -420,46 +420,46 @@ public final class FeatureNavUtils {
 				.findFirst().get();
 		
 		// 功能菜单ID
-		featureVo.setId(feature.getId());
+		featureDTO.setId(feature.getId());
 		// 功能菜单简称
-		featureVo.setAbb(feature.getAbb());
+		featureDTO.setAbb(feature.getAbb());
 		// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-		featureVo.setCode(feature.getCode());
+		featureDTO.setCode(feature.getCode());
 		// 功能菜单名称
-		featureVo.setName(feature.getName());
+		featureDTO.setName(feature.getName());
 		// 菜单类型(1:原生|2:自定义)
-		featureVo.setType(feature.getType());
+		featureDTO.setType(feature.getType());
 		// 菜单样式或菜单图标路径
-		featureVo.setIcon(feature.getIcon());
+		featureDTO.setIcon(feature.getIcon());
 		// 菜单显示顺序
-		featureVo.setOrder(feature.getOrder());
+		featureDTO.setOrder(feature.getOrder());
 		// 父级功能菜单ID
-		featureVo.setParent(feature.getParent());
-		featureVo.setPid(feature.getParent());
+		featureDTO.setParent(feature.getParent());
+		featureDTO.setPid(feature.getParent());
 		// 功能菜单URL
-		featureVo.setUrl(feature.getUrl());
+		featureDTO.setUrl(feature.getUrl());
 		// 功能组件路径
-		featureVo.setPath(feature.getPath());
+		featureDTO.setPath(feature.getPath());
 		// 菜单是否可见(1:可见|0:不可见)
-		featureVo.setVisible(feature.getVisible());
+		featureDTO.setVisible(feature.getVisible());
 		// 菜单所拥有的权限标记
-		featureVo.setPerms(feature.getPerms());
+		featureDTO.setPerms(feature.getPerms());
 		// 判断是否是有父菜单
 		boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 		if(isLeaf){
-			featureVo.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
+			featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 		} else {
-			featureVo.setLeaf(isLeaf);
-			featureVo.setLabel( feature.getName());
+			featureDTO.setLeaf(isLeaf);
+			featureDTO.setLabel( feature.getName());
 		}
 		// 子菜单
-		List<AuthzFeatureVo> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
+		List<AuthzFeatureDTO> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
 		if(CollectionUtils.isNotEmpty(subFeatures)) {
-			featureVo.setChecked(true);
-			featureVo.setChildren(subFeatures.stream().filter(item -> item.isChecked()).collect(Collectors.toList()));
+			featureDTO.setChecked(true);
+			featureDTO.setChildren(subFeatures.stream().filter(item -> item.isChecked()).collect(Collectors.toList()));
 		}
 		
-		return featureVo;
+		return featureDTO;
 	}
 	
 }

@@ -17,7 +17,7 @@ import net.jeebiz.admin.authz.feature.dao.IAuthzFeatureDao;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.authz.feature.utils.FeatureNavUtils;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureVo;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthorizedFeatureDao;
 import net.jeebiz.admin.authz.rbac0.service.IAuthorizedFeatureService;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
@@ -53,7 +53,7 @@ public class AuthorizedFeatureServiceImpl extends BaseServiceImpl<AuthzFeatureMo
 	}
 
 	@Override
-	public AuthzFeatureVo getChildFeatures(String roleId, String servId) {
+	public AuthzFeatureDTO getChildFeatures(String roleId, String servId) {
 		// 服务对应的菜单
 		List<AuthzFeatureModel> featureList = getDao().getChildFeatures(roleId, servId);
 		// 当前登录角色操作权限

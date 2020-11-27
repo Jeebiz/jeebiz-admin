@@ -57,12 +57,12 @@ public class SampleXxlJob {
     public ReturnT<String> shardingJobHandler(String param) throws Exception {
 
         // 分片参数
-        ShardingUtil.ShardingVO shardingVO = ShardingUtil.getShardingVo();
-        XxlJobLogger.log("分片参数：当前分片序号 = {}, 总分片数 = {}", shardingVO.getIndex(), shardingVO.getTotal());
+        ShardingUtil.ShardingVO shardingDTO = ShardingUtil.getShardingVo();
+        XxlJobLogger.log("分片参数：当前分片序号 = {}, 总分片数 = {}", shardingDTO.getIndex(), shardingDTO.getTotal());
 
         // 业务逻辑
-        for (int i = 0; i < shardingVO.getTotal(); i++) {
-            if (i == shardingVO.getIndex()) {
+        for (int i = 0; i < shardingDTO.getTotal(); i++) {
+            if (i == shardingDTO.getIndex()) {
                 XxlJobLogger.log("第 {} 片, 命中分片开始处理", i);
             } else {
                 XxlJobLogger.log("第 {} 片, 忽略", i);

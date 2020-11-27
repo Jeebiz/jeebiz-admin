@@ -29,9 +29,9 @@ import io.swagger.annotations.ApiResponses;
 import net.jeebiz.admin.extras.settings.dao.entities.SettingsModel;
 import net.jeebiz.admin.extras.settings.service.ISettingsService;
 import net.jeebiz.admin.extras.settings.setup.Constants;
-import net.jeebiz.admin.extras.settings.web.vo.SettingsGroupRenewVo;
-import net.jeebiz.admin.extras.settings.web.vo.SettingsRenewVo;
-import net.jeebiz.admin.extras.settings.web.vo.SettingsVo;
+import net.jeebiz.admin.extras.settings.web.dto.SettingsDTO;
+import net.jeebiz.admin.extras.settings.web.dto.SettingsGroupRenewDTO;
+import net.jeebiz.admin.extras.settings.web.dto.SettingsRenewDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -60,17 +60,17 @@ public class SettingsController extends BaseApiController {
 	@GetMapping("list")
 	@RequiresPermissions("settings:list")
 	@ResponseBody
-	public Result<SettingsVo> list(@RequestParam String gkey) throws Exception {
+	public Result<SettingsDTO> list(@RequestParam String gkey) throws Exception {
 		
 		SettingsModel model = new SettingsModel();
 		model.setGkey(gkey);
 		
 		List<SettingsModel> records = getSettingsService().getModelList(model);
-		List<SettingsVo> retList = Lists.newArrayList();
+		List<SettingsDTO> retList = Lists.newArrayList();
 		for (SettingsModel settingsModel : records) {
-			retList.add(getBeanMapper().map(settingsModel, SettingsVo.class));
+			retList.add(getBeanMapper().map(settingsModel, SettingsDTO.class));
 		}
-		return new Result<SettingsVo>(retList);
+		return new Result<SettingsDTO>(retList);
 		
 	}
 	
@@ -88,14 +88,14 @@ public class SettingsController extends BaseApiController {
 	
 	@ApiOperation(value = "更新系统参数", notes = "更新系统参数")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "renewVo", value = "系统参数", required = true, dataType = "SettingsRenewVo")
+		@ApiImplicitParam(paramType = "body", name = "renewDTO", value = "系统参数", required = true, dataType = "SettingsRenewDTO")
 	})
 	@BusinessLog(module = Constants.EXTRAS_SETTINGS, business = "更新系统参数", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("settings:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody SettingsRenewVo renewVo) throws Exception {
-		SettingsModel model = getBeanMapper().map(renewVo, SettingsModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody SettingsRenewDTO renewDTO) throws Exception {
+		SettingsModel model = getBeanMapper().map(renewDTO, SettingsModel.class);
 		int result = getSettingsService().update(model);
 		if(result == 1) {
 			return success("settings.renew.success", result);
@@ -106,20 +106,20 @@ public class SettingsController extends BaseApiController {
 	
 	@ApiOperation(value = "批量更新分组内的系统参数", notes = "批量更新分组内的系统参数")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "body", name = "renewVo", value = "系统参数集合", required = true, dataType = "SettingsGroupRenewVo")
+		@ApiImplicitParam( paramType = "body", name = "renewDTO", value = "系统参数集合", required = true, dataType = "SettingsGroupRenewDTO")
 	})
 	@BusinessLog(module = Constants.EXTRAS_SETTINGS, business = "批量更新分组内的系统参数", opt = BusinessType.UPDATE)
 	@PostMapping("batch/renew")
 	@RequiresPermissions("settings:renew")
 	@ResponseBody
-	public Object batchRenew(@Valid @RequestBody SettingsGroupRenewVo renewVo) throws Exception {
+	public Object batchRenew(@Valid @RequestBody SettingsGroupRenewDTO renewDTO) throws Exception {
 		
 		try {
 			
 			List<SettingsModel> list = Lists.newArrayList();
-			for (SettingsRenewVo settingsVo : renewVo.getDatas()) {
-				SettingsModel model = getBeanMapper().map(settingsVo, SettingsModel.class);
-				model.setGkey(renewVo.getGkey());
+			for (SettingsRenewDTO settingsDTO : renewDTO.getDatas()) {
+				SettingsModel model = getBeanMapper().map(settingsDTO, SettingsModel.class);
+				model.setGkey(renewDTO.getGkey());
 				list.add(model);
 			}
 			// 批量执行系统参数更新操作

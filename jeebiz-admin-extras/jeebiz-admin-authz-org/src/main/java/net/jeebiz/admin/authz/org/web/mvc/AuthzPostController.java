@@ -26,10 +26,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzPostModel;
 import net.jeebiz.admin.authz.org.service.IAuthzPostService;
 import net.jeebiz.admin.authz.org.setup.Constants;
-import net.jeebiz.admin.authz.org.web.vo.AuthzPostNewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzPostPaginationVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzPostRenewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzPostVo;
+import net.jeebiz.admin.authz.org.web.dto.AuthzPostNewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzPostPaginationDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzPostRenewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzPostDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -48,21 +48,21 @@ public class AuthzPostController extends BaseApiController {
 
 	@ApiOperation(value = "分页查询岗位信息", notes = "分页查询岗位信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "分页查询参数", dataType = "AuthzPostPaginationVo") 
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "分页查询参数", dataType = "AuthzPostPaginationDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "分页查询岗位信息", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresPermissions("authz-post:list")
-	public Result<AuthzPostVo> list(@Valid @RequestBody AuthzPostPaginationVo paginationVo) throws Exception {
+	public Result<AuthzPostDTO> list(@Valid @RequestBody AuthzPostPaginationDTO paginationDTO) throws Exception {
 		
-		AuthzPostModel model = getBeanMapper().map(paginationVo, AuthzPostModel.class);
+		AuthzPostModel model = getBeanMapper().map(paginationDTO, AuthzPostModel.class);
 		Page<AuthzPostModel> pageResult = getAuthzPostService().getPagedList(model);
-		List<AuthzPostVo> retList = Lists.newArrayList();
+		List<AuthzPostDTO> retList = Lists.newArrayList();
 		for (AuthzPostModel postModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(postModel, AuthzPostVo.class));
+			retList.add(getBeanMapper().map(postModel, AuthzPostDTO.class));
 		}
 		
-		return new Result<AuthzPostVo>(pageResult, retList);
+		return new Result<AuthzPostDTO>(pageResult, retList);
 		
 	}
 	
@@ -84,15 +84,15 @@ public class AuthzPostController extends BaseApiController {
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "查询岗位信息", opt = BusinessType.SELECT)
 	@GetMapping("list")
 	@RequiresAuthentication
-	public ApiRestResponse<List<AuthzPostVo>> list(@RequestParam(required = false) String deptId) throws Exception {
+	public ApiRestResponse<List<AuthzPostDTO>> list(@RequestParam(required = false) String deptId) throws Exception {
 		
 		List<AuthzPostModel> resultList = getAuthzPostService().getModelList(deptId);
 		if( CollectionUtils.isEmpty(resultList)) {
 			return ApiRestResponse.fail(getMessage("authz.post.not-found"));
 		}
-		List<AuthzPostVo> retList = Lists.newArrayList();
+		List<AuthzPostDTO> retList = Lists.newArrayList();
 		for (AuthzPostModel model : resultList) {
-			retList.add(getBeanMapper().map(model, AuthzPostVo.class));
+			retList.add(getBeanMapper().map(model, AuthzPostDTO.class));
 		}
 		return ApiRestResponse.success(retList);
 		
@@ -100,13 +100,13 @@ public class AuthzPostController extends BaseApiController {
 	
 	@ApiOperation(value = "创建岗位信息", notes = "增加一个新的岗位信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "postVo", value = "岗位信息", required = true, dataType = "AuthzPostNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "postDTO", value = "岗位信息", required = true, dataType = "AuthzPostNewDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "创建岗位信息", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("authz-post:new")
-	public ApiRestResponse<String> post(@Valid @RequestBody AuthzPostNewVo postVo) throws Exception {
-		AuthzPostModel model = getBeanMapper().map(postVo, AuthzPostModel.class);
+	public ApiRestResponse<String> post(@Valid @RequestBody AuthzPostNewDTO postDTO) throws Exception {
+		AuthzPostModel model = getBeanMapper().map(postDTO, AuthzPostModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setUid(principal.getUserid());
 		// 新增一条数据库配置记录
@@ -119,13 +119,13 @@ public class AuthzPostController extends BaseApiController {
 	
 	@ApiOperation(value = "更新岗位信息", notes = "更新岗位信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "postVo", value = "岗位信息", required = true, dataType = "AuthzPostRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "postDTO", value = "岗位信息", required = true, dataType = "AuthzPostRenewDTO"),
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "更新岗位信息", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("authz-post:renew")
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzPostRenewVo postVo) throws Exception {
-		AuthzPostModel model = getBeanMapper().map(postVo, AuthzPostModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzPostRenewDTO postDTO) throws Exception {
+		AuthzPostModel model = getBeanMapper().map(postDTO, AuthzPostModel.class);
 		int result = getAuthzPostService().update(model);
 		if(result == 1) {
 			return success("authz.post.renew.success", result);
@@ -175,12 +175,12 @@ public class AuthzPostController extends BaseApiController {
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "查询岗位信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")
 	@RequiresPermissions("authz-post:detail")
-	public ApiRestResponse<AuthzPostVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<AuthzPostDTO> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzPostModel model = getAuthzPostService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.post.not-found"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzPostVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzPostDTO.class));
 	}
 
 	public IAuthzPostService getAuthzPostService() {

@@ -24,7 +24,7 @@ import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
 import net.jeebiz.admin.authz.feature.setup.handler.FeatureDataHandlerFactory;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureVo;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.admin.authz.rbac0.service.IAuthorizedFeatureService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
@@ -48,7 +48,7 @@ public class AuthorizedFeatureController extends BaseApiController {
     @ApiOperation(value = "功能菜单-树形结构数据（当前登录用户）", notes = "根据服务ID及等登录人信息查询该服务的功能菜单-树形结构数据")
 	@GetMapping("tree")
     @RequiresAuthentication
-	public ApiRestResponse<List<AuthzFeatureVo>> tree(){
+	public ApiRestResponse<List<AuthzFeatureDTO>> tree(){
 		// 登录账号信息
     	ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 所有的功能菜单
@@ -65,11 +65,11 @@ public class AuthorizedFeatureController extends BaseApiController {
 	})
 	@GetMapping("children")
 	@RequiresAuthentication
-	public ApiRestResponse<AuthzFeatureVo> children(@RequestParam String featureId){
+	public ApiRestResponse<AuthzFeatureDTO> children(@RequestParam String featureId){
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 所有的功能菜单
-		AuthzFeatureVo featureTree = getAuthorizedFeatureService().getChildFeatures(principal.getRoleid(), featureId);
+		AuthzFeatureDTO featureTree = getAuthorizedFeatureService().getChildFeatures(principal.getRoleid(), featureId);
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureTree);
 	}
@@ -81,7 +81,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 	@GetMapping("features/tree")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> tree(@RequestParam("roleId") String roleId){
+	public ApiRestResponse<List<AuthzFeatureDTO>> tree(@RequestParam("roleId") String roleId){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮：标记按钮选中状态
@@ -98,7 +98,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 	@GetMapping("features/tree/tag")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> treeByTag(@RequestParam("roleId") String roleId, 
+	public ApiRestResponse<List<AuthzFeatureDTO>> treeByTag(@RequestParam("roleId") String roleId, 
 			@RequestParam("tag") String tag){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
@@ -115,7 +115,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 	@GetMapping("features/flat")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> flat(@RequestParam("roleId") String roleId){
+	public ApiRestResponse<List<AuthzFeatureDTO>> flat(@RequestParam("roleId") String roleId){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮：标记按钮选中状态
@@ -132,7 +132,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 	@GetMapping("features/flat/tag")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> flatByTag(@RequestParam("roleId") String roleId,
+	public ApiRestResponse<List<AuthzFeatureDTO>> flatByTag(@RequestParam("roleId") String roleId,
 			@RequestParam("tag") String tag){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();

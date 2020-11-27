@@ -45,7 +45,7 @@ dingtalk:
   # 智慧考勤H5微应用
   - agent-id: 589481741
     app-key: dingxhppjmnh508naskv
-    app-secret: mqFoxuq0XT6XisFkvOc13tG1B_ESFhCXUwenqsWDVrcp32pPWXUpyepXQwnHfg92
+    app-secret: mqFoxuq0XT6XisFkDTOc13tG1B_ESFhCXUwenqsWDVrcp32pPWXUpyepXQwnHfg92
 
 ################################################################################################################  
 ###Pac4j 第三方登录（QQ、微信、易班、康赛）配置：  

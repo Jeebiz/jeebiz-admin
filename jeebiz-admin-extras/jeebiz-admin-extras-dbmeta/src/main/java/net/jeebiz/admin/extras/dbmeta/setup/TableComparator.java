@@ -2,12 +2,12 @@ package net.jeebiz.admin.extras.dbmeta.setup;
 
 import java.util.Comparator;
 
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableVo;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableDTO;
 
-public class TableComparator  implements Comparator<TableVo>{
+public class TableComparator  implements Comparator<TableDTO>{
 
 	@Override
-	public int compare(TableVo o1, TableVo o2) {
+	public int compare(TableDTO o1, TableDTO o2) {
 		return o1.getRemark().compareTo(o2.getRemark());
 	}
 	

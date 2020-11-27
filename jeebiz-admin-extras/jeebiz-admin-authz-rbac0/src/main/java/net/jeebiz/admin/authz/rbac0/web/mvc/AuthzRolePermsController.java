@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRolePermsModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRolePermsService;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzRoleAllotPermsVo;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotPermsDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -68,15 +68,15 @@ public class AuthzRolePermsController extends BaseMapperController {
 	
 	@ApiOperation(value = "给指定角色分配功能权限", notes = "给指定角色分配功能权限")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "permsVo", value = "角色分配的功能权限信息", dataType = "AuthzRoleAllotPermsVo")
+		@ApiImplicitParam(paramType = "body", name = "permsDTO", value = "角色分配的功能权限信息", dataType = "AuthzRoleAllotPermsDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE_PERMS, business = "给指定角色分配权限，角色Id：${roleid}", opt = BusinessType.DELETE)
 	@PostMapping("perms")
 	@RequiresPermissions("role:perms")
 	@ResponseBody
-	public ApiRestResponse<String> perms(@Valid @RequestBody AuthzRoleAllotPermsVo permsVo) throws Exception { 
+	public ApiRestResponse<String> perms(@Valid @RequestBody AuthzRoleAllotPermsDTO permsDTO) throws Exception { 
 		
-		AuthzRolePermsModel permsModel = getBeanMapper().map(permsVo, AuthzRolePermsModel.class);
+		AuthzRolePermsModel permsModel = getBeanMapper().map(permsDTO, AuthzRolePermsModel.class);
 		int total = getAuthzRolePermsService().doPerms(permsModel);
         // 删除菜单缓存
         getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
@@ -88,14 +88,14 @@ public class AuthzRolePermsController extends BaseMapperController {
 	
 	@ApiOperation(value = "取消已分配给指定角色的权限", notes = "取消已分配给指定角色的权限")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "permsVo", value = "角色取消分配的权限信息", dataType = "AuthzRoleAllotPermsVo")
+		@ApiImplicitParam(paramType = "body", name = "permsDTO", value = "角色取消分配的权限信息", dataType = "AuthzRoleAllotPermsDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE_PERMS, business = "取消已分配给指定角色的权限", opt = BusinessType.DELETE)
 	@PostMapping("unperms")
 	@RequiresPermissions("role:unperms")
 	@ResponseBody
-	public ApiRestResponse<String> unperms(@Valid @RequestBody AuthzRoleAllotPermsVo permsVo) throws Exception { 
-		AuthzRolePermsModel permsModel = getBeanMapper().map(permsVo, AuthzRolePermsModel.class);
+	public ApiRestResponse<String> unperms(@Valid @RequestBody AuthzRoleAllotPermsDTO permsDTO) throws Exception { 
+		AuthzRolePermsModel permsModel = getBeanMapper().map(permsDTO, AuthzRolePermsModel.class);
 		int total = getAuthzRolePermsService().unPerms(permsModel);
         // 删除菜单缓存
         getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.inform.dao.IInformTemplateDao;
 import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
 import net.jeebiz.admin.extras.inform.service.IInformTemplateService;
-import net.jeebiz.admin.extras.inform.web.vo.InformTemplateStatsVo;
+import net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
@@ -19,7 +19,7 @@ public class InformTemplateServiceImpl extends BaseServiceImpl<InformTemplateMod
 		implements IInformTemplateService {
 
 	@Override
-	public List<InformTemplateStatsVo> getStats() {
+	public List<InformTemplateStatsDTO> getStats() {
 		return getDao().getStats();
 	}
 

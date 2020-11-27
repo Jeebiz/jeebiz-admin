@@ -30,10 +30,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.dict.dao.entities.KeyGroupModel;
 import net.jeebiz.admin.extras.dict.service.IKeyGroupService;
 import net.jeebiz.admin.extras.dict.setup.Constants;
-import net.jeebiz.admin.extras.dict.web.vo.KeyGroupNewVo;
-import net.jeebiz.admin.extras.dict.web.vo.KeyGroupPaginationVo;
-import net.jeebiz.admin.extras.dict.web.vo.KeyGroupRenewVo;
-import net.jeebiz.admin.extras.dict.web.vo.KeyGroupVo;
+import net.jeebiz.admin.extras.dict.web.dto.KeyGroupNewDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyGroupPaginationDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyGroupRenewDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyGroupDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.AllowableValues;
 import net.jeebiz.boot.api.annotation.BusinessLog;
@@ -53,21 +53,21 @@ public class KeyGroupController extends BaseApiController {
 	
 	@ApiOperation(value = "分页查询基础数据分组", notes = "分页查询基础数据分组")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "KeyGroupPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "KeyGroupPaginationDTO")
 	})
 	@PostMapping("list")
 	@RequiresPermissions("keygroup:list")
 	@ResponseBody
-	public Result<KeyGroupVo> list(@Valid @RequestBody KeyGroupPaginationVo paginationVo){
+	public Result<KeyGroupDTO> list(@Valid @RequestBody KeyGroupPaginationDTO paginationDTO){
 		
-		KeyGroupModel model =  getBeanMapper().map(paginationVo, KeyGroupModel.class);
+		KeyGroupModel model =  getBeanMapper().map(paginationDTO, KeyGroupModel.class);
 		Page<KeyGroupModel> pageResult = getKeyGroupService().getPagedList(model);
-		List<KeyGroupVo> retList = Lists.newArrayList();
+		List<KeyGroupDTO> retList = Lists.newArrayList();
 		for (KeyGroupModel keygroupModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keygroupModel, KeyGroupVo.class));
+			retList.add(getBeanMapper().map(keygroupModel, KeyGroupDTO.class));
 		}
 		
-		return new Result<KeyGroupVo>(pageResult, retList);
+		return new Result<KeyGroupDTO>(pageResult, retList);
 		
 	}
 	
@@ -75,38 +75,38 @@ public class KeyGroupController extends BaseApiController {
 	@GetMapping("pairs")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<KeyGroupVo>> groups() throws Exception {
+	public ApiRestResponse<List<KeyGroupDTO>> groups() throws Exception {
 		List<KeyGroupModel> records = getKeyGroupService().getKeyGroupList();
-		List<KeyGroupVo> retList = Lists.newArrayList();
+		List<KeyGroupDTO> retList = Lists.newArrayList();
 		for (KeyGroupModel groupModel : records) {
-			retList.add(getBeanMapper().map(groupModel, KeyGroupVo.class));
+			retList.add(getBeanMapper().map(groupModel, KeyGroupDTO.class));
 		}
 		return ApiRestResponse.success(retList);
 	}
 	
 	@ApiOperation(value = "创建基础数据分组", notes = "增加一个新的基础数据分组")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "基础数据分组传输对象", dataType = "KeyGroupNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "基础数据分组传输对象", dataType = "KeyGroupNewDTO") 
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "创建基础数据分组", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("keygroup:new")
 	@ResponseBody
-	public ApiRestResponse<String> keygroup(@Valid @RequestBody KeyGroupNewVo vo) throws Exception {
+	public ApiRestResponse<String> keygroup(@Valid @RequestBody KeyGroupNewDTO DTO) throws Exception {
 		
 		// 检查编码是否存在
-		int ct = getKeyGroupService().getCountByCode(vo.getKey(), null);
+		int ct = getKeyGroupService().getCountByCode(DTO.getKey(), null);
 		if(ct > 0) {
 			return fail("keygroup.new.key.conflict");
 		}
 		// 检查名称是否存在
-		ct = getKeyGroupService().getCountByName(vo.getValue(), null);
+		ct = getKeyGroupService().getCountByName(DTO.getValue(), null);
 		if(ct > 0) {
 			return fail("keygroup.new.value.conflict");
 		}
 		
 		// 新增一条数据库配置记录
-		KeyGroupModel model = getBeanMapper().map(vo, KeyGroupModel.class);
+		KeyGroupModel model = getBeanMapper().map(DTO, KeyGroupModel.class);
 		int result = getKeyGroupService().insert(model);
 		if(result == 1) {
 			return success("keygroup.new.success", result);
@@ -136,26 +136,26 @@ public class KeyGroupController extends BaseApiController {
 	
 	@ApiOperation(value = "更新基础数据分组", notes = "更新基础数据分组")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "基础数据分组", required = true, dataType = "KeyGroupRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "基础数据分组", required = true, dataType = "KeyGroupRenewDTO"),
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "更新基础数据分组", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("keygroup:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody KeyGroupRenewVo vo) throws Exception {
+	public ApiRestResponse<String> renew(@Valid @RequestBody KeyGroupRenewDTO DTO) throws Exception {
 		
 		// 检查编码是否存在
-		int ct = getKeyGroupService().getCountByCode(vo.getKey(), vo.getValue());
+		int ct = getKeyGroupService().getCountByCode(DTO.getKey(), DTO.getValue());
 		if(ct > 0) {
 			return fail("keygroup.renew.key.conflict");
 		}
 		// 检查名称是否存在
-		ct = getKeyGroupService().getCountByName(vo.getValue(), vo.getValue());
+		ct = getKeyGroupService().getCountByName(DTO.getValue(), DTO.getValue());
 		if(ct > 0) {
 			return fail("keygroup.renew.value.conflict");
 		}
 		
-		KeyGroupModel model = getBeanMapper().map(vo, KeyGroupModel.class);
+		KeyGroupModel model = getBeanMapper().map(DTO, KeyGroupModel.class);
 		int result = getKeyGroupService().update(model);
 		if(result == 1) {
 			return success("keygroup.renew.success", result);
@@ -189,12 +189,12 @@ public class KeyGroupController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresPermissions("keygroup:detail")
 	@ResponseBody
-	public ApiRestResponse<KeyGroupVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<KeyGroupDTO> detail(@RequestParam("id") String id) throws Exception { 
 		KeyGroupModel model = getKeyGroupService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("keygroup.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, KeyGroupVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, KeyGroupDTO.class));
 	}
 
 	public IKeyGroupService getKeyGroupService() {

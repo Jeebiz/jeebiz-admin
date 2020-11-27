@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
 import net.jeebiz.admin.extras.sessions.dao.IOnlineSessionDao;
 import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
 import net.jeebiz.admin.extras.sessions.service.IOnlineSessionService;
-import net.jeebiz.admin.extras.sessions.web.vo.OnlineSessionVo;
+import net.jeebiz.admin.extras.sessions.web.dto.OnlineSessionDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
@@ -33,30 +33,30 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
     private SessionDAO sessionDao;
 
 	@Override
-	public List<OnlineSessionVo> getActiveSessions() {
+	public List<OnlineSessionDTO> getActiveSessions() {
 		
 		if(sessionDao == null){
 			throw new IllegalStateException("sessionDao must be set for this filter");
 		}
     	Collection<Session> sessions = getSessionDao().getActiveSessions();
-    	List<OnlineSessionVo> onlineSessions = Lists.newArrayList();
+    	List<OnlineSessionDTO> onlineSessions = Lists.newArrayList();
     	for(Session session : sessions){         
 
-			OnlineSessionVo sessionVo = new OnlineSessionVo(String.valueOf(session.getId()), session.getHost(),
+			OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(session.getId()), session.getHost(),
 					dateFormat.format(session.getStartTimestamp()), 
 					dateFormat.format(session.getLastAccessTime()),
 					session.getTimeout());
     		
     		if(session instanceof SimpleOnlineSession) {
     			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
-    			sessionVo.setStatus(onlineSession.getStatus().getInfo());
-    			sessionVo.setUserAgent(onlineSession.getUserAgent());
-    			sessionVo.setSystemHost(onlineSession.getSystemHost());
+    			sessionDTO.setStatus(onlineSession.getStatus().getInfo());
+    			sessionDTO.setUserAgent(onlineSession.getUserAgent());
+    			sessionDTO.setSystemHost(onlineSession.getSystemHost());
     		}
     		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
-    			sessionVo.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
+    			sessionDTO.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
     		} 
-    		onlineSessions.add(sessionVo);
+    		onlineSessions.add(sessionDTO);
 		}
 		return onlineSessions;
 	}

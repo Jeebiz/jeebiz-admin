@@ -7,7 +7,7 @@ package net.jeebiz.admin.extras.inform.service;
 import java.util.List;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
-import net.jeebiz.admin.extras.inform.web.vo.InformRecordStatsVo;
+import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
 public interface IInformRecordService extends IBaseService<InformRecordModel> {
@@ -15,7 +15,7 @@ public interface IInformRecordService extends IBaseService<InformRecordModel> {
 	/**
 	 * 消息通知统计信息
 	 */
-	List<InformRecordStatsVo> getStats(String uid);
+	List<InformRecordStatsDTO> getStats(String uid);
 
 	/**
 	 * 删除用户的通知信息

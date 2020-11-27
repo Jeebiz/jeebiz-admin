@@ -2,12 +2,12 @@ package net.jeebiz.admin.extras.dbmeta.setup;
 
 import java.util.Comparator;
 
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableColumnVo;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableColumnDTO;
 
-public class TableColumnComparator  implements Comparator<TableColumnVo>{
+public class TableColumnComparator  implements Comparator<TableColumnDTO>{
 
 	@Override
-	public int compare(TableColumnVo o1, TableColumnVo o2) {
+	public int compare(TableColumnDTO o1, TableColumnDTO o2) {
 		return 0;
 	}
 	

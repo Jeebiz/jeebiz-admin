@@ -11,11 +11,11 @@ import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Maps;
 
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureVo;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 
 public class FeatureDataHandlerFactory {
 
-	private static Map<String, FeatureDataHandler<List<AuthzFeatureVo>>> COMPLETED_HANDLER = Maps.newConcurrentMap();
+	private static Map<String, FeatureDataHandler<List<AuthzFeatureDTO>>> COMPLETED_HANDLER = Maps.newConcurrentMap();
 	private static FeatureTreeDataHandler featureTreeDataHandler = new FeatureTreeDataHandler();
 	private static FeatureFlatDataHandler featureFlatDataHandler = new FeatureFlatDataHandler();
 	
@@ -24,30 +24,30 @@ public class FeatureDataHandlerFactory {
 		COMPLETED_HANDLER.put("flat", featureFlatDataHandler);
 	}
 	
-	public static FeatureDataHandler<List<AuthzFeatureVo>> newHandler(String key, FeatureDataHandler<List<AuthzFeatureVo>> handler) {
-		FeatureDataHandler<List<AuthzFeatureVo>> rt = COMPLETED_HANDLER.get(key);
+	public static FeatureDataHandler<List<AuthzFeatureDTO>> newHandler(String key, FeatureDataHandler<List<AuthzFeatureDTO>> handler) {
+		FeatureDataHandler<List<AuthzFeatureDTO>> rt = COMPLETED_HANDLER.get(key);
 		if(rt != null) {
 			return rt;
 		}
 		return COMPLETED_HANDLER.putIfAbsent(key, handler);
 	}
 	
-	public static FeatureDataHandler<List<AuthzFeatureVo>> getTreeHandler() {
+	public static FeatureDataHandler<List<AuthzFeatureDTO>> getTreeHandler() {
 		return featureTreeDataHandler;
 	}
 	
-	public static FeatureDataHandler<List<AuthzFeatureVo>> getTreeHandler(String key) {
+	public static FeatureDataHandler<List<AuthzFeatureDTO>> getTreeHandler(String key) {
 		if(StringUtils.hasText(key)) {
 			return COMPLETED_HANDLER.getOrDefault(key, featureTreeDataHandler);
 		}
 		return featureTreeDataHandler;
 	}
 	
-	public static FeatureDataHandler<List<AuthzFeatureVo>> getFlatHandler() {
+	public static FeatureDataHandler<List<AuthzFeatureDTO>> getFlatHandler() {
 		return featureFlatDataHandler;
 	}
 	
-	public static FeatureDataHandler<List<AuthzFeatureVo>> getFlatHandler(String key) {
+	public static FeatureDataHandler<List<AuthzFeatureDTO>> getFlatHandler(String key) {
 		if(StringUtils.hasText(key)) {
 			return COMPLETED_HANDLER.getOrDefault(key, featureFlatDataHandler);
 		}

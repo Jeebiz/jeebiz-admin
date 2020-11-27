@@ -17,7 +17,7 @@ import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleTargetModel;
 import net.jeebiz.admin.extras.article.service.IArticleService;
 import net.jeebiz.admin.extras.article.utils.ArticleUtils;
-import net.jeebiz.admin.extras.article.web.vo.ArticleDetailVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
 
 @Service
 public class ArticleServiceImpl extends BaseServiceImpl<ArticleModel, IArticleDao> implements IArticleService {
@@ -153,7 +153,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<ArticleModel, IArticleDa
 	}
 
 	@Override
-	public ArticleDetailVo getDetail(String id) {
+	public ArticleDetailDTO getDetail(String id) {
 		return getDao().getDetail(id);
 	}
 

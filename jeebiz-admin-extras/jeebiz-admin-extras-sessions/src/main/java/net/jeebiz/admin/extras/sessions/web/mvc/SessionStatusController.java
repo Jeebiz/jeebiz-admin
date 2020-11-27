@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.sessions.service.IOnlineSessionService;
 import net.jeebiz.admin.extras.sessions.setup.Constants;
-import net.jeebiz.admin.extras.sessions.web.vo.OnlineSessionVo;
+import net.jeebiz.admin.extras.sessions.web.dto.OnlineSessionDTO;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.web.BaseApiController;
@@ -47,13 +47,13 @@ public class SessionStatusController extends BaseApiController {
 	@PostMapping("list")
 	@ResponseBody
 	public Object list() throws Exception {
-		List<OnlineSessionVo> sessions =  getOnlineSessionService().getActiveSessions();  
-		return new Result<OnlineSessionVo>(sessions);
+		List<OnlineSessionDTO> sessions =  getOnlineSessionService().getActiveSessions();  
+		return new Result<OnlineSessionDTO>(sessions);
 	}
     
 	@ApiOperation(value = "创建我的应用", notes = "增加我的应用信息： 应用名称、开发语言、部署地址等")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "appVo", value = "应用信息传输对象", dataType = "MyApplicationVo") 
+		@ApiImplicitParam(paramType = "body", name = "appDTO", value = "应用信息传输对象", dataType = "MyApplicationDTO") 
 	})
 	@BusinessLog(module = Constants.EXTRAS_SESSIONS, business = "创建新数据源", opt = BusinessType.INSERT)
     @PatchMapping("/{sessionId}/forceLogout")  

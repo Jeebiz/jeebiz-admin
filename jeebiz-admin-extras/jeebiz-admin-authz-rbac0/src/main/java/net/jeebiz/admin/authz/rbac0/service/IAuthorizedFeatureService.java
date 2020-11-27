@@ -8,7 +8,7 @@ import java.util.List;
 
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureVo;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
 /**
@@ -35,7 +35,7 @@ public interface IAuthorizedFeatureService extends IBaseService<AuthzFeatureMode
 	 * @param servId
 	 * @return
 	 */
-	public AuthzFeatureVo getChildFeatures(String roleId, String id);
+	public AuthzFeatureDTO getChildFeatures(String roleId, String id);
 	
 }
 

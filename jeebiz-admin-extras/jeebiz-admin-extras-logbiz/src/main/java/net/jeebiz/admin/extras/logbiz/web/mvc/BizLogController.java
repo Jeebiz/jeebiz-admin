@@ -55,15 +55,15 @@ public class BizLogController extends BaseApiController {
 
 	@ApiOperation(value = "功能操作日志", notes = "分页查询除登录外的功能操作日志信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "数据筛选条件", dataType = "BizLogPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "数据筛选条件", dataType = "BizLogPaginationDTO")
 	})
 	@PostMapping("list")
 	@RequiresPermissions("logs-biz:list")
 	@ResponseBody
-	public ApiRestResponse<Result<BizLogDTO>> list(@Valid @RequestBody BizLogPaginationDTO paginationVo)
+	public ApiRestResponse<Result<BizLogDTO>> list(@Valid @RequestBody BizLogPaginationDTO paginationDTO)
 			throws Exception {
 		
-		BizLogModel model = getBeanMapper().map(paginationVo, BizLogModel.class);
+		BizLogModel model = getBeanMapper().map(paginationDTO, BizLogModel.class);
 		Page<BizLogModel> pageResult = getBizLogService().getPagedList(model);
 		List<BizLogDTO> retList = new ArrayList<BizLogDTO>();
 		for (BizLogModel logModel : pageResult.getRecords()) {

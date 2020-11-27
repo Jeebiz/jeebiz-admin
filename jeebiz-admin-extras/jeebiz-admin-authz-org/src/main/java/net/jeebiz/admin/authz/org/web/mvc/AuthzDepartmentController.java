@@ -26,10 +26,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzDepartmentModel;
 import net.jeebiz.admin.authz.org.service.IAuthzDepartmentService;
 import net.jeebiz.admin.authz.org.setup.Constants;
-import net.jeebiz.admin.authz.org.web.vo.AuthzDepartmentNewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzDepartmentPaginationVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzDepartmentRenewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzDepartmentVo;
+import net.jeebiz.admin.authz.org.web.dto.AuthzDepartmentNewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzDepartmentPaginationDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzDepartmentRenewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzDepartmentDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -48,22 +48,22 @@ public class AuthzDepartmentController extends BaseApiController {
 
 	@ApiOperation(value = "分页查询部门信息", notes = "分页查询部门信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "分页查询参数", dataType = "AuthzDepartmentPaginationVo") 
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "分页查询参数", dataType = "AuthzDepartmentPaginationDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "分页查询部门信息", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresPermissions("authz-dept:list")
-	public Result<AuthzDepartmentVo> list(@Valid @RequestBody AuthzDepartmentPaginationVo paginationVo) throws Exception {
+	public Result<AuthzDepartmentDTO> list(@Valid @RequestBody AuthzDepartmentPaginationDTO paginationDTO) throws Exception {
 		
-		AuthzDepartmentModel model = getBeanMapper().map(paginationVo, AuthzDepartmentModel.class);
+		AuthzDepartmentModel model = getBeanMapper().map(paginationDTO, AuthzDepartmentModel.class);
 		
 		Page<AuthzDepartmentModel> pageResult = getAuthzDepartmentService().getPagedList(model);
-		List<AuthzDepartmentVo> retList = Lists.newArrayList();
+		List<AuthzDepartmentDTO> retList = Lists.newArrayList();
 		for (AuthzDepartmentModel departmentModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(departmentModel, AuthzDepartmentVo.class));
+			retList.add(getBeanMapper().map(departmentModel, AuthzDepartmentDTO.class));
 		}
 		
-		return new Result<AuthzDepartmentVo>(pageResult, retList);
+		return new Result<AuthzDepartmentDTO>(pageResult, retList);
 		
 	}
 	
@@ -79,9 +79,9 @@ public class AuthzDepartmentController extends BaseApiController {
 		if( CollectionUtils.isEmpty(resultList)) {
 			return ApiRestResponse.fail(getMessage("authz.dept.not-found"));
 		}
-		List<AuthzDepartmentVo> retList = Lists.newArrayList();
+		List<AuthzDepartmentDTO> retList = Lists.newArrayList();
 		for (AuthzDepartmentModel model : resultList) {
-			retList.add(getBeanMapper().map(model, AuthzDepartmentVo.class));
+			retList.add(getBeanMapper().map(model, AuthzDepartmentDTO.class));
 		}
 		return ApiRestResponse.success(retList);
 	}
@@ -100,23 +100,23 @@ public class AuthzDepartmentController extends BaseApiController {
 	
 	@ApiOperation(value = "创建部门信息", notes = "增加一个新的部门信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "deptVo", value = "部门信息", required = true, dataType = "AuthzDepartmentNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "deptDTO", value = "部门信息", required = true, dataType = "AuthzDepartmentNewDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "创建部门信息", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("authz-dept:new")
-	public ApiRestResponse<String> newDept(@Valid @RequestBody AuthzDepartmentNewVo deptVo) throws Exception {
+	public ApiRestResponse<String> newDept(@Valid @RequestBody AuthzDepartmentNewDTO deptDTO) throws Exception {
 		
-		int count1 = getAuthzDepartmentService().getCountByCode(deptVo.getCode(), deptVo.getOrgId(), null);
+		int count1 = getAuthzDepartmentService().getCountByCode(deptDTO.getCode(), deptDTO.getOrgId(), null);
 		if(count1 > 0) {
 			return fail("authz.dept.new.code-exists");
 		}
-		int count2 = getAuthzDepartmentService().getCountByName(deptVo.getName(), deptVo.getOrgId(), null);
+		int count2 = getAuthzDepartmentService().getCountByName(deptDTO.getName(), deptDTO.getOrgId(), null);
 		if(count2 > 0) {
 			return fail("authz.dept.new.name-exists");
 		}
 		
-		AuthzDepartmentModel model = getBeanMapper().map(deptVo, AuthzDepartmentModel.class);
+		AuthzDepartmentModel model = getBeanMapper().map(deptDTO, AuthzDepartmentModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setUid(principal.getUserid());
 		// 新增一条数据库配置记录
@@ -129,23 +129,23 @@ public class AuthzDepartmentController extends BaseApiController {
 	
 	@ApiOperation(value = "更新部门信息", notes = "更新部门信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "deptVo", value = "部门信息", required = true, dataType = "AuthzDepartmentRenewVo") 
+		@ApiImplicitParam(paramType = "body", name = "deptDTO", value = "部门信息", required = true, dataType = "AuthzDepartmentRenewDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "更新部门信息", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("authz-dept:renew")
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzDepartmentRenewVo deptVo) throws Exception {
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzDepartmentRenewDTO deptDTO) throws Exception {
 		
-		int count1 = getAuthzDepartmentService().getCountByCode(deptVo.getCode(), deptVo.getOrgId(), deptVo.getId());
+		int count1 = getAuthzDepartmentService().getCountByCode(deptDTO.getCode(), deptDTO.getOrgId(), deptDTO.getId());
 		if(count1 > 0) {
 			return fail("authz.dept.renew.code-exists");
 		}
-		int count2 = getAuthzDepartmentService().getCountByName(deptVo.getName(), deptVo.getOrgId(), deptVo.getId());
+		int count2 = getAuthzDepartmentService().getCountByName(deptDTO.getName(), deptDTO.getOrgId(), deptDTO.getId());
 		if(count2 > 0) {
 			return fail("authz.dept.renew.name-exists");
 		}
 		
-		AuthzDepartmentModel model = getBeanMapper().map(deptVo, AuthzDepartmentModel.class);
+		AuthzDepartmentModel model = getBeanMapper().map(deptDTO, AuthzDepartmentModel.class);
 		int result = getAuthzDepartmentService().update(model);
 		if(result == 1) {
 			return success("authz.dept.renew.success", result);
@@ -204,12 +204,12 @@ public class AuthzDepartmentController extends BaseApiController {
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "查询部门信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")
 	@RequiresPermissions("authz-dept:detail")
-	public ApiRestResponse<AuthzDepartmentVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<AuthzDepartmentDTO> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzDepartmentModel model = getAuthzDepartmentService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.dept.not-found"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzDepartmentVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzDepartmentDTO.class));
 	}
 
 	public IAuthzDepartmentService getAuthzDepartmentService() {

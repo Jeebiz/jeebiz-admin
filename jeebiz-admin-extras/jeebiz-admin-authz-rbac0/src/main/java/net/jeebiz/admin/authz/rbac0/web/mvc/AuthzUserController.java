@@ -34,14 +34,14 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzRoleVo;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzUserAllotRoleVo;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzUserNewVo;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzUserPaginationVo;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzUserRegisterVo;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzUserRenewVo;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzUserResetVo;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzUserVo;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserAllotRoleDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserNewDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserPaginationDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserRegisterDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserRenewDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserResetDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.AllowableValues;
 import net.jeebiz.boot.api.annotation.BusinessLog;
@@ -66,21 +66,21 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "分页查询用户信息", notes = "分页查询用户信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "AuthzUserPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "AuthzUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "分页查询用户信息", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresPermissions("user:list")
-	public Result<AuthzUserVo> list(@Valid @RequestBody AuthzUserPaginationVo paginationVo){
+	public Result<AuthzUserDTO> list(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
 		
-		AuthzUserModel model = getBeanMapper().map(paginationVo, AuthzUserModel.class);
+		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
 		Page<AuthzUserModel> pageResult = getAuthzUserService().getPagedList(model);
-		List<AuthzUserVo> retList = new ArrayList<AuthzUserVo>();
+		List<AuthzUserDTO> retList = new ArrayList<AuthzUserDTO>();
 		for (AuthzUserModel detailModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(detailModel, AuthzUserVo.class));
+			retList.add(getBeanMapper().map(detailModel, AuthzUserDTO.class));
 		}
 		
-		return new Result<AuthzUserVo>(pageResult, retList);
+		return new Result<AuthzUserDTO>(pageResult, retList);
 	}
 	
 	@ApiOperation(value = "指定用户详情", notes = "根据用户ID查询用户信息")
@@ -89,39 +89,39 @@ public class AuthzUserController extends BaseMapperController {
 	})
 	@GetMapping("detailById")
 	@RequiresPermissions("user:detail")
-	public ApiRestResponse<AuthzUserVo> detailById(@RequestParam String id) throws Exception {
+	public ApiRestResponse<AuthzUserDTO> detailById(@RequestParam String id) throws Exception {
 		AuthzUserModel model = getAuthzUserService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
 	}
 	
 	@ApiOperation(value = "登录用户详情", notes = "根据认证信息中的用户ID查询用户详情")
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<AuthzUserVo> detail() throws Exception { 
+	public ApiRestResponse<AuthzUserDTO> detail() throws Exception { 
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		AuthzUserModel model = getAuthzUserService().getModel(principal.getUserid());
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
 	}
 	
 	@ApiOperation(value = "注册用户信息", notes = "注册用户信息（默认访客角色）")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "userVo", value = "用户信息", required = true, dataType = "AuthzUserRegisterVo")
+		@ApiImplicitParam(paramType = "body", name = "userDTO", value = "用户信息", required = true, dataType = "AuthzUserRegisterDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "新增用户-名称：${name}", opt = BusinessType.INSERT)
 	@PostMapping("register")
-	public ApiRestResponse<String> register(@Valid @RequestBody AuthzUserRegisterVo userVo) throws Exception {
-		int total = getAuthzUserService().getCountByPhone(userVo.getPhone());
+	public ApiRestResponse<String> register(@Valid @RequestBody AuthzUserRegisterDTO userDTO) throws Exception {
+		int total = getAuthzUserService().getCountByPhone(userDTO.getPhone());
 		if(total > 0) {
 			return fail("user.register.exists");
 		}
-		AuthzUserModel model = getBeanMapper().map(userVo, AuthzUserModel.class);
+		AuthzUserModel model = getBeanMapper().map(userDTO, AuthzUserModel.class);
 		int result = getAuthzUserService().register(model);
 		if(result == 1) {
 			return success("user.register.success", result);
@@ -131,21 +131,21 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "增加用户信息", notes = "增加用户信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "userVo", value = "用户信息", required = true, dataType = "AuthzUserNewVo")
+		@ApiImplicitParam(paramType = "body", name = "userDTO", value = "用户信息", required = true, dataType = "AuthzUserNewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "新增用户-名称：${name}", opt = BusinessType.INSERT)
 	@PostMapping("new")
     @RequiresPermissions("user:new")
-	public ApiRestResponse<String> newUser(@Valid @RequestBody AuthzUserNewVo userVo) throws Exception {
-		int total = getAuthzUserService().getCountByPhone(userVo.getPhone());
+	public ApiRestResponse<String> newUser(@Valid @RequestBody AuthzUserNewDTO userDTO) throws Exception {
+		int total = getAuthzUserService().getCountByPhone(userDTO.getPhone());
 		if(total > 0) {
 			return fail("user.new.exists");
 		}
-		int total2 = getAuthzUserService().getCountByEmail(userVo.getEmail());
+		int total2 = getAuthzUserService().getCountByEmail(userDTO.getEmail());
 		if(total2 > 0) {
 			return fail("user.new.email.exists");
 		}
-		AuthzUserModel model = getBeanMapper().map(userVo, AuthzUserModel.class);
+		AuthzUserModel model = getBeanMapper().map(userDTO, AuthzUserModel.class);
 		int result = getAuthzUserService().insert(model);
 		if(result == 1) {
 			return success("user.new.success", result);
@@ -155,18 +155,18 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "修改用户信息", notes = "修改用户信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "userVo", value = "用户信息", required = true, dataType = "AuthzUserRenewVo")
+		@ApiImplicitParam(paramType = "body", name = "userDTO", value = "用户信息", required = true, dataType = "AuthzUserRenewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "修改用户-名称：${name}", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("user:renew")
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzUserRenewVo userVo) throws Exception { 
-		AuthzUserModel model = getBeanMapper().map(userVo, AuthzUserModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzUserRenewDTO userDTO) throws Exception { 
+		AuthzUserModel model = getBeanMapper().map(userDTO, AuthzUserModel.class);
 		int countByPhone = getAuthzUserService().getCountUpdateByPhone(model.getPhone(),model.getId());
 		if (countByPhone > 0){
 			return fail("user.new.exists",countByPhone);
 		}
-		int total2 = getAuthzUserService().getCountUpdateByEmail(userVo.getEmail(),model.getId());
+		int total2 = getAuthzUserService().getCountUpdateByEmail(userDTO.getEmail(),model.getId());
 		if(total2 > 0) {
 			return fail("user.new.email.exists");
 		}
@@ -246,66 +246,66 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "分页查询用户已分配角色信息", notes = "分页查询用户已分配角色信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "已分配角色信息筛选条件", dataType = "AuthzUserPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "已分配角色信息筛选条件", dataType = "AuthzUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "分页查询用户已分配角色信息,用户Id：${userid}", opt = BusinessType.DELETE)
 	@PostMapping("allocated")
 	@RequiresPermissions("user:allocated")
 	@ResponseBody
-	public Result<AuthzRoleVo> allocated(@Valid @RequestBody AuthzUserPaginationVo paginationVo){
+	public Result<AuthzRoleDTO> allocated(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
 		
-		AuthzUserModel model = getBeanMapper().map(paginationVo, AuthzUserModel.class);
+		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
 		Page<AuthzRoleModel> pageResult = getAuthzUserService().getPagedAllocatedList(model);
-		List<AuthzRoleVo> retList = new ArrayList<AuthzRoleVo>();
+		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
 		for (AuthzRoleModel userModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(userModel, AuthzRoleVo.class));
+			retList.add(getBeanMapper().map(userModel, AuthzRoleDTO.class));
 		}
-		return new Result<AuthzRoleVo>(pageResult, retList);
+		return new Result<AuthzRoleDTO>(pageResult, retList);
 	}
 	
 	@ApiOperation(value = "分页查询用户未分配角色信息", notes = "分页查询用户未分配角色信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "未分配角色信息筛选条件", dataType = "AuthzUserPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "未分配角色信息筛选条件", dataType = "AuthzUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "分页查询用户未分配角色信息,用户Id：${userid}", opt = BusinessType.DELETE)
 	@PostMapping("unallocated")
 	@RequiresPermissions("user:unallocated")
 	@ResponseBody
-	public Result<AuthzRoleVo> unallocated(@Valid @RequestBody AuthzUserPaginationVo paginationVo){
+	public Result<AuthzRoleDTO> unallocated(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
 		
-		AuthzUserModel model = getBeanMapper().map(paginationVo, AuthzUserModel.class);
+		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
 		Page<AuthzRoleModel> pageResult = getAuthzUserService().getPagedUnAllocatedList(model);
-		List<AuthzRoleVo> retList = new ArrayList<AuthzRoleVo>();
+		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
 		for (AuthzRoleModel userModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(userModel, AuthzRoleVo.class));
+			retList.add(getBeanMapper().map(userModel, AuthzRoleDTO.class));
 		}
-		return new Result<AuthzRoleVo>(pageResult, retList);
+		return new Result<AuthzRoleDTO>(pageResult, retList);
 	}
 	
 	@ApiOperation(value = "给指定用户分配角色", notes = "给指定用户分配角色")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "allotVo", value = "用户分配的角色信息", dataType = "AuthzUserAllotRoleVo")
+		@ApiImplicitParam(paramType = "body", name = "allotDTO", value = "用户分配的角色信息", dataType = "AuthzUserAllotRoleDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "给指定用户分配角色，用户Id：${userid}", opt = BusinessType.DELETE)
 	@PostMapping("allot")
 	@RequiresPermissions("user:allot")
 	@ResponseBody
-	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzUserAllotRoleVo allotVo) throws Exception { 
-		AuthzUserAllotRoleModel model = getBeanMapper().map(allotVo, AuthzUserAllotRoleModel.class);
+	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception { 
+		AuthzUserAllotRoleModel model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleModel.class);
 		int total = getAuthzUserService().doAllot(model);
 		return success("user.allot.success", total); 
 	}
 	
 	@ApiOperation(value = "取消已分配给指定用户的角色", notes = "取消已分配给指定用户的角色")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "allotVo", value = "用户取消分配的角色信息", dataType = "AuthzUserAllotRoleVo")
+		@ApiImplicitParam(paramType = "body", name = "allotDTO", value = "用户取消分配的角色信息", dataType = "AuthzUserAllotRoleDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "取消已分配给指定用户的角色，用户Id：${userid}", opt = BusinessType.DELETE)
 	@PostMapping("unallot")
 	@RequiresPermissions("user:unallot")
 	@ResponseBody
-	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzUserAllotRoleVo allotVo) throws Exception { 
-		AuthzUserAllotRoleModel model = getBeanMapper().map(allotVo, AuthzUserAllotRoleModel.class);
+	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception { 
+		AuthzUserAllotRoleModel model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleModel.class);
 		int total = getAuthzUserService().doUnAllot(model);
 		return success("user.unallot.success", total); 
 	}
@@ -314,14 +314,14 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "设置个人信息", notes = "设置个人信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "resetVo", value = "用户信息", dataType = "AuthzUserResetVo")
+		@ApiImplicitParam(paramType = "body", name = "resetDTO", value = "用户信息", dataType = "AuthzUserResetDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "设置个人信息-名称：${username}", opt = BusinessType.UPDATE)
 	@PostMapping("reset/info")
 	@RequiresAuthentication
-	public ApiRestResponse<String> resetInfo(@Valid @RequestBody AuthzUserResetVo resetVo) throws Exception { 
+	public ApiRestResponse<String> resetInfo(@Valid @RequestBody AuthzUserResetDTO resetDTO) throws Exception { 
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		AuthzUserModel model = getBeanMapper().map(resetVo, AuthzUserModel.class);
+		AuthzUserModel model = getBeanMapper().map(resetDTO, AuthzUserModel.class);
 		model.setId(principal.getUserid());
 		int total = getAuthzUserService().update(model);
 		if(total > 0) {
@@ -378,13 +378,13 @@ public class AuthzUserController extends BaseMapperController {
 	@ApiOperation(value = "角色信息列表：当前登录用户", notes = "查询当前用户全部可用角色信息")
 	@GetMapping("roles")
 	@RequiresAuthentication
-	public ApiRestResponse<List<AuthzRoleVo>> roles(){
+	public ApiRestResponse<List<AuthzRoleDTO>> roles(){
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 	用户角色信息集合
 		List<AuthzRoleModel> roles = getAuthzUserService().getRoles(principal.getUserid());
-		List<AuthzRoleVo> retList = new ArrayList<AuthzRoleVo>();
+		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
 		for (AuthzRoleModel roleModel : roles) {
-			retList.add(getBeanMapper().map(roleModel, AuthzRoleVo.class));
+			retList.add(getBeanMapper().map(roleModel, AuthzRoleDTO.class));
 		}
 		return ApiRestResponse.success(retList);
 	}

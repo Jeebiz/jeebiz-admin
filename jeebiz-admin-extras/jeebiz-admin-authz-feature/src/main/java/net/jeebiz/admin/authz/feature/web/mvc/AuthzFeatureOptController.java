@@ -24,9 +24,9 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
 import net.jeebiz.admin.authz.feature.setup.Constants;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureOptNewVo;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureOptRenewVo;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureOptVo;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureOptNewDTO;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureOptRenewDTO;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureOptDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -45,18 +45,18 @@ public class AuthzFeatureOptController extends BaseMapperController{
 	
 	@ApiOperation(value = "增加功能操作代码信息", notes = "增加功能操作代码信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "optVo", value = "功能操作代码信息", required = true, dataType = "AuthzFeatureOptNewVo")
+		@ApiImplicitParam(paramType = "body", name = "optDTO", value = "功能操作代码信息", required = true, dataType = "AuthzFeatureOptNewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_FEATURE_OPT, business = Constants.Biz.AUTHZ_FEATURE_OPT_NEW, opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("opt:new")
 	@ResponseBody
-	public ApiRestResponse<String> newOpt(@Valid @RequestBody AuthzFeatureOptNewVo optVo) throws Exception {
-		int count = getAuthzFeatureOptService().getOptCountByName(optVo.getName(), optVo.getFeatureId(), null);
+	public ApiRestResponse<String> newOpt(@Valid @RequestBody AuthzFeatureOptNewDTO optDTO) throws Exception {
+		int count = getAuthzFeatureOptService().getOptCountByName(optDTO.getName(), optDTO.getFeatureId(), null);
 		if(count > 0) {
 			return fail("opt.new.name-exists");
 		}
-		AuthzFeatureOptModel model = getBeanMapper().map(optVo, AuthzFeatureOptModel.class);
+		AuthzFeatureOptModel model = getBeanMapper().map(optDTO, AuthzFeatureOptModel.class);
 		int total = getAuthzFeatureOptService().insert(model);
 		if(total > 0) {
 			// 删除菜单缓存
@@ -68,18 +68,18 @@ public class AuthzFeatureOptController extends BaseMapperController{
 	
 	@ApiOperation(value = "修改功能操作代码", notes = "修改功能操作代码信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "optVo", value = "功能操作代码信息", required = true, dataType = "AuthzFeatureOptRenewVo")
+		@ApiImplicitParam(paramType = "body", name = "optDTO", value = "功能操作代码信息", required = true, dataType = "AuthzFeatureOptRenewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_FEATURE_OPT, business = Constants.Biz.AUTHZ_FEATURE_OPT_RENEW, opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("opt:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renewOpt(@Valid @RequestBody AuthzFeatureOptRenewVo optVo) throws Exception {
-		int count = getAuthzFeatureOptService().getOptCountByName(optVo.getName(), optVo.getFeatureId(), optVo.getId());
+	public ApiRestResponse<String> renewOpt(@Valid @RequestBody AuthzFeatureOptRenewDTO optDTO) throws Exception {
+		int count = getAuthzFeatureOptService().getOptCountByName(optDTO.getName(), optDTO.getFeatureId(), optDTO.getId());
 		if(count > 0) {
 			return fail("opt.new.name-exists");
 		}
-		AuthzFeatureOptModel model = getBeanMapper().map(optVo, AuthzFeatureOptModel.class);
+		AuthzFeatureOptModel model = getBeanMapper().map(optDTO, AuthzFeatureOptModel.class);
 		int total = getAuthzFeatureOptService().update(model);
 		if(total > 0) {
 			// 删除菜单缓存
@@ -96,12 +96,12 @@ public class AuthzFeatureOptController extends BaseMapperController{
 	@GetMapping("detail")
 	@RequiresPermissions("opt:detail")
 	@ResponseBody
-	public ApiRestResponse<AuthzFeatureOptVo> detail(@RequestParam("id") String id) throws Exception {
+	public ApiRestResponse<AuthzFeatureOptDTO> detail(@RequestParam("id") String id) throws Exception {
 		AuthzFeatureOptModel model = getAuthzFeatureOptService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("opt.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzFeatureOptVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzFeatureOptDTO.class));
 	}
 	
 	@ApiOperation(value = "删除功能操作代码信息", notes = "删除功能操作代码信息")

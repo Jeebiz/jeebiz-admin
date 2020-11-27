@@ -23,10 +23,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzStaffModel;
 import net.jeebiz.admin.authz.org.service.IAuthzStaffService;
 import net.jeebiz.admin.authz.org.setup.Constants;
-import net.jeebiz.admin.authz.org.web.vo.AuthzStaffNewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzStaffPaginationVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzStaffRenewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzStaffVo;
+import net.jeebiz.admin.authz.org.web.dto.AuthzStaffNewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzStaffPaginationDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzStaffRenewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzStaffDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -43,33 +43,33 @@ public class AuthzStaffController extends BaseApiController {
 
 	@ApiOperation(value = "分页查询员工信息", notes = "分页查询员工信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "分页查询参数", dataType = "AuthzStaffPaginationVo") 
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "分页查询参数", dataType = "AuthzStaffPaginationDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_STAFF, business = "分页查询员工信息", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresPermissions("authz-staff:list")
-	public Result<AuthzStaffVo> list(@Valid @RequestBody AuthzStaffPaginationVo paginationVo) throws Exception {
+	public Result<AuthzStaffDTO> list(@Valid @RequestBody AuthzStaffPaginationDTO paginationDTO) throws Exception {
 		
-		AuthzStaffModel model = getBeanMapper().map(paginationVo, AuthzStaffModel.class);
+		AuthzStaffModel model = getBeanMapper().map(paginationDTO, AuthzStaffModel.class);
 		Page<AuthzStaffModel> pageResult = getAuthzStaffService().getPagedList(model);
-		List<AuthzStaffVo> retList = Lists.newArrayList();
+		List<AuthzStaffDTO> retList = Lists.newArrayList();
 		for (AuthzStaffModel staffModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(staffModel, AuthzStaffVo.class));
+			retList.add(getBeanMapper().map(staffModel, AuthzStaffDTO.class));
 		}
 		
-		return new Result<AuthzStaffVo>(pageResult, retList);
+		return new Result<AuthzStaffDTO>(pageResult, retList);
 		
 	}
 	
 	@ApiOperation(value = "创建员工信息", notes = "增加一个新的员工信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "staffVo", value = "员工信息", required = true, dataType = "AuthzStaffNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "staffDTO", value = "员工信息", required = true, dataType = "AuthzStaffNewDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_STAFF, business = "创建员工信息", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("authz-staff:new")
-	public ApiRestResponse<String> staff(@Valid @RequestBody AuthzStaffNewVo staffVo) throws Exception {
-		AuthzStaffModel model = getBeanMapper().map(staffVo, AuthzStaffModel.class);
+	public ApiRestResponse<String> staff(@Valid @RequestBody AuthzStaffNewDTO staffDTO) throws Exception {
+		AuthzStaffModel model = getBeanMapper().map(staffDTO, AuthzStaffModel.class);
 		int result = getAuthzStaffService().insert(model);
 		if(result > 0) {
 			return success("authz.staff.new.success", result);
@@ -79,13 +79,13 @@ public class AuthzStaffController extends BaseApiController {
 	
 	@ApiOperation(value = "更新员工信息", notes = "更新员工信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "staffVo", value = "员工信息", required = true, dataType = "AuthzStaffRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "staffDTO", value = "员工信息", required = true, dataType = "AuthzStaffRenewDTO"),
 	})
 	@BusinessLog(module = Constants.AUTHZ_STAFF, business = "更新员工信息", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("authz-staff:renew")
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzStaffRenewVo staffVo) throws Exception {
-		AuthzStaffModel model = getBeanMapper().map(staffVo, AuthzStaffModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzStaffRenewDTO staffDTO) throws Exception {
+		AuthzStaffModel model = getBeanMapper().map(staffDTO, AuthzStaffModel.class);
 		int result = getAuthzStaffService().update(model);
 		if(result == 1) {
 			return success("authz.staff.renew.success", result);
@@ -135,12 +135,12 @@ public class AuthzStaffController extends BaseApiController {
 	@BusinessLog(module = Constants.AUTHZ_STAFF, business = "查询员工信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")
 	@RequiresPermissions("authz-staff:detail")
-	public ApiRestResponse<AuthzStaffVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<AuthzStaffDTO> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzStaffModel model = getAuthzStaffService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.staff.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzStaffVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzStaffDTO.class));
 	}
 
 	public IAuthzStaffService getAuthzStaffService() {

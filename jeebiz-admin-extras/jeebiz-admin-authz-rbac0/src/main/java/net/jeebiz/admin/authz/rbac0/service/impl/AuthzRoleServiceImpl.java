@@ -26,7 +26,7 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
-import net.jeebiz.admin.authz.rbac0.web.vo.AuthzRoleAllotUserPaginationVo;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
 import net.jeebiz.boot.api.dao.entities.OrderBy;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
@@ -129,11 +129,11 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 	}
 	
 	@Override
-	public Page<AuthzUserModel> getPagedAllocatedList(AuthzRoleAllotUserPaginationVo paginationVo) {
+	public Page<AuthzUserModel> getPagedAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO) {
 		
-		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationVo.getPageNo(), paginationVo.getLimit());
-		if(!CollectionUtils.isEmpty(paginationVo.getOrders())) {
-			for (OrderBy orderBy : paginationVo.getOrders()) {
+		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationDTO.getPageNo(), paginationDTO.getLimit());
+		if(!CollectionUtils.isEmpty(paginationDTO.getOrders())) {
+			for (OrderBy orderBy : paginationDTO.getOrders()) {
 				if(orderBy.isAsc()) {
 					page.addOrder(OrderItem.asc(orderBy.getColumn()));
 				} else {
@@ -142,7 +142,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 			}
 		}
 		
-		List<AuthzUserModel> records = getDao().getPagedAllocatedList(page, paginationVo);
+		List<AuthzUserModel> records = getDao().getPagedAllocatedList(page, paginationDTO);
 		page.setRecords(records);
 		
 		return page;
@@ -150,11 +150,11 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 	}
 	
 	@Override
-	public Page<AuthzUserModel> getPagedUnAllocatedList(AuthzRoleAllotUserPaginationVo paginationVo) {
+	public Page<AuthzUserModel> getPagedUnAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO) {
 		
-		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationVo.getPageNo(), paginationVo.getLimit());
-		if(!CollectionUtils.isEmpty(paginationVo.getOrders())) {
-			for (OrderBy orderBy : paginationVo.getOrders()) {
+		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationDTO.getPageNo(), paginationDTO.getLimit());
+		if(!CollectionUtils.isEmpty(paginationDTO.getOrders())) {
+			for (OrderBy orderBy : paginationDTO.getOrders()) {
 				if(orderBy.isAsc()) {
 					page.addOrder(OrderItem.asc(orderBy.getColumn()));
 				} else {
@@ -163,7 +163,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 			}
 		}
 		
-		List<AuthzUserModel> records = getDao().getPagedUnAllocatedList(page, paginationVo);
+		List<AuthzUserModel> records = getDao().getPagedUnAllocatedList(page, paginationDTO);
 		page.setRecords(records);
 		
 		return page;

@@ -16,8 +16,8 @@ import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.setup.provider.ThirdpartyBindingProvider;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AbstractBindVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzThirdpartyVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
@@ -33,11 +33,11 @@ public class AuthzThirdpartyServiceImpl extends BaseServiceImpl<AuthzThirdpartyM
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public <T extends AbstractBindVo> AuthzThirdpartyVo binding(T bindVo) throws AuthenticationException {
+	public <T extends AbstractBindDTO> AuthzThirdpartyDTO binding(T bindDTO) throws AuthenticationException {
 		for (ThirdpartyBindingProvider provider : getBindingProviders()) {
-			if(provider.getType().equals(bindVo.getType())) {
-				AuthzThirdpartyModel model = provider.binding(bindVo);
-				return getBeanMapper().map(model, AuthzThirdpartyVo.class);
+			if(provider.getType().equals(bindDTO.getType())) {
+				AuthzThirdpartyModel model = provider.binding(bindDTO);
+				return getBeanMapper().map(model, AuthzThirdpartyDTO.class);
 			}
 		}
 		return null;

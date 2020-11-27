@@ -191,15 +191,15 @@ public class CodeGeneratorService {
                                  String moudlePackageName,boolean createExportMethod,boolean createImportMethod) {
         String showName = captureName(createName);
         String outputDir = projectPath + Constants.JAVA_PATH;
-        String voPackageName = codeGeneratorProperties.getParentPackageName() + Constants.DOT +moudlePackageName + ".web.vo";
-        String voRealPath = outputDir + processPackage(codeGeneratorProperties.getParentPackageName())
-                + File.separator +processPackage(moudlePackageName) + "/web/vo";
+        String DTOPackageName = codeGeneratorProperties.getParentPackageName() + Constants.DOT +moudlePackageName + ".web.dto";
+        String DTORealPath = outputDir + processPackage(codeGeneratorProperties.getParentPackageName())
+                + File.separator +processPackage(moudlePackageName) + "/web/dto";
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {  //注入自定义 Map 对象(注意需要setMap放进去)
                 Map<String, Object> map = new HashMap<>();
                 //注入传输层返回对象包名
-                map.put("voPackageName", voPackageName);
+                map.put("DTOPackageName", DTOPackageName);
                 map.put("createName", createName);
                 map.put("createExportMethod", createExportMethod);
                 map.put("createImportMethod", createImportMethod);
@@ -213,46 +213,46 @@ public class CodeGeneratorService {
         };
         // 如果模板引擎是 freemarker
         /*
-            自定义输出文件  DONE 增加vo层生成
+            自定义输出文件  DONE 增加DTO层生成
             配置 FileOutConfig 指定模板文件、输出文件达到自定义文件生成目的
          */
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
-        //添加返回结果Vo生成
-        focList.add(new FileOutConfig(Constants.RESULT_VO_PATH) {
+        //添加返回结果DTO生成
+        focList.add(new FileOutConfig(Constants.RESULT_DTO_PATH) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                return voRealPath + File.separator + showName + "ResultVo" + StringPool.DOT_JAVA;
+                return DTORealPath + File.separator + showName + "ResultDTO" + StringPool.DOT_JAVA;
             }
         });
-        focList.add(new FileOutConfig(Constants.NEW_VO_PATH) {
+        focList.add(new FileOutConfig(Constants.NEW_DTO_PATH) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                return voRealPath + File.separator + showName + "NewVo" + StringPool.DOT_JAVA;
+                return DTORealPath + File.separator + showName + "NewDTO" + StringPool.DOT_JAVA;
             }
         });
-        focList.add(new FileOutConfig(Constants.RENEW_VO_PATH) {
+        focList.add(new FileOutConfig(Constants.RENEW_DTO_PATH) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                return voRealPath + File.separator + showName + "ReNewVo" + StringPool.DOT_JAVA;
+                return DTORealPath + File.separator + showName + "ReNewDTO" + StringPool.DOT_JAVA;
             }
         });
-        focList.add(new FileOutConfig(Constants.PAGINATION_VO_PATH) {
+        focList.add(new FileOutConfig(Constants.PAGINATION_DTO_PATH) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                return voRealPath + File.separator + showName + "PaginationVo" + StringPool.DOT_JAVA;
+                return DTORealPath + File.separator + showName + "PaginationDTO" + StringPool.DOT_JAVA;
             }
         });
-        focList.add(new FileOutConfig(Constants.QUERY_VO_PATH) {
+        focList.add(new FileOutConfig(Constants.QUERY_DTO_PATH) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名
-                return voRealPath + File.separator + showName + "QueryVo" + StringPool.DOT_JAVA;
+                return DTORealPath + File.separator + showName + "QueryDTO" + StringPool.DOT_JAVA;
             }
         });
         cfg.setFileOutConfigList(focList);

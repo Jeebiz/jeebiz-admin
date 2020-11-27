@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
-import net.jeebiz.admin.extras.article.web.vo.ArticleDetailVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
 
 @Mapper
 public interface IArticleDao extends BaseDao<ArticleModel> {
@@ -31,6 +31,6 @@ public interface IArticleDao extends BaseDao<ArticleModel> {
 	 * @param id
 	 * @return
 	 */
-	ArticleDetailVo getDetail(@Param("id") String id);
+	ArticleDetailDTO getDetail(@Param("id") String id);
 	
 }

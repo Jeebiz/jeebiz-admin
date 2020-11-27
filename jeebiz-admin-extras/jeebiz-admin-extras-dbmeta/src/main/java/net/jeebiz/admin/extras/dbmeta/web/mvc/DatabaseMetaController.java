@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.dbmeta.service.IDatabaseMetaService;
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableColumnVo;
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableVo;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableColumnDTO;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.web.BaseApiController;
 import schemacrawler.schemacrawler.SchemaCrawlerException;
@@ -48,7 +48,7 @@ public class DatabaseMetaController extends BaseApiController {
 	@GetMapping("tables")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<TableVo>> tables() throws SchemaCrawlerException, SQLException {
+	public ApiRestResponse<List<TableDTO>> tables() throws SchemaCrawlerException, SQLException {
 		return ApiRestResponse.success(getDatabaseMetaService().getTables());
 	}
 
@@ -63,7 +63,7 @@ public class DatabaseMetaController extends BaseApiController {
 	@GetMapping("views")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<TableVo>> views() throws SchemaCrawlerException, SQLException {
+	public ApiRestResponse<List<TableDTO>> views() throws SchemaCrawlerException, SQLException {
 		return ApiRestResponse.success(getDatabaseMetaService().getViews());
 	}
 
@@ -82,7 +82,7 @@ public class DatabaseMetaController extends BaseApiController {
 	@GetMapping("columns")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<TableColumnVo>> tableColumns(@RequestParam("table") String table) throws SchemaCrawlerException, SQLException {
+	public ApiRestResponse<List<TableColumnDTO>> tableColumns(@RequestParam("table") String table) throws SchemaCrawlerException, SQLException {
 		if (StringUtils.isEmpty(table)) {
 			return ApiRestResponse.success(Lists.newArrayList());
 		}

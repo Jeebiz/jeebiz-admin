@@ -9,13 +9,13 @@ import net.jeebiz.admin.extras.article.dao.IArticleTopicDao;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleTopicModel;
 import net.jeebiz.admin.extras.article.service.IArticleTopicService;
 import net.jeebiz.admin.extras.article.utils.TopicUtils;
-import net.jeebiz.admin.extras.article.web.vo.ArticleTopicTreeVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicTreeDTO;
 
 @Service
 public class ArticleTopicServiceImpl extends BaseServiceImpl<ArticleTopicModel, IArticleTopicDao> implements IArticleTopicService {
 
 	@Override
-	public List<ArticleTopicTreeVo> tree() {
+	public List<ArticleTopicTreeDTO> tree() {
 		List<ArticleTopicModel> topicList = getDao().getTopics();
 		return TopicUtils.getTopicTreeList(topicList);
 	}

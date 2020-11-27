@@ -33,8 +33,8 @@ import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
 import net.jeebiz.admin.authz.thirdparty.setup.Constants;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzThirdpartyPaginationVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzThirdpartyVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyPaginationDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -55,21 +55,21 @@ public class AuthzThirdpartyController extends BaseMapperController {
 	
 	@ApiOperation(value = "分页查询第三方授权登录", notes = "分页查询第三方授权登录")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "分页筛选条件", dataType = "AuthzThirdpartyPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "分页筛选条件", dataType = "AuthzThirdpartyPaginationDTO")
 	})
 	@PostMapping("list")
 	@RequiresPermissions("thirdpt:list")
 	@ResponseBody
-	public Result<AuthzThirdpartyVo> list(@Valid @RequestBody AuthzThirdpartyPaginationVo paginationVo){
+	public Result<AuthzThirdpartyDTO> list(@Valid @RequestBody AuthzThirdpartyPaginationDTO paginationDTO){
 		
-		AuthzThirdpartyModel model =  getBeanMapper().map(paginationVo, AuthzThirdpartyModel.class);
+		AuthzThirdpartyModel model =  getBeanMapper().map(paginationDTO, AuthzThirdpartyModel.class);
 		Page<AuthzThirdpartyModel> pageResult = getAuthzThirdpartyService().getPagedList(model);
-		List<AuthzThirdpartyVo> retList = Lists.newArrayList();
+		List<AuthzThirdpartyDTO> retList = Lists.newArrayList();
 		for (AuthzThirdpartyModel thirdpartyModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(thirdpartyModel, AuthzThirdpartyVo.class));
+			retList.add(getBeanMapper().map(thirdpartyModel, AuthzThirdpartyDTO.class));
 		}
 		
-		return new Result<AuthzThirdpartyVo>(pageResult, retList);
+		return new Result<AuthzThirdpartyDTO>(pageResult, retList);
 		
 	}
 

@@ -35,10 +35,10 @@ import net.jeebiz.boot.api.web.Result;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleCommentModel;
 import net.jeebiz.admin.extras.article.service.IArticleCommentService;
 import net.jeebiz.admin.extras.article.setup.Constants;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCommentNewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCommentPaginationVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCommentRenewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCommentVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCommentNewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCommentPaginationDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCommentRenewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCommentDTO;
 
 @Api(tags = "文章评论")
 @RestController
@@ -51,19 +51,19 @@ public class ArticleCommentController extends BaseApiController {
     
     @ApiOperation(value = "分页查询文章评论", notes = "分页查询文章评论")
    	@ApiImplicitParams({ 
-   		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "ArticleCommentPaginationVo")
+   		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "ArticleCommentPaginationDTO")
    	})
    	@PostMapping("list")
     @RequiresPermissions("article-comment:list")
-   	public Result<ArticleCommentVo> list(@Valid @RequestBody ArticleCommentPaginationVo paginationVo){
+   	public Result<ArticleCommentDTO> list(@Valid @RequestBody ArticleCommentPaginationDTO paginationDTO){
    		
-       	ArticleCommentModel model =  getBeanMapper().map(paginationVo, ArticleCommentModel.class);
+       	ArticleCommentModel model =  getBeanMapper().map(paginationDTO, ArticleCommentModel.class);
    		Page<ArticleCommentModel> pageResult = getArticleCommentService().getPagedList(model);
-   		List<ArticleCommentVo> retList = Lists.newArrayList();
+   		List<ArticleCommentDTO> retList = Lists.newArrayList();
    		for (ArticleCommentModel keyvalueModel : pageResult.getRecords()) {
-   			retList.add(getBeanMapper().map(keyvalueModel, ArticleCommentVo.class));
+   			retList.add(getBeanMapper().map(keyvalueModel, ArticleCommentDTO.class));
    		}
-   		return new Result<ArticleCommentVo>(pageResult, retList);
+   		return new Result<ArticleCommentDTO>(pageResult, retList);
    		
    	}
 
@@ -77,16 +77,16 @@ public class ArticleCommentController extends BaseApiController {
     
    	@ApiOperation(value = "创建文章评论", notes = "增加一个新的文章评论")
    	@ApiImplicitParams({
-   		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章评论传输对象", dataType = "ArticleCommentNewVo") 
+   		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章评论传输对象", dataType = "ArticleCommentNewDTO") 
    	})
    	@BusinessLog(module = Constants.ARTICLE_COMMENT, business = "创建文章评论", opt = BusinessType.INSERT)
    	@PostMapping("new")
    	@RequiresPermissions("article-comment:new")
    	@ResponseBody
-   	public ApiRestResponse<String> comment(@Valid @RequestBody ArticleCommentNewVo vo) throws Exception {
+   	public ApiRestResponse<String> comment(@Valid @RequestBody ArticleCommentNewDTO DTO) throws Exception {
    		
    		// 新增一条数据库配置记录
-   		ArticleCommentModel model = getBeanMapper().map(vo, ArticleCommentModel.class);
+   		ArticleCommentModel model = getBeanMapper().map(DTO, ArticleCommentModel.class);
    		int result = getArticleCommentService().insert(model);
    		if(result == 1) {
    			return success("article.comment.new.success", result);
@@ -115,15 +115,15 @@ public class ArticleCommentController extends BaseApiController {
    	 
    	@ApiOperation(value = "更新文章评论", notes = "更新文章评论")
    	@ApiImplicitParams({ 
-   		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章评论", required = true, dataType = "ArticleCommentRenewVo"),
+   		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章评论", required = true, dataType = "ArticleCommentRenewDTO"),
    	})
    	@BusinessLog(module = Constants.ARTICLE_COMMENT, business = "更新文章评论", opt = BusinessType.UPDATE)
    	@PostMapping("renew")
    	@RequiresPermissions("article-comment:renew")
    	@ResponseBody
-   	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleCommentRenewVo vo) throws Exception {
+   	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleCommentRenewDTO DTO) throws Exception {
    		
-   		ArticleCommentModel model = getBeanMapper().map(vo, ArticleCommentModel.class);
+   		ArticleCommentModel model = getBeanMapper().map(DTO, ArticleCommentModel.class);
    		int result = getArticleCommentService().update(model);
    		if(result == 1) {
    			return success("article.comment.renew.success", result);
@@ -194,12 +194,12 @@ public class ArticleCommentController extends BaseApiController {
    	@GetMapping("detail")
    	@RequiresAuthentication
    	@ResponseBody
-   	public ApiRestResponse<ArticleCommentVo> detail(@RequestParam("id") String id) throws Exception { 
+   	public ApiRestResponse<ArticleCommentDTO> detail(@RequestParam("id") String id) throws Exception { 
    		ArticleCommentModel model = getArticleCommentService().getModel(id);
    		if(model == null) {
    			return ApiRestResponse.fail(getMessage("article.comment.get.empty"));
    		}
-   		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCommentVo.class));
+   		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCommentDTO.class));
    	}
 
     public IArticleCommentService getArticleCommentService() {

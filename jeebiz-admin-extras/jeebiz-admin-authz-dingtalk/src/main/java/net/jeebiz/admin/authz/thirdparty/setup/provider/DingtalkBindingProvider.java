@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzDingtalkBindVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkBindDTO;
 
 @Component
-public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzDingtalkBindVo> {
+public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzDingtalkBindDTO> {
 
 	@Autowired
 	private IAuthzThirdpartyDao authzThirdpartyDao;
@@ -25,7 +25,7 @@ public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzD
 	}
 	
 	@Override
-	public AuthzThirdpartyModel binding(AuthzDingtalkBindVo bindVo) throws AuthenticationException {
+	public AuthzThirdpartyModel binding(AuthzDingtalkBindDTO bindDTO) throws AuthenticationException {
 		
 		try {
 			

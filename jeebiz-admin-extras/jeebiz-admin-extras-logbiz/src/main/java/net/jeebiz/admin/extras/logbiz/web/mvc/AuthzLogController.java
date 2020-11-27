@@ -55,15 +55,15 @@ public class AuthzLogController extends BaseApiController {
 	
 	@ApiOperation(value = "认证授权日志", notes = "分页查询用户登录、登出日志信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "数据筛选条件", dataType = "AuthzLogPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "数据筛选条件", dataType = "AuthzLogPaginationDTO")
 	})
 	@PostMapping("list")
 	@RequiresPermissions("logs-authz:list")
 	@ResponseBody
-	public ApiRestResponse<Result<AuthzLogDTO>> list(@Valid @RequestBody AuthzLogPaginationDTO paginationVo)
+	public ApiRestResponse<Result<AuthzLogDTO>> list(@Valid @RequestBody AuthzLogPaginationDTO paginationDTO)
 			throws Exception {
 		
-		AuthzLogModel model = getBeanMapper().map(paginationVo, AuthzLogModel.class);
+		AuthzLogModel model = getBeanMapper().map(paginationDTO, AuthzLogModel.class);
 		Page<AuthzLogModel> pageResult = getAuthzLogService().getPagedList(model);
 		List<AuthzLogDTO> retList = new ArrayList<AuthzLogDTO>();
 		for (AuthzLogModel logModel : pageResult.getRecords()) {

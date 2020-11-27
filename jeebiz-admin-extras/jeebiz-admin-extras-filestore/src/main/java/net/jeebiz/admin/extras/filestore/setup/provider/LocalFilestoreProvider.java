@@ -24,9 +24,9 @@ import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
 import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
 import net.jeebiz.admin.extras.filestore.setup.config.JeebizFilestoreLocalProperties;
 import net.jeebiz.admin.extras.filestore.utils.AttUtils;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreDownloadVo;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreVo;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 
@@ -53,7 +53,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public FilestoreVo upload(MultipartFile file, int width, int height) throws Exception {
+	public FilestoreDTO upload(MultipartFile file, int width, int height) throws Exception {
 		try {
 			
 			// 文件存储目录
@@ -88,12 +88,12 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			getFilestoreDao().insert(model);
 			
 			// 文件存储信息
-			FilestoreVo attVo = new FilestoreVo();
-			attVo.setUuid(uuid);
-			attVo.setName(file.getOriginalFilename());
-			attVo.setPath(path);
+			FilestoreDTO attDTO = new FilestoreDTO();
+			attDTO.setUuid(uuid);
+			attDTO.setName(file.getOriginalFilename());
+			attDTO.setPath(path);
 			
-			return attVo;
+			return attDTO;
 			
 		} catch (Exception e) {
 			throw new BizRuntimeException("测试报告附件存储IO异常");
@@ -101,8 +101,8 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FilestoreVo> upload(MultipartFile[] files, int width, int height) throws Exception {
-		List<FilestoreVo> attList = Lists.newArrayList();
+	public List<FilestoreDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
+		List<FilestoreDTO> attList = Lists.newArrayList();
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		for (MultipartFile file : files) {
 			
@@ -131,12 +131,12 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 				getFilestoreDao().insert(model);
 				
 				// 文件存储信息
-				FilestoreVo attVo = new FilestoreVo();
-				attVo.setUuid(uuid);
-				attVo.setName(file.getOriginalFilename());
-				attVo.setPath(path);
+				FilestoreDTO attDTO = new FilestoreDTO();
+				attDTO.setUuid(uuid);
+				attDTO.setName(file.getOriginalFilename());
+				attDTO.setPath(path);
 				
-				attList.add(attVo);
+				attList.add(attDTO);
 				
 			} catch (Exception e) {
 				throw new BizRuntimeException("测试报告附件存储IO异常");
@@ -210,7 +210,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 
 
 	@Override
-	public FilestoreVo reupload(String uuid, MultipartFile file, int width, int height) throws IOException {
+	public FilestoreDTO reupload(String uuid, MultipartFile file, int width, int height) throws IOException {
 		// 查询文件信息
 		FilestoreModel model = getFilestoreDao().getByUuid(uuid);
 		if(model == null) {
@@ -230,10 +230,10 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		file.transferTo(new File(fileDir, path));
 		
 		// 文件存储信息
-		FilestoreVo attVo = new FilestoreVo();
-		attVo.setUuid(uuid1);
-		attVo.setName(file.getOriginalFilename());
-		attVo.setPath(path);
+		FilestoreDTO attDTO = new FilestoreDTO();
+		attDTO.setUuid(uuid1);
+		attDTO.setName(file.getOriginalFilename());
+		attDTO.setPath(path);
 		
 		// 文件存储记录对象
 		model.setUid(uuid1);
@@ -250,23 +250,23 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		}
 		getFilestoreDao().delete(uuid);
 		
-		return attVo;
+		return attDTO;
 	}
  
 	@Override
-	public List<FilestoreVo> listByPath(List<String> paths) throws Exception {
+	public List<FilestoreDTO> listByPath(List<String> paths) throws Exception {
 		
-		List<FilestoreVo> attList = Lists.newArrayList();
+		List<FilestoreDTO> attList = Lists.newArrayList();
 		
 		for (String path : paths) {
 			
 			// 文件存储信息
-			FilestoreVo attVo = new FilestoreVo();
+			FilestoreDTO attDTO = new FilestoreDTO();
 			
-			attVo.setPath(path);
-			//attVo.setUrl(getFdfsTemplate().getAccsssURL(Constants.GROUP_NAME, path));
+			attDTO.setPath(path);
+			//attDTO.setUrl(getFdfsTemplate().getAccsssURL(Constants.GROUP_NAME, path));
 			
-			attList.add(attVo);
+			attList.add(attDTO);
 
 		} 
 		
@@ -274,9 +274,9 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public List<FilestoreVo> listByUuid(List<String> uuids) throws Exception {
+	public List<FilestoreDTO> listByUuid(List<String> uuids) throws Exception {
 		
-		List<FilestoreVo> attList = Lists.newArrayList();
+		List<FilestoreDTO> attList = Lists.newArrayList();
 		
 		// 查询文件信息
 		List<FilestoreModel> fileList = getFilestoreDao().getFiles(uuids);
@@ -284,14 +284,14 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		for (FilestoreModel model : fileList) {
 			
 			// 文件存储信息
-			FilestoreVo attVo = new FilestoreVo();
+			FilestoreDTO attDTO = new FilestoreDTO();
 			
-			attVo.setUuid(model.getUuid());
-			attVo.setName(model.getName());
-			attVo.setPath(model.getPath());
-			//attVo.setUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getPath()));
+			attDTO.setUuid(model.getUuid());
+			attDTO.setName(model.getName());
+			attDTO.setPath(model.getPath());
+			//attDTO.setUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getPath()));
 			
-			attList.add(attVo);
+			attList.add(attDTO);
 
 		} 
 		
@@ -300,14 +300,14 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	
 
 	@Override
-	public FilestoreDownloadVo downloadByPath(String path) throws Exception {
+	public FilestoreDownloadDTO downloadByPath(String path) throws Exception {
 		
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public FilestoreDownloadVo downloadByUuid(String uuid) throws Exception {
+	public FilestoreDownloadDTO downloadByUuid(String uuid) throws Exception {
 
 		// 查询文件信息
 		FilestoreModel model = getFilestoreDao().getModel(uuid);

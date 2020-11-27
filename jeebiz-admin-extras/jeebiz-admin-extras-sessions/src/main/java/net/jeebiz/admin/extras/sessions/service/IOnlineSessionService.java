@@ -7,12 +7,12 @@ package net.jeebiz.admin.extras.sessions.service;
 import java.util.List;
 
 import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
-import net.jeebiz.admin.extras.sessions.web.vo.OnlineSessionVo;
+import net.jeebiz.admin.extras.sessions.web.dto.OnlineSessionDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
 public interface IOnlineSessionService extends IBaseService<OnlineSessionModel> {
 
-	List<OnlineSessionVo> getActiveSessions();
+	List<OnlineSessionDTO> getActiveSessions();
 
 	void offline(String sessionId);
 

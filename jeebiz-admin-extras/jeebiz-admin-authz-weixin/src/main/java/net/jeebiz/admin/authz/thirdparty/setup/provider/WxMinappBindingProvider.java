@@ -19,10 +19,10 @@ import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserModel;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzWeixinMaBindVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzWeixinMaBindDTO;
 
 @Component
-public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzWeixinMaBindVo> {
+public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzWeixinMaBindDTO> {
 
 	@Autowired
 	private IAuthzThirdpartyDao authzThirdpartyDao;
@@ -35,12 +35,12 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 	}
 	
 	@Override
-	public AuthzThirdpartyModel binding(AuthzWeixinMaBindVo bindVo) throws AuthenticationException {
+	public AuthzThirdpartyModel binding(AuthzWeixinMaBindDTO bindDTO) throws AuthenticationException {
 		
 		try {
 			
 			// 根据jscode获取会话信息
-			WxMaJscode2SessionResult sessionResult = getWxMaService().jsCode2SessionInfo(bindVo.getJscode());
+			WxMaJscode2SessionResult sessionResult = getWxMaService().jsCode2SessionInfo(bindDTO.getJscode());
 			// 判断是否已经完成绑定
 			int rt = getAuthzThirdpartyDao().getCountByUid(sessionResult.getOpenid());
 			if(rt > 0) {
@@ -49,11 +49,11 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 			}
 			
 			// 获取用户手机号信息
-			WxMaPhoneNumberInfo phoneNumberInfo = getWxMaService().getUserService().getPhoneNoInfo(sessionResult.getSessionKey(), bindVo.getEncryptedData(), bindVo.getIv());
+			WxMaPhoneNumberInfo phoneNumberInfo = getWxMaService().getUserService().getPhoneNoInfo(sessionResult.getSessionKey(), bindDTO.getEncryptedData(), bindDTO.getIv());
 			// 获取用户信息
-			WxMaUserInfo userInfo = bindVo.getUserInfo();
+			WxMaUserInfo userInfo = bindDTO.getUserInfo();
 			if(Objects.isNull(userInfo)) {
-				userInfo = getWxMaService().getUserService().getUserInfo(bindVo.getSessionKey(), bindVo.getEncryptedData(), bindVo.getIv());
+				userInfo = getWxMaService().getUserService().getUserInfo(bindDTO.getSessionKey(), bindDTO.getEncryptedData(), bindDTO.getIv());
 			}
 			// 创建本地关联用户
 			AuthzThirdpartyUserModel userModel = new AuthzThirdpartyUserModel();

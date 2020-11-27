@@ -21,7 +21,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * AOP Alliance {@code MethodInterceptor} that processes method invocations
+ * AOP Alliance {@code MethodInterceptor} that processes method inDTOcations
  * asynchronously, using a given {@link org.springframework.core.task.AsyncTaskExecutor}.
  * Typically used with the {@link org.springframework.scheduling.annotation.Async} annotation.
  *
@@ -60,9 +60,9 @@ public class AsyncExecutionInterceptor extends AsyncExecutionAspectSupport
 
 
     /**
-     * Intercept the given method invocation, submit the actual calling of the method to
+     * Intercept the given method inDTOcation, submit the actual calling of the method to
      * the correct task executor and return immediately to the caller.
-     * @param invocation the method to intercept and make asynchronous
+     * @param inDTOcation the method to intercept and make asynchronous
      * @return {@link java.util.concurrent.Future} if the original method returns {@code Future}; {@code null}
      * otherwise.
      */

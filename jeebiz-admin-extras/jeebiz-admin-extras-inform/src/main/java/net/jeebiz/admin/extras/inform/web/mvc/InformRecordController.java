@@ -32,9 +32,9 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
 import net.jeebiz.admin.extras.inform.service.IInformRecordService;
 import net.jeebiz.admin.extras.inform.setup.Constants;
-import net.jeebiz.admin.extras.inform.web.vo.InformRecordPaginationVo;
-import net.jeebiz.admin.extras.inform.web.vo.InformRecordStatsVo;
-import net.jeebiz.admin.extras.inform.web.vo.InformRecordVo;
+import net.jeebiz.admin.extras.inform.web.dto.InformRecordPaginationDTO;
+import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
+import net.jeebiz.admin.extras.inform.web.dto.InformRecordDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -64,25 +64,25 @@ public class InformRecordController extends BaseMapperController {
 	
 	@ApiOperation(value = "查询消息通知", notes = "分页查询消息通知")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "消息筛选条件", dataType = "InformRecordPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "消息筛选条件", dataType = "InformRecordPaginationDTO")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "分页查询消息通知", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresAuthentication
 	@ResponseBody
-	public Result<InformRecordVo> list(@Valid @RequestBody InformRecordPaginationVo paginationVo) throws Exception {
+	public Result<InformRecordDTO> list(@Valid @RequestBody InformRecordPaginationDTO paginationDTO) throws Exception {
 		
-		InformRecordModel model = getBeanMapper().map(paginationVo, InformRecordModel.class);
+		InformRecordModel model = getBeanMapper().map(paginationDTO, InformRecordModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setToUid(principal.getUserid());
 		
 		Page<InformRecordModel> pageResult = getInformService().getPagedList(model);
-		List<InformRecordVo> retList = new ArrayList<InformRecordVo>();
+		List<InformRecordDTO> retList = new ArrayList<InformRecordDTO>();
 		for (InformRecordModel registryModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(registryModel, InformRecordVo.class));
+			retList.add(getBeanMapper().map(registryModel, InformRecordDTO.class));
 		}
 		
-		return new Result<InformRecordVo>(pageResult, retList);
+		return new Result<InformRecordDTO>(pageResult, retList);
 		
 	}
 
@@ -90,7 +90,7 @@ public class InformRecordController extends BaseMapperController {
 	@GetMapping("stats")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<InformRecordStatsVo>> stats() throws Exception {
+	public ApiRestResponse<List<InformRecordStatsDTO>> stats() throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		return ApiRestResponse.success(getInformService().getStats(principal.getUserid()));
 	}
@@ -102,13 +102,13 @@ public class InformRecordController extends BaseMapperController {
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<InformRecordVo> detail(@RequestParam("id")  String id) throws Exception {
+	public ApiRestResponse<InformRecordDTO> detail(@RequestParam("id")  String id) throws Exception {
 		
 		InformRecordModel model = getInformService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("inform.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, InformRecordVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, InformRecordDTO.class));
 		
 	}
 	

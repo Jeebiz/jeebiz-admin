@@ -38,11 +38,11 @@ import net.jeebiz.boot.api.web.Result;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleTopicModel;
 import net.jeebiz.admin.extras.article.service.IArticleTopicService;
 import net.jeebiz.admin.extras.article.setup.Constants;
-import net.jeebiz.admin.extras.article.web.vo.ArticleTopicNewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleTopicPaginationVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleTopicRenewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleTopicTreeVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleTopicVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicNewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicPaginationDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicRenewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicTreeDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicDTO;
 
 @Api(tags = "文章栏目查询")
 @RestController
@@ -55,19 +55,19 @@ public class ArticleTopicController extends BaseApiController {
     
     @ApiOperation(value = "分页查询文章栏目", notes = "分页查询文章栏目")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "ArticleTopicPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "ArticleTopicPaginationDTO")
 	})
 	@PostMapping("list")
     @RequiresPermissions("article-topic:list")
-	public Result<ArticleTopicVo> list(@Valid @RequestBody ArticleTopicPaginationVo paginationVo){
+	public Result<ArticleTopicDTO> list(@Valid @RequestBody ArticleTopicPaginationDTO paginationDTO){
 		
-    	ArticleTopicModel model =  getBeanMapper().map(paginationVo, ArticleTopicModel.class);
+    	ArticleTopicModel model =  getBeanMapper().map(paginationDTO, ArticleTopicModel.class);
 		Page<ArticleTopicModel> pageResult = getArticleTopicService().getPagedList(model);
-		List<ArticleTopicVo> retList = Lists.newArrayList();
+		List<ArticleTopicDTO> retList = Lists.newArrayList();
 		for (ArticleTopicModel keyvalueModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keyvalueModel, ArticleTopicVo.class));
+			retList.add(getBeanMapper().map(keyvalueModel, ArticleTopicDTO.class));
 		}
-		return new Result<ArticleTopicVo>(pageResult, retList);
+		return new Result<ArticleTopicDTO>(pageResult, retList);
 		
 	}
 
@@ -81,16 +81,16 @@ public class ArticleTopicController extends BaseApiController {
  
 	@ApiOperation(value = "创建文章栏目", notes = "增加一个新的文章栏目")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章栏目传输对象", dataType = "ArticleTopicNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章栏目传输对象", dataType = "ArticleTopicNewDTO") 
 	})
 	@BusinessLog(module = Constants.ARTICLE_TOPIC, business = "创建文章栏目", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("article-topic:new")
 	@ResponseBody
-	public ApiRestResponse<String> topic(@Valid @RequestBody ArticleTopicNewVo vo) throws Exception {
+	public ApiRestResponse<String> topic(@Valid @RequestBody ArticleTopicNewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleTopicService().getCountByName(vo.getName(), null);
+		int ct = getArticleTopicService().getCountByName(DTO.getName(), null);
 		if(ct > 0) {
 			return fail("article.topic.conflict");
 		}
@@ -98,7 +98,7 @@ public class ArticleTopicController extends BaseApiController {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 
 		// 新增一条数据库配置记录
-		ArticleTopicModel model = getBeanMapper().map(vo, ArticleTopicModel.class);
+		ArticleTopicModel model = getBeanMapper().map(DTO, ArticleTopicModel.class);
 		model.setUid(principal.getUserid());
 		
 		int result = getArticleTopicService().insert(model);
@@ -129,21 +129,21 @@ public class ArticleTopicController extends BaseApiController {
 	 
 	@ApiOperation(value = "更新文章栏目", notes = "更新文章栏目")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章栏目", required = true, dataType = "ArticleTopicRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章栏目", required = true, dataType = "ArticleTopicRenewDTO"),
 	})
 	@BusinessLog(module = Constants.ARTICLE_TOPIC, business = "更新文章栏目", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("article-topic:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleTopicRenewVo vo) throws Exception {
+	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleTopicRenewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleTopicService().getCountByName(vo.getName(), vo.getId());
+		int ct = getArticleTopicService().getCountByName(DTO.getName(), DTO.getId());
 		if(ct > 0) {
 			return fail("article.topic.conflict");
 		}
 		
-		ArticleTopicModel model = getBeanMapper().map(vo, ArticleTopicModel.class);
+		ArticleTopicModel model = getBeanMapper().map(DTO, ArticleTopicModel.class);
 		int result = getArticleTopicService().update(model);
 		if(result == 1) {
 			return success("article.topic.renew.success", result);
@@ -178,20 +178,20 @@ public class ArticleTopicController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<ArticleTopicVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<ArticleTopicDTO> detail(@RequestParam("id") String id) throws Exception { 
 		ArticleTopicModel model = getArticleTopicService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.topic.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, ArticleTopicVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, ArticleTopicDTO.class));
 	}
 
     @ApiOperation(value = "文章栏目树")
     @GetMapping("tree")
     @RequiresAuthentication
-    public ApiRestResponse<List<ArticleTopicTreeVo>> tree() {
-    	ArticleTopicTreeVo topTopic = ArticleTopicTreeVo.createRoot();
-        List<ArticleTopicTreeVo> children = getArticleTopicService().tree();
+    public ApiRestResponse<List<ArticleTopicTreeDTO>> tree() {
+    	ArticleTopicTreeDTO topTopic = ArticleTopicTreeDTO.createRoot();
+        List<ArticleTopicTreeDTO> children = getArticleTopicService().tree();
         topTopic.setChildren(children);
         return ApiRestResponse.success(Arrays.asList(topTopic));
     }

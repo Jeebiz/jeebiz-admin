@@ -35,10 +35,10 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
 import net.jeebiz.admin.authz.thirdparty.setup.Constants;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzThirdpartyVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzWeixinMpBindVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzWeixinMpCode2AccessTokenVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzWeixinMpConfigVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzWeixinMpBindDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzWeixinMpCode2AccessTokenDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzWeixinMpConfigDTO;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
@@ -84,21 +84,21 @@ public class AuthzWeixinMpController extends BaseMapperController {
 	@ApiOperation(value = "微信（公共号、服务号）：通过code换取accesstoken", notes = "通过code换取accesstoken")
 	@GetMapping("code2Token")
 	@ResponseBody
-	public ApiRestResponse<AuthzWeixinMpCode2AccessTokenVo> authorize(@RequestParam("code") String code,
+	public ApiRestResponse<AuthzWeixinMpCode2AccessTokenDTO> authorize(@RequestParam("code") String code,
 			@RequestParam(name = "state", required = false) String state,
 			@RequestParam(name = "lang", required = false) String lang) throws WxErrorException {
 		
-		AuthzWeixinMpCode2AccessTokenVo code2TokenVo = new AuthzWeixinMpCode2AccessTokenVo();
+		AuthzWeixinMpCode2AccessTokenDTO code2TokenDTO = new AuthzWeixinMpCode2AccessTokenDTO();
 		
 		WxOAuth2AccessToken oAuth2AccessToken = getWxMpService().getOAuth2Service().getAccessToken(code);
 		
-		code2TokenVo.setAccessToken(oAuth2AccessToken);
-		code2TokenVo.setBind(getAuthzThirdpartyService().getCountByOpenId(oAuth2AccessToken.getOpenId()) > 0);
-		code2TokenVo.setOpenid(oAuth2AccessToken.getOpenId());
-		code2TokenVo.setUnionid(oAuth2AccessToken.getUnionId());
-		code2TokenVo.setUserInfo(getWxMpService().getOAuth2Service().getUserInfo(oAuth2AccessToken, StringUtils.defaultString(lang, "zh_CN")));
+		code2TokenDTO.setAccessToken(oAuth2AccessToken);
+		code2TokenDTO.setBind(getAuthzThirdpartyService().getCountByOpenId(oAuth2AccessToken.getOpenId()) > 0);
+		code2TokenDTO.setOpenid(oAuth2AccessToken.getOpenId());
+		code2TokenDTO.setUnionid(oAuth2AccessToken.getUnionId());
+		code2TokenDTO.setUserInfo(getWxMpService().getOAuth2Service().getUserInfo(oAuth2AccessToken, StringUtils.defaultString(lang, "zh_CN")));
 		
-        return ApiRestResponse.success(code2TokenVo);
+        return ApiRestResponse.success(code2TokenDTO);
 	}
 	
 	/*
@@ -138,29 +138,29 @@ public class AuthzWeixinMpController extends BaseMapperController {
 	})
 	@GetMapping("config")
 	@ResponseBody
-	public ApiRestResponse<AuthzWeixinMpConfigVo> maConfig( @RequestParam("url")  String url) throws WxErrorException {
+	public ApiRestResponse<AuthzWeixinMpConfigDTO> maConfig( @RequestParam("url")  String url) throws WxErrorException {
 		
-		AuthzWeixinMpConfigVo configVo = new AuthzWeixinMpConfigVo();
+		AuthzWeixinMpConfigDTO configDTO = new AuthzWeixinMpConfigDTO();
 		
 		// 创建调用jsapi时所需要的签名.
         WxJsapiSignature jsapiSignature = getWxMpService().createJsapiSignature(url);
-        configVo.setAppId(jsapiSignature.getAppId());
-        configVo.setNonceStr(jsapiSignature.getNonceStr());
-        configVo.setSignature(jsapiSignature.getSignature());
-        configVo.setTimestamp(jsapiSignature.getTimestamp());
+        configDTO.setAppId(jsapiSignature.getAppId());
+        configDTO.setNonceStr(jsapiSignature.getNonceStr());
+        configDTO.setSignature(jsapiSignature.getSignature());
+        configDTO.setTimestamp(jsapiSignature.getTimestamp());
         
-        return ApiRestResponse.success(configVo);
+        return ApiRestResponse.success(configDTO);
 	}
 	
 	@ApiOperation(value = "微信（公共号、服务号）登录第3步：绑定微信登录", notes = "微信登录绑定（用于当前登录账户的绑定，认证绑定请使用过滤器）")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "bindVo", value = "绑定信息", dataType = "AuthzWeixinMpBindVo")
+		@ApiImplicitParam(paramType = "body", name = "bindDTO", value = "绑定信息", dataType = "AuthzWeixinMpBindDTO")
 	})
 	@PostMapping("binding")
 	@ResponseBody
-	public ApiRestResponse<AuthzThirdpartyVo> binding(@Valid @RequestBody AuthzWeixinMpBindVo bindVo) throws Exception { 
-		bindVo.setType(ThirdpartyType.WXMP);
-		AuthzThirdpartyVo model = getAuthzThirdpartyService().binding(bindVo);
+	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzWeixinMpBindDTO bindDTO) throws Exception { 
+		bindDTO.setType(ThirdpartyType.WXMP);
+		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(bindDTO);
 		if(model != null) {
 			return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("authz.thirdparty.binding.success"), model);
 		}

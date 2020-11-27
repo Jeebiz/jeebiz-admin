@@ -8,9 +8,9 @@ import org.apache.shiro.authc.AuthenticationException;
 
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AbstractBindVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
 
-public interface ThirdpartyBindingProvider<T extends AbstractBindVo> {
+public interface ThirdpartyBindingProvider<T extends AbstractBindDTO> {
 
 	/**
 	 * Provider Type
@@ -20,10 +20,10 @@ public interface ThirdpartyBindingProvider<T extends AbstractBindVo> {
 	
 	/**
 	 * 登录绑定
-	 * @param bindVo 绑定信息
+	 * @param bindDTO 绑定信息
 	 * @return
 	 */
-	AuthzThirdpartyModel binding(T bindVo) throws AuthenticationException;
+	AuthzThirdpartyModel binding(T bindDTO) throws AuthenticationException;
 	
 	/**
 	 * 解除绑定

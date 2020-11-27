@@ -24,8 +24,8 @@ import net.jeebiz.boot.api.web.BaseApiController;
 import net.jeebiz.boot.api.web.Result;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleVisitModel;
 import net.jeebiz.admin.extras.article.service.IArticleVisitService;
-import net.jeebiz.admin.extras.article.web.vo.ArticleVisitPaginationVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleVisitVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleVisitPaginationDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleVisitDTO;
 
 @Api(tags = "文章访问：")
 @RestController
@@ -38,19 +38,19 @@ public class ArticleVisitController extends BaseApiController {
     
     @ApiOperation(value = "分页查询访问记录", notes = "分页查询访问记录")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "ArticleVisitPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "ArticleVisitPaginationDTO")
 	})
 	@PostMapping("list")
     @RequiresPermissions("article-topic:list")
-	public Result<ArticleVisitVo> list(@Valid @RequestBody ArticleVisitPaginationVo paginationVo){
+	public Result<ArticleVisitDTO> list(@Valid @RequestBody ArticleVisitPaginationDTO paginationDTO){
 		
-    	ArticleVisitModel model =  getBeanMapper().map(paginationVo, ArticleVisitModel.class);
+    	ArticleVisitModel model =  getBeanMapper().map(paginationDTO, ArticleVisitModel.class);
 		Page<ArticleVisitModel> pageResult = getArticleVisitService().getPagedList(model);
-		List<ArticleVisitVo> retList = Lists.newArrayList();
+		List<ArticleVisitDTO> retList = Lists.newArrayList();
 		for (ArticleVisitModel keyvalueModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keyvalueModel, ArticleVisitVo.class));
+			retList.add(getBeanMapper().map(keyvalueModel, ArticleVisitDTO.class));
 		}
-		return new Result<ArticleVisitVo>(pageResult, retList);
+		return new Result<ArticleVisitDTO>(pageResult, retList);
 		
 	}
     

@@ -19,8 +19,8 @@ import net.jeebiz.admin.extras.dbmeta.service.IDatabaseMetaService;
 import net.jeebiz.admin.extras.dbmeta.setup.DataSourceCrawlTemplate;
 import net.jeebiz.admin.extras.dbmeta.setup.TableColumnComparator;
 import net.jeebiz.admin.extras.dbmeta.setup.TableComparator;
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableColumnVo;
-import net.jeebiz.admin.extras.dbmeta.web.vo.TableVo;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableColumnDTO;
+import net.jeebiz.admin.extras.dbmeta.web.dto.TableDTO;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 import schemacrawler.schema.Column;
@@ -32,8 +32,8 @@ import schemacrawler.schemacrawler.SchemaCrawlerException;
 public class DatabaseMetaServiceImpl extends BaseServiceImpl<DatabaseMetaModel, IDatabaseMetaDao>
 		implements IDatabaseMetaService {
 	
-	private Comparator<TableVo> tableComparator = new TableComparator();
-	private Comparator<TableColumnVo> columnComparator = new TableColumnComparator();
+	private Comparator<TableDTO> tableComparator = new TableComparator();
+	private Comparator<TableColumnDTO> columnComparator = new TableColumnComparator();
 
 	@Autowired
 	private DataSourceCrawlTemplate dataSourceCrawlTemplate;
@@ -56,12 +56,12 @@ public class DatabaseMetaServiceImpl extends BaseServiceImpl<DatabaseMetaModel, 
     }
 
 	@Override
-	public List<TableVo> getTables() throws SchemaCrawlerException, SQLException {
-		List<TableVo> tables = Lists.newArrayList();
+	public List<TableDTO> getTables() throws SchemaCrawlerException, SQLException {
+		List<TableDTO> tables = Lists.newArrayList();
 		try {
 			for (final Table table : getDataSourceCrawlTemplate().crawlTables("default")) {
 				if (!(table instanceof View)) {
-					tables.add(new TableVo(table.getName(), table.getRemarks()));
+					tables.add(new TableDTO(table.getName(), table.getRemarks()));
 				}
 			}
 			tables.sort(tableComparator);
@@ -72,12 +72,12 @@ public class DatabaseMetaServiceImpl extends BaseServiceImpl<DatabaseMetaModel, 
 	}
 
 	@Override
-	public List<TableVo> getViews() throws SchemaCrawlerException, SQLException {
-		List<TableVo> tables = Lists.newArrayList();
+	public List<TableDTO> getViews() throws SchemaCrawlerException, SQLException {
+		List<TableDTO> tables = Lists.newArrayList();
 		try {
 			for (final Table table : getDataSourceCrawlTemplate().crawlTables("default")) {
 				if (table instanceof View) {
-					tables.add(new TableVo(table.getName(), table.getRemarks()));
+					tables.add(new TableDTO(table.getName(), table.getRemarks()));
 				}
 			}
 			tables.sort(tableComparator);
@@ -88,18 +88,18 @@ public class DatabaseMetaServiceImpl extends BaseServiceImpl<DatabaseMetaModel, 
 	}
 
 	@Override
-	public List<TableColumnVo> getColumns(String tablename) throws SchemaCrawlerException, SQLException {
-		List<TableColumnVo> columns = Lists.newArrayList();
+	public List<TableColumnDTO> getColumns(String tablename) throws SchemaCrawlerException, SQLException {
+		List<TableColumnDTO> columns = Lists.newArrayList();
 		try {
 			for (final Table table : getDataSourceCrawlTemplate().crawlTables("default")) {
 				if (table.getName().equalsIgnoreCase(tablename)) {
 					for (Column column : table.getColumns()) {
 
-						TableColumnVo columnVo = new TableColumnVo(column.getName(), column.getRemarks(),
+						TableColumnDTO columnDTO = new TableColumnDTO(column.getName(), column.getRemarks(),
 								column.getOrdinalPosition(), column.getType().getName(), column.getSize(),
 								column.getDefaultValue());
 
-						columns.add(columnVo);
+						columns.add(columnDTO);
 					}
 				}
 			}

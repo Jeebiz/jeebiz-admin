@@ -26,10 +26,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzTeamModel;
 import net.jeebiz.admin.authz.org.service.IAuthzTeamService;
 import net.jeebiz.admin.authz.org.setup.Constants;
-import net.jeebiz.admin.authz.org.web.vo.AuthzTeamNewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzTeamPaginationVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzTeamRenewVo;
-import net.jeebiz.admin.authz.org.web.vo.AuthzTeamVo;
+import net.jeebiz.admin.authz.org.web.dto.AuthzTeamNewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzTeamPaginationDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzTeamRenewDTO;
+import net.jeebiz.admin.authz.org.web.dto.AuthzTeamDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -48,21 +48,21 @@ public class AuthzTeamController extends BaseApiController {
 
 	@ApiOperation(value = "分页查询团队信息", notes = "分页查询团队信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "分页查询参数", dataType = "AuthzTeamPaginationVo") 
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "分页查询参数", dataType = "AuthzTeamPaginationDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "分页查询团队信息", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresPermissions("authz-team:list")
-	public Result<AuthzTeamVo> list(@Valid @RequestBody AuthzTeamPaginationVo paginationVo) throws Exception {
+	public Result<AuthzTeamDTO> list(@Valid @RequestBody AuthzTeamPaginationDTO paginationDTO) throws Exception {
 		
-		AuthzTeamModel model = getBeanMapper().map(paginationVo, AuthzTeamModel.class);
+		AuthzTeamModel model = getBeanMapper().map(paginationDTO, AuthzTeamModel.class);
 		Page<AuthzTeamModel> pageResult = getAuthzTeamService().getPagedList(model);
-		List<AuthzTeamVo> retList = Lists.newArrayList();
+		List<AuthzTeamDTO> retList = Lists.newArrayList();
 		for (AuthzTeamModel teamModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(teamModel, AuthzTeamVo.class));
+			retList.add(getBeanMapper().map(teamModel, AuthzTeamDTO.class));
 		}
 		
-		return new Result<AuthzTeamVo>(pageResult, retList);
+		return new Result<AuthzTeamDTO>(pageResult, retList);
 		
 	}
 	
@@ -73,14 +73,14 @@ public class AuthzTeamController extends BaseApiController {
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "查询团队信息", opt = BusinessType.SELECT)
 	@GetMapping("list")
 	@RequiresAuthentication
-	public ApiRestResponse<List<AuthzTeamVo>> list(@RequestParam(required = false) String deptId) throws Exception {
+	public ApiRestResponse<List<AuthzTeamDTO>> list(@RequestParam(required = false) String deptId) throws Exception {
 		List<AuthzTeamModel> resultList = getAuthzTeamService().getModelList(deptId);
 		if( CollectionUtils.isEmpty(resultList)) {
 			return ApiRestResponse.fail(getMessage("authz.team.not-found"));
 		}
-		List<AuthzTeamVo> retList = Lists.newArrayList();
+		List<AuthzTeamDTO> retList = Lists.newArrayList();
 		for (AuthzTeamModel model : resultList) {
-			retList.add(getBeanMapper().map(model, AuthzTeamVo.class));
+			retList.add(getBeanMapper().map(model, AuthzTeamDTO.class));
 		}
 		return ApiRestResponse.success(retList);
 	}
@@ -98,18 +98,18 @@ public class AuthzTeamController extends BaseApiController {
 	
 	@ApiOperation(value = "创建团队信息", notes = "增加一个新的团队信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "teamVo", value = "团队信息", required = true, dataType = "AuthzTeamNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "teamDTO", value = "团队信息", required = true, dataType = "AuthzTeamNewDTO") 
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "创建团队信息", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("authz-team:new")
-	public ApiRestResponse<String> team(@Valid @RequestBody AuthzTeamNewVo teamVo) throws Exception {
+	public ApiRestResponse<String> team(@Valid @RequestBody AuthzTeamNewDTO teamDTO) throws Exception {
 		
-		int count1 = getAuthzTeamService().getTeamCountByName(teamVo.getName(), teamVo.getDeptId(), null);
+		int count1 = getAuthzTeamService().getTeamCountByName(teamDTO.getName(), teamDTO.getDeptId(), null);
 		if(count1 > 0) {
 			return fail("authz.team.new.name-exists");
 		}
-		AuthzTeamModel model = getBeanMapper().map(teamVo, AuthzTeamModel.class);
+		AuthzTeamModel model = getBeanMapper().map(teamDTO, AuthzTeamModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setUid(principal.getUserid());
 		// 新增一条数据库配置记录
@@ -122,17 +122,17 @@ public class AuthzTeamController extends BaseApiController {
 	
 	@ApiOperation(value = "更新团队信息", notes = "更新团队信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "teamVo", value = "团队信息", required = true, dataType = "AuthzTeamRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "teamDTO", value = "团队信息", required = true, dataType = "AuthzTeamRenewDTO"),
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "更新团队信息", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("authz-team:renew")
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzTeamRenewVo teamVo) throws Exception {
-		int count1 = getAuthzTeamService().getTeamCountByName(teamVo.getName(), teamVo.getDeptId(), teamVo.getId());
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzTeamRenewDTO teamDTO) throws Exception {
+		int count1 = getAuthzTeamService().getTeamCountByName(teamDTO.getName(), teamDTO.getDeptId(), teamDTO.getId());
 		if(count1 > 0) {
 			return fail("authz.team.renew.name-exists");
 		}
-		AuthzTeamModel model = getBeanMapper().map(teamVo, AuthzTeamModel.class);
+		AuthzTeamModel model = getBeanMapper().map(teamDTO, AuthzTeamModel.class);
 		int result = getAuthzTeamService().update(model);
 		if(result == 1) {
 			return success("authz.team.renew.success", result);
@@ -187,12 +187,12 @@ public class AuthzTeamController extends BaseApiController {
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "查询团队信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")
 	@RequiresPermissions("authz-team:detail")
-	public ApiRestResponse<AuthzTeamVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<AuthzTeamDTO> detail(@RequestParam("id") String id) throws Exception { 
 		AuthzTeamModel model = getAuthzTeamService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.team.not-found"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzTeamVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzTeamDTO.class));
 	}
 
 	public IAuthzTeamService getAuthzTeamService() {

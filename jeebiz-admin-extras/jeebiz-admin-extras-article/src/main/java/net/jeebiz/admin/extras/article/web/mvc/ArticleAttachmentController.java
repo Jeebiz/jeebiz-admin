@@ -29,8 +29,8 @@ import net.jeebiz.boot.api.web.BaseApiController;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleAttachmentModel;
 import net.jeebiz.admin.extras.article.service.IArticleAttachmentService;
 import net.jeebiz.admin.extras.article.setup.Constants;
-import net.jeebiz.admin.extras.article.web.vo.ArticleAttachmentNewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleAttachmentVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleAttachmentNewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleAttachmentDTO;
 
 
 @Api(tags = "文章附件管理")
@@ -48,26 +48,26 @@ public class ArticleAttachmentController extends BaseApiController {
 	})
 	@PostMapping("list")
     @RequiresPermissions(value = {"article:list","article:new","article:renew"}, logical = Logical.OR)
-	public ApiRestResponse<List<ArticleAttachmentVo>> list(@RequestParam("id") String id){
+	public ApiRestResponse<List<ArticleAttachmentDTO>> list(@RequestParam("id") String id){
 		List<ArticleAttachmentModel> modelList = getArticleAttachmentService().getModelList(id);
-		List<ArticleAttachmentVo> retList = Lists.newArrayList();
+		List<ArticleAttachmentDTO> retList = Lists.newArrayList();
 		for (ArticleAttachmentModel model : modelList) {
-			retList.add(getBeanMapper().map(model, ArticleAttachmentVo.class));
+			retList.add(getBeanMapper().map(model, ArticleAttachmentDTO.class));
 		}
 		return ApiRestResponse.success(retList);
 	}
     
 	@ApiOperation(value = "创建文章附件", notes = "增加一个新的文章附件")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章附件传输对象", dataType = "ArticleAttachmentNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章附件传输对象", dataType = "ArticleAttachmentNewDTO") 
 	})
 	@BusinessLog(module = Constants.ARTICLE_ATT, business = "创建文章附件", opt = BusinessType.INSERT)
 	@PostMapping("upload")
 	@RequiresPermissions(value = {"article:new","article:renew"}, logical = Logical.OR)
-	public ApiRestResponse<String> upload(@Valid @RequestBody ArticleAttachmentNewVo vo) throws Exception {
+	public ApiRestResponse<String> upload(@Valid @RequestBody ArticleAttachmentNewDTO DTO) throws Exception {
 		
 		// 新增一条数据库配置记录
-		ArticleAttachmentModel model = getBeanMapper().map(vo, ArticleAttachmentModel.class);
+		ArticleAttachmentModel model = getBeanMapper().map(DTO, ArticleAttachmentModel.class);
 		int result = getArticleAttachmentService().insert(model);
 		if(result == 1) {
 			return success("article.att.new.success", result);

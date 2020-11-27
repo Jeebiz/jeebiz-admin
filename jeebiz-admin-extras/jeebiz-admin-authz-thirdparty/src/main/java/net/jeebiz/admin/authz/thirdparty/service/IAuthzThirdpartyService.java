@@ -9,8 +9,8 @@ import org.apache.shiro.authc.AuthenticationException;
 
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AbstractBindVo;
-import net.jeebiz.admin.authz.thirdparty.web.vo.AuthzThirdpartyVo;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
+import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
 /**
@@ -23,7 +23,7 @@ public interface IAuthzThirdpartyService extends IBaseService<AuthzThirdpartyMod
 	 * @param model
 	 * @return
 	 */
-	<T extends AbstractBindVo> AuthzThirdpartyVo binding(T bindVo) throws AuthenticationException;
+	<T extends AbstractBindDTO> AuthzThirdpartyDTO binding(T bindDTO) throws AuthenticationException;
 	
 	/**
 	 * 解除账号与第三方账号的绑定（删除第三方登录数据）

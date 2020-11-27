@@ -37,10 +37,10 @@ import net.jeebiz.boot.api.web.Result;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleCategoryModel;
 import net.jeebiz.admin.extras.article.service.IArticleCategoryService;
 import net.jeebiz.admin.extras.article.setup.Constants;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryNewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryPaginationVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryRenewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryNewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryPaginationDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryRenewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryDTO;
 
 
 @Api(tags = "文章分类查询")
@@ -54,19 +54,19 @@ public class ArticleCategoryController extends BaseApiController {
 
     @ApiOperation(value = "分页查询文章分类", notes = "分页查询文章分类")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "ArticleCategoryPaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "ArticleCategoryPaginationDTO")
 	})
 	@PostMapping("list")
     @RequiresPermissions("article-category:list")
-	public Result<ArticleCategoryVo> list(@Valid @RequestBody ArticleCategoryPaginationVo paginationVo){
+	public Result<ArticleCategoryDTO> list(@Valid @RequestBody ArticleCategoryPaginationDTO paginationDTO){
 		
-    	ArticleCategoryModel model =  getBeanMapper().map(paginationVo, ArticleCategoryModel.class);
+    	ArticleCategoryModel model =  getBeanMapper().map(paginationDTO, ArticleCategoryModel.class);
 		Page<ArticleCategoryModel> pageResult = getArticleCategoryService().getPagedList(model);
-		List<ArticleCategoryVo> retList = Lists.newArrayList();
+		List<ArticleCategoryDTO> retList = Lists.newArrayList();
 		for (ArticleCategoryModel keyvalueModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keyvalueModel, ArticleCategoryVo.class));
+			retList.add(getBeanMapper().map(keyvalueModel, ArticleCategoryDTO.class));
 		}
-		return new Result<ArticleCategoryVo>(pageResult, retList);
+		return new Result<ArticleCategoryDTO>(pageResult, retList);
 		
 	}
 
@@ -80,16 +80,16 @@ public class ArticleCategoryController extends BaseApiController {
  
 	@ApiOperation(value = "创建文章分类", notes = "增加一个新的文章分类")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章分类传输对象", dataType = "ArticleCategoryNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章分类传输对象", dataType = "ArticleCategoryNewDTO") 
 	})
 	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "创建文章分类", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("article-category:new")
 	@ResponseBody
-	public ApiRestResponse<String> keygroup(@Valid @RequestBody ArticleCategoryNewVo vo) throws Exception {
+	public ApiRestResponse<String> keygroup(@Valid @RequestBody ArticleCategoryNewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleCategoryService().getCountByName(vo.getName(), null);
+		int ct = getArticleCategoryService().getCountByName(DTO.getName(), null);
 		if(ct > 0) {
 			return fail("article.category.new.name.conflict");
 		}
@@ -97,7 +97,7 @@ public class ArticleCategoryController extends BaseApiController {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 
 		// 新增一条数据库配置记录
-		ArticleCategoryModel model = getBeanMapper().map(vo, ArticleCategoryModel.class);
+		ArticleCategoryModel model = getBeanMapper().map(DTO, ArticleCategoryModel.class);
 		model.setUid(principal.getUserid());
 		int result = getArticleCategoryService().insert(model);
 		if(result == 1) {
@@ -127,21 +127,21 @@ public class ArticleCategoryController extends BaseApiController {
 	 
 	@ApiOperation(value = "更新文章分类", notes = "更新文章分类")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章分类", required = true, dataType = "ArticleCategoryRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章分类", required = true, dataType = "ArticleCategoryRenewDTO"),
 	})
 	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "更新文章分类", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("article-category:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleCategoryRenewVo vo) throws Exception {
+	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleCategoryRenewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleCategoryService().getCountByName(vo.getName(), vo.getId());
+		int ct = getArticleCategoryService().getCountByName(DTO.getName(), DTO.getId());
 		if(ct > 0) {
 			return fail("article.category.renew.value.conflict");
 		}
 		
-		ArticleCategoryModel model = getBeanMapper().map(vo, ArticleCategoryModel.class);
+		ArticleCategoryModel model = getBeanMapper().map(DTO, ArticleCategoryModel.class);
 		int result = getArticleCategoryService().update(model);
 		if(result == 1) {
 			return success("article.category.renew.success", result);
@@ -176,12 +176,12 @@ public class ArticleCategoryController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<ArticleCategoryVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<ArticleCategoryDTO> detail(@RequestParam("id") String id) throws Exception { 
 		ArticleCategoryModel model = getArticleCategoryService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.category.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCategoryVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCategoryDTO.class));
 	}
 
     public IArticleCategoryService getArticleCategoryService() {

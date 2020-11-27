@@ -31,9 +31,9 @@ import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
 import net.jeebiz.admin.authz.feature.setup.handler.FeatureDataHandlerFactory;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureNewVo;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureRenewVo;
-import net.jeebiz.admin.authz.feature.web.vo.AuthzFeatureVo;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureNewDTO;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureRenewDTO;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -56,14 +56,14 @@ public class AuthzFeatureController extends BaseMapperController{
 	@ApiOperation(value = "功能菜单（全部数据）", notes = "查询功能菜单列表")
 	@GetMapping("list")
 	@RequiresAuthentication
-	public ApiRestResponse<List<AuthzFeatureVo>> list(){
+	public ApiRestResponse<List<AuthzFeatureDTO>> list(){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
-		List<AuthzFeatureVo> featureVoList = Lists.newArrayList();
+		List<AuthzFeatureDTO> featureDTOList = Lists.newArrayList();
 		for (AuthzFeatureModel model : featureList) {
-			featureVoList.add(getBeanMapper().map(model, AuthzFeatureVo.class));
+			featureDTOList.add(getBeanMapper().map(model, AuthzFeatureDTO.class));
 		}
-		return ApiRestResponse.success(featureVoList);
+		return ApiRestResponse.success(featureDTOList);
 	}
 	
 	@ApiOperation(value = "功能菜单-树形结构数据（全部数据）", notes = "查询功能菜单树形结构数据")
@@ -71,7 +71,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@GetMapping("tree")
 	@RequiresPermissions("feature:list")
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> tree(){
+	public ApiRestResponse<List<AuthzFeatureDTO>> tree(){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
@@ -89,7 +89,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@GetMapping("tree/tag")
 	@RequiresPermissions("feature:list")
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> treeByTag(@RequestParam("tag") String tag){
+	public ApiRestResponse<List<AuthzFeatureDTO>> treeByTag(@RequestParam("tag") String tag){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
@@ -104,7 +104,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@PostMapping("flat")
 	@RequiresPermissions("feature:list")
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> flat(){
+	public ApiRestResponse<List<AuthzFeatureDTO>> flat(){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
@@ -122,7 +122,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@PostMapping("flat/tag")
 	@RequiresPermissions("feature:list")
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureVo>> flatByTag(@RequestParam("tag") String tag){
+	public ApiRestResponse<List<AuthzFeatureDTO>> flatByTag(@RequestParam("tag") String tag){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
@@ -134,18 +134,18 @@ public class AuthzFeatureController extends BaseMapperController{
 	
 	@ApiOperation(value = "增加功能菜单信息", notes = "增加功能菜单信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "featureVo", value = "功能菜单信息", dataType = "AuthzFeatureNewVo")
+		@ApiImplicitParam(paramType = "body", name = "featureDTO", value = "功能菜单信息", dataType = "AuthzFeatureNewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "新增功能菜单-名称：${name}", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("feature:new")
 	@ResponseBody
-	public ApiRestResponse<String> feature(@Valid @RequestBody AuthzFeatureNewVo featureVo) throws Exception { 
-		int count = getAuthzFeatureService().getCountByCode(featureVo.getCode(), null);
+	public ApiRestResponse<String> feature(@Valid @RequestBody AuthzFeatureNewDTO featureDTO) throws Exception { 
+		int count = getAuthzFeatureService().getCountByCode(featureDTO.getCode(), null);
 		if(count > 0) {
 			return fail("feature.new.code-exists");
 		}
-		AuthzFeatureModel model = getBeanMapper().map(featureVo, AuthzFeatureModel.class);
+		AuthzFeatureModel model = getBeanMapper().map(featureDTO, AuthzFeatureModel.class);
 		/**
 		 * 菜单类型(1:原生|2:自定义)
 		 */
@@ -161,14 +161,14 @@ public class AuthzFeatureController extends BaseMapperController{
 	
 	@ApiOperation(value = "修改功能菜单信息", notes = "修改功能菜单信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "featureVo", value = "功能菜单信息", dataType = "AuthzFeatureRenewVo")
+		@ApiImplicitParam(paramType = "body", name = "featureDTO", value = "功能菜单信息", dataType = "AuthzFeatureRenewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "修改功能菜单-名称：${name}", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("feature:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzFeatureRenewVo featureVo) throws Exception { 
-		AuthzFeatureModel model = getBeanMapper().map(featureVo, AuthzFeatureModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzFeatureRenewDTO featureDTO) throws Exception { 
+		AuthzFeatureModel model = getBeanMapper().map(featureDTO, AuthzFeatureModel.class);
 		int total = getAuthzFeatureService().update(model);
 		if(total > 0) {
 			// 删除菜单缓存
@@ -186,12 +186,12 @@ public class AuthzFeatureController extends BaseMapperController{
 	@PostMapping("detail")
 	@RequiresPermissions("feature:detail")
 	@ResponseBody
-	public ApiRestResponse<AuthzFeatureVo> detail(@RequestParam("id") String id) throws Exception {
+	public ApiRestResponse<AuthzFeatureDTO> detail(@RequestParam("id") String id) throws Exception {
 		AuthzFeatureModel model = getAuthzFeatureService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("feature.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzFeatureVo.class)) ;
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzFeatureDTO.class)) ;
 	}
 	
 	@ApiOperation(value = "删除功能菜单信息", notes = "删除功能菜单信息")

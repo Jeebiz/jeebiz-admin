@@ -49,9 +49,9 @@
         <collection property="atts" column="{cid=C_ID}" select="getAttachments"> </collection>
     </resultMap>
 	
-    <resultMap id="ArticleDetailMap" extends="ArticleMap" type="net.jeebiz.admin.extras.article.web.vo.ArticleDetailVo">
+    <resultMap id="ArticleDetailMap" extends="ArticleMap" type="net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO">
     	<!-- 文章作者信息 -->
-        <association property="author" javaType="net.jeebiz.admin.extras.article.web.vo.ArticleAuthorVo"/>
+        <association property="author" javaType="net.jeebiz.admin.extras.article.web.dto.ArticleAuthorDTO"/>
         <!-- 文章评论信息 -->
         <collection property="comments" column="{cid=C_ID}" select="getComments"> </collection>
     </resultMap>

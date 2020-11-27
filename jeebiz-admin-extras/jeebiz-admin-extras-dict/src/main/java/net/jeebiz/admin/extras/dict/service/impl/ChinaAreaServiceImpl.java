@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.dict.dao.IChinaAreaDao;
 import net.jeebiz.admin.extras.dict.dao.entities.ChinaAreaModel;
 import net.jeebiz.admin.extras.dict.service.IChinaAreaService;
-import net.jeebiz.admin.extras.dict.web.vo.ChinaAreaPairVo;
+import net.jeebiz.admin.extras.dict.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
@@ -28,7 +28,7 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 	private static final String DEFAULT_NAME = "市辖区";
 	
 	@Override
-	public List<ChinaAreaPairVo> getChinaProvTree() {
+	public List<ChinaAreaPairDTO> getChinaProvTree() {
 		/**
 		 * 查询中国省、市、区数结构
 		 */
@@ -39,36 +39,36 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 				.map(provMap -> {
 					
 					// 省级
-					ChinaAreaPairVo provPaorVo = new ChinaAreaPairVo();
+					ChinaAreaPairDTO provPaorDTO = new ChinaAreaPairDTO();
 					
-					provPaorVo.setName(MapUtils.getString(provMap, NAME));
-					provPaorVo.setValue(MapUtils.getString(provMap, CODE));
-					provPaorVo.setChildren(pairList.stream()
+					provPaorDTO.setName(MapUtils.getString(provMap, NAME));
+					provPaorDTO.setValue(MapUtils.getString(provMap, CODE));
+					provPaorDTO.setChildren(pairList.stream()
 							.filter(cityMap -> MapUtils.getString(cityMap, PCODE).equals(MapUtils.getString(provMap, CODE)))
 							.map(cityMap -> {
 								
 								// 市级
-								ChinaAreaPairVo cityPaorVo = new ChinaAreaPairVo();
+								ChinaAreaPairDTO cityPaorDTO = new ChinaAreaPairDTO();
 								
 								String name = MapUtils.getString(cityMap, NAME);
-								cityPaorVo.setName(StringUtils.equalsIgnoreCase(name, DEFAULT_NAME) ? MapUtils.getString(provMap, NAME) : name);
-								cityPaorVo.setValue(MapUtils.getString(cityMap, CODE));
-								cityPaorVo.setChildren(pairList.stream()
+								cityPaorDTO.setName(StringUtils.equalsIgnoreCase(name, DEFAULT_NAME) ? MapUtils.getString(provMap, NAME) : name);
+								cityPaorDTO.setValue(MapUtils.getString(cityMap, CODE));
+								cityPaorDTO.setChildren(pairList.stream()
 										.filter(areaMap -> MapUtils.getString(areaMap, PCODE).equals(MapUtils.getString(cityMap, CODE)))
 										.map(areaMap -> {
 											
 											// 县级、区级
-											ChinaAreaPairVo areaPaorVo = new ChinaAreaPairVo();
-											areaPaorVo.setName(MapUtils.getString(areaMap, NAME));
-											areaPaorVo.setValue(MapUtils.getString(areaMap, CODE));
+											ChinaAreaPairDTO areaPaorDTO = new ChinaAreaPairDTO();
+											areaPaorDTO.setName(MapUtils.getString(areaMap, NAME));
+											areaPaorDTO.setValue(MapUtils.getString(areaMap, CODE));
 											
-											return areaPaorVo;
+											return areaPaorDTO;
 										}).collect(Collectors.toList()));
 								
-								return cityPaorVo;
+								return cityPaorDTO;
 							}).collect(Collectors.toList()));
 					
-					return provPaorVo;
+					return provPaorDTO;
 				}).collect(Collectors.toList());
 		
 	}
@@ -79,12 +79,12 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 	}
 
 	@Override
-	public List<ChinaAreaPairVo> getChinaProvPairList() {
+	public List<ChinaAreaPairDTO> getChinaProvPairList() {
 		return getDao().getChinaProvPairList();
 	}
 
 	@Override
-	public List<ChinaAreaPairVo> getChinaAreaPairList(String pcode) {
+	public List<ChinaAreaPairDTO> getChinaAreaPairList(String pcode) {
 		return getDao().getChinaAreaPairList(pcode);
 	}
 

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.boot.api.vo.AbstractPaginationDTO;
+import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 
 /**
  * 功能操作数据筛选条件DTO

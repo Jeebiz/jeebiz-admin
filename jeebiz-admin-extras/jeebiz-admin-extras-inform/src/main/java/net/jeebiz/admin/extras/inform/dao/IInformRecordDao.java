@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
-import net.jeebiz.admin.extras.inform.web.vo.InformRecordStatsVo;
+import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
 import net.jeebiz.boot.api.dao.BaseDao;
 
 @Mapper
@@ -20,7 +20,7 @@ public interface IInformRecordDao extends BaseDao<InformRecordModel> {
 	/**
 	 * 消息通知统计信息
 	 */
-	List<InformRecordStatsVo> getStats(@Param("uid") String uid);
+	List<InformRecordStatsDTO> getStats(@Param("uid") String uid);
 
 	int deleteByTid(@Param("tid") String tid);
 	

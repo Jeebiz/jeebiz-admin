@@ -35,11 +35,11 @@ import net.jeebiz.boot.api.web.Result;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
 import net.jeebiz.admin.extras.article.service.IArticleService;
 import net.jeebiz.admin.extras.article.setup.Constants;
-import net.jeebiz.admin.extras.article.web.vo.ArticleDetailVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleNewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticlePaginationVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleRenewVo;
-import net.jeebiz.admin.extras.article.web.vo.ArticleVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleNewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticlePaginationDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleRenewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleDTO;
 
 
 @Api(tags = "文章管理")
@@ -53,51 +53,51 @@ public class ArticleController extends BaseApiController {
     
     @ApiOperation(value = "分页查询文章信息", notes = "分页查询文章信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "筛选条件", dataType = "ArticlePaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "筛选条件", dataType = "ArticlePaginationDTO")
 	})
 	@PostMapping("list")
     @RequiresPermissions("article:list")
-	public Result<ArticleVo> list(@Valid @RequestBody ArticlePaginationVo paginationVo){
+	public Result<ArticleDTO> list(@Valid @RequestBody ArticlePaginationDTO paginationDTO){
 		
-    	ArticleModel model =  getBeanMapper().map(paginationVo, ArticleModel.class);
+    	ArticleModel model =  getBeanMapper().map(paginationDTO, ArticleModel.class);
 		Page<ArticleModel> pageResult = getArticleService().getPagedList(model);
-		List<ArticleVo> retList = Lists.newArrayList();
+		List<ArticleDTO> retList = Lists.newArrayList();
 		for (ArticleModel keyvalueModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keyvalueModel, ArticleVo.class));
+			retList.add(getBeanMapper().map(keyvalueModel, ArticleDTO.class));
 		}
-		return new Result<ArticleVo>(pageResult, retList);
+		return new Result<ArticleDTO>(pageResult, retList);
 		
 	}
     
     @ApiOperation(value = "分页查询当前登录人可见文章信息", notes = "分页查询当前登录人可见文章信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "筛选条件", dataType = "ArticlePaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "筛选条件", dataType = "ArticlePaginationDTO")
 	})
 	@PostMapping("forme")
     @RequiresAuthentication 
-	public Result<ArticleVo> forme(@Valid @RequestBody ArticlePaginationVo paginationVo){
+	public Result<ArticleDTO> forme(@Valid @RequestBody ArticlePaginationDTO paginationDTO){
 		
-    	ArticleModel model =  getBeanMapper().map(paginationVo, ArticleModel.class);
+    	ArticleModel model =  getBeanMapper().map(paginationDTO, ArticleModel.class);
 		Page<ArticleModel> pageResult = getArticleService().getPagedList(model);
-		List<ArticleVo> retList = Lists.newArrayList();
+		List<ArticleDTO> retList = Lists.newArrayList();
 		for (ArticleModel keyvalueModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keyvalueModel, ArticleVo.class));
+			retList.add(getBeanMapper().map(keyvalueModel, ArticleDTO.class));
 		}
-		return new Result<ArticleVo>(pageResult, retList);
+		return new Result<ArticleDTO>(pageResult, retList);
 	}
  
 	@ApiOperation(value = "创建文章信息", notes = "增加一个新的文章信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章信息传输对象", dataType = "ArticleNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章信息传输对象", dataType = "ArticleNewDTO") 
 	})
 	@BusinessLog(module = Constants.ARTICLE, business = "创建文章信息", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("article:new")
 	@ResponseBody
-	public ApiRestResponse<String> article(@Valid @RequestBody ArticleNewVo vo) throws Exception {
+	public ApiRestResponse<String> article(@Valid @RequestBody ArticleNewDTO DTO) throws Exception {
 		
 		// 新增一条数据库配置记录
-		ArticleModel model = getBeanMapper().map(vo, ArticleModel.class);
+		ArticleModel model = getBeanMapper().map(DTO, ArticleModel.class);
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setUid(principal.getUserid());
@@ -129,14 +129,14 @@ public class ArticleController extends BaseApiController {
 	 
 	@ApiOperation(value = "更新文章信息", notes = "更新文章信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "文章信息", required = true, dataType = "ArticleRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章信息", required = true, dataType = "ArticleRenewDTO"),
 	})
 	@BusinessLog(module = Constants.ARTICLE, business = "更新文章信息", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("article:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleRenewVo vo) throws Exception {
-		ArticleModel model = getBeanMapper().map(vo, ArticleModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleRenewDTO DTO) throws Exception {
+		ArticleModel model = getBeanMapper().map(DTO, ArticleModel.class);
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setUid(principal.getUserid());
@@ -209,12 +209,12 @@ public class ArticleController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<ArticleVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<ArticleDTO> detail(@RequestParam("id") String id) throws Exception { 
 		ArticleModel model = getArticleService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, ArticleVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, ArticleDTO.class));
 	}
 	
 	@ApiOperation(value = "查询文章详情（访问时调用）", notes = "根据ID查询文章详情")
@@ -224,8 +224,8 @@ public class ArticleController extends BaseApiController {
 	@GetMapping("access")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<ArticleDetailVo> detail2(@RequestParam("id") String id) throws Exception { 
-		ArticleDetailVo model = getArticleService().getDetail(id);
+	public ApiRestResponse<ArticleDetailDTO> detail2(@RequestParam("id") String id) throws Exception { 
+		ArticleDetailDTO model = getArticleService().getDetail(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.get.empty"));
 		}

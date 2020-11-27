@@ -2,7 +2,7 @@ package net.jeebiz.admin.extras.article.service;
 
 import net.jeebiz.boot.api.service.IBaseService;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
-import net.jeebiz.admin.extras.article.web.vo.ArticleDetailVo;
+import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
 
 public interface IArticleService extends IBaseService<ArticleModel> {
 
@@ -27,6 +27,6 @@ public interface IArticleService extends IBaseService<ArticleModel> {
 	 * @param id
 	 * @return
 	 */
-	ArticleDetailVo getDetail(String id);
+	ArticleDetailDTO getDetail(String id);
 	
 }

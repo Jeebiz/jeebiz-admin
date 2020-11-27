@@ -32,7 +32,7 @@
 		<result property="time24" column="TIME24"/>
 	</resultMap>
 	
-	<resultMap id="InformTemplateStatsMap" type="net.jeebiz.admin.extras.inform.web.vo.InformTemplateStatsVo">
+	<resultMap id="InformTemplateStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO">
 		<!-- 消息通知模板的发送提供者 -->
 		<result property="provider" column="T_PROVIDER" />
 		<!-- 消息通知模板已发消息总数 -->

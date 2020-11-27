@@ -30,9 +30,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import net.jeebiz.admin.extras.filestore.service.IFilestoreService;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreDownloadVo;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreVo;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.utils.CollectionUtils;
@@ -56,13 +56,13 @@ public class FilestoreController extends BaseApiController {
 	@ApiOperation(value = "文件服务：单上传文件", notes = "将单个文件上传到指定的存储对象")
     @PostMapping(value = "upload", headers = "content-type=multipart/form-data")
 	@RequiresAuthentication
-    public ApiRestResponse<FilestoreVo> upload(@ApiParam(value = "附件文件", required = true) @RequestParam(value = "file") @NotNull(message = "文件不能为空") MultipartFile file,
+    public ApiRestResponse<FilestoreDTO> upload(@ApiParam(value = "附件文件", required = true) @RequestParam(value = "file") @NotNull(message = "文件不能为空") MultipartFile file,
                                               @ApiParam(value = "缩放长度", required = false, defaultValue = "0") @RequestParam(value = "width", required = false, defaultValue = "0") int width,
                                               @ApiParam(value = "缩放高度", required = false, defaultValue = "0") @RequestParam(value = "height", required = false, defaultValue = "0") int height) throws Exception {
 		if (null == file){
 			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
 		}
-		FilestoreVo result = getFilestoreService().upload(file, width, height);
+		FilestoreDTO result = getFilestoreService().upload(file, width, height);
 		if (result == null) {
 			return fail("file.upload.fail");
 		}
@@ -72,14 +72,14 @@ public class FilestoreController extends BaseApiController {
 	@ApiOperation(value = "文件服务：多上传文件", notes = "将多个文件上传到指定的存储对象")
     @PostMapping(value = "uploads", headers = "content-type=multipart/form-data")
 	@RequiresAuthentication
-    public ApiRestResponse<List<FilestoreVo>> upload(@ApiParam(value = "附件文件", required = true) @RequestParam(value = "files")
+    public ApiRestResponse<List<FilestoreDTO>> upload(@ApiParam(value = "附件文件", required = true) @RequestParam(value = "files")
                                                      @NotNull(message = "文件不能为空") MultipartFile[] files,
                                                      @ApiParam(value = "缩放长度", required = false, defaultValue = "0") @RequestParam(value = "width", required = false, defaultValue = "0") int width,
                                                      @ApiParam(value = "缩放高度", required = false, defaultValue = "0") @RequestParam(value = "height", required = false, defaultValue = "0") int height) throws Exception {
 		if (null == files || files.length == 0){
 			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
 		}
-		List<FilestoreVo> result = getFilestoreService().upload(files, width, height);
+		List<FilestoreDTO> result = getFilestoreService().upload(files, width, height);
 		if (CollectionUtils.isEmpty(result)) {
 			return fail("file.upload.fail");
 		}
@@ -138,7 +138,7 @@ public class FilestoreController extends BaseApiController {
     })
     @PostMapping(value = "reupload", headers = "content-type=multipart/form-data")
 	@RequiresAuthentication
-    public ApiRestResponse<FilestoreVo> reupload(@RequestParam("uuid")
+    public ApiRestResponse<FilestoreDTO> reupload(@RequestParam("uuid")
 			@NotEmpty(message = "原文件UUID不能为空") String uuid,
                                                  @ApiParam(value = "文件", required = true)
                                                  @RequestParam("file") @NotNull(message = "文件不能为空") MultipartFile file,
@@ -147,7 +147,7 @@ public class FilestoreController extends BaseApiController {
 		if (null == file){
 			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
 		}
-		FilestoreVo result = getFilestoreService().reupload(uuid,file, width, height);
+		FilestoreDTO result = getFilestoreService().reupload(uuid,file, width, height);
 		if (result == null) {
 			return fail("file.reupload.fail");
 		}
@@ -160,7 +160,7 @@ public class FilestoreController extends BaseApiController {
 	})
 	@GetMapping("listByPath")
 	@RequiresAuthentication
-    public ApiRestResponse<List<FilestoreVo>> listByPath(@NotNull(message = "文件路径不能为空") @RequestParam("paths") List<String> paths){
+    public ApiRestResponse<List<FilestoreDTO>> listByPath(@NotNull(message = "文件路径不能为空") @RequestParam("paths") List<String> paths){
 		try {
 			return ApiRestResponse.success(getFilestoreService().listByPath(paths));
 		} catch (Exception e) {
@@ -174,7 +174,7 @@ public class FilestoreController extends BaseApiController {
 	})
 	@GetMapping("listByUuid")
 	@RequiresAuthentication
-    public ApiRestResponse<List<FilestoreVo>> listByUuid(@NotNull(message = "文件UUID不能为空") @RequestParam("uuids") List<String> uuids){
+    public ApiRestResponse<List<FilestoreDTO>> listByUuid(@NotNull(message = "文件UUID不能为空") @RequestParam("uuids") List<String> uuids){
 		try {
 			return ApiRestResponse.success(getFilestoreService().listByUuid(uuids));
 		} catch (Exception e) {
@@ -193,16 +193,16 @@ public class FilestoreController extends BaseApiController {
 		ResponseEntity<byte[]> entity = null;
 		try {
 
-			FilestoreDownloadVo downloadVo = getFilestoreService().downloadByPath(path);
-			if (downloadVo != null) {
+			FilestoreDownloadDTO downloadDTO = getFilestoreService().downloadByPath(path);
+			if (downloadDTO != null) {
 
 				// 定义http头 ，状态
 				HttpHeaders header = new HttpHeaders();
-				header.add("Content-Disposition", "attchement;filename=" + downloadVo.getName());
-				header.setContentType(MediaTypeFactory.getMediaType(downloadVo.getName()).get());
+				header.add("Content-Disposition", "attchement;filename=" + downloadDTO.getName());
+				header.setContentType(MediaTypeFactory.getMediaType(downloadDTO.getName()).get());
 
 				// 定义ResponseEntity封装返回信息
-				return new ResponseEntity<byte[]>(downloadVo.getBytes(), header, HttpStatus.OK);
+				return new ResponseEntity<byte[]>(downloadDTO.getBytes(), header, HttpStatus.OK);
 
 			}
 
@@ -223,16 +223,16 @@ public class FilestoreController extends BaseApiController {
 		ResponseEntity<byte[]> entity = null;
 		try {
 
-			FilestoreDownloadVo downloadVo = getFilestoreService().downloadByUuid(uuid);
-			if (downloadVo != null) {
+			FilestoreDownloadDTO downloadDTO = getFilestoreService().downloadByUuid(uuid);
+			if (downloadDTO != null) {
 
 				// 定义http头 ，状态
 				HttpHeaders header = new HttpHeaders();
-				header.add("Content-Disposition", "attchement;filename=" + downloadVo.getName());
-				header.setContentType(MediaTypeFactory.getMediaType(downloadVo.getName()).get());
+				header.add("Content-Disposition", "attchement;filename=" + downloadDTO.getName());
+				header.setContentType(MediaTypeFactory.getMediaType(downloadDTO.getName()).get());
 
 				// 定义ResponseEntity封装返回信息
-				return new ResponseEntity<byte[]>(downloadVo.getBytes(), header, HttpStatus.OK);
+				return new ResponseEntity<byte[]>(downloadDTO.getBytes(), header, HttpStatus.OK);
 
 			}
 

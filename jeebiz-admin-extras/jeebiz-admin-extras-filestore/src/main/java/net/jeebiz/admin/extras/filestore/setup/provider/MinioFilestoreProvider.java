@@ -29,9 +29,9 @@ import io.minio.spring.boot.MinioProperties;
 import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
 import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
 import net.jeebiz.admin.extras.filestore.setup.Constants;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreDownloadVo;
-import net.jeebiz.admin.extras.filestore.web.vo.FilestoreVo;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 
@@ -67,9 +67,9 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public FilestoreVo upload(MultipartFile file, int width, int height) throws Exception {
+	public FilestoreDTO upload(MultipartFile file, int width, int height) throws Exception {
 		
-		FilestoreVo attVo = null;
+		FilestoreDTO attDTO = null;
 		
 		try {
 			
@@ -110,17 +110,17 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 			getFilestoreDao().insert(model);
 
 			// 文件存储信息
-			attVo = new FilestoreVo();
-			attVo.setUuid(uuid);
-			attVo.setName(file.getOriginalFilename());
-			attVo.setPath(storePath);
+			attDTO = new FilestoreDTO();
+			attDTO.setUuid(uuid);
+			attDTO.setName(file.getOriginalFilename());
+			attDTO.setPath(storePath);
 				
-			return attVo;
+			return attDTO;
 			
 		} catch (Exception e) {
 			try {
-				if(attVo != null) {
-					getMinioClient().removeObject(Constants.GROUP_NAME, attVo.getPath());
+				if(attDTO != null) {
+					getMinioClient().removeObject(Constants.GROUP_NAME, attDTO.getPath());
 				}
 			} catch (Exception e1) {
 				// 忽略删除异常
@@ -130,9 +130,9 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FilestoreVo> upload(MultipartFile[] files, int width, int height) throws Exception {
+	public List<FilestoreDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
 		
-		List<FilestoreVo> attList = Lists.newArrayList();
+		List<FilestoreDTO> attList = Lists.newArrayList();
 		try {
 			
 			// 检查存储桶是否已经存在
@@ -174,18 +174,18 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 				getFilestoreDao().insert(model);
 
 				// 文件存储信息
-				FilestoreVo attVo = new FilestoreVo();
-				attVo.setUuid(uuid);
-				attVo.setName(file.getOriginalFilename());
-				attVo.setPath(storePath);
+				FilestoreDTO attDTO = new FilestoreDTO();
+				attDTO.setUuid(uuid);
+				attDTO.setName(file.getOriginalFilename());
+				attDTO.setPath(storePath);
 				
-				attList.add(attVo);
+				attList.add(attDTO);
 
 			} 
 		} catch (Exception e) {
 			try {
-				for (FilestoreVo attVo : attList) {
-					getMinioClient().removeObject(Constants.GROUP_NAME, attVo.getPath());
+				for (FilestoreDTO attDTO : attList) {
+					getMinioClient().removeObject(Constants.GROUP_NAME, attDTO.getPath());
 				}
 			} catch (Exception e1) {
 				// 忽略删除异常
@@ -234,7 +234,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 
 
 	@Override
-	public FilestoreVo reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
+	public FilestoreDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
 		
 		// 查询文件信息
 		FilestoreModel model = getFilestoreDao().getByUuid(uuid);
@@ -258,10 +258,10 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		
 		// 文件存储信息
 		String uuid1 = UUID.randomUUID().toString();
-		FilestoreVo attVo = new FilestoreVo();
-		attVo.setUuid(uuid1);
-		attVo.setName(file.getOriginalFilename());
-		attVo.setPath(storePath);
+		FilestoreDTO attDTO = new FilestoreDTO();
+		attDTO.setUuid(uuid1);
+		attDTO.setName(file.getOriginalFilename());
+		attDTO.setPath(storePath);
 		
 		// 文件存储记录对象
 		model.setUid(uuid1);
@@ -276,24 +276,24 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		getMinioClient().removeObject(model.getGroup(), model.getPath());
 		getFilestoreDao().delete(uuid);
 		
-		return attVo;
+		return attDTO;
 	}
 	
 	@Override
-	public List<FilestoreVo> listByPath(List<String> paths) throws Exception {
+	public List<FilestoreDTO> listByPath(List<String> paths) throws Exception {
 		
-		List<FilestoreVo> attList = Lists.newArrayList();
+		List<FilestoreDTO> attList = Lists.newArrayList();
 		
 		for (String path : paths) {
 			
 			// 文件存储信息
-			FilestoreVo attVo = new FilestoreVo();
+			FilestoreDTO attDTO = new FilestoreDTO();
 			
-			attVo.setPath(path);
+			attDTO.setPath(path);
 			String storePath = getMinioClient().getObjectUrl(Constants.GROUP_NAME, path);
-			attVo.setUrl(storePath);
+			attDTO.setUrl(storePath);
 			
-			attList.add(attVo);
+			attList.add(attDTO);
 
 		} 
 		
@@ -301,9 +301,9 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public List<FilestoreVo> listByUuid(List<String> uuids) throws Exception {
+	public List<FilestoreDTO> listByUuid(List<String> uuids) throws Exception {
 		
-		List<FilestoreVo> attList = Lists.newArrayList();
+		List<FilestoreDTO> attList = Lists.newArrayList();
 		
 		// 查询文件信息
 		List<FilestoreModel> fileList = getFilestoreDao().getFiles(uuids);
@@ -311,15 +311,15 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		for (FilestoreModel model : fileList) {
 			
 			// 文件存储信息
-			FilestoreVo attVo = new FilestoreVo();
+			FilestoreDTO attDTO = new FilestoreDTO();
 			
-			attVo.setUuid(model.getUuid());
-			attVo.setName(model.getName());
-			attVo.setPath(model.getPath());
+			attDTO.setUuid(model.getUuid());
+			attDTO.setName(model.getName());
+			attDTO.setPath(model.getPath());
 			String storePath = getMinioClient().getObjectUrl(model.getGroup(), model.getPath());
-			attVo.setUrl(storePath);
+			attDTO.setUrl(storePath);
 			
-			attList.add(attVo);
+			attList.add(attDTO);
 
 		} 
 		
@@ -327,7 +327,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public FilestoreDownloadVo downloadByPath(String path) throws Exception {
+	public FilestoreDownloadDTO downloadByPath(String path) throws Exception {
 		
 		// 查询文件信息
 		FilestoreModel model = getFilestoreDao().getByPath(path);
@@ -336,20 +336,20 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		}
 		
 		// 文件存储信息
-		FilestoreDownloadVo attVo = new FilestoreDownloadVo();
+		FilestoreDownloadDTO attDTO = new FilestoreDownloadDTO();
 		
-		attVo.setUuid(model.getUuid());
-		attVo.setName(model.getName());
-		attVo.setPath(model.getPath());
+		attDTO.setUuid(model.getUuid());
+		attDTO.setName(model.getName());
+		attDTO.setPath(model.getPath());
 		
 		InputStream stream = getMinioClient().getObject(model.getGroup(), model.getPath());
-		attVo.setStream(stream);
+		attDTO.setStream(stream);
 		
-		return attVo;
+		return attDTO;
 	}
 
 	@Override
-	public FilestoreDownloadVo downloadByUuid(String uuid) throws Exception {
+	public FilestoreDownloadDTO downloadByUuid(String uuid) throws Exception {
 		
 		// 查询文件信息
 		FilestoreModel model = getFilestoreDao().getByUuid(uuid);
@@ -358,16 +358,16 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		}
 		
 		// 文件存储信息
-		FilestoreDownloadVo attVo = new FilestoreDownloadVo();
+		FilestoreDownloadDTO attDTO = new FilestoreDownloadDTO();
 		
-		attVo.setUuid(model.getUuid());
-		attVo.setName(model.getName());
-		attVo.setPath(model.getPath());
+		attDTO.setUuid(model.getUuid());
+		attDTO.setName(model.getName());
+		attDTO.setPath(model.getPath());
 		
 		InputStream stream = getMinioClient().getObject(model.getGroup(), model.getPath());
-		attVo.setStream(stream);
+		attDTO.setStream(stream);
 		
-		return attVo;
+		return attDTO;
 	}
 	
 	public IFilestoreDao getFilestoreDao() {

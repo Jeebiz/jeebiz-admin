@@ -35,11 +35,11 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.dict.dao.entities.KeyValueModel;
 import net.jeebiz.admin.extras.dict.service.IKeyValueService;
 import net.jeebiz.admin.extras.dict.setup.Constants;
-import net.jeebiz.admin.extras.dict.web.vo.KeyValueGroupRenewVo;
-import net.jeebiz.admin.extras.dict.web.vo.KeyValueNewVo;
-import net.jeebiz.admin.extras.dict.web.vo.KeyValuePaginationVo;
-import net.jeebiz.admin.extras.dict.web.vo.KeyValueRenewVo;
-import net.jeebiz.admin.extras.dict.web.vo.KeyValueVo;
+import net.jeebiz.admin.extras.dict.web.dto.KeyValueGroupRenewDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyValueNewDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyValuePaginationDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyValueRenewDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyValueDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.AllowableValues;
 import net.jeebiz.boot.api.annotation.BusinessLog;
@@ -60,21 +60,21 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "分页查询基础数据", notes = "分页查询基础数据")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationVo", value = "用户信息筛选条件", dataType = "KeyValuePaginationVo")
+		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "KeyValuePaginationDTO")
 	})
 	@PostMapping("list")
 	@RequiresPermissions("keyvalue:list")
 	@ResponseBody
-	public Result<KeyValueVo> list(@Valid @RequestBody KeyValuePaginationVo paginationVo){
+	public Result<KeyValueDTO> list(@Valid @RequestBody KeyValuePaginationDTO paginationDTO){
 		
-		KeyValueModel model =  getBeanMapper().map(paginationVo, KeyValueModel.class);
+		KeyValueModel model =  getBeanMapper().map(paginationDTO, KeyValueModel.class);
 		Page<KeyValueModel> pageResult = getKeyValueService().getPagedList(model);
-		List<KeyValueVo> retList = Lists.newArrayList();
+		List<KeyValueDTO> retList = Lists.newArrayList();
 		for (KeyValueModel keyvalueModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keyvalueModel, KeyValueVo.class));
+			retList.add(getBeanMapper().map(keyvalueModel, KeyValueDTO.class));
 		}
 		
-		return new Result<KeyValueVo>(pageResult, retList);
+		return new Result<KeyValueDTO>(pageResult, retList);
 		
 	}
 	
@@ -85,15 +85,15 @@ public class KeyValueController extends BaseApiController {
 	@GetMapping("groups")
 	@RequiresPermissions("keyvalue:list")
 	@ResponseBody
-	public ApiRestResponse<Map<String, List<KeyValueVo>>> groups(@Valid @NotNull(message = "基础数据分组编码不能为空") @RequestParam String gkey){
+	public ApiRestResponse<Map<String, List<KeyValueDTO>>> groups(@Valid @NotNull(message = "基础数据分组编码不能为空") @RequestParam String gkey){
 		Map<String, List<KeyValueModel>> pairList = getKeyValueService().getGroupPairValues(StringUtils.tokenizeToStringArray(gkey));
-		Map<String, List<KeyValueVo>> reMap = new HashMap<String, List<KeyValueVo>>();
+		Map<String, List<KeyValueDTO>> reMap = new HashMap<String, List<KeyValueDTO>>();
 		if(CollectionUtils.isEmpty(pairList)) {
 			return ApiRestResponse.success(reMap);
 		}
 		for (Entry<String, List<KeyValueModel>> entry : pairList.entrySet()) {
 			reMap.put(entry.getKey(), entry.getValue().stream().map(source -> {
-				return getBeanMapper().map(source, KeyValueVo.class);
+				return getBeanMapper().map(source, KeyValueDTO.class);
 			}).collect(Collectors.toList()));
 		}
 		return ApiRestResponse.success(reMap);
@@ -113,14 +113,14 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "创建基础数据", notes = "增加一个新的基础数据")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "基础数据传输对象", dataType = "KeyValueNewVo") 
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "基础数据传输对象", dataType = "KeyValueNewDTO") 
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "创建基础数据", opt = BusinessType.INSERT)
 	@PostMapping("new")
 	@RequiresPermissions("keyvalue:new")
 	@ResponseBody
-	public ApiRestResponse<String> keyvalue(@Valid @RequestBody KeyValueNewVo vo) throws Exception {
-		KeyValueModel model = getBeanMapper().map(vo, KeyValueModel.class);
+	public ApiRestResponse<String> keyvalue(@Valid @RequestBody KeyValueNewDTO DTO) throws Exception {
+		KeyValueModel model = getBeanMapper().map(DTO, KeyValueModel.class);
 		
 		int ct = getKeyValueService().getCount(model);
 		if(ct > 0) {
@@ -157,14 +157,14 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "更新基础数据", notes = "更新基础数据")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "vo", value = "基础数据", required = true, dataType = "KeyValueRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "DTO", value = "基础数据", required = true, dataType = "KeyValueRenewDTO"),
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "更新基础数据", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("keyvalue:renew")
 	@ResponseBody
-	public ApiRestResponse<String> renew(@Valid @RequestBody KeyValueRenewVo vo) throws Exception {
-		KeyValueModel model = getBeanMapper().map(vo, KeyValueModel.class);
+	public ApiRestResponse<String> renew(@Valid @RequestBody KeyValueRenewDTO DTO) throws Exception {
+		KeyValueModel model = getBeanMapper().map(DTO, KeyValueModel.class);
 		int ct = getKeyValueService().getCount(model);
 		if(ct > 0) {
 			return fail("keyvalue.renew.conflict");
@@ -197,20 +197,20 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "批量更新分组内的基础数据", notes = "批量更新分组内的基础数据")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "renewVo", value = "基础数据集合", required = true, dataType = "KeyValueGroupRenewVo"),
+		@ApiImplicitParam(paramType = "body", name = "renewDTO", value = "基础数据集合", required = true, dataType = "KeyValueGroupRenewDTO"),
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "批量更新分组内的基础数据", opt = BusinessType.UPDATE)
 	@PostMapping(value = "batch/renew")
 	@RequiresPermissions("keyvalue:renew")
 	@ResponseBody
-	public ApiRestResponse<String> batchRenew(@Valid @RequestBody KeyValueGroupRenewVo renewVo) throws Exception {
+	public ApiRestResponse<String> batchRenew(@Valid @RequestBody KeyValueGroupRenewDTO renewDTO) throws Exception {
 		
 		try {
 			
 			List<KeyValueModel> list = Lists.newArrayList();
-			for (KeyValueRenewVo keyvalueVo : renewVo.getDatas()) {
-				KeyValueModel model = getBeanMapper().map(keyvalueVo, KeyValueModel.class);
-				model.setGkey(renewVo.getGkey());
+			for (KeyValueRenewDTO keyvalueDTO : renewDTO.getDatas()) {
+				KeyValueModel model = getBeanMapper().map(keyvalueDTO, KeyValueModel.class);
+				model.setGkey(renewDTO.getGkey());
 				list.add(model);
 			}
 			// 批量执行基础数据更新操作
@@ -228,12 +228,12 @@ public class KeyValueController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresPermissions("keyvalue:detail")
 	@ResponseBody
-	public ApiRestResponse<KeyValueVo> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<KeyValueDTO> detail(@RequestParam("id") String id) throws Exception { 
 		KeyValueModel model = getKeyValueService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("keyvalue.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, KeyValueVo.class));
+		return ApiRestResponse.success(getBeanMapper().map(model, KeyValueDTO.class));
 	}
 
 	public IKeyValueService getKeyValueService() {
