@@ -61,7 +61,7 @@ pac4j:
     path-pattern: /**/logout/pac4j
     default-url: http://172.16.88.248/#/login
   cas:
-    enabled: true
+    enabled: false
     accept-any-proxy: true
     gateway: false
     login-url: http://10.30.186.104/sso/login
@@ -83,11 +83,6 @@ pac4j:
 ###Spring Boot 相关组件（SpringMVC、Freemarker、Session、Cache、DataSource）配置：  
 ################################################################################################################
 spring: 
-  # 缓存配置：
-  cache: 
-    type: none  #现在改为none,使用j2cache 去配置
-    ehcache: 
-      config: classpath:/conf/ehcache/ehcache.xml
   # 数据源配置：
   datasource:
     name: jeebiz_admin
@@ -96,15 +91,32 @@ spring:
     url: jdbc:mysql://47.98.123.43:3306/jeebiz_admin?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     username: jeebiz_admin
     password: APx37E5xPWA3Gd86
-     
   # Redis相关配置
   redis:
     # Redis服务器地址  
-    host: 139.199.9.193
+    host: 180.76.120.252
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空） 
-    password: redis
+    password: HycBsP5cSp3enyGw
+  # Aliyun相关配置
+  cloud:
+    alicloud:
+      access-key: xasdas
+      secret-key: xxas
+      sms:
+        enable: true
+        signs:
+        - 大橘小窝
+        
+################################################################################################################  
+###Shiro 权限控制基本配置：  
+################################################################################################################
+shiro:
+  redis:
+    host: 121.196.123.3
+    port: 6379
+    password: Kding@2020
 
 ################################################################################################################  
 ###Flyway (FlywayMigrationProperties) 数据库迁移脚本版本管理（实现软件版本升级数据库自动升级）配置：  
@@ -114,19 +126,13 @@ spring:
     moduleable: true
 
 ################################################################################################################  
-###阿里云服务配置：  
-###https://github.com/AliwareMQ/mq-demo
-################################################################################################################  
-aliyun:
-  oss:
-    enabled: true
-    authorization-mode: ak-sk
-    access-key: 
-    secret-key: 
-    bucket: https://bucket.oss-accelerate.aliyuncs.com
-    bucket-name: bucket
-    endpoint: https://oss-cn-hangzhou.aliyuncs.com
-
+###jpush基本配置：  
+################################################################################################################
+jpush:
+  master-secret: xxx
+  app-key: xxx  
+  production: false
+    
 ################################################################################################################
 ### Filestore存储服务（FastDFS、MinIO） 基本配置：
 ################################################################################################################
@@ -144,6 +150,36 @@ fdfs:
 file:
   # 指定存储配置
   storage: fdfs
+    
+################################################################################################################  
+###阿里云服务配置：  
+###https://github.com/AliwareMQ/mq-demo
+################################################################################################################  
+aliyun:
+  oss:
+    enabled: true
+    authorization-mode: ak-sk
+    access-key: 
+    secret-key: 
+    bucket: https://bucket.oss-accelerate.aliyuncs.com
+    bucket-name: bucket
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com
+  ons:
+    access-key: xxxxx
+    secret-key: xxxxxx
+    name-srv-addr: http://xxxxx.mq-internet-access.mq-internet.aliyuncs.com:80
+    message-model: CLUSTERING
+    group-id: GID_LAN
+  
+################################################################################################################  
+###腾讯云服务配置：  
+###https://cloud.tencent.com/document/product/269/1520
+################################################################################################################  
+tencent:
+  tim:
+    enabled: true
+    sdkappid: 22232312323
+    private-key: xxx
   
 ################################################################################################################  
 ###logging (log4j2) 基本配置：  

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import cn.jpush.spring.boot.EnableJPush;
 import io.micrometer.core.instrument.MeterRegistry;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
 
@@ -20,6 +21,7 @@ import net.jeebiz.boot.autoconfigure.EnableJeebiz;
  * 应用启动入口
  */
 @EnableJeebiz
+@EnableJPush
 @EnableScheduling
 @EnableWebMvc
 //其他路径可以单独添加扫码主键

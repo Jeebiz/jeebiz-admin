@@ -32,7 +32,8 @@ dingtalk:
   robot:
     prefix: https://oapi.dingtalk.com/robot/send
     access-token: cff461c7329810b4470df80a955899f6e862187064b2d6fadf7ed569eb54a143
-    secret:      secret-enabled: true
+    secret:
+      secret-enabled: true
       secret-token: SEC5102909678cc177cd486c8634029e93382c5f8620895f86ad8d9458cdb28d1a5
   # 知乎者也下的配置
   corp-id: ding5e6b33e760fd296b35c2f4657eb6378f
@@ -60,7 +61,7 @@ pac4j:
     path-pattern: /**/logout/pac4j
     default-url: http://172.16.88.248/#/login
   cas:
-    enabled: true
+    enabled: false
     accept-any-proxy: true
     gateway: false
     login-url: http://10.30.186.104/sso/login
@@ -93,11 +94,29 @@ spring:
   # Redis相关配置
   redis:
     # Redis服务器地址  
-    host: 139.199.9.193
+    host: 180.76.120.252
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空） 
-    password: redis
+    password: HycBsP5cSp3enyGw
+  # Aliyun相关配置
+  cloud:
+    alicloud:
+      access-key: xasdas
+      secret-key: xxas
+      sms:
+        enable: true
+        signs:
+        - 大橘小窝
+        
+################################################################################################################  
+###Shiro 权限控制基本配置：  
+################################################################################################################
+shiro:
+  redis:
+    host: 121.196.123.3
+    port: 6379
+    password: Kding@2020
 
 ################################################################################################################  
 ###Flyway (FlywayMigrationProperties) 数据库迁移脚本版本管理（实现软件版本升级数据库自动升级）配置：  
@@ -107,19 +126,13 @@ spring:
     moduleable: true
 
 ################################################################################################################  
-###阿里云服务配置：  
-###https://github.com/AliwareMQ/mq-demo
-################################################################################################################  
-aliyun:
-  oss:
-    enabled: true
-    authorization-mode: ak-sk
-    access-key: 
-    secret-key: 
-    bucket: https://bucket.oss-accelerate.aliyuncs.com
-    bucket-name: bucket
-    endpoint: https://oss-cn-hangzhou.aliyuncs.com
-
+###jpush基本配置：  
+################################################################################################################
+jpush:
+  master-secret: xxx
+  app-key: xxx  
+  production: false
+    
 ################################################################################################################
 ### Filestore存储服务（FastDFS、MinIO） 基本配置：
 ################################################################################################################
@@ -137,6 +150,36 @@ fdfs:
 file:
   # 指定存储配置
   storage: fdfs
+    
+################################################################################################################  
+###阿里云服务配置：  
+###https://github.com/AliwareMQ/mq-demo
+################################################################################################################  
+aliyun:
+  oss:
+    enabled: true
+    authorization-mode: ak-sk
+    access-key: 
+    secret-key: 
+    bucket: https://bucket.oss-accelerate.aliyuncs.com
+    bucket-name: bucket
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com
+  ons:
+    access-key: xxxxx
+    secret-key: xxxxxx
+    name-srv-addr: http://xxxxx.mq-internet-access.mq-internet.aliyuncs.com:80
+    message-model: CLUSTERING
+    group-id: GID_LAN
+  
+################################################################################################################  
+###腾讯云服务配置：  
+###https://cloud.tencent.com/document/product/269/1520
+################################################################################################################  
+tencent:
+  tim:
+    enabled: true
+    sdkappid: 22232312323
+    private-key: xxx
   
 ################################################################################################################  
 ###logging (log4j2) 基本配置：  
