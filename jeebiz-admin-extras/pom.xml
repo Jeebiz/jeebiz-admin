@@ -19,6 +19,7 @@
 		<module>jeebiz-admin-authz-thirdparty</module>
 		<module>jeebiz-admin-authz-weixin</module>
 		<module>jeebiz-admin-extras-article</module>
+		<module>jeebiz-admin-extras-cnarea</module>
 		<module>jeebiz-admin-extras-core</module>
 		<module>jeebiz-admin-extras-dict</module>
 		<module>jeebiz-admin-extras-editor</module>

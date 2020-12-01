@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.jeebiz.admin.extras.dict.dao.IChinaAreaDao">
+<mapper namespace="net.jeebiz.admin.extras.cnarea.dao.IChinaAreaDao">
 	
 	<!-- 开启二级缓存 -->
 	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
@@ -41,7 +41,7 @@
 		<result property="pcode" column="PARENT_CODE" />
 	</resultMap>
 	
-	<resultMap id="AreaPairMap" type="net.jeebiz.admin.extras.dict.web.dto.ChinaAreaPairDTO">
+	<resultMap id="AreaPairMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO">
 		<!-- 名称 -->
 		<result property="name" column="NAME" />
 		<!-- 行政代码 -->

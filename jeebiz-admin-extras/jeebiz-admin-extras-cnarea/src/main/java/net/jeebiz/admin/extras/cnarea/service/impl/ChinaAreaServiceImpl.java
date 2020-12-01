@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.dict.service.impl;
+package net.jeebiz.admin.extras.cnarea.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +11,10 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import net.jeebiz.admin.extras.dict.dao.IChinaAreaDao;
-import net.jeebiz.admin.extras.dict.dao.entities.ChinaAreaModel;
-import net.jeebiz.admin.extras.dict.service.IChinaAreaService;
-import net.jeebiz.admin.extras.dict.web.dto.ChinaAreaPairDTO;
+import net.jeebiz.admin.extras.cnarea.dao.IChinaAreaDao;
+import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
+import net.jeebiz.admin.extras.cnarea.service.IChinaAreaService;
+import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 

@@ -2,12 +2,12 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.dict.service;
+package net.jeebiz.admin.extras.cnarea.service;
 
 import java.util.List;
 
-import net.jeebiz.admin.extras.dict.dao.entities.ChinaAreaModel;
-import net.jeebiz.admin.extras.dict.web.dto.ChinaAreaPairDTO;
+import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
+import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
 

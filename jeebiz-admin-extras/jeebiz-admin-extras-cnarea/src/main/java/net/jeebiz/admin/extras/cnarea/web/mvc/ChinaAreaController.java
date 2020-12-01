@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.dict.web.mvc;
+package net.jeebiz.admin.extras.cnarea.web.mvc;
 
 import java.util.List;
 
@@ -17,15 +17,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.dict.dao.entities.ChinaAreaModel;
-import net.jeebiz.admin.extras.dict.service.IChinaAreaService;
-import net.jeebiz.admin.extras.dict.web.dto.ChinaAreaPairDTO;
+import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
+import net.jeebiz.admin.extras.cnarea.service.IChinaAreaService;
+import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.web.BaseApiController;
 
 @Api(tags = "数据字典：行政区域数据")
 @RestController
-@RequestMapping("/dict/cnarea/")
+@RequestMapping("/cnarea/cnarea/")
 @Validated
 public class ChinaAreaController extends BaseApiController {
 	
