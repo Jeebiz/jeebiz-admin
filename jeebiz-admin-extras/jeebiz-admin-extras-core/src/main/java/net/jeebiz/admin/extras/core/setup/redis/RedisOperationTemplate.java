@@ -1459,6 +1459,20 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	}
 	
 	/**
+	 * 获取分布式锁
+	 * @param lockKey
+	 * @param requestId
+	 * @param timeout
+	 * @param unit
+	 * @return
+	 */
+	public boolean tryLock(String lockKey, String requestId, long timeout, TimeUnit unit) {
+		Assert.hasLength(lockKey, "lockKey must not be empty");
+		Assert.hasLength(requestId, "requestId must not be empty");
+		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, timeout, unit);
+	}
+	
+	/**
 	 * 释放分布式锁
 	 * 
 	 * @param lockKey
@@ -1487,7 +1501,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
                 if (Objects.nonNull(bytes) && bytes.length > 0) {
                     long expireTime = Long.parseLong(new String(bytes));
                     // 4、如果锁已经过期
-                    if (expireTime < System.currentTimeMillis()) {
+                    if (expireTime < redisConnection.time()) {
                         // 5、重新加锁，防止死锁
                         byte[] set = redisConnection.getSet(serLockKey, String.valueOf(redisConnection.time() + expireMillis + 1).getBytes());
                         return Long.parseLong(new String(set)) < redisConnection.time();
