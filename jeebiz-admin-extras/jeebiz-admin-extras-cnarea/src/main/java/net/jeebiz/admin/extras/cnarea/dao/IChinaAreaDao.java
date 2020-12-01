@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
+import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
@@ -28,7 +29,7 @@ public interface IChinaAreaDao extends BaseDao<ChinaAreaModel> {
 	 * 查询中国省、直辖市、特别行政区列表
 	 * @return
 	 */
-	List<ChinaAreaModel> getChinaProvList();
+	List<ChinaAreaDTO> getChinaProvList();
 	/**
 	 * 查询中国省、直辖市、特别行政区键值对
 	 * @return
@@ -43,6 +44,12 @@ public interface IChinaAreaDao extends BaseDao<ChinaAreaModel> {
 	 * 查询中国市、县、区列表
 	 * @return
 	 */
-	List<ChinaAreaModel> getChinaAreaList(@Param("pcode") String pcode);
+	List<ChinaAreaDTO> getChinaAreaList(@Param("pcode") String pcode);
+	
+	/**
+	 * 根据名称查询中国市、县、区列表
+	 * @return
+	 */
+	ChinaAreaDTO getChinaArea(@Param("level") String level, @Param("name") String name);
 	
 }

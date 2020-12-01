@@ -6,7 +6,7 @@
 	<!-- 开启二级缓存 -->
 	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
 	
-	<resultMap id="ChinaAreaMap" type="ChinaAreaModel">
+	<resultMap id="ChinaAreaMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO">
 		<result property="id" column="ID" />
 		<!-- 层级 -->
 		<result property="level" column="LEVEL" />
@@ -103,6 +103,25 @@
 		 FROM cnarea_2019 t 
 	    WHERE t.PARENT_CODE = #{pcode} 
 	 ORDER By t.AREA_CODE ASC
+	</select>
+	
+	<select id="getChinaArea" resultMap="ChinaAreaMap">
+	   SELECT t.ID,
+	   		  t.LEVEL,
+	   		  t.PARENT_CODE,
+	   		  t.AREA_CODE,
+	   		  t.ZIP_CODE,
+	   		  t.CITY_CODE,
+	   		  t.NAME,
+	   		  t.SHORT_NAME,
+	   		  t.MERGER_NAME,
+	   		  t.PINYIN,
+	   		  t.LNG,
+	   		  t.LAT
+		 FROM cnarea_2019 t 
+	    WHERE t.LEVEL = #{level}
+	      AND t.SHORT_NAME = #{name}
+	      AND ROWNUM = 1
 	</select>
 
 </mapper>

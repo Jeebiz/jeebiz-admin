@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.cnarea.dao.IChinaAreaDao;
 import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
 import net.jeebiz.admin.extras.cnarea.service.IChinaAreaService;
+import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
@@ -74,7 +75,7 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 	}
 	
 	@Override
-	public List<ChinaAreaModel> getChinaProvList() {
+	public List<ChinaAreaDTO> getChinaProvList() {
 		return getDao().getChinaProvList();
 	}
 
@@ -89,8 +90,13 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 	}
 
 	@Override
-	public List<ChinaAreaModel> getChinaAreaList(String pcode) {
+	public List<ChinaAreaDTO> getChinaAreaList(String pcode) {
 		return getDao().getChinaAreaList(pcode);
+	}
+
+	@Override
+	public ChinaAreaDTO getChinaCity(String name) {
+		return getDao().getChinaArea("1", name);
 	}
 
 }

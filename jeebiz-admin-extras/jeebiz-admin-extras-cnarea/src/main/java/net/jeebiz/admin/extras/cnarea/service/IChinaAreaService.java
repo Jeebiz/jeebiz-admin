@@ -7,6 +7,7 @@ package net.jeebiz.admin.extras.cnarea.service;
 import java.util.List;
 
 import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
+import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
@@ -22,7 +23,7 @@ public interface IChinaAreaService extends IBaseService<ChinaAreaModel> {
 	 * 查询中国省、直辖市、特别行政区列表
 	 * @return
 	 */
-	List<ChinaAreaModel> getChinaProvList();
+	List<ChinaAreaDTO> getChinaProvList();
 	/**
 	 * 查询中国省、直辖市、特别行政区键值对
 	 * @return
@@ -37,6 +38,12 @@ public interface IChinaAreaService extends IBaseService<ChinaAreaModel> {
 	 * 查询中国市、县、区列表
 	 * @return
 	 */
-	List<ChinaAreaModel> getChinaAreaList(String pcode);
+	List<ChinaAreaDTO> getChinaAreaList(String pcode);
+	
+	/**
+	 * 根据名称查询中国市
+	 * @return
+	 */
+	ChinaAreaDTO getChinaCity(String sname);
 	
 }
