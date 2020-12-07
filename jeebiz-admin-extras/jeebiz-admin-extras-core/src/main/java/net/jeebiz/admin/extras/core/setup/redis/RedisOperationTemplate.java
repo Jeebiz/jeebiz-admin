@@ -1472,20 +1472,6 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, timeout, unit);
 	}
 	
-	/**
-	 * 释放分布式锁
-	 * 
-	 * @param lockKey
-	 * @param requestId
-	 * @return
-	 */
-	public boolean unlock(String lockKey, String requestId) {
-		Assert.hasLength(lockKey, "lockKey must not be empty");
-		Assert.hasLength(requestId, "requestId must not be empty");
-		Long count = this.executeLuaScript(RELEASE_LOCK_SCRIPT, Lists.newArrayList(lockKey), Lists.newArrayList(requestId), Long.class);
-		return count == 1;
-	}
-
 	public boolean tryLock(String lockKey, long expireMillis) {
         return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
         	byte[] serLockKey = rawString(lockKey);
@@ -1513,16 +1499,17 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
     }
 	
 	/**
-	 * 分布式锁解锁 加锁者可解锁，非加锁者等待过期 不可解锁
+	 * 释放分布式锁
 	 * 
 	 * @param lockKey
-	 * @param lockValue
+	 * @param requestId
+	 * @return
 	 */
-	public void unlock(String lockKey, long lockValue) {
-		Long oldLockValue = (Long) getOperations().opsForValue().get(lockKey);
-		if (null != oldLockValue && lockValue == oldLockValue) {
-			delete(lockKey);
-		}
+	public boolean unlock(String lockKey, String requestId) {
+		Assert.hasLength(lockKey, "lockKey must not be empty");
+		Assert.hasLength(requestId, "requestId must not be empty");
+		Long count = this.executeLuaScript(RELEASE_LOCK_SCRIPT, Lists.newArrayList(lockKey), Lists.newArrayList(requestId), Long.class);
+		return count == 1;
 	}
 
 	// ===============================Pipeline=================================
