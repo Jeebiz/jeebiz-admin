@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.shadow;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +22,7 @@ import net.jeebiz.boot.autoconfigure.EnableJeebiz;
 /**
  * 应用启动入口
  */
+@EnableDubbo
 @EnableJeebiz
 @EnableJPush
 @EnableScheduling
