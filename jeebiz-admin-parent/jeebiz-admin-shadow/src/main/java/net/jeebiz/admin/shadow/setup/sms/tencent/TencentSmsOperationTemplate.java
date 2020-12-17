@@ -228,7 +228,7 @@ public class TencentSmsOperationTemplate {
 		if (!vcode.equals(smsCode) && !vcode.equals("000000")) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.check.vcode.invalid");
 		}
-		redisOperationTemplate.delete(smsKey);
+		redisOperationTemplate.del(smsKey);
 		return true;
 	}
  

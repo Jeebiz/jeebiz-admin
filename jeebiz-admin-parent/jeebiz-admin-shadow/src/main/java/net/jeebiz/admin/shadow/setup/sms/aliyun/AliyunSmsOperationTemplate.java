@@ -168,7 +168,7 @@ public class AliyunSmsOperationTemplate {
 		if (!vcode.equals(smsCode) && !vcode.equals("000000")) {
 			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.check.vcode.invalid");
 		}
-		redisOperationTemplate.delete(smsKey);
+		redisOperationTemplate.del(smsKey);
 		return true;
 	}
  
