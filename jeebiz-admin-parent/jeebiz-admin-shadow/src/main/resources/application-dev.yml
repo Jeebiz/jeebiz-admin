@@ -94,29 +94,11 @@ spring:
   # Redis相关配置
   redis:
     # Redis服务器地址  
-    host: 180.76.120.252
+    host: 47.98.123.43
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空） 
     password: HycBsP5cSp3enyGw
-  # Aliyun相关配置
-  cloud:
-    alicloud:
-      access-key: xasdas
-      secret-key: xxas
-      sms:
-        enable: true
-        signs:
-        - 大橘小窝
-        
-################################################################################################################  
-###Shiro 权限控制基本配置：  
-################################################################################################################
-shiro:
-  redis:
-    host: 121.196.123.3
-    port: 6379
-    password: Kding@2020
 
 ################################################################################################################  
 ###Flyway (FlywayMigrationProperties) 数据库迁移脚本版本管理（实现软件版本升级数据库自动升级）配置：  
@@ -129,8 +111,8 @@ shiro:
 ###jpush基本配置：  
 ################################################################################################################
 jpush:
-  master-secret: xxx
-  app-key: xxx  
+  master-secret: fd91234d9648f655e1234c1b
+  app-key: 45ab34237527f342b823456b  
   production: false
     
 ################################################################################################################
@@ -155,21 +137,28 @@ file:
 ###阿里云服务配置：  
 ###https://github.com/AliwareMQ/mq-demo
 ################################################################################################################  
-aliyun:
-  oss:
-    enabled: true
-    authorization-mode: ak-sk
-    access-key: 
-    secret-key: 
-    bucket: https://bucket.oss-accelerate.aliyuncs.com
-    bucket-name: bucket
-    endpoint: https://oss-cn-hangzhou.aliyuncs.com
-  ons:
-    access-key: xxxxx
-    secret-key: xxxxxx
-    name-srv-addr: http://xxxxx.mq-internet-access.mq-internet.aliyuncs.com:80
-    message-model: CLUSTERING
-    group-id: GID_LAN
+alibaba:
+  cloud:
+    access-key: xasdas
+    secret-key: xxas
+    oss:
+      enabled: true
+      authorization-mode: ak-sk
+      access-key: 
+      secret-key: 
+      bucket: https://bucket.oss-accelerate.aliyuncs.com
+      bucket-name: bucket
+      endpoint: https://oss-cn-hangzhou.aliyuncs.com  
+    ons:
+      access-key: xxxxx
+      secret-key: xxxxxx
+      name-srv-addr: http://xxxxx.mq-internet-access.mq-internet.aliyuncs.com:80
+      message-model: CLUSTERING
+      group-id: GID_LAN
+    sms:
+        enable: true
+        signs:
+        - Jeebiz
   
 ################################################################################################################  
 ###腾讯云服务配置：  

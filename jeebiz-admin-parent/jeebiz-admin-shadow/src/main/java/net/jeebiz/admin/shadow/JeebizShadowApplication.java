@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import cn.jpush.spring.boot.EnableJPush;
 import io.micrometer.core.instrument.MeterRegistry;
+import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
 
 /**
@@ -35,6 +36,11 @@ public class JeebizShadowApplication implements CommandLineRunner {
             @Value("${spring.application.name}") String applicationName) {
         return (registry) -> registry.config().commonTags("application", applicationName);
     }
+	
+    @Bean
+	public Sequence sequence() {
+		return new Sequence(0L);
+	}
 	
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(JeebizShadowApplication.class, args);

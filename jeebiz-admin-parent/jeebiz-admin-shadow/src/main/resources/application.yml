@@ -129,7 +129,7 @@ resilience4j:
           - net.jeebiz.boot.api.exception.BizCheckedException
           - net.jeebiz.boot.api.exception.BizIOException
         ignore-exceptions: # 忽略的异常
-          - com.example.resilience4j.exceptions.BusinessAException
+          - net.jeebiz.boot.api.exception.BizCheckedException
     instances:
       backendA:
         base-config: default
