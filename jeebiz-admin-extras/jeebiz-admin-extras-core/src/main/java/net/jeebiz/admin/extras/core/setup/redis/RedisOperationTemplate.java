@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisZSetCommands.Tuple;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
@@ -30,6 +32,7 @@ import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
@@ -198,7 +201,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
-	public boolean setNX(String key, String value) {
+	public boolean setNx(String key, String value) {
 		try {
 			//return getOperations().opsForValue().setIfAbsent(key, value);
 			return this.execute((RedisCallback<Boolean>) redisConnection -> {
@@ -257,7 +260,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param pattern 键表达式
 	 * @return 值
 	 */
-	public List<Object> multiGet(String pattern) {
+	public List<Object> mGet(String pattern) {
 		try {
 			if (!StringUtils.hasText(pattern)) {
 				return Lists.newArrayList();
@@ -275,7 +278,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param keys 键集合
 	 * @return 值
 	 */
-	public List<Object> multiGet(Collection keys) {
+	public List<Object> mGet(Collection keys) {
 		try {
 			return CollectionUtils.isEmpty(keys) ? Lists.newArrayList() : getOperations().opsForValue().multiGet(keys);
 		} catch (Exception e) {
@@ -284,7 +287,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
-	public List<Object> multiGet(Collection<Object> keys, String redisPrefix) {
+	public List<Object> mGet(Collection<Object> keys, String redisPrefix) {
 		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
 			keys.stream().forEach(key -> {
 				connection.get(rawString(RedisKeyGenerator.getKeyStr(redisPrefix, key.toString())));
@@ -426,7 +429,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * 删除缓存
 	 * @param keys 可以传一个值 或多个
 	 */
-	public void delete(String... keys) {
+	public void del(String... keys) {
 		try {
 			if (keys != null && keys.length > 0) {
 				if (keys.length == 1) {
@@ -440,9 +443,99 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
+	public void delPattern(String pattern) {
+		try {
+			this.scan(pattern, (value) -> {
+				getOperations().delete(deserializeKey(value));
+			});
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}
 
+	/**
+	 * 获取符合条件的key
+	 * 
+	 * @param pattern 表达式
+	 * @return
+	 */
+	public List<String> keys(String pattern) {
+		List<String> keys = Lists.newArrayList();
+		this.scan(pattern, value -> {
+			keys.add(deserializeString(value));
+		});
+		return keys;
+	}
+	
+	/**
+	 * scan 实现
+	 * 
+	 * @param pattern  表达式
+	 * @param consumer 对迭代到的key进行操作
+	 */
+	public void scan(String pattern, Consumer<byte[]> consumer) {
+		this.getOperations().execute((RedisConnection redisConnection) -> {
+			try (Cursor<byte[]> cursor = redisConnection.scan(ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
+				cursor.forEachRemaining(consumer);
+				return null;
+			} catch (IOException e) {
+				log.error(e.getMessage());
+				throw new BizRuntimeException(e.getMessage());
+			}
+		});
+	}
+
+	
 	// ===============================List=================================
 
+
+	/**
+	 *    移除N个值为value
+	 *
+	 * @param key   键
+	 * @param count 移除多少个
+	 * @param value 值
+	 * @return 移除的个数
+	 */
+	public long lDel(String key, long count, Object value) {
+		try {
+			Long remove = getOperations().opsForList().remove(key, count, value);
+			return remove;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0;
+		}
+	}
+
+	/**
+	 * List删除: ltrim
+	 * @param key
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public boolean lDel(String key, int start, int end) {
+		try {
+			getOperations().opsForList().trim(key, start, end);
+			return true;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return false;
+		}
+	}
+	
+
+	public List<String> lGet(String key, Integer count) {
+		List<Object> result = getOperations().executePipelined((RedisConnection redisConnection) -> {
+			byte[] serKey = rawString(key);
+			redisConnection.lRange(serKey, 0, count - 1);
+			redisConnection.lTrim(serKey, count, -1);
+			return null;
+		}, getOperations().getValueSerializer());
+		
+		return (List<String>) result.get(0);
+	}
+	
 	/**
 	 * 获取list缓存的内容
 	 *
@@ -451,7 +544,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param end   结束 0 到 -1代表所有值
 	 * @return
 	 */
-	public List<Object> lGet(String key, long start, long end) {
+	public List<Object> lRange(String key, long start, long end) {
 		try {
 			return getOperations().opsForList().range(key, start, end);
 		} catch (Exception e) {
@@ -468,30 +561,14 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param end   结束 0 到 -1代表所有值
 	 * @return
 	 */
-	public List<Long> lGetLong(String key, long start, long end) {
+	public <T> List<T> lRange(String key, long start, long end, Class<T> clazz) {
 		try {
 			List<Object> range = getOperations().opsForList().range(key, start, end);
-			List<Long> result = range.stream().map(object -> Long.valueOf(object.toString()))
-					.collect(Collectors.toList());
+			List<T> result = range.stream().map(member -> clazz.cast(member)).collect(Collectors.toList());
 			return result;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
-		}
-	}
-
-	/**
-	 * 获取list缓存的长度
-	 *
-	 * @param key 键
-	 * @return
-	 */
-	public long lGetListSize(String key) {
-		try {
-			return getOperations().opsForList().size(key);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0;
 		}
 	}
 
@@ -502,7 +579,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
 	 * @return
 	 */
-	public Object lGetIndex(String key, long index) {
+	public Object lIndex(String key, long index) {
 		try {
 			return getOperations().opsForList().index(key, index);
 		} catch (Exception e) {
@@ -632,7 +709,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param value 值
 	 * @return
 	 */
-	public boolean lUpdateIndex(String key, long index, Object value) {
+	public boolean lSet(String key, long index, Object value) {
 		try {
 			getOperations().opsForList().set(key, index, value);
 			return true;
@@ -643,35 +720,95 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	}
 
 	/**
-	 * 移除N个值为value
+	 * 获取list缓存的长度
 	 *
-	 * @param key   键
-	 * @param count 移除多少个
-	 * @param value 值
-	 * @return 移除的个数
+	 * @param key 键
+	 * @return
 	 */
-	public long lRemove(String key, long count, Object value) {
+	public long lSize(String key) {
 		try {
-			Long remove = getOperations().opsForList().remove(key, count, value);
-			return remove;
+			return getOperations().opsForList().size(key);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return 0;
 		}
 	}
 
-	public boolean lRemove(String key, int start, int end) {
-		try {
-			getOperations().opsForList().trim(key, start, end);
-			return true;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return false;
-		}
-	}
 
 	// ================================Hash=================================
+	
 
+	/**
+	 * hash递减
+	 *
+	 * @param key  键
+	 * @param item 项
+	 * @param delta   要减少记(小于0)
+	 * @return
+	 */
+	public Long hDecr(String key, String item, int delta) {
+		if (delta < 0) {
+			throw new BizRuntimeException("递减因子必须>=0");
+		}
+		return getOperations().opsForHash().increment(key, item, -delta);
+	}
+	
+	/**
+	 * hash递减
+	 *
+	 * @param key  键
+	 * @param item 项
+	 * @param delta   要减少记(>=0)
+	 * @return
+	 */
+	public Long hDecr(String key, String item, long delta) {
+		if (delta < 0) {
+			throw new BizRuntimeException("递减因子必须>=0");
+		}
+		return getOperations().opsForHash().increment(key, item, -delta);
+	}
+
+	/**
+	 * hash递减
+	 *
+	 * @param key  键
+	 * @param item 项
+	 * @param delta 要减少记(>=0)
+	 * @return
+	 */
+	public Double hDecr(String key, String item, double delta) {
+		if (delta < 0) {
+			throw new BizRuntimeException("递减因子必须>=0");
+		}
+		return getOperations().opsForHash().increment(key, item, -delta);
+	}
+
+	/**
+	 * 删除hash表中的值
+	 *
+	 * @param key  键 不能为null
+	 * @param hashKeys 项 可以使多个 不能为null
+	 */
+	public void hDel(String key, Object... hashKeys) {
+		getOperations().opsForHash().delete(key, hashKeys);
+	}
+
+	/**
+	 * Hash删除: hscan + hdel
+	 * @param bigHashKey
+	 */
+	public void hDel(String bigHashKey) {
+		try {
+			this.hScan(bigHashKey, (entry) -> {
+				this.hDel(bigHashKey, deserializeHashKey(entry.getKey()));
+			});
+			this.del(bigHashKey);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new BizRuntimeException(e.getMessage());
+		}
+	}
+	
 	/**
 	 * HashGet
 	 *
@@ -679,7 +816,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param hashKey 项 不能为null
 	 * @return 值
 	 */
-	public Object hget(String key, String hashKey) {
+	public Object hGet(String key, String hashKey) {
 		try {
 			return getOperations().opsForHash().get(key, hashKey);
 		} catch (Exception e) {
@@ -694,7 +831,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param hashKeys 要筛选项
 	 * @return
 	 */
-    public List<Object> hmultiGet(String key, Collection hashKeys) {
+    public List<Object> hGet(String key, Collection hashKeys) {
     	try {
 			return getOperations().opsForHash().multiGet(key, hashKeys);
 		} catch (Exception e) {
@@ -706,7 +843,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
     /**
 	 * 批量获取用户信息
 	 */
-	public List<Object> hmultiGet(Collection<Object> keys) {
+	public List<Object> hGet(Collection<Object> keys) {
 		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
 			keys.stream().forEach(key -> {
 				String hashKey = RedisKeyGenerator.getUserInfoPrefix(key.toString());
@@ -717,7 +854,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return result;
 	}
 	
-	public List<Object> hmultiGetByField(Collection<Object> keys, String redisPrefix, String redisField) {
+	public List<Object> hGet(Collection<Object> keys, String redisPrefix, String redisField) {
 		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
 			keys.stream().forEach(key -> {
 				String hashKey = RedisKeyGenerator.getKeyStr(redisPrefix, key.toString());
@@ -727,14 +864,26 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}, getOperations().getValueSerializer());
 		return result;
 	}
-
+	
+	/**
+	 * 判断hash表中是否有该项的值
+	 *
+	 * @param key  键 不能为null
+	 * @param item 项 不能为null
+	 * @return true 存在 false不存在
+	 */
+	public boolean hHasKey(String key, String item) {
+		return getOperations().opsForHash().hasKey(key, item);
+	}
+	
+	
     /**
 	 * 获取hashKey对应的所有键值
 	 *
 	 * @param key 键
 	 * @return 对应的多个键值
 	 */
-	public Map<String, Object> hmget(String key) {
+	public Map<String, Object> hmGet(String key) {
 		try {
 			HashOperations<String, String, Object> opsForHash = getOperations().opsForHash();
 			return opsForHash.entries(key);
@@ -751,7 +900,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param map 对应多个键值
 	 * @return true 成功 false 失败
 	 */
-	public boolean hmset(String key, Map<String, Object> map) {
+	public boolean hmSet(String key, Map<String, Object> map) {
 		try {
 			getOperations().opsForHash().putAll(key, map);
 			return true;
@@ -769,7 +918,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param time 时间(秒)
 	 * @return true成功 false失败
 	 */
-	public boolean hmset(String key, Map<String, Object> map, long seconds) {
+	public boolean hmSet(String key, Map<String, Object> map, long seconds) {
 		try {
 			getOperations().opsForHash().putAll(key, map);
 			if (seconds > 0) {
@@ -782,7 +931,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
-	public boolean hmset(String key, Map<String, Object> map, Duration duration) {
+	public boolean hmSet(String key, Map<String, Object> map, Duration duration) {
 		try {
 			getOperations().opsForHash().putAll(key, map);
 			if(!duration.isNegative()) {
@@ -794,7 +943,31 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			return false;
 		}
 	}
+	
+	public void hScan(String bigHashKey, Consumer<Map.Entry<byte[],byte[]>> consumer) {
+		this.getOperations().execute((RedisConnection redisConnection) -> {
+			try (Cursor<Entry<byte[], byte[]>> cursor = redisConnection.hScan(rawHashKey(bigHashKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).build())) {
+				cursor.forEachRemaining(consumer);
+				return null;
+			} catch (IOException e) {
+				log.error(e.getMessage());
+				throw new BizRuntimeException(e.getMessage());
+			}
+		});
+	}
 
+	public void hScan(String bigHashKey, String pattern, Consumer<Map.Entry<byte[],byte[]>> consumer) {
+		this.getOperations().execute((RedisConnection redisConnection) -> {
+			try (Cursor<Entry<byte[], byte[]>> cursor = redisConnection.hScan(rawHashKey(bigHashKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
+				cursor.forEachRemaining(consumer);
+				return null;
+			} catch (IOException e) {
+				log.error(e.getMessage());
+				throw new BizRuntimeException(e.getMessage());
+			}
+		});
+	}
+	
 	/**
 	 * 向一张hash表中放入数据,如果不存在将创建
 	 *
@@ -803,7 +976,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param value 值
 	 * @return true 成功 false失败
 	 */
-	public boolean hset(String key, String item, Object value) {
+	public boolean hSet(String key, String item, Object value) {
 		try {
 			getOperations().opsForHash().put(key, item, value);
 			return true;
@@ -822,7 +995,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param time  时间(秒) 注意:如果已存在的hash表有时间,这里将会替换原有的时间
 	 * @return true 成功 false失败
 	 */
-	public boolean hset(String key, String item, Object value, long seconds) {
+	public boolean hSet(String key, String item, Object value, long seconds) {
 		try {
 			getOperations().opsForHash().put(key, item, value);
 			if (seconds > 0) {
@@ -835,7 +1008,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
-	public boolean hset(String key, String item, Object value, Duration duration) {
+	public boolean hSet(String key, String item, Object value, Duration duration) {
 		try {
 			getOperations().opsForHash().put(key, item, value);
 			if(!duration.isNegative()) {
@@ -848,13 +1021,22 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 
+	public boolean hSetNX(String key, String hashKey, Object value) {
+		try {
+			return getOperations().opsForHash().putIfAbsent(key, hashKey, value);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return Boolean.FALSE;
+		}
+	}
+	
 	/**
 	 * hash的大小
 	 * 
 	 * @param key
 	 * @return
 	 */
-	public Long hsize(String key) {
+	public Long hSize(String key) {
 		try {
 			return getOperations().opsForHash().size(key);
 		} catch (Exception e) {
@@ -862,31 +1044,11 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			return 0L;
 		}
 	}
-
-	/**
-	 * 删除hash表中的值
-	 *
-	 * @param key  键 不能为null
-	 * @param item 项 可以使多个 不能为null
-	 */
-	public void hdel(String key, Object... item) {
-		getOperations().opsForHash().delete(key, item);
-	}
-
-	/**
-	 * 判断hash表中是否有该项的值
-	 *
-	 * @param key  键 不能为null
-	 * @param item 项 不能为null
-	 * @return true 存在 false不存在
-	 */
-	public boolean hHasKey(String key, String item) {
-		return getOperations().opsForHash().hasKey(key, item);
-	}
 	
-	public Set<Object> hKeys(String key) {
-		return getOperations().opsForHash().keys(key);
-	}
+
+	
+	
+	
 	
 	/**
 	 * hash递增 如果不存在,就会创建一个 并把新增后的值返回
@@ -896,7 +1058,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param delta  要增加几(>=0)
 	 * @return
 	 */
-	public Long hincr(String key, String item, int delta) {
+	public Long hIncr(String key, String item, int delta) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -912,7 +1074,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param seconds 过期时长（秒）
 	 * @return
 	 */
-	public Long hincr(String key, String item, int delta, long seconds) {
+	public Long hIncr(String key, String item, int delta, long seconds) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -923,7 +1085,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return increment;
 	}
 	
-	public Long hincr(String key, String item, int delta, Duration duration) {
+	public Long hIncr(String key, String item, int delta, Duration duration) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -942,7 +1104,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param delta  要增加几(>=0)
 	 * @return
 	 */
-	public Long hincr(String key, String item, long delta) {
+	public Long hIncr(String key, String item, long delta) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -958,7 +1120,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param seconds 过期时长（秒）
 	 * @return
 	 */
-	public Long hincr(String key, String item, long delta, long seconds) {
+	public Long hIncr(String key, String item, long delta, long seconds) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -969,7 +1131,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return increment;
 	}
 
-	public Long hincr(String key, String item, long delta, Duration duration) {
+	public Long hIncr(String key, String item, long delta, Duration duration) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -988,14 +1150,14 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param delta   要增加几(>=0)
 	 * @return
 	 */
-	public Double hincr(String key, String item, double delta) {
+	public Double hIncr(String key, String item, double delta) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
 		return getOperations().opsForHash().increment(key, item, delta);
 	}
 	
-	public Double hincr(String key, String item, double delta, long seconds) {
+	public Double hIncr(String key, String item, double delta, long seconds) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -1006,7 +1168,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return increment;
 	}
 	
-	public Double hincr(String key, String item, double delta, Duration duration) {
+	public Double hIncr(String key, String item, double delta, Duration duration) {
 		if (delta < 0) {
 			throw new BizRuntimeException("递增因子必须>=0");
 		}
@@ -1017,53 +1179,48 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return increment;
 	}
 
-	/**
-	 * hash递减
-	 *
-	 * @param key  键
-	 * @param item 项
-	 * @param delta   要减少记(小于0)
-	 * @return
-	 */
-	public Long hdecr(String key, String item, int delta) {
-		if (delta < 0) {
-			throw new BizRuntimeException("递减因子必须>=0");
-		}
-		return getOperations().opsForHash().increment(key, item, -delta);
-	}
-	
-	/**
-	 * hash递减
-	 *
-	 * @param key  键
-	 * @param item 项
-	 * @param delta   要减少记(>=0)
-	 * @return
-	 */
-	public Long hdecr(String key, String item, long delta) {
-		if (delta < 0) {
-			throw new BizRuntimeException("递减因子必须>=0");
-		}
-		return getOperations().opsForHash().increment(key, item, -delta);
-	}
-
-	/**
-	 * hash递减
-	 *
-	 * @param key  键
-	 * @param item 项
-	 * @param delta 要减少记(>=0)
-	 * @return
-	 */
-	public Double hdecr(String key, String item, double delta) {
-		if (delta < 0) {
-			throw new BizRuntimeException("递减因子必须>=0");
-		}
-		return getOperations().opsForHash().increment(key, item, -delta);
+	public Set<Object> hKeys(String key) {
+		return getOperations().opsForHash().keys(key);
 	}
 	
 	// ============================Set=============================
 
+
+	/**
+	 * 将数据放入set缓存
+	 *
+	 * @param key    键
+	 * @param values 值 可以是多个
+	 * @return 成功个数
+	 */
+	public Long sAdd(String key, Object... values) {
+		try {
+			return getOperations().opsForSet().add(key, values);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	/**
+	 * Set删除: sscan + srem
+	 *
+	 * @param key 键
+	 * @return 
+	 * @return
+	 */
+	public Boolean sDel(String bigSetKey) {
+		try {
+			this.sScan(bigSetKey, (hashKey) -> {
+				getOperations().opsForHash().delete(bigSetKey, deserializeHashKey(hashKey));
+			});
+			return getOperations().delete(bigSetKey);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return Boolean.FALSE;
+		}
+	}
+	
 	/**
 	 * 根据key获取Set中的所有值
 	 *
@@ -1085,13 +1242,46 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param key 键
 	 * @return
 	 */
-	public Set<Long> sGetLong(String key) {
+	public <T> Set<T> sGet(String key, Class<T> clazz) {
 		try {
 			Set<Object> members = getOperations().opsForSet().members(key);
-			return members.stream().map(object -> Long.valueOf(object.toString())).collect(Collectors.toSet());
+			return members.stream().map(member -> clazz.cast(member)).collect(Collectors.toSet());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return null;
+		}
+	}
+	
+	/**
+	 * 获取两个key的不同value
+	 * 
+	 * @param key1 键
+	 * @param key2 键
+	 * @return 返回key1中和key2的不同数据
+	 */
+	public Set<Object> sDiff(String key1, String key2) {
+		try {
+			return getOperations().opsForSet().difference(key1, key2);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return Sets.newHashSet();
+		}
+	}
+	
+	/**
+	 * 获取两个key的不同数据，放到key3中
+	 * 
+	 * @param key1 键
+	 * @param key2 键
+	 * @param key3 键
+	 * @return 返回成功数据
+	 */
+	public Long sDiffStore(String key1, String key2, String key3) {
+		try {
+			return getOperations().opsForSet().differenceAndStore(key1, key2, key3);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
 		}
 	}
 
@@ -1105,127 +1295,6 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	public boolean sHasKey(String key, Object value) {
 		try {
 			return getOperations().opsForSet().isMember(key, value);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return false;
-		}
-	}
-
-	/**
-	 * 将数据放入set缓存
-	 *
-	 * @param key    键
-	 * @param values 值 可以是多个
-	 * @return 成功个数
-	 */
-	public Long sSet(String key, Object... values) {
-		try {
-			return getOperations().opsForSet().add(key, values);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-
-	/**
-	 * 将set数据放入缓存
-	 *
-	 * @param key    键
-	 * @param seconds   过期时长(秒)
-	 * @param values 值 可以是多个
-	 * @return 成功个数
-	 */
-	public Long sSetAndTime(String key, long seconds, Object... values) {
-		try {
-			Long count = getOperations().opsForSet().add(key, values);
-			if (seconds > 0) {
-				expire(key, seconds);
-			}
-			return count;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-
-	/**
-	 * 获取set缓存的长度
-	 *
-	 * @param key 键
-	 * @return
-	 */
-	public Long sGetSetSize(String key) {
-		try {
-			return getOperations().opsForSet().size(key);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-
-	/**
-	 * 移除值为value的
-	 *
-	 * @param key    键
-	 * @param values 值 可以是多个
-	 * @return 移除的个数
-	 */
-	public Long sRemove(String key, Object... values) {
-		try {
-			Long count = getOperations().opsForSet().remove(key, values);
-			return count;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-
-	/**
-	 * 获取两个key的不同value
-	 * 
-	 * @param key1 键
-	 * @param key2 键
-	 * @return 返回key1中和key2的不同数据
-	 */
-	public Set<Object> sDiff(String key1, String key2) {
-		try {
-			return getOperations().opsForSet().difference(key1, key2);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return null;
-		}
-	}
-
-	/**
-	 * 获取两个key的不同数据，放到key3中
-	 * 
-	 * @param key1 键
-	 * @param key2 键
-	 * @param key3 键
-	 * @return 返回成功数据
-	 */
-	public Boolean sDifferenceAndStore(String key1, String key2, String key3) {
-		try {
-			getOperations().opsForSet().differenceAndStore(key1, key2, key3);
-			return true;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return false;
-		}
-	}
-
-	/**
-	 * 获取两个key的所有数据，放到key3中
-	 * 
-	 * @param key1 键
-	 * @param key2 键
-	 * @param key3 键
-	 * @return 返回成功数据
-	 */
-	public Boolean sUnionAndStore(String key1, String key2, String key3) {
-		try {
-			getOperations().opsForSet().unionAndStore(key1, key2, key3);
-			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return false;
@@ -1254,28 +1323,116 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().opsForSet().distinctRandomMembers(key, count);
 	}
 	
+	/**
+	 * 移除值为value的
+	 *
+	 * @param key    键
+	 * @param values 值 可以是多个
+	 * @return 移除的个数
+	 */
+	public Long sRemove(String key, Object... values) {
+		try {
+			Long count = getOperations().opsForSet().remove(key, values);
+			return count;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+
+	public void sScan(String bigSetKey, Consumer<byte[]> consumer) {
+		this.getOperations().execute((RedisConnection redisConnection) -> {
+			try (Cursor<byte[]> cursor = redisConnection.sScan(rawKey(bigSetKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).build())) {
+				cursor.forEachRemaining(consumer);
+				return null;
+			} catch (IOException e) {
+				log.error(e.getMessage());
+				throw new BizRuntimeException(e.getMessage());
+			}
+		});
+	}
+	
+	public void sScan(String bigSetKey, String pattern, Consumer<byte[]> consumer) {
+		this.getOperations().execute((RedisConnection redisConnection) -> {
+			try (Cursor<byte[]> cursor = redisConnection.sScan(rawKey(bigSetKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
+				cursor.forEachRemaining(consumer);
+				return null;
+			} catch (IOException e) {
+				log.error(e.getMessage());
+				throw new BizRuntimeException(e.getMessage());
+			}
+		});
+	}
+	
+
+	/**
+	 * 将set数据放入缓存
+	 *
+	 * @param key    键
+	 * @param seconds   过期时长(秒)
+	 * @param values 值 可以是多个
+	 * @return 成功个数
+	 */
+	public Long sSetAndTime(String key, long seconds, Object... values) {
+		try {
+			Long count = getOperations().opsForSet().add(key, values);
+			if (seconds > 0) {
+				expire(key, seconds);
+			}
+			return count;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+
+	/**
+	 * 获取set缓存的长度
+	 *
+	 * @param key 键
+	 * @return
+	 */
+	public Long sSize(String key) {
+		try {
+			return getOperations().opsForSet().size(key);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	/**
+	 * 获取两个key的所有数据，放到key3中
+	 * 
+	 * @param key1 键
+	 * @param key2 键
+	 * @param key3 键
+	 * @return 返回成功数据
+	 */
+	public Boolean sUnionAndStore(String key1, String key2, String key3) {
+		try {
+			getOperations().opsForSet().unionAndStore(key1, key2, key3);
+			return true;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return false;
+		}
+	}
+	
 	// ===============================ZSet=================================
 	
-	public Double zincr(String key, String value, double delta) {
-		return getOperations().opsForZSet().incrementScore(key, value, delta);
-	}
-
-	public Double zincr(String key, String value, double delta, long seconds) {
-		Double result = getOperations().opsForZSet().incrementScore(key, value, delta);
-		if (seconds > 0) {
-			expire(key, seconds);
-		}
-		return result;
-	}
-
-	public Boolean zadd(String key, String value, double score) {
+	public Boolean zAdd(String key, String value, double score) {
 		return getOperations().opsForZSet().add(key, value, score);
 	}
 
-	public Long zadd(String key, Set<ZSetOperations.TypedTuple<Object>> tuples) {
+	public Long zAdd(String key, Set<ZSetOperations.TypedTuple<Object>> tuples) {
 		return getOperations().opsForZSet().add(key, tuples);
 	}
 
+	public Long zCard(String key) {
+		return getOperations().opsForZSet().zCard(key);
+	}
+	
 	/**
 	 * 通过分数返回有序集合指定区间内的成员个数
 	 * 
@@ -1287,14 +1444,47 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().opsForZSet().count(key, min, max);
 	}
 
+
+	/**
+	 * Set删除: sscan + srem
+	 *
+	 * @param key 键
+	 * @return 
+	 * @return
+	 */
+	public Boolean zDel(String bigZsetKey) {
+		try {
+			this.zScan(bigZsetKey, (tuple) -> {
+				this.zRem(bigZsetKey, deserializeTuple(tuple).getValue());
+			});
+			return getOperations().delete(bigZsetKey);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return Boolean.FALSE;
+		}
+	}
+	
+	public Double zIncr(String key, String value, double delta) {
+		return getOperations().opsForZSet().incrementScore(key, value, delta);
+	}
+
+	public Double zIncr(String key, String value, double delta, long seconds) {
+		Double result = getOperations().opsForZSet().incrementScore(key, value, delta);
+		if (seconds > 0) {
+			expire(key, seconds);
+		}
+		return result;
+	}
+
+	
 	/**
 	 * 移除zset中的元素
 	 * 
 	 * @param key
-	 * @param value
+	 * @param values
 	 */
-	public Long zrem(String key, Object... value) {
-		return getOperations().opsForZSet().remove(key, value);
+	public Long zRem(String key, Object... values) {
+		return getOperations().opsForZSet().remove(key, values);
 	}
 
 	/**
@@ -1304,22 +1494,10 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param min
 	 * @param max
 	 */
-	public void zremByScore(String key, double min, double max) {
+	public void zRemByScore(String key, double min, double max) {
 		getOperations().opsForZSet().removeRangeByScore(key, min, max);
 	}
-
-	public Double zscore(String key, Object value) {
-		return getOperations().opsForZSet().score(key, value);
-	}
 	
-	public Long zRevRank(String key, Object value) {
-		return getOperations().opsForZSet().reverseRank(key, value);
-	}
-
-	public Long zCard(String key) {
-		return getOperations().opsForZSet().zCard(key);
-	}
-
 	public Set<Object> zRange(String key, long start, long end) {
 		return getOperations().opsForZSet().range(key, start, end);
 	}
@@ -1385,18 +1563,26 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	public Set<ZSetOperations.TypedTuple<Object>> zRevrangeByScoreWithScores(String key, double min, double max) {
 		return getOperations().opsForZSet().reverseRangeByScoreWithScores(key, min, max);
 	}
+
+	public Long zRevRank(String key, Object value) {
+		return getOperations().opsForZSet().reverseRank(key, value);
+	}
 	
-	// ===============================Scan=================================
-	
-	/**
-	 * scan 实现
-	 * 
-	 * @param pattern  表达式
-	 * @param consumer 对迭代到的key进行操作
-	 */
-	public void scan(String pattern, Consumer<byte[]> consumer) {
+	public void zScan(String bigZsetKey, Consumer<Tuple> consumer) {
 		this.getOperations().execute((RedisConnection redisConnection) -> {
-			try (Cursor<byte[]> cursor = redisConnection.scan(ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
+			try (Cursor<Tuple> cursor = redisConnection.zScan(rawKey(bigZsetKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).build())) {
+				cursor.forEachRemaining(consumer);
+				return null;
+			} catch (IOException e) {
+				log.error(e.getMessage());
+				throw new BizRuntimeException(e.getMessage());
+			}
+		});
+	}
+	
+	public void zScan(String bigZsetKey, String pattern, Consumer<Tuple> consumer) {
+		this.getOperations().execute((RedisConnection redisConnection) -> {
+			try (Cursor<Tuple> cursor = redisConnection.zScan(rawKey(bigZsetKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
 				cursor.forEachRemaining(consumer);
 				return null;
 			} catch (IOException e) {
@@ -1406,20 +1592,62 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		});
 	}
 
-	/**
-	 * 获取符合条件的key
-	 * 
-	 * @param pattern 表达式
-	 * @return
-	 */
-	public List<String> scanKeys(String pattern) {
-		List<String> keys = Lists.newArrayList();
-		this.scan(pattern, value -> {
-			keys.add(deserializeString(value));
-		});
-		return keys;
+	public Double zScore(String key, Object value) {
+		return getOperations().opsForZSet().score(key, value);
+	}
+	
+
+	// ===============================HyperLogLog=================================
+	
+	public Long pfAdd(String key, Object... values) {
+		return getOperations().opsForHyperLogLog().add(key, values);
 	}
 
+	public Boolean pfDel(String key) {
+		try {
+			getOperations().opsForHyperLogLog().delete(key);
+			return Boolean.TRUE;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return Boolean.FALSE;
+		}
+	}
+	
+	public Long pfCount(String... keys) {
+		try {
+			return getOperations().opsForHyperLogLog().size(keys);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+		
+	}
+	
+	public Long pfMerge(String destination, String...  sourceKeys) {
+		try {
+			return getOperations().opsForHyperLogLog().union(destination, sourceKeys);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+		
+	}
+	
+	// ===============================BitMap=================================
+
+	public Boolean setBit(String key, long offset, boolean value) {
+		return getOperations().opsForValue().setBit(key, offset, value);
+	}
+
+	public Boolean getBit(String key, long offset) {
+		try {
+			return getOperations().opsForValue().getBit(key, offset);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return Boolean.FALSE;
+		}
+	}
+	
 	// ===============================Message=================================
 	
 	/**
@@ -1432,16 +1660,6 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		getOperations().convertAndSend(channel, message);
 	}
 	
-	/**
-	 * push消息
-	 * 
-	 * @param key
-	 * @param message
-	 */
-	public void pushMessage(String key, String message) {
-		getOperations().opsForList().leftPush(key, message);
-	}
-	
 	// ===============================Lock=================================
  
 	/**
@@ -1449,13 +1667,13 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * 
 	 * @param lockKey
 	 * @param requestId
-	 * @param expireTime
+	 * @param expireMillis
 	 * @return
 	 */
-	public boolean tryLock(String lockKey, String requestId, long expireTime) {
+	public boolean tryLock(String lockKey, String requestId, long expireMillis) {
 		Assert.hasLength(lockKey, "lockKey must not be empty");
 		Assert.hasLength(requestId, "requestId must not be empty");
-		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, Duration.ofSeconds(expireTime));
+		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, Duration.ofSeconds(expireMillis));
 	}
 	
 	/**
@@ -1482,7 +1700,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	public boolean unlock(String lockKey, String requestId) {
 		Assert.hasLength(lockKey, "lockKey must not be empty");
 		Assert.hasLength(requestId, "requestId must not be empty");
-		Long count = this.executeLuaScript(RELEASE_LOCK_SCRIPT, Lists.newArrayList(lockKey), Lists.newArrayList(requestId), Long.class);
+		Long count = this.executeLuaScript(RELEASE_LOCK_SCRIPT, Long.class, Lists.newArrayList(lockKey), requestId);
 		return count == 1;
 	}
 
@@ -1513,15 +1731,12 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
     }
 	
 	/**
-	 * 分布式锁解锁 加锁者可解锁，非加锁者等待过期 不可解锁
-	 * 
+	 * 分布式锁解锁（删除锁）
 	 * @param lockKey
-	 * @param lockValue
 	 */
-	public void unlock(String lockKey, long lockValue) {
-		Long oldLockValue = (Long) getOperations().opsForValue().get(lockKey);
-		if (null != oldLockValue && lockValue == oldLockValue) {
-			delete(lockKey);
+	public void unlock(String lockKey) {
+		if(Objects.nonNull(lockKey)) {
+			getOperations().delete(lockKey);
 		}
 	}
 
@@ -1535,19 +1750,6 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().executePipelined(action, resultSerializer);
 	}
 	
-	
-	 
-	public List<String> multiGet(String key, Integer count) {
-		List<Object> result = getOperations().executePipelined((RedisConnection redisConnection) -> {
-			byte[] serKey = rawString(key);
-			redisConnection.lRange(serKey, 0, count - 1);
-			redisConnection.lTrim(serKey, count, -1);
-			return null;
-		}, getOperations().getValueSerializer());
-		
-		return (List<String>) result.get(0);
-	}
-
 	// ===============================RedisScript=================================
 	
 	/**
@@ -1559,11 +1761,11 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @return
 	 */
 
-	public Object executeLuaScript(String luaScript, List<String> keys, List<String> values) {
+	public Object executeLuaScript(String luaScript, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript);
 		return getOperations().execute(redisScript, keys, values);
 	}
-
+	
 	/**
 	 * 执行lua脚本
 	 * 
@@ -1573,7 +1775,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param resultType 返回值类型
 	 * @return
 	 */
-	public <T> T executeLuaScript(String luaScript, List<String> keys, List<String> values, Class<T> resultType) {
+	public <T> T executeLuaScript(String luaScript, Class<T> resultType, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript, resultType);
 		return (T) getOperations().execute(redisScript, keys, values);
 	}

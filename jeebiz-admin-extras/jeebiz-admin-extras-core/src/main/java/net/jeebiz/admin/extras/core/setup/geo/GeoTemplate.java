@@ -2,6 +2,7 @@ package net.jeebiz.admin.extras.core.setup.geo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -20,20 +21,22 @@ import org.springframework.data.redis.core.BoundGeoOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
+import net.jeebiz.admin.extras.core.setup.redis.AbstractOperations;
 import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 
-public class GeoTemplate {
+public class GeoTemplate extends AbstractOperations<String, Object>  {
 
 	private final static String USER_GEO_KEY = RedisKeyGenerator.getUserGeoLocation();
 	private RedisTemplate<String, Object> redisTemplate;
 	
-	public GeoTemplate() {
-		super();
-	}
-	
+
 	public GeoTemplate(RedisTemplate<String, Object> redisTemplate) {
-		super();
+		super(redisTemplate);
 		this.redisTemplate = redisTemplate;
+	}
+
+	public RedisTemplate<String, Object> getRedisTemplate() {
+		return redisTemplate;
 	}
 	
 	/**
@@ -134,6 +137,24 @@ public class GeoTemplate {
         boundGeoOperations.add(point, uid);
     }
     
+    // ===============================Geo=================================
+	
+ 	public Long geoAdd(String key, GeoLocation<Object> location) {
+ 		return getOperations().opsForGeo().add(key, location);
+ 	}
+
+ 	public Long geoAdd(String key, Iterable<GeoLocation<Object>> locations) {
+ 		return getOperations().opsForGeo().add(key, locations);
+ 	}
+
+ 	public Long geoAdd(String key, Point point, Object member) {
+ 		return getOperations().opsForGeo().add(key, point, member);
+ 	}
+    
+ 	public Long geoAdd(String key, Map<Object, Point> memberCoordinateMap) {
+ 		return getOperations().opsForGeo().add(key, memberCoordinateMap);
+ 	}
+    
     public String distance(String uid1, String uid2) {
     	BoundGeoOperations<String, Object> boundGeoOperations = getRedisTemplate().boundGeoOps(USER_GEO_KEY);
     	// 例：89 118.803805,32.060168
@@ -206,7 +227,4 @@ public class GeoTemplate {
     	return geoResultList.stream().map(mapper).collect(Collectors.toList());
     }
 
-	public RedisTemplate<String, Object> getRedisTemplate() {
-		return redisTemplate;
-	}
 }
