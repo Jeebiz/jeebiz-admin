@@ -123,19 +123,6 @@ public class GeoTemplate {
         return geoCurve.getEllipsoidalDistance();
     }
 	
-
-    /**
-     * 
-     * @param uid 用户ID
-     * @param longitude  用户最新位置经度
-     * @param latitude  用户最新位置纬度
-     */
-    public void setLocation(String uid, double longitude, double latitude) {
-    	// 例：89 118.803805,32.060168
-        Point point = new Point(longitude, latitude);
-        boundGeoOperations.add(point, uid);
-    }
-    
     // ===============================Geo=================================
 	
  	public Long geoAdd(GeoLocation<Object> location) {
@@ -153,6 +140,17 @@ public class GeoTemplate {
  	public Long geoAdd(Map<Object, Point> memberCoordinateMap) {
  		return getBoundGeoOperations().add(memberCoordinateMap);
  	}
+
+    /**
+     * @param member 用户ID
+     * @param longitude  用户最新位置经度
+     * @param latitude  用户最新位置纬度
+     */
+    public Long geoAdd(String member, double longitude, double latitude) {
+    	// 例：89 118.803805,32.060168
+        Point point = new Point(longitude, latitude);
+        return getBoundGeoOperations().add(point, member);
+    }
     
     public String distance(String uid1, String uid2) {
     	// 例：89 118.803805,32.060168

@@ -1,8 +1,5 @@
 package net.jeebiz.admin.extras.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalCoordinates;
 
@@ -14,17 +11,6 @@ public class CaculateDistanceTest{
 	
     public static void main(String[] args){
 
-    	List<String> xxx = new ArrayList<>();
-    	xxx.add("2");
-    	xxx.add("23");
-    	xxx.add("323");
-    	xxx.add("232");
-    	xxx.add("ww");
-    	xxx.add("ew");
-    	xxx.add("fdf");
-    	
-    	System.out.println(xxx.subList(0, 7));
-    	
     	double meterx = geoTemplate.getDistance(116.401394, 39.95676, 114.499574 , 36.63014);
     	System.out.println("原始坐标系计算结果："+meterx + "米");
     	
