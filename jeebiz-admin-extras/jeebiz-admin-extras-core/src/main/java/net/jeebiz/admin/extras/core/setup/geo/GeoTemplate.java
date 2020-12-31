@@ -21,12 +21,18 @@ import org.springframework.data.redis.core.BoundGeoOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
+import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
+
 public class GeoTemplate {
 
 	private BoundGeoOperations<String, Object> boundGeoOperations;
 	
 	public GeoTemplate() {
 		super();
+	}
+	
+	public GeoTemplate(RedisTemplate<String, Object> redisTemplate) {
+		this.boundGeoOperations = redisTemplate.boundGeoOps(RedisKeyGenerator.getUserGeoLocation());
 	}
 	
 	public GeoTemplate(RedisTemplate<String, Object> redisTemplate, String geoKey) {
