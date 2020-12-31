@@ -22,22 +22,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
 import net.jeebiz.admin.extras.core.setup.redis.AbstractOperations;
-import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 
 public class GeoTemplate extends AbstractOperations<String, Object>  {
 
-	private final static String USER_GEO_KEY = RedisKeyGenerator.getUserGeoLocation();
-	private RedisTemplate<String, Object> redisTemplate;
+	private BoundGeoOperations<String, Object> boundGeoOperations;
 	
-
-	public GeoTemplate(RedisTemplate<String, Object> redisTemplate) {
+	public GeoTemplate(RedisTemplate<String, Object> redisTemplate, String geoKey) {
 		super(redisTemplate);
-		this.redisTemplate = redisTemplate;
+		this.boundGeoOperations = redisTemplate.boundGeoOps(geoKey);
 	}
 
-	public RedisTemplate<String, Object> getRedisTemplate() {
-		return redisTemplate;
-	}
 	
 	/**
 	 * 计算两点之间距离 https://www.cnblogs.com/zhaoyanhaoBlog/p/10121499.html
@@ -131,7 +125,6 @@ public class GeoTemplate extends AbstractOperations<String, Object>  {
      * @param latitude  用户最新位置纬度
      */
     public void setLocation(String uid, double longitude, double latitude) {
-    	BoundGeoOperations<String, Object> boundGeoOperations = getRedisTemplate().boundGeoOps(USER_GEO_KEY);
     	// 例：89 118.803805,32.060168
         Point point = new Point(longitude, latitude);
         boundGeoOperations.add(point, uid);
@@ -156,17 +149,13 @@ public class GeoTemplate extends AbstractOperations<String, Object>  {
  	}
     
     public String distance(String uid1, String uid2) {
-    	BoundGeoOperations<String, Object> boundGeoOperations = getRedisTemplate().boundGeoOps(USER_GEO_KEY);
     	// 例：89 118.803805,32.060168
     	Distance distance = boundGeoOperations.distance(uid1, uid2);
     	System.out.println(distance);
     	return distance.getValue() + distance.getUnit();
     }
-   
     
     public GeoResults<GeoLocation<Object>> getCircleUsersByDistance(String uid, double distance){
-
-    	BoundGeoOperations<String, Object> boundGeoOperations = getRedisTemplate().boundGeoOps(USER_GEO_KEY);
 
     	// 1.1、设置geo查询参数
         RedisGeoCommands.GeoRadiusCommandArgs geoRadiusArgs = RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs();
@@ -195,11 +184,8 @@ public class GeoTemplate extends AbstractOperations<String, Object>  {
     	return geoResultList.stream().map(mapper).collect(Collectors.toList());
         
     }
-    
 
     public GeoResults<GeoLocation<Object>> getCircleUsersByRadius(String uid, double radius){
-    	
-    	BoundGeoOperations<String, Object> boundGeoOperations = getRedisTemplate().boundGeoOps(USER_GEO_KEY);
     	
     	// 1、根据UID查询指定UID对应坐标点指定范围内的用户
         Circle within = new Circle(boundGeoOperations.position(uid).get(0), radius);
@@ -226,5 +212,9 @@ public class GeoTemplate extends AbstractOperations<String, Object>  {
 		}
     	return geoResultList.stream().map(mapper).collect(Collectors.toList());
     }
+    
+    public BoundGeoOperations<String, Object> getBoundGeoOperations() {
+		return boundGeoOperations;
+	}
 
 }

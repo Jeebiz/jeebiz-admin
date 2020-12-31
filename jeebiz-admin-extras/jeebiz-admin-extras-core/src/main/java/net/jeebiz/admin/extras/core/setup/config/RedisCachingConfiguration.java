@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.jeebiz.admin.extras.core.setup.geo.GeoTemplate;
+import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.boot.api.annotation.RedisTopic;
 import net.jeebiz.boot.api.utils.CollectionUtils;
@@ -112,7 +113,7 @@ public class RedisCachingConfiguration extends CachingConfigurerSupport {
 	
 	@Bean
 	public GeoTemplate geoTemplate(RedisTemplate<String, Object> redisTemplate) {
-		return new GeoTemplate(redisTemplate);
+		return new GeoTemplate(redisTemplate, RedisKeyGenerator.getUserGeoLocation());
 	}
 
 	/**
