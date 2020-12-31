@@ -21,17 +21,17 @@ import org.springframework.data.redis.core.BoundGeoOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
-import net.jeebiz.admin.extras.core.setup.redis.AbstractOperations;
-
-public class GeoTemplate extends AbstractOperations<String, Object>  {
+public class GeoTemplate {
 
 	private BoundGeoOperations<String, Object> boundGeoOperations;
 	
+	public GeoTemplate() {
+		super();
+	}
+	
 	public GeoTemplate(RedisTemplate<String, Object> redisTemplate, String geoKey) {
-		super(redisTemplate);
 		this.boundGeoOperations = redisTemplate.boundGeoOps(geoKey);
 	}
-
 	
 	/**
 	 * 计算两点之间距离 https://www.cnblogs.com/zhaoyanhaoBlog/p/10121499.html
@@ -132,20 +132,20 @@ public class GeoTemplate extends AbstractOperations<String, Object>  {
     
     // ===============================Geo=================================
 	
- 	public Long geoAdd(String key, GeoLocation<Object> location) {
- 		return getOperations().opsForGeo().add(key, location);
+ 	public Long geoAdd(GeoLocation<Object> location) {
+ 		return getBoundGeoOperations().add(location);
  	}
 
- 	public Long geoAdd(String key, Iterable<GeoLocation<Object>> locations) {
- 		return getOperations().opsForGeo().add(key, locations);
+ 	public Long geoAdd(Iterable<GeoLocation<Object>> locations) {
+ 		return getBoundGeoOperations().add(locations);
  	}
 
- 	public Long geoAdd(String key, Point point, Object member) {
- 		return getOperations().opsForGeo().add(key, point, member);
+ 	public Long geoAdd(Point point, Object member) {
+ 		return getBoundGeoOperations().add(point, member);
  	}
     
- 	public Long geoAdd(String key, Map<Object, Point> memberCoordinateMap) {
- 		return getOperations().opsForGeo().add(key, memberCoordinateMap);
+ 	public Long geoAdd(Map<Object, Point> memberCoordinateMap) {
+ 		return getBoundGeoOperations().add(memberCoordinateMap);
  	}
     
     public String distance(String uid1, String uid2) {
