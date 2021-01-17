@@ -20,6 +20,7 @@ import org.springframework.biz.utils.FilenameUtils;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.cloud.spring.boot.oss.env.OssProperties;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.utils.IOUtils;
 import com.aliyun.oss.event.ProgressEvent;
@@ -33,7 +34,6 @@ import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.StorageClass;
 import com.aliyun.oss.spring.boot.OssAuthorizationMode;
-import com.aliyun.oss.spring.boot.OssProperties;
 import com.aliyun.oss.spring.boot.OssStorePath;
 import com.aliyun.oss.spring.boot.OssTemplate;
 import com.aliyuncs.DefaultAcsClient;
