@@ -31,6 +31,7 @@
 		<module>jeebiz-admin-extras-settings</module>
 		<module>jeebiz-admin-extras-dbmeta</module>
 		<module>jeebiz-admin-extras-ops</module>
+		<module>jeebiz-admin-extras-sms-aliyun</module>
 	</modules>
 	
 	<build>

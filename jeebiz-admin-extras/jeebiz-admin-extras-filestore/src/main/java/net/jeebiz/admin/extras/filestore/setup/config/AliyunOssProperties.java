@@ -35,7 +35,8 @@ import lombok.Data;
 @Data
 public class AliyunOssProperties {
 
-
+	private boolean enabled;
+	
     /**
      * Authorization Mode, please see <a href=
      * "https://help.aliyun.com/document_detail/32010.html?spm=a2c4g.11186623.6.659.29f145dc3KOwTh">oss
