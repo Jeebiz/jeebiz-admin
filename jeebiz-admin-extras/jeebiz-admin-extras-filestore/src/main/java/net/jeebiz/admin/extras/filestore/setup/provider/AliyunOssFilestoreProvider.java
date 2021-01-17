@@ -20,7 +20,7 @@ import org.springframework.biz.utils.FilenameUtils;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.cloud.spring.boot.oss.env.OssProperties;
+import com.alibaba.cloud.context.AliCloudAuthorizationMode;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.utils.IOUtils;
 import com.aliyun.oss.event.ProgressEvent;
@@ -33,9 +33,6 @@ import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.StorageClass;
-import com.aliyun.oss.spring.boot.OssAuthorizationMode;
-import com.aliyun.oss.spring.boot.OssStorePath;
-import com.aliyun.oss.spring.boot.OssTemplate;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
@@ -52,6 +49,9 @@ import com.google.common.collect.Lists;
 import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
 import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
 import net.jeebiz.admin.extras.filestore.setup.config.AliyunOssFilestoreConfig;
+import net.jeebiz.admin.extras.filestore.setup.config.AliyunOssProperties;
+import net.jeebiz.admin.extras.filestore.setup.config.AliyunOssStorePath;
+import net.jeebiz.admin.extras.filestore.setup.config.AliyunOssTemplate;
 import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
 import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
@@ -71,13 +71,13 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	private Sequence randomString = new Sequence(0);
 	private IFilestoreDao filestoreDao;
 	private OSS ossClient;
-	private OssProperties ossProperties;
-	private OssTemplate ossTemplate;
+	private AliyunOssProperties ossProperties;
+	private AliyunOssTemplate ossTemplate;
 	
 	public AliyunOssFilestoreProvider(IFilestoreDao filestoreDao, 
 			OSS ossClient,
-			OssProperties ossProperties, 
-			OssTemplate ossTemplate) {
+			AliyunOssProperties ossProperties, 
+			AliyunOssTemplate ossTemplate) {
 		this.filestoreDao = filestoreDao;
 		this.ossClient = ossClient;
 		this.ossProperties = ossProperties;
@@ -93,7 +93,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	public FilestoreConfig getConfig() {
 		AliyunOssFilestoreConfig config = new AliyunOssFilestoreConfig();
 		config.setEndpoint(ossProperties.getBucket());
-		if (ossProperties.getAuthorizationMode() == OssAuthorizationMode.STS) {
+		if (ossProperties.getAuthorizationMode() == AliCloudAuthorizationMode.STS) {
 			Assert.isTrue(!StringUtils.isEmpty(ossProperties.getEndpoint()), "Oss endpoint can't be empty.");
 			Assert.isTrue(!StringUtils.isEmpty(ossProperties.getSts().getAccessKey()), "Access key can't be empty.");
 			Assert.isTrue(!StringUtils.isEmpty(ossProperties.getSts().getSecretKey()), "Secret key can't be empty.");
@@ -209,7 +209,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		return metaDataSet;
 	}
 	
-	protected OssStorePath storeFile(MultipartFile file, int width, int height) throws IOException {
+	protected AliyunOssStorePath storeFile(MultipartFile file, int width, int height) throws IOException {
 		
 		// 文件元数据与访问权限
 		ObjectMetadata metadata = new ObjectMetadata();
@@ -245,7 +245,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		// 上传文件
     	getOssClient().putObject(putObjectRequest);
     	
-        return new OssStorePath(ossProperties.getBucketName(), builder.toString(), thumPath.toString());
+        return new AliyunOssStorePath(ossProperties.getBucketName(), builder.toString(), thumPath.toString());
         
 	}
 	
@@ -255,7 +255,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		try {
 			
 			// 文件存储结果
-        	OssStorePath storePath = this.storeFile(file, width, height);
+        	AliyunOssStorePath storePath = this.storeFile(file, width, height);
 
 			// 上传文件
             String uuid = UUID.randomUUID().toString();
@@ -314,7 +314,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			for (MultipartFile file : files) {
 
 				// 文件存储结果
-				OssStorePath storePath = this.storeFile(file, width, height);
+				AliyunOssStorePath storePath = this.storeFile(file, width, height);
 				
 				// 文件存储记录对象
 				FilestoreModel model = new FilestoreModel();
@@ -411,7 +411,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		
         // 文件存储结果
-    	OssStorePath storePath = this.storeFile(file, width, height);
+    	AliyunOssStorePath storePath = this.storeFile(file, width, height);
 		
 		// 文件存储信息
 
@@ -650,7 +650,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		return ossClient;
 	}
 	
-	public OssTemplate getOssTemplate() {
+	public AliyunOssTemplate getOssTemplate() {
 		return ossTemplate;
 	}
 	
