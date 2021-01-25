@@ -38,7 +38,7 @@ public class AuthorizedFeatureServiceImpl extends BaseServiceImpl<AuthzFeatureMo
 		// 角色拥有的功能菜单
 		List<AuthzFeatureModel> ownFeatures = getDao().getFeatures(roleId);
 		// MySQL数据源，则手动构建树形结构数据
-		if (JdbcConstants.MYSQL.equalsIgnoreCase(dbType)) {
+		if (JdbcConstants.MYSQL.equals(dbType)) {
 			// 所有的功能菜单
 			List<AuthzFeatureModel> features = getAuthzFeatureDao().getFeatureList();
 			// 为用户拥有的功能菜单指定父级菜单
