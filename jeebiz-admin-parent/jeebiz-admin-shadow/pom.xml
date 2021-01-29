@@ -35,6 +35,12 @@
 			<artifactId>jeebiz-admin-authz-rbac0</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
+		<!-- Jeebiz 设备激活：记录客户端激活与账户对应关系（可选） -->
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-extras-device</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
 		<!-- Jeebiz 编辑器：富文本编辑器后台接口（可选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -156,7 +162,16 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>jpush-spring-boot-starter</artifactId>
+			<exclusions>
+				<groupId>cn.jpush.api</groupId>
+		    	<artifactId>jpush-client</artifactId>
+			</exclusions>
 		</dependency>
+		<dependency>
+		    <groupId>cn.jpush.api</groupId>
+		    <artifactId>jpush-client</artifactId>
+		</dependency>
+		
 	    <!-- For Aliyun Cloud SMS -->
 		<dependency>
 		    <groupId>com.alibaba.cloud</groupId>
@@ -167,10 +182,14 @@
             <groupId>com.github.hiwepy</groupId>
             <artifactId>aliyun-ons-spring-boot-starter</artifactId>
         </dependency>
-        <!-- For TenCent API -->
+       <!-- For TenCent API -->
         <dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>tencentapi-spring-boot-starter</artifactId>
+		</dependency>	
+		<dependency>
+		    <groupId>com.tencentcloudapi</groupId>
+		    <artifactId>tencentcloud-sdk-java</artifactId>
 		</dependency>	
 		<!-- For GoEasy API -->
 		<dependency>
