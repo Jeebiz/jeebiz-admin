@@ -21,16 +21,17 @@
 		<module>jeebiz-admin-extras-article</module>
 		<module>jeebiz-admin-extras-cnarea</module>
 		<module>jeebiz-admin-extras-core</module>
+		<module>jeebiz-admin-extras-dbmeta</module>
+		<module>jeebiz-admin-extras-device</module>
 		<module>jeebiz-admin-extras-dict</module>
 		<module>jeebiz-admin-extras-editor</module>
 		<module>jeebiz-admin-extras-filestore</module>
 		<module>jeebiz-admin-extras-inform</module>
 		<module>jeebiz-admin-extras-initializr</module>
 		<module>jeebiz-admin-extras-logbiz</module>
+		<module>jeebiz-admin-extras-ops</module>
 		<module>jeebiz-admin-extras-sessions</module>		
 		<module>jeebiz-admin-extras-settings</module>
-		<module>jeebiz-admin-extras-dbmeta</module>
-		<module>jeebiz-admin-extras-ops</module>
 		<module>jeebiz-admin-extras-sms-aliyun</module>
 	</modules>
 	
