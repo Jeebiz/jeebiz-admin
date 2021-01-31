@@ -7,6 +7,7 @@
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-boot-parent</artifactId>
 		<version>1.0.2-SNAPSHOT</version>
+		<relativePath/>
 	</parent>
 	
 	<artifactId>jeebiz-admin</artifactId>
