@@ -22,7 +22,6 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
-import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -58,7 +57,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	/**
 	 * 指定缓存失效时间
 	 * @param key  键
-	 * @param time 时间(秒)
+	 * @param seconds 时间(秒)
 	 * @return
 	 */
 	public Boolean expire(String key, long seconds) {
@@ -102,7 +101,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param key 键 不能为null
 	 * @return 时间(秒) 返回0代表为永久有效
 	 */
-	public long getExpire(String key) {
+	public Long getExpire(String key) {
 		return getOperations().getExpire(key, TimeUnit.SECONDS);
 	}
 
@@ -163,7 +162,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 *
 	 * @param key   键
 	 * @param value 值
-	 * @param time  时间(秒) time要>=0 如果time小于等于0 将设置无限期
+	 * @param seconds  时间(秒) time要>=0 如果time小于等于0 将设置无限期
 	 * @return true成功 false 失败
 	 */
 	public boolean set(String key, Object value, long seconds) {
@@ -610,7 +609,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 *
 	 * @param key   键
 	 * @param value 值
-	 * @param time  时间(秒)
+	 * @param seconds  时间(秒)
 	 * @return
 	 */
 	public Long lRightPush(String key, Object value, long seconds) {
@@ -915,7 +914,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 *
 	 * @param key  键
 	 * @param map  对应多个键值
-	 * @param time 时间(秒)
+	 * @param seconds 时间(秒)
 	 * @return true成功 false失败
 	 */
 	public boolean hmSet(String key, Map<String, Object> map, long seconds) {
@@ -944,7 +943,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
-	public void hScan(String bigHashKey, Consumer<Map.Entry<byte[],byte[]>> consumer) {
+	public void hScan(String bigHashKey, Consumer<Entry<byte[],byte[]>> consumer) {
 		this.getOperations().execute((RedisConnection redisConnection) -> {
 			try (Cursor<Entry<byte[], byte[]>> cursor = redisConnection.hScan(rawHashKey(bigHashKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).build())) {
 				cursor.forEachRemaining(consumer);
@@ -956,7 +955,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		});
 	}
 
-	public void hScan(String bigHashKey, String pattern, Consumer<Map.Entry<byte[],byte[]>> consumer) {
+	public void hScan(String bigHashKey, String pattern, Consumer<Entry<byte[],byte[]>> consumer) {
 		this.getOperations().execute((RedisConnection redisConnection) -> {
 			try (Cursor<Entry<byte[], byte[]>> cursor = redisConnection.hScan(rawHashKey(bigHashKey), ScanOptions.scanOptions().count(Long.MAX_VALUE).match(pattern).build())) {
 				cursor.forEachRemaining(consumer);
@@ -1205,7 +1204,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	/**
 	 * Set删除: sscan + srem
 	 *
-	 * @param key 键
+	 * @param bigSetKey 键
 	 * @return 
 	 * @return
 	 */
@@ -1425,7 +1424,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().opsForZSet().add(key, value, score);
 	}
 
-	public Long zAdd(String key, Set<ZSetOperations.TypedTuple<Object>> tuples) {
+	public Long zAdd(String key, Set<TypedTuple<Object>> tuples) {
 		return getOperations().opsForZSet().add(key, tuples);
 	}
 
@@ -1448,7 +1447,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	/**
 	 * Set删除: sscan + srem
 	 *
-	 * @param key 键
+	 * @param bigZsetKey 键
 	 * @return 
 	 * @return
 	 */
@@ -1513,7 +1512,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	/**
 	 * 在min到max范围内倒序获取zset及对应的score
 	 */
-	public Set<ZSetOperations.TypedTuple<Object>> zRangeByScoreWithScores(String key, double min, double max) {
+	public Set<TypedTuple<Object>> zRangeByScoreWithScores(String key, double min, double max) {
 		return getOperations().opsForZSet().rangeByScoreWithScores(key, min, max);  
 	}
 
@@ -1548,7 +1547,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param end
 	 * @return
 	 */
-	public Set<ZSetOperations.TypedTuple<Object>> zRevrangeWithScores(String key, long start, long end) {
+	public Set<TypedTuple<Object>> zRevrangeWithScores(String key, long start, long end) {
 		return getOperations().opsForZSet().reverseRangeWithScores(key, start, end);
 	}
 	
@@ -1556,11 +1555,11 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * 获取指定key的scores正序，指定start-end位置的元素
 	 * 
 	 * @param key
-	 * @param start
-	 * @param end
+	 * @param min
+	 * @param max
 	 * @return
 	 */
-	public Set<ZSetOperations.TypedTuple<Object>> zRevrangeByScoreWithScores(String key, double min, double max) {
+	public Set<TypedTuple<Object>> zRevrangeByScoreWithScores(String key, double min, double max) {
 		return getOperations().opsForZSet().reverseRangeByScoreWithScores(key, min, max);
 	}
 
