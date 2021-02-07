@@ -137,6 +137,11 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>ip2region-spring-boot-starter</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.hiwepy/httpconn -->
+		<dependency>
+		    <groupId>com.github.hiwepy</groupId>
+		    <artifactId>httpconn</artifactId>
+		</dependency>
 		<!-- For Okhttp 3.x -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
