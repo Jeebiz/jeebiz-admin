@@ -172,10 +172,10 @@
 		    <artifactId>jpush-client</artifactId>
 		</dependency>
 		
-	    <!-- For Aliyun Cloud SMS -->
+	    <!-- For Aliyun SMS -->
 		<dependency>
 		    <groupId>com.alibaba.cloud</groupId>
-		    <artifactId>spring-cloud-starter-alicloud-sms</artifactId>
+        	<artifactId>aliyun-sms-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Aliyun ONS -->
         <dependency>
