@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.alicloud.sms.SmsServiceImpl;
+import com.alibaba.cloud.spring.boot.sms.SmsServiceImpl;
 
 import net.jeebiz.admin.shadow.setup.sms.aliyun.AliyunSmsProperties;
 import net.jeebiz.admin.shadow.setup.sms.aliyun.AliyunSmsTemplate;

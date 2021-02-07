@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.springframework.boot.context.properties.PropertyMapper;
 
-import com.alibaba.alicloud.sms.SmsServiceImpl;
+import com.alibaba.cloud.spring.boot.sms.SmsServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.dysmsapi.model.v20170525.SendBatchSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendBatchSmsResponse;
