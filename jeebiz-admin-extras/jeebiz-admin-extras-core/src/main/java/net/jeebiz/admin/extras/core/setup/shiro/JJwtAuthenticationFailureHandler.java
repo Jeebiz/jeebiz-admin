@@ -6,6 +6,7 @@ package net.jeebiz.admin.extras.core.setup.shiro;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -37,7 +38,7 @@ public class JJwtAuthenticationFailureHandler implements AuthenticationFailureHa
 	
 	@Override
 	public boolean supports(AuthenticationException ex) {
-		return SubjectUtils.isAssignableFrom(ex.getCause().getClass(), IncorrectJwtException.class,
+		return SubjectUtils.isAssignableFrom(Objects.isNull(ex.getCause()) ? ex.getClass() : ex.getCause().getClass(), IncorrectJwtException.class,
 				ExpiredJwtException.class, InvalidJwtToken.class, NotObtainedJwtException.class);
 	}
 
@@ -51,7 +52,7 @@ public class JJwtAuthenticationFailureHandler implements AuthenticationFailureHa
 		
 		try {
 			
-			WebUtils.toHttp(response).setStatus(HttpStatus.SC_BAD_REQUEST);
+			WebUtils.toHttp(response).setStatus(HttpStatus.SC_OK);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 			
