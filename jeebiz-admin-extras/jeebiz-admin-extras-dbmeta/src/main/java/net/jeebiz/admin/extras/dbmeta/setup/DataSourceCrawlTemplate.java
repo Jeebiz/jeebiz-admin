@@ -2,7 +2,6 @@ package net.jeebiz.admin.extras.dbmeta.setup;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -18,9 +17,9 @@ import schemacrawler.inclusionrule.InclusionRule;
 import schemacrawler.inclusionrule.RegularExpressionInclusionRule;
 import schemacrawler.schema.Catalog;
 import schemacrawler.schema.Table;
+import schemacrawler.schemacrawler.LimitOptionsBuilder;
 import schemacrawler.schemacrawler.SchemaCrawlerException;
 import schemacrawler.schemacrawler.SchemaCrawlerOptions;
-import schemacrawler.schemacrawler.SchemaCrawlerOptionsBuilder;
 import schemacrawler.schemacrawler.SchemaInfoLevel;
 import schemacrawler.schemacrawler.SchemaInfoLevelBuilder;
 import schemacrawler.spring.boot.utils.SchemaCrawlerOptionBuilder;
@@ -39,28 +38,24 @@ public class DataSourceCrawlTemplate {
 	public SchemaCrawlerOptions tables(InclusionRule schemaInclusionRule) {
 		
 		// Set what details are required in the schema - this affects the time taken to crawl the schema
-		SchemaInfoLevel schemaInfoLevel = SchemaInfoLevelBuilder.standard()
-			/*.setRetrieveAdditionalColumnAttributes(true)
-			.setRetrieveAdditionalTableAttributes(true)
-			.setRetrieveColumnDataTypes(true)
-			.setRetrieveIndexes(false)
-			.setRetrieveRoutineColumns(true)
-			.setRetrieveTableColumns(true)
-			.setRetrieveUserDefinedColumnDataTypes(true)
-			.setRetrieveViewInformation(true)
-			.toOptions()*/;
-		SchemaCrawlerOptionBuilder
-				.tablecolumns(schemaInclusionRule, "TABLE", "VIEW" );
-		final SchemaCrawlerOptions options = SchemaCrawlerOptionsBuilder
-				//.includeAllRoutines()
-				//.includeTables(new IncludeAll())
-				//.includeColumns(new IncludeAll())
-				//.tableNamePattern("%")
-				//.tableTypes(Arrays.asList("TABLE","VIEW"))
-				//.withSchemaInfoLevel(schemaInfoLevel)
-				.newSchemaCrawlerOptions();
+		SchemaInfoLevel schemaInfoLevel = SchemaInfoLevelBuilder.standard();
+		
+		LimitOptionsBuilder limitOptionsBuilder = LimitOptionsBuilder.builder()
+				.includeAllRoutines()
+				.includeTables(schemaInclusionRule)
+				.includeColumns(new IncludeAll())
+				.tableTypes("TABLE","VIEW");
+		
+		final SchemaCrawlerOptions options = SchemaCrawlerOptionBuilder
+				.custom(schemaInfoLevel)
+				.withLimitOptions(limitOptionsBuilder.toOptions());
 		
 		return options;
+	}
+
+	public SchemaCrawlerOptions tables1(InclusionRule schemaInclusionRule) {
+		return SchemaCrawlerOptionBuilder
+				.tablecolumns(schemaInclusionRule, "TABLE", "VIEW" );
 	}
 	
 	public void removeTables(String uid) {
