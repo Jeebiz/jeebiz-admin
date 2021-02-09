@@ -20,7 +20,6 @@ import org.apache.shiro.biz.authc.AuthenticationFailureHandler;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.apache.shiro.biz.utils.WebUtils;
 import org.apache.shiro.biz.web.servlet.http.HttpStatus;
-import org.apache.shiro.spring.boot.jwt.authc.JwtAuthenticationFailureHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.NoSuchMessageException;
@@ -34,11 +33,12 @@ import com.github.hiwepy.jwt.exception.NotObtainedJwtException;
 
 public class JJwtAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationFailureHandler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JJwtAuthenticationFailureHandler.class);
 	
 	@Override
 	public boolean supports(AuthenticationException ex) {
-		return SubjectUtils.isAssignableFrom(Objects.isNull(ex.getCause()) ? ex.getClass() : ex.getCause().getClass(), IncorrectJwtException.class,
+		Throwable cause = Objects.isNull(ex.getCause()) ? ex : ex.getCause();
+		return SubjectUtils.isAssignableFrom(cause.getClass(), IncorrectJwtException.class,
 				ExpiredJwtException.class, InvalidJwtToken.class, NotObtainedJwtException.class);
 	}
 
@@ -52,26 +52,28 @@ public class JJwtAuthenticationFailureHandler implements AuthenticationFailureHa
 		
 		try {
 			
+			Throwable cause = Objects.isNull(ex.getCause()) ? ex : ex.getCause();
+					
 			WebUtils.toHttp(response).setStatus(HttpStatus.SC_OK);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 			
 			// Jwt过期
-			if (ex.getCause() instanceof ExpiredJwtException) {
+			if (cause instanceof ExpiredJwtException) {
 				JSONObject.writeJSONString(response.getWriter(), AuthcResponse.error(AuthcResponseCode.SC_AUTHZ_TOKEN_EXPIRED.getCode(),"Jwt已过期"));
 			} 
 			// Jwt错误
-			else if (ex.getCause() instanceof IncorrectJwtException) {
+			else if (cause instanceof IncorrectJwtException) {
 				JSONObject.writeJSONString(response.getWriter(), AuthcResponse.error(AuthcResponseCode.SC_AUTHZ_TOKEN_INCORRECT.getCode(),
 						"Jwt错误"));
 			} 
 			// Jwt无效
-			else if (ex.getCause() instanceof InvalidJwtToken) {
+			else if (cause instanceof InvalidJwtToken) {
 				JSONObject.writeJSONString(response.getWriter(), AuthcResponse.error(AuthcResponseCode.SC_AUTHZ_TOKEN_INVALID.getCode(),
 						"Jwt无效"));
 			}
 			// Jwt缺失
-			else if (ex.getCause() instanceof NotObtainedJwtException) {
+			else if (cause instanceof NotObtainedJwtException) {
 				JSONObject.writeJSONString(response.getWriter(), AuthcResponse.error(AuthcResponseCode.SC_AUTHZ_TOKEN_REQUIRED.getCode(),
 						"Jwt缺失"));
 			} else {
