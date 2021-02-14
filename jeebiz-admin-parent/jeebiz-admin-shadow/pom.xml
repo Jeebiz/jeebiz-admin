@@ -162,16 +162,7 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>jpush-spring-boot-starter</artifactId>
-			<exclusions>
-				<groupId>cn.jpush.api</groupId>
-		    	<artifactId>jpush-client</artifactId>
-			</exclusions>
 		</dependency>
-		<dependency>
-		    <groupId>cn.jpush.api</groupId>
-		    <artifactId>jpush-client</artifactId>
-		</dependency>
-		
 	    <!-- For Aliyun SMS -->
 		<dependency>
 		    <groupId>com.alibaba.cloud</groupId>
