@@ -21,7 +21,6 @@
 		<module>jeebiz-admin-extras-article</module>
 		<module>jeebiz-admin-extras-cnarea</module>
 		<module>jeebiz-admin-extras-core</module>
-		<module>jeebiz-admin-extras-dbmeta</module>
 		<module>jeebiz-admin-extras-device</module>
 		<module>jeebiz-admin-extras-dict</module>
 		<module>jeebiz-admin-extras-editor</module>
