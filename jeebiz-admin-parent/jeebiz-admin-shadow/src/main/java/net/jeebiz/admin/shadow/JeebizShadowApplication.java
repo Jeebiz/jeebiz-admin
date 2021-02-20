@@ -4,7 +4,6 @@
  */
 package net.jeebiz.admin.shadow;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import cn.jpush.spring.boot.EnableJPush;
 import io.micrometer.core.instrument.MeterRegistry;
 import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
@@ -22,9 +20,7 @@ import net.jeebiz.boot.autoconfigure.EnableJeebiz;
 /**
  * 应用启动入口
  */
-@EnableDubbo
 @EnableJeebiz
-@EnableJPush
 @EnableScheduling
 @EnableWebMvc
 //其他路径可以单独添加扫码主键

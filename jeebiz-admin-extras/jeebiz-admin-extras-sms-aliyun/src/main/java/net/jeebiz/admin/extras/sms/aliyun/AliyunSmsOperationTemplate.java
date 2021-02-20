@@ -13,53 +13,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.biz.utils.DateUtils;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSONObject;
-import com.aliyun.openservices.ons.api.Message;
-import com.aliyun.openservices.ons.api.order.OrderProducer;
-import com.aliyun.openservices.spring.boot.AliyunOnsMqTemplate;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
 import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
-import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.utils.CalendarUtils;
 
 /**
  * 阿里云短信服务与消息队列服务集成逻辑操作模板对象
  */
 @Component
-@Log4j2
+@Slf4j
 public class AliyunSmsOperationTemplate {
 
 	protected static final String CODE_OK = "OK";
 	protected static final String CODE_BUSINESS_LIMIT_CONTROL = "isv.BUSINESS_LIMIT_CONTROL";
 	
 	@Autowired
-	private OrderProducer orderProducer;
-	//@Autowired
-	//private Producer producer;
-
-	@Autowired
 	private RedisOperationTemplate redisOperationTemplate;
 	@Autowired
-	private AliyunOnsMqTemplate aliyunOnsMqTemplate;
-	@Autowired
 	private AliyunSmsTemplate aliyunSmsTemplate;
-	@Autowired
-	private Sequence sequence;
- 
+	
 	/**
 	 * 发送验证码
 	 * 
 	 * @param phone
-	 * @param type  业务类型：（0：注册、1：绑定、2：找回密码、3：忘记密码、4：手机号码登录、5：H5代理活动查询）
+	 * @param type 业务类型：（0：注册、1：绑定、2：修改密码、3：忘记密码，4：手机号码登录）
 	 * @param countryCode
 	 * @return
 	 */
@@ -135,9 +121,6 @@ public class AliyunSmsOperationTemplate {
 				case 4: { 
 					templateCode ="SMS_203740132"; // 登录确认验证码
 				};break; 
-				case 5: { 
-					templateCode ="SMS_203740133"; // 身份验证验证码
-				};break; 
 				default:{};break;
 			}
 			
@@ -163,60 +146,7 @@ public class AliyunSmsOperationTemplate {
 
 		return Boolean.TRUE.booleanValue();
 	}
-
-	/**
-	 * 发送验证码
-	 * 
-	 * @param phone
-	 * @param type
-	 * @param countryCode
-	 * @return
-	 * @throws KlException
-	 */
-	public Boolean sendToMq(String phone, Integer type, Integer countryCode)  {
-		
-		// 1、验证手机号的正确性
-		PhoneNumber swissMobileNumber = new PhoneNumber().setCountryCode(countryCode)
-				.setNationalNumber(Long.parseLong(phone));
-		boolean validNumberForRegion = PhoneNumberUtil.getInstance().isValidNumber(swissMobileNumber);
-		if (!validNumberForRegion) {
-			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.phone.invalid");
-		}
-		
-		// 2、检查短信发送权限
-		String phoneTimeKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
-		String phoneTime = redisOperationTemplate.getString(phoneTimeKey);
-		if (phoneTime != null && Integer.parseInt(phoneTime) > RedisConstant.SMS_TIME_MAX) {
-			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.day.limit");
-		}
-		
-		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
-			throw new BizRuntimeException(ApiCode.SC_FAIL, "sms.send.backlist.limit");
-		}
-		
-		// 3、发送短信队列
-		
-		String orderId = sequence.nextId().toString();
-
-		JSONObject payload = new JSONObject();
-		payload.put(Constants.SMS_MOBILE, phone);
-		payload.put(Constants.SMS_TYPE, type);
-		payload.put(Constants.SMS_COUNTRYCODE, countryCode);
-		
-		Message message = new Message();
-		message.setTopic(Constants.SMS_TOPIC);
-		message.setTag(Constants.TAG_ALL);
-		message.setKey(orderId);
-		message.setBody(payload.toJSONString().getBytes());
-		
-		boolean state = aliyunOnsMqTemplate.sendOrderMes(orderProducer, message, orderId);
-		if(!state) {
-			//throw new BizRuntimeException(KlExceptionCode.YOU_ARE_NOT_SUPPORT_TO_DO_MULTIPLE_PAYMENT_OPERATIONS);
-		}
-		
-		return Boolean.TRUE.booleanValue();
-	}
-
+	
 	/**
 	 * 验证码校验
 	 * 
