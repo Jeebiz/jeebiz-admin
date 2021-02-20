@@ -27,8 +27,6 @@
 		<module>jeebiz-admin-extras-filestore</module>
 		<module>jeebiz-admin-extras-inform</module>
 		<module>jeebiz-admin-extras-inform-dingtalk</module>
-		<module>jeebiz-admin-extras-inform-goeasy</module>
-		<module>jeebiz-admin-extras-inform-jpush</module>
 		<module>jeebiz-admin-extras-inform-weixin</module>
 		<module>jeebiz-admin-extras-initializr</module>
 		<module>jeebiz-admin-extras-logbiz</module>
