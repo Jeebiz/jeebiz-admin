@@ -1,7 +1,10 @@
 package net.jeebiz.admin.extras.dict.setup;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import net.jeebiz.admin.extras.dict.dao.IDictDao;
@@ -31,6 +34,15 @@ public class DictRedisTemplate {
 			getRedisTemplate().opsForList().leftPush(KEY_PREFIX + key, retList);
 			return retList;
 		}
+	}
+	
+	public String getValue(String key, String code){
+		List<PairModel> retList = this.get(key);
+		if(Objects.nonNull(retList)) {
+			Optional<PairModel> optional = retList.stream().filter(item -> StringUtils.equals(item.getKey(), code)).findFirst();
+			return optional.isPresent() ? optional.get().getValue() : null;
+		}
+		return null;
 	}
 	
 	public RedisTemplate<String, Object> getRedisTemplate() {
