@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.jeebiz</groupId>
+		<artifactId>jeebiz-admin-extras</artifactId>
+		<version>1.0.1-ce-SNAPSHOT</version>
+	</parent>
+	<artifactId>jeebiz-admin-extras-inform-weixin</artifactId>
+	
+	<dependencies>
+		
+	    <!-- Jeebiz 消息通知（可选） -->
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-extras-inform</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		
+		<!-- For 微信公共号、小程序登录 -->
+		<dependency>
+		    <groupId>com.github.binarywang</groupId>
+		    <artifactId>wx-java-mp-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.github.binarywang</groupId>
+		    <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For RocketMQ
+		<dependency>
+	        <groupId>org.apache.rocketmq</groupId>
+	        <artifactId>rocketmq-spring-boot-starter</artifactId>
+	    </dependency> -->
+	    
+	</dependencies>
+	
+</project>

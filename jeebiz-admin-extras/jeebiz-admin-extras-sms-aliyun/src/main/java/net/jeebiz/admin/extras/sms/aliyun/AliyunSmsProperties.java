@@ -6,7 +6,6 @@ package net.jeebiz.admin.extras.sms.aliyun;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.alibaba.cloud.spring.boot.context.env.AliCloudProperties;
 import com.aliyuncs.http.FormatType;
 
 import lombok.Data;
@@ -15,8 +14,13 @@ import lombok.Data;
 @Data
 public class AliyunSmsProperties {
 
-	public static final String PREFIX = AliCloudProperties.PROPERTY_PREFIX + ".sms";
+	public static final String PREFIX = "spring.cloud.alicloud.sms";
 
+	/**
+	 * Enable Aliyun Sms .
+	 */
+	private boolean enable = false;
+	
 	private FormatType acceptFormat = FormatType.JSON;
 	 
 	private String encoding;

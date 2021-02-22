@@ -58,7 +58,11 @@ public enum InformProvider {
 	/**
 	 * 易班
 	 */
-	YIBAN("易班");
+	YIBAN("易班"),
+	/**
+	 * 极光推送
+	 */
+	JPUSH("极光推送");
 
 	private String provider;
 
