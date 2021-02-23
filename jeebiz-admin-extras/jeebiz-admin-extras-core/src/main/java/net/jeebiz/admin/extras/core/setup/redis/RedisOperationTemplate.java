@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands.Tuple;
@@ -434,7 +435,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 				if (keys.length == 1) {
 					getOperations().delete(keys[0]);
 				} else {
-					getOperations().delete(CollectionUtils.arrayToList(keys));
+					getOperations().delete(Stream.of(keys).collect(Collectors.toList()));
 				}
 			}
 		} catch (Exception e) {
