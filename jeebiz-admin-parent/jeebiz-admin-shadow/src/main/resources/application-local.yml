@@ -88,15 +88,17 @@ spring:
     name: jeebiz_admin
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.98.123.43:3306/jeebiz_admin?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    url: jdbc:mysql://106.54.2.213:3306/jeebiz_admin?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: jeebiz_admin
-    password: APx37E5xPWA3Gd86
+    password: 5RcLHz6E3AS5LFDh
   # Redis相关配置
   redis:
     # Redis服务器地址  
-    host: 47.98.123.43
+    host: 106.54.2.213
     # Redis服务器连接端口
     port: 6379
+    # Database 索引；和其他服务区别开
+    database: 1
     # Redis服务器连接密码（默认为空） 
     password: HycBsP5cSp3enyGw
 

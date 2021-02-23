@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.admin.extras.dict.dao.IKeyValueDao;
 import net.jeebiz.admin.extras.dict.setup.Constants;
 import net.jeebiz.admin.extras.dict.setup.event.KeyValueDeletedEvent;
@@ -18,23 +18,27 @@ public class KeyValueDeletedEventListener implements ApplicationListener<KeyValu
 	@Autowired
 	private IKeyValueDao keyValueDao;
 	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private RedisOperationTemplate redisOperationTemplate;
 	
 	@Override
 	public void onApplicationEvent(KeyValueDeletedEvent event) {
-		if(!getRedisTemplate().hasKey(Constants.KEY_PREFIX + event.getKey())) {
-			getRedisTemplate().delete(event.getKey());
+		if(!getRedisOperationTemplate().hasKey(Constants.KEY_PREFIX + event.getKey())) {
+			getRedisOperationTemplate().del(event.getKey());
 		}
-		List<PairModel> retList = getKeyValueDao().getPairValues(event.getKey());
-		getRedisTemplate().opsForList().leftPushAll(Constants.KEY_PREFIX + event.getKey(), retList);
+		try {
+			List<PairModel> retList = getKeyValueDao().getPairValues(event.getKey());
+			getRedisOperationTemplate().lLeftPush(Constants.KEY_PREFIX + event.getKey(), retList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public IKeyValueDao getKeyValueDao() {
 		return keyValueDao;
 	}
 
-	public RedisTemplate<String, Object> getRedisTemplate() {
-		return redisTemplate;
+	public RedisOperationTemplate getRedisOperationTemplate() {
+		return redisOperationTemplate;
 	}
 	
 }

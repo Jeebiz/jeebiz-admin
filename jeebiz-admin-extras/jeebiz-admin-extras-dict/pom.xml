@@ -14,8 +14,8 @@
 		<!-- For Jeebiz API -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-boot-api</artifactId>
-			<version>${jeebiz-boot.version}</version>
+			<artifactId>jeebiz-admin-extras-core</artifactId>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		
 		<!-- For Validation -->

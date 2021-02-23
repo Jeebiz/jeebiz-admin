@@ -624,6 +624,19 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			return 0L;
 		}
 	}
+	
+	public Long lRightPush(String key, List<Object> values, Duration duration) {
+		try {
+			Long rt = getOperations().opsForList().rightPushAll(key, values);
+			if(!duration.isNegative()) {
+				expire(key, duration);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
 
 	/**
 	 * 将list放入缓存
@@ -657,6 +670,16 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 
+	public Long lLeftPush(String key, List<Object> values) {
+		try {
+			Long rt = getOperations().opsForList().leftPushAll(key, values);
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
 	/**
 	 * 将list放入缓存
 	 *
@@ -667,7 +690,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 */
 	public Long lLeftPush(String key, List<Object> values, long seconds) {
 		try {
-			Long rt = getOperations().opsForList().rightPushAll(key, values);
+			Long rt = getOperations().opsForList().leftPushAll(key, values);
 			if (seconds > 0) {
 				expire(key, seconds);
 			}
@@ -680,7 +703,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	
 	public Long lLeftPush(String key, List<Object> values, Duration duration) {
 		try {
-			Long rt = getOperations().opsForList().rightPushAll(key, values);
+			Long rt = getOperations().opsForList().leftPushAll(key, values);
 			if(!duration.isNegative()) {
 				expire(key, duration);
 			}
