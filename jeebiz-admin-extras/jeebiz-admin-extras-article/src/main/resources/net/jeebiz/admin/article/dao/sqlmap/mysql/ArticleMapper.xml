@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleDao">
 
+	<!-- 开启二级缓存 -->
+	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
+	
 	<resultMap id="ArticleMap" type="ArticleModel">
         <!-- 文章D -->
 		<result property="id" column="C_ID" />

@@ -3,9 +3,6 @@
 
 <mapper namespace="net.jeebiz.admin.extras.settings.dao.ISettingsDao" >
 	
-	<!-- 开启二级缓存 -->
-	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
-	
 	<resultMap id="SettingsMap" type="SettingsModel">
 		<result property="id" column="D_ID" />
 		<result property="gkey" column="D_GROUP" />

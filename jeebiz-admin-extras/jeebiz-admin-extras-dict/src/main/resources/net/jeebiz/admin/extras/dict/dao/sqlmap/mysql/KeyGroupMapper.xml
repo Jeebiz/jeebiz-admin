@@ -3,9 +3,6 @@
 
 <mapper namespace="net.jeebiz.admin.extras.dict.dao.IKeyGroupDao" >
 	
-	<!-- 开启二级缓存 -->
-	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
-	
 	<resultMap id="KeyGroupMap" type="KeyGroupModel">
 		<result property="id" column="G_ID" />
 		<result property="key" column="G_KEY" />

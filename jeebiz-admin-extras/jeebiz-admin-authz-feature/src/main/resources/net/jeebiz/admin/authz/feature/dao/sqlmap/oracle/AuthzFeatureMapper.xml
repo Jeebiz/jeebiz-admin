@@ -3,9 +3,6 @@
 
 <mapper namespace="net.jeebiz.admin.authz.feature.dao.IAuthzFeatureDao">
 	
-	<!-- 开启二级缓存 -->
-	<!--<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />-->
-
 	<resultMap id="AuthzFeatureMap" type="AuthzFeatureModel">
 		<result property="id" column="F_ID" />
 		<result property="code" column="F_CODE" />
