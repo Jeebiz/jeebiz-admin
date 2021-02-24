@@ -104,26 +104,7 @@
 			<artifactId>jeebiz-admin-authz-weixin</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		
-		
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-jwt-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>jwt-issuer-with-jjwt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-j2cache</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+		 
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-pac4j-spring-boot-starter</artifactId>
@@ -159,6 +140,7 @@
 		    <groupId>com.github.scribejava</groupId>
 		    <artifactId>scribejava-apis</artifactId>
 		</dependency>
+		
 		<!-- For Swagger -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -168,27 +150,6 @@
 		    <groupId>com.github.xiaoymin</groupId>
 		    <artifactId>swagger-bootstrap-ui</artifactId>
 		</dependency>
-		<!-- For Cache Support -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-		<!-- For J2cache -->
-		<dependency>
-			<groupId>net.oschina.j2cache</groupId>
-			<artifactId>j2cache-spring-boot2-starter</artifactId>
-		</dependency>
-		<!-- J2cache Multi-Level Cache  -->
-		<dependency>
-			<groupId>net.oschina.j2cache</groupId>
-			<artifactId>j2cache-spring-boot2-starter</artifactId>
-		</dependency>
-		<!-- 使用 J2cache 作为 Mybatis二级缓存  -->
-		<dependency>
-			<groupId>net.oschina.j2cache</groupId>
-			<artifactId>j2cache-mybatis</artifactId>
-		</dependency>
-		
 		<!-- For IP2region -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
