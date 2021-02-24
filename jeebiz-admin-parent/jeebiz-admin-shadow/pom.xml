@@ -140,7 +140,15 @@
 		    <groupId>com.github.scribejava</groupId>
 		    <artifactId>scribejava-apis</artifactId>
 		</dependency>
-		
+		<!-- For J2cache -->
+		<dependency>
+		    <groupId>net.oschina.j2cache</groupId>
+		    <artifactId>j2cache-spring-boot2-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-j2cache</artifactId>
+		</dependency>
 		<!-- For Swagger -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>

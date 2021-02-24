@@ -2,9 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.IAuthzRolePermsDao">
 	
-	<!-- 开启二级缓存 -->
-	<cache-ref namespace="net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao"/>
-
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="OPT_ID" />
 		<result property="value" column="OPT_PERMS" />
