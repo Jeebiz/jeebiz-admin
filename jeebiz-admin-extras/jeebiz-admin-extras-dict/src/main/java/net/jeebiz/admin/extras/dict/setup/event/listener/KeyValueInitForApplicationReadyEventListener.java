@@ -14,7 +14,7 @@ import net.jeebiz.admin.extras.dict.setup.Constants;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
 @Component
-public class ApplicationReadyEventListener implements ApplicationListener<ApplicationReadyEvent> {
+public class KeyValueInitForApplicationReadyEventListener implements ApplicationListener<ApplicationReadyEvent> {
 	
 	@Autowired
 	private IKeyGroupDao keyGroupDao;
