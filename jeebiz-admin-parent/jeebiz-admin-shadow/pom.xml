@@ -9,10 +9,10 @@
 	</parent>
 	<artifactId>jeebiz-admin-shadow</artifactId>
 	
-	<properties>
+	<!-- <properties>
 		<reactor-bom.version>Dysprosium-SR12</reactor-bom.version>
 		<lettuce.version>6.0.2.RELEASE</lettuce.version>
-	</properties>
+	</properties> -->
 
 	<dependencies>
 		
@@ -22,72 +22,72 @@
 			<artifactId>jeebiz-admin-extras-dict</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz 系统设置（必选） -->
+		<!-- Jeebiz 系统设置（必选）
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-settings</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<!-- Jeebiz 组织机构管理（必选） -->
+		</dependency> -->
+		<!-- Jeebiz 组织机构管理（必选）
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-authz-org</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- Jeebiz Rbac权限管理：此次选择了比较简单的rbac0的实现（必选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-authz-rbac0</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz 设备激活：记录客户端激活与账户对应关系（可选） -->
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-authz-jwt</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		<!-- Jeebiz 设备激活：记录客户端激活与账户对应关系（可选）
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-device</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<!-- Jeebiz 编辑器：富文本编辑器后台接口（可选） -->
+		</dependency> -->
+		<!-- Jeebiz 编辑器：富文本编辑器后台接口（可选）
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-editor</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- Jeebiz 文件服务（可选）
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-filestore</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency> -->
-		<!-- Jeebiz 消息通知（可选） -->
+		<!-- Jeebiz 消息通知（可选） 
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-inform</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<!-- Jeebiz 通知公告（可选） -->
+		</dependency>-->
+		<!-- Jeebiz 通知公告（可选） 
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-article</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<!-- Jeebiz 业务日志（可选） -->
+		</dependency>-->
+		<!-- Jeebiz 业务日志（可选）
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-logbiz</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<!-- Jeebiz 回话管理（可选） -->
+		</dependency> -->
+		<!-- Jeebiz 回话管理（可选）
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-sessions</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<!-- Jeebiz Admin 默认配置及初始化 -->
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-core</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
+		</dependency> -->
+		
 		<!-- Jeebiz 第三方登录：提供接口实现openid等和账号的绑定 -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -103,6 +103,26 @@
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-authz-weixin</artifactId>
 			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-jwt-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>jwt-issuer-with-jjwt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-j2cache</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -139,22 +159,58 @@
 		    <groupId>com.github.scribejava</groupId>
 		    <artifactId>scribejava-apis</artifactId>
 		</dependency>
-		<!-- For Docx4j -->
+		<!-- For Swagger -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>webmvc-swagger2-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.github.xiaoymin</groupId>
+		    <artifactId>swagger-bootstrap-ui</artifactId>
+		</dependency>
+		<!-- For Cache Support -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<!-- For J2cache -->
+		<dependency>
+			<groupId>net.oschina.j2cache</groupId>
+			<artifactId>j2cache-spring-boot2-starter</artifactId>
+		</dependency>
+		<!-- J2cache Multi-Level Cache  -->
+		<dependency>
+			<groupId>net.oschina.j2cache</groupId>
+			<artifactId>j2cache-spring-boot2-starter</artifactId>
+		</dependency>
+		<!-- 使用 J2cache 作为 Mybatis二级缓存  -->
+		<dependency>
+			<groupId>net.oschina.j2cache</groupId>
+			<artifactId>j2cache-mybatis</artifactId>
+		</dependency>
+		
+		<!-- For IP2region -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>ip2region-spring-boot-starter</artifactId>
+		</dependency>
+		
+		<!-- For Docx4j
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>docx4j-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- For Zxing -->
+		</dependency> -->
+		<!-- For Zxing 
 		<dependency>
             <groupId>com.github.hiwepy</groupId>
             <artifactId>zxing-spring-boot-starter</artifactId>
-        </dependency>
+        </dependency>-->
 		<!-- For XXL-JOB 
 		<dependency>
 		   <groupId>com.github.hiwepy</groupId>
 			<artifactId>xxljob-spring-boot-starter</artifactId>
 		</dependency>-->
-		<!-- For Resilience4j -->
+		<!-- For Resilience4j 
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
 		    <artifactId>resilience4j-spring-boot2</artifactId>
@@ -162,7 +218,7 @@
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
 		    <artifactId>resilience4j-micrometer</artifactId>
-		</dependency>
+		</dependency>-->
 		<!-- For Redisson
 		<dependency>
 		    <groupId>org.redisson</groupId>
@@ -172,10 +228,19 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>hitool-core</artifactId>
 		</dependency>
-		<!-- For Javamelody -->
+		<!-- For Javamelody 
 		<dependency>
 		    <groupId>net.bull.javamelody</groupId>
 		    <artifactId>javamelody-spring-boot-starter</artifactId>
+		</dependency>-->
+		<!-- For Log4j2 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>log4j2-plus-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Druid -->
 		<dependency>
@@ -214,12 +279,6 @@
 		    <scope>runtime</scope>
 		</dependency>
 	   
-		<!-- @ConfigurationProperties annotation processing (metadata for IDEs) -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
 		<!-- For Embed Tomcat -->
         <!-- <dependency>
             <groupId>org.springframework.boot</groupId>

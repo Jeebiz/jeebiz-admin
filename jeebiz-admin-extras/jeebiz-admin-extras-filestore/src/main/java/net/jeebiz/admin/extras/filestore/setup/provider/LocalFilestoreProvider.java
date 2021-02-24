@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 import net.coobird.thumbnailator.Thumbnails;
 import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
 import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
-import net.jeebiz.admin.extras.filestore.setup.config.JeebizFilestoreLocalProperties;
+import net.jeebiz.admin.extras.filestore.setup.config.JeebizFilestoreProperties;
 import net.jeebiz.admin.extras.filestore.utils.AttUtils;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
@@ -33,9 +33,9 @@ import net.jeebiz.boot.api.utils.CollectionUtils;
 public class LocalFilestoreProvider implements FilestoreProvider {
 
 	private IFilestoreDao filestoreDao;
-	private JeebizFilestoreLocalProperties filestoreProperties;
+	private JeebizFilestoreProperties filestoreProperties;
 	
-	public LocalFilestoreProvider(IFilestoreDao filestoreDao, JeebizFilestoreLocalProperties filestoreProperties) {
+	public LocalFilestoreProvider(IFilestoreDao filestoreDao, JeebizFilestoreProperties filestoreProperties) {
 		this.filestoreDao = filestoreDao;
 		this.filestoreProperties = filestoreProperties;
 	}
@@ -324,7 +324,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		return filestoreDao;
 	}
 
-	public JeebizFilestoreLocalProperties getFilestoreProperties() {
+	public JeebizFilestoreProperties getFilestoreProperties() {
 		return filestoreProperties;
 	}
 	

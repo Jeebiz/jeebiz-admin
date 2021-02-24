@@ -1,23 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
 		<version>1.0.1-ce-SNAPSHOT</version>
 	</parent>
-	<artifactId>jeebiz-admin-extras-dict</artifactId>
+	<artifactId>jeebiz-admin-authz-jwt</artifactId>
 	
 	<dependencies>
 		
-		<!-- For Jeebiz -->
+		<!-- For Jeebiz API -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-admin-extras-core</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		
+		<!-- For Shiro JWT -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-jwt-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>jwt-issuer-with-jjwt</artifactId>
+		</dependency>
 		<!-- For Flyway -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>

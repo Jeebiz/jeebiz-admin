@@ -7,10 +7,13 @@ package net.jeebiz.admin.extras.logbiz.setup.config;
 import org.apache.logging.log4j.spring.boot.ext.web.Log4j2MDCInterceptor;
 import org.flywaydb.spring.boot.ext.FlywayFluentConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import net.jeebiz.admin.extras.logbiz.setup.shiro.Log4j2MDCRequestFilter;
 
 @Configuration
 public class JeebizLogbizConfiguration implements WebMvcConfigurer {
@@ -21,6 +24,14 @@ public class JeebizLogbizConfiguration implements WebMvcConfigurer {
 	@Bean
 	public Log4j2MDCInterceptor mdcInterceptor() {
 		return new Log4j2MDCInterceptor();
+	}
+
+	@Bean("log4j2")
+	public FilterRegistrationBean<Log4j2MDCRequestFilter> log4j2MDCRequestFilter() {
+		FilterRegistrationBean<Log4j2MDCRequestFilter> registration = new FilterRegistrationBean<Log4j2MDCRequestFilter>();
+		registration.setFilter(new Log4j2MDCRequestFilter());
+		registration.setEnabled(false);
+		return registration;
 	}
 	
 	@Override

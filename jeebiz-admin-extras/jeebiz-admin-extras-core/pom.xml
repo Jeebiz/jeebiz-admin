@@ -28,15 +28,10 @@
 		    <groupId>org.gavaghan</groupId>
 		    <artifactId>geodesy</artifactId>
 		</dependency>
-		
-		<!-- For Swagger -->
+		<!-- https://mvnrepository.com/artifact/com.github.hiwepy/httpconn -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>webmvc-swagger2-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.xiaoymin</groupId>
-		    <artifactId>swagger-bootstrap-ui</artifactId>
+		    <groupId>com.github.hiwepy</groupId>
+		    <artifactId>httpconn</artifactId>
 		</dependency>
 		
 		<!-- For Validation -->
@@ -78,47 +73,6 @@
 			<groupId>com.github.dozermapper</groupId>
 			<artifactId>dozer-spring-boot-starter</artifactId>
 		</dependency> 
-		<!-- For Cache Support -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-		<!-- J2cache Multi-Level Cache  -->
-		<dependency>
-			<groupId>net.oschina.j2cache</groupId>
-			<artifactId>j2cache-spring-boot2-starter</artifactId>
-		</dependency>
-		<!-- 使用 JGroups 组播方式进行服务节点缓存同步（不支持在云主机中使用） -->
-		<dependency>
-			<groupId>org.jgroups</groupId>
-			<artifactId>jgroups</artifactId>
-		</dependency>
-		<!-- 使用 Ehcache 2.x 作为二级缓存 -->
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-		</dependency>
-		<!-- 使用 Ehcache 3.x 作为二级缓存
-		<dependency>
-		    <groupId>org.ehcache</groupId>
-		    <artifactId>ehcache</artifactId>
-		</dependency> -->
-		<!-- 使用 J2cache 作为 Spring-Cache 实现 -->
-		<dependency>
-			<groupId>net.oschina.j2cache</groupId>
-			<artifactId>j2cache-springcache</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- 使用 J2cache 作为 Mybatis二级缓存  -->
-		<dependency>
-			<groupId>net.oschina.j2cache</groupId>
-			<artifactId>j2cache-mybatis</artifactId>
-		</dependency>
 		<!-- For Spring Boot's Redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -132,108 +86,21 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
-		<!-- For IP2region -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>ip2region-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.github.hiwepy/httpconn -->
-		<dependency>
-		    <groupId>com.github.hiwepy</groupId>
-		    <artifactId>httpconn</artifactId>
-		</dependency>
 		<!-- For Okhttp 3.x -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>okhttp3-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- For Log4j2 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>log4j2-plus-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- 
-			<dependency> 
-				<groupId>org.apache.logging.log4j</groupId> 
-				<artifactId>log4j-mongodb3</artifactId> 
-			</dependency>
-		 -->
-		<!-- For Mongodb (服务描述信息存储、日志信息存储) -->
-		<!-- 
-			<dependency> 
-				<groupId>org.springframework.boot</groupId> 
-				<artifactId>spring-boot-starter-data-mongodb</artifactId> 
-			</dependency> 
-			<dependency> 
-				<groupId>com.spring4all</groupId> 
-				<artifactId>mongodb-plus-spring-boot-starter</artifactId> 
-			</dependency>
-		-->
-		<!-- For Mybatis -->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>mybatis-dbperms-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- For Flyway -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>flyway-plus-spring-boot-starter</artifactId>
-		</dependency>
-		
-		<!-- For Captcha -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>kaptcha-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Shiro -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-biz-spring-boot-starter</artifactId>
 		</dependency>
-		<!-- <dependency>
-		    <groupId>org.iherus.shiro</groupId>
-		    <artifactId>shiro-redis-spring-boot-web-starter</artifactId>
-		</dependency> -->
+		<!-- For Mybatis -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-jwt-spring-boot-starter</artifactId>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>jwt-issuer-with-jjwt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-j2cache</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- <dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>net.sf.ehcache</groupId>
-					<artifactId>ehcache-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
 		
 	</dependencies>
 	

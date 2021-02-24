@@ -7,23 +7,24 @@
 		<artifactId>jeebiz-admin-extras</artifactId>
 		<version>1.0.1-ce-SNAPSHOT</version>
 	</parent>
-	<artifactId>jeebiz-admin-extras-dict</artifactId>
+	
+	<artifactId>jeebiz-admin-extras-filestore-fastdfs</artifactId>
 	
 	<dependencies>
 		
 		<!-- For Jeebiz -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-admin-extras-core</artifactId>
-			<version>${jeebiz-admin.version}</version>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-extras-filestore</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		
-		<!-- For Flyway -->
+		<!-- For Fastdfs -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>flyway-plus-spring-boot-starter</artifactId>
-		</dependency>
+        	<groupId>com.github.hiwepy</groupId>
+			<artifactId>fastdfs-spring-boot-starter</artifactId>
+        </dependency>
 		
 	</dependencies>
-	
+ 
 </project>
