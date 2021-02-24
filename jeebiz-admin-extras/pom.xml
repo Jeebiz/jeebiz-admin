@@ -14,6 +14,7 @@
 	<modules>
 		<module>jeebiz-admin-authz-dingtalk</module>
 		<module>jeebiz-admin-authz-feature</module>	
+		<module>jeebiz-admin-authz-jwt</module>
 		<module>jeebiz-admin-authz-org</module>
 		<module>jeebiz-admin-authz-rbac0</module>		
 		<module>jeebiz-admin-authz-thirdparty</module>
@@ -38,8 +39,6 @@
 		<module>jeebiz-admin-extras-settings</module>
 		<module>jeebiz-admin-extras-sms-aliyun</module>
 		<module>jeebiz-admin-extras-sms-txcloud</module>
-		<module>jeebiz-admin-authz-jwt</module>
-		<module>jeebiz-admin-authz-dbperms</module>
 	</modules>
 	
 	<build>
