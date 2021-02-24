@@ -588,6 +588,85 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 
+	public <V> Long lLeftPush(String key, V value) {
+		if(value instanceof Collection) {
+			return lLeftPush(key, (Collection) value);
+		}
+		try {
+			return getOperations().opsForList().leftPush(key, value);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	public <V> Long lLeftPush(String key, V value, long seconds) {
+		if(value instanceof Collection) {
+			return lLeftPush(key, (Collection) value, seconds);
+		}
+		try {
+			Long rt = getOperations().opsForList().leftPush(key, value);
+			if (seconds > 0) {
+				expire(key, seconds);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	public <V> Long lLeftPush(String key, V value, Duration duration) {
+		if(value instanceof Collection) {
+			return lLeftPush(key, (Collection) value, duration);
+		}
+		try {
+			Long rt = getOperations().opsForList().leftPush(key, value);
+			if(!duration.isNegative()) {
+				expire(key, duration);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	public <V> Long lLeftPush(String key, Collection<V> values) {
+		try {
+			Long rt = getOperations().opsForList().leftPushAll(key, values);
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	public <V> Long lLeftPush(String key, Collection<V> values, long seconds) {
+		try {
+			Long rt = getOperations().opsForList().leftPushAll(key, values);
+			if (seconds > 0) {
+				expire(key, seconds);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	public <V> Long lLeftPush(String key, Collection<V> values, Duration duration) {
+		try {
+			Long rt = getOperations().opsForList().leftPushAll(key, values);
+			if(!duration.isNegative()) {
+				expire(key, duration);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
 	/**
 	 * 将list放入缓存
 	 *
@@ -595,13 +674,16 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param value 值
 	 * @return
 	 */
-	public boolean lRightPush(String key, Object value) {
+	public <V> Long lRightPush(String key, V value) {
+		if(value instanceof Collection) {
+			return lRightPush(key, (Collection) value);
+		}
 		try {
-			getOperations().opsForList().rightPush(key, value);
-			return true;
+			Long rt = getOperations().opsForList().rightPush(key, value);
+			return rt;
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			return false;
+			return 0L;
 		}
 	}
 
@@ -613,7 +695,10 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param seconds  时间(秒)
 	 * @return
 	 */
-	public Long lRightPush(String key, Object value, long seconds) {
+	public <V> Long lRightPush(String key, V value, long seconds) {
+		if(value instanceof Collection) {
+			return lRightPush(key, (Collection) value, seconds);
+		}
 		try {
 			Long rt = getOperations().opsForList().rightPush(key, value);
 			if (seconds > 0) {
@@ -626,7 +711,32 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		}
 	}
 	
-	public Long lRightPush(String key, List<Object> values, Duration duration) {
+	public <V> Long lRightPush(String key, V value, Duration duration) {
+		if(value instanceof Collection) {
+			return lRightPush(key, (Collection) value, duration);
+		}
+		try {
+			Long rt = getOperations().opsForList().rightPush(key, value);
+			if(!duration.isNegative()) {
+				expire(key, duration);
+			}
+			return rt;
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+
+	public <V> Long lRightPush(String key, Collection<V> values) {
+		try {
+			return getOperations().opsForList().rightPushAll(key, values);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return 0L;
+		}
+	}
+	
+	public <V> Long lRightPush(String key, Collection<V> values, Duration duration) {
 		try {
 			Long rt = getOperations().opsForList().rightPushAll(key, values);
 			if(!duration.isNegative()) {
@@ -638,80 +748,13 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			return 0L;
 		}
 	}
-
-	/**
-	 * 将list放入缓存
-	 *
-	 * @param key   键
-	 * @param values 值
-	 * @return
-	 */
-	public Long lRightPush(String key, List<Object> values) {
-		try {
-			return getOperations().opsForList().rightPushAll(key, values);
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
 	
-	/**
-	 * 将元素放到list左边
-	 *
-	 * @param key   键
-	 * @param value 值
-	 * @return
-	 */
-	public Long lLeftPush(String key, Object value) {
+	public Object lRightPop(String key) {
 		try {
-			return getOperations().opsForList().leftPush(key, value);
+			return getOperations().opsForList().rightPop(key);
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-
-	public Long lLeftPush(String key, List<Object> values) {
-		try {
-			Long rt = getOperations().opsForList().leftPushAll(key, values);
-			return rt;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-	
-	/**
-	 * 将list放入缓存
-	 *
-	 * @param key   键
-	 * @param values 值
-	 * @param seconds  时间(秒)
-	 * @return
-	 */
-	public Long lLeftPush(String key, List<Object> values, long seconds) {
-		try {
-			Long rt = getOperations().opsForList().leftPushAll(key, values);
-			if (seconds > 0) {
-				expire(key, seconds);
-			}
-			return rt;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
-		}
-	}
-	
-	public Long lLeftPush(String key, List<Object> values, Duration duration) {
-		try {
-			Long rt = getOperations().opsForList().leftPushAll(key, values);
-			if(!duration.isNegative()) {
-				expire(key, duration);
-			}
-			return rt;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			return 0L;
+			return null;
 		}
 	}
 	

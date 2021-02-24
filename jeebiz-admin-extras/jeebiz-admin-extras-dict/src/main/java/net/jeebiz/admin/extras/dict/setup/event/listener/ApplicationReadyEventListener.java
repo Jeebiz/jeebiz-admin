@@ -31,6 +31,7 @@ public class ApplicationReadyEventListener implements ApplicationListener<Applic
 			if(!getRedisOperationTemplate().hasKey(Constants.KEY_PREFIX + group.getKey())) {
 				try {
 					List<PairModel> retList = getKeyValueDao().getPairValues(group.getKey());
+					//getRedisOperationTemplate().set(Constants.KEY_PREFIX + group.getKey(), retList);
 					getRedisOperationTemplate().lLeftPush(Constants.KEY_PREFIX + group.getKey(), retList);
 				} catch (Exception e) {
 					e.printStackTrace();
