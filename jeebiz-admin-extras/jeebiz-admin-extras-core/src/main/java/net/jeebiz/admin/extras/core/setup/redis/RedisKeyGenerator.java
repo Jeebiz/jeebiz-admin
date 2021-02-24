@@ -105,6 +105,14 @@ public class RedisKeyGenerator {
 	public static String getSmsCode(Integer type, String mobile) {
 		return getKeyStr(RedisConstant.STR_SMS_CODE, String.valueOf(type), mobile);
 	}
+
+	public static String getCatalog(String id) {
+		return getKeyStr(RedisConstant.DBMATA_CATALOG, id);
+	}
+	
+	public static String getCatalogLoding(String id) {
+		return getKeyStr(RedisConstant.DBMATA_CATALOG_LODING, id);
+	}
 	
 
 	/**

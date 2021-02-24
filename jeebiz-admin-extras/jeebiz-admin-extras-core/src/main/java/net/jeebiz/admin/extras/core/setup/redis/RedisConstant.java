@@ -102,7 +102,12 @@ public interface RedisConstant {
 	 * 用户会员权益缓存
 	 */
 	String USER_VIP_INTEREST = "user:vip:interest";
-
-	String SET_APPS = "apps";
 	
+
+	String SET_APPS = "user:apps";
+
+	String DBMATA_CATALOG = "dbmata:catalog";
+	String DBMATA_CATALOG_LODING = "dbmata:catalog:loding";
+	
+
 }
