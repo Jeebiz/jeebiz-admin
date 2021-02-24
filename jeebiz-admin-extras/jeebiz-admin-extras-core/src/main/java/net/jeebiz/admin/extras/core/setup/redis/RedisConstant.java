@@ -103,4 +103,6 @@ public interface RedisConstant {
 	 */
 	String USER_VIP_INTEREST = "user:vip:interest";
 
+	String SET_APPS = "apps";
+	
 }
