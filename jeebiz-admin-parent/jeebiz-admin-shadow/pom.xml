@@ -163,7 +163,17 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>ip2region-spring-boot-starter</artifactId>
 		</dependency>
-		
+		<!-- For Thymeleaf View -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<!-- For Docx4j
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -263,6 +273,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
         
 	</dependencies>
 	
