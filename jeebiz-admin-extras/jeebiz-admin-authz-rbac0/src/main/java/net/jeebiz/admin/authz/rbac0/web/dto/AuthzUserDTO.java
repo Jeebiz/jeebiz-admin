@@ -6,14 +6,10 @@ package net.jeebiz.admin.authz.rbac0.web.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 @ApiModel(value = "AuthzUserDTO", description = "用户信息参数DTO")
-@Getter
-@Setter
-@ToString
+@Data
 public class AuthzUserDTO {
 
 	/**
@@ -37,50 +33,47 @@ public class AuthzUserDTO {
 	@ApiModelProperty(name = "username", required = true, dataType = "String", value = "用户名")
 	private String username;
 	/**
-	 * 用户别名（昵称）
+	 * 用户密码
 	 */
-	@ApiModelProperty(name = "alias", required = true, dataType = "String", value = "用户昵称")
-	private String alias;
+	@ApiModelProperty(name = "password", dataType = "String", value = "用户密码")
+	private String password;
 	/**
-	 * 用户头像：图片路径或图标样式
+	 * 用户密码盐：用于密码加解密
 	 */
-	@ApiModelProperty(name = "avatar", dataType = "String", value = "用户头像：图片路径或图标样式")
-	private String avatar;
+	@ApiModelProperty(name = "salt", dataType = "String", value = "用户密码盐：用于密码加解密")
+	private String salt;
 	/**
-	 * 手机号码
+	 * 用户秘钥：用于用户JWT加解密
 	 */
-	@ApiModelProperty(name = "phone", required = true, dataType = "String", value = "手机号码")
-	private String phone;
+	@ApiModelProperty(name = "secret", dataType = "String", value = "用户秘钥：用于用户JWT加解密")
+	private String secret;
 	/**
-	 * 电子邮箱
+	 * 用户客户端应用ID
 	 */
-	@ApiModelProperty(name = "email", required = true, dataType = "String", value = "电子邮箱")
-	private String email;
+	@ApiModelProperty(name = "appId", required = true, dataType = "String", value = "用户客户端应用ID")
+	private String appId;
 	/**
-	 * 用户备注
+	 * 用户客户端应用渠道编码
 	 */
-	@ApiModelProperty(name = "remark", required = true, dataType = "String", value = "用户备注")
-	private String remark;
+	@ApiModelProperty(name = "appChannel", required = true, dataType = "String", value = "用户客户端应用渠道编码")
+	private String appChannel;
 	/**
-	 * 用户状态（0:禁用|1:可用|2:锁定）
+	 * 用户客户端版本
 	 */
-	@ApiModelProperty(name = "status", required = true, dataType = "String", value = "用户状态（0:禁用|1:可用|2:锁定）")
-	private String status;
+	@ApiModelProperty(name = "appVer", required = true, dataType = "String", value = "用户客户端应用版本号")
+	private String appVer;
+
 	/**
-	 * 性别：（male：男，female：女）
+	 * 用户是否在线（1：是，0：否）
 	 */
-	@ApiModelProperty(name = "gender", required = true, dataType = "String", value = "性别：（male：男，female：女）")
-	private String gender;
+	@ApiModelProperty(name = "online", required = true, dataType = "String", value = "用户是否在线（1：是，0：否）")
+	private String online;
 	/**
-	 * 出生日期
+	 * 用户最近一次登录时间
 	 */
-	@ApiModelProperty(name = "birthday", required = true, dataType = "String", value = "出生日期")
-	private String birthday;
-	/**
-	 * 身份证号码
-	 */
-	@ApiModelProperty(name = "idcard", required = true, dataType = "String", value = "身份证号码")
-	private String idcard;
+	@ApiModelProperty(name = "onlineLatest", required = true, dataType = "String", value = "用户最近一次登录时间")
+	private String onlineLatest;
+	
 	/**
 	 * 角色ID（可能多个组合，如：1,2）
 	 */

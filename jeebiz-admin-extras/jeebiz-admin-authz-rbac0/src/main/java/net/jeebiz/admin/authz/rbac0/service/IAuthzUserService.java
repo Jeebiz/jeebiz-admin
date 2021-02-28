@@ -20,25 +20,10 @@ import net.jeebiz.boot.api.service.IBaseService;
 public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
 	
 	/**
-	 * 用户注册
-	 * @param model
-	 * @return
-	 */
-	int register(AuthzUserModel model);
-	
-	/**
 	 * 查询系统所有用户
 	 * @return
 	 */
 	public List<AuthzUserModel> getUserList();
-
-	/**
-	 * 批量修改用户密码
-	 * @param users 用户名数组
-	 * @param type 密码初始化方式（0：系统默认密码，1：身份证后6位，2：手机号后6位，3：学工号后6位）
-	 * @return 变更记录数
-	 */
-	public int resetPwd(List<String> users, String type);
 
 	/**
 	 * 当前用户设置密码
@@ -72,20 +57,6 @@ public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
 	 * @return
 	 */
 	public int doUnAllot(AuthzUserAllotRoleModel model);
-
-	/**
-	 * 根据手机号查询相同手机号数量
-	 * @param phone 手机号码
-	 * @return
-	 */
-	public int getCountByPhone( String phone);
-
-	/**
-	 * 根据邮箱查询相同手机号数量
-	 * @param email 手机号码
-	 * @return
-	 */
-	public int getCountByEmail(String email);
 	
 	/**
 	 * 获取用户已分配角色ID
@@ -114,16 +85,5 @@ public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
 	 * @return
 	 */
 	public Page<AuthzRoleModel> getPagedUnAllocatedList(AuthzUserModel model);
-
-	/**
-	 * 通过ID删除用户
-	 * @param id
-	 * @return
-	 */
-	int deleteUserById(String id);
-
-    int getCountUpdateByPhone(String phone, String id);
-
-	int getCountUpdateByEmail(String email, String id);
 
 }

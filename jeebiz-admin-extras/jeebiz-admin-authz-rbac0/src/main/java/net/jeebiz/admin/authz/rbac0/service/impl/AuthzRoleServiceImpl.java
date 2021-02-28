@@ -27,7 +27,6 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-import net.jeebiz.boot.api.dao.entities.OrderBy;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
@@ -133,12 +132,8 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 		
 		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationDTO.getPageNo(), paginationDTO.getLimit());
 		if(!CollectionUtils.isEmpty(paginationDTO.getOrders())) {
-			for (OrderBy orderBy : paginationDTO.getOrders()) {
-				if(orderBy.isAsc()) {
-					page.addOrder(OrderItem.asc(orderBy.getColumn()));
-				} else {
-					page.addOrder(OrderItem.desc(orderBy.getColumn()));
-				}
+			for (OrderItem orderBy : paginationDTO.getOrders()) {
+				page.addOrder(orderBy);
 			}
 		}
 		
@@ -154,12 +149,8 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 		
 		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationDTO.getPageNo(), paginationDTO.getLimit());
 		if(!CollectionUtils.isEmpty(paginationDTO.getOrders())) {
-			for (OrderBy orderBy : paginationDTO.getOrders()) {
-				if(orderBy.isAsc()) {
-					page.addOrder(OrderItem.asc(orderBy.getColumn()));
-				} else {
-					page.addOrder(OrderItem.desc(orderBy.getColumn()));
-				}
+			for (OrderItem orderBy : paginationDTO.getOrders()) {
+				page.addOrder(orderBy);
 			}
 		}
 		

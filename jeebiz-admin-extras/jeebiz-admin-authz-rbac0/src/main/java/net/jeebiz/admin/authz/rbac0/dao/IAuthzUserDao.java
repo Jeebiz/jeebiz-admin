@@ -80,27 +80,6 @@ public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
 	public int setStatus(@Param("userId") String userId, @Param("status") String status);
 	
 	/**
-	 * 根据手机号查询相同手机号数量
-	 * @param phone 手机号码
-	 * @return
-	 */
-	public int getCountByPhone( @Param("phone") String phone);
-
-	/**
-	 * 根据email查询相同手机号数量
-	 * @param email 手机号码
-	 * @return
-	 */
-	public int getCountByEmail( @Param("email") String email);
-	
-	/**
-	 * 根据idcard查询相同身份证号数量
-	 * @param idcard 身份证号
-	 * @return
-	 */
-	public int getCountByIdcard( @Param("idcard") String idcard);
-	
-	/**
 	 * 获取用户已分配角色ID
 	 * @param userId 用户ID
 	 * @return

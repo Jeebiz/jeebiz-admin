@@ -1,6 +1,6 @@
 /* 
  * 权限核心表：
- * 2、用户信息表、用户详情表、角色信息表、用户-角色关系表、角色-权限关系表（角色-菜单-按钮）、
+ * 2、用户信息表、角色信息表、用户-角色关系表、角色-权限关系表（角色-菜单-按钮）、
  */
 
 -- Create table
@@ -43,49 +43,44 @@ create table SYS_AUTHZ_USER_LIST (
   U_ID   			VARCHAR2(32) default sys_guid() not null,
   U_USERNAME 		VARCHAR2(100) not null,
   U_PASSWORD 		VARCHAR2(100) not null,
-  U_ALIAS			VARCHAR2(100) not null,
-  U_AVATAR			VARCHAR2(300),
   U_SALT			VARCHAR2(64),
   U_SECRET			VARCHAR2(128),
-  U_PHONE			VARCHAR2(11),
-  U_EMAIL			VARCHAR2(100),
-  U_BIRTHDAY		VARCHAR2(20),
-  U_GENDER			VARCHAR2(10),
-  U_IDCARD			VARCHAR2(20),
-  U_REMARK			VARCHAR2(255),
   U_STATUS			VARCHAR2(1),
   U_UID   			VARCHAR2(32),
   U_CODE   			VARCHAR2(32),
+  U_APP_ID 			VARCHAR2(50),
+  U_APP_CHANNEL		VARCHAR2(50),
+  U_APP_VERSION		VARCHAR2(20),
+  U_ONLINE			VARCHAR2(1),
+  U_LATEST_ONLINE	VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   U_TIME24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  CONSTRAINT UNIQUE_USERNAME UNIQUE(U_USERNAME),
+  CONSTRAINT idx_uname UNIQUE(U_USERNAME),
+  CONSTRAINT idx_uuid UNIQUE(U_UID),
   CONSTRAINT PK_UID PRIMARY KEY(U_ID)
 );
 -- Add comments to the table 
-comment on table SYS_AUTHZ_USER_LIST  is '用户信息表';
+comment on table SYS_AUTHZ_USER_LIST  is '用户账户信息表';
 -- Add comments to the columns 
 comment on column SYS_AUTHZ_USER_LIST.U_ID  is '用户ID';
 comment on column SYS_AUTHZ_USER_LIST.U_USERNAME  is '用户名';
 comment on column SYS_AUTHZ_USER_LIST.U_PASSWORD  is '用户密码';
-comment on column SYS_AUTHZ_USER_LIST.U_ALIAS  is '用户昵称';
-comment on column SYS_AUTHZ_USER_LIST.U_AVATAR  is '用户头像：图片路径或图标样式';
 comment on column SYS_AUTHZ_USER_LIST.U_SALT  is '用户密码盐：用于密码加解密';
 comment on column SYS_AUTHZ_USER_LIST.U_SECRET  is '用户秘钥：用于用户JWT加解密';
-comment on column SYS_AUTHZ_USER_LIST.U_PHONE  is '手机号码';
-comment on column SYS_AUTHZ_USER_LIST.U_EMAIL  is '邮箱地址';
-comment on column SYS_AUTHZ_USER_LIST.U_BIRTHDAY  is '出生日期';
-comment on column SYS_AUTHZ_USER_LIST.U_GENDER  is '性别：（male：男，female：女）';
-comment on column SYS_AUTHZ_USER_LIST.U_IDCARD  is '身份证号码';
-comment on column SYS_AUTHZ_USER_LIST.U_REMARK  is '备注信息';
 comment on column SYS_AUTHZ_USER_LIST.U_STATUS  is '用户状态（0:禁用|1:可用|2:锁定）';
+comment on column SYS_AUTHZ_USER_LIST.U_UID  is '用户唯一UID（用户编号）';
+comment on column SYS_AUTHZ_USER_LIST.U_CODE  is '用户唯一编号（内部工号）';
+comment on column SYS_AUTHZ_USER_LIST.U_APP_ID  is '用户客户端应用ID';
+comment on column SYS_AUTHZ_USER_LIST.U_APP_CHANNEL  is '用户客户端应用渠道编码';
+comment on column SYS_AUTHZ_USER_LIST.U_APP_VERSION  is '用户客户端版本';
+comment on column SYS_AUTHZ_USER_LIST.U_ONLINE  is '用户是否在线（1：是，0：否）';
+comment on column SYS_AUTHZ_USER_LIST.U_LATEST_ONLINE  is '用户最近一次在线登录时间';
 comment on column SYS_AUTHZ_USER_LIST.U_TIME24  is '初始化时间';
-comment on column SYS_AUTHZ_USER_LIST.U_UID  is '用户唯一ID（员工业务信息表ID）';
-comment on column SYS_AUTHZ_USER_LIST.U_CODE  is '用户唯一编码（工号）';
 
 -- Create table
 create table SYS_AUTHZ_USER_ROLE_RELATION (
   U_ID   			VARCHAR2(32) not null,
   R_ID   			VARCHAR2(32) not null,
-  R_PRTY			VARCHAR2(2) default 0 not null,
+  R_PRTY			VARCHAR2(2) default '0',
   CONSTRAINT UNIQUE_UID_RID UNIQUE(U_ID, R_ID)
 );
 -- Add comments to the table 
