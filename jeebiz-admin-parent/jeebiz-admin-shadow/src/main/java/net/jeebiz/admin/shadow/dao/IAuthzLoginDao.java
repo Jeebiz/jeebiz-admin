@@ -60,11 +60,18 @@ public interface IAuthzLoginDao extends BaseDao<AuthzLoginModel> {
 	AuthzLoginModel getAccountWithoutPwd(@Param(value = "username") String username);
 
 	/**
+	 * 根据用户表ID查询当前系统对应的用户信息
+	 * @param uid 用户表ID
+	 * @return
+	 */
+	AuthzLoginModel getAccountById(@Param(value = "id") String id);
+	
+	/**
 	 * 根据用户业务ID查询当前系统对应的用户信息
 	 * @param ukey 用户业务ID
 	 * @return
 	 */
-	AuthzLoginModel getAccountByUkey(@Param(value = "ukey") String ukey);
+	AuthzLoginModel getAccountByUcode(@Param(value = "ucode") String ucode);
 	
 	/**
 	 * 根据用户ID查询当前系统对应的用户信息

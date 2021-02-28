@@ -4,16 +4,49 @@
 <mapper namespace="net.jeebiz.admin.shadow.dao.IAuthzLoginDao">
 
 	<resultMap id="LoginMap" type="AuthzLoginModel">
-		<result property="userid" column="U_ID" />
-		<result property="username" column="U_USERNAME" />
-		<result property="password" column="U_PASSWORD" />
-		<result property="salt" column="U_SALT" />
-		<result property="secret" column="U_SECRET" />
-		<result property="alias" column="U_ALIAS" />
-		<result property="phone" column="U_PHONE" />
-		<result property="email" column="U_EMAIL" />
-		<result property="status" column="U_STATUS" />
-		<result property="time24" column="U_TIME24" />
+		<!-- 用户ID -->
+		<result property="id" column="U_ID" />
+		<!-- 用户唯一UID（用户编号） -->
+		<result property="uid" column="U_UID" />
+		<!-- 用户唯一编号（内部工号） -->
+		<result property="ucode" column="U_CODE" />
+		<!-- 用户名称 -->
+        <result property="username" column="U_USERNAME"/>
+        <!-- 用户密码 -->
+        <result property="password" column="U_PASSWORD"/>
+        <!-- 用户密码盐：用于密码加解密 -->
+        <result property="salt" column="U_SALT"/>
+        <!-- 用户秘钥：用于用户JWT加解密 -->
+        <result property="secret" column="U_SECRET"/>
+        <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
+        <result property="status" column="U_STATUS"/>
+        <!-- 初始化时间 -->
+        <result property="time24" column="U_TIME24"/>
+        <!-- 角色ID（可能多个组合，如：1,2） -->
+		<result property="roleId" column="R_ID" />
+		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
+		<result property="roleName" column="R_NAME" />
+		<!-- 角色信息 -->
+		<collection property="roleList" column="{uid=U_ID}" select="getRoleList"></collection>
+	</resultMap>
+	
+	<resultMap id="RoleMap" type="AuthzRoleModel">
+		<!-- 角色ID -->
+		<result property="id" column="R_ID" />
+		<!-- 角色编码 -->
+		<result property="key" column="R_KEY" />
+		<!-- 角色名称 -->
+		<result property="name" column="R_NAME" />
+		<!-- 角色类型（1:原生|2:继承|3:复制|4:自定义） -->
+		<result property="type" column="R_TYPE" />
+		<!-- 角色简介 -->
+		<result property="intro" column="R_INTRO" />
+		<!-- 角色状态（0:禁用|1:可用） -->
+		<result property="status" column="R_STATUS" />
+		<!-- 角色已分配用户量 -->
+		<result property="users" column="R_USERS" />
+		<!-- 初始化时间 -->
+		<result property="time24" column="R_TIME24" />
 	</resultMap>
 	
 	<resultMap id="LoginStatusMap" type="AuthzLoginStatusModel">
@@ -25,26 +58,20 @@
 	</resultMap>
 	
 	<resultMap id="ProfileMap" type="net.jeebiz.boot.api.dao.entities.BaseMap">
-		<!-- 用户ID -->
-		<result property="uid" column="U_ID" />
-		<!-- 用户别名（昵称） -->
-		<result property="alias" column="U_ALIAS" />
-		<!-- 用户头像：图片路径或图标样式 -->
-		<result property="avatar" column="U_AVATAR" />
-		<!-- 手机号码 -->
-		<result property="phone" column="U_PHONE" />
-		<!-- 电子邮箱 -->
-		<result property="email" column="U_EMAIL" />
-		<!-- 用户备注 -->
-		<result property="remark" column="U_REMARK" />
-		<!-- 用户详情ID -->
-		<result property="id" column="D_ID" />
-		<!-- 性别：（male：男，female：女） -->
-		<result property="gender" column="D_GENDER" />
-		<!-- 出生日期 -->
-		<result property="birthday" column="D_BIRTHDAY" />
-		<!-- 身份证号码 -->
-		<result property="idcard" column="D_IDCARD" />
+		<!-- 用户唯一UID（用户编号） -->
+		<result property="uid" column="U_UID" />
+		<!-- 用户唯一编号（内部工号） -->
+		<result property="ucode" column="U_CODE" />
+        <!-- 用户客户端应用ID -->
+        <result property="appId" column="U_APP_ID"/>
+        <!-- 用户客户端应用渠道编码  -->
+		<result property="appChannel" column="U_APP_CHANNEL" />
+        <!-- 用户客户端版本 -->
+        <result property="appVer" column="U_APP_VERSION"/>
+        <!-- 用户是否在线（1：是，0：否） -->
+        <result property="online" column="U_ONLINE"/>
+        <!-- 用户最近一次登录时间 -->
+        <result property="onlineLatest" column="U_LATEST_ONLINE" />
 	</resultMap>
 	
     <select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
@@ -73,17 +100,17 @@
     </select>
     
     <sql id="AccountSQL">
-		select t.U_ID,
-		       t.U_USERNAME,
-		       t.U_PASSWORD,       
-		       t.U_PHONE,
-		       t.U_ALIAS,
-		       t.U_EMAIL,
-		       t.U_SALT,
-			   t.U_SECRET,
-		       NVL(t.U_STATUS, '0') U_STATUS
-		  from SYS_AUTHZ_USER_LIST t
-		 where t.U_USERNAME = #{username}
+		 select t.U_ID,
+				t.U_UID,
+				t.U_CODE,
+				t.U_USERNAME,
+				t.U_PASSWORD,
+				t.U_SALT,
+				t.U_SECRET,
+				t.U_STATUS,
+				t.U_TIME24
+		   from SYS_AUTHZ_USER_LIST t
+		  where t.U_USERNAME = #{username}
 	</sql>
 
     <!-- 根据用户ID和密码查询用户信息  -->
@@ -96,46 +123,59 @@
     <select id="getAccountWithoutPwd" parameterType="string" resultMap="LoginMap" useCache="false">
         <include refid="AccountSQL"/>
     </select>
-	
-	<select id="getAccountByUkey" parameterType="string" resultMap="LoginMap" useCache="false">
-        select t.U_ID,
-		       t.U_USERNAME,       
-		       t.U_PASSWORD,
-		       t.U_PHONE,
-		       t.U_ALIAS,
-		       t.U_EMAIL,
-		       t.U_SALT,
-			   t.U_SECRET,
-		       NVL(t.U_STATUS, '0') U_STATUS
-		  from SYS_AUTHZ_USER_LIST t
-		 where t.U_ID = #{ukey}
-    </select>
 
-    <select id="getAccountByUid" parameterType="string" resultMap="LoginMap" useCache="false">
-        select t.U_ID,
-		       t.U_USERNAME,       
-		       t.U_PASSWORD,
-		       t.U_PHONE,
-		       t.U_ALIAS,
-		       t.U_EMAIL,
-		       t.U_SALT,
-			   t.U_SECRET,
-		       NVL(t.U_STATUS, '0') U_STATUS
+	<select id="getAccountById" parameterType="string" resultMap="LoginMap" useCache="false">
+         select t.U_ID,
+				t.U_UID,
+				t.U_CODE,
+				t.U_USERNAME,
+				t.U_PASSWORD,
+				t.U_SALT,
+				t.U_SECRET,
+				t.U_STATUS,
+				t.U_TIME24
 		  from SYS_AUTHZ_USER_LIST t
-		 where t.U_ID = #{uid}
+		 where t.U_ID = #{id}
+    </select>
+    
+    <select id="getAccountByUcode" parameterType="string" resultMap="LoginMap" useCache="false">
+         select t.U_ID,
+				t.U_UID,
+				t.U_CODE,
+				t.U_USERNAME,
+				t.U_PASSWORD,
+				t.U_SALT,
+				t.U_SECRET,
+				t.U_STATUS,
+				t.U_TIME24
+		  from SYS_AUTHZ_USER_LIST t
+		 where t.U_CODE = #{ucode}
+    </select>
+	
+    <select id="getAccountByUid" parameterType="string" resultMap="LoginMap" useCache="false">
+         select t.U_ID,
+				t.U_UID,
+				t.U_CODE,
+				t.U_USERNAME,
+				t.U_PASSWORD,
+				t.U_SALT,
+				t.U_SECRET,
+				t.U_STATUS,
+				t.U_TIME24
+		   from SYS_AUTHZ_USER_LIST t
+		  where t.U_UID = #{uid}
     </select>
     
     <select id="getAccountProfile" parameterType="string" resultMap="ProfileMap">
 	    SELECT
 			t.U_ID,
-			t.U_ALIAS,
-			t.U_AVATAR,
-			t.U_PHONE,
-			t.U_EMAIL,
-			t.U_REMARK,
-			t.U_BIRTHDAY,
-			t.U_GENDER,
-			t.U_IDCARD
+			t.U_UID,
+			t.U_CODE,
+			t.U_APP_ID,
+			t.U_APP_CHANNEL,
+			t.U_APP_VERSION,
+			t.U_ONLINE,
+			t.U_LATEST_ONLINE
 		FROM SYS_AUTHZ_USER_LIST t
 	   WHERE t.U_ID = #{userid}
     </select> 

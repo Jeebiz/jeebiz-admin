@@ -9,22 +9,50 @@ import java.util.List;
 import org.apache.ibatis.type.Alias;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 
+import com.google.common.collect.Lists;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 
 @Alias(value = "AuthzLoginModel")
 @SuppressWarnings("serial")
+@Getter
+@Setter
+@ToString
 public class AuthzLoginModel extends ShiroPrincipal {
 
 	/**
-	 * 手机号码
+	 * 用户ID
 	 */
-	private String phone;
+	private String id;
 	/**
-	 * 电子邮箱
+	 * 用户唯一UID（用户编号）
 	 */
-	private String email;
+	private String uid;
 	/**
-	 * 用户状态(0:不可用|1:正常|2:锁定)
+	 * 用户唯一编号（内部工号）
+	 */
+	protected String ucode;
+	/**
+	 * 用户名
+	 */
+	private String username;
+	/**
+	 * 密码
+	 */
+	private String password;
+	/**
+	 * 用户密码盐：用于密码加解密
+	 */
+	private String salt;
+	/**
+	 * 用户秘钥：用于用户JWT加解密
+	 */
+	private String secret;
+	/**
+	 * 用户状态（0:禁用|1:可用|2:锁定|3:密码过期）
 	 */
 	private String status;
 	/**
@@ -32,60 +60,9 @@ public class AuthzLoginModel extends ShiroPrincipal {
 	 */
 	private String time24;
 	/**
-	 * 当前角色ID
-	 */
-	private String roleid;
-	/**
 	 * 用户角色
 	 */
-	private List<AuthzRoleModel> roleList;
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getTime24() {
-		return time24;
-	}
-
-	public void setTime24(String time24) {
-		this.time24 = time24;
-	}
-
-	public String getRoleid() {
-		return roleid;
-	}
-
-	public void setRoleid(String roleid) {
-		this.roleid = roleid;
-	}
-
-	public List<AuthzRoleModel> getRoleList() {
-		return roleList;
-	}
-
-	public void setRoleList(List<AuthzRoleModel> roleList) {
-		this.roleList = roleList;
-	}
+	private List<AuthzRoleModel> roleList = Lists.newArrayList();
+ 
 
 }
