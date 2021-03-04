@@ -483,16 +483,17 @@ mybatis-plus:
       id-type: auto
       field-strategy: not-empty
       #mp2.3+ 全局表前缀 mp_
-      #table-prefix: mp_
+      table-prefix: jeebiz_
       #刷新mapper 调试神器
       #refresh-mapper: true
       #数据库大写下划线转换
       #capital-mode: true
       # Sequence序列接口实现类配置
       #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
-      #逻辑删除配置（下面3个配置）
-      logic-delete-value: 1
-      logic-not-delete-value: 0
+                 #逻辑删除配置（下面3个配置）
+      logic-delete-field: isDelete  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
 ################################################################################################################
 ### Filestore存储服务（FastDFS、MinIO） 基本配置：
