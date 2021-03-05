@@ -5,6 +5,7 @@
 package net.jeebiz.admin.authz.jwt.setup.config;
 
 import org.apache.shiro.spring.boot.jwt.JwtPayloadRepository;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,10 @@ import net.jeebiz.admin.authz.jwt.setup.shiro.JwtTimeRedisProvider;
 import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 
 @Configuration
+@AutoConfigureBefore(name = { 
+	"com.google.code.kaptcha.spring.boot.KaptchaAutoConfiguration",
+	"org.apache.shiro.spring.boot.ShiroJwtWebAutoConfiguration" 
+})
 public class JeebizAuthzJwtConfiguration {
 
 	@Bean
