@@ -72,6 +72,48 @@
         <result property="online" column="U_ONLINE"/>
         <!-- 用户最近一次登录时间 -->
         <result property="onlineLatest" column="U_LATEST_ONLINE" />
+        <!-- 用户别名（昵称） -->
+        <result property="nickname" column="U_NICKNAME"/>
+        <!-- 用户头像：图片路径或图标样式  -->
+		<result property="avatar" column="U_AVATAR" />
+        <!-- 手机号码国家码 -->
+        <result property="countryCode" column="U_COUNTRY_CODE"/>
+        <!-- 手机号码 -->
+        <result property="phone" column="U_PHONE"/>
+        <!-- 电子邮箱 -->
+        <result property="email" column="U_EMAIL"/>
+        <!-- 性别：（M：男，F：女） -->
+        <result property="gender" column="U_GENDER" />
+        <!-- 出生日期 -->
+		<result property="birthday" column="U_BIRTHDAY" />
+		<!-- 身份证号码 -->
+		<result property="idcard" column="U_IDCARD" />
+		<!-- 用户年龄 -->
+		<result property="age" column="U_AGE" />
+		<!-- 用户身高 -->
+		<result property="height" column="U_HEIGHT" />
+		<!-- 用户体重 -->
+		<result property="weight" column="U_WEIGHT" />
+		<!-- 官方语言 -->
+		<result property="language" column="U_LANGUAGE" />
+		<!-- 用户备注 -->
+		<result property="intro" column="U_INTRO" />
+		<!-- 个人照片（包含是否封面标记、序号、地址的JSON字符串） -->
+		<result property="photos" column="U_PHOTOS" />
+		<!-- 用户位置：常驻省份 -->
+		<result property="province" column="U_PROVINCE" />
+		<!-- 用户位置：常驻城市 -->
+		<result property="city" column="U_CITY" />
+		<!-- 用户位置：常驻区域 -->
+		<result property="area" column="U_AREA" />
+		<!-- 用户位置：常驻地经度 -->
+		<result property="longitude" column="U_WGS84_LNG" />
+		<!-- 用户位置：常驻地纬度 -->
+		<result property="latitude" column="U_WGS84_LAT" />
+		<!-- 用户信息完成度 -->
+		<result property="degree" column="U_DEGREE" />
+        <!-- 初始化时间 -->
+        <result property="time24" column="U_TIME24"/>
 	</resultMap>
 	
     <select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
@@ -168,15 +210,35 @@
     
     <select id="getAccountProfile" parameterType="string" resultMap="ProfileMap">
 	    SELECT
-			t.U_ID,
 			t.U_UID,
 			t.U_CODE,
 			t.U_APP_ID,
 			t.U_APP_CHANNEL,
 			t.U_APP_VERSION,
 			t.U_ONLINE,
-			t.U_LATEST_ONLINE
-		FROM SYS_AUTHZ_USER_LIST t
+			t.U_LATEST_ONLINE,
+			t2.U_NICKNAME,
+			t2.U_AVATAR,
+			t2.U_COUNTRY_CODE,
+			t2.U_PHONE,
+			t2.U_EMAIL,
+			t2.U_GENDER,
+			t2.U_BIRTHDAY,
+			t2.U_IDCARD,
+			t2.U_AGE,
+			t2.U_HEIGHT,
+			t2.U_WEIGHT,
+			t2.U_LANGUAGE,
+			t2.U_INTRO,
+			t2.U_PHOTOS,
+			t2.U_PROVINCE,
+			t2.U_CITY,
+			t2.U_AREA,
+			t2.U_WGS84_LNG,
+			t2.U_WGS84_LAT,
+			t2.U_DEGREE,
+			t2.U_TIME24
+		FROM SYS_AUTHZ_USER_LIST t LEFT JOIN SYS_AUTHZ_USER_PROFILE t2 ON t.U_ID = t2.U_ID
 	   WHERE t.U_ID = #{userid}
     </select> 
 
