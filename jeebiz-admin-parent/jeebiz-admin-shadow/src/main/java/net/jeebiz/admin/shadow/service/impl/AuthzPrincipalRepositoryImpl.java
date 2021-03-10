@@ -273,7 +273,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				getAuthzRoleDao().setUsers("4", Arrays.asList(userModel.getId()));
 				
 				// 账号状态
-				AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusByUid(userModel.getId());
+				AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(userModel.getId());
 				// 账号不存在 或 用户名或密码不正确
 		   		if(!statusModel.isHasAcc()){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
@@ -291,7 +291,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		// 查询第三方登录信息
 		AuthzThirdpartyModel thirdModel = getThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMP.name(), wxToken.getOpenid());
 		// 账号状态
-		AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusByUid(thirdModel.getUid());
+		AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(thirdModel.getUid());
 		// 账号不存在 或 用户名或密码不正确
    		if(!statusModel.isHasAcc()){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
@@ -379,7 +379,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				getAuthzRoleDao().setUsers("4", Arrays.asList(userModel.getId()));
 				
 				// 账号状态
-				AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusByUid(userModel.getId());
+				AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(userModel.getId());
 				// 账号不存在 或 用户名或密码不正确
 		   		if(!statusModel.isHasAcc()){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
@@ -399,7 +399,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			// 查询第三方登录信息
 			AuthzThirdpartyModel thirdModel = getThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMA.name(), wxToken.getOpenid());
 			// 账号状态
-			AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusByUid(thirdModel.getUid());
+			AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(thirdModel.getUid());
 			// 账号不存在 或 用户名或密码不正确
 			if(!statusModel.isHasAcc()){
 				throw new InvalidAccountException("Username or password is incorrect, please re-enter.");

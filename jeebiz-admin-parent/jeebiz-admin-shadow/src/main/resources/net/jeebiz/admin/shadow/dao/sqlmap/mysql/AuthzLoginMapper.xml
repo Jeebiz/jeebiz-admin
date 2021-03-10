@@ -26,27 +26,6 @@
 		<result property="roleId" column="R_ID" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
 		<result property="roleName" column="R_NAME" />
-		<!-- 角色信息 -->
-		<collection property="roleList" column="{uid=U_ID}" select="getRoleList"></collection>
-	</resultMap>
-	
-	<resultMap id="RoleMap" type="AuthzRoleModel">
-		<!-- 角色ID -->
-		<result property="id" column="R_ID" />
-		<!-- 角色编码 -->
-		<result property="key" column="R_KEY" />
-		<!-- 角色名称 -->
-		<result property="name" column="R_NAME" />
-		<!-- 角色类型（1:原生|2:继承|3:复制|4:自定义） -->
-		<result property="type" column="R_TYPE" />
-		<!-- 角色简介 -->
-		<result property="intro" column="R_INTRO" />
-		<!-- 角色状态（0:禁用|1:可用） -->
-		<result property="status" column="R_STATUS" />
-		<!-- 角色已分配用户量 -->
-		<result property="users" column="R_USERS" />
-		<!-- 初始化时间 -->
-		<result property="time24" column="R_TIME24" />
 	</resultMap>
 	
 	<resultMap id="LoginStatusMap" type="AuthzLoginStatusModel">
@@ -133,11 +112,11 @@
 		from dual
     </select>
 	
-    <select id="getAccountStatusByUid" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-	    select (select CAST(count('1') AS CHAR) from SYS_AUTHZ_USER_LIST a where a.U_ID = #{uid}) U_COUNT,
-		       (select CAST(count('1') AS CHAR) from SYS_AUTHZ_USER_LIST c,SYS_AUTHZ_USER_ROLE_RELATION x where c.U_ID = x.U_ID and c.U_ID = #{uid}) R_COUNT,
-		       IFNULL((select CAST(IFNULL(d.U_STATUS,'0') AS CHAR) from SYS_AUTHZ_USER_LIST d where d.U_ID = #{uid}),'0') U_STATUS,
-		       (select d.U_SALT from SYS_AUTHZ_USER_LIST d where d.U_ID = #{uid}) as U_SALT
+    <select id="getAccountStatusById" parameterType="string" resultMap="LoginStatusMap" useCache="false">
+	    select (select count('1') from SYS_AUTHZ_USER_LIST a where a.U_ID = #{id}) U_COUNT,
+		       (select count('1') from SYS_AUTHZ_USER_LIST c,SYS_AUTHZ_USER_ROLE_RELATION x where c.U_ID = x.U_ID and c.U_ID = #{id}) R_COUNT,
+		       IFNULL((select IFNULL(d.U_STATUS,'0') from SYS_AUTHZ_USER_LIST d where d.U_ID = #{id}),'0') U_STATUS,
+		       (select d.U_SALT from SYS_AUTHZ_USER_LIST d where d.U_ID = #{id}) as U_SALT
 		from dual
     </select>
     
@@ -205,7 +184,7 @@
 				t.U_STATUS,
 				t.U_TIME24
 		   from SYS_AUTHZ_USER_LIST t
-		  where t.U_ID = #{uid}
+		  where t.U_UID = #{uid}
     </select>
     
     <select id="getAccountProfile" parameterType="string" resultMap="ProfileMap">

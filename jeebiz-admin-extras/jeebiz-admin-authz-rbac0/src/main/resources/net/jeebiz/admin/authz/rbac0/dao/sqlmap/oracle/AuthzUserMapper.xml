@@ -370,12 +370,11 @@
 				t.R_TYPE,
 				t.R_INTRO,
 				t.R_STATUS,
-				t.R_RESTRICT,
 				t.R_TIME24
 			FROM SYS_AUTHZ_ROLE_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.R_ID = x.R_ID
 		   WHERE t.R_STATUS = '1' 
 			 AND x.U_ID = #{userId}
-		ORDER BY t.R_NAME ASC
+		ORDER BY x.R_PRTY ASC
 	</select>
 	
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">

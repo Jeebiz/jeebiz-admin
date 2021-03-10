@@ -41,7 +41,7 @@ public interface IAuthzLoginDao extends BaseDao<AuthzLoginModel> {
 	 * @param username : 用户名
 	 * @return 用户账号状态信息
 	 */
-    AuthzLoginStatusModel getAccountStatusByUid(@Param(value = "uid") String uid);
+    AuthzLoginStatusModel getAccountStatusById(@Param(value = "uid") String uid);
     
 	/***
 	 *  根据用户ID和密码查询用户信息
