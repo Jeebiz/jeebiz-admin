@@ -444,7 +444,6 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			}
 			 
 			model.setUserid(model.getUserid());
-			model.setAlias(model.getAlias());
 			model.setPerms(perms);
 			
 			// 有设置角色：构造角色信息
