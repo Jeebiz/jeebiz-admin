@@ -89,5 +89,10 @@ public class AuthzUserDTO {
 	 */
 	@ApiModelProperty(name = "time24", required = true, dataType = "String", value = "初始化时间")
 	private String time24;
-
+	/**
+	 * 用户详情信息
+	 */
+	@ApiModelProperty(name = "profile", required = true, dataType = "AuthzUserProfileDTO", value = "用户详情信息")
+	private AuthzUserProfileDTO profile;
+	
 }

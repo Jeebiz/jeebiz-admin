@@ -77,6 +77,59 @@ comment on column SYS_AUTHZ_USER_LIST.U_LATEST_ONLINE  is '用户最近一次在
 comment on column SYS_AUTHZ_USER_LIST.U_TIME24  is '初始化时间';
 
 -- Create table
+create table SYS_AUTHZ_USER_PROFILE (
+  U_PID   			VARCHAR2(32) default sys_guid() not null,
+  U_ID   			VARCHAR2(32) not null,
+  U_NICKNAME		VARCHAR2(100) not null,
+  U_AVATAR			VARCHAR2(300),
+  U_COUNTRY_CODE	VARCHAR2(20),
+  U_PHONE			VARCHAR2(11),
+  U_EMAIL			VARCHAR2(100),
+  U_BIRTHDAY		VARCHAR2(20),
+  U_GENDER			VARCHAR2(2),
+  U_IDCARD			VARCHAR2(20),
+  U_AGE				VARCHAR2(3),
+  U_HEIGHT			VARCHAR2(4),
+  U_WEIGHT			VARCHAR2(5),
+  U_LANGUAGE		VARCHAR2(50),
+  U_INTRO			VARCHAR2(500),
+  U_PHOTOS			VARCHAR2(2000),
+  U_PROVINCE		VARCHAR2(50),
+  U_CITY			VARCHAR2(50),
+  U_AREA			VARCHAR2(50),
+  U_WGS84_LNG		VARCHAR2(50),
+  U_WGS84_LAT		VARCHAR2(50),
+  U_DEGREE			VARCHAR2(3),
+  U_TIME24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  CONSTRAINT PK_UID PRIMARY KEY(U_PID)
+);
+-- Add comments to the table 
+comment on table SYS_AUTHZ_USER_PROFILE  is '用户描述信息表';
+-- Add comments to the columns 
+comment on column SYS_AUTHZ_USER_PROFILE.U_PID  is '用户描述ID';
+comment on column SYS_AUTHZ_USER_PROFILE.U_ID  is '用户ID';
+comment on column SYS_AUTHZ_USER_PROFILE.U_NICKNAME  is '用户昵称';
+comment on column SYS_AUTHZ_USER_PROFILE.U_AVATAR  is '用户头像：图片路径或图标样式';
+comment on column SYS_AUTHZ_USER_PROFILE.U_PHONE  is '手机号码';
+comment on column SYS_AUTHZ_USER_PROFILE.U_EMAIL  is '邮箱地址';
+comment on column SYS_AUTHZ_USER_PROFILE.U_BIRTHDAY  is '出生日期';
+comment on column SYS_AUTHZ_USER_PROFILE.U_GENDER  is '性别：（M：男，F：女）';
+comment on column SYS_AUTHZ_USER_PROFILE.U_IDCARD  is '身份证号码';
+comment on column SYS_AUTHZ_USER_PROFILE.U_AGE  is '用户年龄';
+comment on column SYS_AUTHZ_USER_PROFILE.U_HEIGHT  is '用户身高';
+comment on column SYS_AUTHZ_USER_PROFILE.U_WEIGHT  is '用户体重';
+comment on column SYS_AUTHZ_USER_PROFILE.U_LANGUAGE  is '官方语言';
+comment on column SYS_AUTHZ_USER_PROFILE.U_INTRO  is '用户简介';
+comment on column SYS_AUTHZ_USER_PROFILE.U_PHOTOS  is '个人生活照片（包含是否封面标记、序号、地址的JSON字符串）';
+comment on column SYS_AUTHZ_USER_PROFILE.U_PROVINCE  is '用户位置：常驻省份';
+comment on column SYS_AUTHZ_USER_PROFILE.U_CITY  is '用户位置：常驻城市';
+comment on column SYS_AUTHZ_USER_PROFILE.U_AREA  is '用户位置：常驻区域';
+comment on column SYS_AUTHZ_USER_PROFILE.U_WGS84_LNG  is '用户位置：wgs84经度';
+comment on column SYS_AUTHZ_USER_PROFILE.U_WGS84_LAT  is '用户位置：wgs84纬度';
+comment on column SYS_AUTHZ_USER_PROFILE.U_DEGREE  is '用户信息完成度';
+comment on column SYS_AUTHZ_USER_PROFILE.U_TIME24  is '初始化时间';
+
+-- Create table
 create table SYS_AUTHZ_USER_ROLE_RELATION (
   U_ID   			VARCHAR2(32) not null,
   R_ID   			VARCHAR2(32) not null,

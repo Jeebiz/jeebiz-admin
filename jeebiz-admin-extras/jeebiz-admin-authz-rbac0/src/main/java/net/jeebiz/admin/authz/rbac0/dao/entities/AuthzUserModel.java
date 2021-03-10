@@ -101,7 +101,10 @@ public class AuthzUserModel extends PaginationModel<AuthzUserModel> {
 	 * 用户关联角色:这里这么写是为了提高前端渲染效率
 	 */
 	private List<PairModel> roleList = Lists.newArrayList();
-	
+	/**
+	 * 用户详情信息
+	 */
+	private AuthzUserProfileModel profile;
 
 	public String getRoleId() {
 		return StringUtils.defaultString(roleId, CollectionUtils.isEmpty(roleList) ? "" : roleList.stream().map(mapper -> mapper.getKey()).collect(Collectors.joining(",")));

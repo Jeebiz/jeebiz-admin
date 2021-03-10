@@ -35,8 +35,59 @@
 		<result property="roleId" column="R_ID" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
 		<result property="roleName" column="R_NAME" />
+		<!-- 用户描述信息 ：使用select引用,可以设置延迟加载方式 -->
+        <association property="profile" column="{uid=U_ID}" select="getProfile" fetchType="lazy"/>
 		<!-- 角色信息 -->
 		<collection property="roleList" column="{uid=U_ID}" select="getRoleList"></collection>
+	</resultMap>
+	
+	<resultMap id="UserProfileMap" type="AuthzUserProfileModel">
+        <!-- 用户描述ID -->
+		<result property="id" column="U_PID" />
+		<!-- 用户ID -->
+		<result property="uid" column="U_ID" />
+        <!-- 用户别名（昵称） -->
+        <result property="nickname" column="U_NICKNAME"/>
+        <!-- 用户头像：图片路径或图标样式  -->
+		<result property="avatar" column="U_AVATAR" />
+        <!-- 手机号码国家码 -->
+        <result property="countryCode" column="U_COUNTRY_CODE"/>
+        <!-- 手机号码 -->
+        <result property="phone" column="U_PHONE"/>
+        <!-- 电子邮箱 -->
+        <result property="email" column="U_EMAIL"/>
+        <!-- 性别：（M：男，F：女） -->
+        <result property="gender" column="U_GENDER" />
+        <!-- 出生日期 -->
+		<result property="birthday" column="U_BIRTHDAY" />
+		<!-- 身份证号码 -->
+		<result property="idcard" column="U_IDCARD" />
+		<!-- 用户年龄 -->
+		<result property="age" column="U_AGE" />
+		<!-- 用户身高 -->
+		<result property="height" column="U_HEIGHT" />
+		<!-- 用户体重 -->
+		<result property="weight" column="U_WEIGHT" />
+		<!-- 官方语言 -->
+		<result property="language" column="U_LANGUAGE" />
+		<!-- 用户备注 -->
+		<result property="intro" column="U_INTRO" />
+		<!-- 个人照片（包含是否封面标记、序号、地址的JSON字符串） -->
+		<result property="photos" column="U_PHOTOS" />
+		<!-- 用户位置：常驻省份 -->
+		<result property="province" column="U_PROVINCE" />
+		<!-- 用户位置：常驻城市 -->
+		<result property="city" column="U_CITY" />
+		<!-- 用户位置：常驻区域 -->
+		<result property="area" column="U_AREA" />
+		<!-- 用户位置：常驻地经度 -->
+		<result property="longitude" column="U_WGS84_LNG" />
+		<!-- 用户位置：常驻地纬度 -->
+		<result property="latitude" column="U_WGS84_LAT" />
+		<!-- 用户信息完成度 -->
+		<result property="degree" column="U_DEGREE" />
+        <!-- 初始化时间 -->
+        <result property="time24" column="U_TIME24"/>
 	</resultMap>
 	
 	<resultMap id="RoleMap" type="AuthzRoleModel">
@@ -331,6 +382,35 @@
 		INNER JOIN SYS_AUTHZ_ROLE_PERMS y ON t.R_ID = y.R_ID
 		WHERE x.U_ID = #{userId}
 		ORDER BY x.R_PRTY ASC
+	</select>
+	
+	<select id="getProfile" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.U_PID,
+			t.U_ID,
+			t.U_NICKNAME,
+			t.U_AVATAR,
+			t.U_COUNTRY_CODE,
+			t.U_PHONE,
+			t.U_EMAIL,
+			t.U_GENDER,
+			t.U_BIRTHDAY,
+			t.U_IDCARD,
+			t.U_AGE,
+			t.U_HEIGHT,
+			t.U_WEIGHT,
+			t.U_LANGUAGE,
+			t.U_INTRO,
+			t.U_PHOTOS,
+			t.U_PROVINCE,
+			t.U_CITY,
+			t.U_AREA,
+			t.U_WGS84_LNG,
+			t.U_WGS84_LAT,
+			t.U_DEGREE,
+			t.U_TIME24
+		FROM SYS_AUTHZ_USER_PROFILE t
+	   WHERE t.U_ID = #{uid}
 	</select>
 
 </mapper>

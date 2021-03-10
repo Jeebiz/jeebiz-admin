@@ -53,6 +53,41 @@ CREATE TABLE `SYS_AUTHZ_USER_LIST` (
   UNIQUE KEY `idx_uuid` (`U_UID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户账户信息表';
 
+
+-- ----------------------------
+-- Table structure for SYS_AUTHZ_USER_PROFILE
+-- ----------------------------
+DROP TABLE IF EXISTS `SYS_AUTHZ_USER_PROFILE`;
+CREATE TABLE `SYS_AUTHZ_USER_PROFILE` (
+  `U_PID` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户描述ID',
+  `U_ID` bigint(11) NOT NULL COMMENT '用户ID',
+  `U_NICKNAME` varchar(50) DEFAULT NULL COMMENT '用户昵称',
+  `U_AVATAR` varchar(500) DEFAULT NULL COMMENT '用户头像：图片路径或图标样式',
+  `U_COUNTRY_CODE` varchar(20) DEFAULT NULL COMMENT '手机号码国家码',
+  `U_PHONE` varchar(11) DEFAULT NULL COMMENT '手机号码',
+  `U_EMAIL` varchar(100) DEFAULT NULL COMMENT '邮箱地址',
+  `U_BIRTHDAY` varchar(20) DEFAULT NULL COMMENT '出生日期',
+  `U_GENDER` smallint(2) DEFAULT NULL COMMENT '性别：（1：男，2：女）',
+  `U_IDCARD` varchar(20) DEFAULT NULL COMMENT '身份证号码',
+  `U_AGE` int(3) DEFAULT NULL COMMENT '用户年龄',
+  `U_HEIGHT` varchar(20) DEFAULT NULL COMMENT '用户身高',
+  `U_WEIGHT` varchar(20) DEFAULT NULL COMMENT '用户体重',
+  `U_LANGUAGE` varchar(50) DEFAULT NULL COMMENT '官方语言',  
+  `U_INTRO` varchar(500) DEFAULT NULL COMMENT '用户简介',
+  `U_PHOTOS` varchar(2000) DEFAULT NULL COMMENT '个人生活照片（包含是否封面标记、序号、地址的JSON字符串）',
+  `U_PROVINCE` varchar(50) DEFAULT NULL COMMENT '用户位置：常驻省份',
+  `U_CITY` varchar(50) DEFAULT NULL COMMENT '用户位置：常驻城市',
+  `U_AREA` varchar(50) DEFAULT NULL COMMENT '用户位置：常驻区域',
+  `U_WGS84_LNG` decimal(10,6) DEFAULT NULL COMMENT '用户位置：wgs84经度',
+  `U_WGS84_LAT` decimal(10,6) DEFAULT NULL COMMENT '用户位置：wgs84纬度',
+  `U_DEGREE` int(3) DEFAULT '0' COMMENT '用户信息完成度',
+  `U_TIME24` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '初始化时间',
+  PRIMARY KEY (`U_PID`),
+  UNIQUE KEY `idx_uid` (`U_ID`) USING BTREE,
+  UNIQUE KEY `idx_phone` (`U_PHONE`) USING BTREE,
+  UNIQUE KEY `idx_nickname` (`U_NICKNAME`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户描述信息表';
+
 -- ----------------------------
 -- Table structure for SYS_AUTHZ_USER_ROLE_RELATION
 -- ----------------------------

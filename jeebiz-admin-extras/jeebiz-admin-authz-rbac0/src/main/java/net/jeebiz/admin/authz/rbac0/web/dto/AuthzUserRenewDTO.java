@@ -47,6 +47,10 @@ public class AuthzUserRenewDTO {
 	@ApiModelProperty(name = "roleId", required = true, dataType = "String", value = "角色ID")
 	@NotBlank(message = "角色必选")
 	private String roleId;
-	
+	/**
+	 * 用户详情信息
+	 */
+	@ApiModelProperty(name = "profile", required = true, dataType = "AuthzUserProfileRenewDTO", value = "用户详情信息")
+	private AuthzUserProfileRenewDTO profile;
 
 }
