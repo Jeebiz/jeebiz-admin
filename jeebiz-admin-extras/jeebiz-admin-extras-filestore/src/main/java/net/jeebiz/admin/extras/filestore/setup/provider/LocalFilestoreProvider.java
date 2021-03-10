@@ -80,7 +80,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			
 			model.setUuid(uuid);
-			model.setUid(principal.getUserkey());
+			model.setUid(principal.getUserid());
 			model.setName(file.getOriginalFilename());
 			model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
 			model.setTo(FilestoreEnum.LOCAL.getKey());
@@ -123,7 +123,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 				FilestoreModel model = new FilestoreModel();
 				
 				model.setUuid(uuid);
-				model.setUid(principal.getUserkey());
+				model.setUid(principal.getUserid());
 				model.setName(file.getOriginalFilename());
 				model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
 				model.setTo(FilestoreEnum.LOCAL.getKey());

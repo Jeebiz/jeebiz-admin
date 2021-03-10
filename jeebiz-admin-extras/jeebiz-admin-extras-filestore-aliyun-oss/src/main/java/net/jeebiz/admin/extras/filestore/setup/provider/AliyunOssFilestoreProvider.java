@@ -264,7 +264,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			
 			model.setUuid(uuid);
-			model.setUid(principal.getUserkey());
+			model.setUid(principal.getUserid());
 			model.setName(file.getOriginalFilename());
 			model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
 			model.setTo(FilestoreEnum.OSS_ALIYUN.getKey());
@@ -318,7 +318,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 				
 				String uuid = UUID.randomUUID().toString();
 				model.setUuid(uuid);
-				model.setUid(principal.getUserkey());
+				model.setUid(principal.getUserid());
 				model.setName(file.getOriginalFilename());
 				model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
 				model.setTo(FilestoreEnum.OSS_ALIYUN.getKey());
@@ -426,7 +426,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		
 		// 文件存储记录对象
 		model.setUuid(uuid1);
-		model.setUid(principal.getUserkey());
+		model.setUid(principal.getUserid());
 		model.setName(file.getOriginalFilename());
 		model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
 		model.setTo(FilestoreEnum.OSS_ALIYUN.getKey());
