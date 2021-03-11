@@ -183,8 +183,8 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		//	用户主体对象
    		AuthzLoginModel model = getAuthzLoginDao().getAccountWithoutPwd(username);
    		//	系统没有钉钉userid对应的用户数据，表示第一次扫码登陆
-		/*if(model == null) {
-			
+		if(model == null) {
+			/*
 			logger.debug(JSONObject.toJSONString(dingTalkToken));
 				
 			// 	构建新增用户数据信息
@@ -206,10 +206,10 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			// 	查询用户信息
 			model = getAuthzLoginDao().getAccountById(detailModel.getId());
 			model.setInitial(true);
-			
+			*/
 		} else {
 			model.setInitial(false);
-		}*/
+		}
    		if(model == null){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
    		}
@@ -436,8 +436,8 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				userProfileModel.setCity(userInfo.getCity());
 				userProfileModel.setGender(userInfo.getGender());
 				userProfileModel.setLanguage(userInfo.getLanguage());
-				userProfileModel.setCountryCode(phoneNumberInfo.getCountryCode());
-				userProfileModel.setPhone(phoneNumberInfo.getPhoneNumber());
+				userProfileModel.setCountryCode(Objects.nonNull(phoneNumberInfo) ? phoneNumberInfo.getPurePhoneNumber() : "86");
+				userProfileModel.setPhone(Objects.nonNull(phoneNumberInfo) ? phoneNumberInfo.getPhoneNumber() : "");
 				getAuthzThirdpartyUserProfileDao().insert(userProfileModel);
 				
 				// 创建本地关联用户第三方登录信息
