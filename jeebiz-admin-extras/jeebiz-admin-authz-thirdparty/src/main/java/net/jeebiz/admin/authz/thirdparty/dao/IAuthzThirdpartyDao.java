@@ -7,9 +7,8 @@ package net.jeebiz.admin.authz.thirdparty.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
-import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserModel;
+import net.jeebiz.boot.api.dao.BaseDao;
 /**
  * 第三方账号登录DAO
  * @author hiwepy
@@ -26,12 +25,27 @@ public interface IAuthzThirdpartyDao extends BaseDao<AuthzThirdpartyModel>{
 	AuthzThirdpartyModel getModelByUid(@Param("type") String type, @Param("uid") String uid);
 	
 	/**
+	 * 根据UnionId查询该第三方登录账户
+	 * @param type 第三方账号类型
+	 * @param unionid
+	 * @return
+	 */
+	AuthzThirdpartyModel getModelByUnionId(@Param("type") String type, @Param("unionid") String unionid);
+	
+	/**
 	 * 根据OpenID查询该第三方登录账户
 	 * @param type 第三方账号类型
 	 * @param openid
 	 * @return
 	 */
 	AuthzThirdpartyModel getModelByOpenId(@Param("type") String type, @Param("openid") String openid);
+	
+	/**
+	 * 根据第三方平台UnionId查询对应的绑定数据
+	 * @param unionid
+	 * @return
+	 */
+	int getCountByUnionId(@Param("unionid") String unionid);
 	
 	/**
 	 * 根据第三方平台OpenID查询对应的绑定数据
@@ -41,12 +55,5 @@ public interface IAuthzThirdpartyDao extends BaseDao<AuthzThirdpartyModel>{
 	int getCountByOpenId(@Param("openid") String openid);
 
 	int getCountByUid(@Param("type") String type, @Param("uid") String uid);
-	
-	/**
-	 * 增加用户记录
-	 * @param model
-	 * @return
-	 */
-	public int insertUser(AuthzThirdpartyUserModel model);
 	
 }

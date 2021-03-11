@@ -2,15 +2,21 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.authz.rbac0.dao.entities;
+package net.jeebiz.admin.authz.thirdparty.dao.entities;
 
 import org.apache.ibatis.type.Alias;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import net.jeebiz.boot.api.dao.entities.BaseModel;
 
-@Alias(value = "AuthzUserProfileModel")
-@Data
-public class AuthzUserProfileModel {
+@Alias(value = "AuthzThirdpartyUserProfileModel")
+@SuppressWarnings("serial")
+@Getter
+@Setter
+@ToString
+public class AuthzThirdpartyUserProfileModel extends BaseModel<AuthzThirdpartyUserProfileModel> {
 	
 	/**
 	 * 用户详情Id
@@ -104,9 +110,5 @@ public class AuthzUserProfileModel {
 	 *用户信息完成度
 	 */
 	private int degree;
-	/**
-	 * 初始化时间
-	 */
-	private String time24;
 	
 }

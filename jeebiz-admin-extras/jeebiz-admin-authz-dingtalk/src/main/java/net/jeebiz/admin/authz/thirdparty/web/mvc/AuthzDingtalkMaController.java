@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.authz.thirdparty.web.mvc;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -43,6 +44,7 @@ import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.web.BaseMapperController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 第三方账号登录：授权维护
@@ -141,8 +143,8 @@ public class AuthzDingtalkMaController extends BaseMapperController {
 	})
 	@PostMapping("binding")
 	@ResponseBody
-	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzDingtalkBindDTO bindDTO) throws Exception { 
-		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(bindDTO);
+	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzDingtalkBindDTO bindDTO, @ApiIgnore HttpServletRequest request) throws Exception { 
+		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(request, bindDTO);
 		if(model != null) {
 			return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("authz.dingtalk.binding.success"), model);
 		}

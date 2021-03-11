@@ -4,6 +4,8 @@
  */
 package net.jeebiz.admin.authz.thirdparty.setup.provider;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,7 @@ public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzD
 	}
 	
 	@Override
-	public AuthzThirdpartyModel binding(AuthzDingtalkBindDTO bindDTO) throws AuthenticationException {
+	public AuthzThirdpartyModel binding(HttpServletRequest request, AuthzDingtalkBindDTO bindDTO) throws AuthenticationException {
 		
 		try {
 			

@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -43,6 +44,7 @@ import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.web.BaseMapperController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 第三方账号登录：微信（小程序）认证登录
@@ -105,9 +107,9 @@ public class AuthzWeixinMaController extends BaseMapperController {
 	})
 	@PostMapping("binding")
 	@ResponseBody
-	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzWeixinMaBindDTO bindDTO) throws Exception { 
+	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzWeixinMaBindDTO bindDTO, @ApiIgnore HttpServletRequest request) throws Exception { 
 		bindDTO.setType(ThirdpartyType.WXMA);
-		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(bindDTO);
+		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(request, bindDTO);
 		if(model != null) {
 			return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("authz.weixin.binding.success"), model);
 		}

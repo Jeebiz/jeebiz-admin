@@ -7,6 +7,8 @@ package net.jeebiz.admin.authz.thirdparty.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +35,10 @@ public class AuthzThirdpartyServiceImpl extends BaseServiceImpl<AuthzThirdpartyM
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public <T extends AbstractBindDTO> AuthzThirdpartyDTO binding(T bindDTO) throws AuthenticationException {
+	public <T extends AbstractBindDTO> AuthzThirdpartyDTO binding(HttpServletRequest request, T bindDTO) throws AuthenticationException {
 		for (ThirdpartyBindingProvider provider : getBindingProviders()) {
 			if(provider.getType().equals(bindDTO.getType())) {
-				AuthzThirdpartyModel model = provider.binding(bindDTO);
+				AuthzThirdpartyModel model = provider.binding(request, bindDTO);
 				return getBeanMapper().map(model, AuthzThirdpartyDTO.class);
 			}
 		}

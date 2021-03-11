@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,6 +46,7 @@ import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.utils.RandomString;
 import net.jeebiz.boot.api.web.BaseMapperController;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 第三方账号登录：微信（公共号、服务号）认证登录
@@ -158,9 +160,9 @@ public class AuthzWeixinMpController extends BaseMapperController {
 	})
 	@PostMapping("binding")
 	@ResponseBody
-	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzWeixinMpBindDTO bindDTO) throws Exception { 
+	public ApiRestResponse<AuthzThirdpartyDTO> binding(@Valid @RequestBody AuthzWeixinMpBindDTO bindDTO, @ApiIgnore HttpServletRequest request) throws Exception { 
 		bindDTO.setType(ThirdpartyType.WXMP);
-		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(bindDTO);
+		AuthzThirdpartyDTO model = getAuthzThirdpartyService().binding(request, bindDTO);
 		if(model != null) {
 			return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("authz.thirdparty.binding.success"), model);
 		}

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserProfileDao">
+	
+	<resultMap id="UserProfileMap" type="AuthzThirdpartyUserProfileModel">
+        <!-- 用户描述ID -->
+		<result property="id" column="U_PID" />
+		<!-- 用户ID -->
+		<result property="uid" column="U_ID" />
+        <!-- 用户别名（昵称） -->
+        <result property="nickname" column="U_NICKNAME"/>
+        <!-- 用户头像：图片路径或图标样式  -->
+		<result property="avatar" column="U_AVATAR" />
+        <!-- 手机号码国家码 -->
+        <result property="countryCode" column="U_COUNTRY_CODE"/>
+        <!-- 手机号码 -->
+        <result property="phone" column="U_PHONE"/>
+        <!-- 电子邮箱 -->
+        <result property="email" column="U_EMAIL"/>
+        <!-- 性别：（M：男，F：女） -->
+        <result property="gender" column="U_GENDER" />
+        <!-- 出生日期 -->
+		<result property="birthday" column="U_BIRTHDAY" />
+		<!-- 身份证号码 -->
+		<result property="idcard" column="U_IDCARD" />
+		<!-- 用户年龄 -->
+		<result property="age" column="U_AGE" />
+		<!-- 用户身高 -->
+		<result property="height" column="U_HEIGHT" />
+		<!-- 用户体重 -->
+		<result property="weight" column="U_WEIGHT" />
+		<!-- 官方语言 -->
+		<result property="language" column="U_LANGUAGE" />
+		<!-- 用户备注 -->
+		<result property="intro" column="U_INTRO" />
+		<!-- 个人照片（包含是否封面标记、序号、地址的JSON字符串） -->
+		<result property="photos" column="U_PHOTOS" />
+		<!-- 用户位置：常驻省份 -->
+		<result property="province" column="U_PROVINCE" />
+		<!-- 用户位置：常驻城市 -->
+		<result property="city" column="U_CITY" />
+		<!-- 用户位置：常驻区域 -->
+		<result property="area" column="U_AREA" />
+		<!-- 用户位置：常驻地经度 -->
+		<result property="longitude" column="U_WGS84_LNG" />
+		<!-- 用户位置：常驻地纬度 -->
+		<result property="latitude" column="U_WGS84_LAT" />
+		<!-- 用户信息完成度 -->
+		<result property="degree" column="U_DEGREE" />
+        <!-- 初始化时间 -->
+        <result property="time24" column="U_TIME24"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="AuthzThirdpartyUserProfileModel" flushCache="true">
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">
+			SELECT sys_guid() FROM dual
+		</selectKey>
+		INSERT INTO SYS_AUTHZ_USER_PROFILE(U_PID, U_ID, U_NICKNAME, U_AVATAR, U_COUNTRY_CODE, U_PHONE, 
+			U_EMAIL, U_BIRTHDAY, U_GENDER, U_IDCARD, 
+			U_AGE, U_HEIGHT, U_WEIGHT, U_LANGUAGE, U_INTRO, 
+			U_PHOTOS, U_PROVINCE, U_CITY, U_AREA, 
+			U_WGS84_LNG, U_WGS84_LAT, U_DEGREE)
+		VALUES(#{id},#{uid},#{nickname},#{avatar},#{countryCode,jdbcType=VARCHAR}, #{phone},
+			#{email,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{gender}, #{idcard,jdbcType=VARCHAR},
+			#{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, #{language,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR},
+			#{photos,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR},#{area,jdbcType=VARCHAR},
+			#{longitude,jdbcType=DOUBLE},#{latitude,jdbcType=DOUBLE},#{degree,jdbcType=INTEGER})
+	</insert>
+	
+	<delete id="delete" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_AUTHZ_USER_PROFILE WHERE U_ID = #{id}
+	</delete>
+	
+	<update id="update" parameterType="AuthzThirdpartyUserProfileModel" flushCache="true">
+		update SYS_AUTHZ_USER_PROFILE t
+		<set>
+			<if test="nickname != null and nickname != ''">t.U_NICKNAME = #{nickname},</if>
+			<if test="avatar != null and avatar != ''">t.U_AVATAR = #{avatar},</if>
+			<if test="countryCode != null and countryCode != ''">t.U_COUNTRY_CODE = #{countryCode},</if>
+			<if test="phone != null and phone != ''">t.U_PHONE = #{phone},</if>
+			<if test="email != null and email != ''">t.U_EMAIL = #{email},</if>
+			<if test="gender != null and gender != ''">t.U_GENDER = #{gender},</if>
+			<if test="birthday != null and birthday != ''">t.U_BIRTHDAY = #{birthday},</if>
+			<if test="idcard != null and idcard != ''">t.U_IDCARD = #{idcard},</if>
+			<if test="age > 0">t.U_AGE = #{age},</if>
+			<if test="height > 0">t.U_HEIGHT = #{height},</if>
+			<if test="weight > 0">t.U_WEIGHT = #{weight},</if>
+			<if test="language != null and language != ''">t.U_LANGUAGE = #{language},</if>
+			<if test="intro != null and intro != ''">t.U_INTRO = #{intro},</if>
+			<if test="photos != null and photos != ''">t.U_PHOTOS = #{photos},</if>
+			<if test="province != null and province != ''">t.U_PROVINCE = #{province},</if>
+			<if test="city != null and city != ''">t.U_CITY = #{city},</if>
+			<if test="area != null and area != ''">t.U_AREA = #{area},</if>
+			<if test="longitude > 0">t.U_WGS84_LNG = #{longitude},</if>
+			<if test="latitude > 0">t.U_WGS84_LAT = #{latitude},</if>
+			<if test="degree > 0">t.U_DEGREE = #{degree}</if>
+		</set>
+		where t.U_ID = #{id}
+	</update>
+	
+	<select id="getCountByPhone" resultType="int" parameterType="java.lang.String" useCache="false">
+	   SELECT COUNT(1) 
+		 FROM SYS_AUTHZ_USER_PROFILE t 
+		WHERE t.U_PHONE = #{phone}
+		<if test="origin != null and origin != ''">
+		   AND t.U_PID != #{origin}
+		 </if>
+		  AND ROWNUM = 1
+	</select>
+
+	<select id="getCountByEmail" resultType="int" parameterType="java.lang.String" useCache="false">
+	   SELECT COUNT(1) 
+		 FROM SYS_AUTHZ_USER_PROFILE t 
+		WHERE t.U_EMAIL = #{email}
+		 <if test="origin != null and origin != ''">
+		   AND t.U_PID != #{origin}
+		 </if>
+		AND ROWNUM = 1
+	</select>
+	
+	<select id="getCountByIdcard" resultType="int" parameterType="java.lang.String" useCache="false">
+	   SELECT COUNT(1) 
+		 FROM SYS_AUTHZ_USER_PROFILE t 
+		WHERE t.U_IDCARD = #{idcard}
+		 <if test="origin != null and origin != ''">
+		   AND t.U_PID != #{origin}
+		 </if>
+		 AND ROWNUM = 1
+	</select>
+	
+	<select id="getModel" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.U_PID,
+			t.U_ID,
+			t.U_NICKNAME,
+			t.U_AVATAR,
+			t.U_COUNTRY_CODE,
+			t.U_PHONE,
+			t.U_EMAIL,
+			t.U_GENDER,
+			t.U_BIRTHDAY,
+			t.U_IDCARD,
+			t.U_AGE,
+			t.U_HEIGHT,
+			t.U_WEIGHT,
+			t.U_LANGUAGE,
+			t.U_INTRO,
+			t.U_PHOTOS,
+			t.U_PROVINCE,
+			t.U_CITY,
+			t.U_AREA,
+			t.U_WGS84_LNG,
+			t.U_WGS84_LAT,
+			t.U_DEGREE,
+			t.U_TIME24
+		FROM SYS_AUTHZ_USER_PROFILE t
+	   WHERE t.U_ID = #{id}
+	</select>
+	
+</mapper>

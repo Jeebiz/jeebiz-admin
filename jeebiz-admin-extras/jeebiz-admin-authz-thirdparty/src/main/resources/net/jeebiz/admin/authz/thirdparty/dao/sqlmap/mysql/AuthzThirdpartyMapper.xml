@@ -23,33 +23,9 @@
 		<result property="time24" column="T_TIME24" />
 	</resultMap>
 	
-	<resultMap id="ThirdpartyUserMap" type="AuthzThirdpartyUserModel">
-		<result property="id" column="U_ID" />
-		<result property="username" column="U_USERNAME" />
-		<result property="password" column="U_PASSWORD" />
-		<result property="salt" column="U_SALT" />
-		<result property="secret" column="U_SECRET" />
-		<result property="alias" column="U_ALIAS" />
-		<result property="avatar" column="U_AVATAR" />
-		<result property="phone" column="U_PHONE" />
-		<result property="email" column="U_EMAIL" />		
-		<result property="gender" column="U_GENDER" />
-		<result property="birthday" column="U_BIRTHDAY" />
-		<result property="idcard" column="U_IDCARD" />
-		<result property="remark" column="U_REMARK" />
-		<result property="status" column="U_STATUS" />
-		<result property="time24" column="U_TIME24" />
-	</resultMap>
-	
-	<insert id="insertUser" parameterType="AuthzThirdpartyUserModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-	    insert into SYS_AUTHZ_USER_LIST(U_USERNAME,U_ALIAS,U_SALT,U_PASSWORD,U_AVATAR,U_PHONE,U_EMAIL,U_GENDER,U_BIRTHDAY,U_IDCARD,U_UID,U_CODE,U_REMARK,U_STATUS)
-		values(#{username},#{alias},#{salt},#{password},#{avatar,jdbcType=VARCHAR},#{phone},#{email,jdbcType=VARCHAR},#{gender,jdbcType=VARCHAR},#{birthday,jdbcType=VARCHAR},
-		#{idcard,jdbcType=VARCHAR},#{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{remark,jdbcType=CLOB},'1')
-	</insert>
-	
 	<insert id="insert" parameterType="AuthzThirdpartyModel" flushCache="true">
 	    insert into SYS_AUTHZ_USER_THIRDPARTY(U_ID,T_TYPE,T_UNIONID,T_OPENID,T_DEVID,T_RAWDATA)
-		values(#{uid},#{type},#{unionid,jdbcType=VARCHAR},#{openid},#{devid,jdbcType=VARCHAR},#{rawdata,jdbcType=VARCHAR})
+		values(#{uid,jdbcType=VARCHAR},#{type},#{unionid,jdbcType=VARCHAR},#{openid,jdbcType=VARCHAR},#{devid,jdbcType=VARCHAR},#{rawdata,jdbcType=VARCHAR})
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
@@ -60,92 +36,138 @@
         DELETE FROM SYS_AUTHZ_USER_THIRDPARTY t WHERE t.U_ID = #{uid}
     </delete>
     
+    <update id="updateByUnionId" parameterType="java.lang.String"  flushCache="true">
+	   UPDATE SYS_AUTHZ_USER_THIRDPARTY t 
+		  SET t.U_ID = #{uid}
+		WHERE t.T_UNIONID = #{unionid}
+	</update>
+	
+    <update id="updateByOpenId" parameterType="java.lang.String"  flushCache="true">
+		 UPDATE SYS_AUTHZ_USER_THIRDPARTY t 
+		  SET t.U_ID = #{uid}
+		WHERE t.T_OPENID = #{openid}
+	</update>
+	
 	<select id="getCount" resultType="int" parameterType="AuthzThirdpartyModel" useCache="false">
-		SELECT count(t.F_ID) 
+		SELECT COUNT(1) 
 		  FROM SYS_AUTHZ_USER_THIRDPARTY t 
 		 WHERE t.U_ID = #{uid}
 		   AND t.T_TYPE = #{type}
-		<if test="id != null and id != ''">
+		  <if test="id != null and id != ''">
 			AND t.T_ID != #{id}
-		 </if>
+		  </if>
+		 LIMIT 1
 	</select>
 	
 	<select id="getCountByUid" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.T_ID) 
+		SELECT COUNT(1) 
 		  FROM SYS_AUTHZ_USER_THIRDPARTY t 
 		 WHERE t.U_ID = #{uid}
 		   AND t.T_TYPE = #{type}
+		  LIMIT 1
+	</select>
+	
+	<select id="getCountByUnionId" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT COUNT(1) 
+		  FROM SYS_AUTHZ_USER_THIRDPARTY t 
+		 WHERE t.T_UNIONID = #{unionid}
+		 LIMIT 1
+	</select>
+	
+	<select id="getBindCountByUnionId" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT COUNT(1) 
+		  FROM SYS_AUTHZ_USER_THIRDPARTY t
+		 WHERE t.T_UNIONID = #{unionid}
+		   AND t.U_ID IS NOT NULL
+		 LIMIT 1
 	</select>
 	
 	<select id="getCountByOpenId" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.T_ID) 
+		SELECT COUNT(1) 
 		  FROM SYS_AUTHZ_USER_THIRDPARTY t 
 		 WHERE t.T_OPENID = #{openid}
+		 LIMIT 1
+	</select>
+	
+	<select id="getBindCountByOpenId" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT COUNT(1) 
+		  FROM SYS_AUTHZ_USER_THIRDPARTY t
+		 WHERE t.T_OPENID = #{openid}
+		   AND t.U_ID IS NOT NULL
+		 LIMIT 1
 	</select>
 	
 	<select id="getModelByUid" resultMap="ThirdpartyMap" parameterType="java.lang.String" useCache="true">
 		SELECT
+			t.T_ID,
 			t.U_ID,
-			IFNULL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
-			t2.T_ID,
-			t2.T_TYPE,
-			t2.T_UNIONID,
-			t2.T_OPENID,
-			t2.T_DEVID,
-			t2.T_RAWDATA,
-			t2.T_TIME24
-		FROM SYS_AUTHZ_USER_LIST t
-		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
-	   WHERE t2.U_ID = #{uid}
-	     AND t2.T_TYPE = #{type}
+			t.T_TYPE,
+			t.T_UNIONID,
+			t.T_OPENID,
+			t.T_DEVID,
+			t.T_RAWDATA,
+			t.T_TIME24
+		FROM SYS_AUTHZ_USER_THIRDPARTY t
+	   WHERE t.U_ID = #{uid}
+	     AND t.T_TYPE = #{type}
+	</select>
+	
+	<select id="getModelByUnionId" resultMap="ThirdpartyMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.T_ID,
+			t.U_ID,
+			t.T_TYPE,
+			t.T_UNIONID,
+			t.T_OPENID,
+			t.T_DEVID,
+			t.T_RAWDATA,
+			t.T_TIME24
+		FROM SYS_AUTHZ_USER_THIRDPARTY t
+	   WHERE t.T_UNIONID = #{unionid}
+	     AND t.T_TYPE = #{type}
 	</select>
 	
 	<select id="getModelByOpenId" resultMap="ThirdpartyMap" parameterType="java.lang.String" useCache="true">
 		SELECT
+			t.T_ID,
 			t.U_ID,
-			IFNULL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
-			t2.T_ID,
-			t2.T_TYPE,
-			t2.T_UNIONID,
-			t2.T_OPENID,
-			t2.T_DEVID,
-			t2.T_RAWDATA,
-			t2.T_TIME24
-		FROM SYS_AUTHZ_USER_LIST t
-		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
-	   WHERE t2.T_OPENID = #{openid}
-	     AND t2.T_TYPE = #{type}
+			t.T_TYPE,
+			t.T_UNIONID,
+			t.T_OPENID,
+			t.T_DEVID,
+			t.T_RAWDATA,
+			t.T_TIME24
+		FROM SYS_AUTHZ_USER_THIRDPARTY t
+	   WHERE t.T_OPENID = #{openid}
+	     AND t.T_TYPE = #{type}
 	</select>
 	
 	<select id="getModel" resultMap="ThirdpartyMap" parameterType="java.lang.String" useCache="true">
 		SELECT
+			t.T_ID,
 			t.U_ID,
-			IFNULL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
-			t2.T_ID,
-			t2.T_TYPE,
-			t2.T_UNIONID,
-			t2.T_OPENID,
-			t2.T_DEVID,
-			t2.T_RAWDATA,
-			t2.T_TIME24
-		FROM SYS_AUTHZ_USER_LIST t
-		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
-	   WHERE t2.T_ID = #{id}
+			t.T_TYPE,
+			t.T_UNIONID,
+			t.T_OPENID,
+			t.T_DEVID,
+			t.T_RAWDATA,
+			t.T_TIME24
+		FROM SYS_AUTHZ_USER_THIRDPARTY t
+	   WHERE t.T_ID = #{id}
 	</select>
 	
 	<select id="getPagedList" resultMap="ThirdpartyMap" parameterType="AuthzThirdpartyModel" useCache="false">
 		SELECT
+			t.T_ID,
 			t.U_ID,
-			IFNULL(t.U_ALIAS,t.U_USERNAME) as U_NAME,
-			t2.T_ID,
-			t2.T_TYPE,
-			t2.T_UNIONID,
-			t2.T_OPENID,
-			t2.T_DEVID,
-			t2.T_RAWDATA,
-			t2.T_TIME24
-		FROM SYS_AUTHZ_USER_LIST t
-		INNER JOIN SYS_AUTHZ_USER_THIRDPARTY t2 ON t.U_ID = t2.U_ID
+			t2.U_USERNAME,
+			t.T_TYPE,
+			t.T_UNIONID,
+			t.T_OPENID,
+			t.T_DEVID,
+			t.T_RAWDATA,
+			t.T_TIME24
+		FROM SYS_AUTHZ_USER_THIRDPARTY t INNER JOIN SYS_AUTHZ_USER_LIST t2 ON t.U_ID = t2.U_ID
 	</select>
 
 </mapper>

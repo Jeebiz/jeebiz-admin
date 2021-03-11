@@ -4,6 +4,8 @@
  */
 package net.jeebiz.admin.authz.thirdparty.setup.provider;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.authc.AuthenticationException;
 
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
@@ -23,7 +25,7 @@ public interface ThirdpartyBindingProvider<T extends AbstractBindDTO> {
 	 * @param bindDTO 绑定信息
 	 * @return
 	 */
-	AuthzThirdpartyModel binding(T bindDTO) throws AuthenticationException;
+	AuthzThirdpartyModel binding(HttpServletRequest request, T bindDTO) throws AuthenticationException;
 	
 	/**
 	 * 解除绑定
