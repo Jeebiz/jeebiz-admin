@@ -7,9 +7,12 @@ package net.jeebiz.admin.shadow.service.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.servlet.ServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -22,6 +25,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.biz.authc.exception.InvalidAccountException;
 import org.apache.shiro.biz.authc.exception.NoneRoleException;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipalRepositoryImpl;
+import org.apache.shiro.biz.utils.WebThreadContext;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.spring.boot.dingtalk.token.DingTalkAuthenticationToken;
 import org.apache.shiro.spring.boot.weixin.authc.WxMaLoginRequest;
@@ -29,6 +33,7 @@ import org.apache.shiro.spring.boot.weixin.authc.WxMpLoginRequest;
 import org.apache.shiro.spring.boot.weixin.token.WxMaAuthenticationToken;
 import org.apache.shiro.spring.boot.weixin.token.WxMpAuthenticationToken;
 import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,32 +48,38 @@ import com.google.common.collect.Sets;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthzRolePermsDao;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthzUserDao;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
+import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserDao;
+import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserProfileDao;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserModel;
+import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserProfileModel;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
+import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 import net.jeebiz.boot.api.utils.RandomString;
 
 @Service("defRepository")
+@Slf4j
 public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-	protected RandomString randomString = new RandomString();
+	protected RandomString randomString = new RandomString(8);
 	// 加密方式
 	private String algorithmName = "MD5";
     // 加密的次数,可以进行多次的加密操作
     private int hashIterations = 10;
     // 默认密码
-  	private String defPassword = "132456";
+ 	private String defaultPassword = "123456";
   	
 	@Autowired
 	private WxMaService wxMaService;
@@ -81,7 +92,11 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	@Autowired
 	private IAuthzRolePermsDao authzRolePermsDao;
 	@Autowired
-	private IAuthzThirdpartyDao thirdpartyDao;
+	private IAuthzThirdpartyDao authzThirdpartyDao;
+	@Autowired
+	private IAuthzThirdpartyUserDao authzThirdpartyUserDao;
+	@Autowired
+	private IAuthzThirdpartyUserProfileDao authzThirdpartyUserProfileDao;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -208,7 +223,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		WxMpAuthenticationToken wxToken = (WxMpAuthenticationToken) token;
 		
 		// 查询微信是否已经绑定
-		int rt = getThirdpartyDao().getCountByOpenId(wxToken.getOpenid());
+		int rt = getAuthzThirdpartyDao().getCountByOpenId(wxToken.getOpenid());
 		// 微信未绑定
 		if(rt == 0) {
 			
@@ -235,7 +250,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				thirdModel.setUid(model.getUserid());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyDao().insert(thirdModel);
 				
 				// 通过SimpleHash 来进行加密操作
 		        SimpleHash hash = new SimpleHash(algorithmName, new String(loginRequest.getPassword()), statusModel.getSalt(), hashIterations);
@@ -248,26 +263,55 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				
 				// 创建本地关联用户
 				AuthzThirdpartyUserModel userModel = new AuthzThirdpartyUserModel();
-				userModel.setUsername(randomString.nextString());
-				userModel.setAlias(userInfo.getNickname());
-				userModel.setAvatar(userInfo.getHeadImgUrl());
-				
 				// 盐值，用于和密码混合起来用
 		        String salt = randomString.nextString();
 		        // 通过SimpleHash 来进行加密操作
-		        SimpleHash hash = new SimpleHash(algorithmName, defPassword, salt, hashIterations);
-		        
+		        SimpleHash hash = new SimpleHash(algorithmName, defaultPassword, salt, hashIterations);
 		        userModel.setSalt(salt);
 		        userModel.setPassword(hash.toBase64());
-				getThirdpartyDao().insertUser(userModel);
-
+		        // UID检查重复
+		 		String uid = randomString.nextNumberString();
+		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
+		 			uid = randomString.nextNumberString();
+		 		}
+		 		userModel.setUid(uid);
+				// userModel.setUsername(phoneNumberInfo.getPurePhoneNumber());
+		 		userModel.setUsername(randomString.nextString());
+				ServletRequest request = WebThreadContext.getRequest();
+				if(Objects.nonNull(request) && request instanceof ShiroHttpServletRequest) {
+					ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
+					String appId = shiroRequest.getHeader(XHeaders.X_APP_ID);
+					String appChannel = shiroRequest.getHeader(XHeaders.X_APP_CHANNEL);
+					String appVersion = shiroRequest.getHeader(XHeaders.X_APP_VERSION);
+					log.info(XHeaders.X_APP_ID + "：{}", appId);
+					log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
+					log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
+					userModel.setAppId(appId);
+					userModel.setAppChannel(appChannel);
+					userModel.setAppVer(appVersion);
+				}
+				getAuthzThirdpartyUserDao().insert(userModel);
+				// 创建本地关联用户详情
+				AuthzThirdpartyUserProfileModel userProfileModel = new AuthzThirdpartyUserProfileModel();
+				userProfileModel.setUid(userModel.getId());
+				userProfileModel.setNickname(userInfo.getNickname());
+				userProfileModel.setAvatar(userInfo.getHeadImgUrl());
+				userProfileModel.setCountry(userInfo.getCountry());
+				userProfileModel.setProvince(userInfo.getProvince());
+				userProfileModel.setCity(userInfo.getCity());
+				//userProfileModel.setGender(userInfo.getGender());
+				//userProfileModel.setLanguage(userInfo.getLanguage());
+				//userProfileModel.setCountryCode(phoneNumberInfo.getCountryCode());
+				//userProfileModel.setPhone(phoneNumberInfo.getPhoneNumber());
+				getAuthzThirdpartyUserProfileDao().insert(userProfileModel);
+				
 				// 创建本地关联用户第三方登录信息
 				AuthzThirdpartyModel thirdModel = new AuthzThirdpartyModel();
 				thirdModel.setType(ThirdpartyType.WXMP);
 				thirdModel.setUid(userModel.getId());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyDao().insert(thirdModel);
 				
 				// 设置游客权限
 				getAuthzRoleDao().setUsers("4", Arrays.asList(userModel.getId()));
@@ -289,7 +333,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		}
 		
 		// 查询第三方登录信息
-		AuthzThirdpartyModel thirdModel = getThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMP.name(), wxToken.getOpenid());
+		AuthzThirdpartyModel thirdModel = getAuthzThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMP.name(), wxToken.getOpenid());
 		// 账号状态
 		AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(thirdModel.getUid());
 		// 账号不存在 或 用户名或密码不正确
@@ -311,7 +355,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
  		WxMaAuthenticationToken wxToken = (WxMaAuthenticationToken) token;
 		
 		// 查询微信是否已经绑定
-		int rt = getThirdpartyDao().getCountByOpenId(wxToken.getOpenid());
+		int rt = getAuthzThirdpartyDao().getCountByOpenId(wxToken.getOpenid());
 		// 微信未绑定
 		if(rt == 0) {
 			
@@ -338,7 +382,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				thirdModel.setUid(model.getUserid());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyDao().insert(thirdModel);
 
 				// 通过SimpleHash 来进行加密操作
 		        SimpleHash hash = new SimpleHash(algorithmName, new String(loginRequest.getPassword()), statusModel.getSalt(), hashIterations);
@@ -355,25 +399,54 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				
 				// 创建本地关联用户
 				AuthzThirdpartyUserModel userModel = new AuthzThirdpartyUserModel();
-				userModel.setUsername(phoneNumberInfo != null ? phoneNumberInfo.getPurePhoneNumber() : userInfo.getNickName() );
-				userModel.setAlias(userInfo.getNickName());
-				userModel.setAvatar(userInfo.getAvatarUrl());
-				userModel.setPhone(phoneNumberInfo != null ? phoneNumberInfo.getPhoneNumber() : "");
 				// 盐值，用于和密码混合起来用
 		        String salt = randomString.nextString();
 		        // 通过SimpleHash 来进行加密操作
-		        SimpleHash hash = new SimpleHash(algorithmName, defPassword, salt, hashIterations);
+		        SimpleHash hash = new SimpleHash(algorithmName, defaultPassword, salt, hashIterations);
 		        userModel.setSalt(salt);
 		        userModel.setPassword(hash.toBase64());
-				getThirdpartyDao().insertUser(userModel);
-
+		        // UID检查重复
+		 		String uid = randomString.nextNumberString();
+		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
+		 			uid = randomString.nextNumberString();
+		 		}
+		 		userModel.setUid(uid);
+				userModel.setUsername(phoneNumberInfo.getPurePhoneNumber());
+				ServletRequest request = WebThreadContext.getRequest();
+				if(Objects.nonNull(request) && request instanceof ShiroHttpServletRequest) {
+					ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
+					String appId = shiroRequest.getHeader(XHeaders.X_APP_ID);
+					String appChannel = shiroRequest.getHeader(XHeaders.X_APP_CHANNEL);
+					String appVersion = shiroRequest.getHeader(XHeaders.X_APP_VERSION);
+					log.info(XHeaders.X_APP_ID + "：{}", appId);
+					log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
+					log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
+					userModel.setAppId(appId);
+					userModel.setAppChannel(appChannel);
+					userModel.setAppVer(appVersion);
+				}
+				getAuthzThirdpartyUserDao().insert(userModel);
+				// 创建本地关联用户详情
+				AuthzThirdpartyUserProfileModel userProfileModel = new AuthzThirdpartyUserProfileModel();
+				userProfileModel.setUid(userModel.getId());
+				userProfileModel.setNickname(userInfo.getNickName());
+				userProfileModel.setAvatar(userInfo.getAvatarUrl());
+				userProfileModel.setCountry(userInfo.getCountry());
+				userProfileModel.setProvince(userInfo.getProvince());
+				userProfileModel.setCity(userInfo.getCity());
+				userProfileModel.setGender(userInfo.getGender());
+				userProfileModel.setLanguage(userInfo.getLanguage());
+				userProfileModel.setCountryCode(phoneNumberInfo.getCountryCode());
+				userProfileModel.setPhone(phoneNumberInfo.getPhoneNumber());
+				getAuthzThirdpartyUserProfileDao().insert(userProfileModel);
+				
 				// 创建本地关联用户第三方登录信息
 				AuthzThirdpartyModel thirdModel = new AuthzThirdpartyModel();
 				thirdModel.setType(ThirdpartyType.WXMA);
 				thirdModel.setUid(userModel.getId());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyDao().insert(thirdModel);
 				
 				// 设置游客权限
 				getAuthzRoleDao().setUsers("4", Arrays.asList(userModel.getId()));
@@ -397,7 +470,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 
 		try {
 			// 查询第三方登录信息
-			AuthzThirdpartyModel thirdModel = getThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMA.name(), wxToken.getOpenid());
+			AuthzThirdpartyModel thirdModel = getAuthzThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMA.name(), wxToken.getOpenid());
 			// 账号状态
 			AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(thirdModel.getUid());
 			// 账号不存在 或 用户名或密码不正确
@@ -533,9 +606,17 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	public IAuthzRolePermsDao getAuthzRolePermsDao() {
 		return authzRolePermsDao;
 	}
-
-	public IAuthzThirdpartyDao getThirdpartyDao() {
-		return thirdpartyDao;
+	
+	public IAuthzThirdpartyDao getAuthzThirdpartyDao() {
+		return authzThirdpartyDao;
+	}
+	
+	public IAuthzThirdpartyUserDao getAuthzThirdpartyUserDao() {
+		return authzThirdpartyUserDao;
+	}
+	
+	public IAuthzThirdpartyUserProfileDao getAuthzThirdpartyUserProfileDao() {
+		return authzThirdpartyUserProfileDao;
 	}
 	
 	public WxMaService getWxMaService() {
