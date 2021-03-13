@@ -105,7 +105,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
 	@Transactional(rollbackFor = Exception.class)
 	public int resetPwd(String userId, String oldPassword, String password) {
 		// 查询用户信息
-		AuthzUserModel model = getDao().getUserByUid(userId);
+		AuthzUserModel model = getDao().getModel(userId);
         // 通过SimpleHash 来进行加密操作
         SimpleHash oldHash = new SimpleHash(algorithmName, oldPassword, model.getSalt(), hashIterations);
         if (!StringUtils.equals(oldHash.toBase64(), model.getPassword())) {

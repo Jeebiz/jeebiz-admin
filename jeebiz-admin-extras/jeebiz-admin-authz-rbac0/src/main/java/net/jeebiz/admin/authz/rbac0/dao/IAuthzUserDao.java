@@ -27,13 +27,6 @@ public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
 	public List<AuthzUserModel> getUserList();
 	
 	/**
-	 * 通过用户ID查询用户信息
-	 * @param id
-	 * @return
-	 */
-	public AuthzUserModel getUserByUid(String id);
-	
-	/**
 	 * 删除用户角色记录
 	 * @param id
 	 * @return
