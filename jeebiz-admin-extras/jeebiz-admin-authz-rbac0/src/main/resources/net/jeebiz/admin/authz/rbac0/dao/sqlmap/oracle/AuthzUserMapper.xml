@@ -386,7 +386,7 @@
 		ORDER BY x.R_PRTY ASC
 	</select>
 	
-	<select id="getProfile" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
+	<select id="getProfile" resultMap="UserProfileMap" useCache="false">
 		SELECT
 			t.U_PID,
 			t.U_ID,
