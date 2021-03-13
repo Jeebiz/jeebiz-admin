@@ -19,6 +19,13 @@ import net.jeebiz.boot.api.dao.BaseDao;
  */
 @Mapper
 public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
+
+	/**
+	 * 通过用户ID查询用户信息
+	 * @param id
+	 * @return
+	 */
+	public AuthzUserModel getUserById(String id);
 	
 	/**
 	 * 查询系统所有用户

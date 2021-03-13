@@ -200,6 +200,26 @@
 		SELECT count(t.U_ID) FROM SYS_AUTHZ_USER_ROLE_RELATION t WHERE t.R_ID = #{roleId} AND t.U_ID = #{userId}
 	</select>
 	
+	<select id="getUserById" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.U_ID,
+			t.U_UID,
+			t.U_CODE,
+			t.U_USERNAME,
+			t.U_PASSWORD,
+			t.U_SALT,
+			t.U_SECRET,
+			t.U_APP_ID,
+			t.U_APP_CHANNEL,
+			t.U_APP_VERSION,
+			t.U_ONLINE,
+			t.U_LATEST_ONLINE,
+			t.U_STATUS,
+			t.U_TIME24
+		FROM SYS_AUTHZ_USER_LIST t
+	   WHERE t.U_ID = #{id}
+	</select>
+	
 	<select id="getModel" resultMap="UserMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.U_ID,
