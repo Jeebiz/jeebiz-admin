@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+  	<title>自定义界面</title>
+  	<meta charset="utf-8">
+  	<meta name="renderer" content="webkit">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  	<link rel="stylesheet" th:href="@{/assets/layuiadmin/layui/css/layui.css}" media="all">
+	<link rel="stylesheet" th:href="@{/assets/layuiadmin/style/admin.css}"	media="all">
+	<link rel="stylesheet" th:href="@{/assets/layuiadmin/style/webui-design.css}"	media="all">
+	
+	<style type="text/css">
+	.layui-btn + .layui-btn-xs {
+	    margin-left: 5px;
+	}
+	div{
+        -moz-box-sizing: border-box;  /*Firefox3.5+*/
+        -webkit-box-sizing: border-box; /*Safari3.2+*/
+        -o-box-sizing: border-box; /*Opera9.6*/
+        -ms-box-sizing: border-box; /*IE8*/
+        box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
+    }
+	.dHead {
+        height:85px;
+        width:100%;
+        position: fixed;
+        z-index:5;
+        top:0;
+        overflow-x: auto;
+        padding: 10px;
+    }
+    .dBody {
+        width:100%;
+        overflow:auto;
+        top:90px;
+        position:absolute;
+        z-index:10;
+        bottom:5px;
+    }
+    .layui-tree-head{
+	    cursor: pointer;
+	}
+    .layui-btn-xstree {
+        height: 35px;
+        line-height: 35px;
+        padding: 0px 5px;
+        font-size: 12px;
+    }
+    
+	</style>
+</head>
+<body>
+<div class="layui-fluid" id="LAY-webui">
+	<div class="layui-card">
+		<div class="layui-tab layui-tab-brief" lay-filter="webui-tab">
+		  <ul class="layui-tab-title">
+		    <li class="layui-this" lay-id="1">界面管理</li>
+		    <li lay-id="2">界面设计</li>
+		  </ul>
+		  <div class="layui-tab-content">
+		    <div class="layui-tab-item layui-show">
+		    	<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+				            <label class="layui-form-label">界面名称</label>
+				            <div class="layui-input-block">
+				              	<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+				            </div>
+				        </div>
+						<div class="layui-inline">
+							<label class="layui-form-label">界面类型</label>
+							<div class="layui-input-inline">
+								<select name="type" id="LAY-webuitype">
+									<option value="">请选择类型</option>
+									<option th:each="item,itemStat:${typeList}" th:value="${item.key}" th:text="${item.desc}" >MySQL</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<button class="layui-btn layui-btn-normal layuiadmin-btn-list" lay-submit lay-filter="LAY-webui-search">
+								<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+		    	<div class="layui-card-body" style="padding: 0px;">
+		    		<div class="LAY-datasource-btns" style="margin-bottom: 10px;">
+						<button class="layui-btn layui-btn-normal layui-btn-sm layuiadmin-btn-admin" data-type="add" data-events="add">创建新界面</button>
+					</div>
+					<table class="layui-hidden" id="LAY-webui-list" lay-filter="LAY-webui-list"></table>
+ 					<script type="text/html" id="switchTpl1">
+  					<input type="checkbox" value="{{d.editable}}" data-id="{{d.id}}"
+					lay-skin="switch"  lay-text="可用|禁用" lay-filter="editable" {{ d.editable == '1' ? 'checked' : '' }}>
+					</script>
+					<script type="text/html" id="switchTpl2">
+  					<input type="checkbox" value="{{d.release}}"  data-id="{{d.id}}"
+					lay-skin="switch"  lay-text="发布|下线" lay-filter="release" {{ d.release == '1' ? 'checked' : '' }}>
+					</script>
+					<script type="text/html" id="table-opt-list">
+					<a class="layui-btn layui-btn-xs {{ d.parent != null ? ' layui-btn-disabled' : '' }}" lay-event="{{ d.parent == null ? 'child' : '' }}"><i class="layui-icon layui-icon-add-circle"></i>添加</a>
+					<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+					<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+          			<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="design"><i class="layui-icon layui-icon-layouts"></i>设计</a>
+        			</script>
+        			<script type="text/html" id="layui-webui-tip-tpl">
+        				<div class="layui-input-text layui-word-aux" style="text-align: center;">{{ d.tip }}</div>
+        			</script>
+        			<script type="text/html" id="layui-inline-tpl">
+						<div class="layui-inline layui-design">
+			            	<label class="layui-form-label" lay-cache='{{ d.cache }}' >
+								<i lay-submit class="layui-inline-remove layui-badge-dot layui-icon layui-icon-close"></i> {{ d.label }}
+							</label>
+			            	<div class="{{ d.itemClass }}">
+								{{#  if(d.type === 'text'){ }}
+			              			<input type="{{ d.type }}" name="{{ d.key }}" autocomplete="off" 
+										class="layui-input {{#  if(d.classname.length > 0){ }} {{ d.classname }} {{#  } }} {{#  if(d.status != 1){ }} layui-disabled {{#  } }}" 
+										lay-verify="{{#  if(d.rules.length > 0){ }} {{ d.rules }} {{#  } }}" 
+										placeholder="{{#  if(d.placeholder.length > 0){ }}{{ d.placeholder }}{{#  } else { }}请输入{{#  } }}"
+										style="{{#  if(d.style.length > 0){ }} {{ d.style }} {{#  } }} " />
+								{{#  } }}
+								{{#  if(d.type === 'checkbox'){ }}
+									{{#  layui.each(d.source, function(index, item){ }}
+									<input name="{{ d.key }}" value="{{ item.key }}" title="{{ item.value }}" type="checkbox"/>
+									{{#  }); }}
+								{{#  } }}
+								{{#  if(d.type === 'radio'){ }}
+									{{#  layui.each(d.source, function(index, item){ }}
+									<input name="{{ d.key }}" value="{{ item.key }}" title="{{ item.value }}" checked="" type="radio"/>
+									{{#  }); }}
+								{{#  } }}
+								{{#  if(d.type === 'select'){ }}
+									<select name="{{ d.key }}" class="layui-select {{#  if(d.classname.length > 0){ }} {{ d.classname }} {{#  } }} {{#  if(d.status != 1){ }} layui-disabled {{#  } }}" 
+										lay-verify="{{#  if(d.rules.length > 0){ }} {{ d.rules }} {{#  } }}" 
+										style="{{#  if(d.style.length > 0){ }} {{ d.style }} {{#  } }} " >
+										<option value="">{{#  if(d.placeholder.length > 0){ }}{{ d.placeholder }}{{#  } else { }}请输入{{#  } }}</option>
+										{{#  layui.each(d.source, function(index, item){ }}
+          								<option value="{{ item.key }}">{{ item.value }}</option>
+										{{#  }); }}
+        							</select>
+								{{#  } }}
+								{{#  if(d.type === 'switch'){ }}
+									<input name="{{ d.key }}" lay-skin="switch" lay-filter="{{ d.key }}-switch" 
+									lay-verify="{{#  if(d.rules.length > 0){ }} {{ d.rules }} {{#  } }}" 
+									lay-text="{{# layui.each(d.source, function(index, item){ }} {{# if(index > 0){ }}|{{# } }} {{ item.value }} {{# }); }}"
+									type="checkbox" />
+								{{#  } }}
+							</div>
+							{{#  if(d.unit.length > 0){ }} 
+								<div class="layui-form-mid">{{ d.unit }}</div>
+							{{#  } }}
+							{{#  if(d.remark.length > 0){ }} 
+								<div class="layui-form-mid layui-word-aux">{{ d.remark }}</div>
+							{{#  } }}
+			        	</div>
+        			</script>
+        			<script type="text/html" id="layui-form-item-tpl">
+					<div class="layui-form-item layui-design">
+			            <label class="layui-form-label" lay-cache='{{ d.cache }}' >
+							<i lay-submit class="layui-form-item-remove layui-badge-dot layui-icon layui-icon-close"></i> {{ d.label }}
+						</label>
+			            <div class="{{ d.itemClass }}">
+							{{#  if(d.type === 'text' || d.type === 'password'){ }}
+			              		<input type="{{ d.type }}" name="{{ d.key }}"autocomplete="off" 
+									class="layui-input {{#  if(d.classname.length > 0){ }} {{ d.classname }} {{#  } }} {{#  if(d.status != 1){ }} layui-disabled {{#  } }}" 
+									lay-verify="{{#  if(d.rules.length > 0){ }} {{ d.rules }} {{#  } }}" 
+									placeholder="{{#  if(d.placeholder.length > 0){ }}{{ d.placeholder }}{{#  } else { }}请输入{{#  } }}"
+									style="{{#  if(d.style.length > 0){ }} {{ d.style }} {{#  } }} " />
+							{{#  } }}
+							{{#  if(d.type === 'textarea'){ }}
+								<textarea name="{{ d.key }}" autocomplete="off"
+									class="layui-textarea {{#  if(d.classname.length > 0){ }} {{ d.classname }} {{#  } }} {{#  if(d.status != 1){ }} layui-disabled {{#  } }}" 
+									lay-verify="{{#  if(d.rules.length > 0){ }} {{ d.rules }} {{#  } }}" 
+									placeholder="{{#  if(d.placeholder.length > 0){ }}{{ d.placeholder }}{{#  } else { }}请输入{{#  } }}"
+									style="{{#  if(d.style.length > 0){ }} {{ d.style }} {{#  } }} "></textarea>
+							{{#  } }}
+							{{#  if(d.type === 'checkbox'){ }}
+								{{#  layui.each(d.source, function(index, item){ }}
+								<input name="{{ d.key }}" value="{{ item.key }}" title="{{ item.value }}" type="checkbox" />
+								{{#  }); }}
+							{{#  } }}
+							{{#  if(d.type === 'radio'){ }}
+								{{#  layui.each(d.source, function(index, item){ }}
+								<input name="{{ d.key }}" value="{{ item.key }}" title="{{ item.value }}" checked="" type="radio" />
+								{{#  }); }}
+							{{#  } }}
+							{{#  if(d.type === 'select'){ }}
+								<select name="{{ d.key }}" class="layui-select {{#  if(d.classname.length > 0){ }} {{ d.classname }} {{#  } }} {{#  if(d.status != 1){ }} layui-disabled {{#  } }}" 
+										lay-verify="{{#  if(d.rules.length > 0){ }} {{ d.rules }} {{#  } }}" 
+										style="{{#  if(d.style.length > 0){ }} {{ d.style }} {{#  } }} " >
+									<option value="">{{#  if(d.placeholder.length > 0){ }}{{ d.placeholder }}{{#  } else { }}请输入{{#  } }}</option>
+									{{#  layui.each(d.source, function(index, item){ }}
+          							<option value="{{ item.key }}">{{ item.value }}</option>
+									{{#  }); }}
+        						</select>
+							{{#  } }}
+							{{#  if(d.type === 'switch'){ }}
+								<input name="{{ d.key }}" lay-skin="switch" lay-filter="{{ d.key }}-switch" 
+								lay-verify="{{#  if(d.rules.length > 0){ }} {{ d.rules }} {{#  } }}" 
+								lay-text="{{# layui.each(d.source, function(index, item){ }} {{# if(index > 0){ }}|{{# } }} {{ item.value }} {{# }); }}"
+								type="checkbox" />
+							{{#  } }}
+						</div>
+						{{#  if(d.unit.length > 0){ }} 
+							<div class="layui-form-mid">{{ d.unit }}</div>
+						{{#  } }}
+						{{#  if(d.remark.length > 0){ }} 
+							<div class="layui-form-mid layui-word-aux">{{ d.remark }}</div>
+						{{#  } }}
+					</div>
+        			</script>
+        			<script type="text/html" id="echarts-tpl">
+					<div class="layui-form-item">
+						<label class="layui-form-label"><i class="layui-badge-dot layui-icon layui-icon-close"></i> {{ d.label }}</label>
+						<div class="layui-form-text">
+							${ {{ d.key }} }
+						</div>
+					</div>
+        			</script>
+        			<script type="text/html" id="layui-form-btns-tpl">
+					<button class="layui-btn layui-btn-sm layuiadmin-btn-admin {{#  if(d.classname.length > 0){ }} {{ d.classname }} {{#  } }} {{#  if(d.status != 1){ }} layui-disabled {{#  } }}" 
+						data-type="{{ d.event }}" data-events="{{ d.event }}" style="{{#  if(d.style.length > 0){ }} {{ d.style }} {{#  } }}" title="{{ d.label }}">
+						{{#  if(d.icon.length > 0){ }}<i class="layui-icon {{ d.icon }} "></i> {{#  } }} {{ d.label }}</button>
+        			</script>
+        			
+				</div>
+		    </div>
+		    <div class="layui-tab-item" id="LAY-webui-design" style="min-height: 500px;background-color: #f2f2f2;padding: 5px;">
+		    	
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>
+<script th:src="@{/assets/layuiadmin/layui/layui.js}"></script>
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]--> 
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+var ctxPath = /*[[@{/}]]*/'';
+var basePath = /*[[@{/assets/layuiadmin/}]]*/'';
+/*]]>*/
+layui.config({
+ 	base 	: basePath,  //静态资源所在路径
+ 	prefix	: ctxPath,
+ 	version	: "20180921"
+}).extend({
+	index	: "lib/index", //主入口模块
+	webui	: "extras/webui/webui"
+}).use(['index', 'webui']);
+
+</script>
+</body>
+</html>

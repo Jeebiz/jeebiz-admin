@@ -1,192 +1,414 @@
 ################################################################################################################  
+###内置应用容器（Tomcat）配置：  
+################################################################################################################
+server:
+  compression:
+    enabled: true
+  port: 8090
+  servlet:
+    context-path: /admin
+    session:
+      timeout: 1800000
+  undertow:
+    accesslog:
+      enabled: true
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
+    buffer-size: 2048
+    # 是否分配的直接内存(NIO直接分配的堆外内存)
+    direct-buffers: true
+    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    # 不要设置过大，如果过大，启动项目会报错：打开文件数过多
+    io-threads: 16
+    # 阻塞任务线程池, 当执行类似servlet请求阻塞IO操作, undertow会从这个线程池中取得线程
+    # 它的值设置取决于系统线程执行任务的阻塞系数，默认值是IO线程数*8
+    worker-threads: 256
+     
+################################################################################################################  
 ###接口文档（Swagger UI）配置：  
 ################################################################################################################
 swagger:
   enabled: true
-
-################################################################################################################
-###  微信公众号/服务号/小程序配置：
-################################################################################################################
-wx:
-  mp:
-    # 微信公众号的appid.
-    app-id: wxd7a551466a0cfa03
-    # 微信公众号的app secret.
-    secret: eebf73aad462dab6bbdd8233919cb1a4
-    # 配置存储
-    config-storage:
-      type: memory
-  miniapp:
-    # 微信小程序的appid.
-    appid: wx3adb4a5ef9f61e3f
-    # 微信小程序的Secret.
-    secret: ebdfd09d80d8f1f23d260b7465dc69f5
-    # 消息格式，XML或者JSON.
-    msg-data-format: JSON
-
-################################################################################################################
-###  钉钉微应用/小程序配置
-################################################################################################################
-dingtalk:
-  #  钉钉机器人
-  robot:
-    prefix: https://oapi.dingtalk.com/robot/send
-    access-token: cff461c7329810b4470df80a955899f6e862187064b2d6fadf7ed569eb54a143
-    secret:
-      secret-enabled: true
-      secret-token: SEC5102909678cc177cd486c8634029e93382c5f8620895f86ad8d9458cdb28d1a5
-  # 知乎者也下的配置
-  corp-id: ding5e6b33e760fd296b35c2f4657eb6378f
-  crop-apps:
-   # 智慧考勤小程序
-  - agent-id: 589383556
-    app-key: dingx0rblvppiurvk4xy
-    app-secret: _8y3Vgjk1iigMQZc3_bXR__vIIxQVludc3yZ6jo0tX6Ug2cD8cMG-0iRtURcrGaI
-  # 智慧考勤H5微应用
-  - agent-id: 589481741
-    app-key: dingxhppjmnh508naskv
-    app-secret: mqFoxuq0XT6XisFkDTOc13tG1B_ESFhCXUwenqsWDVrcp32pPWXUpyepXQwnHfg92
+  title: Jeebiz Admin LayUI（iframe）版
+  description: 企业级后台快速开发平台 - LayUI（iframe）版
+  version: 0.0.1-SNAPSHOT
+  license: Apache License, Version 2.0
+  license-url: https://www.apache.org/licenses/LICENSE-2.0.html
+  contact:
+    name: 杭州极蚁网络科技有限公司
+    email: hiwepy@163.com
+    url: http://www.hiwepy.com/
+  base-package: net.jeebiz
+  base-path:
+  - /**
+  exclude-path:
+  - /error
+  - /ops/**
 
 ################################################################################################################  
-###Pac4j 第三方登录（QQ、微信、易班、康赛）配置：  
+###Shiro 权限控制基本配置：  
 ################################################################################################################
-pac4j:
+shiro:
+  annotations: 
+    enabled: true
+    proxy-target-class: true
+  authentication-caching-enabled: true
+  authorization-caching-enabled: true
+  http:
+    header:
+      access-control-allow-methods: PUT,POST,GET,DELETE,OPTIONS
+  caching-enabled: true
+  cache:
+    type: ehcache
   enabled: true
-  default-client-name: cas
-  callback-url: http://172.16.88.245:8088/jeebiz-authz/authz/login/pac4j?client_name=cas&proxy=false
-  callback-url-fixed: false
-  client-parameter-name: client_name
-  clients: cas
-  logout:
-    path-pattern: /**/logout/pac4j
-    default-url: http://172.16.88.248/#/login
-  cas:
-    enabled: false
-    accept-any-proxy: true
-    gateway: false
-    login-url: http://10.30.186.104/sso/login
-    logout-url: http://10.30.186.104/sso/logout
-    prefix-url: http://10.30.186.104/sso/
-    protocol: cas20-proxy
-    renew: false
-    service-url: http://172.16.88.245:8088/jeebiz-authz
-    # Cas客户端配置
-    #cas-client: true
-    #cas-client-name: cas
-    # Cas代理客户端配置
-    direct-cas-client: true
-    direct-cas-client-name: cas
-    #direct-cas-proxy-client: true
-    #direct-cas-proxy-client-name: cas-proxy    
+  kaptcha:
+    enabled: true
+    retry-times-when-access-denied: 3
+  failure-url: /error
+  login-url: /authz/login/stateful
+  redirect-url: /authz/login/index
+  success-url: /index
+  unauthorized-url: /error
+  user-native-session-manager: false
+  session-creation-enabled: true
+  session-validation-scheduler-enabled: true
+  session-validation-interval: 30000
+  session-stateless: false
+  session-storage-enabled: true
+  session-timeout: 1800000
+  sessionManager:
+    session-id-url-rewriting-enabled: false
+    delete-invalid-sessions: true
+  web: 
+    enabled: true
+  filter-chain-definition-map: 
+    '[/**/favicon.ico]' : anon
+    '[/webjars/**]' : anon
+    '[/assets/**]' : anon
+    '[/error*]' : anon
+    '[/logo/**]' : anon
+    '[/swagger-ui.html**]' : anon
+    '[/swagger-resources/**]' : anon
+    '[/v2/**]' : anon
+    '[/kaptcha*]' : anon
+    '[/sockets/**]' : anon
+    '[/authz/login/stateful]' : authc
+    '[/authz/login/forget]' : anon
+    '[/logout]' : logout
+    '[/**]' : authc
+
 
 ################################################################################################################  
 ###Spring Boot 相关组件（SpringMVC、Freemarker、Session、Cache、DataSource）配置：  
 ################################################################################################################
 spring: 
+  # 应用信息配置
+  application:
+    name: jeebiz-admin
+  # 缓存配置：
+  cache: 
+    type: ehcache
+    ehcache: 
+      config: classpath:/conf/ehcache/ehcache.xml
   # 数据源配置：
   datasource:
     name: jeebiz_admin
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://106.54.2.213:3306/jeebiz_admin?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://47.98.123.43:3306/jeebiz_admin?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
     username: jeebiz_admin
-    password: 5RcLHz6E3AS5LFDh
-  # Redis相关配置
-  redis:
-    # Redis服务器地址  
-    host: 106.54.2.213
-    # Redis服务器连接端口
-    port: 6379
-    # Database 索引；和其他服务区别开
-    database: 1
-    # Redis服务器连接密码（默认为空） 
-    password: HycBsP5cSp3enyGw
+    password: APx37E5xPWA3Gd86
+    # Druid的数据源配置：
+    druid: 
+      enabled: true
+      #配置这个属性的意义在于，如果存在多个数据源，监控的时候可以通过名字来区分开来。如果没有配置，将会生成一个名字，格式是：”DataSource-” + System.identityHashCode(this)
+      #name: DataSource-Test
+      #这一项可配可不配，如果不配置druid会根据url自动识别dbType，然后选择相应的driverClassName
+      #driver-class-name: oracle.jdbc.driver.OracleDriver         
+      #url: 
+      #username: xxx
+      #password: xxx 
+      #initialSize: 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时；默认 15
+      initial-size: 15
+      #连接池最大连接数量 
+      max-active: 50
+      #获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁
+      max-wait: 60000
+      #连接池最小连接数量；默认 5
+      min-idle: 5
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒;有两个含义：1) Destroy线程会检测连接的间隔时间 2) testWhileIdle的判断依据，详细看testWhileIdle属性的说明
+      time-between-eviction-runs-millis: 60000
+      #配置一个连接在池中最小生存的时间，单位：毫秒
+      min-evictable-idle-time-millis: 300000
+      #超过时间限制是否回收
+      remove-abandoned: true
+      #超过时间限制多长，单位：毫秒 ，180000毫秒=3分钟
+      remove-abandoned-timeout-millis: 180000
+      #用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。
+      validation-query: SELECT 1 FROM DUAL
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。建议配置为true，不影响性能，并且保证安全性。
+      test-while-idle: true
+      #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      test-on-return: false
+      #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。 
+      pool-prepared-statements: true
+      #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100 
+      max-pool-prepared-statement-per-connection-size: 100
+      #Druid的监控统计功能:属性类型是字符串，通过别名的方式配置扩展插件
+      #filters: mergeStat,wall,slf4j
+      # 动态数据源
+      routable: true
+      # Druid监控配置
+      aop-patterns:
+      - net.jeebiz.boot.demo.web.mvc
+      stat-view-servlet:
+        enabled: true
+        reset-enable: false
+      web-stat-filter:
+        enabled: true
+        session-stat-enable: true
+        session-stat-max-count: 20000
+      # Druid自定义过滤器参数
+      filter:
+        # 配置日志输出
+        slf4j:
+          enabled: true
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
+          result-set-close-after-log-enabled: false
+        # 配置安全防护
+        wall:
+          # 对被认为是攻击的SQL进行LOG.error输出
+          log-violation: true
+          # 对被认为是攻击的SQL抛出SQLExcepton
+          throw-exception: true
+          config:
+            # 是否允许语句中存在注释，Oracle的用户不用担心，Wall能够识别hints和注释的区别
+            comment-allow: true
+            # 是否允许非以上基本语句的其他语句，缺省关闭，通过这个选项就能够屏蔽DDL
+            none-base-statement-allow: true
+            # 是否允许一次执行多条语句，缺省关闭 
+            multi-statement-allow: true
+            # 解除union关键字检查
+            select-union-check: false
+            # 是否允许执行锁定表操作
+            lock-table-allow: true
+  # 国际化信息配置
+  messages:
+    #指定message的basename，多个以逗号分隔，如果不加包名的话，默认从classpath路径开始，默认: messages
+    basename: i18n/*/messages,i18n/messages
+    #设定Message bundles的编码，默认: UTF-8
+    encoding: UTF-8
+  # MVC配置
+  mvc:
+    view:
+      suffix: .html
+    static-path-pattern: /**
+    throw-exception-if-no-handler-found: false
+  # 静态资源配置
+  resources:
+    cache:
+      cachecontrol:
+        no-cache: true
+    static-locations:
+    - classpath:/templates/
+  # 会话配置（交个Shiro管理，此处不再指定）：
+  session: 
+    store-type: none    
+  #thymelea模板配置：https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html
+  thymeleaf:
+    cache: false
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    enable-spring-el-compiler: true
+    template-resolver-order: 1
 
 ################################################################################################################  
 ###Flyway (FlywayMigrationProperties) 数据库迁移脚本版本管理（实现软件版本升级数据库自动升级）配置：  
 ################################################################################################################
   flyway: 
     enabled: true
-    moduleable: true
-
-################################################################################################################  
-###jpush基本配置：  
-################################################################################################################
-jpush:
-  master-secret: fd91234d9648f655e1234c1b
-  app-key: 45ab34237527f342b823456b  
-  production: false
-    
-################################################################################################################
-### Filestore存储服务（FastDFS、MinIO） 基本配置：
-################################################################################################################
-# FastDFS
-fdfs:
-  enabled: true
-  endpoint: http://180.76.120.252:8089
-  secret-key: 6fGkkBwRnaDjfXdh
-  expire: 900
-  connect-timeout: 60000
-  so-timeout: 60000
-  tracker-list:
-    - 180.76.120.252:22122
-# 存储类型配置
-file:
-  # 指定存储配置
-  storage: fdfs
-    
-################################################################################################################  
-###阿里云服务配置：  
-###https://github.com/AliwareMQ/mq-demo
-################################################################################################################  
-alibaba:
-  cloud:
-    access-key: xasdas
-    secret-key: xxas
-    oss:
-      enabled: true
-      authorization-mode: ak-sk
-      access-key: 
-      secret-key: 
-      bucket: https://bucket.oss-accelerate.aliyuncs.com
-      bucket-name: bucket
-      endpoint: https://oss-cn-hangzhou.aliyuncs.com  
-    ons:
-      access-key: xxxxx
-      secret-key: xxxxxx
-      name-srv-addr: http://xxxxx.mq-internet-access.mq-internet.aliyuncs.com:80
-      message-model: CLUSTERING
-      group-id: GID_LAN
-    sms:
-        enable: true
-        signs:
-        - Jeebiz
-  
-################################################################################################################  
-###腾讯云服务配置：  
-###https://cloud.tencent.com/document/product/269/1520
-################################################################################################################  
-tencent:
-  tim:
-    enabled: true
-    sdkappid: 22232312323
-    private-key: xxx
-  sms:    enabled: true
-    sdkappid: 1400006666
-    secret-id: sss
-    secret-key: ssss
+    locations:
+    - classpath:db/migration/{vendor}
+    #指定SQL起始版本信息 
+    baseline-on-migrate: true
+    baseline-version: 1.0.0
+    baseline-description: 业务框架、权限管理、日志管理初始化
+    #如果已经有版本1和3，当发现新的版本2时，如果此参数为true,将会把版本2作为当前版本  
+    out-of-order: false
+    #在进行版本升级前是否进行SQL版本信息校验
+    validate-on-migrate: true
+    #设置如果验证失败是否删除表结构
+    clean-on-validation-error: true
+    #禁止对数据库进行相关清除操作
+    clean-disabled: true
+    #target: 1.0.0.17
+    placeholder-prefix: '$${'
 
 ################################################################################################################  
 ###mybatis-plus (MybatisPlusProperties) 基本配置：  
 ###http://mp.baomidou.com/#/spring-boot
 ################################################################################################################  
 mybatis-plus:
+  # 初始配置文件
+  check-config-location: true 
+  # config-location: classpath:/conf/mybatis/sqlMapConfig.xml
+  #configuration-properties:
+  # 初始配置参数
+  #configuration:
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId） 
+    #map-underscore-to-camel-case: true
+    #cache-enabled: false
+    #配置JdbcTypeForNull, oracle数据库必须配置
+    #jdbc-type-for-null: 'null'
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  mapper-locations: classpath*:net/jeebiz/**/dao/**/sqlmap/mysql/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: net.jeebiz.**.dao.entities
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-       
+    # 指定MyBatis如何自动映射列到字段/属性。PARTIAL只会自动映射简单，没有嵌套的结果。
+    # FULL会自动映射任意复杂的结果（嵌套的或其他情况）;有效值：NONE,PARTIAL,FULL,默认值：PARTIAL
+    auto-mapping-behavior: partial
+    # 当检测出未知列（或未知属性）时，如何处理，    默认情况下没有任何提示，这在测试的时候很不方便，不容易找到错误 
+    auto-mapping-unknown-column-behavior: failing
+    # 当启用时，使用延迟加载属性的对象在发起任何延迟属性的调用时会被完全加载。否则，每个属性在请求时就加载。默认值：true
+    aggressive-lazy-loading: true
+    # 全局二级缓存开关：默认是true，如果它配成false，其余各个Mapper XML文件配成支持cache也没用
+    cache-enabled: true
+    call-setters-on-nulls: false
+    # database-id:  
+    # default-fetch-size: 
+    # 设置超时时间，它决定驱动等待一个数据库响应的时间。有效值：Any，positive，integer ；默认值：Not Set(null)
+    default-statement-timeout: 25
+    # 配置默认的执行器。SIMPLE 执行器没有什么特别之处。REUSE执行器重用预处理语句。BATCH 执行器重用语句和批量更新
+    # 有效值：SIMPLE,REUSE,BATCH;默认值：SIMPLE
+    default-executor-type: reuse
+    jdbc-type-for-null: null
+    map-underscore-to-camel-case: false
+    # 允许或不允许多种结果集从一个单独的语句中返回（需要适合的驱动）;有效值：true,false;默认值：true
+    multiple-result-sets-enabled: true
+    #use-actual-param-name:
+    # 使用列标签代替列名。不同的驱动在这方便表现不同。参考驱动文档或充分测试两种方法来决定所使用的驱动。有效值：true,false;默认值：true
+    use-column-label: true 
+    # 允许JDBC支持生成的键。需要适合的驱动。如果设置为true则这个设置强制生成的键被使用，尽管一些驱动拒绝兼容但仍然有效（比如 Derby）;有效值：true,false;默认值：false
+    use-generated-keys: false
+    safe-row-bounds-enabled: false
+    safe-result-handler-enabled: true
+    # 全局地禁用或启用延迟加载。禁用时，所有关联查询会被马上加载;默认值：true
+    lazy-loading-enabled: true
+    lazy-load-trigger-methods: 
+      equals
+      clone
+      hashCode
+      toString
+    local-cache-scope: session
+    log-prefix: "[Mybatis]"
+    #log-impl: org.apache.ibatis.logging.log4j2.Log4j2LoggerImpl.class
+    
+  global-config: 
+    sql-parser-cache: true
+    db-config:
+      id-type: auto
+      field-strategy: not-empty
+      #mp2.3+ 全局表前缀 mp_
+      #table-prefix: mp_
+      #刷新mapper 调试神器
+      #refresh-mapper: true
+      #数据库大写下划线转换
+      #capital-mode: true
+      # Sequence序列接口实现类配置
+      #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+      #逻辑删除配置（下面3个配置）
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+################################################################################################################  
+###j2cache (J2CacheConfig) 基本配置：  
+###http://mp.baomidou.com/#/spring-boot
+################################################################################################################  
+j2cache:
+  config-location: conf/j2cache.properties
+  open-spring-cache: true
+  redis-client: lettuce
+        
 ################################################################################################################  
 ###logging (log4j2) 基本配置：  
 ###http://www.cnblogs.com/yhtboke/p/Mybatis.html
 ################################################################################################################
 logging: 
   config: classpath:conf/log4j2-dev.xml
+  log4j: 
+    jdbc:
+      enabled: true
+      appenders: 
+      - table-name: SYS_LOG_AUTHZ
+        marker: Authz-Log
+        column-mappings: 
+        - column: LOG_USERID
+          pattern: "%X{userId}"
+        - column: LOG_OPT
+          pattern: "%X{opt}"
+        - column: LOG_PROTOCOL
+          pattern: "%X{protocol}"
+        - column: LOG_REALM
+          pattern: "%X{realm}"
+        - column: LOG_LEVEL
+          pattern: "%level"
+        - column: LOG_ADDR
+          pattern: "%X{remoteAddr}"
+        - column: LOG_STATUS
+          pattern: "%X{status}"
+        - column: LOG_MSG
+          pattern: "%msg"
+        - column: LOG_EXCP
+          pattern: "%xEx"
+        - column: TIME24
+          pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
+      - table-name: SYS_LOG_BIZ
+        marker: Biz-Log
+        column-mappings: 
+        - column: LOG_MODULE
+          pattern: "%X{module}"
+        - column: LOG_BIZ
+          pattern: "%X{biz}"
+        - column: LOG_OPT
+          pattern: "%X{opt}"
+        - column: LOG_LEVEL
+          pattern: "%level"
+        - column: LOG_USERID
+          pattern: "%X{userId}"
+        - column: LOG_ADDR
+          pattern: "%X{remoteAddr}"
+        - column: LOG_MSG
+          pattern: "%msg"
+        - column: LOG_EXCP
+          pattern: "%xEx"
+        - column: TIME24
+          pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
+      - table-name: SYS_LOG_EXCP
+        marker: Biz-Excp
+        column-mappings: 
+        - column: LOG_CLASS
+          pattern: "%X{clazz}"
+        - column: LOG_TYPE
+          pattern: "%X{type}"
+        - column: LOG_LEVEL
+          pattern: "%level"
+        - column: LOG_USERID
+          pattern: "%X{userId}"
+        - column: LOG_ADDR
+          pattern: "%X{remoteAddr}"
+        - column: LOG_CODE
+          pattern: "%X{code}"
+        - column: LOG_MSG
+          pattern: "%msg"
+        - column: LOG_EXCP
+          pattern: "%xEx"
+        - column: TIME24
+          pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"

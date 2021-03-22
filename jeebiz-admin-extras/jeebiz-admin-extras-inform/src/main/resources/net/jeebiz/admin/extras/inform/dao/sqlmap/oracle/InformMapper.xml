@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.inform.dao.IInformDao" >
+
+	<resultMap id="InformMap" type="InformModel">
+		<id property="id" column="INFO_ID" />
+		<result property="type" column="INFO_TYPE" />
+		<result property="title" column="INFO_TITLE" />
+		<result property="detail" column="INFO_DETAIL" />
+		<result property="status" column="INFO_STATUS" />
+		<result property="userId" column="INFO_USERID" />
+		<result property="time24" column="TIME24"/>
+	</resultMap>
+	
+	<resultMap id="InformStatsMap" type="java.util.HashMap">
+		<result property="notice" column="INFO_NOTICE" />
+		<result property="unreadNotice" column="UNREAD_INFO_NOTICE" />
+		<result property="direct" column="INFO_DIRECT" />
+		<result property="unreadDirect" column="UNREAD_INFO_DIRECT" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="InformModel">
+		insert into SYS_EXTRAS_INFORMS(INFO_TYPE,INFO_TITLE,INFO_DETAIL,INFO_STATUS,INFO_USERID)
+		values(#{type},#{title},#{detail,jdbcType=CLOB},'0',#{userId})
+	</insert>
+	
+	<select id="getCount" resultType="Integer" parameterType="InformModel">
+		SELECT NVL(COUNT(NTF_ID), 0) COUNT FROM SYS_EXTRAS_INFORMS WHERE NTF_USERID = #{userid}
+	</select>
+	
+	<select id="getStats" resultMap="InformStatsMap">
+	<![CDATA[
+		SELECT
+			NVL(( SELECT count( t.INFO_ID ) FROM SYS_EXTRAS_INFORMS t WHERE t.INFO_TYPE = 'notice' AND t.INFO_USERID = #{userId} ),0) AS INFO_NOTICE, 
+			NVL(( SELECT count( t.INFO_ID ) FROM SYS_EXTRAS_INFORMS t WHERE t.INFO_TYPE = 'notice' AND t.INFO_STATUS = 0 AND t.INFO_USERID = #{userId} ),0) AS UNREAD_INFO_NOTICE,
+			NVL(( SELECT count( t.INFO_ID ) FROM SYS_EXTRAS_INFORMS t WHERE t.INFO_TYPE = 'direct' AND t.INFO_USERID = #{userId} ),0) AS INFO_DIRECT,
+			NVL(( SELECT count( t.INFO_ID ) FROM SYS_EXTRAS_INFORMS t WHERE t.INFO_TYPE = 'direct' AND t.INFO_STATUS = 0 AND t.INFO_USERID = #{userId} ),0) AS UNREAD_INFO_DIRECT
+		FROM DUAL
+	]]> 
+	</select>
+	
+	<select id="getModel" resultMap="InformMap" parameterType="String" >
+		SELECT t.INFO_ID,
+		   	   t.INFO_TYPE,
+			   t.INFO_TITLE,
+			   t.INFO_DETAIL,
+			   t.INFO_STATUS,
+			   t.INFO_USERID,
+			   t.TIME24
+		FROM SYS_EXTRAS_INFORMS t
+	   WHERE t.INFO_ID = #{id}
+	</select>
+	
+	<select id="getPagedList" resultMap="InformMap" >
+		SELECT t.INFO_ID,
+		   	   t.INFO_TYPE,
+			   t.INFO_TITLE,
+			   t.INFO_DETAIL,
+			   t.INFO_STATUS,
+			   t.INFO_USERID,
+			   t.TIME24
+		FROM SYS_EXTRAS_INFORMS t
+	   WHERE t.INFO_USERID = #{model.userId}
+		<if test="model.type != null and model.type != '' ">
+			AND t.INFO_TYPE = #{model.type}
+		</if>
+		<if test="model.status != null and model.status != '' ">
+			AND t.INFO_STATUS = #{model.status}
+		</if>
+		<if test="model.title != null and model.title != '' ">
+			AND t.INFO_TITLE like CONCAT('%',#{model.title},'%')
+		</if>
+	</select>
+	
+	<update id="update" parameterType="InformModel">
+		UPDATE SYS_EXTRAS_INFORMS t 
+		   SET t.INFO_STATUS = #{status,jdbcType=VARCHAR}
+		 WHERE t.INFO_USERID = #{userId}
+		 <if test="id != null and id != '' ">
+			and t.INFO_ID = #{id}
+		</if>
+	</update>
+	
+	<delete id="delInforms">
+		delete from SYS_EXTRAS_INFORMS where INFO_USERID = #{userId}
+		<foreach collection="ids" item="id" open=" AND (" separator=" OR " close=")" >
+			INFO_ID = #{id}
+		</foreach>
+	</delete>
+	
+</mapper>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div class="layui-form" style="padding:0 10px;">
+		<table class="layui-table">
+			<colgroup>
+				<col width="100">
+				<col>
+			</colgroup>
+			<thead>
+				<tr>
+					<th>标题</th>
+					<th>值</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td align="right">UID</td>
+					<td th:text="${model.uid}">UID</td>
+				</tr>
+				<tr>
+					<td align="right">类型</td>
+					<td th:each="item,itemStat:${driverList}" th:if="${item.key} == ${model.dbtype}" th:text="${item.vendor}" >
+						MySQL
+					</td>
+				</tr>
+				<tr>
+					<td align="right">标题</td>
+					<td th:text="${model.name}">name</td>
+				</tr>
+				<tr>
+					<td align="right">实例名</td>
+					<td th:text="${model.dbname}">dbname</td>
+				</tr>
+				<tr>
+					<td align="right">IP地址</td>
+					<td th:text="${model.ipv4}">127.0.0.1</td>
+				</tr>
+				<tr>
+					<td align="right">端口</td>
+					<td th:text="${model.port}">1306</td>
+				</tr>
+				<tr>
+					<td align="right">连接地址</td>
+					<td th:text="${model.url}"></td>
+				</tr>
+				<tr>
+					<td align="right">用户名</td>
+					<td th:text="${model.username}"></td>
+				</tr>
+				<tr>
+					<td align="right">用户密码</td>
+					<td th:text="${model.password}"></td>
+				</tr>
+				<tr>
+					<td align="right">描述</td>
+					<td th:text="${model.remark}"></td>
+				</tr>
+				<tr>
+					<td align="right">状态</td>
+					<td>
+						<span class="layui-badge layui-bg-green" th:if="${model.status == '1' } ">可用</span>
+						<span class="layui-badge layui-bg-black" th:if="${model.status == '0' } ">禁用</span>
+					</td>
+				</tr>
+				<tr>
+					<td align="right">注册时间</td>
+					<td th:text="${model.time24}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

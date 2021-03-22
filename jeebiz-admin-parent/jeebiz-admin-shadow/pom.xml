@@ -5,163 +5,90 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-parent</artifactId>
-		<version>1.0.1-ce-SNAPSHOT</version>
+		<version>1.0.0.RELEASE</version>
 	</parent>
 	<artifactId>jeebiz-admin-shadow</artifactId>
 	
-	<!-- <properties>
-		<reactor-bom.version>Dysprosium-SR12</reactor-bom.version>
-		<lettuce.version>6.0.2.RELEASE</lettuce.version>
-	</properties> -->
+	<properties>
+
+		<!-- Swagger UI JSON 数据访问地址 -->
+		<swagger.input>http://localhost:8080/v2/api-docs</swagger.input>
+		<!--appassembler -->
+		<appassembler-app-name>jeebiz-admin</appassembler-app-name>
+		
+		<flyway.version>5.2.0</flyway.version>
+		
+	</properties>
 
 	<dependencies>
 		
-		<!-- Jeebiz 数据字典（必选） -->
+		<!-- Jeebiz 初始化启动器 （必选）-->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-dict</artifactId>
-			<version>${jeebiz-admin.version}</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-boot-autoconfigure</artifactId>
+			<version>${jeebiz-boot.version}</version>
 		</dependency>
-		<!-- Jeebiz 系统设置（必选）
+		<!-- Jeebiz 组织机构管理（必选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-settings</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
-		<!-- Jeebiz 组织机构管理（必选）
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-org</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-admin-extras-authz-org</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- Jeebiz Rbac权限管理：此次选择了比较简单的rbac0的实现（必选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-rbac0</artifactId>
-			<version>${jeebiz-admin.version}</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-admin-extras-authz-rbac0</artifactId>
+			<version>${project.version}</version>
 		</dependency>
+		<!-- Jeebiz 基础数据（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-jwt</artifactId>
-			<version>${jeebiz-admin.version}</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-admin-extras-basedata</artifactId>
+			<version>${project.version}</version>
 		</dependency>
-		<!-- Jeebiz 设备激活：记录客户端激活与账户对应关系（可选）
+		<!-- Jeebiz 编辑机：解决文件上传存储问题（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-device</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
-		<!-- Jeebiz 编辑器：富文本编辑器后台接口（可选）
-		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-admin-extras-editor</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
-		<!-- Jeebiz 文件服务（可选）
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Jeebiz 消息通知（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-filestore</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
-		<!-- Jeebiz 消息通知（可选） 
-		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-admin-extras-inform</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>-->
-		<!-- Jeebiz 通知公告（可选） 
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Jeebiz 业务日志（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-article</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>-->
-		<!-- Jeebiz 业务日志（可选）
-		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-admin-extras-logbiz</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
-		<!-- Jeebiz 回话管理（可选）
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Jeebiz 回话管理（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-admin-extras-sessions</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
+			<version>${project.version}</version>
+		</dependency>
 		
-		<!-- Jeebiz 第三方登录：提供接口实现openid等和账号的绑定 -->
+		<!-- For Embedded Web -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-thirdparty</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-dingtalk</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-weixin</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		 
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-pac4j-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- PAC4J For CAS Protocol  -->
-        <dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-cas</artifactId>
-        </dependency>
-		<dependency>
-		    <groupId>org.codehaus.woodstox</groupId>
-		    <artifactId>woodstox-core-asl</artifactId>
-		</dependency>
-        <!-- PAC4J For HTTP Protocol  -->
-        <dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-http</artifactId>
-        </dependency>
-        <!-- PAC4J For OAuth Protocol  -->
-        <dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-oauth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.hiwepy</groupId>
-            <artifactId>pac4j-oauth-ext</artifactId>
-        </dependency>
-        <dependency>
-		    <groupId>com.github.scribejava</groupId>
-		    <artifactId>scribejava-core</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.scribejava</groupId>
-		    <artifactId>scribejava-apis</artifactId>
-		</dependency>
-		<!-- For J2cache -->
-		<dependency>
-		    <groupId>net.oschina.j2cache</groupId>
-		    <artifactId>j2cache-spring-boot2-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-j2cache</artifactId>
-		</dependency>
-		<!-- For Swagger -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>webmvc-swagger2-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.xiaoymin</groupId>
-		    <artifactId>swagger-bootstrap-ui</artifactId>
-		</dependency>
-		<!-- For IP2region -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>ip2region-spring-boot-starter</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-el</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- For Thymeleaf View -->
 		<dependency>
@@ -174,52 +101,152 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- For Docx4j
+		<!-- Thymeleaf Layout Dialect -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>docx4j-spring-boot-starter</artifactId>
-		</dependency> -->
-		<!-- For Zxing 
+		    <groupId>nz.net.ultraq.thymeleaf</groupId>
+		    <artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
+		<!-- Thymeleaf Shiro -->
 		<dependency>
-            <groupId>com.github.hiwepy</groupId>
-            <artifactId>zxing-spring-boot-starter</artifactId>
-        </dependency>-->
-		<!-- For XXL-JOB 
+		    <groupId>com.github.theborakompanioni</groupId>
+		    <artifactId>thymeleaf-extras-shiro</artifactId>
+		</dependency>
+		<!-- Webjars -->
 		<dependency>
-		   <groupId>com.github.hiwepy</groupId>
-			<artifactId>xxljob-spring-boot-starter</artifactId>
-		</dependency>-->
-		<!-- For Resilience4j 
-		<dependency>
-		    <groupId>io.github.resilience4j</groupId>
-		    <artifactId>resilience4j-spring-boot2</artifactId>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>webjars-locator</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>io.github.resilience4j</groupId>
-		    <artifactId>resilience4j-micrometer</artifactId>
-		</dependency>-->
-		<!-- For Redisson
+		    <groupId>org.webjars</groupId>
+		    <artifactId>layui</artifactId>
+		</dependency>
+		<!-- For Swagger -->
 		<dependency>
-		    <groupId>org.redisson</groupId>
-		    <artifactId>redisson-spring-boot-starter</artifactId>
+			<groupId>com.spring4all</groupId>
+			<artifactId>swagger-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.github.xiaoymin</groupId>
+		    <artifactId>swagger-bootstrap-ui</artifactId>
+		</dependency>
+		<!-- For Validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-el</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-validation-mimetypes</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		</dependency>
+		<!-- For Captcha -->
+		<dependency>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-kaptcha</artifactId>
+		</dependency>
+		<!-- For Shiro -->
+		<dependency>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-shiro-biz</artifactId>
+		</dependency>
+		<!-- <dependency>
+		    <groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency> -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>hitool-core</artifactId>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>shiro-j2cache</artifactId>
 		</dependency>
-		<!-- For Javamelody 
+		<!-- For Dozer -->
 		<dependency>
-		    <groupId>net.bull.javamelody</groupId>
-		    <artifactId>javamelody-spring-boot-starter</artifactId>
+			<groupId>com.github.dozermapper</groupId>
+		    <artifactId>dozer-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For AOP -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- For Cache Support -->
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-cache</artifactId>
+	    </dependency>
+		<!-- J2cache Multi-Level Cache
+		<dependency>
+			<groupId>net.oschina.j2cache</groupId>
+			<artifactId>j2cache-spring-boot2-starter</artifactId>
+		</dependency> -->
+		<!-- 使用 JGroups 组播方式进行服务节点缓存同步（不支持在云主机中使用） -->
+		<dependency>
+			<groupId>org.jgroups</groupId>
+			<artifactId>jgroups</artifactId>
+		</dependency>
+		<!-- 使用 Ehcache 2.x 作为二级缓存-->
+		<dependency>
+		    <groupId>net.sf.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		</dependency>
+		<!-- 使用 Ehcache 3.x 作为二级缓存
+		<dependency>
+		    <groupId>org.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		</dependency> -->
+		<!-- 使用 J2cache 作为 Spring-Cache 实现 
+		<dependency>
+		    <groupId>net.oschina.j2cache</groupId>
+		    <artifactId>j2cache-springcache</artifactId>
 		</dependency>-->
+		<!-- 使用 J2cache 作为 Mybatis二级缓存
+		<dependency>
+		    <groupId>net.oschina.j2cache</groupId>
+		    <artifactId>j2cache-mybatis</artifactId>
+		</dependency> -->
 		<!-- For Log4j2 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>log4j2-plus-spring-boot-starter</artifactId>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-log4j2-plus</artifactId>
+		</dependency>
+		<!-- For Mybatis -->
+		<dependency>
+		    <groupId>com.baomidou</groupId>
+		    <artifactId>mybatis-plus-boot-starter</artifactId>
+		    <exclusions>
+		    	<exclusion>
+		    		<groupId>org.freemarker</groupId>
+		    		<artifactId>freemarker</artifactId>
+		    	</exclusion>
+		    </exclusions>
+		</dependency>
+		<!-- For Flyway -->
+		<dependency>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-flyway-plus</artifactId>
 		</dependency>
 		<!-- For Druid -->
 		<dependency>
@@ -227,37 +254,27 @@
 			<artifactId>druid-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>druid-plus-spring-boot-starter</artifactId>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-druid-plus</artifactId>
 		</dependency>
-		<!-- For Flyway -->
+		<!-- For Javamelody -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>flyway-plus-spring-boot-starter</artifactId>
+		    <groupId>net.bull.javamelody</groupId>
+		    <artifactId>javamelody-spring-boot-starter</artifactId>
 		</dependency>
-		<!-- JDBC Driver For MySQL -->
+		<!-- For Oracle 11g -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- For MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- JDBC Driver For Oracle -->
-		<dependency>
-		    <groupId>com.oracle.database.jdbc</groupId>
-		    <artifactId>ojdbc8</artifactId>
-		    <scope>runtime</scope>
-		</dependency>
-		<dependency>
-	        <groupId>com.oracle.database.jdbc</groupId>
-	        <artifactId>ojdbc8dms</artifactId>
-	        <scope>runtime</scope>
-	    </dependency>
-		<dependency>
-		    <groupId>com.oracle.database.nls</groupId>
-		    <artifactId>orai18n</artifactId>
-		    <scope>runtime</scope>
-		</dependency>
-	   
+			
 		<!-- For Embed Tomcat -->
         <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -273,11 +290,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
         
 	</dependencies>
 	
@@ -288,7 +300,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<executable>true</executable>
-					<mainClass>net.jeebiz.admin.shadow.JeebizShadowApplication</mainClass>
+					<mainClass>net.jeebiz.admin.ui.layui.AdminLayuiApplication</mainClass>
 				</configuration>
 			</plugin>
 			<!-- 第一步：生成可执行的启动脚本 -->

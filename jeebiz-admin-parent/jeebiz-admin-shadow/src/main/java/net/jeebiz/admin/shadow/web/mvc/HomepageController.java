@@ -20,8 +20,7 @@ public class HomepageController {
 	@ApiIgnore
 	@RequestMapping("/")
 	public String index(HttpServletRequest request) {
-		//return "redirect:/index";
-		return "redirect:/doc.html";
+		return "redirect:/index";
 	}
 	
 }

@@ -13,13 +13,8 @@ import java.util.NoSuchElementException;
 public enum InformTypeEnum {
 	
 	NOTICE("notice", "通知"),
-	LETTER("direct", "私信"),
-	COMMIT_DEPLOY("commit_deploy", "提交发布"),
-	AUDIT_AGREE("audit_agree", "审批通过"),
-	AUDIT_REFUSE("audit_refuse", "审批拒绝"),
-	DEPLOY_SUCESS("deploy_sucess", "发布成功"),
-	DEPLOY_FAIL("deploy_fail", "发布失败");
-
+	LETTER("direct", "私信");
+	
 	private String key;
 	private String desc;
 

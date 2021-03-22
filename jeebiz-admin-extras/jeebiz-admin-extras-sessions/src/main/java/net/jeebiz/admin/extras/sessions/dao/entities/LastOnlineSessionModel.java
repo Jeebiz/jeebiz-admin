@@ -7,26 +7,14 @@ package net.jeebiz.admin.extras.sessions.dao.entities;
 
 import java.util.Date;
 
-import org.apache.ibatis.type.Alias;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import net.jeebiz.boot.api.dao.entities.PaginationModel;
 
 /**
  * 在线用户最后一次在线信息() 此表对于分析活跃用户有用
  */
-@Alias("LastOnlineSessionModel")
 @SuppressWarnings("serial")
-@Getter
-@Setter
-@ToString
-public class LastOnlineSessionModel extends PaginationModel<LastOnlineSessionModel> {
-	/**
-	 * 回话记录ID
-	 */
-	private String id;
+public class LastOnlineSessionModel extends PaginationModel {
+
 	/**
 	 * 最后退出时的记录uid
 	 */
@@ -49,6 +37,86 @@ public class LastOnlineSessionModel extends PaginationModel<LastOnlineSessionMod
 	private Integer loginCount = 0;
 	/** 总的在线时长（秒为单位） */
 	private Long totalOnlineTime = 0L;
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+	public String getSystemHost() {
+		return systemHost;
+	}
+
+	public void setSystemHost(String systemHost) {
+		this.systemHost = systemHost;
+	}
+
+	public Date getLastLoginTimestamp() {
+		return lastLoginTimestamp;
+	}
+
+	public void setLastLoginTimestamp(Date lastLoginTimestamp) {
+		this.lastLoginTimestamp = lastLoginTimestamp;
+	}
+
+	public Date getLastStopTimestamp() {
+		return lastStopTimestamp;
+	}
+
+	public void setLastStopTimestamp(Date lastStopTimestamp) {
+		this.lastStopTimestamp = lastStopTimestamp;
+	}
+
+	public Integer getLoginCount() {
+		return loginCount;
+	}
+
+	public void setLoginCount(Integer loginCount) {
+		this.loginCount = loginCount;
+	}
+
+	public Long getTotalOnlineTime() {
+		return totalOnlineTime;
+	}
+
+	public void setTotalOnlineTime(Long totalOnlineTime) {
+		this.totalOnlineTime = totalOnlineTime;
+	}
 
 	public void incLoginCount() {
 		setLoginCount(getLoginCount() + 1);

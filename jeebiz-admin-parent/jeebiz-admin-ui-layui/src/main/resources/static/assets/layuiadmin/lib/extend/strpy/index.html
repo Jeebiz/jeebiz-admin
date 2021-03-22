@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>strpy中文转换拼音</title>
+  <link rel="stylesheet" href="layui/css/layui.css?t=1545041465443" media="all">
+  <style>
+    body{margin: 10px;}
+    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
+  </style>
+</head>
+<body>
+
+<script src="layui/layui.js?t=1545041465443"></script>
+<script>
+layui.config({
+  base: './style/' //配置 layui 第三方扩展组件存放的基础目录
+}).extend({
+    strpy: "strpy",
+}).use(["strpy"], function () {
+    alert(layui.strpy('汉字转拼音'));
+    alert(layui.strpy('汉字转拼音','|',1));
+    alert(layui.strpy('汉字转拼音','@',2))
+    alert(layui.strpy('汉字转拼音',' ',1));
+    alert(layui.strpy('汉字转拼音',' ',2));;
+});
+</script>
+</body>
+</html>        
+        

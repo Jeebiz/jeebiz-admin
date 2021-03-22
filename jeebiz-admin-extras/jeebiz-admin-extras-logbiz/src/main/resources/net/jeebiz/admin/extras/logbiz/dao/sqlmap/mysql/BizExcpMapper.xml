@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.logbiz.dao.IBizExcpDao" >
+	
+	 <resultMap id="BizExcpMap" type="BizExcpModel">
+		<result property="id" column="LOG_ID" />
+		<result property="userId" column="LOG_USERID" />
+		<result property="cpmt" column="LOG_CPMT" />
+		<result property="clazz" column="LOG_CLASS" />
+		<result property="type" column="LOG_TYPE" />
+		<result property="level" column="LOG_LEVEL" />
+		<result property="addr" column="LOG_ADDR" />
+		<result property="code" column="LOG_CODE" />
+		<result property="msg" column="LOG_MSG" />
+		<result property="exception" column="LOG_EXCP" />
+		<result property="timestamp" column="TIME24"/>
+	</resultMap>
+	
+	<resultMap id="BizExcpTypeMap" type="java.util.HashMap">
+		<result property="key" column="LOG_TYPE" />
+		<result property="name" column="LOG_TYPE" />
+	</resultMap>
+	
+	<select id="getExcpTypes" resultMap="BizExcpTypeMap">
+		SELECT DISTINCT	t.LOG_TYPE FROM	SYS_EXTRAS_LOG_EXCP t
+	</select>
+	
+	<select id="getPagedList" resultMap="BizExcpMap" parameterType="BizExcpModel">
+		SELECT
+			t.LOG_ID,
+			t.LOG_USERID,
+			t.LOG_CPMT,
+			t.LOG_CLASS,
+			t.LOG_TYPE,
+			t.LOG_LEVEL,
+			t.LOG_ADDR,
+			t.LOG_CODE,
+			t.LOG_MSG,
+			t.LOG_EXCP,
+			t.TIME24 
+		FROM
+			SYS_EXTRAS_LOG_EXCP t
+		<where>
+			<if test="model.userId != null and model.userId != '' ">
+				AND t.LOG_USERID = #{model.userId}
+			</if>
+			<if test="model.cpmt != null and model.cpmt != '' ">
+				AND t.LOG_CPMT = #{model.cpmt}
+			</if>
+			<if test="model.type != null and model.type != '' ">
+				AND t.LOG_TYPE = #{model.type}
+			</if>
+			<if test="model.level != null and model.level != '' ">
+				AND t.LOG_LEVEL = #{model.level}
+			</if>
+			<if test="model.addr != null and model.addr != '' ">
+				AND t.LOG_ADDR like CONCAT('%',#{model.addr},'%')
+			</if>
+			<if test="model.code != null and model.code != '' ">
+				AND t.LOG_CODE = #{model.code}
+			</if>
+			<if test="model.begintime != null and model.endtime != null ">
+				<![CDATA[ AND t.TIME24 BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
+			</if>
+		</where>
+	</select>
+	
+</mapper>

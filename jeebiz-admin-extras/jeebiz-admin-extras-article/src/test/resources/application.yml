@@ -1,5 +1,0 @@
-server:
-  port: 8070
-spring:
-  application:
-    name: stuworker-scholarship

@@ -1,5 +1,5 @@
 /** 
- * Copyright (C) 2018 Jeebiz (http://dajuxiaowo.com).
+ * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
 package net.jeebiz.admin.shadow.service.impl;
@@ -7,6 +7,7 @@ package net.jeebiz.admin.shadow.service.impl;
 
 import java.security.GeneralSecurityException;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
-import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
 import net.jeebiz.admin.shadow.service.IAuthzLoginService;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
@@ -25,7 +25,7 @@ public class AuthzLoginServiceImpl extends BaseServiceImpl<AuthzLoginModel, IAut
 	public static final String PRIVATE_KEY_ATTRIBUTE_NAME = "privateKey";
 	
 	@Override
-	public AuthzLoginStatusModel getAccountStatus(String username, String password) {
+	public Map<String, String> getAccountStatus(String username, String password) {
 		return getDao().getAccountStatus(username, password);
 	}
 

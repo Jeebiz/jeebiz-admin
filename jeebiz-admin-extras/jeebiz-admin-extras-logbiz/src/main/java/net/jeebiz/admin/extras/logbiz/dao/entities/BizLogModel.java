@@ -6,9 +6,6 @@ package net.jeebiz.admin.extras.logbiz.dao.entities;
 
 import org.apache.ibatis.type.Alias;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import net.jeebiz.boot.api.dao.entities.PaginationModel;
 
 /**
@@ -16,15 +13,8 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
  */
 @Alias("BizLogModel")
 @SuppressWarnings("serial")
-@Getter
-@Setter
-@ToString
-public class BizLogModel extends PaginationModel<BizLogModel> {
+public class BizLogModel extends PaginationModel {
 
-	/**
-	 * 日志ID
-	 */
-	private String id;
 	/**
 	 * 功能模块
 	 */
@@ -37,6 +27,10 @@ public class BizLogModel extends PaginationModel<BizLogModel> {
 	 * 操作类型
 	 */
 	private String opt;
+	/**
+	 * 日志级别：（debug:调试、info:信息、warn:警告、error:错误、fetal:严重错误）
+	 */
+	private String level;
 	/**
 	 * 功能操作请求来源IP地址
 	 */
@@ -54,10 +48,6 @@ public class BizLogModel extends PaginationModel<BizLogModel> {
 	 */
 	private String userId;
 	/**
-	 * 功能操作人
-	 */
-	private String userName;
-	/**
 	 * 功能操作发生时间
 	 */
 	private String timestamp;
@@ -69,8 +59,93 @@ public class BizLogModel extends PaginationModel<BizLogModel> {
 	 * 功能操作发生结束时间
 	 */
 	private String endtime;
-	/**
-	 * 模糊搜索关键字
-	 */
-	private String keywords;
+	
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+	public String getBusiness() {
+		return business;
+	}
+
+	public void setBusiness(String business) {
+		this.business = business;
+	}
+
+	public String getOpt() {
+		return opt;
+	}
+
+	public void setOpt(String opt) {
+		this.opt = opt;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public String getException() {
+		return exception;
+	}
+
+	public void setException(String exception) {
+		this.exception = exception;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getBegintime() {
+		return begintime;
+	}
+
+	public void setBegintime(String begintime) {
+		this.begintime = begintime;
+	}
+
+	public String getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+
 }

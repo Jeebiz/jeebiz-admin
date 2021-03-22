@@ -6,14 +6,14 @@ package net.jeebiz.admin.shadow.service;
 
 import java.security.GeneralSecurityException;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
-import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.BaseService;
 
-public interface IAuthzLoginService extends IBaseService<AuthzLoginModel>{
+public interface IAuthzLoginService extends BaseService<AuthzLoginModel>{
 	
 	RSAPublicKey genPublicKey(HttpServletRequest request) throws GeneralSecurityException;
 	
@@ -23,7 +23,7 @@ public interface IAuthzLoginService extends IBaseService<AuthzLoginModel>{
 	 * @param password : 密码，可不填
 	 * @return 用户账号状态信息
 	 */
-	AuthzLoginStatusModel getAccountStatus(String username, String password);
+	Map<String, String> getAccountStatus(String username, String password);
 
 	/***
 	 *  根据用户ID和密码查询用户信息

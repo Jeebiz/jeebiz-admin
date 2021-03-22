@@ -1,0 +1,7 @@
+
+DELETE FROM SYS_EXTRAS_INFORMS;
+
+INSERT INTO SYS_EXTRAS_INFORMS (INFO_USERID, INFO_TYPE, INFO_TITLE, INFO_DETAIL, INFO_STATUS) VALUES ('1', 'notice', '系统默认通知', '您将在这个功能查询到来自系统的通知信息！', '0');
+INSERT INTO SYS_EXTRAS_INFORMS (INFO_USERID, INFO_TYPE, INFO_TITLE, INFO_DETAIL, INFO_STATUS) VALUES ('1', 'direct', '系统默认私信', '您将在这个功能查询到来自其他用户或系统的私信！也可以通过私信功能给其他用户发信息！', '0');
+
+COMMIT;

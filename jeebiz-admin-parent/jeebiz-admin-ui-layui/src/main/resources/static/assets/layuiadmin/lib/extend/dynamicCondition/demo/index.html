@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>动态条件插件demo</title>
+		<link  href="../../../layui/css/layui.css" media="all" rel="stylesheet">
+		<script src="../../../layui/layui.js"></script>
+	</head>
+	<body >
+		<div id="simple-query" style="margin-left:50px;margin-top:20px;">
+			<a id="simpleBtn" class="layui-btn "  >简单查询</a><br/>
+			<br/>
+			<div id="msg">查询条件：</div>		
+			<br/>
+			<div>请求参数json：</div>		
+			<div id="result1" style="word-break:break-all;height:60px;width:500px;padding-left:50px;"></div>
+		</div>
+		<div id="complex-query" style="margin-left:50px;margin-top:20px;">
+			<a id="complexBtn" class="layui-btn "  >复杂查询</a><br/>
+			<br/>
+			<div id="msg2">查询条件：</div>
+			<br/>
+			<div>请求参数json：</div>	
+			<div id="result2" style="word-break:break-all;height:60px;width:500px;padding-left:50px;"></div>		
+			
+		</div>
+	<ul id="dcDemo" style="display:none;">
+		<li field="id" title="id" edit="text" layVerify="number" ></li>
+		<li field="name" title="姓名" edit="text"></li>
+		<li field="sex" title="性别" edit="select" templet="#selectSex"></li>
+		<li field="birthday" title="出生日期" edit="date"></li>
+		<li field="phone" title="手机号码" edit="text" layVerify="phone"></li>
+		<li field="email" title="邮箱" edit="text" layVerify="email"></li>
+	</ul>
+	<script type="text/html" id="selectSex">
+		<select>
+		    <option value=""></option>
+		    <option value="1">男</option>
+		    <option value="0">女</option>
+		</select>
+	</script>
+			
+		<div id="complex-query-json" style="margin-left:50px;margin-top:150px;">
+			<a id="complexBtn-json" class="layui-btn "  >复杂查询</a><br/>
+			<br/>
+			<div id="msg2-json">查询条件：</div>
+			<br/>
+			<div>请求参数json：</div>	
+			<div id="result2-json" style="word-break:break-all;height:60px;width:500px;padding-left:50px;"></div>		
+			
+		</div>
+<script type="text/javascript">
+layui.config({
+  base: '../../../layui_exts/' //设定扩展的Layui模块的所在目录，一般用于外部模块扩展
+}).extend({
+	dynamicCondition: 'dynamicCondition/dynamicCondition'
+}).use(['table','form','dynamicCondition'], function(){
+	var $=layui.$, table = layui.table, form = layui.table;
+	var dynamicCondition = layui.dynamicCondition;
+	
+	var dataFields = [{field:"id",title:"id",edit:"text",layVerify:"number"}
+		,{field:"name",title:"姓名",edit:"text"}
+		,{field:"sex",title:"性别",edit:"select", templet:"#selectSex"}
+		,{field:"birthday",title:"出生日期",edit:"date"}
+		,{field:"phone",title:"手机号码",edit:"text",layVerify:"phone"}
+		,{field:"email",title:"邮箱",layVerify:"email"}
+		];
+	//初始化动态条件查询实例
+	var dcInstance = dynamicCondition.create({fields : dataFields //通过json对象传入
+	  	//,tableId:"listTable"  //静态页面不好演示table数据表格更新
+	  	,type:"simple"  //type:"simple"/"complex"
+		,conditionTextId:"#msg"
+		,queryCallBack:function(requestData){
+			$("#result1").html(JSON.stringify(requestData));
+		}
+	});
+	/**简单查询*/
+	$("#simpleBtn").on("click",function(){
+		dcInstance.open();
+	})
+	
+	
+	
+	var complexDc = dynamicCondition.create({elem:"#dcDemo" //通过容器选择器传入，也可以$("#dcDemo"),或者document.getElementById("dcDemo")
+	  	//,tableId:"listTable" //静态页面不好演示table数据表格更新
+	  	,type:"complex"  //type:"simple"/"complex"
+		,conditionTextId:"#msg2"
+		//当有多个动态条件查询实例时，定义instanceName属性可以通过dynamicCondition.getInstance(instanceName)获取对应的实例
+		,instanceName:  "complexInstance"  
+		,queryCallBack:function(requestData){
+			$("#result2").html(JSON.stringify(requestData));
+		}
+	});
+	complexDc.setCondition([["name","like","张三"],["sex",null,"1"],["birthday","between","2018-01-01","2018-12-31"]]);
+	$("#result2").html(JSON.stringify(complexDc.buildRequestData()));
+	/**复杂查询*/
+	$("#complexBtn").on("click",function(){
+		dynamicCondition.getInstance("complexInstance").open();
+	})
+	
+	//请求参数为json字符串模式
+	var dc = dynamicCondition.create({elem:"#dcDemo" //通过容器选择器传入，也可以$("#dcDemo"),或者document.getElementById("dcDemo")
+	  	//,tableId:"listTable" //静态页面不好演示table数据表格更新
+	  	,type:"complex"  //type:"simple"/"complex"
+	  	,requestDataType:"json"  //"array"/"json" 默认array
+		,conditionTextId:"#msg2-json"
+		//当有多个动态条件查询实例时，定义instanceName属性可以通过dynamicCondition.getInstance(instanceName)获取对应的实例
+		,instanceName:  "complexInstance-json"  
+		,queryCallBack:function(requestData){
+			$("#result2-json").html(JSON.stringify(requestData));
+		}
+	});
+	dc.setCondition([["name","like","张三"],["sex",null,"1"],["birthday","between","2018-01-01","2018-12-31"]]);
+	$("#result2-json").html(JSON.stringify(dc.buildRequestData()) );
+	/**复杂查询*/
+	$("#complexBtn-json").on("click",function(){
+		dynamicCondition.getInstance("complexInstance-json").open();
+	})
+	
+	
+});
+
+</script>
+	</body>
+</html>

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
-		<version>1.0.1-ce-SNAPSHOT</version>
+		<version>1.0.0.RELEASE</version>
 	</parent>
 
 	<artifactId>jeebiz-admin-extras-inform</artifactId>
@@ -13,26 +13,30 @@
 
 	<dependencies>
 
-		<!-- For Jeebiz API -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-boot-api</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
+
 		<!-- For Mybatis -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>org.mybatis.caches</groupId>
+		    <artifactId>mybatis-ehcache</artifactId>
+		</dependency>
 		<!-- For Shiro -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-biz-spring-boot-starter</artifactId>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-shiro-biz</artifactId>
 		</dependency>
 		<!-- For Flyway -->
 		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>flyway-plus-spring-boot-starter</artifactId>
+			<groupId>com.github.vindell</groupId>
+			<artifactId>spring-boot-starter-flyway-plus</artifactId>
 		</dependency>
 
 	</dependencies>

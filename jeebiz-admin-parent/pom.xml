@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-dependencies</artifactId>
-		<version>1.0.1-ce-SNAPSHOT</version>
+		<version>1.0.0.RELEASE</version>
 		<relativePath>../jeebiz-admin-dependencies</relativePath>
 	</parent>
 	<artifactId>jeebiz-admin-parent</artifactId>
@@ -24,8 +24,10 @@
 
 	</properties>
 	
+
 	<modules>
-		<!--<module>jeebiz-admin-shadow</module>-->
+		<!-- 
+		<module>jeebiz-admin-ui-layui</module> -->
+		<module>jeebiz-admin-shadow</module>
 	</modules>
-	
 </project>

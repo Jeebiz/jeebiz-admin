@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-dependencies</artifactId>
-		<version>1.0.1-ce-SNAPSHOT</version>
+		<version>1.0.0.RELEASE</version>
 		<relativePath>../jeebiz-admin-dependencies</relativePath>
 	</parent>
 	
@@ -12,33 +12,14 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>jeebiz-admin-authz-dingtalk</module>
-		<module>jeebiz-admin-authz-feature</module>	
-		<module>jeebiz-admin-authz-jwt</module>
-		<module>jeebiz-admin-authz-org</module>
-		<module>jeebiz-admin-authz-rbac0</module>		
-		<module>jeebiz-admin-authz-thirdparty</module>
-		<module>jeebiz-admin-authz-weixin</module>
-		<module>jeebiz-admin-extras-article</module>
-		<module>jeebiz-admin-extras-cnarea</module>
-		<module>jeebiz-admin-extras-core</module>
-		<module>jeebiz-admin-extras-device</module>
-		<module>jeebiz-admin-extras-dict</module>
+		<module>jeebiz-admin-extras-authz-feature</module>
+		<module>jeebiz-admin-extras-authz-org</module>
+		<module>jeebiz-admin-extras-authz-rbac0</module>
+		<module>jeebiz-admin-extras-basedata</module>
 		<module>jeebiz-admin-extras-editor</module>
-		<module>jeebiz-admin-extras-filestore</module>
-		<module>jeebiz-admin-extras-filestore-aliyun-oss</module>
-		<module>jeebiz-admin-extras-filestore-fastdfs</module>
-		<module>jeebiz-admin-extras-filestore-minio</module>
 		<module>jeebiz-admin-extras-inform</module>
-		<module>jeebiz-admin-extras-inform-dingtalk</module>
-		<module>jeebiz-admin-extras-inform-weixin</module>
-		<module>jeebiz-admin-extras-initializr</module>
 		<module>jeebiz-admin-extras-logbiz</module>
-		<module>jeebiz-admin-extras-ops</module>
-		<module>jeebiz-admin-extras-sessions</module>		
-		<module>jeebiz-admin-extras-settings</module>
-		<module>jeebiz-admin-extras-sms-aliyun</module>
-		<module>jeebiz-admin-extras-sms-txcloud</module>
+		<module>jeebiz-admin-extras-sessions</module>
 	</modules>
 	
 	<build>

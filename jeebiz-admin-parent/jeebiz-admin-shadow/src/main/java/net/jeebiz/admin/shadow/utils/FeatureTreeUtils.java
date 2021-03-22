@@ -16,8 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.extras.authz.feature.dao.entities.AuthzFeatureModel;
+import net.jeebiz.admin.extras.authz.feature.dao.entities.AuthzFeatureOptModel;
 
 public final class FeatureTreeUtils {
 	

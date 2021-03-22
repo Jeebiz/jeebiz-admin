@@ -3,49 +3,49 @@
 
 <mapper namespace="net.jeebiz.admin.extras.logbiz.dao.IAuthzLogDao" >
 	
-	<resultMap id="AuthzLogMap" type="AuthzLogModel">
+	 <resultMap id="AuthzLogMap" type="AuthzLogModel">
 		<result property="id" column="LOG_ID" />
 		<result property="userId" column="LOG_USERID" />
-		<result property="userName" column="LOG_USERNAME" />
 		<result property="opt" column="LOG_OPT" />
 		<result property="protocol" column="LOG_PROTOCOL" />
+		<result property="realm" column="LOG_REALM" />
+		<result property="level" column="LOG_LEVEL" />
 		<result property="addr" column="LOG_ADDR" />
-		<result property="location" column="LOG_LOCATION" />
 		<result property="status" column="LOG_STATUS" />
 		<result property="msg" column="LOG_MSG" />
 		<result property="exception" column="LOG_EXCP" />
-		<result property="timestamp" column="LOG_TIMESTAMP"/>
+		<result property="timestamp" column="TIME24"/>
 	</resultMap>
 	 
 	<select id="getPagedList" resultMap="AuthzLogMap" parameterType="AuthzLogModel">
 		SELECT
 			t.LOG_ID,
-			t.CREATOR as LOG_USERID,
-			t2.U_USERNAME as LOG_USERNAME,
+			t.LOG_USERID,
 			t.LOG_OPT,
 			t.LOG_PROTOCOL,
+			t.LOG_REALM,
+			t.LOG_LEVEL,
 			t.LOG_ADDR,
-			t.LOG_LOCATION,
 			t.LOG_STATUS,
 			t.LOG_MSG,
 			t.LOG_EXCP,
-			t.CREATE_TIME as LOG_TIMESTAMP 
-		FROM SYS_DATA_LOG_AUTHZ t INNER JOIN SYS_AUTHZ_USER_LIST t2 ON t.CREATOR = t2.U_ID
+			t.TIME24 
+		FROM SYS_EXTRAS_LOG_AUTHZ t
 		<where>
 			<if test="model.userId != null and model.userId != '' ">
-				AND t.CREATOR = #{model.userId}
+				AND t.LOG_USERID = #{model.userId}
 			</if>
 			<if test="model.opt != null and model.opt != '' ">
 				AND t.LOG_OPT = #{model.opt}
 			</if>
-			<if test="model.keywords != null and model.keywords != '' ">
-				AND (t.LOG_ADDR like '%'||#{model.keywords}||'%' 
-					OR t.LOG_LOCATION like '%'||#{model.keywords}||'%' 
-					OR t2.U_USERNAME like '%'||#{model.keywords}||'%')
+			<if test="model.level != null and model.level != '' ">
+				AND t.LOG_LEVEL = #{model.level}
 			</if>
-			<if test="model.begintime != null and model.begintime != '' 
-					  and model.endtime != null and model.endtime != '' ">
-				<![CDATA[ AND t.CREATE_TIME BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
+			<if test="model.addr != null and model.addr != '' ">
+				AND t.LOG_ADDR like CONCAT('%',#{model.addr},'%')
+			</if>
+			<if test="model.begintime != null and model.endtime != null ">
+				<![CDATA[ AND t.TIME24 BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
 			</if>
 		</where>
 	</select>

@@ -4,11 +4,15 @@
  */
 package net.jeebiz.admin.extras.logbiz.setup.aspect;
 
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
+
 import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.spring.boot.utils.Log4jUtils;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.aspectj.lang.JoinPoint;
@@ -17,19 +21,16 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import net.jeebiz.admin.extras.logbiz.setup.Constants;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
-import net.jeebiz.boot.api.utils.Constants;
+
 
 @Aspect
 @Component
 public class BusinessLog4j2Aspect {
-	
-	private static Logger logger = LoggerFactory.getLogger(BusinessLog4j2Aspect.class);
 	
     /** 
      * 定义拦截规则：拦截有@RequestMapping注解的方法。 
@@ -37,7 +38,7 @@ public class BusinessLog4j2Aspect {
     public void controllerAspect(BusinessLog bizLog){}  
     
     /*<aop:config>
-		<aop:pointcut id="logPointcut"  expression="execution(* net.jeebiz..controller.*.*(..)) and @annotation(net.jeebiz.boot.api.annotation.BusinessLog) and @annotation(businessLog)" />
+		<aop:pointcut id="logPointcut"  expression="execution(* com.zfsoft..controller.*.*(..)) and @annotation(com.zfsoft.api.annotation.BusinessLog) and @annotation(businessLog)" />
 		<aop:aspect id="logAspect" ref="businessLog4j2Aspect">
 			<aop:after-returning method="afterReturing"  pointcut-ref="logPointcut" />
 		</aop:aspect>
@@ -50,7 +51,7 @@ public class BusinessLog4j2Aspect {
 	 * @throws IOException 
 	 * @throws TemplateException 
 	 */
-    @AfterReturning(pointcut = "@annotation(net.jeebiz.boot.api.annotation.BusinessLog) and @annotation(bizLog)")
+    @AfterReturning(pointcut = "execution(* net.jeebiz..mvc..**..*.*(..)) and @annotation(net.jeebiz.boot.api.annotation.BusinessLog) and @annotation(bizLog)")
 	public void afterReturing(JoinPoint jp, BusinessLog bizLog) throws IOException{
 		
     	Signature signature = jp.getSignature();
@@ -72,11 +73,11 @@ public class BusinessLog4j2Aspect {
 		ThreadContext.put("userId", principal.getUserid());
 		
 		// 记录请求日志
-		logger.info(Constants.bizMarker, "业务操作成功.");
+		Log4jUtils.instance("Biz-Log").info(Constants.bizLogMarker, "业务操作成功.");
 		
 	}
     
-    @AfterThrowing(throwing="ex", pointcut = "@annotation(net.jeebiz.boot.api.annotation.BusinessLog)  and @annotation(bizLog)")
+    @AfterThrowing(throwing="ex", pointcut = "execution(* net.jeebiz..mvc..**..*.*(..)) and @annotation(net.jeebiz.boot.api.annotation.BusinessLog)  and @annotation(bizLog)")
 	public void afterThrowing(Throwable ex, BusinessLog bizLog) throws IOException{
     	
     	ThreadContext.put("module", bizLog.module());
@@ -84,8 +85,8 @@ public class BusinessLog4j2Aspect {
 		ThreadContext.put("opt", bizLog.opt().getKey());
 		// 登录报错,这里还拿不到ShiroPrincipal对象
 		if(bizLog.opt().equals(BusinessType.LOGIN)) {
-			//ServletRequest request = SubjectUtils.getWebSubject().getServletRequest();
-			//ThreadContext.put("userId", request.getParameter("username"));
+			ServletRequest request = SubjectUtils.getWebSubject().getServletRequest();
+			ThreadContext.put("userId", request.getParameter("username"));
 		} else {
 			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			ThreadContext.put("userId", principal.getUserid());
@@ -94,7 +95,7 @@ public class BusinessLog4j2Aspect {
 		ThreadContext.put("clazz", ex.getClass().getName());
 		
 		// 记录请求日志
-		logger.error("业务操作异常：" + ex.getMessage(), ex);
+		Log4jUtils.instance("Biz-Excp").error(Constants.bizExcpMarker, "业务操作异常：" + ex.getMessage(), ex);
 		
 		
 	}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.extras.authz.org.dao.IAuthzStaffDao">
+	
+	<!-- 开启二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" >
+		<!-- 缓存对象闲置时长：3600s = 1h -->
+		<property name="timeToIdleSeconds" value="3600"/>
+		<!-- 缓存对象有效时长：3600s = 1h -->
+		<property name="timeToLiveSeconds" value="3600"/>
+		<!-- 同ehcache参数maxElementsInMemory -->
+		<property name="maxEntriesLocalHeap" value="1000"/>
+		<!-- 同ehcache参数maxElementsOnDisk -->
+		<property name="maxEntriesLocalDisk" value="10000000"/>
+		<!-- 缓存对象驱逐政策: "LRU", "LFU" or "FIFO" -->
+		<property name="memoryStoreEvictionPolicy" value="LRU"/>
+	</cache>
+	
+	<resultMap id="AuthzStaffMap" type="AuthzStaffModel">
+		<id property="id" column="POST_ID" />
+		<result property="orgId" column="ORG_ID" />
+		<result property="orgName" column="ORG_NAME" />
+		<result property="deptId" column="DEPT_ID" />
+		<result property="deptName" column="DEPT_NAME" />
+		<result property="code" column="POST_CODE" />
+		<result property="name" column="POST_NAME" />
+		<result property="intro" column="POST_INTRO" />
+		<result property="userId" column="POST_USERID" />
+		<result property="status" column="POST_STATUS" />
+		<result property="time24" column="TIME24" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="AuthzStaffModel" flushCache="true">
+		insert into SYS_AUTHZ_ORG_STAFF(ORG_ID,DEPT_ID,POST_ID,STAFF_ID,STAFF_INTRO,POST_STATUS,TIME24)
+		values(#{orgId},#{deptId},#{postId},#{id},#{intro,jdbcType=VARCHAR},'1',#{time24})
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String" flushCache="true">
+		DELETE FROM SYS_AUTHZ_ORG_STAFF WHERE STAFF_ID = #{id}
+	</delete>
+
+	<delete id="batchDelete" flushCache="true">
+		DELETE FROM SYS_AUTHZ_ORG_STAFF WHERE STAFF_ID IN 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item} 
+        </foreach>
+	</delete>
+
+	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
+		UPDATE SYS_AUTHZ_ORG_STAFF t 
+		   SET STAFF_STATUS = #{status}
+		 WHERE STAFF_ID = #{id}
+	</update>
+
+	<update id="update" parameterType="AuthzStaffModel" flushCache="true">
+		update SYS_AUTHZ_ORG_STAFF t
+		<set>
+			<if test="intro != null and intro != ''">t.STAFF_INTRO = #{intro},</if>
+			<if test="time24 != null and time24 != ''">t.TIME24 = #{time24}</if>
+		</set>
+		where t.STAFF_ID = #{id}
+	</update>
+	
+	<select id="getCountByUid" resultType="int" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.STAFF_ID) FROM SYS_AUTHZ_ORG_STAFF t WHERE t.STAFF_ID = #{uid}
+	</select>
+	
+	<select id="getPagedList" resultMap="AuthzStaffMap" parameterType="AuthzStaffModel" useCache="false">
+		SELECT
+			t.ORG_ID,
+			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t.ORG_ID) as ORG_NAME,
+			t.DEPT_ID,
+			(select x.DEPT_NAME from SYS_AUTHZ_ORG_DEPT x where x.DEPT_ID = t.DEPT_ID) as DEPT_NAME,
+			t.POST_ID,
+			(select x.POST_NAME from SYS_AUTHZ_ORG_POSITION x where x.DEPT_ID = t.DEPT_ID AND x.POST_ID = t.POST_ID) as POST_NAME,
+			t.STAFF_ID,
+			t.STAFF_INTRO,
+			t.STAFF_STATUS,
+			t.TIME24,
+			t2.U_USERNAME,
+			t2.U_ALIAS,
+			t2.U_AVATAR,
+			t2.U_PHONE,
+			t2.U_EMAIL
+		FROM SYS_AUTHZ_ORG_STAFF t inner join SYS_AUTHZ_USER_LIST t2 on t2.U_ID = t.STAFF_ID
+		<where>
+			<if test="model.orgId != null and model.orgId != ''">
+				and t.ORG_ID = #{model.orgId}
+			</if>
+			<if test="model.deptId != null and model.deptId != ''">
+				and t.DEPT_ID = #{model.deptId}
+			</if>
+			<if test="model.postId != null and model.postId != ''">
+				and t.POST_ID = #{model.postId}
+			</if>
+			<if test="model.name != null and model.name != ''">
+				and ( t2.U_USERNAME like '%'||#{model.name}||'%' OR t2.U_ALIAS like '%'||#{model.name}||'%')
+			</if>
+		</where>
+		ORDER By t.TIME24 ASC
+	</select>
+
+	<select id="getModel" resultMap="AuthzStaffMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.ORG_ID,
+			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t.ORG_ID) as ORG_NAME,
+			t.DEPT_ID,
+			(select x.DEPT_NAME from SYS_AUTHZ_ORG_DEPT x where x.DEPT_ID = t.DEPT_ID) as DEPT_NAME,
+			t.POST_ID,
+			(select x.POST_NAME from SYS_AUTHZ_ORG_POSITION x where x.DEPT_ID = t.DEPT_ID AND x.POST_ID = t.POST_ID) as POST_NAME,
+			t.STAFF_ID,
+			t.STAFF_INTRO,
+			t.STAFF_STATUS,
+			t.TIME24,
+			t2.U_USERNAME,
+			t2.U_ALIAS,
+			t2.U_AVATAR,
+			t2.U_PHONE,
+			t2.U_EMAIL
+		FROM SYS_AUTHZ_ORG_STAFF t inner join SYS_AUTHZ_USER_LIST t2 on t2.U_ID = t.STAFF_ID
+	   WHERE t.STAFF_ID = #{id} 
+	</select>
+    
+</mapper>

@@ -1,0 +1,181 @@
+#LAY-webui-design .layui-elem-quote {
+	background-color: FFFFFF !important;
+}
+
+#LAY-webui-design .layui-elem-field legend {
+	font-size: 14px;
+}
+
+#LAY-webui-design .layui-card {
+	margin-bottom: 5px;
+}
+
+#LAY-webui-design .layui-card-header {
+	border-bottom: 1px solid #ddd;
+}
+
+#LAY-webui-design .layui-card-footer {
+	position: relative;
+}
+
+#LAY-webui-design .layui-textarea {
+	min-height: 50px;
+	height: 50;
+}
+
+#LAY-webui-design .layui-form-label {
+	padding: 6px 10px;
+}
+
+#LAY-webui-design .layui-switch-label {
+	padding: 10px;
+}
+
+#LAY-webui-design .layui-clearfix {
+	clear: both;
+}
+
+#LAY-webui-design .layui-input-block {
+	margin-left: 100px;
+	min-height: 36px;
+}
+
+#LAY-webui-design .layui-input,
+#LAY-webui-design .layui-select,
+#LAY-webui-design .layui-textarea {
+	height: 28px;
+	line-height: 1;
+}
+
+
+#LAY-webui-design .layui-form-item {
+	margin-bottom: 5px;
+}
+
+#LAY-webui-design .layui-form-item .layui-inline,
+#LAY-webui-design .layui-form-item .layui-block{
+	margin-right: 5px;
+}
+
+#LAY-webui-design .layui-form-item .layui-inline.layui-clearfix {
+	width: 100%;
+}
+
+#LAY-webui-design .layui-form-item .layui-input-inline {
+	width: 175px;
+}
+
+#LAY-webui-design .layui-form-item .layui-input-company {
+    line-height: 28px;
+}
+
+#LAY-webui-design .layui-form-item .layui-form-mid {
+    padding: 5px 0 !important;
+}
+
+#LAY-webui-design .layui-design {
+	border: 1px dashed #FF5722;
+}
+
+
+#LAY-webui-design .layui-design-form .layui-form-item,
+#LAY-webui-design .layui-design-form .layui-inline {
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+
+#LAY-webui-design .layui-design-form .layui-input-block {
+    min-height: 32px;
+}
+
+/** 查询条件设计区域样式 */
+
+#LAY-webui-design .layui-badge-dot.layui-icon-close {
+	width: 12px;
+	height: 10px;
+	float: left;
+	font-size: 10px;
+	font-weight: bold;
+	padding: 2px;
+	line-height: 12px;
+	margin-top: 3px;
+}
+
+#LAY-webui-design .layui-badge-dot.layui-icon-close:hover {
+	cursor: pointer;
+}
+
+#LAY-webui-design .layui-design .layui-form-switch {
+	height: 21px;
+	line-height: 20px;
+	padding-right: 5px;
+	margin-top: 5px;
+}
+
+#LAY-webui-design .layui-design .layui-form-switch i {
+	top: 2px;
+	width: 15px;
+	height: 15px;
+}
+
+#LAY-webui-design .layui-design .layui-form-checkbox {
+    height: 23px;
+    line-height: 24px;
+}
+
+#LAY-webui-design .layui-design .layui-form-checkbox i {
+    height: 21px;
+    font-size: 18px;
+    font-weight: bold;
+    top: 1px;
+}
+
+#LAY-webui-design .layui-design .layui-form-radio {
+    line-height: 25px;
+    margin: 4px 10px 0 0;
+    padding-right: 5px;
+}
+
+#LAY-webui-design .layui-design .layui-form-radio > i {
+    font-size: 20px;
+}
+
+#LAY-webui-design .layui-design .layui-form-select dl dd,
+#LAY-webui-design .layui-design .layui-form-select dl dt {
+    padding: 0 10px;
+    line-height: 30px;
+}
+
+/** 数据表格设计区域样式 */
+
+#LAY-webui-design .layui-table .layui-form-switch {
+	margin-top: 0px;
+	height: 20px;
+	line-height: 20px;
+}
+
+#LAY-webui-design .layui-table .layui-form-switch i {
+	top: 2px;
+	width: 14px;
+	height: 14px;
+}
+
+#LAY-webui-design .layui-table .layui-form-select .layui-input {
+	padding-right: 0px;
+	cursor: pointer;
+}
+
+#LAY-webui-design .layui-table[lay-size="sm"] td, 
+#LAY-webui-design .layui-table[lay-size="sm"] th {
+	font-size: 12px;
+	padding: 5px 5px;
+}
+
+#LAY-webui-design .layui-elem-field {
+	padding: 5px 10px;
+	margin-bottom: 0px;
+}
+
+#LAY-webui-form-elem-btns{
+	text-align: center; 
+}

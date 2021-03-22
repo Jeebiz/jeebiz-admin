@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
 import net.jeebiz.admin.extras.sessions.dao.IOnlineSessionDao;
 import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
 import net.jeebiz.admin.extras.sessions.service.IOnlineSessionService;
-import net.jeebiz.admin.extras.sessions.web.dto.OnlineSessionDTO;
+import net.jeebiz.admin.extras.sessions.web.vo.OnlineSessionVo;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
@@ -33,30 +33,30 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
     private SessionDAO sessionDao;
 
 	@Override
-	public List<OnlineSessionDTO> getActiveSessions() {
+	public List<OnlineSessionVo> getActiveSessions() {
 		
 		if(sessionDao == null){
 			throw new IllegalStateException("sessionDao must be set for this filter");
 		}
     	Collection<Session> sessions = getSessionDao().getActiveSessions();
-    	List<OnlineSessionDTO> onlineSessions = Lists.newArrayList();
+    	List<OnlineSessionVo> onlineSessions = Lists.newArrayList();
     	for(Session session : sessions){         
 
-			OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(session.getId()), session.getHost(),
+			OnlineSessionVo sessionVo = new OnlineSessionVo(String.valueOf(session.getId()), session.getHost(),
 					dateFormat.format(session.getStartTimestamp()), 
 					dateFormat.format(session.getLastAccessTime()),
 					session.getTimeout());
     		
     		if(session instanceof SimpleOnlineSession) {
     			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
-    			sessionDTO.setStatus(onlineSession.getStatus().getInfo());
-    			sessionDTO.setUserAgent(onlineSession.getUserAgent());
-    			sessionDTO.setSystemHost(onlineSession.getSystemHost());
+    			sessionVo.setStatus(onlineSession.getStatus().getInfo());
+    			sessionVo.setUserAgent(onlineSession.getUserAgent());
+    			sessionVo.setSystemHost(onlineSession.getSystemHost());
     		}
     		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
-    			sessionDTO.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
+    			sessionVo.setStatus(OnlineStatus.force_logout.getInfo());
     		} 
-    		onlineSessions.add(sessionDTO);
+    		onlineSessions.add(sessionVo);
 		}
 		return onlineSessions;
 	}
@@ -68,7 +68,7 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
             if(session != null) {  
             	if(session instanceof SimpleOnlineSession) {
         			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
-        			onlineSession.setStatus(OnlineStatus.FORCE_LOGOUT);
+        			onlineSession.setStatus(OnlineStatus.force_logout);
         		}
                 session.setAttribute(Constants.SESSION_FORCE_LOGOUT_KEY, Boolean.TRUE);  
             }

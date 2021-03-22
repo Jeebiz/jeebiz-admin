@@ -1,11 +1,11 @@
 
-
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for SYS_DATA_SESSIONS
+-- Table structure for SYS_EXTRAS_SESSIONS
 -- ----------------------------
-DROP TABLE IF EXISTS `SYS_DATA_SESSIONS`;
-CREATE TABLE `SYS_DATA_SESSIONS` (
+DROP TABLE IF EXISTS `SYS_EXTRAS_SESSIONS`;
+CREATE TABLE `SYS_EXTRAS_SESSIONS` (
   `S_ID` varchar(50) NOT NULL COMMENT '用户会话ID编号',
   `S_USERID` varchar(32) NOT NULL COMMENT '当前登录的用户Id',
   `S_USERNAME` varchar(100) NOT NULL COMMENT '当前登录的用户名称',

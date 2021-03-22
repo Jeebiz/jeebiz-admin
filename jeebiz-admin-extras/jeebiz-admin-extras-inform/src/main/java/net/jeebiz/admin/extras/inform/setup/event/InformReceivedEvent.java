@@ -10,18 +10,18 @@ import org.springframework.biz.context.event.EnhancedEvent;
 
 import com.google.common.collect.Lists;
 
-import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
+import net.jeebiz.admin.extras.inform.dao.entities.InformModel;
 
 /**
  */
 @SuppressWarnings("serial")
-public class InformReceivedEvent extends EnhancedEvent<List<InformRecordModel>> {
+public class InformReceivedEvent extends EnhancedEvent<List<InformModel>> {
 	
-	public InformReceivedEvent(Object source, InformRecordModel inform) {
+	public InformReceivedEvent(Object source, InformModel inform) {
 		super(source, Lists.newArrayList(inform));
 	}
 	
-	public InformReceivedEvent(Object source, List<InformRecordModel> informs) {
+	public InformReceivedEvent(Object source, List<InformModel> informs) {
 		super(source, informs);
 	}
 	

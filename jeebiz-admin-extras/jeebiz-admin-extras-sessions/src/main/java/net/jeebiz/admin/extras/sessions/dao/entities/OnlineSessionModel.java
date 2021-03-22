@@ -13,23 +13,14 @@ import org.apache.shiro.session.mgt.OnlineSession;
 import org.apache.shiro.session.mgt.SimpleOnlineSession;
 import org.apache.shiro.session.mgt.SimpleOnlineSession.OnlineStatus;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import net.jeebiz.boot.api.dao.entities.PaginationModel;
 
 @Alias("OnlineSessionModel")
 @SuppressWarnings("serial")
-@Getter
-@Setter
-@ToString
-public class OnlineSessionModel extends PaginationModel<OnlineSessionModel> {
+public class OnlineSessionModel extends PaginationModel {
 	
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-	/**
-	 * 回话记录ID
-	 */
-	private String id;
+	
 	/** 当前登录的用户Id */
     private String userid;
     /** 当前登录的用户名称 */
@@ -79,8 +70,105 @@ public class OnlineSessionModel extends PaginationModel<OnlineSessionModel> {
 			this.status = onlineSession.getStatus().getInfo();
 		}
 		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
-			this.status =  OnlineStatus.FORCE_LOGOUT.getInfo();
+			this.status =  OnlineStatus.force_logout.getInfo();
 		}
+	}
+
+    public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getStartTimestamp() {
+		return startTimestamp;
+	}
+
+	public void setStartTimestamp(String startTimestamp) {
+		this.startTimestamp = startTimestamp;
+	}
+
+	public String getLastAccessTime() {
+		return lastAccessTime;
+	}
+
+	public void setLastAccessTime(String lastAccessTime) {
+		this.lastAccessTime = lastAccessTime;
+	}
+
+	public long getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(long timeout) {
+		this.timeout = timeout;
+	}
+
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+	public String getSystemHost() {
+		return systemHost;
+	}
+
+	public void setSystemHost(String systemHost) {
+		this.systemHost = systemHost;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getForceLogout() {
+		return forceLogout;
+	}
+
+	public void setForceLogout(String forceLogout) {
+		this.forceLogout = forceLogout;
+	}
+
+	public OnlineSession getSession() {
+		return session;
+	}
+
+	public void setSession(OnlineSession session) {
+		this.session = session;
 	}
 
 }
