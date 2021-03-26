@@ -83,6 +83,11 @@ pac4j:
 ###Spring Boot 相关组件（SpringMVC、Freemarker、Session、Cache、DataSource）配置：  
 ################################################################################################################
 spring: 
+  # 缓存配置：
+  cache: 
+    type: none  #现在改为none,使用j2cache 去配置
+    ehcache: 
+      config: classpath:/conf/ehcache/ehcache.xml
   # 数据源配置：
   datasource:
     name: jeebiz_admin
