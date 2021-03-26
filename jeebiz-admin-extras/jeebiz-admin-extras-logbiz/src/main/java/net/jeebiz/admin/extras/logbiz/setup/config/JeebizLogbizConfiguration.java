@@ -4,9 +4,7 @@
  */
 package net.jeebiz.admin.extras.logbiz.setup.config;
 
-import org.apache.logging.log4j.spring.boot.ext.web.Log4j2MDCInterceptor;
 import org.flywaydb.spring.boot.ext.FlywayFluentConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,18 +12,15 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import net.jeebiz.admin.extras.logbiz.setup.shiro.Slf4jMDCRequestFilter;
-import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.web.servlet.handler.Slf4jMDCInterceptor;
 
 @Configuration
 public class JeebizLogbizConfiguration implements WebMvcConfigurer {
 	
-	@Autowired
-	private Log4j2MDCInterceptor mdcInterceptor;
 	
 	@Bean
-	public Slf4jMDCInterceptor mdcInterceptor(Sequence sequence) {
-		return new Slf4jMDCInterceptor(sequence);
+	public Slf4jMDCInterceptor mdcInterceptor() {
+		return new Slf4jMDCInterceptor();
 	}
 	
 	/*@Bean
@@ -34,16 +29,16 @@ public class JeebizLogbizConfiguration implements WebMvcConfigurer {
 	}*/
 
 	@Bean("log4j2")
-	public FilterRegistrationBean<Slf4jMDCRequestFilter> log4j2MDCRequestFilter(Sequence sequence) {
+	public FilterRegistrationBean<Slf4jMDCRequestFilter> slf4jMDCRequestFilter() {
 		FilterRegistrationBean<Slf4jMDCRequestFilter> registration = new FilterRegistrationBean<Slf4jMDCRequestFilter>();
-		registration.setFilter(new Slf4jMDCRequestFilter(sequence));
+		registration.setFilter(new Slf4jMDCRequestFilter());
 		registration.setEnabled(false);
 		return registration;
 	}
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(mdcInterceptor).addPathPatterns("/**").order(Integer.MIN_VALUE);
+		registry.addInterceptor(mdcInterceptor()).addPathPatterns("/**").order(Integer.MIN_VALUE);
 	}
 	
 	@Bean

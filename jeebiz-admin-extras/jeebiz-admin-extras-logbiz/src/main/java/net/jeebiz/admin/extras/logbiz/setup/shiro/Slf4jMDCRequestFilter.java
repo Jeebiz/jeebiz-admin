@@ -20,12 +20,7 @@ import net.jeebiz.boot.api.sequence.Sequence;
 
 public class Slf4jMDCRequestFilter extends AccessControlFilter {
 	
-	private final Sequence sequence;
-	
-	public Slf4jMDCRequestFilter(Sequence sequence) {
-		super();
-		this.sequence = sequence;
-	}
+	private final Sequence sequence = new Sequence(0);
 	
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
