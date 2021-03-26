@@ -540,7 +540,7 @@ logging:
         - column: LOG_PROTOCOL
           pattern: "%X{protocol}"
         - column: LOG_ADDR
-          pattern: "%X{addr}"
+          pattern: "%X{remoteAddr}"
         - column: LOG_LOCATION
           pattern: "%X{location}"  
         - column: LOG_STATUS
