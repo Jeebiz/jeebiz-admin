@@ -31,10 +31,10 @@ comment on column SYS_DATA_LOG_AUTHZ.CREATOR is '认证用户ID';
 -- Create table
 create table SYS_DATA_LOG_BIZ (
   LOG_ID  		VARCHAR2(32) default sys_guid() not null,
-  LOG_MODULE 	VARCHAR2(50) not null,
-  LOG_BIZ 		VARCHAR2(100) not null,
-  LOG_OPT     	VARCHAR2(50) not null,
-  LOG_ADDR		VARCHAR2(50) not null,
+  LOG_MODULE 	VARCHAR2(50),
+  LOG_BIZ 		VARCHAR2(100),
+  LOG_OPT     	VARCHAR2(50),
+  LOG_ADDR		VARCHAR2(50),
   LOG_LOCATION	VARCHAR2(200),
   LOG_MSG     	VARCHAR2(500),
   LOG_EXCP     	CLOB,

@@ -13,7 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import net.jeebiz.admin.extras.logbiz.setup.shiro.Log4j2MDCRequestFilter;
+import net.jeebiz.admin.extras.logbiz.setup.shiro.Slf4jMDCRequestFilter;
+import net.jeebiz.boot.api.sequence.Sequence;
+import net.jeebiz.boot.api.web.servlet.handler.Slf4jMDCInterceptor;
 
 @Configuration
 public class JeebizLogbizConfiguration implements WebMvcConfigurer {
@@ -22,14 +24,19 @@ public class JeebizLogbizConfiguration implements WebMvcConfigurer {
 	private Log4j2MDCInterceptor mdcInterceptor;
 	
 	@Bean
+	public Slf4jMDCInterceptor mdcInterceptor(Sequence sequence) {
+		return new Slf4jMDCInterceptor(sequence);
+	}
+	
+	/*@Bean
 	public Log4j2MDCInterceptor mdcInterceptor() {
 		return new Log4j2MDCInterceptor();
-	}
+	}*/
 
 	@Bean("log4j2")
-	public FilterRegistrationBean<Log4j2MDCRequestFilter> log4j2MDCRequestFilter() {
-		FilterRegistrationBean<Log4j2MDCRequestFilter> registration = new FilterRegistrationBean<Log4j2MDCRequestFilter>();
-		registration.setFilter(new Log4j2MDCRequestFilter());
+	public FilterRegistrationBean<Slf4jMDCRequestFilter> log4j2MDCRequestFilter(Sequence sequence) {
+		FilterRegistrationBean<Slf4jMDCRequestFilter> registration = new FilterRegistrationBean<Slf4jMDCRequestFilter>();
+		registration.setFilter(new Slf4jMDCRequestFilter(sequence));
 		registration.setEnabled(false);
 		return registration;
 	}

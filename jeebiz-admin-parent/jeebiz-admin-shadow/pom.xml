@@ -168,11 +168,6 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-j2cache</artifactId>
 		</dependency>
-		<!-- For IP2region
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>ip2region-spring-boot-starter</artifactId>
-		</dependency> -->
 		<!-- For Thymeleaf View 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

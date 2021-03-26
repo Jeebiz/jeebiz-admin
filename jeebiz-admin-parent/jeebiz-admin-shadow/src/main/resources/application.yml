@@ -535,25 +535,23 @@ logging:
       - table-name: SYS_DATA_LOG_AUTHZ
         marker: Authz-Log
         column-mappings: 
-        - column: LOG_USERID
-          pattern: "%X{userId}"
         - column: LOG_OPT
           pattern: "%X{opt}"
         - column: LOG_PROTOCOL
           pattern: "%X{protocol}"
-        - column: LOG_REALM
-          pattern: "%X{realm}"
-        - column: LOG_LEVEL
-          pattern: "%level"
         - column: LOG_ADDR
-          pattern: "%X{remoteAddr}"
+          pattern: "%X{addr}"
+        - column: LOG_LOCATION
+          pattern: "%X{location}"  
         - column: LOG_STATUS
           pattern: "%X{status}"
         - column: LOG_MSG
           pattern: "%msg"
         - column: LOG_EXCP
           pattern: "%xEx"
-        - column: TIME24
+        - column: CREATOR
+          pattern: "%X{uid}"          
+        - column: CREATE_TIME
           pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
       - table-name: SYS_DATA_LOG_BIZ
         marker: Biz-Log
@@ -564,36 +562,15 @@ logging:
           pattern: "%X{biz}"
         - column: LOG_OPT
           pattern: "%X{opt}"
-        - column: LOG_LEVEL
-          pattern: "%level"
-        - column: LOG_USERID
-          pattern: "%X{userId}"
         - column: LOG_ADDR
-          pattern: "%X{remoteAddr}"
+          pattern: "%X{addr}"
+        - column: LOG_LOCATION
+          pattern: "%X{location}"          
         - column: LOG_MSG
           pattern: "%msg"
         - column: LOG_EXCP
           pattern: "%xEx"
-        - column: TIME24
-          pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
-      - table-name: SYS_DATA_LOG_EXCP
-        marker: Biz-Excp
-        column-mappings: 
-        - column: LOG_CLASS
-          pattern: "%X{clazz}"
-        - column: LOG_TYPE
-          pattern: "%X{type}"
-        - column: LOG_LEVEL
-          pattern: "%level"
-        - column: LOG_USERID
-          pattern: "%X{userId}"
-        - column: LOG_ADDR
-          pattern: "%X{remoteAddr}"
-        - column: LOG_CODE
-          pattern: "%X{code}"
-        - column: LOG_MSG
-          pattern: "%msg"
-        - column: LOG_EXCP
-          pattern: "%xEx"
-        - column: TIME24
+        - column: CREATOR
+          pattern: "%X{uid}"          
+        - column: CREATE_TIME
           pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
