@@ -17,7 +17,6 @@ import net.jeebiz.boot.api.web.servlet.handler.Slf4jMDCInterceptor;
 @Configuration
 public class JeebizLogbizConfiguration implements WebMvcConfigurer {
 	
-	
 	@Bean
 	public Slf4jMDCInterceptor mdcInterceptor() {
 		return new Slf4jMDCInterceptor();
