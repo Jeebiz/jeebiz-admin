@@ -71,6 +71,7 @@ public final class FeatureNavUtils {
 				featureDTO.setCode(feature.getCode());
 				// 功能菜单名称
 				featureDTO.setName(feature.getName());
+				featureDTO.setLabel( feature.getName());
 				// 菜单类型(1:原生|2:自定义)
 				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
@@ -141,6 +142,7 @@ public final class FeatureNavUtils {
 					featureDTO.setCode(feature.getCode());
 					// 功能菜单名称
 					featureDTO.setName(feature.getName());
+					featureDTO.setLabel( feature.getName());
 					// 菜单类型(1:原生|2:自定义)
 					featureDTO.setType(feature.getType());
 					// 菜单样式或菜单图标路径
@@ -205,6 +207,7 @@ public final class FeatureNavUtils {
 				featureDTO.setCode(feature.getCode());
 				// 功能菜单名称
 				featureDTO.setName(feature.getName());
+				featureDTO.setLabel( feature.getName());
 				// 菜单类型(1:原生|2:自定义)
 				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
@@ -226,7 +229,6 @@ public final class FeatureNavUtils {
 				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 				if(isParent){
 					featureDTO.setLeaf(false);
-					featureDTO.setLabel( feature.getName());
 					// 子菜单
 					List<AuthzFeatureDTO> subFeatures = getSubFeatureList(feature, featureList);
 					// 有子菜单
@@ -346,6 +348,7 @@ public final class FeatureNavUtils {
 			featureDTO.setCode(feature.getCode());
 			// 功能菜单名称
 			featureDTO.setName(feature.getName());
+			featureDTO.setLabel( feature.getName());
 			// 菜单类型(1:原生|2:自定义)
 			featureDTO.setType(feature.getType());
 			// 菜单样式或菜单图标路径
