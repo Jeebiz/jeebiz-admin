@@ -128,6 +128,35 @@
 		 AND ROWNUM = 1
 	</select>
 	
+	<select id="getProfile" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.U_PID,
+			t.U_ID,
+			t.U_NICKNAME,
+			t.U_AVATAR,
+			t.U_COUNTRY_CODE,
+			t.U_PHONE,
+			t.U_EMAIL,
+			t.U_GENDER,
+			t.U_BIRTHDAY,
+			t.U_IDCARD,
+			t.U_AGE,
+			t.U_HEIGHT,
+			t.U_WEIGHT,
+			t.U_LANGUAGE,
+			t.U_INTRO,
+			t.U_PHOTOS,
+			t.U_PROVINCE,
+			t.U_CITY,
+			t.U_AREA,
+			t.U_WGS84_LNG,
+			t.U_WGS84_LAT,
+			t.U_DEGREE,
+			t.U_TIME24
+		FROM SYS_AUTHZ_USER_PROFILE t
+	   WHERE t.U_ID = #{uid}
+	</select>
+	
 	<select id="getModel" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.U_PID,
@@ -154,7 +183,7 @@
 			t.U_DEGREE,
 			t.U_TIME24
 		FROM SYS_AUTHZ_USER_PROFILE t
-	   WHERE t.U_ID = #{id}
+	   WHERE t.U_PID = #{id}
 	</select>
 	
 </mapper>

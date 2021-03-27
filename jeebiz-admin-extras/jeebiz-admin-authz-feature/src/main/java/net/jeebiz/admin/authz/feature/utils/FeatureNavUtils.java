@@ -123,6 +123,132 @@ public final class FeatureNavUtils {
 		return features;
 	}
 	
+	protected static List<AuthzFeatureDTO> getSubFeatureList(AuthzFeatureModel parentNav,List<AuthzFeatureModel> featureList) {
+			
+			List<AuthzFeatureDTO> features = Lists.newArrayList();
+			//筛选当前父功能模块节点的子功能模块节点数据
+			List<AuthzFeatureModel> childFeatureList = featureList.stream()
+					.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParent()))
+					.collect(Collectors.toList());
+			if(CollectionUtils.isNotEmpty(childFeatureList)){
+				for (AuthzFeatureModel feature : childFeatureList) {
+					AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
+					// 功能菜单ID
+					featureDTO.setId(feature.getId());
+					// 功能菜单简称
+					featureDTO.setAbb(feature.getAbb());
+					// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
+					featureDTO.setCode(feature.getCode());
+					// 功能菜单名称
+					featureDTO.setName(feature.getName());
+					// 菜单类型(1:原生|2:自定义)
+					featureDTO.setType(feature.getType());
+					// 菜单样式或菜单图标路径
+					featureDTO.setIcon(feature.getIcon());
+					// 菜单显示顺序
+					featureDTO.setOrder(feature.getOrder());
+					// 父级功能菜单ID
+					featureDTO.setParent(feature.getParent());
+					featureDTO.setPid(feature.getParent());
+					// 功能菜单URL
+					featureDTO.setUrl(feature.getUrl());
+					// 功能菜单对应页面相对路径
+					featureDTO.setPath(feature.getPath());
+					// 菜单是否可见(1:可见|0:不可见)
+					featureDTO.setVisible(feature.getVisible());
+					// 菜单所拥有的权限标记
+					featureDTO.setPerms(feature.getPerms());
+					// 判断是否是有子菜单
+					boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+					if(isParent){
+						// 子菜单
+						List<AuthzFeatureDTO> subFeatures = getSubFeatureList(feature, featureList);
+						if(null != subFeatures && subFeatures.size() > 0) {
+							boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
+							if(checked) {
+								featureDTO.setChecked(true);
+							} else {
+								featureDTO.setChecked(false);
+							}
+							featureDTO.setChildren(subFeatures);
+						}
+					}
+					features.add(featureDTO);
+				}
+				return features.stream().sorted().collect(Collectors.toList());
+			}
+			return features;
+		}
+
+	/**
+	 * 获取菜单树
+	 * @param featureList
+	 * @return
+	 */
+	public static List<AuthzFeatureDTO> getFeatureTreeList(List<AuthzFeatureModel> featureList) {
+		
+		// 优先获得最顶层的菜单集合
+		List<AuthzFeatureModel> topFeatureList = featureList.stream()
+				.filter(feature -> feature.isRoot())
+				.collect(Collectors.toList());
+		List<AuthzFeatureDTO> features = Lists.newArrayList();
+		if(CollectionUtils.isNotEmpty(topFeatureList)){
+			
+			for (AuthzFeatureModel feature : topFeatureList) {
+				
+				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
+				// 功能菜单ID
+				featureDTO.setId(feature.getId());
+				// 功能菜单简称
+				featureDTO.setAbb(feature.getAbb());
+				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
+				featureDTO.setCode(feature.getCode());
+				// 功能菜单名称
+				featureDTO.setName(feature.getName());
+				// 菜单类型(1:原生|2:自定义)
+				featureDTO.setType(feature.getType());
+				// 菜单样式或菜单图标路径
+				featureDTO.setIcon(feature.getIcon());
+				// 菜单显示顺序
+				featureDTO.setOrder(feature.getOrder());
+				// 父级功能菜单ID
+				featureDTO.setParent(feature.getParent());
+				featureDTO.setPid(feature.getParent());
+				// 功能菜单URL
+				featureDTO.setUrl(feature.getUrl());
+				// 功能菜单对应页面相对路径
+				featureDTO.setPath(feature.getPath());
+				// 菜单是否可见(1:可见|0:不可见)
+				featureDTO.setVisible(feature.getVisible());
+				// 菜单所拥有的权限标记
+				featureDTO.setPerms(feature.getPerms());
+				// 判断是否是有子菜单
+				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+				if(isParent){
+					featureDTO.setLeaf(false);
+					featureDTO.setLabel( feature.getName());
+					// 子菜单
+					List<AuthzFeatureDTO> subFeatures = getSubFeatureList(feature, featureList);
+					// 有子菜单
+					if(CollectionUtils.isNotEmpty(subFeatures)) {
+						boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
+						if(checked) {
+							featureDTO.setChecked(true);
+						} else {
+							featureDTO.setChecked(false);
+						}
+						featureDTO.setChildren(subFeatures);
+					}
+				} 
+				features.add(featureDTO);
+			}
+			
+			return features.stream().sorted().collect(Collectors.toList());
+		}
+		return features;
+	}
+	
+	
 	/**
 	 * 获取菜单树
 	 * @param featureList
@@ -205,6 +331,42 @@ public final class FeatureNavUtils {
 			return features.stream().sorted().collect(Collectors.toList());
 		}
 		return features;
+	}
+	
+	public static List<AuthzFeatureDTO> getFeatureFlatList(List<AuthzFeatureModel> featureList) {
+		List<AuthzFeatureDTO> features = Lists.newArrayList();
+		for (AuthzFeatureModel feature : featureList) {
+			
+			AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
+			// 功能菜单ID
+			featureDTO.setId(feature.getId());
+			// 功能菜单简称
+			featureDTO.setAbb(feature.getAbb());
+			// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
+			featureDTO.setCode(feature.getCode());
+			// 功能菜单名称
+			featureDTO.setName(feature.getName());
+			// 菜单类型(1:原生|2:自定义)
+			featureDTO.setType(feature.getType());
+			// 菜单样式或菜单图标路径
+			featureDTO.setIcon(feature.getIcon());
+			// 菜单显示顺序
+			featureDTO.setOrder(feature.getOrder());
+			// 父级功能菜单ID
+			featureDTO.setParent(feature.getParent());
+			featureDTO.setPid(feature.getParent());
+			// 功能菜单URL
+			featureDTO.setUrl(feature.getUrl());
+			// 功能菜单对应页面相对路径
+			featureDTO.setPath(feature.getPath());
+			// 菜单是否可见(1:可见|0:不可见)
+			featureDTO.setVisible(feature.getVisible());
+			// 菜单所拥有的权限标记
+			featureDTO.setPerms(feature.getPerms());
+			features.add(featureDTO);
+		}
+		
+		return features.stream().sorted().collect(Collectors.toList());
 	}
 	
 	public static List<AuthzFeatureDTO> getFeatureFlatList(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {

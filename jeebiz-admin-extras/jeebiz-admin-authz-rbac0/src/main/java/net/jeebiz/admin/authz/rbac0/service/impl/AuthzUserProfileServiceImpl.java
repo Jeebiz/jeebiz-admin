@@ -13,6 +13,11 @@ import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
 public class AuthzUserProfileServiceImpl extends BaseServiceImpl<AuthzUserProfileModel, IAuthzUserProfileDao> implements IAuthzUserProfileService {
+
+	@Override
+	public AuthzUserProfileModel getProfile(String uid) {
+		return getDao().getProfile(uid);
+	}
 	
 	@Override
 	public int getCountByPhone(String phone, String origin) {
@@ -23,5 +28,6 @@ public class AuthzUserProfileServiceImpl extends BaseServiceImpl<AuthzUserProfil
 	public int getCountByEmail(String email, String origin) {
 		return getDao().getCountByEmail(email, origin);
 	}
+
 	
 }

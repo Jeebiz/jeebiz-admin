@@ -33,13 +33,16 @@ import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
+import net.jeebiz.admin.authz.rbac0.service.IAuthzUserProfileService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserAllotRoleDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserNewDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserPaginationDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserProfileDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserRenewDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.XHeaders;
@@ -63,6 +66,8 @@ public class AuthzUserController extends BaseMapperController {
 
 	@Autowired
 	private IAuthzUserService authzUserService;
+	@Autowired
+	private IAuthzUserProfileService authzUserProfileService;
 	@Autowired
 	private IAuthzRoleService authzRoleService;
 	
@@ -112,7 +117,18 @@ public class AuthzUserController extends BaseMapperController {
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
 	}
 	
-	
+	@ApiOperation(value = "登录用户信息", notes = "根据认证信息中的用户ID查询用户详情")
+	@GetMapping("profile")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<AuthzUserProfileDTO> profile() throws Exception { 
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		AuthzUserProfileModel model = getAuthzUserProfileService().getProfile(principal.getUserid());
+		if(model == null) {
+			return ApiRestResponse.fail(getMessage("user.get.empty"));
+		}
+		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserProfileDTO.class));
+	}
 	
 	@ApiOperation(value = "增加用户信息", notes = "增加用户信息")
 	@ApiImplicitParams({ 
@@ -331,8 +347,8 @@ public class AuthzUserController extends BaseMapperController {
 		return authzUserService;
 	}
 
-	public void setAuthzUserService(IAuthzUserService authzUserService) {
-		this.authzUserService = authzUserService;
+	public IAuthzUserProfileService getAuthzUserProfileService() {
+		return authzUserProfileService;
 	}
 	
 	public IAuthzRoleService getAuthzRoleService() {

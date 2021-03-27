@@ -96,6 +96,9 @@ docx4j:
       auto-delete: true
       input-encoding: UTF-8
 
+dozer:
+  mapping-files: classpath:default.dozer.xml
+
 ################################################################################################################
 ###Resilience4j 基本配置：
 ###同时存在 Retry、CircuitBreaker、Bulkhead、RateLimiter注解时
@@ -161,7 +164,8 @@ resilience4j:
         randomized-wait-factor: 0.5         # 随机因子
         result-predicate: net.jeebiz.admin.shadow.setup.RetryOnResultPredicate  
         #retry-exception-predicate: com.example.resilience4j.predicate.RetryOnExceptionPredicate
-        retry-exceptions:          - net.jeebiz.boot.api.exception.BizRuntimeException
+        retry-exceptions:
+          - net.jeebiz.boot.api.exception.BizRuntimeException
           - net.jeebiz.boot.api.exception.BizIOException
         ignore-exceptions:
           - net.jeebiz.boot.api.exception.BizCheckedException
@@ -563,7 +567,7 @@ logging:
         - column: LOG_OPT
           pattern: "%X{opt}"
         - column: LOG_ADDR
-          pattern: "%X{addr}"
+          pattern: "%X{remoteAddr}"
         - column: LOG_LOCATION
           pattern: "%X{location}"          
         - column: LOG_MSG

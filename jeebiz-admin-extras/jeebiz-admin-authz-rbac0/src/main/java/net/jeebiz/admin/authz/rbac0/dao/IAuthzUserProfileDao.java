@@ -18,6 +18,13 @@ import net.jeebiz.boot.api.dao.BaseDao;
 public interface IAuthzUserProfileDao extends BaseDao<AuthzUserProfileModel>{
 
 	/**
+	 * 根据用户Id查询用户信息
+	 * @param uid
+	 * @return
+	 */
+	public AuthzUserProfileModel getProfile(@Param("uid") String uid);
+	
+	/**
 	 * 根据手机号查询相同手机号数量
 	 * @param phone 手机号码
 	 * @return

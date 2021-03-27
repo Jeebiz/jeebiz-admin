@@ -31,9 +31,9 @@ import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
 import net.jeebiz.admin.authz.feature.setup.handler.FeatureDataHandlerFactory;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureNewDTO;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureRenewDTO;
-import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -66,7 +66,19 @@ public class AuthzFeatureController extends BaseMapperController{
 		return ApiRestResponse.success(featureDTOList);
 	}
 	
-	@ApiOperation(value = "功能菜单-树形结构数据（全部数据）", notes = "查询功能菜单树形结构数据")
+	@ApiOperation(value = "功能菜单-树形结构数据（全部菜单数据）", notes = "查询功能菜单树形结构数据")
+	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单树形结构数据", opt = BusinessType.SELECT)
+	@GetMapping("nav")
+	@RequiresPermissions("feature:list")
+	@ResponseBody
+	public ApiRestResponse<List<AuthzFeatureDTO>> nav(){
+		// 所有的功能菜单
+		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		// 返回各级菜单 + 对应的功能权限数据
+		return ApiRestResponse.success(FeatureDataHandlerFactory.getTreeHandler().handle(featureList));
+	}
+	
+	@ApiOperation(value = "功能菜单-树形结构数据（包含功能操作按钮）", notes = "查询功能菜单树形结构数据")
 	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单树形结构数据", opt = BusinessType.SELECT)
 	@GetMapping("tree")
 	@RequiresPermissions("feature:list")
@@ -81,7 +93,7 @@ public class AuthzFeatureController extends BaseMapperController{
 		//return ResultUtils.dataMap(FeatureDataHandlerFactory.getTreeHandler().handle(featureList, featureOptList));
 	}
 	
-	@ApiOperation(value = "功能菜单-树形结构数据（全部数据）", notes = "查询功能菜单树形结构数据且自定义数据处理器")
+	@ApiOperation(value = "功能菜单-树形结构数据（包含功能操作按钮）", notes = "查询功能菜单树形结构数据且自定义数据处理器")
 	@ApiImplicitParams({ 
 		@ApiImplicitParam( paramType = "query", name = "tag", required = true, value = "响应数据处理实现对象注册名称", dataType = "String")
 	})

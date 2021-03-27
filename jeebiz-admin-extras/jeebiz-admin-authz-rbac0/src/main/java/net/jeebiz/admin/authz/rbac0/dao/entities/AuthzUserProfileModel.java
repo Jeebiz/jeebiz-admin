@@ -59,11 +59,11 @@ public class AuthzUserProfileModel {
 	/**
 	 *用户身高
 	 */
-	private int height;
+	private String height;
 	/**
 	 *用户体重
 	 */
-	private int weight;
+	private String weight;
 	/**
 	 * 官方语言
 	 */

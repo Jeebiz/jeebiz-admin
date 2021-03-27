@@ -71,13 +71,13 @@ public class AuthzUserProfileDTO {
 	/**
 	 *用户身高
 	 */
-	@ApiModelProperty(name = "height", dataType = "Integer", value = "用户身高")
-	protected int height;
+	@ApiModelProperty(name = "height", dataType = "String", value = "用户身高")
+	protected String height;
 	/**
 	 *用户体重
 	 */
-	@ApiModelProperty(name = "weight", dataType = "Integer", value = "用户体重")
-	protected int weight;
+	@ApiModelProperty(name = "weight", dataType = "String", value = "用户体重")
+	protected String weight;
 	/**
 	 * 官方语言
 	 */

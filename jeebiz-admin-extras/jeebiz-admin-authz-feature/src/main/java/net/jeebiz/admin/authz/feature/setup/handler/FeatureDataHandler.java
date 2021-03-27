@@ -11,6 +11,8 @@ import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 
 public interface FeatureDataHandler<T> {
 
+	T handle(List<AuthzFeatureModel> featureList);
+	
 	T handle(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList);
 	
 }

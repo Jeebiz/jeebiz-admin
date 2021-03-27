@@ -14,8 +14,14 @@ import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 public class FeatureFlatDataHandler implements FeatureDataHandler<List<AuthzFeatureDTO>> {
 
 	@Override
+	public List<AuthzFeatureDTO> handle(List<AuthzFeatureModel> featureList) {
+		return FeatureNavUtils.getFeatureFlatList(featureList);
+	}
+	
+	@Override
 	public List<AuthzFeatureDTO> handle(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
 		return FeatureNavUtils.getFeatureFlatList(featureList, featureOptList);
 	}
+
 
 }
