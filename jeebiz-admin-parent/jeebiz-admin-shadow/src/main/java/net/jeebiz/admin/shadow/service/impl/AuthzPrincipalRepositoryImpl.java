@@ -497,7 +497,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 
 	protected SimpleAuthenticationInfo principal(AuthzLoginStatusModel statusModel, AuthzLoginModel model, String roleId, String password) {
 		// 用户角色信息集合
-   		List<AuthzRoleModel> roleModels = getAuthzRoleDao().getUserRoles(model.getUserid());
+   		List<AuthzRoleModel> roleModels = getAuthzRoleDao().getUserRoles(model.getId());
    		
    		Optional<AuthzRoleModel> roleFirst = CollectionUtils.isEmpty(roleModels) ? Optional.empty()
 				: roleModels.stream().findFirst();
@@ -516,7 +516,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				perms.addAll(getAuthzRolePermsDao().getPermissions(role.getId()));
 			}
 			 
-			model.setUserid(model.getUserid());
+			model.setUserid(model.getId());
 			model.setPerms(perms);
 			
 			// 有设置角色：构造角色信息
@@ -534,7 +534,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			model.setInitial(model.isInitial());
 			
 			// 查询用户个人信息
-			Map<String, Object> profile = getAuthzLoginDao().getAccountProfile(model.getUserid());
+			Map<String, Object> profile = getAuthzLoginDao().getAccountProfile(model.getId());
 			model.setProfile(profile);
 			
 		} catch (Exception e) {

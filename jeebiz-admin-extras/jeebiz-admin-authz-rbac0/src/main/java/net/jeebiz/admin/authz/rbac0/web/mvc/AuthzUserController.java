@@ -112,6 +112,8 @@ public class AuthzUserController extends BaseMapperController {
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
 	}
 	
+	
+	
 	@ApiOperation(value = "增加用户信息", notes = "增加用户信息")
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(paramType = "body", name = "userDTO", value = "用户信息", required = true, dataType = "AuthzUserNewDTO")

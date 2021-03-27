@@ -42,7 +42,7 @@ import net.jeebiz.boot.api.web.BaseMapperController;
 
 @Api(tags = "功能菜单：数据维护（Ok）")
 @RestController
-@RequestMapping(value = "/extras/feature/")
+@RequestMapping("feature")
 public class AuthzFeatureController extends BaseMapperController{
 
 	@Autowired

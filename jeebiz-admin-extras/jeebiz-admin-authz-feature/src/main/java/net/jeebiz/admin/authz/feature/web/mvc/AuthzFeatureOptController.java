@@ -34,7 +34,7 @@ import net.jeebiz.boot.api.web.BaseMapperController;
 
 @Api(tags = "功能操作：数据维护（Ok）")
 @RestController
-@RequestMapping(value = "/extras/feature/opt/")
+@RequestMapping(value = "feature/opt")
 public class AuthzFeatureOptController extends BaseMapperController{
 
 	@Autowired
