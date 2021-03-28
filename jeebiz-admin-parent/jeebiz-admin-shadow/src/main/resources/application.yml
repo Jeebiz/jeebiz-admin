@@ -10,6 +10,7 @@ management:
     health:
       show-details: ALWAYS
 
+
 ################################################################################################################  
 ###内置应用容器（Tomcat、Jetty、Undertow）配置：  
 ################################################################################################################
@@ -188,7 +189,7 @@ resilience4j:
       backendB:
         base-config: default
         cancel-running-future: false
-           
+
 ################################################################################################################  
 ###Shiro 权限控制基本配置：  
 ################################################################################################################
@@ -249,7 +250,8 @@ shiro:
     '[/bycdao-ui/**]' : headers
     '[/v2/**]' : headers
     '[/kaptcha*]' : anon
-    '[/druid/**]' : anon
+    '[/druid/**]' : anon    
+    '[/monitoring**]' : anon
     '[/admin]' : anon
     '[/admin/assets/**]' : headers
     '[/admin/applications]' : headers
@@ -578,3 +580,7 @@ logging:
           pattern: "%X{uid}"          
         - column: CREATE_TIME
           pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
+          
+javamelody:
+  init-parameters:
+    '[monitoring-path]' : /monitoring.html
