@@ -47,7 +47,7 @@ import org.springframework.context.annotation.Configuration;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 
 @Configuration
-@AutoConfigureAfter({ ShiroAuthenzConfiguration.class})
+@AutoConfigureAfter({ ShiroAuthzConfiguration.class})
 @AutoConfigureBefore({ ShiroWeiXinWebAutoConfiguration.class})
 @ConditionalOnProperty(prefix = ShiroWeiXinProperties.PREFIX, value = "enabled", havingValue = "true")
 @EnableConfigurationProperties({ ShiroBizProperties.class, ShiroJwtProperties.class, ShiroKaptchaProperties.class })

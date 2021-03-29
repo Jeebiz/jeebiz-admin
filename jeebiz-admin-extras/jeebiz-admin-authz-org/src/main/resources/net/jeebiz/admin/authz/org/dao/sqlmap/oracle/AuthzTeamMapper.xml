@@ -3,9 +3,6 @@
 
 <mapper namespace="net.jeebiz.admin.authz.org.dao.IAuthzTeamDao">
 
-	<!-- 开启二级缓存 -->
-    <cache-ref namespace="net.jeebiz.admin.authz.org.dao.IAuthzOrganizationDao"/>
-
 	<resultMap id="AuthzTeamMap" type="AuthzTeamModel">
 		<id property="id" column="TEAM_ID" />
 		<result property="orgId" column="ORG_ID" />

@@ -23,12 +23,12 @@
 			<artifactId>jeebiz-admin-extras-settings</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz 组织机构管理（必选）
+		<!-- Jeebiz 组织机构管理（必选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-authz-org</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
+		</dependency>
 		<!-- Jeebiz Rbac权限管理：此次选择了比较简单的rbac0的实现（必选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -68,7 +68,7 @@
 			<artifactId>jeebiz-admin-extras-editor</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz 文件服务（可选）
+		<!-- Jeebiz 文件服务（可选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-filestore</artifactId>
@@ -78,19 +78,19 @@
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-filestore-aliyun-oss</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency> -->
+		</dependency>
 		<!-- Jeebiz 消息通知（可选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-inform</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz 通知公告（可选） 
+		<!-- Jeebiz 通知公告（可选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-article</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency>-->
+		</dependency>
 		<!-- Jeebiz 业务日志（可选）-->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -168,7 +168,7 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-j2cache</artifactId>
 		</dependency>
-		<!-- For Thymeleaf View 
+		<!-- For Thymeleaf View -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -178,19 +178,19 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>-->
+		</dependency>
 		
-		<!-- For Zxing 
+		<!-- For Zxing -->
 		<dependency>
             <groupId>com.github.hiwepy</groupId>
             <artifactId>zxing-spring-boot-starter</artifactId>
-        </dependency>-->
+        </dependency>
 		<!-- For XXL-JOB 
 		<dependency>
 		   <groupId>com.github.hiwepy</groupId>
 			<artifactId>xxljob-spring-boot-starter</artifactId>
 		</dependency>-->
-		<!-- For Resilience4j 
+		<!-- For Resilience4j -->
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
 		    <artifactId>resilience4j-spring-boot2</artifactId>
@@ -198,12 +198,12 @@
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
 		    <artifactId>resilience4j-micrometer</artifactId>
-		</dependency>-->
-		<!-- For Redisson
+		</dependency>
+		<!-- For Redisson -->
 		<dependency>
 		    <groupId>org.redisson</groupId>
 		    <artifactId>redisson-spring-boot-starter</artifactId>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>hitool-core</artifactId>

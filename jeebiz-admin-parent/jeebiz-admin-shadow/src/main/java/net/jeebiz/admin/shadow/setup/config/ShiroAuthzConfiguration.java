@@ -54,7 +54,7 @@ import org.springframework.context.annotation.Configuration;
 })
 @ConditionalOnProperty(prefix = ShiroBizProperties.PREFIX, value = "enabled", havingValue = "true")
 @EnableConfigurationProperties({ ShiroBizProperties.class, ShiroJwtProperties.class, ShiroKaptchaProperties.class })
-public class ShiroAuthenzConfiguration {
+public class ShiroAuthzConfiguration {
 
 	@Autowired
 	private CacheManager shiroCacheManager;
