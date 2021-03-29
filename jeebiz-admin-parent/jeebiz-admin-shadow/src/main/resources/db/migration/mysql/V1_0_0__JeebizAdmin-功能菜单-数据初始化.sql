@@ -3,178 +3,246 @@
 DELETE FROM SYS_AUTHZ_FEATURE_LIST;
 DELETE FROM SYS_AUTHZ_FEATURE_OPTS;
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('1', '基础设置', '基础设置', 'sets', '#', '1', 'layui-icon-set', '0', '1', '1');
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('2', '基础数据', '基础数据', 'basedata', '/extras/basedata/keyvalue/ui/list', '1', '', '1', '1', '2');
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('2', '查询', '', '0', 'basedata:list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('2', '增加', '', '0', 'basedata:new', 2);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('2', '删除', '', '0', 'basedata:delete', 3);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('2', '修改', '', '0', 'basedata:renew', 4);
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER)
+VALUES (1, '我的主页', '我的主页', 'home', 'home/homepage2', 'home/homepage2', 1, 'layui-icon-home', 0, 1, 1);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('3', '系统设置', '系统设置', 'setting', '#', '1', '#', '1', '1', '3');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (10, '通知公告', '通知公告', 'articles', '#', '#', 1, 'layui-icon-notice', 0, 1, 2);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('4', '前端设置', '前端设置', 'frontend-setting', '/extras/basedata/settings/ui/frontend', '1', '', '3', '1', '4');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (11, '公告分类', '公告分类', 'article-category', 'webui/list3', 'webui/list3', 1, 'layui-icon-notice', 10, 1, 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (11, '查询', '', '0', 'article-category:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (11, '增加', '', '0', 'article-category:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (11, '删除', '', '0', 'article-category:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (11, '修改', '', '0', 'article-category:renew', 4);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (11, '状态', '', '0', 'article-category:status', 5);
 
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (12, '公告主题', '公告主题', 'article-topic', 'webui/list3', 'webui/list3', 1, 'layui-icon-notice', 10, 1, 2);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('4', '查询', '', '0', 'frontend-setting:list', 1);
+VALUES (12, '查询', '', '0', 'article-topic:list', 1);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('4', '修改', '', '0', 'frontend-setting:renew', 2);
+VALUES (12, '增加', '', '0', 'article-topic:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (12, '删除', '', '0', 'article-topic:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (12, '修改', '', '0', 'article-topic:renew', 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('5', '后端设置', '后端设置', 'backend-setting', '/extras/basedata/settings/ui/backend', '1', '', '3', '1', '5');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (13, '公告列表', '公告列表', 'article-list', 'webui/list3', 'webui/list3', 1, 'layui-icon-notice', 10, 1, 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (13, '查询', '', '0', 'article:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (13, '增加', '', '0', 'article:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (13, '删除', '', '0', 'article:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (13, '修改', '', '0', 'article:renew', 4);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (13, '审核', '', '0', 'article:review', 5);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (13, '推荐', '', '0', 'article:recommend', 6);
 
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('5', '查询', '', '0', 'backend-setting:list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('5', '修改', '', '0', 'backend-setting:renew', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (40, '消息管理', '消息管理', 'inform', '#', '#', 1, 'layui-icon-chat', 0, 1, 40);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('6', '邮件服务', '邮件服务', 'email-setting', '/extras/basedata/settings/ui/email', '1', '', '3', '1', '6');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (41, '消息模板', '消息模板', 'inform-template', 'inform/template', 'inform/template', 1, '', 40, 1, 41);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (41, '查看', '', '0', 'inform-tmpl:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (41, '增加', '', '0', 'inform-tmpl:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (41, '删除', '', '0', 'inform-tmpl:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (41, '修改', '', '0', 'inform-tmpl:renew', 4);
 
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (42, '消息推送', '消息推送', 'inform-push', 'inform/push', 'inform/push', 1, '', 40, 1, 42);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('6', '查询', '', '0', 'email-setting:list', 1);
+VALUES (42, '查看', '', '0', 'inform-tmpl:list', 1);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('6', '修改', '', '0', 'email-setting:renew', 2);
+VALUES (42, '增加', '', '0', 'inform-tmpl:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (42, '删除', '', '0', 'inform-tmpl:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (42, '修改', '', '0', 'inform-tmpl:renew', 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('10', '我的设置', '我的设置', 'my-sets', '#', '1', '', '1', '1', '10');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (50, '基础设置', '基础设置', 'sets', '#', '#', 1, 'layui-icon-set', 0, 1, 50);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('11', '基本资料', '基本资料', 'my-info', '/authz/user/ui/info', '1', '', '10', '1', '11');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (51, '基础数据', '基础数据', 'basedata', '/basedata/keyvalue/list', '/basedata/keyvalue/list', 1, '', 50, 1, 51);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('11', '查询', '', '0', 'my-info:list', 1);
+VALUES (51, '查询', '', '0', 'basedata:list', 1);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('11', '修改', '', '0', 'my-info:new', 2);
+VALUES (51, '增加', '', '0', 'basedata:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (51, '删除', '', '0', 'basedata:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (51, '修改', '', '0', 'basedata:renew', 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('12', '修改密码', '修改密码', 'my-pwd', '/authz/user/ui/password', '1', '', '10', '1', '12');
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('12', '查询', '', '0', 'my-pwd:list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('12', '修改', '', '0', 'my-pwd:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (52, '系统设置', '系统设置', 'setting', '#', '#', 1, '#', 50, 1, 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('20', '权限管理', '权限管理', 'perms', '#', '1', 'layui-icon-user', '0', '1', '20');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (53, '前端设置', '前端设置', 'frontend-setting', '/basedata/settings/frontend', '/basedata/settings/frontend', 1, '', 52, 1, 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (53, '查询', '', '0', 'frontend-setting:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (53, '修改', '', '0', 'frontend-setting:renew', 2);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('21', '角色管理', '角色管理', 'role', '/authz/role/ui/list', '1', '', '20', '1', '21');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (54, '前端设置', '前端设置', 'frontend-setting', '/basedata/settings/frontend', '/basedata/settings/frontend', 1, '', 52, 1, 2);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('21', '查看', '', '0', 'role:list', 1);
+VALUES (54, '查询', '', '0', 'backend-setting:list', 1);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('21', '增加', '', '0', 'role:new', 2);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('21', '删除', '', '0', 'role:delete', 3);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('21', '修改', '', '0', 'role:renew', 4);
+VALUES (54, '修改', '', '0', 'backend-setting:renew', 2);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('22', '用户管理', '用户管理', 'user', '/authz/user/ui/list', '1', '', '20', '1', '22');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (55, '邮件服务', '邮件服务', 'email-setting', '/basedata/settings/email', '/basedata/settings/email', 1, '', 52, 1, 3);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('22', '查看', '', '0', 'user:list', 1);
+VALUES (55, '查询', '', '0', 'email-setting:list', 1);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('22', '增加', '', '0', 'user:new', 2);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('22', '删除', '', '0', 'user:delete', 3);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('22', '修改', '', '0', 'user:renew', 4);
+VALUES (55, '修改', '', '0', 'email-setting:renew', 2);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('30', '系统安全', '系统安全', 'system-security', '#', '1', 'layui-icon-auz', '0', '1', '30');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER)
+VALUES (58, '上传设置', '上传设置', 'upload-set', 'upload/setting', 'upload/setting', 1, 'layui-icon-rmb', 52, 1, 57);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (58, '查看', '', '0', 'upload:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (58, '修改', '', '0', 'upload:renew', 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('31', '安全审计', '安全审计', 'security-audit' ,'#', '1', '', '30', '1', '31');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (65, '我的设置', '我的设置', 'my-sets', '#', '#', 1, '', 50, 1, 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('32', '系统异常', '系统异常', 'biz-excps', '', '1', '', '31', '1', '32');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (66, '基本资料', '基本资料', 'my-info', '/authz/rbac0/user/info', '/authz/rbac0/user/info', 1, '', 65, 1, 11);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('32', '查询', '', '0', 'logs:excp-list', 1);
+VALUES (66, '查询', '', '0', 'my-info:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (66, '修改', '', '0', 'my-info:new', 2);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('33', '认证日志', '认证日志', 'authz-logs', '', '1', '', '31', '1', '33');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (67, '修改密码', '修改密码', 'my-pwd', '/authz/rbac0/user/password', '/authz/rbac0/user/password', 1, '', 65, 1, 12);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('33', '查询', '', '0', 'logs:authz-list', 1);
+VALUES (67, '查询', '', '0', 'my-pwd:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (67, '修改', '', '0', 'my-pwd:new', 2);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('34', '操作日志', '操作日志', 'opt-logs', '', '1', '', '31', '1', '34');
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('34', '查询', '', '0', 'logs:opt-list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (70, '权限管理', '权限管理', 'perms', '#', '#', 1, 'layui-icon-user', 0, 1, 70);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('35', '安全防护', '安全防护', 'security-protection', '#', '1', '', '31', '1', '35');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (71, '角色管理', '角色管理', 'role', '/authz/rbac0/role/', '/authz/rbac0/role/', 1, '', 70, 1, 71);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (71, '查看', '', '0', 'role:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (71, '增加', '', '0', 'role:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (71, '删除', '', '0', 'role:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (71, '修改', '', '0', 'role:renew', 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('36', 'XSS 攻击防护', 'XSS 攻击防护', 'xss-protection', '', '1', '', '35', '1', '36');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (72, '用户管理', '用户管理', 'user', '/authz/rbac0/user/', '/authz/rbac0/user/', 1, '', 70, 1, 72);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('36', '保存', '', '0', 'xss:renew', 1);
+VALUES (72, '查看', '', '0', 'user:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (72, '增加', '', '0', 'user:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (72, '删除', '', '0', 'user:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (72, '修改', '', '0', 'user:renew', 4);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('37', 'CSRF 攻击防护', 'CSRF 攻击防护', 'csrf-protection', '', '1', '', '35', '1', '37');
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('37', '保存', '', '0', 'csrf:renew', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (80, '系统安全', '系统安全', 'system-security', '#', '#', 1, 'layui-icon-auz', 0, 1, 80);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('38', '会话监控', '会话监控', 'session-monitoring', '', '1', '', '30', '1', '38');
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('38', '查询', '', '0', 'session:list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('38', '强制退出', '', '0', 'session:kickout', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (81, '安全审计', '安全审计', 'security-audit', '#', '#', 1, '', 80, 1, 81);
 
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (82, '系统异常', '系统异常', 'biz-excps', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 82);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (82, '查询', '', '0', 'logs:excp-list', 1);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('40', '自定义功能', '自定义功能', 'self-defined', '#', '1', 'layui-icon-component', '0', '1', '40');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (83, '认证日志', '认证日志', 'authz-logs', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 83);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (83, '查询', '', '0', 'logs:authz-list', 1);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('41', '数据源设置', '数据源设置', 'datasource', 'extras/datasource/ui/list', '1', '', '40', '1', '41');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (84, '操作日志', '操作日志', 'opt-logs', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 84);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('41', '查看', '', '0', 'datasource:list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('41', '增加', '', '0', 'datasource:new', 2);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('41', '删除', '', '0', 'datasource:delete', 3);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('41', '修改', '', '0', 'datasource:renew', 4);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('41', '详情', '', '0', 'datasource:detail', 5);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('41', '状态', '', '0', 'datasource:status', 6);
+VALUES (84, '查询', '', '0', 'logs:opt-list', 1);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('42', '自定义菜单', '自定义菜单', 'webui-feature', 'extras/webui/ui/feature', '1', '', '40', '1', '42');
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('42', '查看', '', '0', 'webui:feature-list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('42', '增加', '', '0', 'webui:feature-new', 2);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('42', '删除', '', '0', 'webui:feature-delete', 3);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('42', '修改', '', '0', 'webui:feature-renew', 4);
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (85, '安全防护', '安全防护', 'security-protection', '#', '#', 1, '', 81, 1, 85);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
-VALUES ('43', '自定义界面', '自定义界面', 'webui', 'extras/webui/ui/list', '1', '', '40', '1', '43');
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (86, 'XSS 攻击防护', 'XSS 攻击防护', 'xss-protection', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 85, 1, 86);
 INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '查看', '', '0', 'webui:list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '增加', '', '0', 'webui:new', 2);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '删除', '', '0', 'webui:delete', 3);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '修改', '', '0', 'webui:renew', 4);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '详情', '', '0', 'webui:detail', 5);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '状态', '', '0', 'webui:status', 6);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '设计', '', '0', 'webui:design', 7);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
-VALUES ('43', '发布', '', '0', 'webui:release', 8);
+VALUES (86, '保存', '', '0', 'xss:renew', 1);
 
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (87, 'CSRF 攻击防护', 'CSRF 攻击防护', 'csrf-protection', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 85, 1, 87);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (87, '保存', '', '0', 'csrf:renew', 1);
+
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (88, '会话监控', '会话监控', 'session-monitoring', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 80, 1, 88);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (88, '查询', '', '0', 'session:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (88, '强制退出', '', '0', 'session:kickout', 1);
+
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (89, '服务监控', '服务监控', 'druid', 'iframe/link/druid', 'iframe/link/druid', 1, '', 80, 1, 89);
+
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (90, '快速开发', '快速开发', 'fast-dev', '#', '#', 1, 'layui-icon-code-circle', 0, 1, 90);
+
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (91, '自定义菜单', '自定义菜单', 'feature', 'webui/feature', 'webui/feature', 1, '', 90, 1, 91);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (91, '查看', '', '0', 'webui:feature-list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (91, '增加', '', '0', 'webui:feature-new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (91, '删除', '', '0', 'webui:feature-delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (91, '修改', '', '0', 'webui:feature-renew', 4);
+
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (108, '代码生成器', '代码生成器', 'code', 'code/builder', 'code/builder', 1, '', 90, 1, 108);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (108, '查看', '', '0', 'formio:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (108, '增加', '', '0', 'formio:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (108, '删除', '', '0', 'formio:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (108, '修改', '', '0', 'formio:renew', 4);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (108, '详情', '', '0', 'formio:detail', 5);
+
+INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_PATH, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+VALUES (109, '服务生成器', '服务生成器', 'service', 'service/builder', 'service/builder', 1, '', 90, 1, 109);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (109, '查看', '', '0', 'formio:list', 1);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (109, '增加', '', '0', 'formio:new', 2);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (109, '删除', '', '0', 'formio:delete', 3);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (109, '修改', '', '0', 'formio:renew', 4);
+INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+VALUES (109, '详情', '', '0', 'formio:detail', 5);
 
 COMMIT;
