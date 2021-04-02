@@ -42,6 +42,28 @@ import net.jeebiz.boot.api.exception.BizRuntimeException;
 public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 
 	private static final String RELEASE_LOCK_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+	
+	private static final String INCR_SCRIPT = " if redis.call('exists', KEYS[1]) == 1 then \n "
+											+ "		local current = redis.call('incr', KEYS[1], ARGV[1]); \n"
+											+ "		if current < 0 then \n"
+											+ "			redis.call('decr', KEYS[1], ARGV[1]) \n"
+											+ "			return 0 \n"
+											+ "		else \n"
+											+ "			return current \n"
+											+ "		end \n"
+											+ " else return 0 end";
+	
+	
+	private static final String HINCR_SCRIPT = " if redis.call('hget', KEYS[1]) == 1 then \n "
+			+ "		local current = redis.call('incr', KEYS[1]); \n"
+			+ "		if current < 0 then \n"
+			+ "			redis.call('decr', KEYS[1]) \n"
+			+ "			return 0 \n"
+			+ "		else \n"
+			+ "			return current \n"
+			+ "		end \n"
+			+ " else return 0 end";
+	
 	private final RedisTemplate<String, Object> redisTemplate;
 	
 	public RedisOperationTemplate(RedisTemplate<String, Object> redisTemplate) {
