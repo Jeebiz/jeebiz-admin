@@ -44,14 +44,14 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	private static final String RELEASE_LOCK_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
 	
 	private static final String INCR_SCRIPT = " if redis.call('exists', KEYS[1]) == 1 then \n "
-											+ "		local current = redis.call('incr', KEYS[1], ARGV[1]); \n"
+											+ "		local current = redis.call('incr', KEYS[1], ARGV[1]) \n"
 											+ "		if current < 0 then \n"
 											+ "			redis.call('decr', KEYS[1], ARGV[1]) \n"
 											+ "			return 0 \n"
 											+ "		else \n"
 											+ "			return current \n"
 											+ "		end \n"
-											+ " else return 0 end";
+											+ " else redis.call('set', KEYS[1], ARGV[1]) return 0; end";
 	
 	
 	private static final String HINCR_SCRIPT = " if redis.call('hget', KEYS[1]) == 1 then \n "
@@ -1790,6 +1790,11 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		Assert.hasLength(requestId, "requestId must not be empty");
 		Long count = this.executeLuaScript(RELEASE_LOCK_SCRIPT, Long.class, Lists.newArrayList(lockKey), requestId);
 		return count == 1;
+	}
+	
+	public Long luaIncr(String key, Long amount) {
+		Assert.hasLength(key, "lockKey must not be empty");
+		return this.executeLuaScript(INCR_SCRIPT, Long.class, Lists.newArrayList(key), amount);
 	}
 
 	public boolean tryLock(String lockKey, long expireMillis) {
