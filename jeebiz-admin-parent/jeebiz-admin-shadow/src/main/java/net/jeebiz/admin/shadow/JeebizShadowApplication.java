@@ -51,8 +51,14 @@ public class JeebizShadowApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Long rtLong = redisOperationTemplate.luaIncr("test", 1111L);
-		System.out.println(rtLong);
+		
+		try {
+			//redisOperationTemplate.unlock("xax", "xas");
+			Long rtLong = redisOperationTemplate.luaIncr("test", 1111L);
+			System.out.println(rtLong);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.err.println("Spring Boot Application（Jeebiz-Admin-Shadow） Started !");
 	}
 	
