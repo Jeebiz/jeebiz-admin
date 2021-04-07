@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.extra.converters.BooleanStringConverter;
 import com.github.dozermapper.extra.converters.JSONArrayStringConverter;
 import com.github.dozermapper.extra.converters.JSONObjectStringConverter;
 import com.github.dozermapper.extra.converters.number.BigDecimalStringConverter;
@@ -15,8 +16,13 @@ import com.github.dozermapper.extra.converters.number.BigIntegerStringConverter;
 import com.github.dozermapper.spring.DozerBeanMapperBuilderCustomizer;
 
 @Configuration
-public class DozerExtraConfiguration implements DozerBeanMapperBuilderCustomizer {
+public class DozerMapperConfiguration implements DozerBeanMapperBuilderCustomizer {
 
+	@Bean
+	public BooleanStringConverter booleanStringConverter() {
+		return new BooleanStringConverter();
+	}
+	
 	@Bean
 	public BigDecimalStringConverter bigDecimalStringConverter() {
 		return new BigDecimalStringConverter();

@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands.Tuple;
 import org.springframework.data.redis.core.Cursor;
@@ -51,6 +52,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	private static final Long LOCK_SUCCESS = 1L;
     private static final Long LOCK_EXPIRED = 0L;
 	
+<<<<<<< HEAD
     private static final DefaultRedisScript<Long> LOCK_LUA_SCRIPT = new DefaultRedisScript<>(
         "if redis.call('setnx', KEYS[1], ARGV[1]) == 1 then return redis.call('pexpire', KEYS[1], ARGV[2]) else return 0 end",
          Long.class
@@ -70,8 +72,13 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 											+ "			return current \n"
 											+ "		end \n"
 											+ " else redis.call('set', KEYS[1], ARGV[1]) return 0; end";
+=======
+	private static final String INCR_SCRIPT = "if redis.call('exists', KEYS[0]) == 0 then redis.call('set', KEYS[0], ARGV[0]) return 0 end local current = redis.call('incr', KEYS[0], ARGV[0]) if current < 0 then redis.call('decr', KEYS[0], ARGV[0]) return 0 else return current end";
+											
+>>>>>>> branch 'master' of https://github.com/Jeebiz/jeebiz-admin.git
 	
 	
+<<<<<<< HEAD
 	public static final String HINCR_SCRIPT = " if redis.call('hget', KEYS[1]) == 1 then \n "
 			+ "		local current = redis.call('incr', KEYS[1]); \n"
 			+ "		if current < 0 then \n"
@@ -80,6 +87,16 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			+ "		else \n"
 			+ "			return current \n"
 			+ "		end \n"
+=======
+	private static final String HINCR_SCRIPT = " if redis.call('hget', KEYS[1]) == 1 then  "
+			+ "		local current = redis.call('incr', KEYS[1]); "
+			+ "		if current < 0 then "
+			+ "			redis.call('decr', KEYS[1]) "
+			+ "			return 0 "
+			+ "		else "
+			+ "			return current "
+			+ "		end "
+>>>>>>> branch 'master' of https://github.com/Jeebiz/jeebiz-admin.git
 			+ " else return 0 end";
 	
 	private final RedisTemplate<String, Object> redisTemplate;
@@ -1791,6 +1808,21 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param expireMillis 过期时间
 	 * @return
 	 */
+<<<<<<< HEAD
+=======
+	public boolean unlock(String lockKey, String requestId) {
+		Assert.hasLength(lockKey, "lockKey must not be empty");
+		Assert.hasLength(requestId, "requestId must not be empty");
+		Long count = this.executeLuaScript(RELEASE_LOCK_SCRIPT, Long.class, Lists.newArrayList(lockKey), requestId);
+		return count == 1;
+	}
+	
+	public Long luaIncr(String key, Long amount) {
+		Assert.hasLength(key, "lockKey must not be empty");
+		return this.executeLuaScript(INCR_SCRIPT, Long.class, Lists.newArrayList(key), amount.toString());
+	}
+
+>>>>>>> branch 'master' of https://github.com/Jeebiz/jeebiz-admin.git
 	public boolean tryLock(String lockKey, long expireMillis) {
         try {
 			return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
@@ -1939,10 +1971,9 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 * @param values    值列表
 	 * @return
 	 */
-
 	public Object executeLuaScript(String luaScript, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript);
-		return getOperations().execute(redisScript, keys, values);
+		return getOperations().execute(redisScript, RedisSerializer.java(), RedisSerializer.java(), keys, values);
 	}
 	
 	/**
@@ -1956,12 +1987,13 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 */
 	public <T> T executeLuaScript(String luaScript, Class<T> resultType, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript, resultType);
-		return (T) getOperations().execute(redisScript, keys, values);
+		return (T) getOperations().execute(redisScript, RedisSerializer.java(), RedisSerializer.java(), keys, values);
 	}
 	
 	/**
 	 * 执行lua脚本
 	 * 
+<<<<<<< HEAD
 	 * @param luaScript  脚本内容
 	 * @param keys       redis键列表
 	 * @param values     值列表
@@ -1971,6 +2003,31 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		return getOperations().execute(luaScript, keys, values);
 	}
 	
+=======
+	 * @param luaScript 脚本内容
+	 * @param keys      redis键列表
+	 * @param values    值列表
+	 * @return
+	 */
+	public Object executeLuaScript(Resource luaScript, List<String> keys, Object... values) {
+		RedisScript redisScript = RedisScript.of(luaScript);
+		return getOperations().execute(redisScript, RedisSerializer.java(), RedisSerializer.java() , keys, values);
+	}
+	
+	/**
+	 * 执行lua脚本
+	 * 
+	 * @param luaScript  脚本内容
+	 * @param keys       redis键列表
+	 * @param values     值列表
+	 * @param resultType 返回值类型
+	 * @return
+	 */
+	public <T> T executeLuaScript(Resource luaScript, Class<T> resultType, List<String> keys, Object... values) {
+		RedisScript redisScript = RedisScript.of(luaScript, resultType);
+		return (T) getOperations().execute(redisScript, RedisSerializer.java(), RedisSerializer.java(), keys, values);
+	}
+>>>>>>> branch 'master' of https://github.com/Jeebiz/jeebiz-admin.git
 	
 	// ===============================RedisCommand=================================
 	
