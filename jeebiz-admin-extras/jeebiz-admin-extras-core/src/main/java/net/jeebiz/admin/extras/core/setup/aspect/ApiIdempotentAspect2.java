@@ -76,7 +76,7 @@ public class ApiIdempotentAspect2 extends AbstractIdempotentAspect {
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				//redisOperationTemplate.unlock(lockKey, lockValue);
+				redisOperationTemplate.unlock(lockKey, lockValue);
 			}
 		}
 
@@ -103,7 +103,7 @@ public class ApiIdempotentAspect2 extends AbstractIdempotentAspect {
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				//redisOperationTemplate.unlock(lockKey, lockValue);
+				redisOperationTemplate.unlock(lockKey, lockValue);
 			}
 		}
 		return joinPoint.proceed();
