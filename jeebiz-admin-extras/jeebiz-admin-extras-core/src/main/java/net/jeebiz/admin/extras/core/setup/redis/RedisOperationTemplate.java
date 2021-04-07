@@ -1817,25 +1817,13 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
     }
 	
 	/**
-	 * 2、删除通过设置指定key的value为过期时间，并检查过期时间的方式来进行锁判断逻辑的锁
+	 * 2、删除指定key来进行完成解锁逻辑
 	 * @param lockKey  锁key
-	 * @param expireMillis 过期时间
 	 * @return
 	 */
     public boolean unlock(String lockKey) {
     	try {
-			return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
-				byte[] bytes = redisConnection.get(rawString(lockKey));
-		        // 3、非空判断
-		        if (Objects.nonNull(bytes) && bytes.length > 0) {
-		            long expireTime = Long.parseLong(new String(bytes));
-		            // 4、如果锁已经过期
-		            if (expireTime < redisConnection.time()) {
-		            	getOperations().delete(lockKey);
-		            }
-		        }
-		        return true;
-			});
+	        return getOperations().delete(lockKey);
         } catch (Exception e) {
 			log.error("acquire redis occurred an exception", e);
 		}

@@ -35,9 +35,9 @@ public class RedissonOperationTemplate {
 	 * @param retryInterval 重试时间间隔，单位 ms
 	 * @return 加锁 true 成功
 	 */
-	public RLock tryLock(String lockKey, String value, long expire, int retryTimes, long retryInterval) {
+	public RLock tryLock(String lockKey, long expire, int retryTimes, long retryInterval) {
 		log.info("locking... redisK = {}", lockKey);
-		RLock fairLock = redissonClient.getFairLock(lockKey + ":" + value);
+		RLock fairLock = redissonClient.getFairLock(lockKey);
 		try {
 			boolean tryLock = fairLock.tryLock(0, expire, TimeUnit.MILLISECONDS);
 			if (tryLock) {
@@ -81,7 +81,7 @@ public class RedissonOperationTemplate {
 	public boolean unlock(RLock fairLock) {
 		try {
 			// 如果这里抛异常，后续锁无法释放
-			if (fairLock.isLocked()) {
+			if (fairLock.isLocked() && fairLock.isHeldByCurrentThread()) {
 				fairLock.unlock();
 				log.info("release lock success");
 				return true;
