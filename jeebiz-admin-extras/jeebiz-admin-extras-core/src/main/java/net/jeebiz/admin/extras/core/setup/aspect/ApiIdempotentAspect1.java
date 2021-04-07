@@ -26,7 +26,6 @@ import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.ApiIdempotentType;
 import net.jeebiz.boot.api.exception.IdempotentException;
-import net.jeebiz.boot.api.sequence.Sequence;
 
 // https://blog.csdn.net/hanchao5272/article/details/92073405
 @Slf4j
@@ -36,8 +35,6 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 
 	@Autowired
 	private RedisOperationTemplate redisOperationTemplate;
-	@Autowired
-	private Sequence sequence;
 
 	@Pointcut("@annotation(net.jeebiz.boot.api.annotation.ApiIdempotent)")
 	public void aspect() {
@@ -66,7 +63,6 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 			// 4.2、根据 key前缀 + @ApiIdempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @ApiIdempotent.value() + 方法签名 + 参数
 			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(ShiroPrincipal.class).getUserid() : "guest";
 			String lockKey = String.format(KEY_ARGS_TEMPLATE, uid, idempotentKey);
-			String lockValue = sequence.nextId().toString();
 			try {
 				// 4.3、通过setnx确保只有一个接口能够正常访问
 				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {
@@ -76,7 +72,7 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				redisOperationTemplate.unlock(lockKey, lockValue);
+				redisOperationTemplate.unlock(lockKey);
 			}
 		}
 
@@ -93,10 +89,9 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 			}
 			// 5.3、根据 key前缀 + token
 			String lockKey = String.format(KEY_TOKEN_TEMPLATE, token);
-			String lockValue = sequence.nextId().toString();
 			try {
 				// 5.4、通过setnx确保只有一个接口能够正常访问
-				if (redisOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval())) {
+				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {
 					return joinPoint.proceed();
 				} else {
 					log.debug("Idempotent hits, key=" + lockKey);

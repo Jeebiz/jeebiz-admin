@@ -30,8 +30,8 @@ import net.jeebiz.boot.api.sequence.Sequence;
 
 // https://blog.csdn.net/hanchao5272/article/details/92073405
 @Slf4j
-//@Component
-//@Aspect
+@Component
+@Aspect
 public class ApiIdempotentAspect2 extends AbstractIdempotentAspect {
 
 	@Autowired
@@ -76,7 +76,7 @@ public class ApiIdempotentAspect2 extends AbstractIdempotentAspect {
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				redisOperationTemplate.unlock(lockKey, lockValue);
+				//redisOperationTemplate.unlock(lockKey, lockValue);
 			}
 		}
 
@@ -103,7 +103,7 @@ public class ApiIdempotentAspect2 extends AbstractIdempotentAspect {
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				redisOperationTemplate.unlock(lockKey, lockValue);
+				//redisOperationTemplate.unlock(lockKey, lockValue);
 			}
 		}
 		return joinPoint.proceed();
