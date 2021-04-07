@@ -101,7 +101,7 @@ public class ApiIdempotentRedissonAspect {
 			RLock fairLock = null;
 			try {
 				// 4.3、通过RLock确保只有一个接口能够正常访问
-				fairLock = redissonOperationTemplate.tryLock(lockKey, lockValue, idempotent.expire(), idempotent.retryTimes(), idempotent.retryInterval());
+				fairLock = redissonOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval());
 				if (!fairLock.isLocked()) {
 					return joinPoint.proceed();
 				} else {
@@ -129,7 +129,7 @@ public class ApiIdempotentRedissonAspect {
 			RLock fairLock = null;
 			try {
 				// 5.4、通过RLock确保只有一个接口能够正常访问
-				fairLock = redissonOperationTemplate.tryLock(lockKey, lockValue, idempotent.expire(), idempotent.retryTimes(), idempotent.retryInterval());
+				fairLock = redissonOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval());
 				if (!fairLock.isLocked()) {
 					return joinPoint.proceed();
 				} else {

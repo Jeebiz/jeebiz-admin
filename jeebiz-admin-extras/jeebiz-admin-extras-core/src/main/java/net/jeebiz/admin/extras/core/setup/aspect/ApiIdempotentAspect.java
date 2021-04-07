@@ -99,7 +99,7 @@ public class ApiIdempotentAspect {
 			String lockValue = sequence.nextId().toString();
 			try {
 				// 4.3、通过setnx确保只有一个接口能够正常访问
-				if (redisOperationTemplate.tryLock(lockKey, lockValue, idempotent.expire(), idempotent.retryTimes(), idempotent.retryInterval())) {
+				if (redisOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval())) {
 					return joinPoint.proceed();
 				} else {
 					log.debug("Idempotent hits, key=" + lockKey);
@@ -126,7 +126,7 @@ public class ApiIdempotentAspect {
 			String lockValue = sequence.nextId().toString();
 			try {
 				// 5.4、通过setnx确保只有一个接口能够正常访问
-				if (redisOperationTemplate.tryLock(lockKey, lockValue, idempotent.expire(), idempotent.retryTimes(), idempotent.retryInterval())) {
+				if (redisOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval())) {
 					return joinPoint.proceed();
 				} else {
 					log.debug("Idempotent hits, key=" + lockKey);
