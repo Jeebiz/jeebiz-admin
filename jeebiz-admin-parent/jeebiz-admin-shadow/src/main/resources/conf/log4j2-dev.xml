@@ -43,6 +43,7 @@
         <!-- 框架、依赖组件日志过滤 -->
 		<Logger name="com.alibaba.druid" level="ERROR" additivity="true"/>
 		<Logger name="com.alibaba.nacos" level="ERROR" additivity="true"/>
+		<Logger name="com.baomidou.mybatisplus" level="WARN" additivity="true"/>   
         <Logger name="com.github.dozermapper" level="ERROR" additivity="true"/>
 		<Logger name="com.mongodb" level="WARN" additivity="true"/>    
 		<Logger name="com.opensymphony.xwork2" level="WARN" additivity="true"/>
@@ -74,7 +75,7 @@
         <logger name="org.crsh.ssh" level="WARN" additivity="true"/>
         <Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR" additivity="true" />
         <Logger name="org.flywaydb" level="WARN" additivity="true"/>  
-        <Logger name="org.hibernate.validator.internal.util.Version" level="WARN" additivity="true" />
+        <Logger name="org.hibernate.validator" level="WARN" additivity="true" />
 		<Logger name="org.mybatis" level="WARN" additivity="true"/>
 		<Logger name="org.pac4j" level="WARN" additivity="true"/>
 		<Logger name="org.quartz" level="WARN" additivity="true"/> 
@@ -86,6 +87,8 @@
         <Logger name="org.springframework.boot.actuate.endpoint.jmx" level="WARN" additivity="true"/>
         <Logger name="org.thymeleaf" level="WARN" additivity="true"/>
         <Logger name="org.xnio" level="WARN" additivity="true"/>
+        <Logger name="net.bull.javamelody" level="WARN" additivity="true"/>
+        <Logger name="net.oschina" level="WARN" additivity="true"/>
         <Logger name="reactor" level="WARN" additivity="true"/> 
         <Logger name="RocketmqClient" level="WARN" additivity="true"/>  
         <Logger name="springfox" level="WARN" additivity="true"/>    
