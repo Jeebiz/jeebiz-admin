@@ -28,7 +28,7 @@ public class TxcloudSmsController extends BaseMapperController {
 	private TencentSmsOperationTemplate smsOperationTemplate;
 	
 	@ApiOperation(value = "短信发送", notes = "发送验证码短信")
-	@ApiIdempotent(value = "#{sendDTO.countryCode}#{sendDTO.phone}-#{sendDTO.type}", spel = true, expireMillis = 50000)
+	@ApiIdempotent(value = "#{sendDTO.countryCode}#{sendDTO.phone}-#{sendDTO.type}", spel = true, expire = 50000)
 	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "sendDTO", value = "发送短信DTO", dataType = "SmsSendDTO") 
 	})
