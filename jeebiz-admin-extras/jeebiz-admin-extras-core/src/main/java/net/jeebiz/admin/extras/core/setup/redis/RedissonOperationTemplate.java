@@ -29,7 +29,6 @@ public class RedissonOperationTemplate {
 	 * 加锁
 	 * 
 	 * @param lockKey       锁的 key
-	 * @param value         value （ key + value 必须保证唯一）
 	 * @param expire        key 的过期时间，单位 ms
 	 * @param retryTimes    重试次数，即加锁失败之后的重试次数
 	 * @param retryInterval 重试时间间隔，单位 ms
