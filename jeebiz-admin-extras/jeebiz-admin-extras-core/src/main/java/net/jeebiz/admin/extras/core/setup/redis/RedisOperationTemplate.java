@@ -3,6 +3,7 @@ package net.jeebiz.admin.extras.core.setup.redis;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -24,6 +25,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
@@ -37,13 +39,29 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 
+/**
+ * 1、基于RedisTemplate操作的二次封装
+ * 2、参考：
+ * https://blog.csdn.net/qq_24598601/article/details/105876432
+ */
 @SuppressWarnings({"unchecked","rawtypes"})
 @Slf4j
 public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 
-	private static final String RELEASE_LOCK_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+	private static final Long LOCK_SUCCESS = 1L;
+    private static final Long LOCK_EXPIRED = 0L;
 	
-	private static final String INCR_SCRIPT = " if redis.call('exists', KEYS[1]) == 1 then \n "
+    private static final DefaultRedisScript<Long> LOCK_LUA_SCRIPT = new DefaultRedisScript<>(
+        "if redis.call('setnx', KEYS[1], ARGV[1]) == 1 then return redis.call('pexpire', KEYS[1], ARGV[2]) else return 0 end",
+         Long.class
+    );
+    
+    private static final DefaultRedisScript<Long> UNLOCK_LUA_SCRIPT = new DefaultRedisScript<>(
+		"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end",
+        Long.class
+    );
+    
+    public static final String INCR_SCRIPT = " if redis.call('exists', KEYS[1]) == 1 then \n "
 											+ "		local current = redis.call('incr', KEYS[1], ARGV[1]) \n"
 											+ "		if current < 0 then \n"
 											+ "			redis.call('decr', KEYS[1], ARGV[1]) \n"
@@ -54,7 +72,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 											+ " else redis.call('set', KEYS[1], ARGV[1]) return 0; end";
 	
 	
-	private static final String HINCR_SCRIPT = " if redis.call('hget', KEYS[1]) == 1 then \n "
+	public static final String HINCR_SCRIPT = " if redis.call('hget', KEYS[1]) == 1 then \n "
 			+ "		local current = redis.call('incr', KEYS[1]); \n"
 			+ "		if current < 0 then \n"
 			+ "			redis.call('decr', KEYS[1]) \n"
@@ -1749,29 +1767,18 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	}
 	
 	// ===============================Lock=================================
- 
-	/**
-	 * 获取分布式锁
-	 * 
-	 * @param lockKey
-	 * @param requestId
-	 * @param expireMillis
-	 * @return
-	 */
-	public boolean tryLock(String lockKey, String requestId, long expireMillis) {
-		Assert.hasLength(lockKey, "lockKey must not be empty");
-		Assert.hasLength(requestId, "requestId must not be empty");
-		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, Duration.ofSeconds(expireMillis));
+	
+	public Long luaIncr(String key, Long amount) {
+		Assert.hasLength(key, "lockKey must not be empty");
+		return this.executeLuaScript(INCR_SCRIPT, Long.class, Lists.newArrayList(key), amount);
 	}
 	
-	/**
-	 * 获取分布式锁
-	 * @param lockKey
-	 * @param requestId
-	 * @param timeout
-	 * @param unit
-	 * @return
-	 */
+	public boolean tryLock(String lockKey, String requestId, long timeout) {
+		Assert.hasLength(lockKey, "lockKey must not be empty");
+		Assert.hasLength(requestId, "requestId must not be empty");
+		return redisTemplate.opsForValue().setIfAbsent(lockKey, requestId, Duration.ofSeconds(timeout));
+	}
+	
 	public boolean tryLock(String lockKey, String requestId, long timeout, TimeUnit unit) {
 		Assert.hasLength(lockKey, "lockKey must not be empty");
 		Assert.hasLength(requestId, "requestId must not be empty");
@@ -1779,60 +1786,139 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	}
 	
 	/**
-	 * 释放分布式锁
-	 * 
-	 * @param lockKey
-	 * @param requestId
+	 * 1、通过设置指定key的value为过期时间，并检查过期时间的方式来进行锁判断逻辑（这种方式会导致缓存中不过期的锁比较多）
+	 * @param lockKey  锁key
+	 * @param expireMillis 过期时间
 	 * @return
 	 */
-	public boolean unlock(String lockKey, String requestId) {
-		Assert.hasLength(lockKey, "lockKey must not be empty");
-		Assert.hasLength(requestId, "requestId must not be empty");
-		Long count = this.executeLuaScript(RELEASE_LOCK_SCRIPT, Long.class, Lists.newArrayList(lockKey), requestId);
-		return count == 1;
-	}
-	
-	public Long luaIncr(String key, Long amount) {
-		Assert.hasLength(key, "lockKey must not be empty");
-		return this.executeLuaScript(INCR_SCRIPT, Long.class, Lists.newArrayList(key), amount);
-	}
-
 	public boolean tryLock(String lockKey, long expireMillis) {
-        return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
-        	byte[] serLockKey = rawString(lockKey);
-            // 1、获取时间毫秒值
-            long expireAt = redisConnection.time() + expireMillis + 1;
-            // 2、获取锁
-            Boolean acquire = redisConnection.setNX(serLockKey, String.valueOf(expireAt).getBytes());
-            if (acquire) {
-                return true;
-            } else {
-                byte[] bytes = redisConnection.get(serLockKey);
-                // 3、非空判断
-                if (Objects.nonNull(bytes) && bytes.length > 0) {
-                    long expireTime = Long.parseLong(new String(bytes));
-                    // 4、如果锁已经过期
-                    if (expireTime < redisConnection.time()) {
-                        // 5、重新加锁，防止死锁
-                        byte[] set = redisConnection.getSet(serLockKey, String.valueOf(redisConnection.time() + expireMillis + 1).getBytes());
-                        return Long.parseLong(new String(set)) < redisConnection.time();
-                    }
-                }
-            }
-            return false;
-        });
+        try {
+			return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
+				byte[] serLockKey = rawString(lockKey);
+			    // 1、获取时间毫秒值
+			    long expireAt = redisConnection.time() + expireMillis + 1;
+			    // 2、获取锁
+			    Boolean acquire = redisConnection.setNX(serLockKey, String.valueOf(expireAt).getBytes());
+			    if (acquire) {
+			        return true;
+			    } else {
+			        byte[] bytes = redisConnection.get(serLockKey);
+			        // 3、非空判断
+			        if (Objects.nonNull(bytes) && bytes.length > 0) {
+			            long expireTime = Long.parseLong(new String(bytes));
+			            // 4、如果锁已经过期
+			            if (expireTime < redisConnection.time()) {
+			                // 5、重新加锁，防止死锁
+			                byte[] set = redisConnection.getSet(serLockKey, String.valueOf(redisConnection.time() + expireMillis + 1).getBytes());
+			                return Long.parseLong(new String(set)) < redisConnection.time();
+			            }
+			        }
+			    }
+			    return false;
+			});
+        } catch (Exception e) {
+			log.error("acquire redis occurred an exception", e);
+		}
+       	return false;
     }
 	
 	/**
-	 * 分布式锁解锁（删除锁）
-	 * @param lockKey
+	 * 2、删除通过设置指定key的value为过期时间，并检查过期时间的方式来进行锁判断逻辑的锁
+	 * @param lockKey  锁key
+	 * @param expireMillis 过期时间
+	 * @return
 	 */
-	public void unlock(String lockKey) {
-		if(Objects.nonNull(lockKey)) {
-			getOperations().delete(lockKey);
+    public boolean unlock(String lockKey) {
+    	try {
+			return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
+				byte[] bytes = redisConnection.get(rawString(lockKey));
+		        // 3、非空判断
+		        if (Objects.nonNull(bytes) && bytes.length > 0) {
+		            long expireTime = Long.parseLong(new String(bytes));
+		            // 4、如果锁已经过期
+		            if (expireTime < redisConnection.time()) {
+		            	getOperations().delete(lockKey);
+		            }
+		        }
+		        return true;
+			});
+        } catch (Exception e) {
+			log.error("acquire redis occurred an exception", e);
 		}
+       	return false;
 	}
 
+	/**
+	 * 1、lua脚本加锁
+	 * @param lockKey       锁的 key
+	 * @param value         value （ key + value 必须保证唯一）
+	 * @param expire        key 的过期时间，单位 ms
+	 * @param retryTimes    重试次数，即加锁失败之后的重试次数
+	 * @param retryInterval 重试时间间隔，单位 ms
+	 * @return 加锁 true 成功
+	 */
+	public boolean tryLock(String lockKey, String value, long expire, int retryTimes, long retryInterval) {
+       try {
+			return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
+				// 1、执行lua脚本
+				Long result =  this.executeLuaScript(LOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value, expire);
+				if(LOCK_SUCCESS.equals(result)) {
+				    log.info("locked... redisK = {}", lockKey);
+				    return true;
+				} else {
+					// 2、重试获取锁
+			        int count = 0;
+			        while(count < retryTimes) {
+			            try {
+			                Thread.sleep(retryInterval);
+			                result = this.executeLuaScript(LOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value, expire);
+			                if(LOCK_SUCCESS.equals(result)) {
+			                	log.info("locked... redisK = {}", lockKey);
+			                    return true;
+			                }
+			                log.warn("{} times try to acquire lock", count + 1);
+			                count++;
+			            } catch (Exception e) {
+			            	log.error("acquire redis occurred an exception", e);
+			            }
+			        }
+			        log.info("fail to acquire lock {}", lockKey);
+			        return false;
+				}
+			});
+		} catch (Exception e) {
+			log.error("acquire redis occurred an exception", e);
+		}
+       	return false;
+	}
+	
+	/**
+	 * 2、lua脚本释放KEY
+	 * @param lockKey 释放本请求对应的锁的key
+	 * @param value   释放本请求对应的锁的value
+	 * @return 释放锁 true 成功
+	 */
+    public boolean unlock(String lockKey, String value) {
+        log.info("unlock... redisK = {}", lockKey);
+        try {
+            // 使用lua脚本删除redis中匹配value的key
+            Long result = this.executeLuaScript(UNLOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value);
+            //如果这里抛异常，后续锁无法释放
+            if (LOCK_SUCCESS.equals(result)) {
+            	log.info("release lock success. redisK = {}", lockKey);
+                return true;
+            } else if (LOCK_EXPIRED.equals(result)) {
+            	log.warn("release lock exception, key has expired or released");
+            } else {
+                //其他情况，一般是删除KEY失败，返回0
+            	log.error("release lock failed");
+            }
+        } catch (Throwable e) {
+        	log.error("release lock occurred an exception", e);
+        }
+        return false;
+    }
+    
 	// ===============================Pipeline=================================
 	
 	public List<Object> executePipelined(RedisCallback<?> action) {
@@ -1871,6 +1957,18 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	public <T> T executeLuaScript(String luaScript, Class<T> resultType, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript, resultType);
 		return (T) getOperations().execute(redisScript, keys, values);
+	}
+	
+	/**
+	 * 执行lua脚本
+	 * 
+	 * @param luaScript  脚本内容
+	 * @param keys       redis键列表
+	 * @param values     值列表
+	 * @return
+	 */
+	public <T> T executeLuaScript(RedisScript<T> luaScript, List<String> keys, Object... values) {
+		return getOperations().execute(luaScript, keys, values);
 	}
 	
 	
