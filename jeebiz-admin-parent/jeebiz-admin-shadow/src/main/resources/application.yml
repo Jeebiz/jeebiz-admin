@@ -267,7 +267,8 @@ shiro:
     '[/authz/thirdpt/weixin/mp/qrconnect]': anon             
     '[/authz/thirdpt/weixin/mp/subscribe]': anon       
     '[/authz/thirdpt/weixin/mp/config]': anon
-    '[/authz/thirdpt/weixin/mp/binding]': anon      
+    '[/authz/thirdpt/weixin/mp/binding]': anon   
+    '[/authz/login/publicKey]': headers   
     '[/authz/login/stateless]' : headers,jwt
     '[/authz/login/weixin/ma]' : headers,wxMa
     '[/authz/thirdparty/binding]' : headers

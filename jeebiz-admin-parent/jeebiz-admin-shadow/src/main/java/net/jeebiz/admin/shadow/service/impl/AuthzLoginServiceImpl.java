@@ -6,11 +6,16 @@ package net.jeebiz.admin.shadow.service.impl;
 
 
 import java.security.GeneralSecurityException;
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.stereotype.Service;
+
+import com.github.hiwepy.jwt.utils.SecretKeyUtils;
 
 import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
@@ -42,14 +47,12 @@ public class AuthzLoginServiceImpl extends BaseServiceImpl<AuthzLoginModel, IAut
 	@Override
 	public RSAPublicKey genPublicKey(HttpServletRequest request) throws GeneralSecurityException {
 		
-		/*KeyPair keyPair = SecretKeyUtils.genKeyPair("RSA");
+		KeyPair keyPair = SecretKeyUtils.genKeyPair("RSA");
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 		
 		SubjectUtils.getSession().setAttribute(PRIVATE_KEY_ATTRIBUTE_NAME, privateKey);
 		
-		return publicKey;*/
-		
-		return null;
+		return publicKey;
 	}
 }
