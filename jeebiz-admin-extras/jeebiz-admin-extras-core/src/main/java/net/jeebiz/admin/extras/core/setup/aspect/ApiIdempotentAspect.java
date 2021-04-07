@@ -94,7 +94,7 @@ public class ApiIdempotentAspect {
 			// 4.1、解析幂等唯一key
 			String idempotentKey = this.idempotentKey(joinPoint, idempotent);
 			// 4.2、根据 key前缀 + @ApiIdempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @ApiIdempotent.value() + 方法签名 + 参数
-			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(ShiroPrincipal.class).getUserid() : "";
+			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(ShiroPrincipal.class).getUserid() : "guest";
 			String lockKey = String.format(KEY_ARGS_TEMPLATE, uid, idempotentKey + "_" + this.generateKey(method, joinPoint.getArgs()));
 			String lockValue = sequence.nextId().toString();
 			try {
