@@ -158,16 +158,6 @@
 		    <groupId>com.github.scribejava</groupId>
 		    <artifactId>scribejava-apis</artifactId>
 		</dependency> -->
-		
-		<!-- For J2cache -->
-		<dependency>
-		    <groupId>net.oschina.j2cache</groupId>
-		    <artifactId>j2cache-spring-boot2-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-j2cache</artifactId>
-		</dependency>
 		<!-- For Thymeleaf View -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -197,7 +187,11 @@
 		</dependency>
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
-		    <artifactId>resilience4j-micrometer</artifactId>
+		    <artifactId>resilience4j-reactor</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.github.resilience4j</groupId>
+		    <artifactId>resilience4j-rxjava2</artifactId>
 		</dependency>
 		<!-- For Redisson
 		<dependency>

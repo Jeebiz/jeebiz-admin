@@ -40,6 +40,7 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.service.IAuthzLoginService;
 import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.utils.Constants;
@@ -66,6 +67,7 @@ public class AuthzLoginController extends BaseController {
 	 * @throws Exception
 	 */
 	@ApiOperation(value = "获取RSA公钥", notes = "用于登录功能获取RSA公钥")
+	@ApiIdempotent(expireMillis = 20000)
 	@GetMapping("publicKey")
 	@ResponseBody
 	public JSONObject getPublicKey(@ApiIgnore HttpServletRequest request) throws Exception {

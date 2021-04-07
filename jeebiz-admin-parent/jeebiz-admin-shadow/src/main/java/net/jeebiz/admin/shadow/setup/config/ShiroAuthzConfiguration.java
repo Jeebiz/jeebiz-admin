@@ -28,6 +28,7 @@ import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.boot.ShiroBizProperties;
 import org.apache.shiro.spring.boot.ShiroJwtProperties;
+import org.apache.shiro.spring.boot.cache.ShiroRedissonCacheProperties;
 import org.apache.shiro.spring.boot.captcha.ShiroKaptchaCacheResolver;
 import org.apache.shiro.spring.boot.captcha.ShiroKaptchaProperties;
 import org.apache.shiro.spring.boot.jwt.JwtPayloadRepository;
@@ -53,18 +54,16 @@ import org.springframework.context.annotation.Configuration;
 	"org.apache.shiro.spring.boot.ShiroJwtWebAutoConfiguration" 
 })
 @ConditionalOnProperty(prefix = ShiroBizProperties.PREFIX, value = "enabled", havingValue = "true")
-@EnableConfigurationProperties({ ShiroBizProperties.class, ShiroJwtProperties.class, ShiroKaptchaProperties.class })
+@EnableConfigurationProperties({ ShiroBizProperties.class, ShiroJwtProperties.class, ShiroKaptchaProperties.class, ShiroRedissonCacheProperties.class })
 public class ShiroAuthzConfiguration {
 
-	@Autowired
-	private CacheManager shiroCacheManager;
     @Autowired(required = false)
     protected RolePermissionResolver rolePermissionResolver;
     @Autowired(required = false)
     protected PermissionResolver permissionResolver;
-
+ 
 	@Bean
-	public ShiroKaptchaCacheResolver captchaResolver(ShiroKaptchaProperties properties) {
+	public ShiroKaptchaCacheResolver captchaResolver(ShiroKaptchaProperties properties, CacheManager shiroCacheManager) {
 		ShiroKaptchaCacheResolver kaptchaResolver = new ShiroKaptchaCacheResolver(
 				shiroCacheManager.getCache("SHIRO-CAPTCHA"));
 		// 初始化参数
@@ -91,7 +90,7 @@ public class ShiroAuthzConfiguration {
 	public Realm defRealm(@Qualifier("defRepository") ShiroPrincipalRepository defRepository,
 			@Autowired(required = false) List<AuthorizingRealmListener> realmsListeners,
 			CredentialsMatcher credentialsMatcher,
-			ShiroBizProperties properties) {
+			ShiroBizProperties properties, CacheManager shiroCacheManager) {
 
 		AbstractAuthorizingRealm authzRealm = new AbstractAuthorizingRealm() {
 			

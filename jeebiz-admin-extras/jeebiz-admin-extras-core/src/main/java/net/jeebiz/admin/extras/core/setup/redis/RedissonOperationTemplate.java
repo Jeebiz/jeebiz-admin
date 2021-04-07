@@ -39,7 +39,7 @@ public class RedissonOperationTemplate {
 		log.info("locking... redisK = {}", lockKey);
 		RLock fairLock = redissonClient.getFairLock(lockKey);
 		try {
-			boolean tryLock = fairLock.tryLock(0, expire, TimeUnit.MILLISECONDS);
+			boolean tryLock = fairLock.tryLock(10, expire, TimeUnit.MILLISECONDS);
 			if (tryLock) {
 				log.info("locked... redisK = {}", lockKey);
 				return fairLock;
@@ -50,7 +50,7 @@ public class RedissonOperationTemplate {
 				while (count < retryTimes) {
 					try {
 						Thread.sleep(retryInterval);
-						tryLock = fairLock.tryLock(0, expire, TimeUnit.MILLISECONDS);
+						tryLock = fairLock.tryLock(10, expire, TimeUnit.MILLISECONDS);
 						if (tryLock) {
 							log.info("locked... redisK = {}", lockKey);
 							return fairLock;

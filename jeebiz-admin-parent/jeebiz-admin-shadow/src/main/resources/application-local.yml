@@ -103,7 +103,7 @@ spring:
     # Redis服务器连接端口
     port: 6379
     # Database 索引；和其他服务区别开
-    database: 1
+    #database: 1
     # Redis服务器连接密码（默认为空） 
     password: HycBsP5cSp3enyGw
 

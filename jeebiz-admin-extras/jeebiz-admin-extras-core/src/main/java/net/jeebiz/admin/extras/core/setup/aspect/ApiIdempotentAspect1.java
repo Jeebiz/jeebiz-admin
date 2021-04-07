@@ -30,8 +30,8 @@ import net.jeebiz.boot.api.sequence.Sequence;
 
 // https://blog.csdn.net/hanchao5272/article/details/92073405
 @Slf4j
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 
 	@Autowired

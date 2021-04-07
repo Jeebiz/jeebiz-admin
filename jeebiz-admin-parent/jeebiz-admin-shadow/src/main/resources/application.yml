@@ -203,7 +203,7 @@ shiro:
   authorization-cache-name: SHIRO-AUTHZ
   caching-enabled: false
   cache:
-    type: j2cache
+    type: redisson
   enabled: true
   kaptcha:
     enabled: true

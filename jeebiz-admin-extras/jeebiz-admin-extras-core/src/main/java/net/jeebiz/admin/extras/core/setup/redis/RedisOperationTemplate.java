@@ -26,7 +26,6 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
@@ -50,19 +49,19 @@ import net.jeebiz.boot.api.exception.BizRuntimeException;
 public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 
 	private static final Long LOCK_SUCCESS = 1L;
-    private static final Long LOCK_EXPIRED = 0L;
-	
-    private static final DefaultRedisScript<Long> LOCK_LUA_SCRIPT = new DefaultRedisScript<>(
-        "if redis.call('setnx', KEYS[1], ARGV[1]) == 1 then return redis.call('pexpire', KEYS[1], ARGV[2]) else return 0 end",
+    private static final Long LOCK_EXPIRED = -1L;
+    
+    private static final RedisScript<Long> LOCK_LUA_SCRIPT = RedisScript.of(
+        "if redis.call('setnx', KEYS[1], ARGV[1]) == 1 then return redis.call('pexpire', KEYS[1], ARGV[2]) else return -1 end",
          Long.class
     );
     
-    private static final DefaultRedisScript<Long> UNLOCK_LUA_SCRIPT = new DefaultRedisScript<>(
-		"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end",
+    private static final RedisScript<Long> UNLOCK_LUA_SCRIPT = RedisScript.of(
+		"if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return -1 end",
         Long.class
     );
-
-    public static final String INCR_SCRIPT = " if redis.call('exists', KEYS[1]) == 1 then \n "
+   
+    public static final RedisScript<Long> INCR_SCRIPT = RedisScript.of(" if redis.call('exists', KEYS[1]) == 1 then \n "
 											+ "		local current = redis.call('incr', KEYS[1], ARGV[1]) \n"
 											+ "		if current < 0 then \n"
 											+ "			redis.call('decr', KEYS[1], ARGV[1]) \n"
@@ -70,9 +69,10 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 											+ "		else \n"
 											+ "			return current \n"
 											+ "		end \n"
-											+ " else redis.call('set', KEYS[1], ARGV[1]) return 0; end";
+											+ " else redis.call('set', KEYS[1], ARGV[1]) return 0 end",
+									        Long.class);
 	
-	private static final String HINCR_SCRIPT = " if redis.call('hget', KEYS[1]) == 1 then  "
+	private static final RedisScript<Long> HINCR_SCRIPT = RedisScript.of(" if redis.call('hget', KEYS[1]) == 1 then  "
 			+ "		local current = redis.call('incr', KEYS[1]); "
 			+ "		if current < 0 then "
 			+ "			redis.call('decr', KEYS[1]) "
@@ -80,7 +80,8 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			+ "		else "
 			+ "			return current "
 			+ "		end "
-			+ " else return 0 end";
+			+ " else return 0 end",
+	        Long.class);
 	
 	private final RedisTemplate<String, Object> redisTemplate;
 	
@@ -1770,7 +1771,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	
 	public Long luaIncr(String key, Long amount) {
 		Assert.hasLength(key, "lockKey must not be empty");
-		return this.executeLuaScript(INCR_SCRIPT, Long.class, Lists.newArrayList(key), amount);
+		return this.executeLuaScript(INCR_SCRIPT,Collections.singletonList(key), amount);
 	}
 	
 	public boolean tryLock(String lockKey, String requestId, long timeout) {
@@ -1937,7 +1938,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 */
 	public <T> T executeLuaScript(String luaScript, Class<T> resultType, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript, resultType);
-		return (T) getOperations().execute(redisScript, RedisSerializer.java(), RedisSerializer.java(), keys, values);
+		return (T) getOperations().execute(redisScript, keys, values);
 	}
 	
 	/**
@@ -1960,7 +1961,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 */
 	public Object executeLuaScript(Resource luaScript, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript);
-		return getOperations().execute(redisScript, RedisSerializer.java(), RedisSerializer.java() , keys, values);
+		return getOperations().execute(redisScript, keys, values);
 	}
 	
 	/**
@@ -1974,7 +1975,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	 */
 	public <T> T executeLuaScript(Resource luaScript, Class<T> resultType, List<String> keys, Object... values) {
 		RedisScript redisScript = RedisScript.of(luaScript, resultType);
-		return (T) getOperations().execute(redisScript, RedisSerializer.java(), RedisSerializer.java(), keys, values);
+		return (T) getOperations().execute(redisScript, keys, values);
 	}
 	
 	// ===============================RedisCommand=================================

@@ -51,7 +51,7 @@ public class AuthzLoginServiceImpl extends BaseServiceImpl<AuthzLoginModel, IAut
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 		
-		SubjectUtils.getSession().setAttribute(PRIVATE_KEY_ATTRIBUTE_NAME, privateKey);
+		//SubjectUtils.getSession().setAttribute(PRIVATE_KEY_ATTRIBUTE_NAME, privateKey);
 		
 		return publicKey;
 	}
