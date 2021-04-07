@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.jeebiz.admin.extras.core.setup.geo.GeoTemplate;
 import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
+import net.jeebiz.admin.extras.core.setup.redis.RedissonOperationTemplate;
 import net.jeebiz.boot.api.annotation.RedisTopic;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 import net.jeebiz.boot.api.utils.StringUtils;
@@ -109,6 +111,12 @@ public class RedisCachingConfiguration extends CachingConfigurerSupport {
 	@Order(1)
 	public RedisOperationTemplate redisOperationTemplate(RedisTemplate<String, Object> redisTemplate) {
 		return new RedisOperationTemplate(redisTemplate);
+	}
+	
+	@Bean
+	@Order(1)
+	public RedissonOperationTemplate redissonOperationTemplate(RedissonClient redissonClient) {
+		return new RedissonOperationTemplate(redissonClient);
 	}
 	
 	@Bean
