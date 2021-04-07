@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.stream.Stream;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -16,6 +18,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.expression.EvaluationContext;
@@ -40,7 +43,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
+import net.jeebiz.admin.extras.core.setup.redis.RedissonOperationTemplate;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.ApiIdempotentType;
@@ -57,7 +60,7 @@ public class ApiIdempotentAspect {
 	private final ExpressionParser expressionParser = new SpelExpressionParser();
 
 	@Autowired
-	private RedisOperationTemplate redisOperationTemplate;
+	private RedissonOperationTemplate redissonOperationTemplate;
 	@Autowired
 	private ObjectMapper objectMapper;
 	@Autowired
@@ -97,19 +100,20 @@ public class ApiIdempotentAspect {
 			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(ShiroPrincipal.class).getUserid() : "guest";
 			String lockKey = String.format(KEY_ARGS_TEMPLATE, uid, idempotentKey + "_" + this.generateKey(method, joinPoint.getArgs()));
 			String lockValue = sequence.nextId().toString();
+			RLock fairLock = null;
 			try {
-				// 4.3、通过setnx确保只有一个接口能够正常访问
-				if (redisOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval())) {
+				// 4.3、通过RLock确保只有一个接口能够正常访问
+				fairLock = redissonOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval());
+				if (!fairLock.isLocked()) {
 					return joinPoint.proceed();
 				} else {
 					log.debug("Idempotent hits, key=" + lockKey);
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				redisOperationTemplate.unlock(lockKey, lockValue);
+				redissonOperationTemplate.unlock(fairLock);
 			}
 		}
-
 		// 5、通过请求参数中的token值实现幂等
 		else if (ApiIdempotentType.TOKEN.equals(idempotent.type())) {
 			// 5.1、获取Request对象
@@ -124,16 +128,18 @@ public class ApiIdempotentAspect {
 			// 5.3、根据 key前缀 + token
 			String lockKey = String.format(KEY_TOKEN_TEMPLATE, token);
 			String lockValue = sequence.nextId().toString();
+			RLock fairLock = null;
 			try {
-				// 5.4、通过setnx确保只有一个接口能够正常访问
-				if (redisOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval())) {
+				// 5.4、通过RLock确保只有一个接口能够正常访问
+				fairLock = redissonOperationTemplate.tryLock(lockKey, lockValue, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval());
+				if (!fairLock.isLocked()) {
 					return joinPoint.proceed();
 				} else {
 					log.debug("Idempotent hits, key=" + lockKey);
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				redisOperationTemplate.unlock(lockKey, lockValue);
+				redissonOperationTemplate.unlock(fairLock);
 			}
 		}
 		return joinPoint.proceed();
@@ -249,6 +255,9 @@ public class ApiIdempotentAspect {
 		Annotation[][]  paramAnnotations = method.getParameterAnnotations();
 		for (int i = 0; i < args.length; i++) {
 			if(Stream.of(paramAnnotations[i]).anyMatch(annt -> annt instanceof ApiIgnore)) {
+				continue;
+			}
+			if(args[i] instanceof ServletRequest || args[i] instanceof ServletResponse) {
 				continue;
 			}
 			sb.append(objectMapper.writeValueAsString(args[i]));
