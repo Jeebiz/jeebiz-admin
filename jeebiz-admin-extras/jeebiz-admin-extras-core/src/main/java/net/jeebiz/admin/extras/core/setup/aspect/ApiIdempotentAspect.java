@@ -75,7 +75,9 @@ public class ApiIdempotentAspect extends AbstractIdempotentAspect {
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				redissonOperationTemplate.unlock(fairLock);
+				if(idempotent.unlock()) {
+					redissonOperationTemplate.unlock(fairLock);
+				}
 			}
 		}
 		// 5、通过请求参数中的token值实现幂等
@@ -102,7 +104,9 @@ public class ApiIdempotentAspect extends AbstractIdempotentAspect {
 					throw new IdempotentException(ApiCode.SC_FAIL, "request.method.idempotent.hits");
 				}
 			} finally {
-				redissonOperationTemplate.unlock(fairLock);
+				if(idempotent.unlock()) {
+					redissonOperationTemplate.unlock(fairLock);
+				}
 			}
 		}
 		return joinPoint.proceed();
