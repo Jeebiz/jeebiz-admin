@@ -9,12 +9,10 @@ import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,11 +26,15 @@ import net.jeebiz.boot.api.annotation.ApiIdempotentType;
 import net.jeebiz.boot.api.exception.IdempotentException;
 import net.jeebiz.boot.api.sequence.Sequence;
 
-// https://blog.csdn.net/hanchao5272/article/details/92073405
+/**
+ * 1、基于Lua脚本实现分布式锁的方法
+ * 2、参考：
+ * https://blog.csdn.net/qq_24598601/article/details/105876432
+ */
 @Slf4j
-@Component
-@Aspect
-public class ApiIdempotentAspect2 extends AbstractIdempotentAspect {
+//@Component
+//@Aspect
+public class ApiIdempotentLuaAspect extends AbstractIdempotentAspect {
 
 	@Autowired
 	private RedisOperationTemplate redisOperationTemplate;

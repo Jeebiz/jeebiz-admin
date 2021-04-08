@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
@@ -21,21 +22,25 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
+import net.jeebiz.admin.extras.core.setup.redis.RedissonOperationTemplate;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.ApiIdempotentType;
 import net.jeebiz.boot.api.exception.IdempotentException;
 
-// https://blog.csdn.net/hanchao5272/article/details/92073405
+/**
+ * 1、基于Redisson分布式锁实现的方法
+ * 2、参考：
+ * https://blog.csdn.net/qq_24598601/article/details/105876432
+ */
 @Slf4j
-//@Component
-//@Aspect
-public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
+@Component
+@Aspect
+public class ApiIdempotentRLockAspect extends AbstractIdempotentAspect {
 
 	@Autowired
-	private RedisOperationTemplate redisOperationTemplate;
-
+	private RedissonOperationTemplate redissonOperationTemplate;
+	
 	@Pointcut("@annotation(net.jeebiz.boot.api.annotation.ApiIdempotent)")
 	public void aspect() {
 		// do nothing
@@ -63,9 +68,11 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 			// 4.2、根据 key前缀 + @ApiIdempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @ApiIdempotent.value() + 方法签名 + 参数
 			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(ShiroPrincipal.class).getUserid() : "guest";
 			String lockKey = String.format(KEY_ARGS_TEMPLATE, uid, idempotentKey);
+			RLock fairLock = null;
 			try {
-				// 4.3、通过setnx确保只有一个接口能够正常访问
-				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {
+				// 4.3、通过RLock确保只有一个接口能够正常访问
+				fairLock = redissonOperationTemplate.tryLock(lockKey, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval());
+				if (fairLock.isLocked()) {
 					return joinPoint.proceed();
 				} else {
 					log.debug("Idempotent hits, key=" + lockKey);
@@ -73,11 +80,10 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 				}
 			} finally {
 				if(idempotent.unlock()) {
-					redisOperationTemplate.unlock(lockKey);
+					redissonOperationTemplate.unlock(fairLock);
 				}
 			}
 		}
-
 		// 5、通过请求参数中的token值实现幂等
 		else if (ApiIdempotentType.TOKEN.equals(idempotent.type())) {
 			// 5.1、获取Request对象
@@ -91,9 +97,11 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 			}
 			// 5.3、根据 key前缀 + token
 			String lockKey = String.format(KEY_TOKEN_TEMPLATE, token);
+			RLock fairLock = null;
 			try {
-				// 5.4、通过setnx确保只有一个接口能够正常访问
-				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {
+				// 5.4、通过RLock确保只有一个接口能够正常访问
+				fairLock = redissonOperationTemplate.tryLock(lockKey, idempotent.expireMillis(), idempotent.retryTimes(), idempotent.retryInterval());
+				if (fairLock.isLocked()) {
 					return joinPoint.proceed();
 				} else {
 					log.debug("Idempotent hits, key=" + lockKey);
@@ -101,11 +109,12 @@ public class ApiIdempotentAspect1 extends AbstractIdempotentAspect {
 				}
 			} finally {
 				if(idempotent.unlock()) {
-					redisOperationTemplate.unlock(lockKey);
+					redissonOperationTemplate.unlock(fairLock);
 				}
 			}
 		}
 		return joinPoint.proceed();
+		
 	}
 
 }

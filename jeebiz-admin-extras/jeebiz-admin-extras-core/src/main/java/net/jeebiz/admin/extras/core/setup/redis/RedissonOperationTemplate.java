@@ -38,7 +38,7 @@ public class RedissonOperationTemplate {
 		log.info("locking... redisK = {}", lockKey);
 		RLock fairLock = redissonClient.getFairLock(lockKey);
 		try {
-			boolean tryLock = fairLock.tryLock(10, expire, TimeUnit.MILLISECONDS);
+			boolean tryLock = fairLock.tryLock(1000, expire, TimeUnit.MILLISECONDS);
 			if (tryLock) {
 				log.info("locked... redisK = {}", lockKey);
 				return fairLock;
