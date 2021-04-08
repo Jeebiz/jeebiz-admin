@@ -331,10 +331,10 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	public List<Object> mGet(Collection<Object> keys, String redisPrefix) {
 		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
 			keys.stream().forEach(key -> {
-				connection.get(rawString(RedisKeyGenerator.getKeyStr(redisPrefix, key.toString())));
+				connection.get(rawKey(RedisKeyGenerator.getKeyStr(redisPrefix, key.toString())));
 			});
 			return null;
-		}, getOperations().getValueSerializer());
+		}, this.valueSerializer());
 		return result;
 	}
 	
@@ -572,7 +572,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			redisConnection.lRange(serKey, 0, count - 1);
 			redisConnection.lTrim(serKey, count, -1);
 			return null;
-		}, getOperations().getValueSerializer());
+		}, this.valueSerializer());
 		
 		return (List<String>) result.get(0);
 	}
@@ -946,18 +946,15 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			return Lists.newArrayList();
 		}
 	}
-    
-    /**
-	 * 批量获取用户信息
-	 */
-	public List<Object> hGet(Collection<Object> keys) {
+   	
+	public List<Object> hGet(Collection<Object> keys, String redisPrefix) {
 		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
 			keys.stream().forEach(key -> {
-				String hashKey = RedisKeyGenerator.getUserInfoPrefix(key.toString());
-				connection.hGetAll(rawString(hashKey));
+				String hashKey = RedisKeyGenerator.getKeyStr(redisPrefix, key.toString());
+				connection.hGetAll(rawKey(hashKey));
 			});
 			return null;
-		}, getOperations().getValueSerializer());
+		}, this.valueSerializer());
 		return result;
 	}
 	
@@ -965,10 +962,10 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
 			keys.stream().forEach(key -> {
 				String hashKey = RedisKeyGenerator.getKeyStr(redisPrefix, key.toString());
-				connection.hGet(rawHashKey(hashKey), rawHashValue(redisField));
+				connection.hGet(rawKey(hashKey), rawHashKey(redisField));
 			});
 			return null;
-		}, getOperations().getValueSerializer());
+		}, this.valueSerializer());
 		return result;
 	}
 	
@@ -2036,5 +2033,21 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			return null;
 		});
 	}
+	
+	// ===============================batchGet=================================
+	
+	/**
+   	 * 批量获取用户信息
+   	 */
+   	public List<Object> batchGetUserInfo(Collection<String> uids) {
+   		List<Object> result = getOperations().executePipelined((RedisConnection connection) -> {
+   			uids.stream().forEach(uid -> {
+   				String hashKey = RedisKeyGenerator.getUserInfoPrefix(uid);
+   				connection.hGetAll(rawKey(hashKey));
+   			});
+   			return null;
+   		}, this.valueSerializer());
+   		return result;
+   	}
 	
 }
