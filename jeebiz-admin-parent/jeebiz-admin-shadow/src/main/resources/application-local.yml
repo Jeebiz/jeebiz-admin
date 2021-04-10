@@ -99,13 +99,13 @@ spring:
   # Redis相关配置
   redis:
     # Redis服务器地址  
-    host: 106.54.2.213
+    host: 127.0.0.1
     # Redis服务器连接端口
     port: 6379
     # Database 索引；和其他服务区别开
     #database: 1
     # Redis服务器连接密码（默认为空） 
-    password: HycBsP5cSp3enyGw
+    #password: HycBsP5cSp3enyGw
 
 ################################################################################################################  
 ###Flyway (FlywayMigrationProperties) 数据库迁移脚本版本管理（实现软件版本升级数据库自动升级）配置：  
