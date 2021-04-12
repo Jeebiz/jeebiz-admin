@@ -163,6 +163,15 @@
 		    <groupId>com.github.scribejava</groupId>
 		    <artifactId>scribejava-apis</artifactId>
 		</dependency> -->
+		<!-- For Google API -->
+	 	<dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-jackson2</artifactId>
+        </dependency>
 		<!-- For Thymeleaf View -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

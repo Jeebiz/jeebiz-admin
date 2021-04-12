@@ -61,7 +61,8 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
         Long.class
     );
    
-    public static final RedisScript<Long> INCR_SCRIPT = RedisScript.of(" if redis.call('exists', KEYS[1]) == 1 then \n "
+    public static final RedisScript<Long> INCR_SCRIPT = RedisScript.of(
+    										" 	if redis.call('exists', KEYS[1]) == 1 then \n "
 											+ "		local current = redis.call('incr', KEYS[1], ARGV[1]) \n"
 											+ "		if current < 0 then \n"
 											+ "			redis.call('decr', KEYS[1], ARGV[1]) \n"
@@ -69,7 +70,10 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 											+ "		else \n"
 											+ "			return current \n"
 											+ "		end \n"
-											+ " else redis.call('set', KEYS[1], ARGV[1]) return 0 end",
+											+ " else "
+											+ "		redis.call('set', KEYS[1], 0) "
+											+ "		return 0 "
+											+ "	end",
 									        Long.class);
 	
 	private static final RedisScript<Long> HINCR_SCRIPT = RedisScript.of(" if redis.call('hget', KEYS[1]) == 1 then  "
@@ -1766,9 +1770,9 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	
 	// ===============================Lock=================================
 	
-	public Long luaIncr(String key, Long amount) {
-		Assert.hasLength(key, "lockKey must not be empty");
-		return this.executeLuaScript(INCR_SCRIPT,Collections.singletonList(key), amount);
+	public Long luaIncr(String lockKey, long amount) {
+		Assert.hasLength(lockKey, "lockKey must not be empty");
+		return this.executeLuaScript(INCR_SCRIPT, Collections.singletonList(lockKey), amount);
 	}
 	
 	public boolean tryLock(String lockKey, String requestId, long timeout) {
