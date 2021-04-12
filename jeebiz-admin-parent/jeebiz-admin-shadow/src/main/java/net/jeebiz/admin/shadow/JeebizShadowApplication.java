@@ -54,7 +54,10 @@ public class JeebizShadowApplication implements CommandLineRunner {
 		
 		try {
 			//redisOperationTemplate.unlock("xax", "xas");
-			Long rtLong = redisOperationTemplate.luaIncr("test", 1111L);
+			Long rtLong = redisOperationTemplate.luaIncr("test", -1200L);
+			System.out.println(rtLong);
+			rtLong = redisOperationTemplate.luaIncr("test", 111L);
+			
 			System.out.println(rtLong);
 		} catch (Exception e) {
 			e.printStackTrace();
