@@ -1000,7 +1000,22 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			return Maps.newHashMap();
 		}
 	}
-
+	/**
+	 * 获取hashKey对应的指定键值
+	 * @param key 键
+	 * @param field hash键
+	 * @return 对应的键值
+	 */
+	public Object hmGet(String key, String field) {
+		try {
+			HashOperations<String, String, Object> opsForHash = getOperations().opsForHash();
+			return opsForHash.get(key, field);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+	
 	/**
 	 * HashSet
 	 *
