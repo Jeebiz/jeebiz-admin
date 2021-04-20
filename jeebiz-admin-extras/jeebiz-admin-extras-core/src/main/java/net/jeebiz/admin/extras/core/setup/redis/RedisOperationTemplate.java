@@ -1847,20 +1847,20 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
        	return false;
 	}
 
-	/**
+    /**
 	 * 1、lua脚本加锁
 	 * @param lockKey       锁的 key
-	 * @param value         value （ key + value 必须保证唯一）
+	 * @param requestId     锁的 value
 	 * @param expire        key 的过期时间，单位 ms
 	 * @param retryTimes    重试次数，即加锁失败之后的重试次数
 	 * @param retryInterval 重试时间间隔，单位 ms
 	 * @return 加锁 true 成功
 	 */
-	public boolean tryLock(String lockKey, String value, long expire, int retryTimes, long retryInterval) {
+	public boolean tryLock(String lockKey, String requestId, long expire, int retryTimes, long retryInterval) {
        try {
 			return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
 				// 1、执行lua脚本
-				Long result =  this.executeLuaScript(LOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value, expire);
+				Long result =  this.executeLuaScript(LOCK_LUA_SCRIPT, Collections.singletonList(lockKey), requestId, expire);
 				if(LOCK_SUCCESS.equals(result)) {
 				    log.info("locked... redisK = {}", lockKey);
 				    return true;
@@ -1870,7 +1870,7 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 			        while(count < retryTimes) {
 			            try {
 			                Thread.sleep(retryInterval);
-			                result = this.executeLuaScript(LOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value, expire);
+			                result = this.executeLuaScript(LOCK_LUA_SCRIPT, Collections.singletonList(lockKey), requestId, expire);
 			                if(LOCK_SUCCESS.equals(result)) {
 			                	log.info("locked... redisK = {}", lockKey);
 			                    return true;
@@ -1894,14 +1894,14 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 	/**
 	 * 2、lua脚本释放KEY
 	 * @param lockKey 释放本请求对应的锁的key
-	 * @param value   释放本请求对应的锁的value
+	 * @param requestId   释放本请求对应的锁的value
 	 * @return 释放锁 true 成功
 	 */
-    public boolean unlock(String lockKey, String value) {
+    public boolean unlock(String lockKey, String requestId) {
         log.info("unlock... redisK = {}", lockKey);
         try {
             // 使用lua脚本删除redis中匹配value的key
-            Long result = this.executeLuaScript(UNLOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value);
+            Long result = this.executeLuaScript(UNLOCK_LUA_SCRIPT, Collections.singletonList(lockKey), requestId);
             //如果这里抛异常，后续锁无法释放
             if (LOCK_SUCCESS.equals(result)) {
             	log.info("release lock success. redisK = {}", lockKey);
@@ -2006,6 +2006,16 @@ public class RedisOperationTemplate extends AbstractOperations<String, Object> {
 		});
 	}
 
+	/**
+	 * 获取redis服务器时间 保证集群环境下时间一致
+	 * @return Redis服务器时间戳
+	 */
+	public Long period(long expiration) {
+		return getOperations().execute((RedisCallback<Long>) redisConnection -> {
+			return expiration - redisConnection.time();
+		});
+	}
+	
 	public Long dbSize() {
 		return getOperations().execute((RedisCallback<Long>) redisConnection -> {
 			return redisConnection.dbSize();

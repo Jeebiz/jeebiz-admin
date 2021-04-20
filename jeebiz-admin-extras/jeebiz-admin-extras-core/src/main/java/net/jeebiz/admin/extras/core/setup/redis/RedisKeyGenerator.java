@@ -141,5 +141,16 @@ public class RedisKeyGenerator {
 		}
 		return tempKey.toString();
 	}
+	
+	public static String getThreadKeyStr(String prefix, String... args) {
+		StringBuilder tempKey = new StringBuilder(prefix).append(DELIMITER).append(Thread.currentThread().getId());
+		for (String s : args) {
+			if (s.length() <= 0) {
+				continue;
+			}
+			tempKey.append(DELIMITER).append(s);
+		}
+		return tempKey.toString();
+	}
  
 }
