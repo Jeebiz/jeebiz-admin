@@ -28,10 +28,6 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>tencentapi-spring-boot-starter</artifactId>
 		</dependency>	
-		<dependency>
-		    <groupId>com.tencentcloudapi</groupId>
-		    <artifactId>tencentcloud-sdk-java</artifactId>
-		</dependency>	
         
 	</dependencies>
 	
