@@ -9,7 +9,7 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
-
+    shutdown:      enabled: true
 
 ################################################################################################################  
 ###内置应用容器（Tomcat、Jetty、Undertow）配置：  
