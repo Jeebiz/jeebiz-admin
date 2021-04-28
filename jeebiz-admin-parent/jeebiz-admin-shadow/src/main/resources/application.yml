@@ -421,29 +421,24 @@ spring:
     #禁止对数据库进行相关清除操作
     clean-disabled: true
     #target: 1.0.0.17
-    placeholder-prefix: '$${'
+    #占位符替换（主要表名前缀）
+    placeholder-prefix: $${
+    placeholders:
+      '[table-prefix]' : jeebiz_
 
 ################################################################################################################  
 ###mybatis-plus (MybatisPlusProperties) 基本配置：  
 ###http://mp.baomidou.com/#/spring-boot
 ################################################################################################################  
 mybatis-plus:
-  # 初始配置文件
-  check-config-location: true 
-  # config-location: classpath:/conf/mybatis/sqlMapConfig.xml
-  #configuration-properties:
-  # 初始配置参数
-  #configuration:
-    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId） 
-    #map-underscore-to-camel-case: true
-    #cache-enabled: false
-    #配置JdbcTypeForNull, oracle数据库必须配置
-    #jdbc-type-for-null: 'null'
-  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
-  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
+  # Oracle数据库对应的Mybatis脚本
+  #mapper-locations: classpath*:net/jeebiz/**/dao/**/sqlmap/oracle/*.xml
+  # MySQL数据库对应的Mybatis脚本
   mapper-locations: classpath*:net/jeebiz/**/dao/**/sqlmap/mysql/*.xml
-  #实体扫描，多个package用逗号或者分号分隔
+  # package多个则用逗号或者分号分隔
   type-aliases-package: net.jeebiz.**.dao.entities
+  configuration-properties:
+    ['table-prefix']: jeebiz_ # 自定义sql中表名带前缀
   configuration:
     # 指定MyBatis如何自动映射列到字段/属性。PARTIAL只会自动映射简单，没有嵌套的结果。
     # FULL会自动映射任意复杂的结果（嵌套的或其他情况）;有效值：NONE,PARTIAL,FULL,默认值：PARTIAL
@@ -483,21 +478,19 @@ mybatis-plus:
     local-cache-scope: session
     log-prefix: "[Mybatis]"
     #log-impl: org.apache.ibatis.logging.log4j2.Log4j2LoggerImpl.class
-    
-  global-config: 
-    sql-parser-cache: true
+  global-config:
     db-config:
       id-type: auto
-      field-strategy: not-empty
+      #      field-strategy: not-empty
       #mp2.3+ 全局表前缀 mp_
-      table-prefix: jeebiz_
-      #刷新mapper 调试神器
+      table-prefix: kding_
+      #是否自动刷新 Mapper 对应的 XML 文件，默认不自动刷新。如果配置了该属性，Mapper 对应的 XML 文件会自动刷新，更改 XML 文件后，无需再次重启工程，由此节省大量时间。
       #refresh-mapper: true
-      #数据库大写下划线转换
+      #是否开启数据库大写命名，默认不开启
       #capital-mode: true
       # Sequence序列接口实现类配置
       #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
-                 #逻辑删除配置（下面3个配置）
+      #逻辑删除配置（下面3个配置）
       logic-delete-field: isDelete  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
