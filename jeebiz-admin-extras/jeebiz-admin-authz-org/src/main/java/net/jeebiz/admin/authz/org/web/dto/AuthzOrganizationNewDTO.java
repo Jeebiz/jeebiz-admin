@@ -44,9 +44,9 @@ public class AuthzOrganizationNewDTO implements Serializable {
 	
 	private String intro;
 	/**
-	 * 父级机构ID编号
+	 * 父级机构id编号
 	 */
-	@ApiModelProperty(name = "parent", dataType = "String", value = "父级机构ID编号")
+	@ApiModelProperty(name = "parent", dataType = "String", value = "父级机构id编号")
 	private String parent = "0";
 	/**
 	 * 机构状态（0:禁用|1:可用）

@@ -19,7 +19,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class AuthzPostModel extends PaginationModel<AuthzPostModel> {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
 	private String orgId;
 	/**
@@ -27,7 +27,7 @@ public class AuthzPostModel extends PaginationModel<AuthzPostModel> {
 	 */
 	private String orgName;
 	/**
-	 * 部门ID编号
+	 * 部门id编号
 	 */
 	private String deptId;
 	/**
@@ -35,7 +35,7 @@ public class AuthzPostModel extends PaginationModel<AuthzPostModel> {
 	 */
 	private String deptName;
 	/**
-	 * 岗位ID编号
+	 * 岗位id编号
 	 */
 	private String id;
 	/**
@@ -51,7 +51,7 @@ public class AuthzPostModel extends PaginationModel<AuthzPostModel> {
 	 */
 	private String intro;
 	/**
-	 * 岗位创建人ID
+	 * 岗位创建人id
 	 */
 	private String uid;
 	/**

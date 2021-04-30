@@ -46,10 +46,10 @@ import ${cfg.voPackageName}.${resultVo};
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
-import com.knowway.cloud.extras.imexport.service.IDataExportService;
+import com.knowway.cloud.extras.imexport.service.idataExportService;
 </#if>
 <#if cfg.createImportMethod==true>
-import com.knowway.cloud.extras.imexport.service.IDataImportService;
+import com.knowway.cloud.extras.imexport.service.idataImportService;
 import net.jeebiz.fastxls.core.model.ConstraintViolationResult;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.ConstraintViolationException;
@@ -82,14 +82,14 @@ public class ${cfg.controllerName} extends ${superControllerClass} {
     private final ${cfg.serviceName} ${cfg.serviceName[1..]?uncap_first};
 <#if cfg.createExportMethod==true>
 
-    private final IDataExportService dataExportService;
+    private final idataExportService dataExportService;
 </#if>
 <#if cfg.createImportMethod==true>
 
-    private final IDataImportService dataImportService;
+    private final idataImportService dataImportService;
 </#if>
 
-    public ${cfg.controllerName}(${cfg.serviceName} ${cfg.serviceName[1..]?uncap_first}<#if cfg.createExportMethod==true>,IDataExportService dataExportService</#if><#if cfg.createImportMethod==true>,IDataImportService dataImportService</#if>){
+    public ${cfg.controllerName}(${cfg.serviceName} ${cfg.serviceName[1..]?uncap_first}<#if cfg.createExportMethod==true>,idataExportService dataExportService</#if><#if cfg.createImportMethod==true>,idataImportService dataImportService</#if>){
         this.${cfg.serviceName[1..]?uncap_first} = ${cfg.serviceName[1..]?uncap_first};
         <#if cfg.createExportMethod==true>this.dataExportService = dataExportService;</#if>
         <#if cfg.createImportMethod==true>this.dataImportService = dataImportService;</#if>
@@ -121,9 +121,9 @@ public class ${cfg.controllerName} extends ${superControllerClass} {
         return ApiRestResponse.success(retList);
     }
 
-    @ApiOperation(value = "指定${table.comment}记录", notes = "根据ID查询${table.comment}记录")
+    @ApiOperation(value = "指定${table.comment}记录", notes = "根据id查询${table.comment}记录")
     @ApiImplicitParams({
-        @ApiImplicitParam( paramType = "query", name = "id", required = true,value = "ID", dataType = "String")
+        @ApiImplicitParam( paramType = "query", name = "id", required = true,value = "id", dataType = "String")
     })
     @GetMapping({"detail"})
     @PreAuthorize("authenticated")
@@ -167,7 +167,7 @@ public class ${cfg.controllerName} extends ${superControllerClass} {
 
     @ApiOperation(value = "删除${table.comment}记录", notes = "删除${table.comment}记录")
     @ApiImplicitParams({
-        @ApiImplicitParam(paramType = "query", name = "id", value = "${table.comment}记录ID", required = true, dataType = "String")
+        @ApiImplicitParam(paramType = "query", name = "id", value = "${table.comment}记录id", required = true, dataType = "String")
     })
     @BusinessLog(module = "删除${table.comment}记录", business = "删除${table.comment}记录" , opt = BusinessType.DELETE)
     @GetMapping("delete")
@@ -182,14 +182,14 @@ public class ${cfg.controllerName} extends ${superControllerClass} {
 
 <#list table.fields as field>
 <#if field.propertyName=='sfqy'>
-     @ApiOperation(value = "根据记录ID更新启用状态", notes = "根据记录ID更新启用状态")
+     @ApiOperation(value = "根据记录id更新启用状态", notes = "根据记录id更新启用状态")
      @ApiImplicitParams({
-         @ApiImplicitParam(paramType = "query", name = "id", required = true, value = "记录ID", dataType = "String"),
+         @ApiImplicitParam(paramType = "query", name = "id", required = true, value = "记录id", dataType = "String"),
          @ApiImplicitParam(paramType = "query", name = "status", required = true, value = "启用状态(0:停用,1:启用)", dataType = "String")
      })
      @GetMapping("status")
      @PreAuthorize("authenticated")
-     public ApiRestResponse<String> setStatus(@NotBlank(message = "记录ID不能为空!") String id,@NotBlank(message = "启用停用状态不能为空!") String status) {
+     public ApiRestResponse<String> setStatus(@NotBlank(message = "记录id不能为空!") String id,@NotBlank(message = "启用停用状态不能为空!") String status) {
          //查询该课程是否已结束
          int count=this.get${cfg.serviceName[1..]}().setStatus(id,status);
          if (count == 0) {
@@ -239,11 +239,11 @@ public class ${cfg.controllerName} extends ${superControllerClass} {
     public ${cfg.serviceName} get${cfg.serviceName[1..]}(){ return this.${cfg.serviceName[1..]?uncap_first}; }
 <#if cfg.createExportMethod==true>
 
-    public IDataExportService getDataExportService() { return dataExportService;}
+    public idataExportService getDataExportService() { return dataExportService;}
 </#if>
 <#if cfg.createImportMethod==true>
 
-    public IDataImportService getDataImportService() { return dataImportService;}
+    public idataImportService getDataImportService() { return dataImportService;}
 </#if>
 }
 </#if>

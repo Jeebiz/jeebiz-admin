@@ -8,7 +8,7 @@ package net.jeebiz.admin.extras.filestore.setup.provider;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
+import java.util.UUid;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -104,7 +104,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		        FastImageFile fastImageFile = new FastImageFile.Builder()
                     .withFile(file.getInputStream(), file.getSize(), extension)
                     .withThumbImage(width, height)
-                    .toGroup(Constants.GROUP_NAME)
+                    .toGroup(Constants.GROUP_name)
                     .build();
 		        
 		        // 上传并且生成缩略图
@@ -119,13 +119,13 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		        storePath = new FileStorePath(storePath, builder.toString());
 		        
         	} else {
-        		storePath = getFdfsStorageClient().uploadFile(Constants.GROUP_NAME, file.getInputStream(), file.getSize(), 
+        		storePath = getFdfsStorageClient().uploadFile(Constants.GROUP_name, file.getInputStream(), file.getSize(), 
     					 FilenameUtils.getExtension(file.getOriginalFilename()));
 			}
 			// 保存文件元信息
 			getFdfsStorageClient().mergeMetadata(storePath.getGroup(), storePath.getPath(), this.metaDataSet(file));
         } else {
-        	storePath = getFdfsStorageClient().uploadFile(Constants.GROUP_NAME, file.getInputStream(), file.getSize(), 
+        	storePath = getFdfsStorageClient().uploadFile(Constants.GROUP_name, file.getInputStream(), file.getSize(), 
 					FilenameUtils.getExtension(file.getOriginalFilename()));
 		}
         return storePath;
@@ -140,7 +140,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
         	StorePath storePath = this.storeFile(file, width, height);
 
 			// 上传文件
-            String uuid = UUID.randomUUID().toString();
+            String uuid = UUid.randomUUid().toString();
 			
 			
 			// 文件存储记录对象
@@ -203,7 +203,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 				// 文件存储记录对象
 				FilestoreModel model = new FilestoreModel();
 				
-				String uuid = UUID.randomUUID().toString();
+				String uuid = UUid.randomUUid().toString();
 				model.setUuid(uuid);
 				model.setUid(principal.getUserid());
 				model.setName(file.getOriginalFilename());
@@ -270,7 +270,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		if(CollectionUtils.isEmpty(uuids)) {
 			return false;
 		}
-		// 查询UID对象的文件记录
+		// 查询Uid对象的文件记录
 		List<FilestoreModel> files = getFilestoreDao().getFiles(uuids);
 		// 删除文件记录
 		getFilestoreDao().deleteByUuids(uuids);
@@ -301,7 +301,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		
 		// 文件存储信息
 
-        String uuid1 = UUID.randomUUID().toString();
+        String uuid1 = UUid.randomUUid().toString();
 		
         FilestoreDTO attDTO = new FilestoreDTO();
 		attDTO.setUuid(uuid1);

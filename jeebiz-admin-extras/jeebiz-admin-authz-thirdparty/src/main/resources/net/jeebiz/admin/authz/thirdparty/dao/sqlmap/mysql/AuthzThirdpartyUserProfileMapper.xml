@@ -3,9 +3,9 @@
 <mapper namespace="net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserProfileDao">
 	
 	<resultMap id="UserProfileMap" type="AuthzThirdpartyUserProfileModel">
-        <!-- 用户描述ID -->
-		<result property="id" column="U_PID" />
-		<!-- 用户ID -->
+        <!-- 用户描述id -->
+		<result property="id" column="U_Pid" />
+		<!-- 用户id -->
 		<result property="uid" column="u_id" />
         <!-- 用户别名（昵称） -->
         <result property="nickname" column="u_nickname"/>
@@ -98,7 +98,7 @@
 		FROM sys_authz_user_profile t
 	   WHERE t.u_phone = #{phone}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_PID != #{origin}
+		   AND t.U_Pid != #{origin}
 		 </if>
 		LIMIT 1 
 	</select>
@@ -108,7 +108,7 @@
 		  FROM sys_authz_user_profile t
 		 WHERE t.u_email = #{email}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_PID != #{origin}
+		   AND t.U_Pid != #{origin}
 		 </if>
 		 LIMIT 1
 	</select>
@@ -118,14 +118,14 @@
 		  FROM sys_authz_user_profile t
 		 WHERE t.u_idcard = #{idcard}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_PID != #{origin}
+		   AND t.U_Pid != #{origin}
 		 </if>
 		  LIMIT 1
 	</select>
 	
 	<select id="getModel" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.U_PID,
+			t.U_Pid,
 			t.u_id,
 			t.u_nickname,
 			t.u_avatar,

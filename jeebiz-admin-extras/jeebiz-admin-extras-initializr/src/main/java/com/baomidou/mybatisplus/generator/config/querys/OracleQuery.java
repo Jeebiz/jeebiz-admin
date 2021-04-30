@@ -40,22 +40,22 @@ public class OracleQuery extends AbstractDbQuery {
 
     @Override
     public String tableFieldsSql() {
-        return "SELECT A.COLUMN_NAME,A.NULLABLE, CASE WHEN A.DATA_TYPE='NUMBER' THEN "
-            + "(CASE WHEN A.DATA_PRECISION IS NULL THEN A.DATA_TYPE "
-            + "WHEN NVL(A.DATA_SCALE, 0) > 0 THEN A.DATA_TYPE||'('||A.DATA_PRECISION||','||A.DATA_SCALE||')' "
-            + "ELSE A.DATA_TYPE||'('||A.DATA_PRECISION||')' END) "
-            + "ELSE A.DATA_TYPE END DATA_TYPE, B.COMMENTS,DECODE(C.POSITION, '1', 'PRI') KEY "
+        return "SELECT A.COLUMN_name,A.NULLABLE, CASE WHEN A.DATa_type='NUMBER' THEN "
+            + "(CASE WHEN A.DATA_PRECISION IS NULL THEN A.DATa_type "
+            + "WHEN NVL(A.DATA_SCALE, 0) > 0 THEN A.DATa_type||'('||A.DATA_PRECISION||','||A.DATA_SCALE||')' "
+            + "ELSE A.DATa_type||'('||A.DATA_PRECISION||')' END) "
+            + "ELSE A.DATa_type END DATa_type, B.COMMENTS,DECODE(C.POSITION, '1', 'PRI') KEY "
             + "FROM ALL_TAB_COLUMNS A "
-            + " INNER JOIN ALL_COL_COMMENTS B ON A.TABLE_NAME = B.TABLE_NAME AND A.COLUMN_NAME = B.COLUMN_NAME AND B.OWNER = '#schema'"
-            + " LEFT JOIN ALL_CONSTRAINTS D ON D.TABLE_NAME = A.TABLE_NAME AND D.CONSTRAINt_type = 'P' AND D.OWNER = '#schema'"
-            + " LEFT JOIN ALL_CONS_COLUMNS C ON C.CONSTRAINT_NAME = D.CONSTRAINT_NAME AND C.COLUMN_NAME=A.COLUMN_NAME AND C.OWNER = '#schema'"
-            + "WHERE A.OWNER = '#schema' AND A.TABLE_NAME = '%s' ORDER BY A.COLUMN_ID ";
+            + " INNER JOIN ALL_COL_COMMENTS B ON A.TABLE_name = B.TABLE_name AND A.COLUMN_name = B.COLUMN_name AND B.OWNER = '#schema'"
+            + " LEFT JOIN ALL_CONSTRAINTS D ON D.TABLE_name = A.TABLE_name AND D.CONSTRAINt_type = 'P' AND D.OWNER = '#schema'"
+            + " LEFT JOIN ALL_CONS_COLUMNS C ON C.CONSTRAINt_name = D.CONSTRAINt_name AND C.COLUMN_name=A.COLUMN_name AND C.OWNER = '#schema'"
+            + "WHERE A.OWNER = '#schema' AND A.TABLE_name = '%s' ORDER BY A.COLUMN_id ";
     }
 
 
     @Override
     public String tableName() {
-        return "TABLE_NAME";
+        return "TABLE_name";
     }
 
 
@@ -67,13 +67,13 @@ public class OracleQuery extends AbstractDbQuery {
 
     @Override
     public String fieldName() {
-        return "COLUMN_NAME";
+        return "COLUMN_name";
     }
 
 
     @Override
     public String fieldType() {
-        return "DATA_TYPE";
+        return "DATa_type";
     }
 
 

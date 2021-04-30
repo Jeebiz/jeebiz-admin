@@ -9,9 +9,9 @@ import lombok.Data;
 public class ArticleAttachmentRenewDTO {
 	
 	/**
-	 * 文章附件ID
+	 * 文章附件id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章附件ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章附件id")
 	private String id;
 	/**
 	 * 文章附件类型（1：标题图片，2：内容图片，3：文件普通附件）

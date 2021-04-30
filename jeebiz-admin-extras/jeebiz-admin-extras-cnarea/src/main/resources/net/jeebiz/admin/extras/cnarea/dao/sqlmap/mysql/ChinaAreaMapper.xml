@@ -7,120 +7,120 @@
 	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
 	
 	<resultMap id="ChinaAreaMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO">
-		<result property="id" column="ID" />
+		<result property="id" column="id" />
 		<!-- 层级 -->
-		<result property="level" column="LEVEL" />
+		<result property="level" column="level" />
 		<!-- 父级行政代码 -->
-		<result property="parent_code" column="PARENT_CODE" />
+		<result property="parent_code" column="parent_code" />
 		<!-- 行政代码 -->
-		<result property="area_code" column="AREA_CODE" />
+		<result property="area_code" column="area_code" />
 		<!-- 邮政编码 -->
-		<result property="zip_code" column="ZIP_CODE" />
+		<result property="zip_code" column="zip_code" />
 		<!-- 区号 -->
-		<result property="city_code" column="CITY_CODE" />
+		<result property="city_code" column="city_code" />
 		<!-- 名称 -->
-		<result property="name" column="NAME" />
+		<result property="name" column="name" />
 		<!-- 简称 -->
-		<result property="sname" column="SHORT_NAME" />
+		<result property="sname" column="short_name" />
 		<!-- 组合名 -->
-		<result property="mname" column="MERGEr_name" />
+		<result property="mname" column="merger_name" />
 		<!-- 拼音 -->
-		<result property="pinyin" column="PINYIN" />
+		<result property="pinyin" column="pinyin" />
 		<!-- 经度 -->
-		<result property="lng" column="LNG" />
+		<result property="lng" column="lng" />
 		<!-- 纬度 -->
-		<result property="lat" column="LAT" />
+		<result property="lat" column="lat" />
 	</resultMap>
 	
 	<resultMap id="CityPairMap" type="net.jeebiz.boot.api.dao.entities.BaseMap">
 		<!-- 行政地区名称 -->
-		<result property="name" column="NAME" />
+		<result property="name" column="name" />
 		<!-- 行政代码 -->
-		<result property="code" column="AREA_CODE" />
+		<result property="code" column="area_code" />
 		<!-- 上级行政代码 -->
-		<result property="pcode" column="PARENT_CODE" />
+		<result property="pcode" column="parent_code" />
 	</resultMap>
 	
 	<resultMap id="AreaPairMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO">
 		<!-- 名称 -->
-		<result property="name" column="NAME" />
+		<result property="name" column="name" />
 		<!-- 行政代码 -->
-		<result property="value" column="AREA_CODE" />
+		<result property="value" column="area_code" />
 	</resultMap>
 	
 	<select id="getChinaPairList" resultMap="CityPairMap" useCache="false">
-	   SELECT t.AREA_CODE, t.PARENT_CODE, t.NAME
+	   SELECT t.area_code, t.parent_code, t.name
 		 FROM cnarea_2019 t 
-	    WHERE t.LEVEL = 0 OR t.LEVEL = 1 OR t.LEVEL = 2
-	 ORDER By t.AREA_CODE ASC
+	    WHERE t.level = 0 OR t.level = 1 OR t.level = 2
+	 ORDER By t.area_code ASC
 	</select>
 	
 	<select id="getChinaProvPairList" resultMap="AreaPairMap">
-	   SELECT t.AREA_CODE, t.NAME
+	   SELECT t.area_code, t.name
 		 FROM cnarea_2019 t 
-	    WHERE t.LEVEL = 0
-	 ORDER By t.AREA_CODE ASC
+	    WHERE t.level = 0
+	 ORDER By t.area_code ASC
 	</select>
 	
 	<select id="getChinaAreaPairList" resultMap="AreaPairMap">
-	   SELECT t.AREA_CODE, t.NAME
+	   SELECT t.area_code, t.name
 		 FROM cnarea_2019 t 
-	    WHERE t.PARENT_CODE = #{pcode}
-	 ORDER By t.AREA_CODE ASC
+	    WHERE t.parent_code = #{pcode}
+	 ORDER By t.area_code ASC
 	</select>
 	
 	<select id="getChinaProvList" resultMap="ChinaAreaMap">
-	   SELECT t.ID,
-	   		  t.LEVEL,
-	   		  t.PARENT_CODE,
-	   		  t.AREA_CODE,
-	   		  t.ZIP_CODE,
-	   		  t.CITY_CODE,
-	   		  t.NAME,
-	   		  t.SHORT_NAME,
-	   		  t.MERGEr_name,
-	   		  t.PINYIN,
-	   		  t.LNG,
-	   		  t.LAT
+	   SELECT t.id,
+	   		  t.level,
+	   		  t.parent_code,
+	   		  t.area_code,
+	   		  t.zip_code,
+	   		  t.city_code,
+	   		  t.name,
+	   		  t.short_name,
+	   		  t.merger_name,
+	   		  t.pinyin,
+	   		  t.lng,
+	   		  t.lat
 		 FROM cnarea_2019 t 
-	    WHERE t.LEVEL = 0
-	 ORDER By t.AREA_CODE ASC
+	    WHERE t.level = 0
+	 ORDER By t.area_code ASC
 	</select>
 	
 	<select id="getChinaAreaList" resultMap="ChinaAreaMap">
-	   SELECT t.ID,
-	   		  t.LEVEL,
-	   		  t.PARENT_CODE,
-	   		  t.AREA_CODE,
-	   		  t.ZIP_CODE,
-	   		  t.CITY_CODE,
-	   		  t.NAME,
-	   		  t.SHORT_NAME,
-	   		  t.MERGEr_name,
-	   		  t.PINYIN,
-	   		  t.LNG,
-	   		  t.LAT
+	   SELECT t.id,
+	   		  t.level,
+	   		  t.parent_code,
+	   		  t.area_code,
+	   		  t.zip_code,
+	   		  t.city_code,
+	   		  t.name,
+	   		  t.short_name,
+	   		  t.merger_name,
+	   		  t.pinyin,
+	   		  t.lng,
+	   		  t.lat
 		 FROM cnarea_2019 t 
-	    WHERE t.PARENT_CODE = #{pcode} 
-	 ORDER By t.AREA_CODE ASC
+	    WHERE t.parent_code = #{pcode}
+	 ORDER By t.area_code ASC
 	</select>
 	
 	<select id="getChinaArea" resultMap="ChinaAreaMap">
-	   SELECT t.ID,
-	   		  t.LEVEL,
-	   		  t.PARENT_CODE,
-	   		  t.AREA_CODE,
-	   		  t.ZIP_CODE,
-	   		  t.CITY_CODE,
-	   		  t.NAME,
-	   		  t.SHORT_NAME,
-	   		  t.MERGEr_name,
-	   		  t.PINYIN,
-	   		  t.LNG,
-	   		  t.LAT
+	   SELECT t.id,
+	   		  t.level,
+	   		  t.parent_code,
+	   		  t.area_code,
+	   		  t.zip_code,
+	   		  t.city_code,
+	   		  t.name,
+	   		  t.short_name,
+	   		  t.merger_name,
+	   		  t.pinyin,
+	   		  t.lng,
+	   		  t.lat
 		 FROM cnarea_2019 t 
-	    WHERE t.LEVEL = #{level}
-	      AND t.SHORT_NAME = #{name}
+	    WHERE t.level = #{level}
+	      AND t.short_name = #{name}
 	    LIMIT 1
 	</select>
 

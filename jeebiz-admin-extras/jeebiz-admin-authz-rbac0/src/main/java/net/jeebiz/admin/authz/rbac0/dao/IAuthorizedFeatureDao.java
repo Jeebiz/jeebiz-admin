@@ -20,7 +20,7 @@ import net.jeebiz.boot.api.dao.BaseDao;
 public interface IAuthorizedFeatureDao extends BaseDao<AuthzFeatureModel>{
 	
 	/**
-	 * 查询指定角色ID拥有的功能菜单
+	 * 查询指定角色id拥有的功能菜单
 	 * @param roleId
 	 * @return
 	 */

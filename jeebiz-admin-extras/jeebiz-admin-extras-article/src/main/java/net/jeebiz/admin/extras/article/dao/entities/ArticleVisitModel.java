@@ -13,15 +13,15 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class ArticleVisitModel extends PaginationModel<ArticleVisitModel> implements Comparable<ArticleVisitModel> {
 
 	/**
-	 * 文章访问ID
+	 * 文章访问id
 	 */
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
 	private String cid;
 	/**
-	 * 文章访问者ID
+	 * 文章访问者id
 	 */
 	private String uid;
 	/**

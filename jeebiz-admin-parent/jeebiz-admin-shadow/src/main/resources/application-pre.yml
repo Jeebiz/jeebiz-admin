@@ -139,7 +139,8 @@ file:
 ###阿里云服务配置：  
 ###https://github.com/AliwareMQ/mq-demo
 ################################################################################################################  
-alibaba:  cloud:
+alibaba:
+  cloud:
     access-key: xasdas
     secret-key: xxas
     oss:
@@ -149,11 +150,13 @@ alibaba:  cloud:
       secret-key: 
       bucket: https://bucket.oss-accelerate.aliyuncs.com
       bucket-name: bucket
-      endpoint: https://oss-cn-hangzhou.aliyuncs.com      ons:      access-key: xxxxx
+      endpoint: https://oss-cn-hangzhou.aliyuncs.com  
+    ons:
+      access-key: xxxxx
       secret-key: xxxxxx
       name-srv-addr: http://xxxxx.mq-internet-access.mq-internet.aliyuncs.com:80
       message-model: CLUSTERING
-      group-id: GID_LAN
+      group-id: Gid_LAN
     sms:
         enable: true
         signs:

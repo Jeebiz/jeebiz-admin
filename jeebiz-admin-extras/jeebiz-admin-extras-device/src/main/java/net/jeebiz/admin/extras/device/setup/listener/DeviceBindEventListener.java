@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.device.dao.IDeviceActivateDao;
-import net.jeebiz.admin.extras.device.dao.IDeviceBindDao;
+import net.jeebiz.admin.extras.device.dao.ideviceActivateDao;
+import net.jeebiz.admin.extras.device.dao.ideviceBindDao;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceActivateModel;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceBindModel;
 import net.jeebiz.admin.extras.device.web.dto.DeviceBindEventDTO;
@@ -25,9 +25,9 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 
 
     @Autowired
-    private IDeviceActivateDao deviceActivationDao;
+    private ideviceActivateDao deviceActivationDao;
     @Autowired
-    private IDeviceBindDao deviceBindDao;
+    private ideviceBindDao deviceBindDao;
 
     @Override
     public void onApplicationEvent(DeviceBindEvent event) {
@@ -39,7 +39,7 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 			if(Objects.nonNull(model)){
 				// 2、查询设备对应的用户绑定数据
 				DeviceBindModel bindModel = getDeviceBindDao().selectOne(new QueryWrapper<DeviceBindModel>()
-						.eq("ACTIVATED_ID", model.getId())
+						.eq("ACTIVATEd_id", model.getId())
 						.eq("CREATOR", bind.getUid()));
 				// 2.1、存在则更新客户端信息
 				if(Objects.nonNull(bindModel)){
@@ -65,11 +65,11 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 		}
     }
     
-    public IDeviceActivateDao getDeviceActivationDao() {
+    public ideviceActivateDao getDeviceActivationDao() {
 		return deviceActivationDao;
 	}
     
-    public IDeviceBindDao getDeviceBindDao() {
+    public ideviceBindDao getDeviceBindDao() {
 		return deviceBindDao;
 	}
     

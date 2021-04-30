@@ -89,9 +89,9 @@ public class AuthzFeatureOptController extends BaseMapperController{
 		return fail("opt.renew.fail", total);
 	}
 	
-	@ApiOperation(value = "查询功能操作代码信息", notes = "根据功能操作代码ID查询功能操作代码信息")
+	@ApiOperation(value = "查询功能操作代码信息", notes = "根据功能操作代码id查询功能操作代码信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "功能操作代码ID", dataType = "String")
+		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "功能操作代码id", dataType = "String")
 	})
 	@GetMapping("detail")
 	@RequiresPermissions("opt:detail")
@@ -106,7 +106,7 @@ public class AuthzFeatureOptController extends BaseMapperController{
 	
 	@ApiOperation(value = "删除功能操作代码信息", notes = "删除功能操作代码信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "path", name = "id", required = true, value = "功能操作代码ID", dataType = "String")
+		@ApiImplicitParam( paramType = "path", name = "id", required = true, value = "功能操作代码id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_FEATURE_OPT, business = Constants.Biz.AUTHZ_FEATURE_OPT_DETAIL, opt = BusinessType.DELETE)
 	@GetMapping("delete")

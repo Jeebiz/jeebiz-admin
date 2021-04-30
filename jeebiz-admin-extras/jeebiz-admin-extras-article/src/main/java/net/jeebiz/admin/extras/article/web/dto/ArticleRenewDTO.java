@@ -13,22 +13,22 @@ public class ArticleRenewDTO {
 	/**
 	 * 文章D
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "文章id")
 	private String id;
 	/**
-	 * 文章栏目ID
+	 * 文章栏目id
 	 */
-	@ApiModelProperty(name = "tid", required = true, dataType = "String", value = "文章栏目ID")
+	@ApiModelProperty(name = "tid", required = true, dataType = "String", value = "文章栏目id")
 	private String tid;
 	/**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
-	@ApiModelProperty(name = "cid", required = true, dataType = "String", value = "文章分类ID")
+	@ApiModelProperty(name = "cid", required = true, dataType = "String", value = "文章分类id")
 	private String cid;
 	/**
-	 * 文章所属单位ID/编号
+	 * 文章所属单位id/编号
 	 */
-	@ApiModelProperty(name = "orgId", required = true, dataType = "String", value = "文章所属单位ID/编号")
+	@ApiModelProperty(name = "orgId", required = true, dataType = "String", value = "文章所属单位id/编号")
 	private String orgId;
 	/**
 	 * 文章标题

@@ -96,7 +96,7 @@ public class AuthzStaffController extends BaseApiController {
 	
 	@ApiOperation(value = "更新员工信息状态", notes = "更新员工信息状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", required = true, value = "员工ID编码", dataType = "String"),
+		@ApiImplicitParam(name = "id", required = true, value = "员工id编码", dataType = "String"),
 		@ApiImplicitParam(name = "status", required = true, value = "员工信息状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_STAFF, business = "更新员工信息状态", opt = BusinessType.UPDATE)
@@ -113,7 +113,7 @@ public class AuthzStaffController extends BaseApiController {
 	
 	@ApiOperation(value = "删除员工信息", notes = "删除员工信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "id", value = "员工ID编码", required = true, dataType = "String")
+		@ApiImplicitParam(name = "id", value = "员工id编码", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_STAFF, business = "删除员工信息", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -128,9 +128,9 @@ public class AuthzStaffController extends BaseApiController {
 		return fail("authz.staff.delete.fail", result);
 	}
 	
-	@ApiOperation(value = "查询员工信息", notes = "根据员工ID编码查询员工信息")
+	@ApiOperation(value = "查询员工信息", notes = "根据员工id编码查询员工信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( name = "id", required = true, value = "员工ID编码", dataType = "String")
+		@ApiImplicitParam( name = "id", required = true, value = "员工id编码", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_STAFF, business = "查询员工信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")

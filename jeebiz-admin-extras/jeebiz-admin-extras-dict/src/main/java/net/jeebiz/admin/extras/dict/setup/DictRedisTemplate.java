@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import net.jeebiz.admin.extras.dict.dao.IDictDao;
+import net.jeebiz.admin.extras.dict.dao.idictDao;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
 public class DictRedisTemplate {
@@ -15,10 +15,10 @@ public class DictRedisTemplate {
 	private static final String KEY_PREFIX = "Dict:";
 	
 	private final RedisTemplate<String, Object> redisTemplate;
-	private final IDictDao dictDao;
+	private final idictDao dictDao;
 	
 	public DictRedisTemplate(RedisTemplate<String, Object> redisTemplate, 
-			IDictDao dictDao) {
+			idictDao dictDao) {
 		super();
 		this.redisTemplate = redisTemplate;
 		this.dictDao = dictDao;
@@ -49,7 +49,7 @@ public class DictRedisTemplate {
 		return redisTemplate;
 	}
 
-	public IDictDao getDictDao() {
+	public idictDao getDictDao() {
 		return dictDao;
 	}
 

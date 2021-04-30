@@ -28,7 +28,7 @@ public class OrgUtils {
 		if(!CollectionUtils.isEmpty(childOrgList)){
 			for (AuthzOrganizationModel org : childOrgList) {
 				AuthzOrganizationTreeDTO orgDTO = new AuthzOrganizationTreeDTO();
-				// 组织机构ID
+				// 组织机构id
 				orgDTO.setId(org.getId());
 				// 组织机构编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
 				orgDTO.setCode(org.getCode());
@@ -36,7 +36,7 @@ public class OrgUtils {
 				orgDTO.setName(org.getName());
 				// 组织机构简介
 				orgDTO.setIntro(org.getIntro());
-				// 父级组织机构ID
+				// 父级组织机构id
 				orgDTO.setParent(org.getParent());
 				// 判断是否是有子组织机构
 				boolean isParent = orgList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), org.getId()));
@@ -76,13 +76,13 @@ public class OrgUtils {
 			for (AuthzOrganizationModel org : topList) {
 				
 				AuthzOrganizationTreeDTO orgDTO = new AuthzOrganizationTreeDTO();
-				// 组织机构ID
+				// 组织机构id
 				orgDTO.setId(org.getId());
 				// 组织机构编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
 				orgDTO.setCode(org.getCode());
 				// 组织机构名称
 				orgDTO.setName(org.getName());
-				// 父级组织机构ID
+				// 父级组织机构id
 				orgDTO.setParent(org.getParent());
 				// 组织机构简介
 				orgDTO.setIntro(org.getIntro());

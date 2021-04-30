@@ -21,11 +21,11 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class InformTemplateModel extends PaginationModel<InformTemplateModel> {
 
 	/**
-	 * 消息通知模板ID
+	 * 消息通知模板id
 	 */
 	private String id;
 	/**
-	 * 消息通知模板创建人ID
+	 * 消息通知模板创建人id
 	 */
 	private String uid;
 	/**
@@ -49,7 +49,7 @@ public class InformTemplateModel extends PaginationModel<InformTemplateModel> {
 	 */
 	private String content;
 	/**
-	 * 消息通知模板对应第三方平台内的模板ID
+	 * 消息通知模板对应第三方平台内的模板id
 	 */
 	private String tid;
 	/**

@@ -269,7 +269,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		        SimpleHash hash = new SimpleHash(algorithmName, defaultPassword, salt, hashIterations);
 		        userModel.setSalt(salt);
 		        userModel.setPassword(hash.toBase64());
-		        // UID检查重复
+		        // Uid检查重复
 		 		String uid = randomString.nextNumberString();
 		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
 		 			uid = randomString.nextNumberString();
@@ -280,10 +280,10 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				ServletRequest request = WebThreadContext.getRequest();
 				if(Objects.nonNull(request) && request instanceof ShiroHttpServletRequest) {
 					ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
-					String appId = shiroRequest.getHeader(XHeaders.X_APP_ID);
+					String appId = shiroRequest.getHeader(XHeaders.X_APP_id);
 					String appChannel = shiroRequest.getHeader(XHeaders.X_APP_CHANNEL);
 					String appVersion = shiroRequest.getHeader(XHeaders.X_APP_VERSION);
-					log.info(XHeaders.X_APP_ID + "：{}", appId);
+					log.info(XHeaders.X_APP_id + "：{}", appId);
 					log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 					log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
 					userModel.setAppId(appId);
@@ -405,7 +405,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		        SimpleHash hash = new SimpleHash(algorithmName, defaultPassword, salt, hashIterations);
 		        userModel.setSalt(salt);
 		        userModel.setPassword(hash.toBase64());
-		        // UID检查重复
+		        // Uid检查重复
 		 		String uid = randomString.nextNumberString();
 		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
 		 			uid = randomString.nextNumberString();
@@ -415,10 +415,10 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				ServletRequest request = WebThreadContext.getRequest();
 				if(Objects.nonNull(request) && request instanceof ShiroHttpServletRequest) {
 					ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
-					String appId = shiroRequest.getHeader(XHeaders.X_APP_ID);
+					String appId = shiroRequest.getHeader(XHeaders.X_APP_id);
 					String appChannel = shiroRequest.getHeader(XHeaders.X_APP_CHANNEL);
 					String appVersion = shiroRequest.getHeader(XHeaders.X_APP_VERSION);
-					log.info(XHeaders.X_APP_ID + "：{}", appId);
+					log.info(XHeaders.X_APP_id + "：{}", appId);
 					log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 					log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
 					userModel.setAppId(appId);

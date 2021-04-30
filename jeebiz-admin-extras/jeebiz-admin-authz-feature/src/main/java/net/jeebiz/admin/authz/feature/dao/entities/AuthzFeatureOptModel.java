@@ -19,11 +19,11 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class AuthzFeatureOptModel extends BaseModel<AuthzFeatureOptModel> {
 
 	/**
-	 * 功能菜单ID
+	 * 功能菜单id
 	 */
 	private String featureId;
 	/**
-	 * 功能操作ID
+	 * 功能操作id
 	 */
 	private String id;
 	/**

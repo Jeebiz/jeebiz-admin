@@ -3,14 +3,14 @@
 <mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleMessageDao">
 
 	<resultMap id="ArticleMessageMap" type="ArticleMessageModel">
-        <!-- 文章消息ID -->
-		<result property="id" column="M_ID" />
-		<!-- 文章ID -->
-		<result property="cid" column="M_CID" />
-		<!-- 文章消息接收者ID -->
-		<result property="uid" column="M_UID" />
+        <!-- 文章消息id -->
+		<result property="id" column="M_id" />
+		<!-- 文章id -->
+		<result property="cid" column="M_Cid" />
+		<!-- 文章消息接收者id -->
+		<result property="uid" column="M_Uid" />
 		<!-- 文章消息接收者姓名 -->
-		<result property="uname" column="M_UNAME" />
+		<result property="uname" column="M_Uname" />
 		<!-- 文章消息内容 -->
 		<result property="msg" column="M_MSG" />
 		<!-- 文章消息状态（0:未读|1:已读） -->
@@ -20,11 +20,11 @@
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleMessageModel" flushCache="true">
-		INSERT INTO SYS_ARTICLE_MESSAGES(M_CID,M_UID,M_MSG,M_STATUS) VALUES (#{cid},#{uid},#{msg},0)
+		INSERT INTO SYS_ARTICLE_MESSAGES(M_Cid,M_Uid,M_MSG,M_STATUS) VALUES (#{cid},#{uid},#{msg},0)
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_MESSAGES WHERE M_ID IN 
+		DELETE FROM SYS_ARTICLE_MESSAGES WHERE M_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -32,20 +32,20 @@
 	
 	<select id="getPagedList" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.M_ID,
-			t.M_CID,
-			t.M_UID,
-			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.M_UID) as M_UNAME,
+			t.M_id,
+			t.M_Cid,
+			t.M_Uid,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
 		FROM SYS_ARTICLE_MESSAGES t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
-				and t.M_CID = #{model.cid}
+				and t.M_Cid = #{model.cid}
 			</if>
 			<if test="model.uid != null and model.uid != ''">
-				and t.M_UID = #{model.uid}
+				and t.M_Uid = #{model.uid}
 			</if>
 		</where>
 		ORDER By t.M_time24 ASC
@@ -53,28 +53,28 @@
 	
 	<select id="getModel" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.M_ID,
-			t.M_CID,
-			t.M_UID,
-			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.M_UID) as M_UNAME,
+			t.M_id,
+			t.M_Cid,
+			t.M_Uid,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
 		FROM SYS_ARTICLE_MESSAGES t
-	  WHERE t.M_ID = #{id} 
+	  WHERE t.M_id = #{id}
 	</select>
 	
 	<select id="getRowList" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.M_ID,
-			t.M_CID,
-			t.M_UID,
-			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.M_UID) as M_UNAME,
+			t.M_id,
+			t.M_Cid,
+			t.M_Uid,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
 		FROM SYS_ARTICLE_MESSAGES t
-	   WHERE t.M_CID = #{cid}
+	   WHERE t.M_Cid = #{cid}
 	ORDER By t.M_time24 ASC
 	</select>
 

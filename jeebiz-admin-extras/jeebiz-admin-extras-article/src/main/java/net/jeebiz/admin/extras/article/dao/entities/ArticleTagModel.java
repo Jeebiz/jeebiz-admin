@@ -13,11 +13,11 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class ArticleTagModel extends PaginationModel<ArticleTagModel> implements Comparable<ArticleTagModel> {
 
 	/**
-	 * 文章标签ID
+	 * 文章标签id
 	 */
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
 	private String cid;
 	/**

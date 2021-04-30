@@ -111,7 +111,7 @@ public class ArticleController extends BaseApiController {
 	
 	@ApiOperation(value = "删除文章信息", notes = "删除文章信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章信息ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章信息id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.ARTICLE, business = "删除文章信息", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -150,7 +150,7 @@ public class ArticleController extends BaseApiController {
 	
 	@ApiOperation(value = "更新文章状态", notes = "更新文章状态")
    	@ApiImplicitParams({
-   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章ID", dataType = "String"),
+   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章id", dataType = "String"),
    		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章状态（0:删除|1:正常）", dataType = "String", allowableValues = "1,0")
    	})
    	@BusinessLog(module = Constants.ARTICLE, business = "更新文章状态", opt = BusinessType.UPDATE)
@@ -168,7 +168,7 @@ public class ArticleController extends BaseApiController {
    	
 	@ApiOperation(value = "更新文章审核状态", notes = "更新文章审核状态")
    	@ApiImplicitParams({
-   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章ID", dataType = "String"),
+   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章id", dataType = "String"),
    		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章审核状态（0:未通过|1:通过）", dataType = "String", allowableValues = "1,0")
    	})
    	@BusinessLog(module = Constants.ARTICLE, business = "更新文章审核状态", opt = BusinessType.UPDATE)
@@ -186,7 +186,7 @@ public class ArticleController extends BaseApiController {
 	
 	@ApiOperation(value = "更新文章推荐状态", notes = "更新文章推荐状态")
    	@ApiImplicitParams({
-   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章ID", dataType = "String"),
+   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章id", dataType = "String"),
    		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章推荐状态（0:未推荐|1:推荐）", dataType = "String", allowableValues = "1,0")
    	})
    	@BusinessLog(module = Constants.ARTICLE, business = "更新文章推荐状态", opt = BusinessType.UPDATE)
@@ -202,9 +202,9 @@ public class ArticleController extends BaseApiController {
    		return fail("article.recommend.fail", result);
    	}
 	
-	@ApiOperation(value = "查询文章详情（编辑时调用）", notes = "根据ID查询文章详情")
+	@ApiOperation(value = "查询文章详情（编辑时调用）", notes = "根据id查询文章详情")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章信息ID", dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章信息id", dataType = "String")
 	})
 	@GetMapping("detail")
 	@RequiresAuthentication
@@ -217,9 +217,9 @@ public class ArticleController extends BaseApiController {
 		return ApiRestResponse.success(getBeanMapper().map(model, ArticleDTO.class));
 	}
 	
-	@ApiOperation(value = "查询文章详情（访问时调用）", notes = "根据ID查询文章详情")
+	@ApiOperation(value = "查询文章详情（访问时调用）", notes = "根据id查询文章详情")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章信息ID", dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章信息id", dataType = "String")
 	})
 	@GetMapping("access")
 	@RequiresAuthentication

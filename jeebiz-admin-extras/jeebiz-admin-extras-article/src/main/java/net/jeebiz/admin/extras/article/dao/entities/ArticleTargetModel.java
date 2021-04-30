@@ -13,15 +13,15 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class ArticleTargetModel extends BaseModel<ArticleTargetModel> {
 
 	/**
-	 * 文章发布对象记录ID
+	 * 文章发布对象记录id
 	 */
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
 	private String cid;
 	/**
-	 * 文章发布对象ID（学院ID|专业ID|班级ID|账户ID）
+	 * 文章发布对象id（学院id|专业id|班级id|账户id）
 	 */
 	private String tid;
 	/**

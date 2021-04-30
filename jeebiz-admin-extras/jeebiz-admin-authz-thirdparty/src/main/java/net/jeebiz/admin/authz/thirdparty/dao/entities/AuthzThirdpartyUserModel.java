@@ -19,11 +19,11 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class AuthzThirdpartyUserModel extends BaseModel<AuthzThirdpartyUserModel> {
 
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
 	private String id;
 	/**
-	 * 用户唯一UID（用户编号）
+	 * 用户唯一Uid（用户编号）
 	 */
 	private String uid;
 	/**
@@ -53,7 +53,7 @@ public class AuthzThirdpartyUserModel extends BaseModel<AuthzThirdpartyUserModel
 	private String status;
 
 	/**
-	 * 用户客户端应用ID
+	 * 用户客户端应用id
 	 */
 	private String appId;
 	/**
@@ -79,7 +79,7 @@ public class AuthzThirdpartyUserModel extends BaseModel<AuthzThirdpartyUserModel
 	private String time24;
 	
 	/**
-	 * 角色ID（可能多个组合，如：1,2）
+	 * 角色id（可能多个组合，如：1,2）
 	 */
 	private String roleId;
 	/**

@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.device.dao.IDeviceActivateDao;
+import net.jeebiz.admin.extras.device.dao.ideviceActivateDao;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceActivateModel;
 import net.jeebiz.admin.extras.device.web.dto.DeviceActiveEventDTO;
 
@@ -20,7 +20,7 @@ import net.jeebiz.admin.extras.device.web.dto.DeviceActiveEventDTO;
 public class DeviceActiveEventListener implements ApplicationListener<DeviceActiveEvent> {
 
     @Autowired
-    private IDeviceActivateDao deviceActivationDao;
+    private ideviceActivateDao deviceActivationDao;
     
     @Override
     public void onApplicationEvent(DeviceActiveEvent event) {
@@ -42,7 +42,7 @@ public class DeviceActiveEventListener implements ApplicationListener<DeviceActi
 		}
     }
     
-    public IDeviceActivateDao getDeviceActivationDao() {
+    public ideviceActivateDao getDeviceActivationDao() {
 		return deviceActivationDao;
 	}
     

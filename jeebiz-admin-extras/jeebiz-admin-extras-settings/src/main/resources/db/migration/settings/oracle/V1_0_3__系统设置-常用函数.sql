@@ -8,7 +8,7 @@ create or replace function getMD5 ( vin_string IN VARCHAR2 )
 /
 
 create or replace TYPE en_concat_im
-AUTHID CURRENT_USER AS OBJECT
+AUTHid CURRENT_USER AS OBJECT
 (
   CURR_STR VARCHAR2(32767),
   STATIC FUNCTION ODCIAGGREGATEINITIALIZE(SCTX IN OUT en_concat_im) RETURN NUMBER,

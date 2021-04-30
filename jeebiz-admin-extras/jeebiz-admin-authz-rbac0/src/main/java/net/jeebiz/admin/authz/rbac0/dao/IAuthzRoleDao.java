@@ -25,8 +25,8 @@ public interface IAuthzRoleDao extends BaseDao<AuthzRoleModel>{
 		
     /**
      * 给角色分配用户
-     * @param roleId 角色ID
-	 * @param userIds 用户ID集合
+     * @param roleId 角色id
+	 * @param userIds 用户id集合
 	 * @return 变更记录数
      */
 	public int setUsers(@Param(value = "roleId") String roleId , @Param(value = "userIds") List<String> userIds);
@@ -36,15 +36,15 @@ public interface IAuthzRoleDao extends BaseDao<AuthzRoleModel>{
 	/**
 	 * 
 	 * 删除角色已分配的用户
-	 * @param roleId 角色ID
-	 * @param userIds 用户ID集合
+	 * @param roleId 角色id
+	 * @param userIds 用户id集合
 	 * @return 变更记录数
 	 */
 	public  int deleteUsers(@Param(value = "roleId") String roleId , @Param(value = "userIds") List<String> userIds);
 	
 	/**
 	 * 更新角色状态
-	 * @param roleId 角色ID
+	 * @param roleId 角色id
 	 * @param status 角色状态（0:禁用|1:可用）
 	 * @return
 	 */
@@ -66,7 +66,7 @@ public interface IAuthzRoleDao extends BaseDao<AuthzRoleModel>{
 
 	/**
 	 * 查询用户已分配角色信息
-	 * @param userId 用户ID
+	 * @param userId 用户id
 	 * @return
 	 */
 	public List<AuthzRoleModel> getUserRoles(@Param(value="userId") String userId);

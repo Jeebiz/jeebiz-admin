@@ -21,7 +21,7 @@ import net.jeebiz.boot.api.dao.entities.BaseMap;
 public interface IAuthzLoginDao extends BaseDao<AuthzLoginModel> {
 
 	/**
-	 * 根据用户ID和密码查询用户可否登录，角色数量等信息
+	 * 根据用户id和密码查询用户可否登录，角色数量等信息
 	 * @param username : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户账号状态信息
@@ -30,21 +30,21 @@ public interface IAuthzLoginDao extends BaseDao<AuthzLoginModel> {
 			@Param(value = "password") String password);
 	
 	/**
-	 * 根据用户ID和密码查询用户可否登录，角色数量等信息
+	 * 根据用户id和密码查询用户可否登录，角色数量等信息
 	 * @param username : 用户名
 	 * @return 用户账号状态信息
 	 */
 	AuthzLoginStatusModel getAccountStatusWithoutPwd(@Param(value = "username") String username);
 
 	/**
-	 * 根据用户ID和密码查询用户可否登录，角色数量等信息
+	 * 根据用户id和密码查询用户可否登录，角色数量等信息
 	 * @param username : 用户名
 	 * @return 用户账号状态信息
 	 */
     AuthzLoginStatusModel getAccountStatusById(@Param(value = "uid") String uid);
     
 	/***
-	 *  根据用户ID和密码查询用户信息
+	 *  根据用户id和密码查询用户信息
 	 * @param username : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户登录信息
@@ -53,29 +53,29 @@ public interface IAuthzLoginDao extends BaseDao<AuthzLoginModel> {
 			@Param(value = "password") String password);
 
 	/***
-	 * 根据用户ID无密码查询用户信息；用于单点登录
+	 * 根据用户id无密码查询用户信息；用于单点登录
 	 * @param username : 用户名
 	 * @return 用户登录信息
 	 */
 	AuthzLoginModel getAccountWithoutPwd(@Param(value = "username") String username);
 
 	/**
-	 * 根据用户表ID查询当前系统对应的用户信息
-	 * @param uid 用户表ID
+	 * 根据用户表id查询当前系统对应的用户信息
+	 * @param uid 用户表id
 	 * @return
 	 */
 	AuthzLoginModel getAccountById(@Param(value = "id") String id);
 	
 	/**
-	 * 根据用户业务ID查询当前系统对应的用户信息
-	 * @param ukey 用户业务ID
+	 * 根据用户业务id查询当前系统对应的用户信息
+	 * @param ukey 用户业务id
 	 * @return
 	 */
 	AuthzLoginModel getAccountByUcode(@Param(value = "ucode") String ucode);
 	
 	/**
-	 * 根据用户ID查询当前系统对应的用户信息
-	 * @param uid 用户ID
+	 * 根据用户id查询当前系统对应的用户信息
+	 * @param uid 用户id
 	 * @return
 	 */
 	AuthzLoginModel getAccountByUid(@Param(value = "uid") String uid);

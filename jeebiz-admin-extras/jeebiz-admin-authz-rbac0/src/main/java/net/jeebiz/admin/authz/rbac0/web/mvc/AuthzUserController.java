@@ -90,9 +90,9 @@ public class AuthzUserController extends BaseMapperController {
 		return new Result<AuthzUserDTO>(pageResult, retList);
 	}
 	
-	@ApiOperation(value = "指定用户详情", notes = "根据用户ID查询用户信息")
+	@ApiOperation(value = "指定用户详情", notes = "根据用户id查询用户信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "用户ID", dataType = "String")
+		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "用户id", dataType = "String")
 	})
 	@GetMapping("detailById")
 	@RequiresPermissions("user:detail")
@@ -104,7 +104,7 @@ public class AuthzUserController extends BaseMapperController {
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
 	}
 	
-	@ApiOperation(value = "登录用户详情", notes = "根据认证信息中的用户ID查询用户详情")
+	@ApiOperation(value = "登录用户详情", notes = "根据认证信息中的用户id查询用户详情")
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
@@ -117,7 +117,7 @@ public class AuthzUserController extends BaseMapperController {
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
 	}
 	
-	@ApiOperation(value = "登录用户信息", notes = "根据认证信息中的用户ID查询用户详情")
+	@ApiOperation(value = "登录用户信息", notes = "根据认证信息中的用户id查询用户详情")
 	@GetMapping("profile")
 	@RequiresAuthentication
 	@ResponseBody
@@ -150,11 +150,11 @@ public class AuthzUserController extends BaseMapperController {
 		
 		AuthzUserModel model = getBeanMapper().map(userDTO, AuthzUserModel.class);
 		
-		String appId = request.getHeader(XHeaders.X_APP_ID);
+		String appId = request.getHeader(XHeaders.X_APP_id);
 		String appChannel = request.getHeader(XHeaders.X_APP_CHANNEL);
 		String appVersion = request.getHeader(XHeaders.X_APP_VERSION);
 		
-		log.info(XHeaders.X_APP_ID + "：{}", appId);
+		log.info(XHeaders.X_APP_id + "：{}", appId);
 		log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 		log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
 		
@@ -191,7 +191,7 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "更新用户状态", notes = "更新用户状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", required = true, value = "用户ID", dataType = "String"),
+		@ApiImplicitParam(name = "id", required = true, value = "用户id", dataType = "String"),
 		@ApiImplicitParam(name = "status", required = true, value = "用户状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "更新用户状态", opt = BusinessType.UPDATE)
@@ -207,7 +207,7 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "删除用户信息", notes = "删除用户信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", value = "用户ID", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", value = "用户id", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "删除用户-名称：${userid}", opt = BusinessType.DELETE)
 	@GetMapping("delete")
@@ -222,13 +222,13 @@ public class AuthzUserController extends BaseMapperController {
 	
 	@ApiOperation(value = "批量删除用户信息", notes = "批量删除用户信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "ids", value = "用户ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(name = "ids", value = "用户id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "删除用户-名称：${userid} ", opt = BusinessType.DELETE)
 	@GetMapping("deleteByIds")
 	@RequiresPermissions("user:delete")
 	public ApiRestResponse<String> delUsersByIds(@RequestParam String ids) throws Exception {
-		// 执行用户ID删除操作
+		// 执行用户id删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
 		int total = getAuthzUserService().batchDelete(idList);
 		if(total > 0) {

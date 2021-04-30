@@ -12,13 +12,13 @@ import net.jeebiz.admin.extras.article.dao.entities.ArticleTargetModel;
 public interface IArticleTargetDao extends BaseDao<ArticleTargetModel> {
 
 	/**
-	 * @param cid 文章ID
+	 * @param cid 文章id
 	 * @return
 	 */
 	List<ArticleTargetModel> getTargetList(@Param("cid") String cid);
 
 	/**
-	 * @param cid 文章ID
+	 * @param cid 文章id
 	 * @return
 	 */
 	int deleteTarget(@Param("cid") String cid);

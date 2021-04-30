@@ -18,7 +18,7 @@ public interface IKeyValueDao extends BaseDao<KeyValueModel> {
 	public List<KeyValueModel> getKeyValueList(@Param("gkeys") List<String> gkeys);
 	
 	/**
-	 * 根据给出的基础数据ID集合查询所属的数据组集合
+	 * 根据给出的基础数据id集合查询所属的数据组集合
 	 * @param list
 	 * @return
 	 */

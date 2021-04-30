@@ -101,7 +101,7 @@ public class AuthzDingtalkMpController extends BaseMapperController {
 		}
 	}
 	
-	@ApiOperation(value = "钉钉（小程序）登录第2步：code 换取 用户唯一标识 OpenID 和 会话密钥 session_key", notes = "调用 code2Session 接口，换取 用户唯一标识 OpenID 和 会话密钥 session_key")
+	@ApiOperation(value = "钉钉（小程序）登录第2步：code 换取 用户唯一标识 Openid 和 会话密钥 session_key", notes = "调用 code2Session 接口，换取 用户唯一标识 Openid 和 会话密钥 session_key")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "loginTmpCode", required = true, value = "临时登录凭证loginTmpCode", dataType = "String"),
 	})

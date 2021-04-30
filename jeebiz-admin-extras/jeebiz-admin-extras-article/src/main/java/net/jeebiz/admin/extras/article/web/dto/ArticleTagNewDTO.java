@@ -9,9 +9,9 @@ import lombok.Data;
 public class ArticleTagNewDTO {
 	
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
 	 * 文章标签名称

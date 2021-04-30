@@ -44,7 +44,7 @@ public class ArticleAttachmentController extends BaseApiController {
     
     @ApiOperation(value = "查询文章附件", notes = "查询文章附件")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章ID", dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章id", dataType = "String")
 	})
 	@PostMapping("list")
     @RequiresPermissions(value = {"article:list","article:new","article:renew"}, logical = Logical.OR)
@@ -78,7 +78,7 @@ public class ArticleAttachmentController extends BaseApiController {
 	
 	@ApiOperation(value = "删除文章附件", notes = "删除文章附件")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章附件ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章附件id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.ARTICLE_ATT, business = "删除文章附件", opt = BusinessType.UPDATE)
 	@GetMapping("delete")

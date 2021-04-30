@@ -26,7 +26,7 @@ public class AuthzRelationModel extends BaseModel<AuthzRelationModel> {
 	 */ 
 	private String id;
 	/**
-	 * 功能菜单ID
+	 * 功能菜单id
 	 */
 	private String mId;
 	/**

@@ -117,7 +117,7 @@ public class KeyGroupController extends BaseApiController {
 	
 	@ApiOperation(value = "删除基础数据分组", notes = "删除基础数据分组")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "ids", value = "基础数据分组ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "基础数据分组id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "删除基础数据分组", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -166,7 +166,7 @@ public class KeyGroupController extends BaseApiController {
 	
 	@ApiOperation(value = "更新基础数据分组状态", notes = "更新基础数据分组状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据分组ID", dataType = "String"),
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据分组id", dataType = "String"),
 		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "基础数据分组状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "更新基础数据分组状态", opt = BusinessType.UPDATE)
@@ -182,9 +182,9 @@ public class KeyGroupController extends BaseApiController {
 		return fail("keygroup.status.fail", result);
 	}
 	
-	@ApiOperation(value = "查询基础数据分组信息", notes = "根据ID查询基础数据分组信息")
+	@ApiOperation(value = "查询基础数据分组信息", notes = "根据id查询基础数据分组信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据分组ID", dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据分组id", dataType = "String")
 	})
 	@GetMapping("detail")
 	@RequiresPermissions("keygroup:detail")

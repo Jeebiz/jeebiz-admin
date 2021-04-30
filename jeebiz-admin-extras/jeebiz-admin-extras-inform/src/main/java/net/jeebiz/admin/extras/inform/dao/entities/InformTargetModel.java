@@ -19,11 +19,11 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class InformTargetModel extends BaseModel<InformTargetModel> {
 
 	/**
-	 * 消息通知模板ID
+	 * 消息通知模板id
 	 */
 	private String tid;
 	/**
-	 * 消息通知接收人ID
+	 * 消息通知接收人id
 	 */
 	private String uid;
 	/**

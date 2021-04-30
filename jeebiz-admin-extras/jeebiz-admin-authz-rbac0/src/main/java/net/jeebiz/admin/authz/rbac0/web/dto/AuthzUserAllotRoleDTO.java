@@ -19,14 +19,14 @@ import lombok.ToString;
 public class AuthzUserAllotRoleDTO {
 
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
-	@ApiModelProperty(name = "roleId", required = true, dataType = "String", value = "角色ID")
+	@ApiModelProperty(name = "roleId", required = true, dataType = "String", value = "角色id")
 	private String roleId;
 	/**
-	 * 用户ID集合
+	 * 用户id集合
 	 */
-	@ApiModelProperty(name = "userIds", required = true, dataType = "java.util.List<String>", value = "用户ID集合")
+	@ApiModelProperty(name = "userIds", required = true, dataType = "java.util.List<String>", value = "用户id集合")
 	private List<String> userIds;
 
 }

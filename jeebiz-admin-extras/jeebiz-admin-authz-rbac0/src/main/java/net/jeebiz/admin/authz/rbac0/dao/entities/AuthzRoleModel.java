@@ -23,7 +23,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class AuthzRoleModel extends PaginationModel<AuthzRoleModel> {
 
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
 	private String id;
 	/**

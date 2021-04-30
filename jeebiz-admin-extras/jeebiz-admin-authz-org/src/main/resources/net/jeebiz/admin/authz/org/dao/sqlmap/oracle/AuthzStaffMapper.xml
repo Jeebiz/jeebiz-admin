@@ -17,7 +17,7 @@
 		<result property="status" column="staff_status" />
 		<result property="time24" column="time24" />
 		<result property="username" column="u_username" />
-		<result property="alias" column="U_ALIAS" />
+		<result property="alias" column="u_alias" />
 		<result property="avatar" column="u_avatar" />
 		<result property="phone" column="u_phone" />
 		<result property="email" column="u_email" />
@@ -77,7 +77,7 @@
 			t.staff_status,
 			t.time24,
 			t2.u_username,
-			t2.U_ALIAS,
+			t2.u_alias,
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email
@@ -96,7 +96,7 @@
 				and t.post_id = #{model.postId}
 			</if>
 			<if test="model.name != null and model.name != ''">
-				and ( t2.u_username like '%'||#{model.name}||'%' OR t2.U_ALIAS like '%'||#{model.name}||'%')
+				and ( t2.u_username like '%'||#{model.name}||'%' OR t2.u_alias like '%'||#{model.name}||'%')
 			</if>
 		</where>
 		ORDER By t.time24 ASC
@@ -117,7 +117,7 @@
 			t.staff_status,
 			t.time24,
 			t2.u_username,
-			t2.U_ALIAS,
+			t2.u_alias,
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email

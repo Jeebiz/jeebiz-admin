@@ -10,7 +10,7 @@ import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
 @Mapper
-public interface IDictDao extends BaseDao<PairModel> {
+public interface idictDao extends BaseDao<PairModel> {
 	
 	
 }

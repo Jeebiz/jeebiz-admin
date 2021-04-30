@@ -140,7 +140,7 @@ public class AuthzOrganizationController extends BaseMapperController {
 	
 	@ApiOperation(value = "更新机构信息状态", notes = "更新机构信息状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", required = true, value = "机构信息ID", dataType = "String"),
+		@ApiImplicitParam(name = "id", required = true, value = "机构信息id", dataType = "String"),
 		@ApiImplicitParam(name = "status", required = true, value = "机构信息状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "更新机构信息状态", opt = BusinessType.UPDATE)
@@ -157,7 +157,7 @@ public class AuthzOrganizationController extends BaseMapperController {
 	
 	@ApiOperation(value = "删除机构信息", notes = "删除机构信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "id", value = "机构信息ID", required = true, dataType = "String")
+		@ApiImplicitParam(name = "id", value = "机构信息id", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "删除机构信息", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -182,9 +182,9 @@ public class AuthzOrganizationController extends BaseMapperController {
 		return fail("authz.org.delete.fail", result);
 	}
 	
-	@ApiOperation(value = "根据ID查询机构信息", notes = "根据ID查询机构信息")
+	@ApiOperation(value = "根据id查询机构信息", notes = "根据id查询机构信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( name = "id", required = true, value = "机构信息ID", dataType = "String")
+		@ApiImplicitParam( name = "id", required = true, value = "机构信息id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "查询机构信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")

@@ -4,25 +4,25 @@
 
 	<insert id="insert" parameterType="OnlineSessionModel">
 		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
-	        SELECT IFNULL(MAX(APP_ID), 0) + 1 FROM SYS_SESSIONS
+	        SELECT IFNULL(MAX(APP_id), 0) + 1 FROM SYS_SESSIONS
 	    </selectKey>
-		INSERT INTO SYS_SESSIONS(APP_ID,APP_NAME,APP_DESC,APP_LANG,APP_ADDR,APP_USERID)
+		INSERT INTO SYS_SESSIONS(APP_id,APP_name,APP_DESC,APP_LANG,APP_ADDR,APP_USERid)
 		VALUE(#{id},#{name},#{desc,jdbcType=VARCHAR},#{lang},#{addr},#{userId})
 	</insert>
 
 	<update id="update" parameterType="OnlineSessionModel">
 		update SYS_SESSIONS t
 		<set>
-			<if test="name != null and name != ''">t.APP_NAME = #{name,jdbcType=VARCHAR},</if>
+			<if test="name != null and name != ''">t.APP_name = #{name,jdbcType=VARCHAR},</if>
 			<if test="desc != null and desc != ''">t.APP_DESC = #{desc,jdbcType=VARCHAR},</if>
 		</set>
-		where t.APP_ID = #{id}
+		where t.APP_id = #{id}
 	</update>
 
 	<resultMap id="OnlineSessionMap" type="OnlineSessionModel">
-		<result property="uid" column="S_ID" />
-		<result property="userid" column="S_USERID" />
-		<result property="username" column="S_USERNAME" />
+		<result property="uid" column="S_id" />
+		<result property="userid" column="S_USERid" />
+		<result property="username" column="S_USERname" />
 		<result property="lang" column="S_HOST" />
 		<result property="addr" column="S_START_TIMESTAMP" />
 		<result property="userId" column="S_LASTACCESS_TIME" />
@@ -34,9 +34,9 @@
 
 	<select id="getPagedList" resultMap="OnlineSessionMap" parameterType="OnlineSessionModel">
 		SELECT
-			t.S_ID,
-			t.S_USERID,
-			t.S_USERNAME,
+			t.S_id,
+			t.S_USERid,
+			t.S_USERname,
 			t.S_HOST,
 			t.S_START_TIMESTAMP,
 			t.S_LASTACCESS_TIME,
@@ -46,12 +46,12 @@
 			t.S_STATUS
 		FROM SYS_SESSIONS t
 		<if test="model.name != null and model.name != ''">
-			and t.APP_NAME like CONCAT('%',#{model.name},'%')
+			and t.APP_name like CONCAT('%',#{model.name},'%')
 		</if>
 	</select>
 	
 	<delete id="delete" parameterType="OnlineSessionModel">
-		DELETE FROM SYS_SESSIONS WHERE APP_ID = #{id}
+		DELETE FROM SYS_SESSIONS WHERE APP_id = #{id}
 	</delete>
 
 </mapper>

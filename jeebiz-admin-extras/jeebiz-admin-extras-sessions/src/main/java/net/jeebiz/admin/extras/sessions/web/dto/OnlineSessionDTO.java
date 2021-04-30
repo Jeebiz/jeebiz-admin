@@ -19,8 +19,8 @@ import lombok.ToString;
 @ToString
 public class OnlineSessionDTO {
 
-	/** 会话ID */
-	@ApiModelProperty(value = "sessionId", dataType = "String", notes = "会话ID")
+	/** 会话id */
+	@ApiModelProperty(value = "sessionId", dataType = "String", notes = "会话id")
 	private String sessionId;
 	/** 主机地址 */
 	@ApiModelProperty(value = "host", dataType = "String", notes = "主机地址")

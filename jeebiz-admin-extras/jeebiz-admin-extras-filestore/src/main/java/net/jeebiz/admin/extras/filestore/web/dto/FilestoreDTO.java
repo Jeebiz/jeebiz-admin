@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class FilestoreDTO {
 
-	@ApiModelProperty(name = "uuid", dataType = "String", value = "文件UUID")
+	@ApiModelProperty(name = "uuid", dataType = "String", value = "文件UUid")
 	private String uuid;
 	@ApiModelProperty(name = "name", dataType = "String", value = "文件名称")
 	private String name;

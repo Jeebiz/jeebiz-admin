@@ -17,7 +17,7 @@ import net.jeebiz.boot.api.dao.BaseDao;
 public interface IAuthzThirdpartyDao extends BaseDao<AuthzThirdpartyModel>{
 	
 	/**
-	 * 根据OpenID查询该第三方登录账户
+	 * 根据Openid查询该第三方登录账户
 	 * @param type 第三方账号类型
 	 * @param uid
 	 * @return
@@ -33,7 +33,7 @@ public interface IAuthzThirdpartyDao extends BaseDao<AuthzThirdpartyModel>{
 	AuthzThirdpartyModel getModelByUnionId(@Param("type") String type, @Param("unionid") String unionid);
 	
 	/**
-	 * 根据OpenID查询该第三方登录账户
+	 * 根据Openid查询该第三方登录账户
 	 * @param type 第三方账号类型
 	 * @param openid
 	 * @return
@@ -48,7 +48,7 @@ public interface IAuthzThirdpartyDao extends BaseDao<AuthzThirdpartyModel>{
 	int getCountByUnionId(@Param("unionid") String unionid);
 	
 	/**
-	 * 根据第三方平台OpenID查询对应的绑定数据
+	 * 根据第三方平台Openid查询对应的绑定数据
 	 * @param openid
 	 * @return
 	 */

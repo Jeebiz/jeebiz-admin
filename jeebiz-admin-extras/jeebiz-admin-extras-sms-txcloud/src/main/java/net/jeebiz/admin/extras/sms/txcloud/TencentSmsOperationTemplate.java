@@ -38,7 +38,7 @@ public class TencentSmsOperationTemplate {
 	/**
 	 * 验证码短信模板
 	 */
-	private static final String TEMPLATE_ID = "40294";
+	private static final String TEMPlatE_id = "40294";
 	
 	@Autowired
 	private OrderProducer orderProducer;
@@ -77,7 +77,7 @@ public class TencentSmsOperationTemplate {
 		// 2、检查短信发送权限
 
 		// 短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
-		// 短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日 
+		// 短信通知： 使用同一个签名和同一个短信模板id，对同一个手机号码发送短信通知，支持50条/日 
 		
 		// 2.1、1条/分钟
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
@@ -116,7 +116,7 @@ public class TencentSmsOperationTemplate {
 			 * 通过 client 对象调用 SendSms 方法发起请求。注意请求方法名与请求对象是对应的 返回的 res 是一个 SendSmsResponse
 			 * 类的实例，与请求对象对应
 			 */
-			SendSmsResponse res = tencentSmsTemplate.send(phoneNumber, TEMPLATE_ID, vcode);
+			SendSmsResponse res = tencentSmsTemplate.send(phoneNumber, TEMPlatE_id, vcode);
 			if (!res.getSendStatusSet()[0].getCode().equals("Ok")) {
 				throw new TencentCloudSDKException(res.getSendStatusSet()[0].getMessage());
 			}
@@ -158,7 +158,7 @@ public class TencentSmsOperationTemplate {
 		// 2、检查短信发送权限
 
 		// 短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
-		// 短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日 
+		// 短信通知： 使用同一个签名和同一个短信模板id，对同一个手机号码发送短信通知，支持50条/日 
 		
 		// 2.1、1条/分钟
 		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);

@@ -97,7 +97,7 @@ public class ArticleCommentController extends BaseApiController {
    	
    	@ApiOperation(value = "删除文章评论", notes = "删除文章评论")
    	@ApiImplicitParams({ 
-   		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章评论ID,多个用,拼接", required = true, dataType = "String")
+   		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章评论id,多个用,拼接", required = true, dataType = "String")
    	})
    	@BusinessLog(module = Constants.ARTICLE_COMMENT, business = "删除文章评论", opt = BusinessType.UPDATE)
    	@GetMapping("delete")
@@ -134,7 +134,7 @@ public class ArticleCommentController extends BaseApiController {
    	
    	@ApiOperation(value = "更新文章评论状态", notes = "更新文章评论状态")
    	@ApiImplicitParams({
-   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论ID", dataType = "String"),
+   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论id", dataType = "String"),
    		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章评论状态（0:删除|1:正常）", dataType = "String", allowableValues = "1,0")
    	})
    	@BusinessLog(module = Constants.ARTICLE_COMMENT, business = "更新文章评论状态", opt = BusinessType.UPDATE)
@@ -152,7 +152,7 @@ public class ArticleCommentController extends BaseApiController {
    	
 	@ApiOperation(value = "更新文章评论审核状态", notes = "更新文章评论审核状态")
    	@ApiImplicitParams({
-   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论ID", dataType = "String"),
+   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论id", dataType = "String"),
    		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章评论审核状态（0:未通过|1:通过）", dataType = "String", allowableValues = "1,0")
    	})
    	@BusinessLog(module = Constants.ARTICLE_COMMENT, business = "更新文章评论审核状态", opt = BusinessType.UPDATE)
@@ -170,7 +170,7 @@ public class ArticleCommentController extends BaseApiController {
 	
 	@ApiOperation(value = "更新文章评论推荐状态", notes = "更新文章评论推荐状态")
    	@ApiImplicitParams({
-   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论ID", dataType = "String"),
+   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论id", dataType = "String"),
    		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章评论推荐状态（0:未推荐|1:推荐）", dataType = "String", allowableValues = "1,0")
    	})
    	@BusinessLog(module = Constants.ARTICLE_COMMENT, business = "更新文章评论推荐状态", opt = BusinessType.UPDATE)
@@ -186,9 +186,9 @@ public class ArticleCommentController extends BaseApiController {
    		return fail("article.comment.recommend.fail", result);
    	}
    	
-   	@ApiOperation(value = "查询文章评论", notes = "根据ID查询文章评论")
+   	@ApiOperation(value = "查询文章评论", notes = "根据id查询文章评论")
    	@ApiImplicitParams({ 
-   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论ID", dataType = "String")
+   		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章评论id", dataType = "String")
    	})
    	@BusinessLog(module = Constants.ARTICLE_COMMENT, business = "查询文章评论", opt = BusinessType.SELECT)
    	@GetMapping("detail")

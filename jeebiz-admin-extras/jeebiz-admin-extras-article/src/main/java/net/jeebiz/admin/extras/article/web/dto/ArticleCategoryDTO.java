@@ -9,9 +9,9 @@ import lombok.Data;
 public class ArticleCategoryDTO {
 
 	/**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章分类ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章分类id")
 	private String id;
 	/**
 	 * 文章分类名称
@@ -44,9 +44,9 @@ public class ArticleCategoryDTO {
 	@ApiModelProperty(name = "time24", dataType = "String", value = "文章分类创建时间")
 	private String time24;
 	/**
-	 * 文章分类创建者ID
+	 * 文章分类创建者id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "文章栏目创建者ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "文章栏目创建者id")
 	private String uid;
 	/**
 	 * 文章分类创建者姓名

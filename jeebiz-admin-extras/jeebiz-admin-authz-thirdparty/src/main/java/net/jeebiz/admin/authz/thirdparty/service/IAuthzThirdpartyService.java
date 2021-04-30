@@ -42,14 +42,14 @@ public interface IAuthzThirdpartyService extends IBaseService<AuthzThirdpartyMod
 	int unbindByUid(ThirdpartyType type, String uid) throws AuthenticationException;
 	
 	/**
-	 * 根据第三方平台OpenID查询对应的绑定数据
+	 * 根据第三方平台Openid查询对应的绑定数据
 	 * @param openid
 	 * @return
 	 */
 	int getCountByOpenId(String openid);
 
 	/**
-	 * 根据唯一ID编码获取记录数
+	 * 根据唯一id编码获取记录数
 	 * @param name
 	 * @return
 	 */

@@ -21,11 +21,11 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class AuthzUserAllotRoleModel extends BaseModel<AuthzUserAllotRoleModel> {
 
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
 	private String roleId;
 	/**
-	 * 用户ID集合
+	 * 用户id集合
 	 */
 	private List<String> userIds;
  

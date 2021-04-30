@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kding.cloud.extras.activation.dao.IDeviceActivateDao" >
+<mapper namespace="com.kding.cloud.extras.activation.dao.ideviceActivateDao" >
  
   	<resultMap id="BaseResultMap" type="DeviceActivateModel" >
-	    <result column="ID" property="id" jdbcType="BIGINT" />
-	    <result column="APP_ID" property="appId" jdbcType="VARCHAR" />
+	    <result column="id" property="id" jdbcType="BIGINT" />
+	    <result column="APP_id" property="appId" jdbcType="VARCHAR" />
 	    <result column="APP_CHANNEL" property="appChannel" jdbcType="VARCHAR" />
 	    <result column="APP_VERSION" property="appVersion" jdbcType="VARCHAR" />
 	    <result column="DEVICE_IMEI" property="deviceImei" jdbcType="VARCHAR" />
@@ -17,15 +17,15 @@
   	</resultMap>
   	
 	<insert id="insert">
-		insert into KDING_DEVICE_ACTIVATE (APP_ID, APP_CHANNEL,APP_VERSION, DEVICE_IMEI, DEVICE_MODEL)
+		insert into KDING_DEVICE_ACTIVATE (APP_id, APP_CHANNEL,APP_VERSION, DEVICE_IMEI, DEVICE_MODEL)
 		values (#{appId,jdbcType=VARCHAR}, #{appChannel,jdbcType=VARCHAR},#{appVersion,jdbcType=VARCHAR}, #{deviceImei,jdbcType=VARCHAR}, #{deviceModel,jdbcType=VARCHAR})
 	</insert>
 	
 	<!--通过设备唯一标识查询主键id -->
 	<select id="getActivatedByDeviceIMEI" resultMap="BaseResultMap">
 		SELECT
-			t.ID,
-			t.APP_ID,
+			t.id,
+			t.APP_id,
 			t.APP_CHANNEL,
 			t.APP_VERSION,
 			t.DEVICE_IMEI,

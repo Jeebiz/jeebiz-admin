@@ -45,7 +45,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 	@Autowired
 	private IAuthorizedFeatureService authorizedFeatureService;
 
-    @ApiOperation(value = "功能菜单-树形结构数据（当前登录用户）", notes = "根据服务ID及等登录人信息查询该服务的功能菜单-树形结构数据")
+    @ApiOperation(value = "功能菜单-树形结构数据（当前登录用户）", notes = "根据服务id及等登录人信息查询该服务的功能菜单-树形结构数据")
 	@GetMapping("tree")
     @RequiresAuthentication
 	public ApiRestResponse<List<AuthzFeatureDTO>> tree(){
@@ -59,9 +59,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 		return ApiRestResponse.success(FeatureDataHandlerFactory.getTreeHandler().handle(featureList, featureOptList));
 	}
 
-	@ApiOperation(value = "指定功能菜单-树形结构数据（当前登录用户）", notes = "根据功能菜单ID及等登录人信息查询该功能菜单的子功能菜单-树形结构数据")
+	@ApiOperation(value = "指定功能菜单-树形结构数据（当前登录用户）", notes = "根据功能菜单id及等登录人信息查询该功能菜单的子功能菜单-树形结构数据")
 	@ApiImplicitParams({
-		@ApiImplicitParam( name = "fid", required = false, value = "功能菜单ID", dataType = "String")
+		@ApiImplicitParam( name = "fid", required = false, value = "功能菜单id", dataType = "String")
 	})
 	@GetMapping("children")
 	@RequiresAuthentication
@@ -74,9 +74,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 		return ApiRestResponse.success(featureTree);
 	}
 	
-	@ApiOperation(value = "功能菜单-树形结构数据（指定角色）", notes = "根据角色ID查询角色拥有的功能菜单-树形结构数据")
+	@ApiOperation(value = "功能菜单-树形结构数据（指定角色）", notes = "根据角色id查询角色拥有的功能菜单-树形结构数据")
 	@ApiImplicitParams({
-		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色ID", dataType = "String")
+		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色id", dataType = "String")
 	})
 	@GetMapping("features/tree")
 	@RequiresAuthentication
@@ -90,9 +90,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 		return ApiRestResponse.success(FeatureDataHandlerFactory.getTreeHandler().handle(featureList, featureOptList));
 	}
 	
-	@ApiOperation(value = "功能菜单-树形结构数据（指定角色、数据处理）", notes = "根据角色ID查询角色拥有的功能菜单-树形结构数据")
+	@ApiOperation(value = "功能菜单-树形结构数据（指定角色、数据处理）", notes = "根据角色id查询角色拥有的功能菜单-树形结构数据")
 	@ApiImplicitParams({
-		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色ID", dataType = "String"),
+		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色id", dataType = "String"),
 		@ApiImplicitParam( paramType = "query", name = "tag", required = true, value = "响应数据处理实现对象注册名称", dataType = "String")
 	})
 	@GetMapping("features/tree/tag")
@@ -108,9 +108,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 		return ApiRestResponse.success(FeatureDataHandlerFactory.getTreeHandler(tag).handle(featureList, featureOptList));
 	}
 	
-	@ApiOperation(value = "功能菜单-扁平结构数据（指定角色）", notes = "根据角色ID查询角色拥有的功能菜单-扁平结构数据")
+	@ApiOperation(value = "功能菜单-扁平结构数据（指定角色）", notes = "根据角色id查询角色拥有的功能菜单-扁平结构数据")
 	@ApiImplicitParams({
-		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色ID", dataType = "String")
+		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色id", dataType = "String")
 	})
 	@GetMapping("features/flat")
 	@RequiresAuthentication
@@ -124,9 +124,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 		return ApiRestResponse.success(FeatureDataHandlerFactory.getFlatHandler().handle(featureList, featureOptList));
 	}
 	
-	@ApiOperation(value = "功能菜单-扁平结构数据（指定角色、数据处理）", notes = "根据角色ID查询角色拥有的功能菜单-扁平结构数据")
+	@ApiOperation(value = "功能菜单-扁平结构数据（指定角色、数据处理）", notes = "根据角色id查询角色拥有的功能菜单-扁平结构数据")
 	@ApiImplicitParams({
-		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色ID", dataType = "String"),
+		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色id", dataType = "String"),
 		@ApiImplicitParam( paramType = "query", name = "tag", required = true, value = "响应数据处理实现对象注册名称", dataType = "String")
 	})
 	@GetMapping("features/flat/tag")

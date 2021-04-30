@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kding.cloud.extras.activation.dao.IDeviceBindDao" >
+<mapper namespace="com.kding.cloud.extras.activation.dao.ideviceBindDao" >
  
   	<resultMap id="BaseResultMap" type="DeviceBindModel" >
-	    <result column="ID" property="id" jdbcType="BIGINT" />
-	    <result column="ACTIVATED_ID" property="activatedId" jdbcType="VARCHAR" />
-	    <result column="APP_ID" property="appId" jdbcType="VARCHAR" />
+	    <result column="id" property="id" jdbcType="BIGINT" />
+	    <result column="ACTIVATEd_id" property="activatedId" jdbcType="VARCHAR" />
+	    <result column="APP_id" property="appId" jdbcType="VARCHAR" />
 	    <result column="APP_CHANNEL" property="appChannel" jdbcType="VARCHAR" />
 	    <result column="APP_VERSION" property="appVersion" jdbcType="VARCHAR" />
 	    <result column="CREATOR" property="creator" jdbcType="BIGINT" />
@@ -17,7 +17,7 @@
 	
 	<!--通过设备唯一标识查询主键id -->
 	<select id="getIdByDeviceIMEI" resultType="java.lang.Long">
-		select t.ID, t.APP_ID, t.APP_CHANNEL, t.APP_VERSION, t.DEVICE_IMEI, t.DEVICE_MODEL, t.CREATOR, t.CREATE_TIME, t.MODIFYER, t.MODIFY_TIME, t.IS_DELETE 
+		select t.id, t.APP_id, t.APP_CHANNEL, t.APP_VERSION, t.DEVICE_IMEI, t.DEVICE_MODEL, t.CREATOR, t.CREATE_TIME, t.MODIFYER, t.MODIFY_TIME, t.IS_DELETE
 		  from KDING_DEVICE_ACTIVATE t
 		 where t.DEVICE_IMEI = #{deviceIMEI}
 	</select>

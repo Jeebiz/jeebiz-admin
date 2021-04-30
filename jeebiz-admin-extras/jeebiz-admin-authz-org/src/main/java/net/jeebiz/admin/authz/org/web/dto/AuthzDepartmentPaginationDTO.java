@@ -24,9 +24,9 @@ public class AuthzDepartmentPaginationDTO extends AbstractPaginationDTO {
 	
 	private String name;
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构ID编号")
+	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构id编号")
 	private String orgId;
 	
 }

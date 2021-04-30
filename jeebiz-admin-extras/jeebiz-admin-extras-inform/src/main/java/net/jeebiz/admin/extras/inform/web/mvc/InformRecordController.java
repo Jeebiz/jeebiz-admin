@@ -95,9 +95,9 @@ public class InformRecordController extends BaseMapperController {
 		return ApiRestResponse.success(getInformService().getStats(principal.getUserid()));
 	}
 	
-	@ApiOperation(value = "消息通知信息", notes = "查询指定ID的消息通知信息")
+	@ApiOperation(value = "消息通知信息", notes = "查询指定id的消息通知信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", value = "消息通知ID", required = true, dataType = "String"),
+		@ApiImplicitParam(paramType = "query", name = "id", value = "消息通知id", required = true, dataType = "String"),
 	})
 	@GetMapping("detail")
 	@RequiresAuthentication
@@ -114,7 +114,7 @@ public class InformRecordController extends BaseMapperController {
 	
 	@ApiOperation(value = "阅读消息通知", notes = "阅读消息通知")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "ids", value = "消息通知ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(name = "ids", value = "消息通知id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "阅读消息通知", opt = BusinessType.UPDATE)
 	@GetMapping("read")
@@ -161,7 +161,7 @@ public class InformRecordController extends BaseMapperController {
 	
 	@ApiOperation(value = "删除消息通知", notes = "删除消息通知")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "ids", value = "消息通知ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(name = "ids", value = "消息通知id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "删除消息通知", opt = BusinessType.UPDATE)
 	@GetMapping("delete")

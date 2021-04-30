@@ -3,92 +3,92 @@
 <mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleAttachmentDao">
 
 	<resultMap id="ArticleAttachmentMap" type="ArticleAttachmentModel">
-        <!-- 文章附件ID -->
-		<result property="id" column="A_ID" />
-		<!-- 文章ID -->
-		<result property="cid" column="A_CID" />
+        <!-- 文章附件id -->
+		<result property="id" column="a_id" />
+		<!-- 文章id -->
+		<result property="cid" column="a_cid" />
 		<!-- 文章附件类型（1：标题图片，2：内容图片，3：文件普通附件） -->
-		<result property="type" column="A_TYPE" />
+		<result property="type" column="a_type" />
 		<!-- 文章附件名称 -->
-		<result property="name" column="A_NAME" />
+		<result property="name" column="a_name" />
 		<!-- 文章附件存储路径（相对地址） -->
-		<result property="path" column="A_PATH" />
+		<result property="path" column="a_path" />
 		<!-- 文章附件排序 -->
-		<result property="order" column="A_ORDER" />
+		<result property="order" column="a_order" />
 		<!-- 文章附件上传时间 -->
-		<result property="time24" column="A_time24" />
+		<result property="time24" column="a_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleAttachmentModel" flushCache="true">
-		INSERT INTO SYS_ARTICLE_CONTENT_ATTS(A_CID,A_TYPE,A_NAME,A_PATH,A_ORDER)
+		INSERT INTO sys_article_content_atts(a_cid,a_type,a_name,a_path,a_order)
 		VALUES (#{cid},#{type},#{name},#{path},#{order})
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_ATTS WHERE A_ID IN 
+		DELETE FROM sys_article_content_atts WHERE a_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
 	
 	<delete id="delete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_ATTS WHERE A_ID = #{id}
+		DELETE FROM sys_article_content_atts WHERE a_id = #{id}
 	</delete>
 	
 	<delete id="deleteAtt" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_ATTS WHERE A_CID = #{cid}
+		DELETE FROM sys_article_content_atts WHERE a_cid = #{cid}
 	</delete>
 	
 	<update id="update" parameterType="ArticleAttachmentModel" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENT_ATTS t 
-		   SET A_NAME = #{name},
-		   	   A_PATH = #{path},
-		       A_ORDER = #{order}
-		 WHERE A_ID = #{id}
+		UPDATE sys_article_content_atts t
+		   SET a_name = #{name},
+		   	   a_path = #{path},
+		       a_order = #{order}
+		 WHERE a_id = #{id}
 	</update>
 	
 	<select id="getPagedList" resultMap="ArticleAttachmentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.A_ID,
-			t.A_CID,
-			t.A_TYPE,
-			t.A_NAME,
-			t.A_PATH,
-			t.A_ORDER,
-			t.A_time24
-		FROM SYS_ARTICLE_CONTENT_ATTS t
+			t.a_id,
+			t.a_cid,
+			t.a_type,
+			t.a_name,
+			t.a_path,
+			t.a_order,
+			t.a_time24
+		FROM sys_article_content_atts t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
-				and t.A_CID = #{model.cid}
+				and t.a_cid = #{model.cid}
 			</if>
 		</where>
-		ORDER By t.A_ORDER ASC
+		ORDER By t.a_order ASC
 	</select>
 	
 	<select id="getModel" resultMap="ArticleAttachmentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.A_ID,
-			t.A_CID,
-			t.A_TYPE,
-			t.A_NAME,
-			t.A_PATH,
-			t.A_ORDER,
-			t.A_time24
-		FROM SYS_ARTICLE_CONTENT_ATTS t
-	   WHERE t.A_ID = #{id} 
+			t.a_id,
+			t.a_cid,
+			t.a_type,
+			t.a_name,
+			t.a_path,
+			t.a_order,
+			t.a_time24
+		FROM sys_article_content_atts t
+	   WHERE t.a_id = #{id}
 	</select>
 	
 	<select id="getAttachmentList" resultMap="ArticleAttachmentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.A_ID,
-			t.A_CID,
-			t.A_TYPE,
-			t.A_NAME,
-			t.A_PATH,
-			t.A_ORDER,
-			t.A_time24
-		FROM SYS_ARTICLE_CONTENT_ATTS t
-	   WHERE t.A_CID = #{cid} 
+			t.a_id,
+			t.a_cid,
+			t.a_type,
+			t.a_name,
+			t.a_path,
+			t.a_order,
+			t.a_time24
+		FROM sys_article_content_atts t
+	   WHERE t.a_cid = #{cid}
 	</select>
 
 </mapper>

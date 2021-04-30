@@ -13,9 +13,9 @@ import lombok.Data;
 public class KeyValueDTO {
 
 	/**
-	 * 基础数据ID编号
+	 * 基础数据id编号
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "基础数据ID编号")
+	@ApiModelProperty(name = "id", dataType = "String", value = "基础数据id编号")
 	private String id;
 	
 	/**

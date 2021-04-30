@@ -27,10 +27,10 @@ public final class TopicUtils {
 				
 				ArticleTopicTreeDTO topicDTO = new ArticleTopicTreeDTO();
 				
-				// 上级文章栏目ID
+				// 上级文章栏目id
 				topicDTO.setPid(topic.getId());
 				topicDTO.setPname(topic.getPname());
-				// 文章栏目ID
+				// 文章栏目id
 				topicDTO.setId(topic.getId());
 				// 文章栏目名称
 				topicDTO.setName(topic.getName());
@@ -67,10 +67,10 @@ public final class TopicUtils {
 		if(CollectionUtils.isNotEmpty(childTopicList)){
 			for (ArticleTopicModel topic : childTopicList) {
 				ArticleTopicTreeDTO topicDTO = new ArticleTopicTreeDTO();
-				// 上级文章栏目ID
+				// 上级文章栏目id
 				topicDTO.setPid(topic.getId());
 				topicDTO.setPname(topic.getPname());
-				// 文章栏目ID
+				// 文章栏目id
 				topicDTO.setId(topic.getId());
 				// 文章栏目名称
 				topicDTO.setName(topic.getName());

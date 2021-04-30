@@ -13,15 +13,15 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class ArticleMessageModel extends PaginationModel<ArticleMessageModel> implements Comparable<ArticleMessageModel> {
 	
 	/**
-	 * 文章消息ID
+	 * 文章消息id
 	 */
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
 	private String cid;
 	/**
-	 * 文章消息接收者ID
+	 * 文章消息接收者id
 	 */
 	private String uid;
 	/**

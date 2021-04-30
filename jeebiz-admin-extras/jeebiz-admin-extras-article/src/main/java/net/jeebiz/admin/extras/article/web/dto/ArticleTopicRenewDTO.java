@@ -11,15 +11,15 @@ import lombok.Data;
 public class ArticleTopicRenewDTO {
 
 	/**
-	 * 文章栏目ID
+	 * 文章栏目id
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "文章栏目ID")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "文章栏目id")
 	 @NotBlank(message = "文章编辑时文章id不能为空")
 	private String id;
 	/**
-	 * 上级文章栏目ID
+	 * 上级文章栏目id
 	 */
-	@ApiModelProperty(name = "pid", dataType = "String", value = "上级文章栏目ID")
+	@ApiModelProperty(name = "pid", dataType = "String", value = "上级文章栏目id")
 	private String pid;
 	/**
 	 * 文章栏目名称
@@ -28,9 +28,9 @@ public class ArticleTopicRenewDTO {
 	@NotBlank(message = "文章栏目名称不能为空")
 	private String name;
 	/**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
-	@ApiModelProperty(name = "cid", required = true, dataType = "String", value = "文章分类ID")
+	@ApiModelProperty(name = "cid", required = true, dataType = "String", value = "文章分类id")
 	@NotBlank(message = "文章栏目分类不能为空")
 	private String cid;
 	/**

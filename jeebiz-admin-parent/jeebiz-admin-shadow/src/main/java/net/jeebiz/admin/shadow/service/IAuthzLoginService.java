@@ -18,7 +18,7 @@ public interface IAuthzLoginService extends IBaseService<AuthzLoginModel>{
 	RSAPublicKey genPublicKey(HttpServletRequest request) throws GeneralSecurityException;
 	
 	/**
-	 * 根据用户ID和密码查询用户可否登录，角色数量等信息
+	 * 根据用户id和密码查询用户可否登录，角色数量等信息
 	 * @param username : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户账号状态信息
@@ -26,7 +26,7 @@ public interface IAuthzLoginService extends IBaseService<AuthzLoginModel>{
 	AuthzLoginStatusModel getAccountStatus(String username, String password);
 
 	/***
-	 *  根据用户ID和密码查询用户信息
+	 *  根据用户id和密码查询用户信息
 	 * @param username : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户登录信息
@@ -34,7 +34,7 @@ public interface IAuthzLoginService extends IBaseService<AuthzLoginModel>{
 	AuthzLoginModel getAccount(String username, String password);
 
 	/***
-	 * 根据用户ID无密码查询用户信息；用于单点登录
+	 * 根据用户id无密码查询用户信息；用于单点登录
 	 * @param username : 用户名
 	 * @return 用户登录信息
 	 */

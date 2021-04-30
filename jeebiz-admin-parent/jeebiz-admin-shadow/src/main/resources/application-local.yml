@@ -161,7 +161,7 @@ alibaba:
       secret-key: xxxxxx
       name-srv-addr: http://xxxxx.mq-internet-access.mq-internet.aliyuncs.com:80
       message-model: CLUSTERING
-      group-id: GID_LAN
+      group-id: Gid_LAN
     sms:
         enable: true
         signs:
@@ -176,7 +176,8 @@ tencent:
     enabled: true
     sdkappid: 22232312323
     private-key: xxx
-  sms:    enabled: true
+  sms:
+    enabled: true
     sdkappid: 1400006666
     secret-id: sss
     secret-key: ssss

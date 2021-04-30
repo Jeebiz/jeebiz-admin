@@ -19,7 +19,7 @@ public class ArticleModel extends PaginationModel<ArticleModel> implements Compa
 	 */
 	private String id;
 	/**
-	 * 文章栏目ID
+	 * 文章栏目id
 	 */
 	private String tid;
 	/**
@@ -27,7 +27,7 @@ public class ArticleModel extends PaginationModel<ArticleModel> implements Compa
 	 */
 	private String tname;
 	/**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
 	private String cid;
 	/**
@@ -35,7 +35,7 @@ public class ArticleModel extends PaginationModel<ArticleModel> implements Compa
 	 */
 	private String cname;
 	/**
-	 * 文章发布者ID
+	 * 文章发布者id
 	 */
 	private String uid;
 	/**

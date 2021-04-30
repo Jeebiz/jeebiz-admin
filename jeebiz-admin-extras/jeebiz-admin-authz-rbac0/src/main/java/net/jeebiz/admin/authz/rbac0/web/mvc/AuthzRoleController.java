@@ -163,7 +163,7 @@ public class AuthzRoleController extends BaseApiController {
 	
 	@ApiOperation(value = "更新角色状态", notes = "更新角色状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "form", name = "id", required = true, value = "角色ID", dataType = "String"),
+		@ApiImplicitParam(paramType = "form", name = "id", required = true, value = "角色id", dataType = "String"),
 		@ApiImplicitParam(paramType = "form", name = "status", required = true, value = "角色状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "更新角色状态", opt = BusinessType.UPDATE)
@@ -177,9 +177,9 @@ public class AuthzRoleController extends BaseApiController {
 		return fail("role.status.fail", result);
 	}
 	
-	@ApiOperation(value = "角色信息详情", notes = "根据角色ID查询角色信息")
+	@ApiOperation(value = "角色信息详情", notes = "根据角色id查询角色信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "角色ID", dataType = "String")
+		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "角色id", dataType = "String")
 	})
 	@GetMapping("detail")
 	@RequiresPermissions("role:detail")
@@ -193,7 +193,7 @@ public class AuthzRoleController extends BaseApiController {
 	
 	@ApiOperation(value = "删除角色信息", notes = "删除角色信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "角色ID", dataType = "String")
+		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "角色id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "删除角色-名称：${roleid}", opt = BusinessType.DELETE)
 	@GetMapping("delete")
@@ -211,7 +211,7 @@ public class AuthzRoleController extends BaseApiController {
 
 	@ApiOperation(value = "批量删除角色信息", notes = "批量删除角色信息")
 	@ApiImplicitParams({
-			@ApiImplicitParam( paramType = "body", name = "ids", required = true, value = "角色ID", dataType = "java.util.List<String>")
+			@ApiImplicitParam( paramType = "body", name = "ids", required = true, value = "角色id", dataType = "java.util.List<String>")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "批量删除角色信息", opt = BusinessType.DELETE)
 	@PostMapping("deleteByIds")

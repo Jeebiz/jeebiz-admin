@@ -49,7 +49,7 @@ public class MySqlQuery extends AbstractDbQuery {
 
     @Override
     public String tableName() {
-        return "NAME";
+        return "name";
     }
 
 

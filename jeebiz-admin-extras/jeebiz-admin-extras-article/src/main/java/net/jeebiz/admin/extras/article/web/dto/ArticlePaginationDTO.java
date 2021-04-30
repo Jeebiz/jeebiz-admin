@@ -17,19 +17,19 @@ public class ArticlePaginationDTO extends AbstractPaginationDTO {
 	@ApiModelProperty(name = "keywords", dataType = "String", value = "文章模糊查询关键字")
 	private String keywords;
 	/**
-	 * 文章栏目ID
+	 * 文章栏目id
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "文章栏目ID")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "文章栏目id")
 	private String tid;
 	/**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章分类ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章分类id")
 	private String cid;
 	/**
-	 * 文章所属单位ID/编号
+	 * 文章所属单位id/编号
 	 */
-	@ApiModelProperty(name = "orgId", dataType = "String", value = "文章所属单位ID/编号")
+	@ApiModelProperty(name = "orgId", dataType = "String", value = "文章所属单位id/编号")
 	private String orgId;
 	/**
 	 * 文章审核状态（0:未提交|1:待审核|2:审核通过|2:审核不通过）

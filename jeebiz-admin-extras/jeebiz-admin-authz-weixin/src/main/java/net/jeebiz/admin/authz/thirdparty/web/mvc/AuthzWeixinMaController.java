@@ -84,14 +84,14 @@ public class AuthzWeixinMaController extends BaseMapperController {
         return ApiRestResponse.success(configDTO);
 	}
 	
-	@ApiOperation(value = "微信（小程序）登录第2步：jscode 换取 用户唯一标识 OpenID 和 会话密钥 session_key", notes = "调用 code2Session 接口，换取 用户唯一标识 OpenID 和 会话密钥 session_key")
+	@ApiOperation(value = "微信（小程序）登录第2步：jscode 换取 用户唯一标识 Openid 和 会话密钥 session_key", notes = "调用 code2Session 接口，换取 用户唯一标识 Openid 和 会话密钥 session_key")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "jscode", required = true, value = "临时登录凭证code", dataType = "String"),
 	})
 	@GetMapping("code2Session")
 	@ResponseBody 
 	public ApiRestResponse<AuthzWeixinMaCode2SessionDTO> code2Session(@Valid @RequestParam("jscode") String jsCode) throws Exception { 
-		// 调用 code2Session 接口，换取 用户唯一标识 OpenID 和 会话密钥 session_key
+		// 调用 code2Session 接口，换取 用户唯一标识 Openid 和 会话密钥 session_key
 		WxMaJscode2SessionResult sessionResult = getWxMaService().jsCode2SessionInfo(jsCode);
 		// 对象转换
 		AuthzWeixinMaCode2SessionDTO code2SessionDTO = getBeanMapper().map(sessionResult, AuthzWeixinMaCode2SessionDTO.class);

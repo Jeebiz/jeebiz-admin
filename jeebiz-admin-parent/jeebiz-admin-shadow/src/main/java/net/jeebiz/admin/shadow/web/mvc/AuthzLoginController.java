@@ -56,7 +56,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping(value = "/authz/login/")
 public class AuthzLoginController extends BaseController {
 
-	private static final String DEFAULT_ERROr_key_ATTRIBUTE_NAME = "shiroLoginFailure";
+	private static final String DEFAULT_ERROr_key_ATTRIBUTE_name = "shiroLoginFailure";
 
 	@Autowired
 	private IAuthzLoginService authzLoginService;
@@ -104,7 +104,7 @@ public class AuthzLoginController extends BaseController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("status", STATUS_FAIL);
 			
-		String ERROR_VALUE = (String) request.getAttribute(DEFAULT_ERROr_key_ATTRIBUTE_NAME);
+		String ERROR_VALUE = (String) request.getAttribute(DEFAULT_ERROr_key_ATTRIBUTE_name);
 		
 		// 已经超出了重试限制，需要进行提醒
 		if (StringUtils.equals(NoneCaptchaException.class.getName(), ERROR_VALUE)) {
@@ -145,7 +145,7 @@ public class AuthzLoginController extends BaseController {
 	}
 	
 	@ApiOperation(value = "切换角色", notes = "切换角色")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "roleid", value = "角色ID", dataType = "String") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "roleid", value = "角色id", dataType = "String") })
 	@GetMapping("switchRole")
 	public String switchRole(String roleid) {
 		try {

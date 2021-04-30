@@ -14,9 +14,9 @@ import com.google.common.collect.Lists;
 public class AuthzRolesUtils {
 	
 	/**
-	 * 获取角色ID增量集合
-	 * @param roles		：此次提交的角色ID
-	 * @param oldroles	： 已经角色ID
+	 * 获取角色id增量集合
+	 * @param roles		：此次提交的角色id
+	 * @param oldroles	： 已经角色id
 	 * @return
 	 */
 	public static List<String> increment(List<String> roles, List<String> oldroles){
@@ -29,9 +29,9 @@ public class AuthzRolesUtils {
 	}
 	
 	/**
-	 * 获取角色ID减量集合
-	 * @param roles		：此次提交的角色ID
-	 * @param oldroles	： 已经角色ID
+	 * 获取角色id减量集合
+	 * @param roles		：此次提交的角色id
+	 * @param oldroles	： 已经角色id
 	 * @return
 	 */
 	public static List<String> decrement(List<String> roles, List<String> oldroles){

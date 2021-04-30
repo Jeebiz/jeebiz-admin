@@ -15,25 +15,25 @@ import lombok.Data;
 public class AuthzUserRenewDTO {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构ID编号")
+	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构id编号")
 	private String orgId;
 	/**
-	 * 部门ID编号
+	 * 部门id编号
 	 */
-	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门ID编号")
+	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门id编号")
 	private String deptId;
 	/**
-	 * 岗位ID编号
+	 * 岗位id编号
 	 */
-	@ApiModelProperty(name = "postId", dataType = "String", value = "岗位ID编号")
+	@ApiModelProperty(name = "postId", dataType = "String", value = "岗位id编号")
 	private String postId;
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "用户ID")
-	@NotBlank(message = "用户ID必填")
+	@ApiModelProperty(name = "id", dataType = "String", value = "用户id")
+	@NotBlank(message = "用户id必填")
 	private String id;
 	/**
 	 * 用户唯一编号（工号）
@@ -42,9 +42,9 @@ public class AuthzUserRenewDTO {
 	@NotBlank(message = "用户唯一编号（工号）必填")
 	private String ucode;
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
-	@ApiModelProperty(name = "roleId", required = true, dataType = "String", value = "角色ID")
+	@ApiModelProperty(name = "roleId", required = true, dataType = "String", value = "角色id")
 	@NotBlank(message = "角色必选")
 	private String roleId;
 	/**

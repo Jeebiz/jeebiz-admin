@@ -44,8 +44,8 @@ public abstract class AbstractIdempotentAspect {
 	/**
 	 * redis缓存key的模板
 	 */
-	protected static final String KEY_TOKEN_TEMPLATE = "idempotent:token:%s";
-	protected static final String KEY_ARGS_TEMPLATE = "idempotent:args:%s_%s";
+	protected static final String KEY_TOKEN_TEMPlatE = "idempotent:token:%s";
+	protected static final String KEY_ARGS_TEMPlatE = "idempotent:args:%s_%s";
 	protected final ExpressionParser expressionParser = new SpelExpressionParser();
 	protected ObjectMapper objectMapper = new ObjectMapper();
 	

@@ -18,14 +18,14 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 public class AuthzWeixinMpBindDTO extends AbstractBindDTO {
 	
 	/**
-	 * 第三方平台UnionID（通常指第三方账号体系下用户的唯一ID）
+	 * 第三方平台Unionid（通常指第三方账号体系下用户的唯一id）
 	 */
-	@ApiModelProperty(name = "unionid", dataType = "String", value = "第三方平台UnionID（通常指第三方账号体系下用户的唯一ID）")
+	@ApiModelProperty(name = "unionid", dataType = "String", value = "第三方平台Unionid（通常指第三方账号体系下用户的唯一id）")
 	protected String unionid;
 	/**
-	 * 第三方平台OpenID（通常指第三方账号体系下某应用中用户的唯一ID）
+	 * 第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）
 	 */
-	@ApiModelProperty(name = "openid", required = true, dataType = "String", value = "第三方平台OpenID（通常指第三方账号体系下某应用中用户的唯一ID）")
+	@ApiModelProperty(name = "openid", required = true, dataType = "String", value = "第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）")
 	protected String openid;
 	/**
 	 * 绑定的账号

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.UUid;
 
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
@@ -74,15 +74,15 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		try {
 			
 			// 检查存储桶是否已经存在
-            if(minioClient.bucketExists(Constants.GROUP_NAME)) {
+            if(minioClient.bucketExists(Constants.GROUP_name)) {
             	LOG.info("Bucket already exists.");
             } else {
                 // 创建一个名为ota的存储桶
-                minioClient.makeBucket(Constants.GROUP_NAME);
+                minioClient.makeBucket(Constants.GROUP_name);
                 LOG.info("create a new bucket.");
             }
 			
-			String uuid = UUID.randomUUID().toString();
+			String uuid = UUid.randomUUid().toString();
 			String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 			String objectName = sdf.format(new Date()) + "/" + uuid + "." + ext;
 			
@@ -92,9 +92,9 @@ public class MinioFilestoreProvider implements FilestoreProvider {
             String contentType = FilemimeUtils.getFileMimeType(file.getOriginalFilename());
             
             // 上传文件
-			minioClient.putObject(Constants.GROUP_NAME, objectName, file.getInputStream(), file.getSize(), headerMap, sse, contentType);
+			minioClient.putObject(Constants.GROUP_name, objectName, file.getInputStream(), file.getSize(), headerMap, sse, contentType);
 			
-			String storePath = minioClient.getObjectUrl(Constants.GROUP_NAME, objectName);
+			String storePath = minioClient.getObjectUrl(Constants.GROUP_name, objectName);
 
 			// 文件存储记录对象
 			FilestoreModel model = new FilestoreModel();
@@ -105,7 +105,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 			model.setName(file.getOriginalFilename());
 			model.setExt(ext);
 			model.setTo(FilestoreEnum.OSS_MINIO.getKey());
-			model.setGroup(Constants.GROUP_NAME);
+			model.setGroup(Constants.GROUP_name);
 			model.setPath(objectName);
 			getFilestoreDao().insert(model);
 
@@ -120,7 +120,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		} catch (Exception e) {
 			try {
 				if(attDTO != null) {
-					getMinioClient().removeObject(Constants.GROUP_NAME, attDTO.getPath());
+					getMinioClient().removeObject(Constants.GROUP_name, attDTO.getPath());
 				}
 			} catch (Exception e1) {
 				// 忽略删除异常
@@ -136,18 +136,18 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		try {
 			
 			// 检查存储桶是否已经存在
-            if(minioClient.bucketExists(Constants.GROUP_NAME)) {
+            if(minioClient.bucketExists(Constants.GROUP_name)) {
             	LOG.info("Bucket already exists.");
             } else {
                 // 创建一个名为ota的存储桶
-                minioClient.makeBucket(Constants.GROUP_NAME);
+                minioClient.makeBucket(Constants.GROUP_name);
                 LOG.info("create a new bucket.");
             }
 			
             ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			for (MultipartFile file : files) {
 
-				String uuid = UUID.randomUUID().toString();
+				String uuid = UUid.randomUUid().toString();
 				String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 				String objectName = sdf.format(new Date()) + "/" + uuid + "." + ext;
 				
@@ -157,9 +157,9 @@ public class MinioFilestoreProvider implements FilestoreProvider {
                 String contentType = FilemimeUtils.getFileMimeType(file.getOriginalFilename());
                 
                 // 上传文件
-				minioClient.putObject(Constants.GROUP_NAME, objectName, file.getInputStream(), file.getSize(), headerMap, sse, contentType);
+				minioClient.putObject(Constants.GROUP_name, objectName, file.getInputStream(), file.getSize(), headerMap, sse, contentType);
 				
-				String storePath = minioClient.getObjectUrl(Constants.GROUP_NAME, objectName);
+				String storePath = minioClient.getObjectUrl(Constants.GROUP_name, objectName);
 
 				// 文件存储记录对象
 				FilestoreModel model = new FilestoreModel();
@@ -169,7 +169,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 				model.setName(file.getOriginalFilename());
 				model.setExt(ext);
 				model.setTo(FilestoreEnum.OSS_MINIO.getKey());
-				model.setGroup(Constants.GROUP_NAME);
+				model.setGroup(Constants.GROUP_name);
 				model.setPath(objectName);
 				getFilestoreDao().insert(model);
 
@@ -185,7 +185,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		} catch (Exception e) {
 			try {
 				for (FilestoreDTO attDTO : attList) {
-					getMinioClient().removeObject(Constants.GROUP_NAME, attDTO.getPath());
+					getMinioClient().removeObject(Constants.GROUP_name, attDTO.getPath());
 				}
 			} catch (Exception e1) {
 				// 忽略删除异常
@@ -201,7 +201,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		if(CollectionUtils.isEmpty(paths)) {
 			return false;
 		}
-		// 查询UID对象的文件记录
+		// 查询Uid对象的文件记录
 		List<FilestoreModel> files = getFilestoreDao().getPaths(paths);
 		// 删除文件记录
 		getFilestoreDao().deleteByPaths(paths);
@@ -218,7 +218,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	@Override
 	public boolean deleteByUuid(List<String> uuids) throws Exception {
 		
-		// 查询UID对象的文件记录
+		// 查询Uid对象的文件记录
 		List<FilestoreModel> files = getFilestoreDao().getFiles(uuids);
 		// 删除文件记录
 		getFilestoreDao().deleteByUuids(uuids);
@@ -254,10 +254,10 @@ public class MinioFilestoreProvider implements FilestoreProvider {
         
         // 上传新文件	
         getMinioClient().putObject(model.getGroup(), objectName, file.getInputStream(), file.getSize(), headerMap, sse, contentType);
-		String storePath = getMinioClient().getObjectUrl(Constants.GROUP_NAME, objectName);
+		String storePath = getMinioClient().getObjectUrl(Constants.GROUP_name, objectName);
 		
 		// 文件存储信息
-		String uuid1 = UUID.randomUUID().toString();
+		String uuid1 = UUid.randomUUid().toString();
 		FilestoreDTO attDTO = new FilestoreDTO();
 		attDTO.setUuid(uuid1);
 		attDTO.setName(file.getOriginalFilename());
@@ -290,7 +290,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 			FilestoreDTO attDTO = new FilestoreDTO();
 			
 			attDTO.setPath(path);
-			String storePath = getMinioClient().getObjectUrl(Constants.GROUP_NAME, path);
+			String storePath = getMinioClient().getObjectUrl(Constants.GROUP_name, path);
 			attDTO.setUrl(storePath);
 			
 			attList.add(attDTO);

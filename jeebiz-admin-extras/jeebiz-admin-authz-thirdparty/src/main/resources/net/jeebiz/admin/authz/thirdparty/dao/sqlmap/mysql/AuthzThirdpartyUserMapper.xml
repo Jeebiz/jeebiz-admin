@@ -3,9 +3,9 @@
 <mapper namespace="net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserDao">
 	
 	<resultMap id="UserMap" type="AuthzThirdpartyUserModel">
-		<!-- 用户ID -->
+		<!-- 用户id -->
 		<result property="id" column="u_id" />
-		<!-- 用户唯一UID（用户编号） -->
+		<!-- 用户唯一Uid（用户编号） -->
 		<result property="uid" column="u_uid" />
 		<!-- 用户唯一编号（内部工号） -->
 		<result property="ucode" column="u_code" />
@@ -17,7 +17,7 @@
         <result property="salt" column="u_salt"/>
         <!-- 用户秘钥：用于用户JWT加解密 -->
         <result property="secret" column="u_secret"/>
-        <!-- 用户客户端应用ID -->
+        <!-- 用户客户端应用id -->
         <result property="appId" column="u_app_id"/>
         <!-- 用户客户端应用渠道编码  -->
 		<result property="appChannel" column="u_app_channel" />
@@ -31,7 +31,7 @@
         <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
         <result property="time24" column="u_time24"/>
-        <!-- 角色ID（可能多个组合，如：1,2） -->
+        <!-- 角色id（可能多个组合，如：1,2） -->
 		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
 		<result property="roleName" column="r_name" />

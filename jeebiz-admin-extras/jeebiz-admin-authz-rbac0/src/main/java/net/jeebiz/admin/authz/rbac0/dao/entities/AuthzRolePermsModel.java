@@ -27,7 +27,7 @@ public class AuthzRolePermsModel extends BaseModel<AuthzRolePermsModel> {
 	 */ 
 	private String id;
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
 	private String roleId;
 	/**

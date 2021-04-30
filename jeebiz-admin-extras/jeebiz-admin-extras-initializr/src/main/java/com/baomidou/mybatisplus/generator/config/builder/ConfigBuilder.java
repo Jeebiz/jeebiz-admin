@@ -59,7 +59,7 @@ public class ConfigBuilder {
     /**
      * SQL语句类型
      */
-    private IDbQuery dbQuery;
+    private idbQuery dbQuery;
     private String superEntityClass;
     private String superMapperClass;
     /**
@@ -232,7 +232,7 @@ public class ConfigBuilder {
     private void handlerPackage(TemplateConfig template, String outputDir, PackageConfig config) {
         // 包信息
         packageInfo = new HashMap<>(8);
-        packageInfo.put(ConstVal.MODULE_NAME, config.getModuleName());
+        packageInfo.put(ConstVal.MODULE_name, config.getModuleName());
         packageInfo.put(ConstVal.ENTITY, joinPackage(config.getParent(), config.getEntity()));
         packageInfo.put(ConstVal.MAPPER, joinPackage(config.getParent(), config.getMapper()));
         packageInfo.put(ConstVal.XML, joinPackage(config.getParent(), config.getXml()));
@@ -601,7 +601,7 @@ public class ConfigBuilder {
                 while (results.next()) {
                     TableField field = new TableField();
                     String columnName = results.getString(dbQuery.fieldName());
-                    // 避免多重主键设置，目前只取第一个找到ID，并放到list中的索引为0的位置
+                    // 避免多重主键设置，目前只取第一个找到id，并放到list中的索引为0的位置
                     boolean isId;
                     if (DbType.H2 == dbType) {
                         isId = h2PkColumns.contains(columnName);
@@ -614,7 +614,7 @@ public class ConfigBuilder {
                         }
                     }
 
-                    // 处理ID
+                    // 处理id
                     if (isId && !haveId) {
                         field.setKeyFlag(true);
                         if (DbType.H2 == dbType || DbType.SQLITE == dbType || dbQuery.isKeyIdentity(results)) {

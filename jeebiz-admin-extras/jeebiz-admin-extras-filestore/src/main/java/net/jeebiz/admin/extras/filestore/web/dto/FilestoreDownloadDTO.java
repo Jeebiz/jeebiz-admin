@@ -11,7 +11,7 @@ import lombok.Data;
 public class FilestoreDownloadDTO {
 
 	/**
-	 * 文件UUID
+	 * 文件UUid
 	 */
 	private String uuid;
 	/**

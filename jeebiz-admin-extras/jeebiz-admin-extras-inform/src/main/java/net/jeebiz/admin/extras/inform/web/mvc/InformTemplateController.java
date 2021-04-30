@@ -112,7 +112,7 @@ public class InformTemplateController extends BaseMapperController {
 	
 	@ApiOperation(value = "删除消息通知模板", notes = "删除消息通知模板")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "ids", value = "消息通知模板ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "消息通知模板id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "删除消息通知模板", opt = BusinessType.DELETE)
 	@GetMapping("delete")
@@ -151,11 +151,11 @@ public class InformTemplateController extends BaseMapperController {
 		return fail("inform.template.renew.fail", result);
 	}
 	
-	@ApiOperation(value = "消息通知模板信息", notes = "查询指定ID的消息通知模板信息")
+	@ApiOperation(value = "消息通知模板信息", notes = "查询指定id的消息通知模板信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", value = "消息通知模板ID", required = true, dataType = "String"),
+		@ApiImplicitParam(paramType = "query", name = "id", value = "消息通知模板id", required = true, dataType = "String"),
 	})
-	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "查询指定ID的消息通知模板信息", opt = BusinessType.SELECT)
+	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "查询指定id的消息通知模板信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")
 	@RequiresPermissions("inform-tmpl:detail")
 	@ResponseBody

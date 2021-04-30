@@ -22,7 +22,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class KeyGroupModel extends PaginationModel<KeyGroupModel> {
 
 	/**
-	 * 数据分组ID
+	 * 数据分组id
 	 */
 	private String id;
 	/**

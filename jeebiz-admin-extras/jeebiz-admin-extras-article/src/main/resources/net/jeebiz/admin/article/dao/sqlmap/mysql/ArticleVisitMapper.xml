@@ -3,63 +3,63 @@
 <mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleVisitDao">
 
 	<resultMap id="ArticleVisitMap" type="ArticleVisitModel">
-        <!-- 文章访问ID -->
-		<result property="id" column="V_ID" />
-		<!-- 文章ID -->
-		<result property="cid" column="V_CID" />
-		<!-- 文章访问者ID -->
-		<result property="uid" column="V_UID" />
+        <!-- 文章访问id -->
+		<result property="id" column="v_id" />
+		<!-- 文章id -->
+		<result property="cid" column="v_cid" />
+		<!-- 文章访问者id -->
+		<result property="uid" column="v_uid" />
 		<!-- 文章访问者姓名 -->
-		<result property="uname" column="V_UNAME" />
+		<result property="uname" column="v_uname" />
 		<!-- 访问来源IP -->
-		<result property="addr" column="V_ADDR" />
+		<result property="addr" column="v_addr" />
 		<!-- 访问来源地址 -->
-		<result property="location" column="V_LOCATION" />
+		<result property="location" column="v_location" />
 		<!-- 访问来源User-Agent -->
-		<result property="agent" column="V_AGENT" />
+		<result property="agent" column="v_agent" />
 		<!-- 文章访问时间 -->
-		<result property="time24" column="V_time24" />
+		<result property="time24" column="v_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleVisitModel" flushCache="true">
-		INSERT INTO SYS_ARTICLE_VISITS(V_CID,V_UID,V_ADDR,V_LOCATION,V_AGENT) VALUES (#{cid},#{uid},#{addr},#{location},#{agent})
+		INSERT INTO sys_article_visits(v_cid,v_uid,v_addr,v_location,v_agent) VALUES (#{cid},#{uid},#{addr},#{location},#{agent})
 	</insert>
 	
 	<select id="getPagedList" resultMap="ArticleVisitMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.V_ID,
-			t.V_CID,
-			t.V_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.V_UID) as V_UNAME,
-			t.V_ADDR,
-			t.V_LOCATION,
-			t.V_AGENT,
-			t.V_time24
-		FROM SYS_ARTICLE_VISITS t
+			t.v_id,
+			t.v_cid,
+			t.v_uid,
+			x.nickname as v_uname,
+			t.v_addr,
+			t.v_location,
+			t.v_agent,
+			t.v_time24
+		FROM sys_article_visits t inner join sys_authz_user_profile x on x.u_id = t.v_uid
 		<where>
 			<if test="model.cid != null and model.cid != ''">
-				and t.V_CID = #{model.cid}
+				and t.v_cid = #{model.cid}
 			</if>
 			<if test="model.uid != null and model.uid != ''">
-				and t.V_UID = #{model.uid}
+				and t.v_uid = #{model.uid}
 			</if>
 		</where>
-		ORDER By t.V_time24 ASC
+		ORDER By t.v_time24 ASC
 	</select>
 		
 	<select id="getRowList" resultMap="ArticleVisitMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.V_ID,
-			t.V_CID,
-			t.V_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.V_UID) as V_UNAME,
-			t.V_ADDR,
-			t.V_LOCATION,
-			t.V_AGENT,
-			t.V_time24
-		FROM SYS_ARTICLE_VISITS t
-	   WHERE t.V_CID = #{cid}
-	ORDER By t.V_time24 ASC
+			t.v_id,
+			t.v_cid,
+			t.v_uid,
+			x.nickname as v_uname,
+			t.v_addr,
+			t.v_location,
+			t.v_agent,
+			t.v_time24
+		FROM sys_article_visits t inner join sys_authz_user_profile x on x.u_id = t.v_uid
+	   WHERE t.v_cid = #{cid}
+	ORDER By t.v_time24 ASC
 	</select>
 
 </mapper>

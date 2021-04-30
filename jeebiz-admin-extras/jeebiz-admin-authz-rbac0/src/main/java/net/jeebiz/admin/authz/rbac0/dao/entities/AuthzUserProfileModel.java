@@ -17,7 +17,7 @@ public class AuthzUserProfileModel {
 	 */
 	private String id;
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
 	private String uid;
 	/**

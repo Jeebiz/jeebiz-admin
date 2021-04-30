@@ -13,24 +13,24 @@ import lombok.Data;
 public class ArticleCommentTreeDTO {
 
 	/**
-	 * 文章评论ID
+	 * 文章评论id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章评论ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章评论id")
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
-	 * 上级文章评论ID
+	 * 上级文章评论id
 	 */
-	@ApiModelProperty(name = "pid", dataType = "String", value = "上级文章评论ID")
+	@ApiModelProperty(name = "pid", dataType = "String", value = "上级文章评论id")
 	private String pid;
 	/**
-	 * 文章评论者ID
+	 * 文章评论者id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "文章评论者ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "文章评论者id")
 	private String uid;
 	/**
 	 * 文章评论者姓名

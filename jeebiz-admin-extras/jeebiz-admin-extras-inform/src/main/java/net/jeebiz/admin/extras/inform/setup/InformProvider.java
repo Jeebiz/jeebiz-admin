@@ -30,7 +30,7 @@ public enum InformProvider {
 	/**
 	 * 百度云短信
 	 */
-	SMS_BAIDU("百度云短信"),
+	SMS_BAidU("百度云短信"),
 	/**
 	 * 腾讯云短信
 	 */

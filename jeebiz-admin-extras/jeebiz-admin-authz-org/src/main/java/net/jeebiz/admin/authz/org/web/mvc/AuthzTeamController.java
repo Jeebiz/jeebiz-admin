@@ -66,9 +66,9 @@ public class AuthzTeamController extends BaseApiController {
 		
 	}
 	
-	@ApiOperation(value = "团队信息：数据列表集合", notes = "根据部门ID编码查询团队信息")
+	@ApiOperation(value = "团队信息：数据列表集合", notes = "根据部门id编码查询团队信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "deptId", value = "部门ID编码", dataType = "String")
+		@ApiImplicitParam(name = "deptId", value = "部门id编码", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "查询团队信息", opt = BusinessType.SELECT)
 	@GetMapping("list")
@@ -85,9 +85,9 @@ public class AuthzTeamController extends BaseApiController {
 		return ApiRestResponse.success(retList);
 	}
 	
-	@ApiOperation(value = "团队信息：键值对集合", notes = "根据部门ID编码查询团队信息")
+	@ApiOperation(value = "团队信息：键值对集合", notes = "根据部门id编码查询团队信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "deptId", value = "部门ID编码", dataType = "String")
+		@ApiImplicitParam(name = "deptId", value = "部门id编码", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "查询团队信息", opt = BusinessType.SELECT)
 	@GetMapping("pairs")
@@ -143,7 +143,7 @@ public class AuthzTeamController extends BaseApiController {
 	
 	@ApiOperation(value = "更新团队信息状态", notes = "更新团队信息状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", required = true, value = "团队信息ID", dataType = "String"),
+		@ApiImplicitParam(name = "id", required = true, value = "团队信息id", dataType = "String"),
 		@ApiImplicitParam(name = "status", required = true, value = "团队信息状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "更新团队信息状态", opt = BusinessType.UPDATE)
@@ -160,7 +160,7 @@ public class AuthzTeamController extends BaseApiController {
 	
 	@ApiOperation(value = "删除团队信息", notes = "删除团队信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "id", value = "团队信息ID", required = true, dataType = "String")
+		@ApiImplicitParam(name = "id", value = "团队信息id", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "删除团队信息", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -180,9 +180,9 @@ public class AuthzTeamController extends BaseApiController {
 		return fail("authz.team.delete.fail", result);
 	}
 	
-	@ApiOperation(value = "查询团队信息", notes = "根据ID查询团队信息")
+	@ApiOperation(value = "查询团队信息", notes = "根据id查询团队信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( name = "id", required = true, value = "团队信息ID", dataType = "String")
+		@ApiImplicitParam( name = "id", required = true, value = "团队信息id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_TEAM, business = "查询团队信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")

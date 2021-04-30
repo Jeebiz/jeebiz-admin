@@ -5,7 +5,7 @@ import org.slf4j.MarkerFactory;
 
 public class Constants {
     
-	public static final String GROUP_NAME = "group1";
+	public static final String GROUP_name = "group1";
     public static Marker logMarker = MarkerFactory.getMarker("Kafka-Log");
 
     public static final String ARTICLE_CATEGORY = "通知公告分类";

@@ -20,10 +20,10 @@ import lombok.Data;
 public class AuthzDepartmentNewDTO implements Serializable {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "orgId", required = true, dataType = "String", value = "机构ID编号")
-	@NotBlank(message = "机构ID编号必填")
+	@ApiModelProperty(name = "orgId", required = true, dataType = "String", value = "机构id编号")
+	@NotBlank(message = "机构id编号必填")
 	
 	private String orgId;
 	/**
@@ -47,9 +47,9 @@ public class AuthzDepartmentNewDTO implements Serializable {
 	
 	private String intro;
 	/**
-	 * 父级部门ID编号
+	 * 父级部门id编号
 	 */
-	@ApiModelProperty(name = "parent", dataType = "String", value = "父级部门ID编号")
+	@ApiModelProperty(name = "parent", dataType = "String", value = "父级部门id编号")
 	private String parent;
 
 	public String getParent() {

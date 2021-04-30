@@ -19,7 +19,7 @@ public enum FilestoreEnum {
 	FDFS("fdfs", "FastDFS"),
 	OSS_ALIYUN("oss-aliyun", "对象存储（阿里云）"),
 	OSS_TENCENT("oss-tencent", "对象存储（腾讯云）"),
-	OSS_BAIDU("oss-baidu", "对象存储（百度云）"),
+	OSS_BAidU("oss-baidu", "对象存储（百度云）"),
 	OSS_HUAWEI("oss-huawei", "对象存储（华为云）"),
 	OSS_MINIO("oss-minio", "对象存储（Minio）");
 

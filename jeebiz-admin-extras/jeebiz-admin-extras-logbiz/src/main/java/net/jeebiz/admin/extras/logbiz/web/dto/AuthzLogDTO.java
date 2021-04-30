@@ -20,14 +20,14 @@ import lombok.ToString;
 public class AuthzLogDTO {
 
 	/**
-	 * 日志ID
+	 * 日志id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "日志记录ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "日志记录id")
 	private String id;
 	/**
-	 * 认证授权对象ID
+	 * 认证授权对象id
 	 */
-	@ApiModelProperty(name = "userId", dataType = "String", value = "认证授权对象ID")
+	@ApiModelProperty(name = "userId", dataType = "String", value = "认证授权对象id")
 	private String userId;
 	/**
 	 * 认证授权对象
@@ -40,9 +40,9 @@ public class AuthzLogDTO {
 	@ApiModelProperty(name = "opt", dataType = "String", value = "认证授权类型（login:登录认证、logout:会话注销）")
 	private String opt;
 	/**
-	 * 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+	 * 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 	 */
-	@ApiModelProperty(name = "protocol", dataType = "String", value = "认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等")
+	@ApiModelProperty(name = "protocol", dataType = "String", value = "认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等")
 	private String protocol;
 	/**
 	 * 认证请求来源IP地址

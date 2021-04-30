@@ -12,14 +12,14 @@ import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 public class ArticleVisitPaginationDTO extends AbstractPaginationDTO {
 
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
-	 * 文章访问者ID
+	 * 文章访问者id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "文章访问者ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "文章访问者id")
 	private String uid;
     
 }

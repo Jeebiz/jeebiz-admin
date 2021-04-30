@@ -31,7 +31,7 @@ public class KeyValueModel extends PaginationModel<KeyValueModel> {
 	 */
 	private String gtext;
 	/**
-	 * 基础数据ID
+	 * 基础数据id
 	 */
 	private String id;
 	/**

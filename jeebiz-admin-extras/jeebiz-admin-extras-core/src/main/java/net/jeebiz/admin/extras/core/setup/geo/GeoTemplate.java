@@ -142,7 +142,7 @@ public class GeoTemplate {
  	}
 
     /**
-     * @param member 用户ID
+     * @param member 用户id
      * @param longitude  用户最新位置经度
      * @param latitude  用户最新位置纬度
      */
@@ -191,7 +191,7 @@ public class GeoTemplate {
 
     public GeoResults<GeoLocation<Object>> getCircleUsersByRadius(String uid, double radius){
     	
-    	// 1、根据UID查询指定UID对应坐标点指定范围内的用户
+    	// 1、根据Uid查询指定Uid对应坐标点指定范围内的用户
         Circle within = new Circle(boundGeoOperations.position(uid).get(0), radius);
         // 1.1、设置geo查询参数
         RedisGeoCommands.GeoRadiusCommandArgs geoRadiusArgs = RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs();

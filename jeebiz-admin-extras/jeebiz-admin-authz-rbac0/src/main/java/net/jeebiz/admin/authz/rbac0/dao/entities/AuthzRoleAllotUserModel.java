@@ -24,11 +24,11 @@ public class AuthzRoleAllotUserModel extends PaginationModel<AuthzRoleAllotUserM
 	 */ 
 	private String id;
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
 	private String roleId;
 	/**
-	 * 用户ID集合
+	 * 用户id集合
 	 */
 	private List<String> userIds;
 }

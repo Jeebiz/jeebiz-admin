@@ -11,10 +11,10 @@ import lombok.Data;
 public class ArticleCategoryRenewDTO {
 
     /**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "文章分类ID")
-	@NotBlank(message = "文章分类ID不能为空")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "文章分类id")
+	@NotBlank(message = "文章分类id不能为空")
 	private String id;
 	/**
 	 * 文章分类名称

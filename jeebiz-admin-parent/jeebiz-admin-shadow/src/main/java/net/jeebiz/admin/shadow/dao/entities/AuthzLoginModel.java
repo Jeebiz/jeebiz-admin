@@ -24,11 +24,11 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 public class AuthzLoginModel extends ShiroPrincipal {
 
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
 	private String id;
 	/**
-	 * 用户唯一UID（用户编号）
+	 * 用户唯一Uid（用户编号）
 	 */
 	private String uid;
 	/**

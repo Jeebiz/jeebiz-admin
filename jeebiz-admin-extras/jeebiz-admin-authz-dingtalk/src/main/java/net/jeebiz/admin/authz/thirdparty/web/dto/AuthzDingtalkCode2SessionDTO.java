@@ -11,24 +11,24 @@ import lombok.Data;
 public class AuthzDingtalkCode2SessionDTO {
 
 	/**
-	 * 第三方平台UnionID（通常指第三方账号体系下用户的唯一ID）
+	 * 第三方平台Unionid（通常指第三方账号体系下用户的唯一id）
 	 */
-	@ApiModelProperty(name = "unionid", dataType = "String", value = "第三方平台UnionID（通常指第三方账号体系下用户的唯一ID）")
+	@ApiModelProperty(name = "unionid", dataType = "String", value = "第三方平台Unionid（通常指第三方账号体系下用户的唯一id）")
 	private String unionid;
 	/**
-	 * 第三方平台OpenID（通常指第三方账号体系下某应用中用户的唯一ID）
+	 * 第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）
 	 */
-	@ApiModelProperty(name = "openid", dataType = "String", value = "第三方平台OpenID（通常指第三方账号体系下某应用中用户的唯一ID）")
+	@ApiModelProperty(name = "openid", dataType = "String", value = "第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）")
 	private String openid;
 	/** 
-	 * 认证登录设备ID
+	 * 认证登录设备id
 	 */
-	@ApiModelProperty(name = "deviceId", dataType = "String", value = "认证登录设备ID")
+	@ApiModelProperty(name = "deviceId", dataType = "String", value = "认证登录设备id")
 	private String deviceId;
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
-	@ApiModelProperty(name = "userid", dataType = "String", value = "用户ID")
+	@ApiModelProperty(name = "userid", dataType = "String", value = "用户id")
 	private String userid;
 	/**
 	 * 用户信息

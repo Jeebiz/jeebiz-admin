@@ -16,9 +16,9 @@ import lombok.Data;
 public class KeyGroupRenewDTO {
 
 	/**
-	 * 数据分组ID
+	 * 数据分组id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "数据分组ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "数据分组id")
 	private String id;
 	/**
 	 * 数据分组键

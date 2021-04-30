@@ -23,7 +23,7 @@ public class AuthzThirdpartyUserProfileModel extends BaseModel<AuthzThirdpartyUs
 	 */
 	private String id;
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
 	private String uid;
 	/**

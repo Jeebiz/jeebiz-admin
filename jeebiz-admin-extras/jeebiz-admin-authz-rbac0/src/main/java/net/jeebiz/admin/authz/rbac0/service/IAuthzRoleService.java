@@ -36,7 +36,7 @@ public interface IAuthzRoleService extends IBaseService<AuthzRoleModel>{
 	
 	/**
 	 * 更新角色状态
-	 * @param roleId 角色ID
+	 * @param roleId 角色id
 	 * @param status 角色状态（0:禁用|1:可用）
 	 * @return
 	 */

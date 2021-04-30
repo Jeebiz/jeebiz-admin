@@ -16,10 +16,10 @@ import lombok.Data;
 public class KeyValueRenewDTO {
 
 	/**
-	 * 基础数据ID编号
+	 * 基础数据id编号
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "基础数据ID编号")
-	@NotBlank(message = "基础数据ID必填")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "基础数据id编号")
+	@NotBlank(message = "基础数据id必填")
 	private String id;
 	/**
 	 * 基础数据键

@@ -18,7 +18,7 @@ public interface IAuthzRolePermsService extends IBaseService<AuthzRolePermsModel
     
 	/**
 	 * 查询角色具备的权限标记 
-	 * @param roleId 角色ID
+	 * @param roleId 角色id
 	 * @return 角色具备的权限标记
 	 */
 	public List<String> getPermissions(String roleId);

@@ -13,12 +13,12 @@ create table sys_authz_role_list (
   r_status		VARCHAR2(2) default 1,
   R_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT UNIQUE_r_key UNIQUE(r_key),
-  CONSTRAINT PK_RID PRIMARY KEY(r_id)
+  CONSTRAINT PK_Rid PRIMARY KEY(r_id)
 );
 -- Add comments to the table 
 comment on table sys_authz_role_list  is '角色信息表';
 -- Add comments to the columns 
-comment on column sys_authz_role_list.r_id  is '角色ID';
+comment on column sys_authz_role_list.r_id  is '角色id';
 comment on column sys_authz_role_list.r_key  is '角色编码';
 comment on column sys_authz_role_list.r_name  is '角色名称';
 comment on column sys_authz_role_list.r_type  is '角色类型（1:原生|2:继承|3:复制|4:自定义）';
@@ -30,12 +30,12 @@ comment on column sys_authz_role_list.R_time24  is '初始化时间';
 create table sys_authz_role_perms (
   r_id   		VARCHAR2(32) not null,
   perms 		VARCHAR2(50) not null,
-  CONSTRAINT UNIQUE_RID_perms UNIQUE(r_id, perms)
+  CONSTRAINT UNIQUE_Rid_perms UNIQUE(r_id, perms)
 );
 -- Add comments to the table 
 comment on table sys_authz_role_perms  is '角色-权限关系表（角色-菜单-按钮）';
 -- Add comments to the columns 
-comment on column sys_authz_role_perms.r_id  is '角色ID';
+comment on column sys_authz_role_perms.r_id  is '角色id';
 comment on column sys_authz_role_perms.perms  is '权限标记：(等同sys_authz_feature_opts.opt_perms)';
 
 -- Create table
@@ -56,20 +56,20 @@ create table sys_authz_user_list (
   u_time24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT idx_uname UNIQUE(u_username),
   CONSTRAINT idx_uuid UNIQUE(u_uid),
-  CONSTRAINT PK_UID PRIMARY KEY(u_id)
+  CONSTRAINT PK_Uid PRIMARY KEY(u_id)
 );
 -- Add comments to the table 
 comment on table sys_authz_user_list  is '用户账户信息表';
 -- Add comments to the columns 
-comment on column sys_authz_user_list.u_id  is '用户ID';
+comment on column sys_authz_user_list.u_id  is '用户id';
 comment on column sys_authz_user_list.u_username  is '用户名';
 comment on column sys_authz_user_list.u_password  is '用户密码';
 comment on column sys_authz_user_list.u_salt  is '用户密码盐：用于密码加解密';
 comment on column sys_authz_user_list.u_secret  is '用户秘钥：用于用户JWT加解密';
 comment on column sys_authz_user_list.u_status  is '用户状态（0:禁用|1:可用|2:锁定）';
-comment on column sys_authz_user_list.u_uid  is '用户唯一UID（用户编号）';
+comment on column sys_authz_user_list.u_uid  is '用户唯一Uid（用户编号）';
 comment on column sys_authz_user_list.u_code  is '用户唯一编号（内部工号）';
-comment on column sys_authz_user_list.u_app_id  is '用户客户端应用ID';
+comment on column sys_authz_user_list.u_app_id  is '用户客户端应用id';
 comment on column sys_authz_user_list.u_app_channel  is '用户客户端应用渠道编码';
 comment on column sys_authz_user_list.u_app_version  is '用户客户端版本';
 comment on column sys_authz_user_list.u_online  is '用户是否在线（1：是，0：否）';
@@ -78,7 +78,7 @@ comment on column sys_authz_user_list.u_time24  is '初始化时间';
 
 -- Create table
 create table sys_authz_user_profile (
-  U_PID   			VARCHAR2(32) default sys_guid() not null,
+  U_Pid   			VARCHAR2(32) default sys_guid() not null,
   u_id   			VARCHAR2(32) not null,
   u_nickname		VARCHAR2(100) not null,
   u_avatar			VARCHAR2(300),
@@ -101,13 +101,13 @@ create table sys_authz_user_profile (
   u_wgs84_lat		VARCHAR2(50),
   u_degree			VARCHAR2(3),
   u_time24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  CONSTRAINT PK_UID PRIMARY KEY(U_PID)
+  CONSTRAINT PK_Uid PRIMARY KEY(U_Pid)
 );
 -- Add comments to the table 
 comment on table sys_authz_user_profile  is '用户描述信息表';
 -- Add comments to the columns 
-comment on column sys_authz_user_profile.U_PID  is '用户描述ID';
-comment on column sys_authz_user_profile.u_id  is '用户ID';
+comment on column sys_authz_user_profile.U_Pid  is '用户描述id';
+comment on column sys_authz_user_profile.u_id  is '用户id';
 comment on column sys_authz_user_profile.u_nickname  is '用户昵称';
 comment on column sys_authz_user_profile.u_avatar  is '用户头像：图片路径或图标样式';
 comment on column sys_authz_user_profile.u_phone  is '手机号码';
@@ -134,12 +134,12 @@ create table sys_authz_user_role_relation (
   u_id   			VARCHAR2(32) not null,
   r_id   			VARCHAR2(32) not null,
   R_PRTY			VARCHAR2(2) default '0',
-  CONSTRAINT UNIQUE_UID_RID UNIQUE(u_id, r_id)
+  CONSTRAINT UNIQUE_Uid_Rid UNIQUE(u_id, r_id)
 );
 -- Add comments to the table 
 comment on table sys_authz_user_role_relation  is '用户-角色关系表';
 -- Add comments to the columns 
-comment on column sys_authz_user_role_relation.u_id  is '用户ID';
-comment on column sys_authz_user_role_relation.r_id  is '角色ID';
+comment on column sys_authz_user_role_relation.u_id  is '用户id';
+comment on column sys_authz_user_role_relation.r_id  is '角色id';
 comment on column sys_authz_user_role_relation.R_PRTY  is '优先级：用于默认登录角色';
 

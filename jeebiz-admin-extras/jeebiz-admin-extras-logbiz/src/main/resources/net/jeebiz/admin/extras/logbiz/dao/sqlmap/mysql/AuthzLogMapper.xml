@@ -4,9 +4,9 @@
 <mapper namespace="net.jeebiz.admin.extras.logbiz.dao.IAuthzLogDao" >
 	
 	<resultMap id="AuthzLogMap" type="AuthzLogModel">
-		<result property="id" column="LOG_ID" />
-		<result property="userId" column="LOG_USERID" />
-		<result property="userName" column="LOG_USERNAME" />
+		<result property="id" column="LOG_id" />
+		<result property="userId" column="LOG_USERid" />
+		<result property="userName" column="LOG_USERname" />
 		<result property="opt" column="LOG_OPT" />
 		<result property="protocol" column="LOG_PROTOCOL" />
 		<result property="addr" column="LOG_ADDR" />
@@ -19,9 +19,9 @@
 	 
 	<select id="getPagedList" resultMap="AuthzLogMap" parameterType="AuthzLogModel">
 		SELECT
-			t.LOG_ID,
-			t.CREATOR as LOG_USERID,
-			t2.u_username as LOG_USERNAME,
+			t.LOG_id,
+			t.CREATOR as LOG_USERid,
+			t2.u_username as LOG_USERname,
 			t.LOG_OPT,
 			t.LOG_PROTOCOL,
 			t.LOG_ADDR,

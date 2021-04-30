@@ -33,9 +33,9 @@ public class AuthzWeixinMaConfigDTO {
 	@ApiModelProperty(name = "timestamp", dataType = "Long", value = "生成签名的时间戳")
 	private long timestamp;
 	/**
-	 * 消息模板ID
+	 * 消息模板id
 	 */
-	@ApiModelProperty(name = "tmplIds", dataType = "String[]", value = "消息模板ID")
+	@ApiModelProperty(name = "tmplIds", dataType = "String[]", value = "消息模板id")
 	private String[] tmplIds;
 	
 }

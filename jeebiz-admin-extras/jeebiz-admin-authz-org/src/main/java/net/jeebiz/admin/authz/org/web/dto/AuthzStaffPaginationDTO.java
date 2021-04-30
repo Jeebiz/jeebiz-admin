@@ -18,24 +18,24 @@ import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 public class AuthzStaffPaginationDTO extends AbstractPaginationDTO {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构ID编号")
+	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构id编号")
 	private String orgId;
 	/**
-	 * 部门ID编号
+	 * 部门id编号
 	 */
-	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门ID编号")
+	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门id编号")
 	private String deptId;
 	/**
-	 * 团队ID编号
+	 * 团队id编号
 	 */
-	@ApiModelProperty(name = "teamId", dataType = "String", value = "团队ID编号")
+	@ApiModelProperty(name = "teamId", dataType = "String", value = "团队id编号")
 	private String teamId;
 	/**
-	 * 岗位ID编号
+	 * 岗位id编号
 	 */
-	@ApiModelProperty(name = "postId", dataType = "String", value = "岗位ID编号")
+	@ApiModelProperty(name = "postId", dataType = "String", value = "岗位id编号")
 	private String postId;
 	/**
 	 * 员工名称

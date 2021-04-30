@@ -86,17 +86,17 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 	        SimpleHash hash = new SimpleHash(algorithmName, defaultPassword, salt, hashIterations);
 	        userModel.setSalt(salt);
 	        userModel.setPassword(hash.toBase64());
-	        // UID检查重复
+	        // Uid检查重复
 	 		String uid = randomString.nextNumberString();
 	 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
 	 			uid = randomString.nextNumberString();
 	 		}
 	 		userModel.setUid(uid);
 			userModel.setUsername(phoneNumberInfo.getPurePhoneNumber());
-			String appId = request.getHeader(XHeaders.X_APP_ID);
+			String appId = request.getHeader(XHeaders.X_APP_id);
 			String appChannel = request.getHeader(XHeaders.X_APP_CHANNEL);
 			String appVersion = request.getHeader(XHeaders.X_APP_VERSION);
-			log.info(XHeaders.X_APP_ID + "：{}", appId);
+			log.info(XHeaders.X_APP_id + "：{}", appId);
 			log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 			log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
 			userModel.setAppId(appId);

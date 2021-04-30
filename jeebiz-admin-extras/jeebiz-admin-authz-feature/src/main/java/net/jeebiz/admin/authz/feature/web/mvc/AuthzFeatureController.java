@@ -190,11 +190,11 @@ public class AuthzFeatureController extends BaseMapperController{
 		return fail("feature.renew.fail", total);
 	}
 	
-	@ApiOperation(value = "查询功能菜单信息", notes = "根据功能菜单ID查询功能菜单信息")
+	@ApiOperation(value = "查询功能菜单信息", notes = "根据功能菜单id查询功能菜单信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "功能菜单ID", dataType = "String")
+		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "功能菜单id", dataType = "String")
 	})
-	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单-ID：${featureid}", opt = BusinessType.SELECT)
+	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单-id：${featureid}", opt = BusinessType.SELECT)
 	@PostMapping("detail")
 	@RequiresPermissions("feature:detail")
 	@ResponseBody
@@ -208,7 +208,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	
 	@ApiOperation(value = "删除功能菜单信息", notes = "删除功能菜单信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "path", name = "id", required = true, value = "功能菜单ID", dataType = "String")
+		@ApiImplicitParam( paramType = "path", name = "id", required = true, value = "功能菜单id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "删除功能菜单-名称：${featureid}", opt = BusinessType.DELETE)
 	@PostMapping("delete")

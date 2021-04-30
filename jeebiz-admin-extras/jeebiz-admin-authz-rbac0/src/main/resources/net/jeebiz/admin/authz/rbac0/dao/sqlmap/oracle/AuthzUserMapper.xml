@@ -3,9 +3,9 @@
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.IAuthzUserDao">
 	
 	<resultMap id="UserMap" type="AuthzUserModel">
-		<!-- 用户ID -->
+		<!-- 用户id -->
 		<result property="id" column="u_id" />
-		<!-- 用户唯一UID（用户编号） -->
+		<!-- 用户唯一Uid（用户编号） -->
 		<result property="uid" column="u_uid" />
 		<!-- 用户唯一编号（内部工号） -->
 		<result property="ucode" column="u_code" />
@@ -17,7 +17,7 @@
         <result property="salt" column="u_salt"/>
         <!-- 用户秘钥：用于用户JWT加解密 -->
         <result property="secret" column="u_secret"/>
-        <!-- 用户客户端应用ID -->
+        <!-- 用户客户端应用id -->
         <result property="appId" column="u_app_id"/>
         <!-- 用户客户端应用渠道编码  -->
 		<result property="appChannel" column="u_app_channel" />
@@ -31,7 +31,7 @@
         <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
         <result property="time24" column="u_time24"/>
-        <!-- 角色ID（可能多个组合，如：1,2） -->
+        <!-- 角色id（可能多个组合，如：1,2） -->
 		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
 		<result property="roleName" column="r_name" />
@@ -42,9 +42,9 @@
 	</resultMap>
 	
 	<resultMap id="UserProfileMap" type="AuthzUserProfileModel">
-        <!-- 用户描述ID -->
-		<result property="id" column="U_PID" />
-		<!-- 用户ID -->
+        <!-- 用户描述id -->
+		<result property="id" column="U_Pid" />
+		<!-- 用户id -->
 		<result property="uid" column="u_id" />
         <!-- 用户别名（昵称） -->
         <result property="nickname" column="u_nickname"/>
@@ -91,7 +91,7 @@
 	</resultMap>
 	
 	<resultMap id="RoleMap" type="AuthzRoleModel">
-		<!-- 角色ID -->
+		<!-- 角色id -->
 		<result property="id" column="r_id" />
 		<!-- 角色编码 -->
 		<result property="key" column="r_key" />
@@ -388,7 +388,7 @@
 	
 	<select id="getProfile" resultMap="UserProfileMap" useCache="false">
 		SELECT
-			t.U_PID,
+			t.U_Pid,
 			t.u_id,
 			t.u_nickname,
 			t.u_avatar,

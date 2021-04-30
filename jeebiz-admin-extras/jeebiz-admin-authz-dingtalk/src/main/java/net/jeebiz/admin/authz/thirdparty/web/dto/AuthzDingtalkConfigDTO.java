@@ -25,9 +25,9 @@ public class AuthzDingtalkConfigDTO {
 	 */
 	private long timestamp;
 	/**
-	 * 企业ID，在开发者后台中企业视图下开发者账号设置里面可以看到
+	 * 企业id，在开发者后台中企业视图下开发者账号设置里面可以看到
 	 */
-	@ApiModelProperty(name = "corpId", dataType = "String", value = "企业ID")
+	@ApiModelProperty(name = "corpId", dataType = "String", value = "企业id")
 	private String corpId;
 	/**
 	 * 签名信息

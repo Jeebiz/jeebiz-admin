@@ -22,7 +22,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class BizLogModel extends PaginationModel<BizLogModel> {
 
 	/**
-	 * 日志ID
+	 * 日志id
 	 */
 	private String id;
 	/**
@@ -50,7 +50,7 @@ public class BizLogModel extends PaginationModel<BizLogModel> {
 	 */
 	private String exception;
 	/**
-	 * 功能操作人ID
+	 * 功能操作人id
 	 */
 	private String userId;
 	/**

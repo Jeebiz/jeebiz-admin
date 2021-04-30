@@ -77,7 +77,7 @@ public class AuthzThirdpartyController extends BaseMapperController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "type", required = true, value = "第三方账号类型：(wxma:微信小程序,wxmp:微信公众号,qq:腾讯QQ,weibo:新浪微博,yiban:易班,)", dataType = "String", 
 				allowableValues = "wxma,wxmp,qq,weibo,yiban"),
-		@ApiImplicitParam(name = "openid", required = true, value = "第三方平台OpenID（通常指第三方账号体系下某应用中用户的唯一ID）", dataType = "String")
+		@ApiImplicitParam(name = "openid", required = true, value = "第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_THIRDPT, business = "删除登录账号绑定的第三方登录账号", opt = BusinessType.DELETE)
 	@GetMapping("unbind")

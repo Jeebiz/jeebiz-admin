@@ -27,14 +27,14 @@ public class OnlineSessionModel extends PaginationModel<OnlineSessionModel> {
 	
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 	/**
-	 * 回话记录ID
+	 * 回话记录id
 	 */
 	private String id;
 	/** 当前登录的用户Id */
     private String userid;
     /** 当前登录的用户名称 */
     private String username;
-	/** 用户会话ID编号 */
+	/** 用户会话id编号 */
 	private String sessionId;
 	/** 用户主机地址 */
 	private String host;

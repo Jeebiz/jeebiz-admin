@@ -17,9 +17,9 @@ import lombok.ToString;
 public class ArticleAuthorDTO {
 
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "用户ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "用户id")
 	private String id;
 	/**
 	 * 用户别名（昵称）

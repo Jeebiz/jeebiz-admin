@@ -9,14 +9,14 @@ import lombok.Data;
 public class ArticleAttachmentDTO {
 	
 	/**
-	 * 文章附件ID
+	 * 文章附件id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章附件ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章附件id")
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
 	 * 文章附件类型（1：标题图片，2：内容图片，3：文件普通附件）

@@ -23,9 +23,9 @@ import lombok.ToString;
 public class AuthzFeatureDTO implements Comparable<AuthzFeatureDTO>{
 
 	/**
-	 * 功能菜单ID
+	 * 功能菜单id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "功能菜单ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "功能菜单id")
 	private String id;
 	/**
 	 * 功能菜单名称
@@ -73,11 +73,11 @@ public class AuthzFeatureDTO implements Comparable<AuthzFeatureDTO>{
 	@ApiModelProperty(name = "order", dataType = "String", value = "菜单显示顺序")
 	private String order;
 	/**
-	 * 父级功能菜单ID
+	 * 父级功能菜单id
 	 */
-	@ApiModelProperty(name = "parent", dataType = "String", value = "父级功能菜单ID")
+	@ApiModelProperty(name = "parent", dataType = "String", value = "父级功能菜单id")
 	private String parent;
-	@ApiModelProperty(name = "pid", dataType = "String", value = "父级功能菜单ID")
+	@ApiModelProperty(name = "pid", dataType = "String", value = "父级功能菜单id")
 	private String pid;
 	/**
 	 * 菜单是否可见(1:可见|0:不可见)

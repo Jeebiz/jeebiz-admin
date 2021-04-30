@@ -9,14 +9,14 @@ import lombok.Data;
 public class ArticleTagDTO {
 	
 	/**
-	 * 文章标签ID
+	 * 文章标签id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章标签ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章标签id")
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
 	 * 文章标签名称

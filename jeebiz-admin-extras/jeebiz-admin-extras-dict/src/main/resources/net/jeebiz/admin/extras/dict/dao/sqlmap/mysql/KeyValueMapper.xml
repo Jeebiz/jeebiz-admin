@@ -4,11 +4,11 @@
 <mapper namespace="net.jeebiz.admin.extras.dict.dao.IKeyValueDao" >
 	
 	<resultMap id="KeyValueMap" type="KeyValueModel">
-		<result property="id" column="D_ID" />
+		<result property="id" column="d_id" />
 		<result property="gkey" column="d_group_KEY" />
 		<result property="gtext" column="d_group_TEXT" />
-		<result property="label" column="D_LABEL" />
-		<result property="key" column="D_KEY" />
+		<result property="label" column="d_label" />
+		<result property="key" column="d_key" />
 		<result property="value" column="D_VALUE" />
 		<result property="text" column="D_TEXT" />
 		<result property="status" column="d_status" />
@@ -16,17 +16,17 @@
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="D_KEY" />
+		<result property="key" column="d_key" />
 		<result property="value" column="D_VALUE" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="KeyValueModel" flushCache="true">
-		insert into SYS_DATA_PAIRVALUE(d_group,D_LABEL,D_KEY,D_VALUE,D_TEXT,d_status,d_order)
+		insert into SYS_DATA_PAIRVALUE(d_group,d_label,d_key,D_VALUE,D_TEXT,d_status,d_order)
 		values(#{gkey},#{label},#{key},#{value},#{text,jdbcType=VARCHAR},#{status},#{order})
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_DATA_PAIRVALUE WHERE D_ID IN 
+		DELETE FROM SYS_DATA_PAIRVALUE WHERE d_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -35,39 +35,39 @@
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_DATA_PAIRVALUE t 
 		   SET d_status = #{status}
-		 WHERE D_ID = #{id}
+		 WHERE d_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="KeyValueModel" flushCache="true">
 		UPDATE SYS_DATA_PAIRVALUE t 
-		   SET D_LABEL = #{label},
+		   SET d_label = #{label},
 		   	   D_VALUE = #{value},
 		   	   D_TEXT = #{text,jdbcType=VARCHAR},
 		       d_status = #{status},
 		       d_order = #{order}
-		 WHERE D_ID = #{id}
+		 WHERE d_id = #{id}
 	</update>
 	
 	<update id="batchUpdate" flushCache="true">
     	<foreach collection="list" index="index" item="item" open="" separator=";" close="">  
             update SYS_DATA_PAIRVALUE 
-               set D_LABEL = #{item.label},
+               set d_label = #{item.label},
                	   D_VALUE = #{item.value},
                	   D_TEXT = #{item.text,jdbcType=VARCHAR},
                	   d_status = #{item.status},
 		       	   d_order = #{item.order}
-             WHERE D_ID = #{item.id} 
+             WHERE d_id = #{item.id}
                AND d_group = #{item.gkey}
         </foreach>
     </update>
     
 	<select id="getPagedList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.D_ID,
+			t.d_id,
 			t.d_group as d_group_KEY,
 			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.d_group) as d_group_TEXT,
-			t.D_LABEL,
-			t.D_KEY,
+			t.d_label,
+			t.d_key,
 			t.D_VALUE,
 			t.D_TEXT,
 			t.d_status,
@@ -83,26 +83,26 @@
 	
 	<select id="getModel" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.D_ID,
+			t.d_id,
 			t.d_group as d_group_KEY,
 			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.d_group) as d_group_TEXT,
-			t.D_LABEL,
-			t.D_KEY,
+			t.d_label,
+			t.d_key,
 			t.D_VALUE,
 			t.D_TEXT,
 			t.d_status,
 			t.d_order
 		FROM SYS_DATA_PAIRVALUE t
-		WHERE t.D_ID = #{id} 
+		WHERE t.d_id = #{id}
 	</select>
 	
 	<select id="getModelList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.D_ID,
+			t.d_id,
 			t.d_group as d_group_KEY,
 			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.d_group) as d_group,
-			t.D_LABEL,
-			t.D_KEY,
+			t.d_label,
+			t.d_key,
 			t.D_VALUE,
 			t.D_TEXT,
 			t.d_status,
@@ -114,10 +114,10 @@
 	
 	<select id="getKeyValueList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.D_ID,
+			t.d_id,
 			t.d_group as d_group_KEY,
-			t.D_LABEL,
-			t.D_KEY,
+			t.d_label,
+			t.d_key,
 			t.D_VALUE,
 			t.D_TEXT,
 			t.d_status,
@@ -136,14 +136,14 @@
 	<select id="getGroupList" resultType="java.lang.String" useCache="false">
 		 SELECT DISTINCT t.d_group
 		   FROM SYS_DATA_PAIRVALUE t
-		    WHERE t.D_ID IN
+		    WHERE t.d_id IN
 		<foreach collection="gkeys" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</select>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-		   SELECT t.D_KEY,t.D_VALUE
+		   SELECT t.d_key,t.D_VALUE
 			 FROM SYS_DATA_PAIRVALUE t 
 			WHERE t.d_group = #{key}
 			  AND t.d_status = 1
@@ -151,16 +151,16 @@
 	</select>
 	
 	<select id="getValue" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
-		 SELECT t.d_group FROM SYS_DATA_PAIRVALUE t  WHERE t.D_ID = #{key}
+		 SELECT t.d_group FROM SYS_DATA_PAIRVALUE t  WHERE t.d_id = #{key}
 	</select>
 	
 	<select id="getCount" parameterType="KeyValueModel" resultType="java.lang.Integer" useCache="false">
 		SELECT COUNT(1)  
 		  FROM SYS_DATA_PAIRVALUE t 
 		 WHERE t.d_group = #{gkey}
-		   AND t.D_KEY = #{key}
+		   AND t.d_key = #{key}
 		   <if test="id != null and id != ''">
-			AND t.D_ID != #{id}
+			AND t.d_id != #{id}
 		   </if>
 		  LIMIT 1
 	</select>

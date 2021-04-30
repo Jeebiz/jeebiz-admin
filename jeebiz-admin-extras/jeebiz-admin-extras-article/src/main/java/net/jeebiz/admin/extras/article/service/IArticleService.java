@@ -8,7 +8,7 @@ public interface IArticleService extends IBaseService<ArticleModel> {
 
 	/**
 	 * 
-	 * @param id 文章ID
+	 * @param id 文章id
 	 * @param status 文章推荐（0:未推荐|1:推荐）
 	 * @return
 	 */
@@ -16,7 +16,7 @@ public interface IArticleService extends IBaseService<ArticleModel> {
 	
 	/**
 	 * 
-	 * @param id 文章ID
+	 * @param id 文章id
 	 * @param status 文章审核状态（0:未通过|1:通过）
 	 * @return
 	 */

@@ -10,9 +10,9 @@ import net.jeebiz.boot.api.annotation.AllowableValues;
 public class InformSendDTO {
 
 	/**
-	 * 消息通知通知对象ID（钉钉UserId）
+	 * 消息通知通知对象id（钉钉UserId）
 	 */
-	@ApiModelProperty(name = "userId", dataType = "String", value = "消息通知通知对象ID（钉钉UserId）")
+	@ApiModelProperty(name = "userId", dataType = "String", value = "消息通知通知对象id（钉钉UserId）")
 	private String userId;
 	/**
 	 * 消息通知标题

@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.ops.dao.IDayOpsStatsDao;
+import net.jeebiz.admin.extras.ops.dao.idayOpsStatsDao;
 import net.jeebiz.admin.extras.ops.dao.entities.DayOpsStatsEntity;
 import net.jeebiz.admin.extras.ops.web.dto.DayOpsStatsDTO;
 import net.jeebiz.boot.api.utils.RandomString;
@@ -30,7 +30,7 @@ public class QuartzConfiguration implements InitializingBean {
 	private RandomString randomString = new RandomString(7);
 	
 	@Autowired
-	private IDayOpsStatsDao dayOpsStatsDao;	
+	private idayOpsStatsDao dayOpsStatsDao;
 	 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -66,7 +66,7 @@ public class QuartzConfiguration implements InitializingBean {
 	}
 	 
 	
-	public IDayOpsStatsDao getDayOpsStatsDao() {
+	public idayOpsStatsDao getDayOpsStatsDao() {
 		return dayOpsStatsDao;
 	}
 	

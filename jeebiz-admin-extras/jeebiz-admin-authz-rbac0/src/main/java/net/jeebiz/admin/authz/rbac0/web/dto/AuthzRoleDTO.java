@@ -21,9 +21,9 @@ import lombok.ToString;
 public class AuthzRoleDTO {
 
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
-	@ApiModelProperty(name = "id", dataType = "Integer", value = "角色ID")
+	@ApiModelProperty(name = "id", dataType = "Integer", value = "角色id")
 	private String id;
 	/**
 	 * 角色编码

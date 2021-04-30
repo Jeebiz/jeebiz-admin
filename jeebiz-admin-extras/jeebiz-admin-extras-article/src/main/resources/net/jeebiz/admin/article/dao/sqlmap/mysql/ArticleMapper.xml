@@ -5,42 +5,42 @@
 	<resultMap id="ArticleMap" type="ArticleModel">
         <!-- 文章D -->
 		<result property="id" column="c_id" />
-		<!-- 文章栏目ID -->
-		<result property="tid" column="C_TID" />
+		<!-- 文章栏目id -->
+		<result property="tid" column="c_tid" />
 		<!-- 文章栏目名称 -->
-		<result property="tname" column="C_TNAME" />
-		<!-- 文章分类ID -->
-		<result property="cid" column="C_CID" />
+		<result property="tname" column="c_tname" />
+		<!-- 文章分类id -->
+		<result property="cid" column="c_cid" />
 		<!-- 文章分类名称 -->
-		<result property="cname" column="C_CNAME" />
-		<!-- 文章发布者ID -->
-		<result property="uid" column="C_UID" />
+		<result property="cname" column="c_cname" />
+		<!-- 文章发布者id -->
+		<result property="uid" column="c_uid" />
 		<!-- 文章发布者姓名 -->
-		<result property="uname" column="C_UNAME" />
+		<result property="uname" column="c_uname" />
 		<!-- 文章标题 -->
-		<result property="title" column="C_TITLE" />
+		<result property="title" column="c_title" />
 		<!-- 文章摘要 -->
-		<result property="digest" column="C_DIGEST" />
+		<result property="digest" column="c_digest" />
 		<!-- 文章内容 -->
-		<result property="content" column="C_CONTENT" />
+		<result property="content" column="c_content" />
 		<!-- 文章审核状态（0:未提交|1:待审核|2:审核通过|2:审核不通过） -->
-		<result property="review" column="C_REVIEW" />
+		<result property="review" column="c_review" />
 		<!-- 文章状态（0:禁用|1:可用） -->
-		<result property="status" column="C_STATUS" />
+		<result property="status" column="c_status" />
 		<!-- 文章是否推荐（0:未推荐|1:推荐） -->
-		<result property="recommend" column="C_RCMD" />
+		<result property="recommend" column="c_rcmd" />
 		<!-- 文章排序 -->
-		<result property="order" column="C_ORDER" />
+		<result property="order" column="c_order" />
 		<!-- 文章浏览数 -->
-		<result property="browse" column="C_BROWSE" />
+		<result property="browse" column="c_browse" />
 		<!-- 文章收藏数 -->
-		<result property="collect" column="C_COLLECT" />
+		<result property="collect" column="c_collect" />
 		<!-- 文章点赞数 -->
-		<result property="liked" column="C_LIKED" />
+		<result property="liked" column="c_liked" />
 		<!-- 文章发布时间 -->
-		<result property="ptime24" column="C_Ptime24" />
+		<result property="ptime24" column="c_ptime24" />
 		<!-- 文章创建时间 -->
-		<result property="time24" column="C_time24" />
+		<result property="time24" column="c_time24" />
 		<!-- 文章发布对象 -->
         <collection property="targets" column="{cid=c_id}" select="getTargets"> </collection>
         <!-- 文章标签信息 -->
@@ -52,268 +52,265 @@
     <resultMap id="ArticleDetailMap" extends="ArticleMap" type="net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO">
     	<!-- 文章作者信息 -->
         <association property="author" javaType="net.jeebiz.admin.extras.article.web.dto.ArticleAuthorDTO"/>
-        <!-- 文章评论信息 -->
-        <collection property="comments" column="{cid=c_id}" select="getComments"> </collection>
     </resultMap>
 	
 	 <resultMap id="ArticleTargetMap" type="ArticleTargetModel">
-	    <!-- 文章发布对象记录ID -->
+	    <!-- 文章发布对象记录id -->
 		<result property="id" column="t_id" />
-		<!-- 文章ID -->
-		<result property="cid" column="T_CID" />
-		<!-- 文章发布对象ID（学院ID|专业ID|班级ID|账户ID） -->
-		<result property="tid" column="T_TID" />
+		<!-- 文章id -->
+		<result property="cid" column="t_cid" />
+		<!-- 文章发布对象id（学院id|专业id|班级id|账户id） -->
+		<result property="tid" column="t_tid" />
 		<!-- 文章发布对象名称（学院|专业|班级|账户） -->
-		<result property="tname" column="T_TNAME" />
+		<result property="tname" column="t_tname" />
     </resultMap>
     
 	<resultMap id="ArticleTagMap" type="ArticleTagModel">
-        <!-- 文章标签ID -->
+        <!-- 文章标签id -->
 		<result property="id" column="t_id" />
-		<!-- 文章ID -->
-		<result property="cid" column="T_CID" />
+		<!-- 文章id -->
+		<result property="cid" column="t_cid" />
 		<!-- 文章标签名称 -->
-		<result property="name" column="T_NAME" />
+		<result property="name" column="t_name" />
 		<!-- 文章标签设置时间 -->
 		<result property="time24" column="T_time24" />
     </resultMap>
     
 	<resultMap id="ArticleAttachmentMap" type="ArticleAttachmentModel">
-        <!-- 文章附件ID -->
-		<result property="id" column="A_ID" />
-		<!-- 文章ID -->
-		<result property="cid" column="A_CID" />
+        <!-- 文章附件id -->
+		<result property="id" column="a_id" />
+		<!-- 文章id -->
+		<result property="cid" column="a_cid" />
 		<!-- 文章附件类型（1：标题图片，2：内容图片，3：文件普通附件） -->
-		<result property="type" column="A_TYPE" />
+		<result property="type" column="a_type" />
 		<!-- 文章附件名称 -->
-		<result property="name" column="A_NAME" />
+		<result property="name" column="a_name" />
 		<!-- 文章附件存储路径（相对地址） -->
-		<result property="path" column="A_PATH" />
+		<result property="path" column="a_path" />
 		<!-- 文章附件排序 -->
-		<result property="order" column="A_ORDER" />
+		<result property="order" column="a_order" />
 		<!-- 文章附件上传时间 -->
-		<result property="time24" column="A_time24" />
+		<result property="time24" column="a_time24" />
     </resultMap>
     
     <resultMap id="ArticleCommentMap" type="ArticleCommentModel">
-        <!-- 文章评论ID -->
+        <!-- 文章评论id -->
 		<result property="id" column="c_id" />
-		<!-- 文章ID -->
-		<result property="cid" column="C_CID" />
-		<!-- 上级文章评论ID -->
-		<result property="pid" column="C_PID" />
-		<!-- 文章评论者ID -->
-		<result property="uid" column="C_UID" />
+		<!-- 文章id -->
+		<result property="cid" column="c_cid" />
+		<!-- 上级文章评论id -->
+		<result property="pid" column="c_pid" />
+		<!-- 文章评论者id -->
+		<result property="uid" column="c_uid" />
 		<!-- 文章评论者姓名 -->
-		<result property="uname" column="C_UNAME" />
+		<result property="uname" column="c_uname" />
 		<!-- 文章评论类型 -->
 		<result property="type" column="C_TYPE" />
 		<!-- 文章评论内容 -->
 		<result property="text" column="C_TEXT" />
 		<!-- 文章评论审核状态（0:未通过|1:通过） -->
-		<result property="review" column="C_REVIEW" />
+		<result property="review" column="c_review" />
 		<!-- 文章评论状态（0:删除|1:正常） -->
-		<result property="status" column="C_STATUS" />
+		<result property="status" column="c_status" />
 		<!-- 文章评论推荐（0:未推荐|1:推荐） -->
-		<result property="recommend" column="C_RCMD" />
+		<result property="recommend" column="c_rcmd" />
 		<!-- 文章评论排序 -->
-		<result property="order" column="C_ORDER" />
+		<result property="order" column="c_order" />
 		<!-- 文章评论时间 -->
-		<result property="time24" column="C_time24" />
+		<result property="time24" column="c_time24" />
     </resultMap>
     
 	<insert id="insert" parameterType="ArticleModel" flushCache="true">
 		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
 	        SELECT sys_guid() FROM dual
 	    </selectKey>
-		INSERT INTO SYS_ARTICLE_CONTENTS(c_id,C_TID,C_UID,C_CID,C_TITLE,C_DIGEST,C_CONTENT,C_ORDER)
-		VALUES (#{id},#{tid},#{uid},(SELECT x.T_CID from SYS_ARTICLE_TOPIC x where x.t_id = #{tid}),#{title},#{digest},#{content},#{order})
+		INSERT INTO sys_article_contents(c_id,c_tid,c_uid,c_cid,c_title,c_digest,c_content,c_order)
+		VALUES (#{id},#{tid},#{uid},(SELECT x.t_cid from sys_article_topic x where x.t_id = #{tid}),#{title},#{digest},#{content},#{order})
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENTS WHERE c_id IN
+		DELETE FROM sys_article_contents WHERE c_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
 	
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENTS t 
-		   SET C_STATUS = #{status}
+		UPDATE sys_article_contents t
+		   SET c_status = #{status}
 		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENTS t 
-		   SET C_RCMD = #{status}
+		UPDATE sys_article_contents t
+		   SET c_rcmd = #{status}
 		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setReview" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENTS t 
-		   SET C_REVIEW = #{status}
+		UPDATE sys_article_contents t
+		   SET c_review = #{status}
 		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="ArticleModel" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENTS t 
-		   SET C_TID =  #{tid},
-		   	   C_CID = #{cid},
-		   	   C_TITLE = #{title},
-		   	   C_STATUS = #{status},
-		   	   C_DIGEST = #{digest},
-		   	   C_CONTENT = #{content},
-		       C_ORDER = #{order}
+		UPDATE sys_article_contents t
+		   SET c_tid =  #{tid},
+		   	   c_cid = #{cid},
+		   	   c_title = #{title},
+		   	   c_status = #{status},
+		   	   c_digest = #{digest},
+		   	   c_content = #{content},
+		       c_order = #{order}
 		 WHERE c_id = #{id}
 	</update>
 	
 	<select id="getPagedList" resultMap="ArticleMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_TID,
-			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.t_id = t.C_TID) as C_TNAME,
-			t.C_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
-			t.C_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.C_CID) as C_CNAME,
-			t.C_TITLE,
-			t.C_DIGEST,
-			t.C_CONTENT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_ORDER,
-			t.C_RCMD,
-			t.C_BROWSE,
-			t.C_COLLECT,
-			t.C_LIKED,
-			t.C_Ptime24,
-			t.C_time24
-		FROM SYS_ARTICLE_CONTENTS t
+			t.c_tid,
+			(SELECT x.t_name from sys_article_topic x where x.t_id = t.c_tid) as c_tname,
+			t.c_uid,
+			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			t.c_cid,
+			(SELECT x.C_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
+			t.c_title,
+			t.c_digest,
+			t.c_content,
+			t.c_review,
+			t.c_status,
+			t.c_order,
+			t.c_rcmd,
+			t.c_browse,
+			t.c_collect,
+			t.c_liked,
+			t.c_ptime24,
+			t.c_time24
+		FROM sys_article_contents t
 		<where>
 			<if test="model.status != null and model.status != ''">
-				and t.C_STATUS = #{model.status}
+				and t.c_status = #{model.status}
 			</if>
 		</where>
-		ORDER By t.C_ORDER ASC
+		ORDER By t.c_order ASC
 	</select>
 	
 	<select id="getModel" resultMap="ArticleMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_TID,
-			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.t_id = t.C_TID) as C_TNAME,
-			t.C_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
-			t.C_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.C_CID) as C_CNAME,
-			t.C_TITLE,
-			t.C_DIGEST,
-			t.C_CONTENT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_ORDER,
-			t.C_RCMD,
-			t.C_BROWSE,
-			t.C_COLLECT,
-			t.C_LIKED,
-			t.C_Ptime24,
-			t.C_time24
-		FROM SYS_ARTICLE_CONTENTS t
+			t.c_tid,
+			(SELECT x.t_name from sys_article_topic x where x.t_id = t.c_tid) as c_tname,
+			t.c_uid,
+			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			t.c_cid,
+			(SELECT x.C_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
+			t.c_title,
+			t.c_digest,
+			t.c_content,
+			t.c_review,
+			t.c_status,
+			t.c_order,
+			t.c_rcmd,
+			t.c_browse,
+			t.c_collect,
+			t.c_liked,
+			t.c_ptime24,
+			t.c_time24
+		FROM sys_article_contents t
 	   WHERE t.c_id = #{id}
 	</select>
 	
 	<select id="getDetail" resultMap="ArticleDetailMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_TID,
-			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.t_id = t.C_TID) as C_TNAME,
-			t.C_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
-			t.C_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.C_CID) as C_CNAME,
-			t.C_TITLE,
-			t.C_DIGEST,
-			t.C_CONTENT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_ORDER,
-			t.C_RCMD,
-			t.C_BROWSE,
-			t.C_COLLECT,
-			t.C_LIKED,
-			t.C_Ptime24,
-			t.C_time24
-		FROM SYS_ARTICLE_CONTENTS t
+			t.c_tid,
+			(SELECT x.t_name from sys_article_topic x where x.t_id = t.c_tid) as c_tname,
+			t.c_uid,
+			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			t.c_cid,
+			(SELECT x.C_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
+			t.c_title,
+			t.c_digest,
+			t.c_content,
+			t.c_review,
+			t.c_status,
+			t.c_order,
+			t.c_rcmd,
+			t.c_browse,
+			t.c_collect,
+			t.c_liked,
+			t.c_ptime24,
+			t.c_time24
+		FROM sys_article_contents t
 	   WHERE t.c_id = #{id}
 	</select>
     
     <select id="getTargets" resultMap="ArticleTargetMap" useCache="false">
 		SELECT
 			t.t_id,
-			t.T_CID,
-			t.T_TID,
-			IFNULL((SELECT x.BJMC FROM GXXX_BJXXB x WHERE x.ID = t.T_TID), 
-				IFNULL((SELECT x.ZYMC FROM GXXX_ZYXXB x WHERE x.ID = t.T_TID), (SELECT x.DWMC FROM GXXX_XYXXB x WHERE x.ID = t.T_TID)) ) as T_TNAME
-		FROM SYS_ARTICLE_CONTENT_TARGETS t
-	   WHERE t.T_CID = #{cid}
+			t.t_cid,
+			t.t_tid,
+			'' as t_tname
+		FROM sys_article_content_targets t
+	   WHERE t.t_cid = #{cid}
 	</select>
 	
     <select id="getTags" resultMap="ArticleTagMap" useCache="false">
 		SELECT
 			t.t_id,
-			t.T_CID,
-			t.T_NAME,
+			t.t_cid,
+			t.t_name,
 			t.T_time24
-		FROM SYS_ARTICLE_CONTENT_TAGS t
-	   WHERE t.T_CID = #{cid}
+		FROM sys_article_content_tags t
+	   WHERE t.t_cid = #{cid}
 	ORDER By t.T_time24 ASC
 	</select>
 	
 	<select id="getAttachments" resultMap="ArticleAttachmentMap" useCache="false">
 		SELECT
-			t.A_ID,
-			t.A_CID,
-			t.A_NAME,
-			t.A_PATH,
-			t.A_ORDER,
-			t.A_time24
-		FROM SYS_ARTICLE_CONTENT_ATTS t
-	   WHERE t.A_CID = #{cid} 
-	     AND t.A_TYPE != 1
-	ORDER By t.A_ORDER ASC
+			t.a_id,
+			t.a_cid,
+			t.a_name,
+			t.a_path,
+			t.a_order,
+			t.a_time24
+		FROM sys_article_content_atts t
+	   WHERE t.a_cid = #{cid}
+	     AND t.a_type != 1
+	ORDER By t.a_order ASC
 	</select>
 	
 	<select id="getCover" resultMap="ArticleAttachmentMap" useCache="false">
 		SELECT
-			t.A_ID,
-			t.A_CID,
-			t.A_NAME,
-			t.A_PATH,
-			t.A_ORDER,
-			t.A_time24
-		FROM SYS_ARTICLE_CONTENT_ATTS t
-	   WHERE t.A_CID = #{cid} 
-	     AND t.A_TYPE = 1
+			t.a_id,
+			t.a_cid,
+			t.a_name,
+			t.a_path,
+			t.a_order,
+			t.a_time24
+		FROM sys_article_content_atts t
+	   WHERE t.a_cid = #{cid}
+	     AND t.a_type = 1
 	</select>
     
     <select id="getComments" resultMap="ArticleCommentMap" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_CID,
-			t.C_PID,
-			t.C_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
+			t.c_cid,
+			t.c_pid,
+			t.c_uid,
+			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_RCMD,
-			t.C_ORDER,
-			t.C_time24
-	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
-	  WHERE t.C_STATUS != 0
-	    AND t.C_CID = #{cid}
-	  START WITH t.C_PID = 0 CONNECT BY t.C_PID = PRIOR t.c_id
+			t.c_review,
+			t.c_status,
+			t.c_rcmd,
+			t.c_order,
+			t.c_time24
+	   FROM sys_article_content_comments t
+	  WHERE t.c_status != 0
+	    AND t.c_cid = #{cid}
+	  START WITH t.c_pid = 0 CONNECT BY t.c_pid = PRIOR t.c_id
 	</select>
     
 </mapper>

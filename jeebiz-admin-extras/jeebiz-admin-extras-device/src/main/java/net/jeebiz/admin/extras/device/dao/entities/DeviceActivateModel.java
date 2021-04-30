@@ -32,12 +32,12 @@ public class DeviceActivateModel extends BaseEntity<DeviceActivateModel> {
 	/**
 	 * 主键，自增
 	 */
-	@TableId(value="ID",type= IdType.AUTO)
+	@TableId(value="id",type= IdType.AUTO)
 	private Long id;
 	/**
-	 * 应用ID
+	 * 应用id
 	 */
-	@TableField(value = "APP_ID")
+	@TableField(value = "APP_id")
 	private String appId;
 	/**
 	 * 应用渠道编码

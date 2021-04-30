@@ -21,9 +21,9 @@ import lombok.ToString;
 public class AuthzRoleAllotPermsDTO {
 	
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
-	@ApiModelProperty(name = "roleId", dataType = "String", value = "角色ID")
+	@ApiModelProperty(name = "roleId", dataType = "String", value = "角色id")
 	private String roleId;
 	/**
 	 * 角色授权的标记集合

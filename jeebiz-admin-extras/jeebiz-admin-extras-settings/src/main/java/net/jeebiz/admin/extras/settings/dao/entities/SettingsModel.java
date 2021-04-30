@@ -22,7 +22,7 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class SettingsModel extends BaseModel<SettingsModel> {
 
 	/**
-	 * 参数ID
+	 * 参数id
 	 */
 	private String id;
 	/**

@@ -3,48 +3,48 @@
 <mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleTargetDao">
 
     <resultMap id="ArticleTargetMap" type="ArticleTargetModel">
-	    <!-- 文章发布对象记录ID -->
+	    <!-- 文章发布对象记录id -->
 		<result property="id" column="t_id" />
-		<!-- 文章ID -->
-		<result property="cid" column="T_CID" />
-		<!-- 文章发布对象ID（学院ID|专业ID|班级ID|账户ID） -->
-		<result property="tid" column="T_TID" />
+		<!-- 文章id -->
+		<result property="cid" column="t_cid" />
+		<!-- 文章发布对象id（学院id|专业id|班级id|账户id） -->
+		<result property="tid" column="t_tid" />
 		<!-- 文章发布对象名称（学院|专业|班级|账户） -->
-		<result property="tname" column="T_TNAME" />
+		<result property="tname" column="t_tname" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleTargetModel" flushCache="true">
-		INSERT INTO SYS_ARTICLE_CONTENT_TARGETS(T_CID,T_TID) VALUES (#{cid},#{tid})
+		INSERT INTO sys_article_content_targets(t_cid,t_tid) VALUES (#{cid},#{tid})
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE t_id IN
+		DELETE FROM sys_article_content_targets WHERE t_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
 	
 	<delete id="delete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE t_id = #{id}
+		DELETE FROM sys_article_content_targets WHERE t_id = #{id}
 	</delete>
 	
 	<delete id="deleteTarget" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE T_CID = #{cid}
+		DELETE FROM sys_article_content_targets WHERE t_cid = #{cid}
 	</delete>
 	
 	<update id="update" parameterType="ArticleTargetModel" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENT_TARGETS t 
-		   SET T_TID = #{tid}
+		UPDATE sys_article_content_targets t
+		   SET t_tid = #{tid}
 		 WHERE t_id = #{id}
 	</update>
 	
 	<select id="getTargetList" resultMap="ArticleTargetMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.t_id,
-			t.T_CID,
-			t.T_TID
-		FROM SYS_ARTICLE_CONTENT_TARGETS t
-	   WHERE t.T_CID = #{cid}
+			t.t_cid,
+			t.t_tid
+		FROM sys_article_content_targets t
+	   WHERE t.t_cid = #{cid}
 	</select>
 	
 </mapper>

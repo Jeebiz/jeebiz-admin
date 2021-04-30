@@ -9,19 +9,19 @@ import lombok.Data;
 public class ArticleVisitDTO {
 
 	/**
-	 * 文章访问ID
+	 * 文章访问id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章访问ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章访问id")
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
-	 * 文章访问者ID
+	 * 文章访问者id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "文章访问者ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "文章访问者id")
 	private String uid;
 	/**
 	 * 文章访问者姓名

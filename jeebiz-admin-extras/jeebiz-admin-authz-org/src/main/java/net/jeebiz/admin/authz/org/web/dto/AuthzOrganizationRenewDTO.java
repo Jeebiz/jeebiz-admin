@@ -22,10 +22,10 @@ import lombok.ToString;
 public class AuthzOrganizationRenewDTO implements Serializable {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "机构ID编号")
-	@NotBlank(message = "机构ID编号必填")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "机构id编号")
+	@NotBlank(message = "机构id编号必填")
 	private String id;
 	/**
 	 * 机构编码

@@ -22,7 +22,7 @@ public class Constants {
     /**
      * 实体命名方式
      */
-    public static final String ENTITY_NAME = "%sModel";
+    public static final String ENTITY_name = "%sModel";
 
     /**
      * mapper 命名方式
@@ -32,17 +32,17 @@ public class Constants {
     /**
      * Mapper xml 命名方式
      */
-    public static final String XML_NAME = "%sMapper";
+    public static final String XML_name = "%sMapper";
 
     /**
      * service 命名方式
      */
-    public static final String SERVICE_NAME = "I%sService";
+    public static final String SERVICE_name = "I%sService";
 
     /**
      * service impl 命名方式
      */
-    public static final String SERVICE_IMPL_NAME = "%sServiceImpl";
+    public static final String SERVICE_IMPL_name = "%sServiceImpl";
 
     /**
      * controller 命名方式
@@ -52,32 +52,32 @@ public class Constants {
     /**
      * Entity包名
      */
-    public static final String ENTITY_PACKAGE_NAME = "dao.entities";
+    public static final String ENTITY_PACKAGE_name = "dao.entities";
 
     /**
      * Service包名
      */
-    public static final String SERVICE_PACKAGE_NAME = "service";
+    public static final String SERVICE_PACKAGE_name = "service";
 
     /**
      * Service Impl包名
      */
-    public static final String SERVICE_IMPL_PACKAGE_NAME = "service.impl";
+    public static final String SERVICE_IMPL_PACKAGE_name = "service.impl";
 
     /**
      * Mapper包名
      */
-    public static final String MAPPER_PACKAGE_NAME = "dao";
+    public static final String MAPPER_PACKAGE_name = "dao";
 
     /**
      * Mapper XML包名
      */
-    public static final String XML_PACKAGE_NAME = "dao.sqlmap.oracle";
+    public static final String XML_PACKAGE_name = "dao.sqlmap.oracle";
 
     /**
      * Controller包名
      */
-    public static final String CONTROLLER_PACKAGE_NAME = "web.mvc";
+    public static final String CONTROLLER_PACKAGE_name = "web.mvc";
 
     /**
      * .连接符
@@ -87,7 +87,7 @@ public class Constants {
     /**
      * 项目java目录
      */
-    public static final String JAVA_PATH = "\\src\\main\\java\\";
+    public static final String JAVa_path = "\\src\\main\\java\\";
 
     /**
      * 项目resource目录

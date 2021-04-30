@@ -48,7 +48,7 @@ public class AttUtils {
 							+ dateString;
 					String originFile = file.getOriginalFilename();//得到上传时的文件名
 					String extendName = FilenameUtils.getExtension(originFile);//获取扩展名
-					String fileName = BaseCommonUtil.getUUID() + "." + extendName;
+					String fileName = BaseCommonUtil.getUUid() + "." + extendName;
 //						uploadPath = uploadPath + "/" + fileName;//上传文件路径，存放路径
 					String uploadFtpPath =  gunsProperties.getFtpUploadAbsPath()+ dateString;
 					savePath = GlobalConstant.SERVER_IMAGE_FILE_PATH_PREFIX

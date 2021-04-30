@@ -94,7 +94,7 @@ public class CodeGeneratorService {
      * @param autoGenerator 自动生成全局设置类
      */
     private void globalConfig(AutoGenerator autoGenerator,String projectPath,String author, boolean enableCache) {
-        getGlobalConfig().setOutputDir(projectPath + Constants.JAVA_PATH)  //生成文件的输出目录
+        getGlobalConfig().setOutputDir(projectPath + Constants.JAVa_path)  //生成文件的输出目录
                 .setFileOverride(Constants.FALSE)  //是否覆盖已有文件 默认值：false
                 .setOpen(Constants.TRUE)  //是否打开输出目录 默认值：true
                 .setEnableCache(enableCache)   //是否在xml中添加二级缓存配置 默认值：false
@@ -105,11 +105,11 @@ public class CodeGeneratorService {
                 .setBaseResultMap(Constants.TRUE)  //开启 BaseResultMap 默认值：false
                 .setBaseColumnList(Constants.TRUE)  //开启 baseColumnList 默认值：false
                 .setDateType(DateType.ONLY_DATE) //时间类型对应策略 默认值：TIME_PACK
-                .setEntityName(Constants.ENTITY_NAME)  //实体命名方式 默认值：null 例如：%sEntity 生成 EmailUserInfoEntity
+                .setEntityName(Constants.ENTITY_name)  //实体命名方式 默认值：null 例如：%sEntity 生成 EmailUserInfoEntity
                 .setMapperName(Constants.MAPPEr_name)  //mapper 命名方式 默认值：null 例如：%sDao 生成 UserDao
-                .setXmlName(Constants.XML_NAME)  //Mapper xml 命名方式 默认值：null 例如：%sDao 生成 UserDao.xml
-                .setServiceName(Constants.SERVICE_NAME)  //service 命名方式  默认值：null 例如：%sBusiness 生成 UserBusiness
-                .setServiceImplName(Constants.SERVICE_IMPL_NAME)  //service impl 命名方式 默认值：null 例如：%sBusinessImpl 生成 UserBusinessImpl
+                .setXmlName(Constants.XML_name)  //Mapper xml 命名方式 默认值：null 例如：%sDao 生成 UserDao.xml
+                .setServiceName(Constants.SERVICE_name)  //service 命名方式  默认值：null 例如：%sBusiness 生成 UserBusiness
+                .setServiceImplName(Constants.SERVICE_IMPL_name)  //service impl 命名方式 默认值：null 例如：%sBusinessImpl 生成 UserBusinessImpl
                 .setControllerName(Constants.CONTROLLEr_name);  //controller 命名方式 默认值：null 例如：%sAction 生成 UserAction
         autoGenerator.setGlobalConfig(getGlobalConfig());
     }
@@ -134,16 +134,16 @@ public class CodeGeneratorService {
      * @param autoGenerator
      */
     private void packageConfig(AutoGenerator autoGenerator,String projectPath,String moudlePackageName) {
-        String outputDir = projectPath + Constants.JAVA_PATH;
+        String outputDir = projectPath + Constants.JAVa_path;
         String outputXmlDir = projectPath + Constants.RESOURCE_PATH;
         getPackageConfig().setParent(codeGeneratorProperties.getParentPackageName()) //父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
                 .setModuleName(moudlePackageName)
-                .setEntity(Constants.ENTITY_PACKAGE_NAME) //Entity包名
-                .setService(Constants.SERVICE_PACKAGE_NAME) //Service包名
-                .setServiceImpl(Constants.SERVICE_IMPL_PACKAGE_NAME) //Service Impl包名
-                .setMapper(Constants.MAPPER_PACKAGE_NAME) //Mapper包名
-                .setXml(Constants.XML_PACKAGE_NAME)  //Mapper XML包名
-                .setController(Constants.CONTROLLER_PACKAGE_NAME); //Controller包名
+                .setEntity(Constants.ENTITY_PACKAGE_name) //Entity包名
+                .setService(Constants.SERVICE_PACKAGE_name) //Service包名
+                .setServiceImpl(Constants.SERVICE_IMPL_PACKAGE_name) //Service Impl包名
+                .setMapper(Constants.MAPPER_PACKAGE_name) //Mapper包名
+                .setXml(Constants.XML_PACKAGE_name)  //Mapper XML包名
+                .setController(Constants.CONTROLLER_PACKAGE_name); //Controller包名
 
         // DONE 修改设置mapper.xml生成类位置
         pathInfo.put(ConstVal.ENTITY_PATH,  outputDir + processPackage(getPackageConfig().getParent() + Constants.DOT +getPackageConfig().getEntity()));
@@ -190,7 +190,7 @@ public class CodeGeneratorService {
     private void injectionConfig(AutoGenerator autoGenerator,String createName,String projectPath,
                                  String moudlePackageName,boolean createExportMethod,boolean createImportMethod) {
         String showName = captureName(createName);
-        String outputDir = projectPath + Constants.JAVA_PATH;
+        String outputDir = projectPath + Constants.JAVa_path;
         String DTOPackageName = codeGeneratorProperties.getParentPackageName() + Constants.DOT +moudlePackageName + ".web.dto";
         String DTORealPath = outputDir + processPackage(codeGeneratorProperties.getParentPackageName())
                 + File.separator +processPackage(moudlePackageName) + "/web/dto";

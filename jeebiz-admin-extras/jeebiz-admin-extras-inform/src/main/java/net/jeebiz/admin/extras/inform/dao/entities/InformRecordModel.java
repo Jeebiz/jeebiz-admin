@@ -22,12 +22,12 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class InformRecordModel extends PaginationModel<InformRecordModel> {
 
 	/**
-	 * 消息通知记录ID
+	 * 消息通知记录id
 	 */
 	private String id;
 	private List<String> ids;
 	/**
-	 * 消息通知发送人ID
+	 * 消息通知发送人id
 	 */
 	private String uid;
 	/**
@@ -43,7 +43,7 @@ public class InformRecordModel extends PaginationModel<InformRecordModel> {
 	 */
 	private String tag;
 	/**
-	 * 消息通知接收人ID
+	 * 消息通知接收人id
 	 */
 	private String toUid;
 	/**
@@ -59,11 +59,11 @@ public class InformRecordModel extends PaginationModel<InformRecordModel> {
 	 */
 	private String content;
 	/**
-	 * 消息通知关联业务ID
+	 * 消息通知关联业务id
 	 */
 	private String bid;
 	/**
-	 * 消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）
+	 * 消息通知模板id（系统内信息模板、微信订阅消息等模板id）
 	 */
 	private String tid;
 	/**

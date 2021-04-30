@@ -26,9 +26,9 @@ public class AuthzLogPaginationDTO extends AbstractPaginationDTO {
 	@ApiModelProperty(name = "opt", dataType = "String", value = "认证授权类型（login:登录认证、logout:会话注销）", allowableValues = "login,logout")
 	private String opt;
 	/**
-	 * 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+	 * 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 	 */
-	@ApiModelProperty(name = "protocol", dataType = "String", value = "认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等")
+	@ApiModelProperty(name = "protocol", dataType = "String", value = "认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等")
 	private String protocol;
 	/**
 	 * 认证请求来源IP地址

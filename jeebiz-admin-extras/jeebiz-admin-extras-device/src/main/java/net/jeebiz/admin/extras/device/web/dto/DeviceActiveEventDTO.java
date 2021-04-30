@@ -23,7 +23,7 @@ public class DeviceActiveEventDTO {
 	@ApiModelProperty(name = "deviceModel", required = true, dataType = "String", value = "客户端设备型号")
 	private String deviceModel;
 
-	@ApiModelProperty(name = "appId", required = true, dataType = "String", value = "应用ID")
+	@ApiModelProperty(name = "appId", required = true, dataType = "String", value = "应用id")
 	private String appId;
 
 	@ApiModelProperty(name = "appChannel", required = true, dataType = "String", value = "应用渠道编码")

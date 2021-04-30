@@ -9,19 +9,19 @@ import lombok.Data;
 public class ArticleTargetDTO {
 	
 	/**
-	 * 文章发布对象记录ID
+	 * 文章发布对象记录id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章发布对象记录ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章发布对象记录id")
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
-	 * 文章发布对象ID（学院ID|专业ID|班级ID|账户ID）
+	 * 文章发布对象id（学院id|专业id|班级id|账户id）
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "文章发布对象ID（学院ID|专业ID|班级ID|账户ID）")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "文章发布对象id（学院id|专业id|班级id|账户id）")
 	private String tid;
 	/**
 	 * 文章发布对象名称（学院|专业|班级|账户）

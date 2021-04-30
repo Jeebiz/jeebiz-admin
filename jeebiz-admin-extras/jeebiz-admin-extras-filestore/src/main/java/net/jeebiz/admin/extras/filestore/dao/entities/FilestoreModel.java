@@ -21,11 +21,11 @@ public class FilestoreModel extends BaseModel<FilestoreModel> implements Compara
 	private int order;
 	
 	/**
-	 * 文件ID
+	 * 文件id
 	 */
 	private String id;
 	/**
-	 * 文件UUID
+	 * 文件UUid
 	 */
 	private String uuid;
 	/**
@@ -53,7 +53,7 @@ public class FilestoreModel extends BaseModel<FilestoreModel> implements Compara
 	 */
 	private String thumb;
 	/**
-	 * 文件所属用户ID
+	 * 文件所属用户id
 	 */
 	private String uid;
 

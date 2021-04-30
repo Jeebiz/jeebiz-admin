@@ -24,7 +24,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 @ToString
 public class LastOnlineSessionModel extends PaginationModel<LastOnlineSessionModel> {
 	/**
-	 * 回话记录ID
+	 * 回话记录id
 	 */
 	private String id;
 	/**

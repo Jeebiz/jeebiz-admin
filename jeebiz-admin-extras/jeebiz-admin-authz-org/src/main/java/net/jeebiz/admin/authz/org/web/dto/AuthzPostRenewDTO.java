@@ -16,19 +16,19 @@ import lombok.ToString;
 public class AuthzPostRenewDTO implements Serializable {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "orgId", required = true, dataType = "String", value = "机构ID编号")
+	@ApiModelProperty(name = "orgId", required = true, dataType = "String", value = "机构id编号")
 	private String orgId;
 	/**
-	 * 部门ID编号
+	 * 部门id编号
 	 */
-	@ApiModelProperty(name = "deptId", required = true, dataType = "String", value = "部门ID编号")
+	@ApiModelProperty(name = "deptId", required = true, dataType = "String", value = "部门id编号")
 	private String deptId;
 	/**
-	 * 岗位ID编号
+	 * 岗位id编号
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "岗位ID编号")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "岗位id编号")
 	private String id;
 	/**
 	 * 岗位编码

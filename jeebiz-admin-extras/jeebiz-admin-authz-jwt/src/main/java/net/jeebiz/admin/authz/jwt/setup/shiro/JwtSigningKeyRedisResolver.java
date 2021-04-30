@@ -17,7 +17,7 @@ import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.SigningKeyResolverAdapter;
 
 /**
- * 	根据keyID获取对应的Key
+ * 	根据keyid获取对应的Key
  */
 public class JwtSigningKeyRedisResolver extends SigningKeyResolverAdapter {
 

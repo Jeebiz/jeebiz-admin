@@ -4,10 +4,10 @@
 <mapper namespace="net.jeebiz.admin.extras.settings.dao.ISettingsDao" >
 	
 	<resultMap id="SettingsMap" type="SettingsModel">
-		<result property="id" column="D_ID" />
+		<result property="id" column="d_id" />
 		<result property="gkey" column="d_group" />
-		<result property="label" column="D_LABEL" />
-		<result property="key" column="D_KEY" />
+		<result property="label" column="d_label" />
+		<result property="key" column="d_key" />
 		<result property="value" column="D_TEXT" />
 		<result property="unit" column="D_UNIT" />
 		<result property="type" column="D_TYPE" />
@@ -20,16 +20,16 @@
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="D_KEY" />
+		<result property="key" column="d_key" />
 		<result property="value" column="D_TEXT" />
 	</resultMap>
 	
 	<select id="getModelList" resultMap="SettingsMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t.D_ID,
+			t.d_id,
 			t.d_group,
-			t.D_LABEL,
-			t.D_KEY,
+			t.d_label,
+			t.d_key,
 			t.D_TEXT,
 			t.D_UNIT,
 			t.D_TYPE,
@@ -45,7 +45,7 @@
 	</select>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
-		SELECT t.D_KEY,t.D_TEXT
+		SELECT t.d_key,t.D_TEXT
 		FROM sys_data_settings t
 		WHERE t.d_group = #{gkey}
 		  and t.d_status = 1
@@ -54,7 +54,7 @@
 	<update id="update" parameterType="SettingsModel" flushCache="true">
 		UPDATE sys_data_settings t
 		<set>
-			<if test="label != null and label != ''">t.D_LABEL = #{label},</if>
+			<if test="label != null and label != ''">t.d_label = #{label},</if>
 			<if test="value != null and value != ''">t.D_TEXT = #{value},</if>
 			<if test="unit != null and unit != ''">t.D_UNIT = #{unit},</if>
 			<if test="type != null and type != ''">t.D_TYPE = #{type},</if>
@@ -65,14 +65,14 @@
 			<if test="status != null and status != ''">t.d_status = #{status},</if>
 			<if test="order != null and order != ''">t.d_order = #{order}</if>
 		</set>
-		 WHERE t.D_ID = #{id}
+		 WHERE t.d_id = #{id}
 	</update>
 	
 	<update id="batchUpdate" flushCache="true">
     	<foreach collection="list" index="index" item="item" open="" separator=";" close="">  
             update sys_data_settings
             <set>
-				<if test="item.label != null and item.label != ''">t.D_LABEL = #{item.label},</if>
+				<if test="item.label != null and item.label != ''">t.d_label = #{item.label},</if>
 				<if test="item.value != null and item.value != ''">t.D_TEXT = #{item.value},</if>
 				<if test="item.unit != null and item.unit != ''">t.D_UNIT = #{item.unit},</if>
 				<if test="item.type != null and item.type != ''">t.D_TYPE = #{item.type},</if>
@@ -83,7 +83,7 @@
 				<if test="item.status != null and item.status != ''">t.d_status = #{item.status},</if>
 				<if test="item.order != null and item.order != ''">t.d_order = #{item.order}</if>
 			</set>
-           WHERE D_ID = #{item.id}
+           WHERE d_id = #{item.id}
 		     AND d_group = #{item.gkey}
         </foreach>
     </update>

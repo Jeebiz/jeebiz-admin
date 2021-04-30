@@ -55,7 +55,7 @@ set ERROR_CODE=0
 @REM To isolate internal variables from possible post scripts, we use another setlocal
 @setlocal
 
-@REM ==== START VALIDATION ====
+@REM ==== START VALidATION ====
 if not "%JAVA_HOME%" == "" goto OkJHome
 
 echo.
@@ -76,7 +76,7 @@ echo location of your Java installation. >&2
 echo.
 goto error
 
-@REM ==== END VALIDATION ====
+@REM ==== END VALidATION ====
 
 :init
 
@@ -120,7 +120,7 @@ set WRAPPER_JAR="%MAVEN_PROJECTBASEDIR%\.mvn\wrapper\maven-wrapper.jar"
 set WRAPPER_LAUNCHER=org.apache.maven.wrapper.MavenWrapperMain
 
 %MAVEN_JAVA_EXE% %JVM_CONFIG_MAVEN_PROPS% %MAVEN_OPTS% %MAVEN_DEBUG_OPTS% -classpath %WRAPPER_JAR% "-Dmaven.multiModuleProjectDirectory=%MAVEN_PROJECTBASEDIR%" %WRAPPER_LAUNCHER% %MAVEN_CONFIG% %*
-if ERRORLEVEL 1 goto error
+if ERRORlevel 1 goto error
 goto end
 
 :error

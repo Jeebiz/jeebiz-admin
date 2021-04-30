@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.UUid;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +61,7 @@ import net.jeebiz.boot.api.utils.CollectionUtils;
 public class AliyunOssFilestoreProvider implements FilestoreProvider {
 
 	private static final String FOLDER_SEPARATOR = "/";
-	private static final String ORIGINAL_FILE_NAME = "Original-File-Name";
+	private static final String ORIGINAL_FILE_name = "Original-File-Name";
 	private static final String X_OSS_PROCESS = "?x-oss-process=image/resize,m_fill,h_%d,w_%d,limit_0";
 	
 	private GetObjectProgressListener progressListener = new GetObjectProgressListener();
@@ -104,9 +104,9 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	        
 	        try {
 	        	
-	            // 添加endpoint（直接使用STS endpoint，前两个参数留空，无需添加region ID）
+	            // 添加endpoint（直接使用STS endpoint，前两个参数留空，无需添加region id）
 	            DefaultProfile.addEndpoint("", "", "Sts", ossProperties.getSts().getEndpoint());
-	            // 构造default profile（参数留空，无需添加region ID）
+	            // 构造default profile（参数留空，无需添加region id）
 	            IClientProfile profile = DefaultProfile.getProfile("", ossProperties.getSts().getAccessKey(), ossProperties.getSts().getSecretKey());
 	            // 用profile构造client
 	            DefaultAcsClient client = new DefaultAcsClient(profile);
@@ -235,7 +235,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		
 		// 设置元信息
 		Map<String, String> userMetadata = new HashMap<>();
-		userMetadata.put(ORIGINAL_FILE_NAME, file.getOriginalFilename());
+		userMetadata.put(ORIGINAL_FILE_name, file.getOriginalFilename());
 		metadata.setUserMetadata(userMetadata);
 		putObjectRequest.setMetadata(metadata);
 		
@@ -255,7 +255,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
         	AliyunOssStorePath storePath = this.storeFile(file, width, height);
 
 			// 上传文件
-            String uuid = UUID.randomUUID().toString();
+            String uuid = UUid.randomUUid().toString();
 			
 			
 			// 文件存储记录对象
@@ -316,7 +316,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 				// 文件存储记录对象
 				FilestoreModel model = new FilestoreModel();
 				
-				String uuid = UUID.randomUUID().toString();
+				String uuid = UUid.randomUUid().toString();
 				model.setUuid(uuid);
 				model.setUid(principal.getUserid());
 				model.setName(file.getOriginalFilename());
@@ -381,7 +381,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		if(CollectionUtils.isEmpty(uuids)) {
 			return false;
 		}
-		// 查询UID对象的文件记录
+		// 查询Uid对象的文件记录
 		List<FilestoreModel> files = getFilestoreDao().getFiles(uuids);
 		// 删除文件记录
 		getFilestoreDao().deleteByUuids(uuids);
@@ -412,7 +412,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		
 		// 文件存储信息
 
-        String uuid1 = UUID.randomUUID().toString();
+        String uuid1 = UUid.randomUUid().toString();
 		
         FilestoreDTO attDTO = new FilestoreDTO();
 		attDTO.setUuid(uuid1);

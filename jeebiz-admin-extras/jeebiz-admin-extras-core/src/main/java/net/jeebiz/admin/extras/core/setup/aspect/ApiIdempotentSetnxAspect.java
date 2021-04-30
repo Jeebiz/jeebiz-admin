@@ -64,7 +64,7 @@ public class ApiIdempotentSetnxAspect extends AbstractIdempotentAspect {
 			String idempotentKey = this.getIdempotentKey(joinPoint, idempotent);
 			// 4.2、根据 key前缀 + @ApiIdempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @ApiIdempotent.value() + 方法签名 + 参数
 			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(ShiroPrincipal.class).getUserid() : "guest";
-			String lockKey = String.format(KEY_ARGS_TEMPLATE, uid, idempotentKey);
+			String lockKey = String.format(KEY_ARGS_TEMPlatE, uid, idempotentKey);
 			try {
 				// 4.3、通过setnx确保只有一个接口能够正常访问
 				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {
@@ -92,7 +92,7 @@ public class ApiIdempotentSetnxAspect extends AbstractIdempotentAspect {
 				token = request.getParameter(idempotent.value());
 			}
 			// 5.3、根据 key前缀 + token
-			String lockKey = String.format(KEY_TOKEN_TEMPLATE, token);
+			String lockKey = String.format(KEY_TOKEN_TEMPlatE, token);
 			try {
 				// 5.4、通过setnx确保只有一个接口能够正常访问
 				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {

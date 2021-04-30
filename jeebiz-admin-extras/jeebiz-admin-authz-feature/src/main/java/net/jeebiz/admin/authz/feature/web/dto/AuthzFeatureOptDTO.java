@@ -18,19 +18,19 @@ import lombok.ToString;
 public class AuthzFeatureOptDTO implements Comparable<AuthzFeatureOptDTO> {
 	
 	/**
-	 * 功能菜单ID
+	 * 功能菜单id
 	 */
-	@ApiModelProperty(name = "featureId", dataType = "String", value = "功能菜单ID")
+	@ApiModelProperty(name = "featureId", dataType = "String", value = "功能菜单id")
 	private String featureId;
 	/**
-	 * 父级功能菜单ID
+	 * 父级功能菜单id
 	 */
-	@ApiModelProperty(name = "parent", dataType = "String", value = "父级功能菜单ID")
+	@ApiModelProperty(name = "parent", dataType = "String", value = "父级功能菜单id")
 	private String parent;
 	/**
-	 * 功能操作ID
+	 * 功能操作id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "功能操作ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "功能操作id")
 	private String id;
 	/**
 	 * 功能操作名称

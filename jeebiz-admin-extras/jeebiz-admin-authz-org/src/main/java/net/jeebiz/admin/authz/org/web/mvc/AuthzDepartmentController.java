@@ -67,9 +67,9 @@ public class AuthzDepartmentController extends BaseApiController {
 		
 	}
 	
-	@ApiOperation(value = "部门信息：数据列表集合", notes = "根据机构ID查询部门信息")
+	@ApiOperation(value = "部门信息：数据列表集合", notes = "根据机构id查询部门信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "orgId", value = "机构ID编码", dataType = "String")
+		@ApiImplicitParam(name = "orgId", value = "机构id编码", dataType = "String")
 	})
 	@GetMapping("list")
 	@RequiresAuthentication
@@ -86,9 +86,9 @@ public class AuthzDepartmentController extends BaseApiController {
 		return ApiRestResponse.success(retList);
 	}
 	
-	@ApiOperation(value = "部门信息：键值对集合", notes = "根据机构ID查询部门信息")
+	@ApiOperation(value = "部门信息：键值对集合", notes = "根据机构id查询部门信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "orgId", value = "机构ID编码", dataType = "String")
+		@ApiImplicitParam(name = "orgId", value = "机构id编码", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "查询部门信息", opt = BusinessType.SELECT)
 	@GetMapping("pairs")
@@ -156,7 +156,7 @@ public class AuthzDepartmentController extends BaseApiController {
 	
 	@ApiOperation(value = "更新部门信息状态", notes = "更新部门信息状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", required = true, value = "部门信息ID", dataType = "String"),
+		@ApiImplicitParam(name = "id", required = true, value = "部门信息id", dataType = "String"),
 		@ApiImplicitParam(name = "status", required = true, value = "部门信息状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "更新部门信息状态", opt = BusinessType.UPDATE)
@@ -173,7 +173,7 @@ public class AuthzDepartmentController extends BaseApiController {
 	
 	@ApiOperation(value = "删除部门信息", notes = "删除部门信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "id", value = "部门信息ID", required = true, dataType = "String")
+		@ApiImplicitParam(name = "id", value = "部门信息id", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "删除部门信息", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -197,9 +197,9 @@ public class AuthzDepartmentController extends BaseApiController {
 		return fail("authz.dept.delete.fail", result);
 	}
 	
-	@ApiOperation(value = "查询部门信息", notes = "根据ID查询部门信息")
+	@ApiOperation(value = "查询部门信息", notes = "根据id查询部门信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "id", required = true, value = "部门信息ID", dataType = "String")
+		@ApiImplicitParam(name = "id", required = true, value = "部门信息id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_DEPT, business = "查询部门信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")

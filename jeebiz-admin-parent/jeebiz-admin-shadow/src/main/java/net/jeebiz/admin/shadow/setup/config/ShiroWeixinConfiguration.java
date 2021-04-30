@@ -71,7 +71,7 @@ public class ShiroWeixinConfiguration {
 			@Override
 			protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
 					throws AuthenticationException {
-				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 				ThreadContext.put("protocol", "Weixin-Ma");
 				// 负责此次认证的realm名称
 				ThreadContext.put("realm", "WxMaAuthorizingRealm");
@@ -80,7 +80,7 @@ public class ShiroWeixinConfiguration {
 
 			@Override
 			protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 				ThreadContext.put("protocol", "Weixin-Ma");
 				// 负责此次认证的realm名称
 				ThreadContext.put("realm", "WxMaAuthorizingRealm");

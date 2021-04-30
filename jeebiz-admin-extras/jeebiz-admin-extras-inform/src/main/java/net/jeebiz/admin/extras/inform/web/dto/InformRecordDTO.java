@@ -14,14 +14,14 @@ import net.jeebiz.admin.extras.inform.setup.InformProvider;
 public class InformRecordDTO {
 
 	/**
-	 * 消息通知ID
+	 * 消息通知id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知id")
 	private String id;
 	/**
-	 * 消息通知创建人ID
+	 * 消息通知创建人id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "消息通知创建人ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "消息通知创建人id")
 	private String uid;
 	/**
 	 * 消息通知创建人
@@ -43,9 +43,9 @@ public class InformRecordDTO {
 	 */
 	private String type;
 	/**
-	 * 消息通知接收人ID
+	 * 消息通知接收人id
 	 */
-	@ApiModelProperty(name = "toUid", dataType = "String", value = "消息通知接收人ID")
+	@ApiModelProperty(name = "toUid", dataType = "String", value = "消息通知接收人id")
 	private String toUid;
 	/**
 	 * 消息通知接收人工号
@@ -78,9 +78,9 @@ public class InformRecordDTO {
 	@ApiModelProperty(name = "content", dataType = "String", value = "消息通知内容（可能包含变量）")
 	private String content;
 	/**
-	 * 消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）
+	 * 消息通知模板id（系统内信息模板、微信订阅消息等模板id）
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "消息通知模板id（系统内信息模板、微信订阅消息等模板id）")
 	private String tid;
 	/**
 	 * 通知信息关联数据载体,JOSN格式的数据

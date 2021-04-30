@@ -34,12 +34,12 @@ public class DeviceBindModel extends Model<DeviceBindModel> implements Cloneable
     /**
 	 * 主键，自增
 	 */
-	@TableId(value="ID",type= IdType.AUTO)
+	@TableId(value="id",type= IdType.AUTO)
 	private Long id;
 	/**
-	 * 应用ID
+	 * 应用id
 	 */
-	@TableField(value = "APP_ID")
+	@TableField(value = "APP_id")
 	private String appId;
 	/**
 	 * 应用渠道编码
@@ -52,9 +52,9 @@ public class DeviceBindModel extends Model<DeviceBindModel> implements Cloneable
 	@TableField(value = "APP_VERSION")
 	private String appVersion;
 	/**
-	 *设备激活记录ID
+	 *设备激活记录id
 	 */
-	@TableField(value = "ACTIVATED_ID")
+	@TableField(value = "ACTIVATEd_id")
     private Long activatedId;
 	
 	/**

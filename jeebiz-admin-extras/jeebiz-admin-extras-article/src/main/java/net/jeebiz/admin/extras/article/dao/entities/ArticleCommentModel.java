@@ -15,19 +15,19 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class ArticleCommentModel extends PaginationModel<ArticleCommentModel> implements Comparable<ArticleCommentModel> {
 	 
 	/**
-	 * 文章评论ID
+	 * 文章评论id
 	 */
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
 	private String cid;
 	/**
-	 * 上级文章评论ID
+	 * 上级文章评论id
 	 */
 	private String pid;
 	/**
-	 * 文章评论者ID
+	 * 文章评论者id
 	 */
 	private String uid;
 	/**

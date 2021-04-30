@@ -5,23 +5,23 @@
 
 	<resultMap id="FilestoreMap" type="FilestoreModel">
 		<result property="id" column="f_id" />
-		<result property="uuid" column="F_UUID" />
+		<result property="uuid" column="F_UUid" />
 		<result property="ext" column="F_EXT" />
 		<result property="name" column="f_name" />
 		<result property="to" column="F_TO" />
 		<result property="group" column="F_GROUP" />
 		<result property="path" column="f_path" />
 		<result property="thumb" column="F_THUMB" />
-		<result property="uid" column="F_UID" />
+		<result property="uid" column="F_Uid" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="FilestoreModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-		INSERT INTO SYS_DATA_FILES(F_UUID,F_EXT,f_name,F_TO,F_GROUP,f_path,F_THUMB,F_UID)
+		INSERT INTO SYS_DATA_FILES(F_UUid,F_EXT,f_name,F_TO,F_GROUP,f_path,F_THUMB,F_Uid)
 		VALUES(#{uuid},#{ext},#{name},#{to},#{group},#{path},#{thumb,jdbcType=VARCHAR},#{uid}) 
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_DATA_FILES t WHERE t.F_UUID = #{id}
+		DELETE FROM SYS_DATA_FILES t WHERE t.F_UUid = #{id}
 	</delete>
 	
 	<delete id="deleteByPaths" parameterType="java.lang.String" flushCache="true">
@@ -32,7 +32,7 @@
 	</delete>
 	
 	<delete id="deleteByUuids" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_DATA_FILES t WHERE t.F_UUID IN 
+		DELETE FROM SYS_DATA_FILES t WHERE t.F_UUid IN
 		<foreach collection="uuids" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -48,27 +48,27 @@
 			<if test="path != null and path != ''">t.f_path = #{path},</if>
 			<if test="thumb != null and thumb != ''">t.F_THUMB = #{thumb},</if>
 		</set>
-		WHERE t.F_UUID = #{uuid}
+		WHERE t.F_UUid = #{uuid}
 	</update>
 	
 	<select id="getByPath" resultMap="FilestoreMap" parameterType="java.lang.String" useCache="true">
-		select t.f_id,t.F_UUID,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_UID from SYS_DATA_FILES t WHERE t.f_path = #{path}
+		select t.f_id,t.F_UUid,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_Uid from SYS_DATA_FILES t WHERE t.f_path = #{path}
 	</select>
 	
 	<select id="getByUuid" resultMap="FilestoreMap" parameterType="java.lang.String" useCache="true">
-		select t.f_id,t.F_UUID,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_UID from SYS_DATA_FILES t WHERE t.F_UUID = #{uuid}
+		select t.f_id,t.F_UUid,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_Uid from SYS_DATA_FILES t WHERE t.F_UUid = #{uuid}
 	</select>
 	
 	<select id="getFiles" resultMap="FilestoreMap" parameterType="List" useCache="true">
-		select t.f_id,t.F_UUID,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_UID from SYS_DATA_FILES t
-		WHERE t.F_UUID  IN 
+		select t.f_id,t.F_UUid,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_Uid from SYS_DATA_FILES t
+		WHERE t.F_UUid  IN
 		<foreach collection="uuids" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</select>
 	
 	<select id="getPaths" resultMap="FilestoreMap" parameterType="List" useCache="true">
-		select t.f_id,t.F_UUID,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_UID from SYS_DATA_FILES t
+		select t.f_id,t.F_UUid,t.F_EXT,t.f_name,t.F_TO,t.F_GROUP,t.f_path,t.F_THUMB,t.F_Uid from SYS_DATA_FILES t
 		WHERE t.f_path  IN
 		<foreach collection="paths" index="index" item="item" open="(" separator="," close=")">  
            #{item} 

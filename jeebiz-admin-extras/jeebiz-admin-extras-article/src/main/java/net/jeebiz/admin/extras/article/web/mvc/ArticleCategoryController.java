@@ -109,7 +109,7 @@ public class ArticleCategoryController extends BaseApiController {
 	
 	@ApiOperation(value = "删除文章分类", notes = "删除文章分类")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章分类ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章分类id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "删除文章分类", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -152,7 +152,7 @@ public class ArticleCategoryController extends BaseApiController {
 	
 	@ApiOperation(value = "更新文章分类状态", notes = "更新文章分类状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章分类ID", dataType = "String"),
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章分类id", dataType = "String"),
 		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章分类状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "更新文章分类状态", opt = BusinessType.UPDATE)
@@ -168,9 +168,9 @@ public class ArticleCategoryController extends BaseApiController {
 		return fail("article.category.status.fail", result);
 	}
 	
-	@ApiOperation(value = "查询文章分类信息", notes = "根据ID查询文章分类信息")
+	@ApiOperation(value = "查询文章分类信息", notes = "根据id查询文章分类信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章分类ID", dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章分类id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "查询文章分类信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")

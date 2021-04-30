@@ -21,7 +21,7 @@ import net.jeebiz.boot.api.dao.BaseDao;
 public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
 
 	/**
-	 * 通过用户ID查询用户信息
+	 * 通过用户id查询用户信息
 	 * @param id
 	 * @return
 	 */
@@ -56,7 +56,7 @@ public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
 	
 	/**
 	 * 批量修改用户密码
-	 * @param userid 用户ID
+	 * @param userid 用户id
 	 * @param password 新密码
 	 * @return 变更记录数
 	 */
@@ -64,7 +64,7 @@ public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
 
 	/**
 	 * 当前用户设置密码
-	 * @param userId 用户ID
+	 * @param userId 用户id
 	 * @param oldPassword 旧密码
 	 * @param password    新密码
 	 * @return
@@ -73,29 +73,29 @@ public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
 
 	/**
 	 * 更新用户状态
-	 * @param roleId 用户ID
+	 * @param roleId 用户id
 	 * @param status 用户状态（0:禁用|1:可用|2:锁定）
 	 * @return
 	 */
 	public int setStatus(@Param("userId") String userId, @Param("status") String status);
 	
 	/**
-	 * 获取用户已分配角色ID
-	 * @param userId 用户ID
+	 * 获取用户已分配角色id
+	 * @param userId 用户id
 	 * @return
 	 */
 	public List<String> getRoleKeys(@Param(value="userId") String userId);
 	
 	/**
-	 * 获取用户已分配角色ID
-	 * @param userId 用户ID
+	 * 获取用户已分配角色id
+	 * @param userId 用户id
 	 * @return
 	 */
 	public List<AuthzRoleModel> getRoles(@Param(value="userId") String userId);
 	
 	/**
-	 * 根据[ROLE_PERMISSION_RELATION]数据查询角色具备的权限信息 
-	 * @param userId 用户ID
+	 * 根据[ROLE_PERMISSION_RElatION]数据查询角色具备的权限信息 
+	 * @param userId 用户id
 	 * @return 角色具备的权限信息
 	 */
 	public List<String> getPermissions(@Param(value="userId")String userId);

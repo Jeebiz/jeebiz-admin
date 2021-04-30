@@ -111,7 +111,7 @@ public class ArticleTopicController extends BaseApiController {
 	
 	@ApiOperation(value = "删除文章栏目", notes = "删除文章栏目")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章栏目ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "文章栏目id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.ARTICLE_TOPIC, business = "删除文章栏目", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -154,7 +154,7 @@ public class ArticleTopicController extends BaseApiController {
 	
 	@ApiOperation(value = "更新文章栏目状态", notes = "更新文章栏目状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章栏目ID", dataType = "String"),
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章栏目id", dataType = "String"),
 		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章栏目状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.ARTICLE_TOPIC, business = "更新文章栏目状态", opt = BusinessType.UPDATE)
@@ -170,9 +170,9 @@ public class ArticleTopicController extends BaseApiController {
 		return fail("article.topic.status.fail", result);
 	}
 	
-	@ApiOperation(value = "查询文章栏目信息", notes = "根据ID查询文章栏目信息")
+	@ApiOperation(value = "查询文章栏目信息", notes = "根据id查询文章栏目信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章栏目ID", dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章栏目id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.ARTICLE_TOPIC, business = "查询文章栏目信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")

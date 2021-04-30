@@ -14,11 +14,11 @@ public class ArticleAttachmentModel extends PaginationModel<ArticleAttachmentMod
 		implements Comparable<ArticleAttachmentModel> {
 
 	/**
-	 * 文章附件ID
+	 * 文章附件id
 	 */
 	private String id;
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
 	private String cid;
 	/**

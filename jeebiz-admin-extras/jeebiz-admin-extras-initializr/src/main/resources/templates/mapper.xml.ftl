@@ -58,17 +58,17 @@
         </#if>
     </#list>
         </set>
-        WHERE t.ID=<#noparse>#{id}</#noparse>
+        WHERE t.id=<#noparse>#{id}</#noparse>
     </update>
 
-    <!-- 根据ID删除${table.comment}记录 -->
+    <!-- 根据id删除${table.comment}记录 -->
     <delete id="delete" parameterType="String"<#if enableCache> flushCache="true"</#if>>
-        DELETE FROM ${table.name} WHERE ID=<#noparse>#{id}</#noparse>
+        DELETE FROM ${table.name} WHERE id=<#noparse>#{id}</#noparse>
     </delete>
 
-    <!-- 根据UID查询记录数量 -->
+    <!-- 根据Uid查询记录数量 -->
     <select id="getCountByUid" parameterType="String" resultType="Integer"<#if enableCache> useCache="true"</#if>>
-        SELECT COUNT(1) FROM ${table.name} WHERE ID=<#noparse>#{uid}</#noparse>
+        SELECT COUNT(1) FROM ${table.name} WHERE id=<#noparse>#{uid}</#noparse>
     </select>
 
     <!-- 分页获取${table.comment}记录 -->
@@ -105,14 +105,14 @@
 
     <!-- 查询${table.comment}记录详情 -->
     <select id="getModel" parameterType="${cfg.entityName}" resultMap="BaseResultMap"<#if enableCache> useCache="true"</#if>>
-        SELECT <include refid="Base_Column_List"></include> FROM ${table.name} WHERE ID=<#noparse>#{id}</#noparse>
+        SELECT <include refid="Base_Column_List"></include> FROM ${table.name} WHERE id=<#noparse>#{id}</#noparse>
     </select>
 
 <#list table.fields as field>
 <#if field.propertyName=='sfqy'>
-    <!-- 根据记录ID更新启用状态 -->
+    <!-- 根据记录id更新启用状态 -->
     <update id="setStatus" parameterType="String"<#if enableCache> flushCache="true"</#if>>
-        UPDATE ${table.name} SET SFQY=<#noparse>#{status}</#noparse> <#noparse>WHERE ID=#{id}</#noparse>
+        UPDATE ${table.name} SET SFQY=<#noparse>#{status}</#noparse> <#noparse>WHERE id=#{id}</#noparse>
     </update>
 </#if>
 </#list>

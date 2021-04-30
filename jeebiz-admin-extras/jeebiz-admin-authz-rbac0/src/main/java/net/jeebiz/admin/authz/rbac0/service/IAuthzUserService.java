@@ -27,7 +27,7 @@ public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
 
 	/**
 	 * 当前用户设置密码
-	 * @param userId 用户ID
+	 * @param userId 用户id
 	 * @param oldPassword 旧密码
 	 * @param password    新密码
 	 * @return
@@ -36,7 +36,7 @@ public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
 	
 	/**
 	 * 更新用户状态
-	 * @param roleId 用户ID
+	 * @param roleId 用户id
 	 * @param status 用户状态（0:禁用|1:可用|2:锁定）
 	 * @return
 	 */
@@ -59,15 +59,15 @@ public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
 	public int doUnAllot(AuthzUserAllotRoleModel model);
 	
 	/**
-	 * 获取用户已分配角色ID
-	 * @param userId 用户ID
+	 * 获取用户已分配角色id
+	 * @param userId 用户id
 	 * @return
 	 */
 	public List<AuthzRoleModel> getRoles(String userId);
 	
 	/**
 	 * 查询角色具备的权限标记 
-	 * @param userId 用户ID
+	 * @param userId 用户id
 	 * @return 用户所属角色具备的权限标记
 	 */
 	public List<String> getPermissions(String userId);

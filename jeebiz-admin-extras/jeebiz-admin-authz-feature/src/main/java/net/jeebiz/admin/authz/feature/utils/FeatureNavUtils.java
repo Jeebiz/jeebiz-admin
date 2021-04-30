@@ -28,7 +28,7 @@ public final class FeatureNavUtils {
 		if(CollectionUtils.isNotEmpty(optList)){
 			for (AuthzFeatureOptModel opt : optList) {
 				AuthzFeatureOptDTO optDTO  = new AuthzFeatureOptDTO();
-				// 功能菜单ID
+				// 功能菜单id
 				optDTO.setId(feature.getId() + "_" + opt.getId());
 				// 功能操作名称
 				optDTO.setName(opt.getName());
@@ -36,7 +36,7 @@ public final class FeatureNavUtils {
 				optDTO.setIcon(opt.getIcon());
 				// 功能操作排序
 				optDTO.setOrder(opt.getOrder());
-				// 功能菜单ID
+				// 功能菜单id
 				optDTO.setFeatureId( opt.getFeatureId());
 				optDTO.setParent(opt.getFeatureId());
 				// 功能操作是否可见(1:可见|0:不可见)
@@ -63,7 +63,7 @@ public final class FeatureNavUtils {
 		if(CollectionUtils.isNotEmpty(childFeatureList)){
 			for (AuthzFeatureModel feature : childFeatureList) {
 				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
-				// 功能菜单ID
+				// 功能菜单id
 				featureDTO.setId(feature.getId());
 				// 功能菜单简称
 				featureDTO.setAbb(feature.getAbb());
@@ -78,7 +78,7 @@ public final class FeatureNavUtils {
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
 				featureDTO.setOrder(feature.getOrder());
-				// 父级功能菜单ID
+				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
@@ -134,7 +134,7 @@ public final class FeatureNavUtils {
 			if(CollectionUtils.isNotEmpty(childFeatureList)){
 				for (AuthzFeatureModel feature : childFeatureList) {
 					AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
-					// 功能菜单ID
+					// 功能菜单id
 					featureDTO.setId(feature.getId());
 					// 功能菜单简称
 					featureDTO.setAbb(feature.getAbb());
@@ -149,7 +149,7 @@ public final class FeatureNavUtils {
 					featureDTO.setIcon(feature.getIcon());
 					// 菜单显示顺序
 					featureDTO.setOrder(feature.getOrder());
-					// 父级功能菜单ID
+					// 父级功能菜单id
 					featureDTO.setParent(feature.getParent());
 					featureDTO.setPid(feature.getParent());
 					// 功能菜单URL
@@ -199,7 +199,7 @@ public final class FeatureNavUtils {
 			for (AuthzFeatureModel feature : topFeatureList) {
 				
 				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
-				// 功能菜单ID
+				// 功能菜单id
 				featureDTO.setId(feature.getId());
 				// 功能菜单简称
 				featureDTO.setAbb(feature.getAbb());
@@ -214,7 +214,7 @@ public final class FeatureNavUtils {
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
 				featureDTO.setOrder(feature.getOrder());
-				// 父级功能菜单ID
+				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
@@ -269,7 +269,7 @@ public final class FeatureNavUtils {
 			for (AuthzFeatureModel feature : topFeatureList) {
 				
 				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
-				// 功能菜单ID
+				// 功能菜单id
 				featureDTO.setId(feature.getId());
 				// 功能菜单简称
 				featureDTO.setAbb(feature.getAbb());
@@ -283,7 +283,7 @@ public final class FeatureNavUtils {
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
 				featureDTO.setOrder(feature.getOrder());
-				// 父级功能菜单ID
+				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
@@ -340,7 +340,7 @@ public final class FeatureNavUtils {
 		for (AuthzFeatureModel feature : featureList) {
 			
 			AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
-			// 功能菜单ID
+			// 功能菜单id
 			featureDTO.setId(feature.getId());
 			// 功能菜单简称
 			featureDTO.setAbb(feature.getAbb());
@@ -355,7 +355,7 @@ public final class FeatureNavUtils {
 			featureDTO.setIcon(feature.getIcon());
 			// 菜单显示顺序
 			featureDTO.setOrder(feature.getOrder());
-			// 父级功能菜单ID
+			// 父级功能菜单id
 			featureDTO.setParent(feature.getParent());
 			featureDTO.setPid(feature.getParent());
 			// 功能菜单URL
@@ -384,7 +384,7 @@ public final class FeatureNavUtils {
 			for (AuthzFeatureModel feature : leafFeatureList) {
 				
 				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
-				// 功能菜单ID
+				// 功能菜单id
 				featureDTO.setId(feature.getId());
 				// 功能菜单简称
 				featureDTO.setAbb(feature.getAbb());
@@ -398,7 +398,7 @@ public final class FeatureNavUtils {
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
 				featureDTO.setOrder(feature.getOrder());
-				// 父级功能菜单ID
+				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
@@ -521,7 +521,7 @@ public final class FeatureNavUtils {
 			for (AuthzFeatureModel feature : topFeatureList) {
 				
 				AuthzFeatureDTO featureDTO = new AuthzFeatureDTO();
-				// 功能菜单ID
+				// 功能菜单id
 				featureDTO.setId(feature.getId());
 				// 功能菜单简称
 				featureDTO.setAbb(feature.getAbb());
@@ -535,7 +535,7 @@ public final class FeatureNavUtils {
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
 				featureDTO.setOrder(feature.getOrder());
-				// 父级功能菜单ID
+				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
 				// 功能菜单URL
@@ -584,7 +584,7 @@ public final class FeatureNavUtils {
 				.filter(f -> StringUtils.equals(servId, f.getParent()))
 				.findFirst().get();
 		
-		// 功能菜单ID
+		// 功能菜单id
 		featureDTO.setId(feature.getId());
 		// 功能菜单简称
 		featureDTO.setAbb(feature.getAbb());
@@ -598,7 +598,7 @@ public final class FeatureNavUtils {
 		featureDTO.setIcon(feature.getIcon());
 		// 菜单显示顺序
 		featureDTO.setOrder(feature.getOrder());
-		// 父级功能菜单ID
+		// 父级功能菜单id
 		featureDTO.setParent(feature.getParent());
 		featureDTO.setPid(feature.getParent());
 		// 功能菜单URL

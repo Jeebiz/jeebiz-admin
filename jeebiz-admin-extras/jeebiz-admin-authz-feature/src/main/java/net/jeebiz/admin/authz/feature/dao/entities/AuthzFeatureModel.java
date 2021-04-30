@@ -22,7 +22,7 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class AuthzFeatureModel extends BaseModel<AuthzFeatureModel> {
 	
 	/**
-	 * 功能菜单ID
+	 * 功能菜单id
 	 */
 	private String id;
 	/**
@@ -58,7 +58,7 @@ public class AuthzFeatureModel extends BaseModel<AuthzFeatureModel> {
 	 */
 	private String order;
 	/**
-	 * 父级功能菜单ID
+	 * 父级功能菜单id
 	 */
 	private String parent;
 	/**

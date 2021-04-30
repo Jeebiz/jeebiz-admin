@@ -4,41 +4,41 @@
 
 	<insert id="insert" parameterType="MyApplicationModel">
 		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
-	        SELECT IFNULL(MAX(APP_ID), 0) + 1 FROM SYS_MYAPP
+	        SELECT IFNULL(MAX(APP_id), 0) + 1 FROM SYS_MYAPP
 	    </selectKey>
-		INSERT INTO SYS_MYAPP(APP_ID,APP_NAME,APP_DESC,APP_LANG,APP_ADDR,APP_USERID)
+		INSERT INTO SYS_MYAPP(APP_id,APP_name,APP_DESC,APP_LANG,APP_ADDR,APP_USERid)
 		VALUE(#{id},#{name},#{desc,jdbcType=VARCHAR},#{lang},#{addr},#{userId})
 	</insert>
 
 	<update id="update" parameterType="MyApplicationModel">
 		update SYS_MYAPP t
 		<set>
-			<if test="name != null and name != ''">t.APP_NAME = #{name,jdbcType=VARCHAR},</if>
+			<if test="name != null and name != ''">t.APP_name = #{name,jdbcType=VARCHAR},</if>
 			<if test="desc != null and desc != ''">t.APP_DESC = #{desc,jdbcType=VARCHAR},</if>
 		</set>
-		where t.APP_ID = #{id}
+		where t.APP_id = #{id}
 	</update>
 
 	<resultMap id="MyApplicationMap" type="MyApplicationModel">
-		<result property="id" column="APP_ID" />
-		<result property="name" column="APP_NAME" />
+		<result property="id" column="APP_id" />
+		<result property="name" column="APP_name" />
 		<result property="desc" column="APP_DESC" />
 		<result property="lang" column="APP_LANG" />
 		<result property="addr" column="APP_ADDR" />
-		<result property="userId" column="APP_USERID" />
+		<result property="userId" column="APP_USERid" />
 	</resultMap>
 
 	<select id="getPagedList" resultMap="MyApplicationMap" parameterType="MyApplicationModel">
-		select APP_ID, APP_NAME, APP_DESC, APP_LANG, APP_ADDR 
+		select APP_id, APP_name, APP_DESC, APP_LANG, APP_ADDR
 		  from SYS_MYAPP t
-		 where t.APP_USERID = #{userId, jdbcType=VARCHAR}
+		 where t.APP_USERid = #{userId, jdbcType=VARCHAR}
 		<if test="name != null and name != ''">
-			and t.APP_NAME like '%'|| #{name} ||'%'
+			and t.APP_name like '%'|| #{name} ||'%'
 		</if>
 	</select>
 
 	<delete id="delete" parameterType="MyApplicationModel">
-		DELETE FROM SYS_MYAPP WHERE APP_ID = #{id}
+		DELETE FROM SYS_MYAPP WHERE APP_id = #{id}
 	</delete>
 
 </mapper>

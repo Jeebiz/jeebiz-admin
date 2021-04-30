@@ -18,8 +18,8 @@ import net.jeebiz.boot.api.utils.StringUtils;
 public class AuthzServsUtils {
 	
 	/**
-	 * 对提交的服务ID进行去重处理
-	 * @param originServs ： 原始服务ID集合
+	 * 对提交的服务id进行去重处理
+	 * @param originServs ： 原始服务id集合
 	 * @return 解析和去重后的标记集合
 	 */
 	public static List<String> distinct(Set<String> originServs){
@@ -31,8 +31,8 @@ public class AuthzServsUtils {
 	}
 	
 	/**
-	 * 对提交的服务ID进行去重处理
-	 * @param originServs ： 原始服务ID集合
+	 * 对提交的服务id进行去重处理
+	 * @param originServs ： 原始服务id集合
 	 * @return 解析和去重后的标记集合
 	 */
 	public static List<String> distinct(List<String> originServs){
@@ -40,7 +40,7 @@ public class AuthzServsUtils {
 		if(!CollectionUtils.isEmpty(originServs)) {
 			// 进行数据处理
 			originServs = originServs.stream().filter(p -> StringUtils.hasText(p) && p.split(":").length > 0).collect(Collectors.toList());
-			// 服务ID处理，这里的每个元素可能是多个标记的组合
+			// 服务id处理，这里的每个元素可能是多个标记的组合
 			for(String serv : originServs) {
 				serv = StringUtils.trimAllWhitespace(serv);
 				if(StringUtils.hasText(serv)) {
@@ -54,9 +54,9 @@ public class AuthzServsUtils {
 	}
 	
 	/**
-	 * 获取服务ID增量集合
-	 * @param servs		：此次提交的服务ID
-	 * @param oldservs	： 已经服务ID
+	 * 获取服务id增量集合
+	 * @param servs		：此次提交的服务id
+	 * @param oldservs	： 已经服务id
 	 * @return
 	 */
 	public static List<String> increment(List<String> servs, List<String> oldservs){
@@ -69,9 +69,9 @@ public class AuthzServsUtils {
 	}
 	
 	/**
-	 * 获取服务ID减量集合
-	 * @param servs		：此次提交的服务ID
-	 * @param oldservs	： 已经服务ID
+	 * 获取服务id减量集合
+	 * @param servs		：此次提交的服务id
+	 * @param oldservs	： 已经服务id
 	 * @return
 	 */
 	public static List<String> decrement(List<String> servs, List<String> oldservs){

@@ -7,7 +7,7 @@ package net.jeebiz.admin.authz.jwt.setup.shiro;
 import java.security.GeneralSecurityException;
 import java.util.Base64;
 import java.util.Map;
-import java.util.UUID;
+import java.util.UUid;
 
 import javax.crypto.SecretKey;
 import javax.servlet.ServletRequest;
@@ -69,7 +69,7 @@ public class DefaultJwtPayloadRepository extends JwtPayloadRepository implements
 		claims.put("perms", StringUtils.collectionToCommaDelimitedString(principal.getPerms()));
 		claims.put("userid", principal.getUserid());
 		
-		return getSecretKeyJWTRepository().issueJwt(secretKey, UUID.randomUUID().toString(), principal.getUserid(), 
+		return getSecretKeyJWTRepository().issueJwt(secretKey, UUid.randomUUid().toString(), principal.getUserid(),
 				issuer, principal.getUserid(), claims, algorithm, -1);
 	}
 	

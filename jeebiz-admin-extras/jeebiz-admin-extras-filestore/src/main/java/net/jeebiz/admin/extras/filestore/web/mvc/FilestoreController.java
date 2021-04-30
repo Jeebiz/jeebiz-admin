@@ -88,11 +88,11 @@ public class FilestoreController extends BaseApiController {
 	
 	@ApiOperation(value = "文件服务：根据uuid删除文件", notes = "删除指定存储对象下的指定文件")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "uuid", value = "文件UID", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "uuid", value = "文件Uid", required = true, dataType = "String"),
 	})
 	@GetMapping("delete")
 	@RequiresAuthentication
-	public ApiRestResponse<String> delete(@RequestParam("uuid") @NotEmpty(message = "文件UID不能为空") String uuid){
+	public ApiRestResponse<String> delete(@RequestParam("uuid") @NotEmpty(message = "文件Uid不能为空") String uuid){
 		try {
 			getFilestoreService().deleteByUuid(Arrays.asList(uuid));
 			return success("file.delete.success");
@@ -123,7 +123,7 @@ public class FilestoreController extends BaseApiController {
 	})
 	@GetMapping("deleteByUuid")
 	@RequiresAuthentication
-	public ApiRestResponse<String> deleteByUuid(@NotNull(message = "文件UUID不能为空") @RequestParam("uuids") List<String> uuids){
+	public ApiRestResponse<String> deleteByUuid(@NotNull(message = "文件UUid不能为空") @RequestParam("uuids") List<String> uuids){
 		try {
 			getFilestoreService().deleteByUuid(uuids);
 			return success("file.delete.success");
@@ -134,12 +134,12 @@ public class FilestoreController extends BaseApiController {
 	
 	@ApiOperation(value = "文件服务：重新上传文件", notes = "重新上传指定的文件")
 	@ApiImplicitParams({
-            @ApiImplicitParam(name = "uuid", value = "原文件UID", required = true, dataType = "String")
+            @ApiImplicitParam(name = "uuid", value = "原文件Uid", required = true, dataType = "String")
     })
     @PostMapping(value = "reupload", headers = "content-type=multipart/form-data")
 	@RequiresAuthentication
     public ApiRestResponse<FilestoreDTO> reupload(@RequestParam("uuid")
-			@NotEmpty(message = "原文件UUID不能为空") String uuid,
+			@NotEmpty(message = "原文件UUid不能为空") String uuid,
                                                  @ApiParam(value = "文件", required = true)
                                                  @RequestParam("file") @NotNull(message = "文件不能为空") MultipartFile file,
                                                  @ApiParam(value = "缩放长度", required = false, defaultValue = "0") @RequestParam(value = "width", required = false, defaultValue = "0") int width,
@@ -174,7 +174,7 @@ public class FilestoreController extends BaseApiController {
 	})
 	@GetMapping("listByUuid")
 	@RequiresAuthentication
-    public ApiRestResponse<List<FilestoreDTO>> listByUuid(@NotNull(message = "文件UUID不能为空") @RequestParam("uuids") List<String> uuids){
+    public ApiRestResponse<List<FilestoreDTO>> listByUuid(@NotNull(message = "文件UUid不能为空") @RequestParam("uuids") List<String> uuids){
 		try {
 			return ApiRestResponse.success(getFilestoreService().listByUuid(uuids));
 		} catch (Exception e) {

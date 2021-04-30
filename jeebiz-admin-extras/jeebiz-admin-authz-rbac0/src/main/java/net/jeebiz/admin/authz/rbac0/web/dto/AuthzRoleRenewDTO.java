@@ -27,10 +27,10 @@ import net.jeebiz.boot.api.annotation.AllowableValues;
 public class AuthzRoleRenewDTO {
 
 	/**
-	 * 角色ID
+	 * 角色id
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "角色ID")
-	@NotBlank(message = "角色ID必填")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "角色id")
+	@NotBlank(message = "角色id必填")
 	
 	private String id;
 	/**

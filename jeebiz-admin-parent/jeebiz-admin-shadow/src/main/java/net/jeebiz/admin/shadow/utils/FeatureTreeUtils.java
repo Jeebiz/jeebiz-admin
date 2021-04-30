@@ -30,7 +30,7 @@ public final class FeatureTreeUtils {
 		if(CollectionUtils.isNotEmpty(optList)){
 			for (AuthzFeatureOptModel opt : optList) {
 				Map<String, Object> optMap  = Maps.newHashMap();
-				// 功能菜单ID
+				// 功能菜单id
 				optMap.put("id", feature.getId() + "_" + opt.getId());
 				// 功能操作名称
 				optMap.put("name", opt.getName());
@@ -38,7 +38,7 @@ public final class FeatureTreeUtils {
 				optMap.put("icon", opt.getIcon());
 				// 功能操作排序
 				optMap.put("order", opt.getOrder());
-				// 功能菜单ID
+				// 功能菜单id
 				optMap.put("featureId", opt.getFeatureId());
 				// 功能操作是否可见(1:可见|0:不可见)
 				optMap.put("visible", opt.getVisible());
@@ -71,7 +71,7 @@ public final class FeatureTreeUtils {
 			for (AuthzFeatureModel feature : childFeatureList) {
 				
 				Map<String, Object> featureMap = Maps.newHashMap();
-				// 功能菜单ID
+				// 功能菜单id
 				featureMap.put("id", feature.getId());
 				featureMap.put("value", feature.getId());
 				// 功能菜单简称
@@ -86,7 +86,7 @@ public final class FeatureTreeUtils {
 				featureMap.put("icon",feature.getIcon());
 				// 菜单显示顺序
 				featureMap.put("order",feature.getOrder());
-				// 父级功能菜单ID
+				// 父级功能菜单id
 				featureMap.put("parent",feature.getParent());
 				// 功能菜单URL
 				featureMap.put("url", feature.getUrl());
@@ -128,7 +128,7 @@ public final class FeatureTreeUtils {
 			for (AuthzFeatureModel feature : topFeatureList) {
 				
 				Map<String, Object> featureMap = Maps.newHashMap();
-				// 功能菜单ID
+				// 功能菜单id
 				featureMap.put("id", feature.getId());
 				featureMap.put("value", feature.getId());
 				// 功能菜单简称
@@ -143,7 +143,7 @@ public final class FeatureTreeUtils {
 				featureMap.put("icon",feature.getIcon());
 				// 菜单显示顺序
 				featureMap.put("order",feature.getOrder());
-				// 父级功能菜单ID
+				// 父级功能菜单id
 				featureMap.put("parent",feature.getParent());
 				// 功能菜单URL
 				featureMap.put("url", feature.getUrl());

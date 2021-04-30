@@ -25,9 +25,9 @@ import lombok.ToString;
 public class AuthzOrganizationTreeDTO implements Serializable {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "机构ID编号")
+	@ApiModelProperty(name = "id", dataType = "String", value = "机构id编号")
 	private String id;
 	/**
 	 * 机构编码
@@ -45,9 +45,9 @@ public class AuthzOrganizationTreeDTO implements Serializable {
 	@ApiModelProperty(name = "intro", dataType = "String", value = "机构简介")
 	private String intro;
 	/**
-	 * 父级机构ID编号
+	 * 父级机构id编号
 	 */
-	@ApiModelProperty(name = "parent", dataType = "String", value = "父级机构ID编号")
+	@ApiModelProperty(name = "parent", dataType = "String", value = "父级机构id编号")
 	private String parent = "0";
 
 	/**

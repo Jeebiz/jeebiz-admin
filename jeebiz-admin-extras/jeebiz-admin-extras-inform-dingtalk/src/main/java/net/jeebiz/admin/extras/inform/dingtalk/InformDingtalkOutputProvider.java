@@ -166,7 +166,7 @@ public class InformDingtalkOutputProvider implements InformOutputProvider<Inform
 			 * {
 				    "errcode": 0,
 				    "errmsg": "ok",
-				    "receiver": "UserID1|UserID2"
+				    "receiver": "Userid1|Userid2"
 				}
 			 */
 			

@@ -11,14 +11,14 @@ import lombok.Data;
 public class ArticleTopicTreeDTO implements Comparable<ArticleTopicTreeDTO>{
 	
 	/**
-	 * 文章栏目ID
+	 * 文章栏目id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章栏目ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章栏目id")
 	private String id;
 	/**
-	 * 上级文章栏目ID
+	 * 上级文章栏目id
 	 */
-	@ApiModelProperty(name = "pid", dataType = "String", value = "上级文章栏目ID")
+	@ApiModelProperty(name = "pid", dataType = "String", value = "上级文章栏目id")
 	private String pid;
 	/**
 	 * 上级文章栏目
@@ -31,9 +31,9 @@ public class ArticleTopicTreeDTO implements Comparable<ArticleTopicTreeDTO>{
 	@ApiModelProperty(name = "name", dataType = "String", value = "文章栏目名称")
 	private String name;
 	/**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章分类ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章分类id")
 	private String cid;
 	/**
 	 * 文章分类名称

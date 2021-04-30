@@ -67,9 +67,9 @@ public class AuthzFeatureNewDTO implements Comparable<AuthzFeatureNewDTO> {
 	@NotBlank(message = "菜单显示顺序必填")
 	private String order;
 	/**
-	 * 父级功能菜单ID
+	 * 父级功能菜单id
 	 */
-	@ApiModelProperty(name = "parent", dataType = "String", value = "父级功能菜单ID")
+	@ApiModelProperty(name = "parent", dataType = "String", value = "父级功能菜单id")
 	private String parent;
 	/**
 	 * 菜单是否可见(1:可见|0:不可见)

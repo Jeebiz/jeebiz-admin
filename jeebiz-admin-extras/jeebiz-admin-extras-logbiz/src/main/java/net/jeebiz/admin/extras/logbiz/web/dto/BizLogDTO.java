@@ -20,9 +20,9 @@ import lombok.ToString;
 public class BizLogDTO {
 
 	/**
-	 * 日志ID
+	 * 日志id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "日志记录ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "日志记录id")
 	private String id;
 	/**
 	 * 功能模块
@@ -55,9 +55,9 @@ public class BizLogDTO {
 	@ApiModelProperty(name = "exception", dataType = "String", value = "服务接口访问异常信息")
 	private String exception;
 	/**
-	 * 操作人ID
+	 * 操作人id
 	 */
-	@ApiModelProperty(name = "userId", dataType = "String", value = "操作人ID")
+	@ApiModelProperty(name = "userId", dataType = "String", value = "操作人id")
 	private String userId;
 	/**
 	 * 功能操作人

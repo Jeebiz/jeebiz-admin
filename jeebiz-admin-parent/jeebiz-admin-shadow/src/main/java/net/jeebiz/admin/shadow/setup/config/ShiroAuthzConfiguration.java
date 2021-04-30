@@ -97,7 +97,7 @@ public class ShiroAuthzConfiguration {
 			@Override
 			protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
 					throws AuthenticationException {
-				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 				ThreadContext.put("protocol", "HTTP");
 				// 负责此次认证的realm名称
 				ThreadContext.put("realm", "DsbAuthorizingRealm");
@@ -106,7 +106,7 @@ public class ShiroAuthzConfiguration {
 			
 			@Override
 			protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 				ThreadContext.put("protocol", "HTTP");
 				// 负责此次认证的realm名称
 				ThreadContext.put("realm", "DsbAuthorizingRealm");
@@ -150,7 +150,7 @@ public class ShiroAuthzConfiguration {
 			@Override
 			protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
 					throws AuthenticationException {
-				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 				ThreadContext.put("protocol", "JWT");
 				// 负责此次认证的realm名称
 				ThreadContext.put("realm", "JwtStatelessAuthorizingRealm");
@@ -159,7 +159,7 @@ public class ShiroAuthzConfiguration {
 
 			@Override
 			protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+				// 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 				ThreadContext.put("protocol", "JWT");
 				// 负责此次认证的realm名称
 				ThreadContext.put("realm", "JwtStatelessAuthorizingRealm");

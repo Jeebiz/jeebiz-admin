@@ -18,24 +18,24 @@
 		<!-- 定义LOG存储位置 -->
 		<Property name="LOG_HOME">./logs</Property>
 		<!-- 定义应用名称 -->
-        <property name="APP_NAME">jeebiz-cloud-admin</property>
+        <property name="APP_name">jeebiz-cloud-admin</property>
 		<!-- 日志输出格式:什么时间（日志时间）?什么应用（应用标记）?什么位置（线程、类、方法）?发送了什么（日志内容）? -->
-		<Property name="LOG_CONSOLE_LAYOUT">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{[${APP_NAME}]}{red} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
-		<Property name="LOG_CONSOLE_LAYOUT2">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{[${APP_NAME}]}{red} [%clr{%p} %clr{${sys:PID}}{magenta}] %clr{---}{faint} %clr{[%t]}{faint} %clr{[%C:%M:%L]}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
-		<Property name="LOG_FILE_LAYOUT">%d{yyyy-MM-dd HH:mm:ss.SSS} [${APP_NAME}] %p ${sys:PID} --- [%t] [%C:%M:%L] : %m%n%xwEx</Property>
+		<Property name="LOG_CONSOLE_LAYOUT">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{[${APP_name}]}{red} %clr{%5p} %clr{${sys:Pid}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
+		<Property name="LOG_CONSOLE_LAYOUT2">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{[${APP_name}]}{red} [%clr{%p} %clr{${sys:Pid}}{magenta}] %clr{---}{faint} %clr{[%t]}{faint} %clr{[%C:%M:%L]}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
+		<Property name="LOG_FILE_LAYOUT">%d{yyyy-MM-dd HH:mm:ss.SSS} [${APP_name}] %p ${sys:Pid} --- [%t] [%C:%M:%L] : %m%n%xwEx</Property>
 		<!-- 日志文件主名称规则 -->
-		<Property name="DEBUG_FILE_NAME">${LOG_HOME}/debug.log</Property>
-		<Property name="INFO_FILE_NAME">${LOG_HOME}/info.log</Property>
-		<Property name="WARN_FILE_NAME">${LOG_HOME}/warn.log</Property>
-		<Property name="ERROR_FILE_NAME">${LOG_HOME}/error.log</Property>
-		<Property name="DRUID_FILE_NAME">${LOG_HOME}/druid-sql.log</Property>
+		<Property name="DEBUG_FILE_name">${LOG_HOME}/debug.log</Property>
+		<Property name="INFO_FILE_name">${LOG_HOME}/info.log</Property>
+		<Property name="WARN_FILE_name">${LOG_HOME}/warn.log</Property>
+		<Property name="ERROR_FILE_name">${LOG_HOME}/error.log</Property>
+		<Property name="DRUid_FILE_name">${LOG_HOME}/druid-sql.log</Property>
 		<!-- 日志文件备份名称规则 -->
-		<Property name="LOG_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/${APP_NAME}-%d{yyyy-MM-dd}-%i.log.gz</Property>
+		<Property name="LOG_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/${APP_name}-%d{yyyy-MM-dd}-%i.log.gz</Property>
 		<Property name="DEBUG_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log.gz</Property>
 		<Property name="INFO_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz</Property>
 		<Property name="WARN_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log.gz</Property>
 		<Property name="ERROR_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz</Property>
-		<Property name="DRUID_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/druid-%d{yyyy-MM-dd}-%i.log.gz</Property>
+		<Property name="DRUid_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/druid-%d{yyyy-MM-dd}-%i.log.gz</Property>
 	</Properties>
 	
 	<!--先定义所有的appender-->
@@ -51,7 +51,7 @@
 		
 		<!-- DEBUG级别日志文件输出配置 -->
 		<!-- 实时日志放到logs/debug.log文件中,按天或者超过size则自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
-   		<RollingRandomAccessFile name="RollingFileDebug" fileName="${DEBUG_FILE_NAME}" filePattern="${DEBUG_FILE_PATTERN}">
+   		<RollingRandomAccessFile name="RollingFileDebug" fileName="${DEBUG_FILE_name}" filePattern="${DEBUG_FILE_PATTERN}">
             <Filters>
             	<!--只接受DEBUG级别的日志，其余的全部拒绝处理-->
                 <ThresholdFilter level="DEBUG"/>
@@ -68,7 +68,7 @@
         
         <!-- INFO级别日志文件输出配置 -->
 		<!-- 实时日志放到logs/info.log文件中,按天或者超过size则自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
-   		<RollingFile name="RollingFileInfo" fileName="${INFO_FILE_NAME}" filePattern="${INFO_FILE_PATTERN}">
+   		<RollingFile name="RollingFileInfo" fileName="${INFO_FILE_name}" filePattern="${INFO_FILE_PATTERN}">
             <Filters>
                 <!--只接受INFO级别的日志，其余的全部拒绝处理-->
                 <ThresholdFilter level="INFO"/>
@@ -84,7 +84,7 @@
 
         <!-- WARN级别日志文件输出配置 -->
 		<!-- 实时日志放到logs/warn.log文件中,按天或者超过size则自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
-   		<RollingFile name="RollingFileWarn" fileName="${WARN_FILE_NAME}" filePattern="${WARN_FILE_PATTERN}">
+   		<RollingFile name="RollingFileWarn" fileName="${WARN_FILE_name}" filePattern="${WARN_FILE_PATTERN}">
             <Filters>
             	<!--只接受WARN级别的日志，其余的全部拒绝处理-->
                 <ThresholdFilter level="WARN"/>
@@ -100,7 +100,7 @@
  		
  		<!-- ERROR级别日志文件输出配置 -->
 		<!-- 实时日志放到logs/error.log文件中,按天或者超过size则自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
-   		<RollingFile name="RollingFileError" fileName="${ERROR_FILE_NAME}" filePattern="${ERROR_FILE_PATTERN}">
+   		<RollingFile name="RollingFileError" fileName="${ERROR_FILE_name}" filePattern="${ERROR_FILE_PATTERN}">
             <Filters>
             	<!--只接受"ERROR"级别的日志，其余的全部拒绝处理-->
                 <ThresholdFilter level="ERROR"/>
@@ -114,7 +114,7 @@
         </RollingFile>
 		
         <!--Druid的日志记录追加器-->
-        <RollingFile name="RollingFileDruidSql" fileName="${DRUID_FILE_NAME}" filePattern="${DRUID_FILE_PATTERN}">
+        <RollingFile name="RollingFileDruidSql" fileName="${DRUid_FILE_name}" filePattern="${DRUid_FILE_PATTERN}">
             <PatternLayout pattern="${LOG_FILE_LAYOUT}" />
             <!-- <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %L %M - %msg%xEx%n"/> -->
             <Policies>

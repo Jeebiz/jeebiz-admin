@@ -13,12 +13,12 @@ public class ArticleDTO {
 	/**
 	 * 文章D
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "文章id")
 	private String id;
 	/**
-	 * 文章栏目ID
+	 * 文章栏目id
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "文章栏目ID")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "文章栏目id")
 	private String tid;
 	/**
 	 * 文章栏目名称
@@ -26,9 +26,9 @@ public class ArticleDTO {
 	@ApiModelProperty(name = "tname", dataType = "String", value = "文章栏目名称")
 	private String tname;
 	/**
-	 * 文章分类ID
+	 * 文章分类id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章分类ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章分类id")
 	private String cid;
 	/**
 	 * 文章分类名称
@@ -36,9 +36,9 @@ public class ArticleDTO {
 	@ApiModelProperty(name = "cname", dataType = "String", value = "文章分类名称")
 	private String cname;
 	/**
-	 * 文章发布者ID
+	 * 文章发布者id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "文章发布者ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "文章发布者id")
 	private String uid;
 	/**
 	 * 文章发布者姓名

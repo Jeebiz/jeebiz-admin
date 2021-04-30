@@ -15,10 +15,10 @@ import lombok.Data;
 public class SettingsDTO {
 
 	/**
-	 * 参数ID编号
+	 * 参数id编号
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "参数ID编号")
-	@NotBlank(message = "参数ID必填")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "参数id编号")
+	@NotBlank(message = "参数id必填")
 	
 	private String id;
 	

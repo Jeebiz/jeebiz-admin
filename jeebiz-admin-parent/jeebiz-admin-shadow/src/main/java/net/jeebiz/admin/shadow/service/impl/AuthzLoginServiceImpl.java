@@ -27,7 +27,7 @@ import net.jeebiz.boot.api.service.BaseServiceImpl;
 public class AuthzLoginServiceImpl extends BaseServiceImpl<AuthzLoginModel, IAuthzLoginDao>
 		implements IAuthzLoginService {
 
-	public static final String PRIVATE_KEY_ATTRIBUTE_NAME = "privateKey";
+	public static final String PRIVATE_KEY_ATTRIBUTE_name = "privateKey";
 	
 	@Override
 	public AuthzLoginStatusModel getAccountStatus(String username, String password) {
@@ -51,7 +51,7 @@ public class AuthzLoginServiceImpl extends BaseServiceImpl<AuthzLoginModel, IAut
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 		
-		//SubjectUtils.getSession().setAttribute(PRIVATE_KEY_ATTRIBUTE_NAME, privateKey);
+		//SubjectUtils.getSession().setAttribute(PRIVATE_KEY_ATTRIBUTE_name, privateKey);
 		
 		return publicKey;
 	}

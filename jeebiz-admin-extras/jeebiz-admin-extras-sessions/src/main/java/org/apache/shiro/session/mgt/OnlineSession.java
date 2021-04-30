@@ -10,7 +10,7 @@ public class OnlineSession extends SimpleOnlineSession {
 	private static final int USEr_id_BIT_MASK = 1 << bitIndexCounter++;
 	private static final int USER_AGENT_BIT_MASK = 1 << bitIndexCounter++;
 	private static final int STATUS_BIT_MASK = 1 << bitIndexCounter++;
-	private static final int USERNAME_BIT_MASK = 1 << bitIndexCounter++;
+	private static final int USERname_BIT_MASK = 1 << bitIndexCounter++;
 	//private static final int REMEMBER_ME_BIT_MASK = 1 << bitIndexCounter++;
 
 	/** 当前登录的用户Id */
@@ -80,7 +80,7 @@ public class OnlineSession extends SimpleOnlineSession {
         if (isFieldPresent(bitMask, STATUS_BIT_MASK)) {
             this.status = (OnlineStatus) in.readObject();
         }
-        if (isFieldPresent(bitMask, USERNAME_BIT_MASK)) {
+        if (isFieldPresent(bitMask, USERname_BIT_MASK)) {
             this.username = (String) in.readObject();
         }
     }
@@ -98,7 +98,7 @@ public class OnlineSession extends SimpleOnlineSession {
         bitMask = userid != null ? bitMask | USEr_id_BIT_MASK : bitMask;
         bitMask = userAgent != null ? bitMask | USER_AGENT_BIT_MASK : bitMask;
         bitMask = status != null ? bitMask | STATUS_BIT_MASK : bitMask;
-        bitMask = username != null ? bitMask | USERNAME_BIT_MASK : bitMask;
+        bitMask = username != null ? bitMask | USERname_BIT_MASK : bitMask;
         return (short) bitMask;
     }
 

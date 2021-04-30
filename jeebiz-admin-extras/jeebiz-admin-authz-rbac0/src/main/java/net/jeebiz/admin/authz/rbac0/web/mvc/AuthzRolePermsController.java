@@ -53,7 +53,7 @@ public class AuthzRolePermsController extends BaseMapperController {
 	
 	@ApiOperation(value = "指定角色已授权功能列表（键值对）", notes = "查询指定角色已授权功能列表")
 	@ApiImplicitParams({
-		@ApiImplicitParam( name = "roleId", required = true, value = "角色ID", dataType = "String")
+		@ApiImplicitParam( name = "roleId", required = true, value = "角色id", dataType = "String")
 	})
 	@GetMapping("pairs")
 	@RequiresPermissions("role:perms")

@@ -66,9 +66,9 @@ public class AuthzPostController extends BaseApiController {
 		
 	}
 	
-	@ApiOperation(value = "岗位信息：键值对集合", notes = "根据部门ID编码查询岗位信息")
+	@ApiOperation(value = "岗位信息：键值对集合", notes = "根据部门id编码查询岗位信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "deptId", value = "部门ID编码", dataType = "String")
+		@ApiImplicitParam(name = "deptId", value = "部门id编码", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "查询岗位信息", opt = BusinessType.SELECT)
 	@GetMapping("pairs")
@@ -77,9 +77,9 @@ public class AuthzPostController extends BaseApiController {
 		return ApiRestResponse.success(getAuthzPostService().getPairValues(deptId));
 	}
 	
-	@ApiOperation(value = "岗位信息：列表集合", notes = "根据部门ID编码查询岗位信息")
+	@ApiOperation(value = "岗位信息：列表集合", notes = "根据部门id编码查询岗位信息")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "deptId", value = "部门ID编码", dataType = "String")
+		@ApiImplicitParam(name = "deptId", value = "部门id编码", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "查询岗位信息", opt = BusinessType.SELECT)
 	@GetMapping("list")
@@ -136,7 +136,7 @@ public class AuthzPostController extends BaseApiController {
 	
 	@ApiOperation(value = "更新岗位信息状态", notes = "更新岗位信息状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", required = true, value = "岗位信息ID", dataType = "String"),
+		@ApiImplicitParam(name = "id", required = true, value = "岗位信息id", dataType = "String"),
 		@ApiImplicitParam(name = "status", required = true, value = "岗位信息状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "更新岗位信息状态", opt = BusinessType.UPDATE)
@@ -153,7 +153,7 @@ public class AuthzPostController extends BaseApiController {
 	
 	@ApiOperation(value = "删除岗位信息", notes = "删除岗位信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( name = "id", value = "岗位信息ID", required = true, dataType = "String")
+		@ApiImplicitParam( name = "id", value = "岗位信息id", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "删除岗位信息", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -168,9 +168,9 @@ public class AuthzPostController extends BaseApiController {
 		return fail("authz.post.delete.fail", result);
 	}
 	
-	@ApiOperation(value = "查询岗位信息", notes = "根据ID查询岗位信息")
+	@ApiOperation(value = "查询岗位信息", notes = "根据id查询岗位信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam( name = "id", required = true, value = "岗位信息ID", dataType = "String")
+		@ApiImplicitParam( name = "id", required = true, value = "岗位信息id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_POST, business = "查询岗位信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")

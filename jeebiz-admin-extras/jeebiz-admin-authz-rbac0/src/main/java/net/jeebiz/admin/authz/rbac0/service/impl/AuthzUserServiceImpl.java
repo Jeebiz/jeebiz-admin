@@ -63,7 +63,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
         
         model.setSalt(salt);
         model.setPassword(hash.toBase64());
-        // UID检查重复
+        // Uid检查重复
  		String uid = randomString.nextNumberString();
  		while (getDao().getCountByUid(uid) != 0) {
  			uid = randomString.nextNumberString();

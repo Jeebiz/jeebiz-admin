@@ -18,12 +18,12 @@ public class DeviceBindEventDTO {
 	@ApiModelProperty(name = "deviceIMEI", required = true, dataType = "String", value = "客户端设备唯一标识")
 	private String deviceIMEI;
 	/**
-	 * 设备关联的用户ID（用户信息表ID）
+	 * 设备关联的用户id（用户信息表id）
 	 */
-	@ApiModelProperty(name = "uid", dataType = "Long", value = "设备关联的用户ID（用户信息表ID）")
+	@ApiModelProperty(name = "uid", dataType = "Long", value = "设备关联的用户id（用户信息表id）")
 	private Long uid;
 
-	@ApiModelProperty(name = "appId", required = true, dataType = "String", value = "应用ID")
+	@ApiModelProperty(name = "appId", required = true, dataType = "String", value = "应用id")
 	private String appId;
 
 	@ApiModelProperty(name = "appChannel", required = true, dataType = "String", value = "应用渠道编码")

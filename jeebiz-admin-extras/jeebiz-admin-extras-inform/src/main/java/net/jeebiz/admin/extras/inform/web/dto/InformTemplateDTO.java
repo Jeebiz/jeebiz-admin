@@ -17,14 +17,14 @@ import net.jeebiz.admin.extras.inform.setup.InformTarget;
 public class InformTemplateDTO {
 
 	/**
-	 * 消息通知模板ID
+	 * 消息通知模板id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知模板ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知模板id")
 	private String id;
 	/**
-	 * 消息通知模板创建人ID
+	 * 消息通知模板创建人id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "消息通知模板创建人ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "消息通知模板创建人id")
 	private String uid;
 	/**
 	 * 消息通知模板创建人
@@ -43,9 +43,9 @@ public class InformTemplateDTO {
 	private InformProvider provider;
 	
 	/**
-	 * 消息通知接收人ID集合
+	 * 消息通知接收人id集合
 	 */
-	@ApiModelProperty(name = "toList", dataType = "java.util.List<String>", value = "消息通知接收人ID集合")
+	@ApiModelProperty(name = "toList", dataType = "java.util.List<String>", value = "消息通知接收人id集合")
 	private List<String> toList;
 	
 	/**
@@ -59,9 +59,9 @@ public class InformTemplateDTO {
 	@ApiModelProperty(name = "content", dataType = "String", value = "消息通知内容（可能包含变量）")
 	private String content;
 	/**
-	 * 模板消息通知对应第三方平台内的模板ID
+	 * 模板消息通知对应第三方平台内的模板id
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "模板消息通知对应第三方平台内的模板ID")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "模板消息通知对应第三方平台内的模板id")
 	private String tid;
 	/**
 	 * 模板消息通知变量载体,JOSN格式的数据

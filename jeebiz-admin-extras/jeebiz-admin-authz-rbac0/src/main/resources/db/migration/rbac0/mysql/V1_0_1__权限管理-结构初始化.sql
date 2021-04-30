@@ -8,7 +8,7 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_role_list`;
 CREATE TABLE `sys_authz_role_list` (
-  `r_id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+  `r_id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '角色id',
   `r_key` varchar(50) NOT NULL COMMENT '角色编码',
   `r_name` varchar(50) NOT NULL COMMENT '角色名称',
   `r_type` int(1) NOT NULL COMMENT '角色类型（1:原生|2:继承|3:复制|4:自定义）',
@@ -24,7 +24,7 @@ CREATE TABLE `sys_authz_role_list` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_role_perms`;
 CREATE TABLE `sys_authz_role_perms` (
-  `r_id` bigint(11) NOT NULL COMMENT '角色ID',
+  `r_id` bigint(11) NOT NULL COMMENT '角色id',
   `perms` varchar(50) NOT NULL COMMENT '权限标记：(等同sys_authz_feature_opts.opt_perms)',
   PRIMARY KEY (`r_id`,`perms`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色-权限关系表（角色-菜单-按钮）';
@@ -34,14 +34,14 @@ CREATE TABLE `sys_authz_role_perms` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_user_list`;
 CREATE TABLE `sys_authz_user_list` (
-  `u_id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `u_id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `u_username` varchar(100) NOT NULL COMMENT '用户名',
   `u_password` varchar(100) NOT NULL COMMENT '用户密码',
   `u_salt` varchar(64) DEFAULT NULL COMMENT '用户密码盐：用于密码加解密',
   `u_secret` varchar(128) DEFAULT NULL COMMENT '用户秘钥：用于用户JWT加解密',
-  `u_uid` varchar(16) COMMENT '用户唯一UID（用户编号）',
+  `u_uid` varchar(16) COMMENT '用户唯一Uid（用户编号）',
   `u_code` varchar(50) COMMENT '用户唯一编号（内部工号）',
-  `u_app_id` varchar(50) DEFAULT NULL COMMENT '用户客户端应用ID',
+  `u_app_id` varchar(50) DEFAULT NULL COMMENT '用户客户端应用id',
   `u_app_channel` varchar(20) DEFAULT NULL COMMENT '用户客户端应用渠道编码',
   `u_app_version` varchar(20) DEFAULT NULL COMMENT '用户客户端版本',
   `u_online` smallint(2) DEFAULT '0' COMMENT '用户是否在线（1：是，0：否）',
@@ -59,8 +59,8 @@ CREATE TABLE `sys_authz_user_list` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_user_profile`;
 CREATE TABLE `sys_authz_user_profile` (
-  `U_PID` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户描述ID',
-  `u_id` bigint(11) NOT NULL COMMENT '用户ID',
+  `U_Pid` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户描述id',
+  `u_id` bigint(11) NOT NULL COMMENT '用户id',
   `u_nickname` varchar(50) DEFAULT NULL COMMENT '用户昵称',
   `u_avatar` varchar(500) DEFAULT NULL COMMENT '用户头像：图片路径或图标样式',
   `u_country_code` varchar(20) DEFAULT NULL COMMENT '手机号码国家码',
@@ -82,7 +82,7 @@ CREATE TABLE `sys_authz_user_profile` (
   `u_wgs84_lat` decimal(10,6) DEFAULT NULL COMMENT '用户位置：wgs84纬度',
   `u_degree` int(3) DEFAULT '0' COMMENT '用户信息完成度',
   `u_time24` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '初始化时间',
-  PRIMARY KEY (`U_PID`),
+  PRIMARY KEY (`U_Pid`),
   UNIQUE KEY `idx_uid` (`u_id`) USING BTREE,
   UNIQUE KEY `idx_phone` (`u_phone`) USING BTREE,
   UNIQUE KEY `idx_nickname` (`u_nickname`) USING BTREE
@@ -93,8 +93,8 @@ CREATE TABLE `sys_authz_user_profile` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_user_role_relation`;
 CREATE TABLE `sys_authz_user_role_relation` (
-  `u_id` bigint(11) NOT NULL COMMENT '用户ID',
-  `r_id` bigint(11) NOT NULL COMMENT '角色ID',
+  `u_id` bigint(11) NOT NULL COMMENT '用户id',
+  `r_id` bigint(11) NOT NULL COMMENT '角色id',
   `R_PRTY` int(2) NOT NULL DEFAULT 0 COMMENT '优先级：用于默认登录角色',
   PRIMARY KEY (`u_id`,`r_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户-角色关系表';

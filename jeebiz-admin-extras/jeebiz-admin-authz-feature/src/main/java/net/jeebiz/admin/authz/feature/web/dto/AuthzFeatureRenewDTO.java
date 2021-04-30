@@ -19,10 +19,10 @@ import lombok.ToString;
 public class AuthzFeatureRenewDTO implements Comparable<AuthzFeatureRenewDTO>{
 
 	/**
-	 * 功能菜单ID
+	 * 功能菜单id
 	 */
-	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "功能菜单ID")
-	@NotBlank(message = "功能菜单ID必填")
+	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "功能菜单id")
+	@NotBlank(message = "功能菜单id必填")
 	private String id;
 	/**
 	 * 功能菜单名称

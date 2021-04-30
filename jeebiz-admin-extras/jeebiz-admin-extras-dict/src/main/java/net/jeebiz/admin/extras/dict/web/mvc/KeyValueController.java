@@ -137,7 +137,7 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "删除基础数据", notes = "删除基础数据")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "ids", value = "基础数据ID,多个用,拼接", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "ids", value = "基础数据id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "删除基础数据", opt = BusinessType.UPDATE)
 	@GetMapping("delete")
@@ -179,7 +179,7 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "更新基础数据状态", notes = "更新基础数据状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据ID", dataType = "String"),
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据id", dataType = "String"),
 		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "基础数据状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "更新基础数据状态", opt = BusinessType.UPDATE)
@@ -221,9 +221,9 @@ public class KeyValueController extends BaseApiController {
 		}
 	}
 	
-	@ApiOperation(value = "查询基础数据信息", notes = "根据ID查询基础数据信息")
+	@ApiOperation(value = "查询基础数据信息", notes = "根据id查询基础数据信息")
 	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据ID", dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据id", dataType = "String")
 	})
 	@GetMapping("detail")
 	@RequiresPermissions("keyvalue:detail")

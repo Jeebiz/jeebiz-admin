@@ -23,7 +23,7 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 public class ChinaAreaModel extends BaseModel<ChinaAreaModel> {
 
 	/**
-	 * ID
+	 * id
 	 */
 	private String id;
 	/**

@@ -4,7 +4,7 @@
  */
 package net.jeebiz.admin.extras.logbiz.setup.shiro.listener;
 
-import java.util.UUID;
+import java.util.UUid;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -68,7 +68,7 @@ public class ShiroAuthzLoginListener implements LoginListener {
 	
 	protected void recordRequest(HttpServletRequest request) {
 		
-		ThreadContext.put("uuid", UUID.randomUUID().toString()); // Add the fishtag;
+		ThreadContext.put("uuid", UUid.randomUUid().toString()); // Add the fishtag;
 		ThreadContext.put("requestURL", request.getRequestURL().toString());
 		ThreadContext.put("requestURI", request.getRequestURI());
 		ThreadContext.put("queryString", request.getQueryString());

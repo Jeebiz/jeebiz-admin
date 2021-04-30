@@ -4,7 +4,7 @@
 <mapper namespace="net.jeebiz.admin.extras.dict.dao.IKeyGroupDao" >
 	
 	<resultMap id="KeyGroupMap" type="KeyGroupModel">
-		<result property="id" column="G_ID" />
+		<result property="id" column="G_id" />
 		<result property="key" column="G_KEY" />
 		<result property="value" column="G_TEXT" />
 		<result property="status" column="G_STATUS" />
@@ -22,7 +22,7 @@
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_DATA_PAIRGROUP WHERE G_ID IN 
+		DELETE FROM SYS_DATA_PAIRGROUP WHERE G_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -31,14 +31,14 @@
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_DATA_PAIRGROUP t 
 		   SET G_STATUS = #{status}
-		 WHERE G_ID = #{id}
+		 WHERE G_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="KeyGroupModel" flushCache="true">
 		UPDATE SYS_DATA_PAIRGROUP t 
 		   SET G_TEXT = #{value},
 		       G_STATUS = #{status}
-		 WHERE G_ID = #{id}
+		 WHERE G_id = #{id}
 	</update>
 	
 	<update id="batchUpdate" flushCache="true">
@@ -46,13 +46,13 @@
             update SYS_DATA_PAIRGROUP 
                set G_TEXT = #{item.value},
                	   G_STATUS = #{item.status}
-           WHERE G_ID = #{item.id} 
+           WHERE G_id = #{item.id}
         </foreach>
     </update>
     
 	<select id="getPagedList" resultMap="KeyGroupMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.G_ID,
+			t.G_id,
 			t.G_KEY,
 			t.G_TEXT,
 			t.G_STATUS,
@@ -68,18 +68,18 @@
 	
 	<select id="getModel" resultMap="KeyGroupMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.G_ID,
+			t.G_id,
 			t.G_KEY,
 			t.G_TEXT,
 			t.G_STATUS,
 			t.G_ORDER
 		FROM SYS_DATA_PAIRGROUP t
-		WHERE t.G_ID = #{id} 
+		WHERE t.G_id = #{id}
 	</select>
 	
 	<select id="getKeyGroupList" resultMap="KeyGroupMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.G_ID,
+			t.G_id,
 			t.G_KEY,
 			t.G_TEXT,
 			t.G_STATUS,
@@ -105,7 +105,7 @@
 		  FROM SYS_DATA_PAIRGROUP t 
 		 WHERE t.G_KEY = #{code}
 		 <if test="origin != null and origin != ''">
-			AND t.G_ID != #{origin}
+			AND t.G_id != #{origin}
 		 </if>
 		 AND ROWNUM = 1
 	</select>
@@ -115,7 +115,7 @@
 		  FROM SYS_DATA_PAIRGROUP t 
 		 WHERE t.G_TEXT = #{name}
 		 <if test="origin != null and origin != ''">
-			AND t.G_ID != #{origin}
+			AND t.G_id != #{origin}
 		 </if>
 		 AND ROWNUM = 1
 	</select>

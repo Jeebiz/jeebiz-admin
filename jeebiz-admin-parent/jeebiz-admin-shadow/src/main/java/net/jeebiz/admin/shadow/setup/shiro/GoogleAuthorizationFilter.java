@@ -114,7 +114,7 @@ public class GoogleAuthorizationFilter extends AuthorizationFilter {
 		  
 
 		} else {
-		  System.out.println("Invalid ID token.");
+		  System.out.println("Invalid id token.");
 		}
 		
 		GoogleAuthenticationToken token = new GoogleAuthenticationToken(idToken, idTokenString, host);

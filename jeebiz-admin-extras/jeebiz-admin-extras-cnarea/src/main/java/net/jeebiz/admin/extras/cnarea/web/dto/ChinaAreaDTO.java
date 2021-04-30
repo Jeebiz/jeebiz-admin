@@ -13,9 +13,9 @@ import lombok.Data;
 public class ChinaAreaDTO {
 
 	/**
-	 * ID
+	 * id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "id")
 	private String id;
 	/**
 	 * 层级

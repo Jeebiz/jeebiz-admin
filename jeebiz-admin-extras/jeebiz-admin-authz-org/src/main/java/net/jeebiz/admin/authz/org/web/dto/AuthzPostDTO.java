@@ -16,9 +16,9 @@ import lombok.ToString;
 public class AuthzPostDTO implements Serializable {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构ID编号")
+	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构id编号")
 	private String orgId;
 	/**
 	 * 机构名称
@@ -26,9 +26,9 @@ public class AuthzPostDTO implements Serializable {
 	@ApiModelProperty(name = "orgName", dataType = "String", value = "机构名称")
 	private String orgName;
 	/**
-	 * 部门ID编号
+	 * 部门id编号
 	 */
-	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门ID编号")
+	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门id编号")
 	private String deptId;
 	/**
 	 * 部门名称
@@ -36,9 +36,9 @@ public class AuthzPostDTO implements Serializable {
 	@ApiModelProperty(name = "deptName", dataType = "String", value = "部门名称")
 	private String deptName;
 	/**
-	 * 岗位ID编号
+	 * 岗位id编号
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "岗位ID编号")
+	@ApiModelProperty(name = "id", dataType = "String", value = "岗位id编号")
 	private String id;
 	/**
 	 * 岗位编码
@@ -57,9 +57,9 @@ public class AuthzPostDTO implements Serializable {
 	@ApiModelProperty(name = "intro", dataType = "String", value = "岗位简介")
 	private String intro;
 	/**
-	 * 岗位创建人ID
+	 * 岗位创建人id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "岗位创建人ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "岗位创建人id")
 	private String uid;
 	/**
 	 * 岗位状态（0:禁用|1:可用）

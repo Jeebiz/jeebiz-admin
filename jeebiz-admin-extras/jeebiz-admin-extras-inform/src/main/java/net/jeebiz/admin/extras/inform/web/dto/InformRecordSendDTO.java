@@ -24,9 +24,9 @@ import net.jeebiz.admin.extras.inform.setup.InformProvider;
 public class InformRecordSendDTO {
 
 	/**
-	 * 消息通知接收人ID集合
+	 * 消息通知接收人id集合
 	 */
-	@ApiModelProperty(name = "toList", required = true, dataType = "java.util.List<String>", value = "消息通知接收人ID集合")
+	@ApiModelProperty(name = "toList", required = true, dataType = "java.util.List<String>", value = "消息通知接收人id集合")
 	@NotNull(message = "至少需要指定一个消息通知接收人")
 	private List<String> toList;
 	/**
@@ -53,9 +53,9 @@ public class InformRecordSendDTO {
 	@NotBlank(message = "消息通知内容不能为空")
 	private String content;
 	/**
-	 * 消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）
+	 * 消息通知模板id（系统内信息模板、微信订阅消息等模板id）
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "消息通知模板id（系统内信息模板、微信订阅消息等模板id）")
 	private String tid;
 	/**
 	 * 通知信息关联数据载体,JOSN格式的数据

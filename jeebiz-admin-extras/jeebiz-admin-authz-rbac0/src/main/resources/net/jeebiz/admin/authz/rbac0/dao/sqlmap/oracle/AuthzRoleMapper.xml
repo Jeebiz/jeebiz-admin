@@ -3,7 +3,7 @@
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao">
 	
 	<resultMap id="RoleMap" type="AuthzRoleModel">
-		<!-- 角色ID -->
+		<!-- 角色id -->
 		<result property="id" column="r_id" />
 		<!-- 角色编码 -->
 		<result property="key" column="r_key" />
@@ -37,7 +37,7 @@
         <!-- 用户秘钥：用于用户JWT加解密 -->
         <result property="secret" column="u_secret"/>
         <!-- 用户别名（昵称） -->
-        <result property="alias" column="U_ALIAS"/>
+        <result property="alias" column="u_alias"/>
         <!-- 用户头像：图片路径或图标样式  -->
 		<result property="avatar" column="u_avatar" />
         <!-- 手机号码 -->
@@ -56,7 +56,7 @@
         <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
         <result property="time24" column="u_time24"/>
-        <!-- 角色ID（可能多个组合，如：1,2） -->
+        <!-- 角色id（可能多个组合，如：1,2） -->
 		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
 		<result property="roleName" column="r_name" />

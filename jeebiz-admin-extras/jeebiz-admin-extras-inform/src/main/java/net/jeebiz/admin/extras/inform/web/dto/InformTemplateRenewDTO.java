@@ -24,10 +24,10 @@ import net.jeebiz.admin.extras.inform.setup.InformTarget;
 public class InformTemplateRenewDTO {
 	
 	/**
-	 * 消息通知模板ID
+	 * 消息通知模板id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知模板ID")
-	@NotBlank(message = "消息通知模板ID不能为空")
+	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知模板id")
+	@NotBlank(message = "消息通知模板id不能为空")
 	private String id;
 	/**
 	 * 消息通知推送对象
@@ -42,9 +42,9 @@ public class InformTemplateRenewDTO {
 	@NotEmpty(message = "消息通知的提供者不能为空")
 	private InformProvider provider;
 	/**
-	 * 消息通知接收人ID集合
+	 * 消息通知接收人id集合
 	 */
-	@ApiModelProperty(name = "toList", dataType = "java.util.List<String>", value = "消息通知接收人ID集合")
+	@ApiModelProperty(name = "toList", dataType = "java.util.List<String>", value = "消息通知接收人id集合")
 	private List<String> toList;
 	/**
 	 * 消息通知标题（可能包含变量）
@@ -57,9 +57,9 @@ public class InformTemplateRenewDTO {
 	@ApiModelProperty(name = "content", dataType = "String", value = "消息通知内容（可能包含变量）")
 	private String content;
 	/**
-	 * 模板消息通知对应第三方平台内的模板ID
+	 * 模板消息通知对应第三方平台内的模板id
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "模板消息通知对应第三方平台内的模板ID")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "模板消息通知对应第三方平台内的模板id")
 	private String tid;
 	/**
 	 * 模板消息通知变量载体,JOSN格式的数据

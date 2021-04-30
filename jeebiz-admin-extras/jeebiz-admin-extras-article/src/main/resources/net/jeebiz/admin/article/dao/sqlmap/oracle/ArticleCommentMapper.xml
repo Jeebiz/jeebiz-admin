@@ -3,87 +3,87 @@
 <mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleCommentDao">
 
     <resultMap id="ArticleCommentMap" type="ArticleCommentModel">
-        <!-- 文章评论ID -->
+        <!-- 文章评论id -->
 		<result property="id" column="c_id" />
-		<!-- 文章ID -->
-		<result property="cid" column="C_CID" />
-		<!-- 上级文章评论ID -->
-		<result property="pid" column="C_PID" />
-		<!-- 文章评论者ID -->
-		<result property="uid" column="C_UID" />
+		<!-- 文章id -->
+		<result property="cid" column="c_cid" />
+		<!-- 上级文章评论id -->
+		<result property="pid" column="c_pid" />
+		<!-- 文章评论者id -->
+		<result property="uid" column="c_uid" />
 		<!-- 文章评论者姓名 -->
-		<result property="uname" column="C_UNAME" />
+		<result property="uname" column="c_uname" />
 		<!-- 文章评论类型 -->
 		<result property="type" column="C_TYPE" />
 		<!-- 文章评论内容 -->
 		<result property="text" column="C_TEXT" />
 		<!-- 文章评论审核状态（0:未通过|1:通过） -->
-		<result property="review" column="C_REVIEW" />
+		<result property="review" column="c_review" />
 		<!-- 文章评论状态（0:删除|1:正常） -->
-		<result property="status" column="C_STATUS" />
+		<result property="status" column="c_status" />
 		<!-- 文章评论推荐（0:未推荐|1:推荐） -->
-		<result property="recommend" column="C_RCMD" />
+		<result property="recommend" column="c_rcmd" />
 		<!-- 文章评论排序 -->
-		<result property="order" column="C_ORDER" />
+		<result property="order" column="c_order" />
 		<!-- 文章评论时间 -->
-		<result property="time24" column="C_time24" />
+		<result property="time24" column="c_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleCommentModel" flushCache="true">
-		INSERT INTO SYS_ARTICLE_CONTENT_COMMENTS(C_CID,C_PID,C_UID,C_TYPE,C_TEXT,C_REVIEW,C_STATUS,C_RCMD,C_ORDER)
-		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,NVL((SELECT MAX(x.C_ORDER) FROM SYS_ARTICLE_CONTENT_COMMENTS x WHERE x.c_id = #{cid}),0))
+		INSERT INTO sys_article_content_comments(c_cid,c_pid,c_uid,C_TYPE,C_TEXT,c_review,c_status,c_rcmd,c_order)
+		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,NVL((SELECT MAX(x.c_order) FROM sys_article_content_comments x WHERE x.c_id = #{cid}),0))
 	</insert> 
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_COMMENTS WHERE c_id IN
+		DELETE FROM sys_article_content_comments WHERE c_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
 	
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
+		UPDATE sys_article_content_comments t
 		   SET d_status = #{status}
 		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
-		   SET C_RCMD = #{recommend}
+		UPDATE sys_article_content_comments t
+		   SET c_rcmd = #{recommend}
 		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setReview" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
-		   SET C_REVIEW = #{review}
+		UPDATE sys_article_content_comments t
+		   SET c_review = #{review}
 		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="ArticleCommentModel" flushCache="true">
-		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
+		UPDATE sys_article_content_comments t
 		   SET C_TEXT = #{text},
-		   	   C_time24 = to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss')
+		   	   c_time24 = to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss')
 		 WHERE c_id = #{id}
 	</update>
     
 	<select id="getPagedList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_CID,
-			t.C_PID,
-			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
+			t.c_cid,
+			t.c_pid,
+			t.c_uid,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_RCMD,
-			t.C_ORDER,
-			t.C_time24
-		FROM SYS_ARTICLE_CONTENT_COMMENTS t
+			t.c_review,
+			t.c_status,
+			t.c_rcmd,
+			t.c_order,
+			t.c_time24
+		FROM sys_article_content_comments t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
-				and t.C_CID = #{model.cid}
+				and t.c_cid = #{model.cid}
 			</if>
 		</where>
 	</select>
@@ -91,58 +91,58 @@
 	<select id="getModel" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_CID,
-			t.C_PID,
-			t.C_UID,
-		    (SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
+			t.c_cid,
+			t.c_pid,
+			t.c_uid,
+		    (SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_RCMD,
-			t.C_ORDER,
-			t.C_time24
-	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
+			t.c_review,
+			t.c_status,
+			t.c_rcmd,
+			t.c_order,
+			t.c_time24
+	   FROM sys_article_content_comments t
 	  WHERE t.c_id = #{id}
 	</select>
 
 	<select id="getRowList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_CID,
-			t.C_PID,
-			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
+			t.c_cid,
+			t.c_pid,
+			t.c_uid,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_RCMD,
-			t.C_ORDER,
-			t.C_time24
-	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
-	  WHERE t.C_STATUS != 0
-	    AND t.C_UID = #{uid}
+			t.c_review,
+			t.c_status,
+			t.c_rcmd,
+			t.c_order,
+			t.c_time24
+	   FROM sys_article_content_comments t
+	  WHERE t.c_status != 0
+	    AND t.c_uid = #{uid}
 	</select>
 	
 	<select id="getTreeList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
-			t.C_CID,
-			t.C_PID,
-			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
+			t.c_cid,
+			t.c_pid,
+			t.c_uid,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
-			t.C_REVIEW,
-			t.C_STATUS,
-			t.C_RCMD,
-			t.C_ORDER,
-			t.C_time24
-	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
-	  WHERE t.C_STATUS != 0
-	    AND t.C_UID = #{uid}
-	  START WITH t.C_PID = 0 CONNECT BY t.C_PID = PRIOR t.c_id
+			t.c_review,
+			t.c_status,
+			t.c_rcmd,
+			t.c_order,
+			t.c_time24
+	   FROM sys_article_content_comments t
+	  WHERE t.c_status != 0
+	    AND t.c_uid = #{uid}
+	  START WITH t.c_pid = 0 CONNECT BY t.c_pid = PRIOR t.c_id
 	</select>
 
 </mapper>

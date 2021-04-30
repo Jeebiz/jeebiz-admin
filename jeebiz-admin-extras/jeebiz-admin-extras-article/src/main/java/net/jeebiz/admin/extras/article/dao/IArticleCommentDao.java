@@ -13,7 +13,7 @@ public interface IArticleCommentDao extends BaseDao<ArticleCommentModel> {
 
 	/**
 	 * 
-	 * @param id 文章评论ID
+	 * @param id 文章评论id
 	 * @param status 文章评论推荐（0:未推荐|1:推荐）
 	 * @return
 	 */
@@ -21,7 +21,7 @@ public interface IArticleCommentDao extends BaseDao<ArticleCommentModel> {
 	
 	/**
 	 * 
-	 * @param id 文章评论ID
+	 * @param id 文章评论id
 	 * @param status 文章评论审核状态（0:未通过|1:通过）
 	 * @return
 	 */

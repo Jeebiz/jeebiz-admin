@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "DemoDTO", description = "xxx数据传输对象")
 public class DemoDTO {
 
-	@ApiModelProperty(value = "xxID", required = true)
+	@ApiModelProperty(value = "xxid", required = true)
 	private String id;
 	@ApiModelProperty(value = "xx名称", required = true)
 	@NotBlank(message = "名称必填")

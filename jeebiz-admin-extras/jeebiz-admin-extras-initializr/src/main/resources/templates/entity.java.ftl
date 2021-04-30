@@ -32,8 +32,8 @@ public class ${cfg.entityName} extends Model<${cfg.entityName}> {
 public class ${cfg.entityName} implements Serializable {
 </#if>
 
-<#if entitySerialVersionUID>
-    private static final long serialVersionUID = 1L;
+<#if entitySerialVersionUid>
+    private static final long serialVersionUid = 1L;
 </#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>

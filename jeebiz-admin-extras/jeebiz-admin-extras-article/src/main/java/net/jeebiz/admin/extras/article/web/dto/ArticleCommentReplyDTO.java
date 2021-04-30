@@ -9,9 +9,9 @@ import lombok.Data;
 public class ArticleCommentReplyDTO {
     
 	/**
-	 * 文章ID
+	 * 文章id
 	 */
-	@ApiModelProperty(name = "cid", dataType = "String", value = "文章ID")
+	@ApiModelProperty(name = "cid", dataType = "String", value = "文章id")
 	private String cid;
 	/**
 	 * 文章评论类型

@@ -22,11 +22,11 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 public class AuthzLogModel extends PaginationModel<AuthzLogModel> {
 	
 	/**
-	 * 日志ID
+	 * 日志id
 	 */
 	private String id;
 	/**
-	 * 认证授权对象ID
+	 * 认证授权对象id
 	 */
 	private String userId;
 	/**
@@ -38,7 +38,7 @@ public class AuthzLogModel extends PaginationModel<AuthzLogModel> {
 	 */
 	private String opt;
 	/**
-	 * 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、OpenID、SMAL等
+	 * 认证协议：CAS、HTTP、JWT、KISSO、LDAP、OAuth2、Openid、SMAL等
 	 */
 	private String protocol;
 	/**

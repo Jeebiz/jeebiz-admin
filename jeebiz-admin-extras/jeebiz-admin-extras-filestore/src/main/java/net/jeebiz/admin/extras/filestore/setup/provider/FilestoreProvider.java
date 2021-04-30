@@ -57,7 +57,7 @@ public interface FilestoreProvider {
 	
 	/**
 	 * 重新存储指定文件
-	 * @param uuid 	原文件UUID
+	 * @param uuid 	原文件UUid
 	 * @param file	文件
 	 * @return
 	 */

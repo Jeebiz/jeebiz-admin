@@ -18,9 +18,9 @@ import lombok.ToString;
 public class AuthzTeamDTO implements Serializable {
 
 	/**
-	 * 机构ID编号
+	 * 机构id编号
 	 */
-	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构ID编号")
+	@ApiModelProperty(name = "orgId", dataType = "String", value = "机构id编号")
 	private String orgId;
 	/**
 	 * 机构名称
@@ -28,9 +28,9 @@ public class AuthzTeamDTO implements Serializable {
 	@ApiModelProperty(name = "orgName", dataType = "String", value = "机构名称")
 	private String orgName;
 	/**
-	 * 部门ID编号
+	 * 部门id编号
 	 */
-	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门ID编号")
+	@ApiModelProperty(name = "deptId", dataType = "String", value = "部门id编号")
 	private String deptId;
 	/**
 	 * 部门名称
@@ -38,9 +38,9 @@ public class AuthzTeamDTO implements Serializable {
 	@ApiModelProperty(name = "deptName", dataType = "String", value = "部门名称")
 	private String deptName;
 	/**
-	 * 团队ID编号
+	 * 团队id编号
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "团队ID编号")
+	@ApiModelProperty(name = "id", dataType = "String", value = "团队id编号")
 	private String id;
 	/**
 	 * 团队名称
@@ -54,9 +54,9 @@ public class AuthzTeamDTO implements Serializable {
 	@ApiModelProperty(name = "intro", dataType = "String", value = "团队简介")
 	private String intro;
 	/**
-	 * 团队创建人ID
+	 * 团队创建人id
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "团队创建人ID")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "团队创建人id")
 	private String uid;
 	/**
 	 * 团队状态（0:禁用|1:可用）

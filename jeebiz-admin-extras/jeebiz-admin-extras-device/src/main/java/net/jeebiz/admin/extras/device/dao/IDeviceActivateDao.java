@@ -11,7 +11,7 @@ import net.jeebiz.admin.extras.device.dao.entities.DeviceActivateModel;
 import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IDeviceActivateDao extends BaseMapper<DeviceActivateModel> {
+public interface ideviceActivateDao extends BaseMapper<DeviceActivateModel> {
 
 	/**
 	 * 通过设备唯一标识查询主键id

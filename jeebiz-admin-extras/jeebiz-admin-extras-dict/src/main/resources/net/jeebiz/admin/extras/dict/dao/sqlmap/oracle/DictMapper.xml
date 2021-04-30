@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.jeebiz.admin.extras.dict.dao.IDictDao">
+<mapper namespace="net.jeebiz.admin.extras.dict.dao.idictDao">
 	
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="D_KEY" />
+		<result property="key" column="d_key" />
 		<result property="value" column="D_TEXT" />
 	</resultMap>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-		   SELECT t.D_KEY,t.D_TEXT
+		   SELECT t.d_key,t.D_TEXT
 			 FROM SYS_DATA_PAIRVALUE t 
 			WHERE t.d_group = #{key}
 			  AND t.d_status = 1

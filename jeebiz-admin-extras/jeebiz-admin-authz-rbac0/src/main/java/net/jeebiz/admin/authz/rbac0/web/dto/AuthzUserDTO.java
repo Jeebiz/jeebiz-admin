@@ -13,14 +13,14 @@ import lombok.Data;
 public class AuthzUserDTO {
 
 	/**
-	 * 用户ID
+	 * 用户id
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "用户ID")
+	@ApiModelProperty(name = "id", dataType = "String", value = "用户id")
 	private String id;
 	/**
 	 * 用户唯一编号（工号）
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "用户唯一ID（员工信息表ID）")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "用户唯一id（员工信息表id）")
 	private String uid;
 	/**
 	 * 用户唯一编号（工号）
@@ -48,9 +48,9 @@ public class AuthzUserDTO {
 	@ApiModelProperty(name = "secret", dataType = "String", value = "用户秘钥：用于用户JWT加解密")
 	private String secret;
 	/**
-	 * 用户客户端应用ID
+	 * 用户客户端应用id
 	 */
-	@ApiModelProperty(name = "appId", required = true, dataType = "String", value = "用户客户端应用ID")
+	@ApiModelProperty(name = "appId", required = true, dataType = "String", value = "用户客户端应用id")
 	private String appId;
 	/**
 	 * 用户客户端应用渠道编码
@@ -75,9 +75,9 @@ public class AuthzUserDTO {
 	private String onlineLatest;
 	
 	/**
-	 * 角色ID（可能多个组合，如：1,2）
+	 * 角色id（可能多个组合，如：1,2）
 	 */
-	@ApiModelProperty(name = "roleId", required = true, dataType = "String", value = "角色ID（可能多个组合，如：1,2）")
+	@ApiModelProperty(name = "roleId", required = true, dataType = "String", value = "角色id（可能多个组合，如：1,2）")
 	private String roleId;
 	/**
 	 * 角色名称（可能多个组合，如：角色1,角色2）

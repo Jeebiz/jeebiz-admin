@@ -17,7 +17,7 @@ import net.jeebiz.boot.api.service.IBaseService;
 public interface IAuthorizedFeatureService extends IBaseService<AuthzFeatureModel> {
 
 	/**
-	 * 查询指定角色ID拥有的功能菜单
+	 * 查询指定角色id拥有的功能菜单
 	 * @param roleId
 	 * @return
 	 */
@@ -31,7 +31,7 @@ public interface IAuthorizedFeatureService extends IBaseService<AuthzFeatureMode
 	public List<AuthzFeatureOptModel> getFeatureOpts(String roleId);
 	
 	/**
-	 * 根据功能菜单ID查询子菜单
+	 * 根据功能菜单id查询子菜单
 	 * @param servId
 	 * @return
 	 */
