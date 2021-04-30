@@ -21,7 +21,7 @@
 		SELECT
 			t.LOG_ID,
 			t.CREATOR as LOG_USERID,
-			t2.U_USERNAME as LOG_USERNAME,
+			t2.u_username as LOG_USERNAME,
 			t.LOG_OPT,
 			t.LOG_PROTOCOL,
 			t.LOG_ADDR,
@@ -30,7 +30,7 @@
 			t.LOG_MSG,
 			t.LOG_EXCP,
 			t.CREATE_TIME as LOG_TIMESTAMP 
-		FROM SYS_DATA_LOG_AUTHZ t INNER JOIN SYS_AUTHZ_USER_LIST t2 ON t.CREATOR = t2.U_ID
+		FROM SYS_DATA_LOG_AUTHZ t INNER JOIN sys_authz_user_list t2 ON t.CREATOR = t2.u_id
 		<where>
 			<if test="model.userId != null and model.userId != '' ">
 				AND t.CREATOR = #{model.userId}
@@ -41,7 +41,7 @@
 			<if test="model.keywords != null and model.keywords != '' ">
 				AND (t.LOG_ADDR like '%'||#{model.keywords}||'%' 
 					OR t.LOG_LOCATION like '%'||#{model.keywords}||'%' 
-					OR t2.U_USERNAME like '%'||#{model.keywords}||'%')
+					OR t2.u_username like '%'||#{model.keywords}||'%')
 			</if>
 			<if test="model.begintime != null and model.begintime != '' 
 					  and model.endtime != null and model.endtime != '' ">

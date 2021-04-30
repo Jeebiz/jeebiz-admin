@@ -4,119 +4,119 @@
 <mapper namespace="net.jeebiz.admin.authz.feature.dao.IAuthzFeatureDao">
 	
 	<resultMap id="AuthzFeatureMap" type="AuthzFeatureModel">
-		<result property="id" column="F_ID" />
-		<result property="code" column="F_CODE" />
-		<result property="name" column="F_NAME" />
-		<result property="abb" column="F_ABB" />
-		<result property="url" column="F_URL" />
-		<result property="path" column="F_PATH" />
-		<result property="type" column="F_TYPE" />
-		<result property="icon" column="F_ICON" />
-		<result property="order" column="F_ORDER" />
-		<result property="parent" column="F_PARENT" />
-		<result property="visible" column="F_VISIBLE" />
-		<result property="root" column="F_ROOT" />
-		<result property="perms" column="F_PERMS" />
+		<result property="id" column="f_id" />
+		<result property="code" column="f_code" />
+		<result property="name" column="f_name" />
+		<result property="abb" column="f_abb" />
+		<result property="url" column="f_url" />
+		<result property="path" column="f_path" />
+		<result property="type" column="f_type" />
+		<result property="icon" column="f_icon" />
+		<result property="order" column="f_order" />
+		<result property="parent" column="f_parent" />
+		<result property="visible" column="f_visible" />
+		<result property="root" column="f_root" />
+		<result property="perms" column="f_perms" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzFeatureModel" flushCache="true">
-		insert into SYS_AUTHZ_FEATURE_LIST(F_CODE,F_NAME,F_ABB,F_URL,F_PATH,F_TYPE,F_ICON,F_ORDER,F_PARENT,F_VISIBLE)
+		insert into sys_authz_feature_list(f_code,f_name,f_abb,f_url,f_path,f_type,f_icon,f_order,f_parent,f_visible)
 		values(#{code},#{name},#{abb},#{url},#{path,jdbcType=VARCHAR},#{type},#{icon},#{order},#{parent,jdbcType=VARCHAR},'1')
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_FEATURE_LIST WHERE F_ID = #{id}
+		DELETE FROM sys_authz_feature_list WHERE f_id = #{id}
 	</delete>
 	
 	<update id="update" parameterType="AuthzFeatureModel" flushCache="true">
-		update SYS_AUTHZ_FEATURE_LIST t
+		update sys_authz_feature_list t
 		<set>
-			<if test="name != null and name != ''">t.F_NAME = #{name},</if>
-			<if test="abb != null and abb != ''">t.F_ABB = #{abb},</if>
-			<if test="url != null and url != ''">t.F_URL = #{url},</if>
-			<if test="path != null and path != ''">t.F_PATH = #{path},</if>
-			<if test="icon != null and icon != ''">t.F_ICON = #{icon},</if>
-			<if test="order != null and order != ''">t.F_ORDER = #{order},</if>
-			<if test="visible != null and visible != ''">t.F_VISIBLE = #{visible}</if>
+			<if test="name != null and name != ''">t.f_name = #{name},</if>
+			<if test="abb != null and abb != ''">t.f_abb = #{abb},</if>
+			<if test="url != null and url != ''">t.f_url = #{url},</if>
+			<if test="path != null and path != ''">t.f_path = #{path},</if>
+			<if test="icon != null and icon != ''">t.f_icon = #{icon},</if>
+			<if test="order != null and order != ''">t.f_order = #{order},</if>
+			<if test="visible != null and visible != ''">t.f_visible = #{visible}</if>
 		</set>
-		where t.F_ID = #{id}
+		where t.f_id = #{id}
 	</update>
 	
 	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.F_ID) 
-		  FROM SYS_AUTHZ_FEATURE_LIST t 
-		 WHERE t.F_PARENT = #{parent}
+		SELECT count(t.f_id)
+		  FROM sys_authz_feature_list t
+		 WHERE t.f_parent = #{parent}
 	</select>
 	
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.F_ID) 
-		  FROM SYS_AUTHZ_FEATURE_LIST t 
-		 WHERE t.F_CODE = #{code}
+		SELECT count(t.f_id)
+		  FROM sys_authz_feature_list t
+		 WHERE t.f_code = #{code}
 		<if test="origin != null and origin != ''">
-			AND t.F_ID != #{origin}
+			AND t.f_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getModel" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t.F_ID,
-			t.F_CODE,
-			t.F_NAME,
-			t.F_ABB,
-			t.F_URL,
-			t.F_PATH,
-			t.F_TYPE,
-			t.F_ICON,
-			t.F_ORDER,
-			t.F_PARENT,
-			t.F_VISIBLE,
-			(CASE WHEN (t.F_PARENT = '#' OR t.F_PARENT = '0') THEN 1 ELSE 0 END) as F_ROOT,
-			( SELECT GROUP_CONCAT(t1.OPT_PERMS) FROM SYS_AUTHZ_FEATURE_OPTS t1 WHERE t1.F_ID = t.F_ID) F_PERMS 
-		FROM SYS_AUTHZ_FEATURE_LIST t
-	   WHERE t.F_ID = #{id}
+			t.f_id,
+			t.f_code,
+			t.f_name,
+			t.f_abb,
+			t.f_url,
+			t.f_path,
+			t.f_type,
+			t.f_icon,
+			t.f_order,
+			t.f_parent,
+			t.f_visible,
+			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
+			( SELECT GROUP_CONCAT(t1.opt_perms) FROM sys_authz_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
+		FROM sys_authz_feature_list t
+	   WHERE t.f_id = #{id}
 	</select>
 	
 	<select id="getFeatureList" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t.F_ID,
-			t.F_CODE,
-			t.F_NAME,
-			t.F_ABB,
-			t.F_URL,
-			t.F_PATH,
-			t.F_TYPE,
-			t.F_ICON,
-			t.F_ORDER,
-			t.F_PARENT,
-			t.F_VISIBLE,
-			(CASE WHEN (t.F_PARENT = '#' OR t.F_PARENT = '0') THEN 1 ELSE 0 END) as F_ROOT,
-			( SELECT GROUP_CONCAT(t1.OPT_PERMS) FROM SYS_AUTHZ_FEATURE_OPTS t1 WHERE t1.F_ID = t.F_ID) F_PERMS
-		FROM SYS_AUTHZ_FEATURE_LIST t
+			t.f_id,
+			t.f_code,
+			t.f_name,
+			t.f_abb,
+			t.f_url,
+			t.f_path,
+			t.f_type,
+			t.f_icon,
+			t.f_order,
+			t.f_parent,
+			t.f_visible,
+			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
+			( SELECT GROUP_CONCAT(t1.opt_perms) FROM sys_authz_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
+		FROM sys_authz_feature_list t
 	</select>
 
 	<select id="getPagedList" resultMap="AuthzFeatureMap" parameterType="AuthzFeatureModel" useCache="true">
 		SELECT
-			t.F_ID,
-			t.F_CODE,
-			t.F_NAME,
-			t.F_ABB,
-			t.F_URL,
-			t.F_PATH,
-			t.F_TYPE,
-			t.F_ICON,
-			t.F_ORDER,
-			t.F_PARENT,
-			t.F_VISIBLE 
-		FROM SYS_AUTHZ_FEATURE_LIST t
+			t.f_id,
+			t.f_code,
+			t.f_name,
+			t.f_abb,
+			t.f_url,
+			t.f_path,
+			t.f_type,
+			t.f_icon,
+			t.f_order,
+			t.f_parent,
+			t.f_visible
+		FROM sys_authz_feature_list t
 		<where>
 			<if test="model.name != null and model.name != ''">
-				and t.F_NAME like CONCAT('%',#{model.name},'%')
+				and t.f_name like CONCAT('%',#{model.name},'%')
 			</if>
 			<if test="model.type != null and model.type != ''">
-				and t.F_TYPE = #{model.type}
+				and t.f_type = #{model.type}
 			</if>
 			<if test="model.visible != null and model.visible != ''">
-				and t.F_VISIBLE = #{model.visible}
+				and t.f_visible = #{model.visible}
 			</if>
 		</where>
 	</select>

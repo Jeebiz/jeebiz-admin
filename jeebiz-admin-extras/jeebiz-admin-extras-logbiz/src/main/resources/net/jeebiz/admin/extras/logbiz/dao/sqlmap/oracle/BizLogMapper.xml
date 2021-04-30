@@ -21,7 +21,7 @@
 		SELECT
 			t.LOG_ID,
 			t.CREATOR as LOG_USERID,
-			t2.U_USERNAME as LOG_USERNAME,
+			t2.u_username as LOG_USERNAME,
 			t.LOG_MODULE,
 			t.LOG_BIZ,
 			t.LOG_OPT,
@@ -30,8 +30,8 @@
 			t.LOG_MSG,
 			t.LOG_EXCP,
 			t.CREATE_TIME as LOG_TIME
-		FROM SYS_DATA_LOG_BIZ t, SYS_AUTHZ_USER_LIST t2
-		WHERE t.CREATOR = t2.U_ID
+		FROM SYS_DATA_LOG_BIZ t, sys_authz_user_list t2
+		WHERE t.CREATOR = t2.u_id
 		<if test="model.userId != null and model.userId != '' ">
 			AND t.CREATOR = #{model.userId}
 		</if>
@@ -47,12 +47,12 @@
 		<if test="model.keywords != null and model.keywords != '' ">
 			AND (t.LOG_ADDR like '%'||#{model.keywords}||'%' 
 				OR t.LOG_LOCATION like '%'||#{model.keywords}||'%' 
-				OR t2.U_USERNAME like '%'||#{model.keywords}||'%')
+				OR t2.u_username like '%'||#{model.keywords}||'%')
 		</if>
 		<if test="model.begintime != null and model.begintime != '' and model.endtime != null and model.endtime != '' ">
-			<![CDATA[ AND to_date(t.TIME24,  'yyyy-mm-dd HH24:mi:ss') BETWEEN to_date(#{model.begintime},  'yyyy-mm-dd HH24:mi:ss') AND to_date(#{model.endtime},  'yyyy-mm-dd HH24:mi:ss') ]]> 
+			<![CDATA[ AND to_date(t.time24,  'yyyy-mm-dd HH24:mi:ss') BETWEEN to_date(#{model.begintime},  'yyyy-mm-dd HH24:mi:ss') AND to_date(#{model.endtime},  'yyyy-mm-dd HH24:mi:ss') ]]>
 		</if>
-		ORDER BY to_date(t.TIME24,  'yyyy-mm-dd HH24:mi:ss') DESC
+		ORDER BY to_date(t.time24,  'yyyy-mm-dd HH24:mi:ss') DESC
 	</select>
 	
 </mapper>

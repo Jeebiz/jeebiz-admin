@@ -4,77 +4,77 @@
 	
 	<resultMap id="UserMap" type="AuthzThirdpartyUserModel">
 		<!-- 用户ID -->
-		<result property="id" column="U_ID" />
+		<result property="id" column="u_id" />
 		<!-- 用户唯一UID（用户编号） -->
-		<result property="uid" column="U_UID" />
+		<result property="uid" column="u_uid" />
 		<!-- 用户唯一编号（内部工号） -->
-		<result property="ucode" column="U_CODE" />
+		<result property="ucode" column="u_code" />
 		<!-- 用户名称 -->
-        <result property="username" column="U_USERNAME"/>
+        <result property="username" column="u_username"/>
         <!-- 用户密码 -->
-        <result property="password" column="U_PASSWORD"/>
+        <result property="password" column="u_password"/>
         <!-- 用户密码盐：用于密码加解密 -->
-        <result property="salt" column="U_SALT"/>
+        <result property="salt" column="u_salt"/>
         <!-- 用户秘钥：用于用户JWT加解密 -->
-        <result property="secret" column="U_SECRET"/>
+        <result property="secret" column="u_secret"/>
         <!-- 用户客户端应用ID -->
-        <result property="appId" column="U_APP_ID"/>
+        <result property="appId" column="u_app_id"/>
         <!-- 用户客户端应用渠道编码  -->
-		<result property="appChannel" column="U_APP_CHANNEL" />
+		<result property="appChannel" column="u_app_channel" />
         <!-- 用户客户端版本 -->
-        <result property="appVer" column="U_APP_VERSION"/>
+        <result property="appVer" column="u_app_version"/>
         <!-- 用户是否在线（1：是，0：否） -->
-        <result property="online" column="U_ONLINE"/>
+        <result property="online" column="u_online"/>
         <!-- 用户最近一次登录时间 -->
-        <result property="onlineLatest" column="U_LATEST_ONLINE" />
+        <result property="onlineLatest" column="u_latest_online" />
         <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
-        <result property="status" column="U_STATUS"/>
+        <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
-        <result property="time24" column="U_TIME24"/>
+        <result property="time24" column="u_time24"/>
         <!-- 角色ID（可能多个组合，如：1,2） -->
-		<result property="roleId" column="R_ID" />
+		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
-		<result property="roleName" column="R_NAME" />
+		<result property="roleName" column="r_name" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzThirdpartyUserModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-	    INSERT INTO SYS_AUTHZ_USER_LIST(U_UID, U_CODE, U_USERNAME, U_PASSWORD, U_SALT, U_SECRET, U_APP_ID, U_APP_CHANNEL, U_APP_VERSION, U_ONLINE, U_STATUS)
+	    INSERT INTO sys_authz_user_list(u_uid, u_code, u_username, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
 		VALUES(#{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{username},#{password},#{salt,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},
 		#{appId,jdbcType=VARCHAR},#{appChannel,jdbcType=VARCHAR},#{appVer,jdbcType=VARCHAR},#{online},'1')
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_USER_LIST WHERE U_ID = #{id} AND U_USERNAME != 'admin'
+		DELETE FROM sys_authz_user_list WHERE u_id = #{id} AND u_username != 'admin'
 	</delete>
     
 	<update id="update" parameterType="AuthzThirdpartyUserModel" flushCache="true">
-		update SYS_AUTHZ_USER_LIST t
+		update sys_authz_user_list t
 		<set>
-			<if test="ucode != null and ucode != ''">t.U_CODE = #{ucode},</if>
-			<if test="appId != null and appId != ''">t.U_APP_ID = #{appId},</if>
-			<if test="appChannel != null and appChannel != ''">t.U_APP_CHANNEL = #{appChannel},</if>
-			<if test="appVer != null and appVer != ''">t.U_APP_VERSION = #{appVer},</if>
-			<if test="online != null">t.U_ONLINE = #{online},</if>
-			<if test="status != null and status != ''">t.U_STATUS = #{status},</if>
+			<if test="ucode != null and ucode != ''">t.u_code = #{ucode},</if>
+			<if test="appId != null and appId != ''">t.u_app_id = #{appId},</if>
+			<if test="appChannel != null and appChannel != ''">t.u_app_channel = #{appChannel},</if>
+			<if test="appVer != null and appVer != ''">t.u_app_version = #{appVer},</if>
+			<if test="online != null">t.u_online = #{online},</if>
+			<if test="status != null and status != ''">t.u_status = #{status},</if>
 		</set>
-		where t.U_ID = #{id}
+		where t.u_id = #{id}
 	</update>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.U_ID) 
-		  FROM SYS_AUTHZ_USER_LIST t 
-		 WHERE t.U_USERNAME = #{name}
+		SELECT count(t.u_id)
+		  FROM sys_authz_user_list t
+		 WHERE t.u_username = #{name}
 		 <if test="origin != null and origin != ''">
-			AND t.U_ID != #{origin}
+			AND t.u_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.U_ID) 
-		  FROM SYS_AUTHZ_USER_LIST t 
-		 WHERE t.U_CODE = #{code}
+		SELECT count(t.u_id)
+		  FROM sys_authz_user_list t
+		 WHERE t.u_code = #{code}
 		<if test="origin != null and origin != ''">
-			AND t.U_ID != #{origin}
+			AND t.u_id != #{origin}
 		 </if>
 	</select>
 

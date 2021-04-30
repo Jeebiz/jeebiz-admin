@@ -4,412 +4,412 @@
 	
 	<resultMap id="UserMap" type="AuthzUserModel">
 		<!-- 用户ID -->
-		<result property="id" column="U_ID" />
+		<result property="id" column="u_id" />
 		<!-- 用户唯一UID（用户编号） -->
-		<result property="uid" column="U_UID" />
+		<result property="uid" column="u_uid" />
 		<!-- 用户唯一编号（内部工号） -->
-		<result property="ucode" column="U_CODE" />
+		<result property="ucode" column="u_code" />
 		<!-- 用户名称 -->
-        <result property="username" column="U_USERNAME"/>
+        <result property="username" column="u_username"/>
         <!-- 用户密码 -->
-        <result property="password" column="U_PASSWORD"/>
+        <result property="password" column="u_password"/>
         <!-- 用户密码盐：用于密码加解密 -->
-        <result property="salt" column="U_SALT"/>
+        <result property="salt" column="u_salt"/>
         <!-- 用户秘钥：用于用户JWT加解密 -->
-        <result property="secret" column="U_SECRET"/>
+        <result property="secret" column="u_secret"/>
         <!-- 用户客户端应用ID -->
-        <result property="appId" column="U_APP_ID"/>
+        <result property="appId" column="u_app_id"/>
         <!-- 用户客户端应用渠道编码  -->
-		<result property="appChannel" column="U_APP_CHANNEL" />
+		<result property="appChannel" column="u_app_channel" />
         <!-- 用户客户端版本 -->
-        <result property="appVer" column="U_APP_VERSION"/>
+        <result property="appVer" column="u_app_version"/>
         <!-- 用户是否在线（1：是，0：否） -->
-        <result property="online" column="U_ONLINE"/>
+        <result property="online" column="u_online"/>
         <!-- 用户最近一次登录时间 -->
-        <result property="onlineLatest" column="U_LATEST_ONLINE" />
+        <result property="onlineLatest" column="u_latest_online" />
         <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
-        <result property="status" column="U_STATUS"/>
+        <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
-        <result property="time24" column="U_TIME24"/>
+        <result property="time24" column="u_time24"/>
         <!-- 角色ID（可能多个组合，如：1,2） -->
-		<result property="roleId" column="R_ID" />
+		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
-		<result property="roleName" column="R_NAME" />
+		<result property="roleName" column="r_name" />
 		<!-- 用户描述信息 ：使用select引用,可以设置延迟加载方式 -->
-        <association property="profile" column="{uid=U_ID}" select="getProfile" fetchType="lazy"/>
+        <association property="profile" column="{uid=u_id}" select="getProfile" fetchType="lazy"/>
 		<!-- 角色信息 -->
-		<collection property="roleList" column="{uid=U_ID}" select="getRoleList"></collection>
+		<collection property="roleList" column="{uid=u_id}" select="getRoleList"></collection>
 	</resultMap>
 	
 	<resultMap id="UserProfileMap" type="AuthzUserProfileModel">
         <!-- 用户描述ID -->
 		<result property="id" column="U_PID" />
 		<!-- 用户ID -->
-		<result property="uid" column="U_ID" />
+		<result property="uid" column="u_id" />
         <!-- 用户别名（昵称） -->
-        <result property="nickname" column="U_NICKNAME"/>
+        <result property="nickname" column="u_nickname"/>
         <!-- 用户头像：图片路径或图标样式  -->
-		<result property="avatar" column="U_AVATAR" />
+		<result property="avatar" column="u_avatar" />
         <!-- 手机号码国家码 -->
-        <result property="countryCode" column="U_COUNTRY_CODE"/>
+        <result property="countryCode" column="u_country_code"/>
         <!-- 手机号码 -->
-        <result property="phone" column="U_PHONE"/>
+        <result property="phone" column="u_phone"/>
         <!-- 电子邮箱 -->
-        <result property="email" column="U_EMAIL"/>
+        <result property="email" column="u_email"/>
         <!-- 性别：（M：男，F：女） -->
-        <result property="gender" column="U_GENDER" />
+        <result property="gender" column="u_gender" />
         <!-- 出生日期 -->
-		<result property="birthday" column="U_BIRTHDAY" />
+		<result property="birthday" column="u_birthday" />
 		<!-- 身份证号码 -->
-		<result property="idcard" column="U_IDCARD" />
+		<result property="idcard" column="u_idcard" />
 		<!-- 用户年龄 -->
-		<result property="age" column="U_AGE" />
+		<result property="age" column="u_age" />
 		<!-- 用户身高 -->
-		<result property="height" column="U_HEIGHT" />
+		<result property="height" column="u_height" />
 		<!-- 用户体重 -->
-		<result property="weight" column="U_WEIGHT" />
+		<result property="weight" column="u_weight" />
 		<!-- 官方语言 -->
-		<result property="language" column="U_LANGUAGE" />
+		<result property="language" column="u_language" />
 		<!-- 用户备注 -->
-		<result property="intro" column="U_INTRO" />
+		<result property="intro" column="u_intro" />
 		<!-- 个人照片（包含是否封面标记、序号、地址的JSON字符串） -->
-		<result property="photos" column="U_PHOTOS" />
+		<result property="photos" column="u_photos" />
 		<!-- 用户位置：常驻省份 -->
-		<result property="province" column="U_PROVINCE" />
+		<result property="province" column="u_province" />
 		<!-- 用户位置：常驻城市 -->
-		<result property="city" column="U_CITY" />
+		<result property="city" column="u_city" />
 		<!-- 用户位置：常驻区域 -->
-		<result property="area" column="U_AREA" />
+		<result property="area" column="u_area" />
 		<!-- 用户位置：常驻地经度 -->
-		<result property="longitude" column="U_WGS84_LNG" />
+		<result property="longitude" column="u_wgs84_lng" />
 		<!-- 用户位置：常驻地纬度 -->
-		<result property="latitude" column="U_WGS84_LAT" />
+		<result property="latitude" column="u_wgs84_lat" />
 		<!-- 用户信息完成度 -->
-		<result property="degree" column="U_DEGREE" />
+		<result property="degree" column="u_degree" />
         <!-- 初始化时间 -->
-        <result property="time24" column="U_TIME24"/>
+        <result property="time24" column="u_time24"/>
 	</resultMap>
 	
 	<resultMap id="RoleMap" type="AuthzRoleModel">
 		<!-- 角色ID -->
-		<result property="id" column="R_ID" />
+		<result property="id" column="r_id" />
 		<!-- 角色编码 -->
-		<result property="key" column="R_KEY" />
+		<result property="key" column="r_key" />
 		<!-- 角色名称 -->
-		<result property="name" column="R_NAME" />
+		<result property="name" column="r_name" />
 		<!-- 角色类型（1:原生|2:继承|3:复制|4:自定义） -->
-		<result property="type" column="R_TYPE" />
+		<result property="type" column="r_type" />
 		<!-- 角色简介 -->
-		<result property="intro" column="R_INTRO" />
+		<result property="intro" column="r_intro" />
 		<!-- 角色状态（0:禁用|1:可用） -->
-		<result property="status" column="R_STATUS" />
+		<result property="status" column="r_status" />
 		<!-- 角色已分配用户量 -->
 		<result property="users" column="R_USERS" />
 		<!-- 初始化时间 -->
-		<result property="time24" column="R_TIME24" />
+		<result property="time24" column="R_time24" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="R_ID" />
-		<result property="value" column="R_NAME" />
+		<result property="key" column="r_id" />
+		<result property="value" column="r_name" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzUserModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-	    INSERT INTO SYS_AUTHZ_USER_LIST(U_UID, U_CODE, U_USERNAME, U_PASSWORD, U_SALT, U_SECRET, U_APP_ID, U_APP_CHANNEL, U_APP_VERSION, U_ONLINE, U_STATUS)
+	    INSERT INTO sys_authz_user_list(u_uid, u_code, u_username, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
 		VALUES(#{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{username},#{password},#{salt,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},
 		#{appId,jdbcType=VARCHAR},#{appChannel,jdbcType=VARCHAR},#{appVer,jdbcType=VARCHAR},#{online},'1')
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_USER_LIST WHERE U_ID = #{id} AND U_USERNAME != 'admin'
+		DELETE FROM sys_authz_user_list WHERE u_id = #{id} AND u_username != 'admin'
 	</delete>
 	
 	<delete id="deleteRole" flushCache="true">
-    	DELETE FROM SYS_AUTHZ_USER_ROLE_RELATION WHERE U_ID = #{id} AND R_KEY != 'admin'
+    	DELETE FROM sys_authz_user_role_relation WHERE u_id = #{id} AND r_key != 'admin'
     </delete>
     
     <delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_AUTHZ_USER_LIST WHERE U_USERNAME != 'admin' AND U_ID IN 
+		DELETE FROM sys_authz_user_list WHERE u_username != 'admin' AND u_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
 	
 	<delete id="batchDeleteRole" flushCache="true">
-		DELETE FROM SYS_AUTHZ_USER_ROLE_RELATION WHERE U_USERNAME != 'admin' AND U_ID IN 
+		DELETE FROM sys_authz_user_role_relation WHERE u_username != 'admin' AND u_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
     
 	<update id="update" parameterType="AuthzUserModel" flushCache="true">
-		update SYS_AUTHZ_USER_LIST t
+		update sys_authz_user_list t
 		<set>
-			<if test="ucode != null and ucode != ''">t.U_CODE = #{ucode},</if>
-			<if test="appId != null and appId != ''">t.U_APP_ID = #{appId},</if>
-			<if test="appChannel != null and appChannel != ''">t.U_APP_CHANNEL = #{appChannel},</if>
-			<if test="appVer != null and appVer != ''">t.U_APP_VERSION = #{appVer},</if>
-			<if test="online != null">t.U_ONLINE = #{online},</if>
-			<if test="status != null and status != ''">t.U_STATUS = #{status},</if>
+			<if test="ucode != null and ucode != ''">t.u_code = #{ucode},</if>
+			<if test="appId != null and appId != ''">t.u_app_id = #{appId},</if>
+			<if test="appChannel != null and appChannel != ''">t.u_app_channel = #{appChannel},</if>
+			<if test="appVer != null and appVer != ''">t.u_app_version = #{appVer},</if>
+			<if test="online != null">t.u_online = #{online},</if>
+			<if test="status != null and status != ''">t.u_status = #{status},</if>
 		</set>
-		where t.U_ID = #{id}
+		where t.u_id = #{id}
 	</update>
 	
 	<update id="updateRole" parameterType="AuthzUserModel" flushCache="true">
-    	update SYS_AUTHZ_USER_ROLE_RELATION set R_ID = #{roleId} WHERE U_ID = #{id} AND R_KEY != 'admin'
+    	update sys_authz_user_role_relation set r_id = #{roleId} WHERE u_id = #{id} AND r_key != 'admin'
     </update>
 	
 	<update id="updatePwd" parameterType="java.lang.String" flushCache="true">
-		update SYS_AUTHZ_USER_LIST t 
-		   set t.U_PASSWORD = #{password}
-		 where t.U_ID = #{userId}
+		update sys_authz_user_list t
+		   set t.u_password = #{password}
+		 where t.u_id = #{userId}
 	</update>
 	
 	<update id="resetPwd" parameterType="java.lang.String" flushCache="true">
-		update SYS_AUTHZ_USER_LIST t 
-		   set t.U_PASSWORD = #{password}
-		where t.U_ID = #{userId} 
-		  AND t.U_PASSWORD = #{oldPassword}
+		update sys_authz_user_list t
+		   set t.u_password = #{password}
+		where t.u_id = #{userId}
+		  AND t.u_password = #{oldPassword}
 	</update>
 	
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_AUTHZ_USER_LIST t
-		   SET t.U_STATUS = #{status}
-		 WHERE t.U_ID = #{userId}
+		UPDATE sys_authz_user_list t
+		   SET t.u_status = #{status}
+		 WHERE t.u_id = #{userId}
 	</update>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.U_ID) 
-		  FROM SYS_AUTHZ_USER_LIST t 
-		 WHERE t.U_USERNAME = #{name}
+		SELECT count(t.u_id)
+		  FROM sys_authz_user_list t
+		 WHERE t.u_username = #{name}
 		 <if test="origin != null and origin != ''">
-			AND t.U_ID != #{origin}
+			AND t.u_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.U_ID) 
-		  FROM SYS_AUTHZ_USER_LIST t 
-		 WHERE t.U_CODE = #{code}
+		SELECT count(t.u_id)
+		  FROM sys_authz_user_list t
+		 WHERE t.u_code = #{code}
 		<if test="origin != null and origin != ''">
-			AND t.U_ID != #{origin}
+			AND t.u_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getCountByRoleId" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.U_ID) FROM SYS_AUTHZ_USER_ROLE_RELATION t WHERE t.R_ID = #{roleId} AND t.U_ID = #{userId}
+		SELECT count(t.u_id) FROM sys_authz_user_role_relation t WHERE t.r_id = #{roleId} AND t.u_id = #{userId}
 	</select>
 	
 	<select id="getUserById" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.U_ID,
-			t.U_UID,
-			t.U_CODE,
-			t.U_USERNAME,
-			t.U_PASSWORD,
-			t.U_SALT,
-			t.U_SECRET,
-			t.U_APP_ID,
-			t.U_APP_CHANNEL,
-			t.U_APP_VERSION,
-			t.U_ONLINE,
-			t.U_LATEST_ONLINE,
-			t.U_STATUS,
-			t.U_TIME24
-		FROM SYS_AUTHZ_USER_LIST t
-	   WHERE t.U_ID = #{id}
+			t.u_id,
+			t.u_uid,
+			t.u_code,
+			t.u_username,
+			t.u_password,
+			t.u_salt,
+			t.u_secret,
+			t.u_app_id,
+			t.u_app_channel,
+			t.u_app_version,
+			t.u_online,
+			t.u_latest_online,
+			t.u_status,
+			t.u_time24
+		FROM sys_authz_user_list t
+	   WHERE t.u_id = #{id}
 	</select>
 	
 	<select id="getModel" resultMap="UserMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t.U_ID,
-			t.U_UID,
-			t.U_CODE,
-			t.U_USERNAME,
-			t.U_PASSWORD,
-			t.U_SALT,
-			t.U_SECRET,
-			t.U_APP_ID,
-			t.U_APP_CHANNEL,
-			t.U_APP_VERSION,
-			t.U_ONLINE,
-			t.U_LATEST_ONLINE,
-			t.U_STATUS,
-			t.U_TIME24
-		FROM SYS_AUTHZ_USER_LIST t
-		LEFT JOIN SYS_AUTHZ_USER_ROLE_RELATION y ON y.U_ID = t.U_ID
-	   WHERE t.U_ID = #{id}
+			t.u_id,
+			t.u_uid,
+			t.u_code,
+			t.u_username,
+			t.u_password,
+			t.u_salt,
+			t.u_secret,
+			t.u_app_id,
+			t.u_app_channel,
+			t.u_app_version,
+			t.u_online,
+			t.u_latest_online,
+			t.u_status,
+			t.u_time24
+		FROM sys_authz_user_list t
+		LEFT JOIN sys_authz_user_role_relation y ON y.u_id = t.u_id
+	   WHERE t.u_id = #{id}
 	</select>
 	
 	<select id="getUserList" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.U_ID,
-			t.U_UID,
-			t.U_CODE,
-			t.U_USERNAME,
-			'******' AS U_PASSWORD,
-			'******' AS U_SALT,
-			'******' AS U_SECRET,
-			t.U_APP_ID,
-			t.U_APP_CHANNEL,
-			t.U_APP_VERSION,
-			t.U_ONLINE,
-			t.U_LATEST_ONLINE,
-			t.U_STATUS,
-			t.U_TIME24
-		FROM SYS_AUTHZ_USER_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.U_ID = x.U_ID
-	   WHERE t.U_STATUS = 1
+			t.u_id,
+			t.u_uid,
+			t.u_code,
+			t.u_username,
+			'******' AS u_password,
+			'******' AS u_salt,
+			'******' AS u_secret,
+			t.u_app_id,
+			t.u_app_channel,
+			t.u_app_version,
+			t.u_online,
+			t.u_latest_online,
+			t.u_status,
+			t.u_time24
+		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
+	   WHERE t.u_status = 1
 	</select>
 	
 	<select id="getPagedList" resultMap="UserMap" parameterType="AuthzUserModel" useCache="false">
 		SELECT
-			t.U_ID,
-			t.U_UID,
-			t.U_CODE,
-			t.U_USERNAME,
-			'******' AS U_PASSWORD,
-			'******' AS U_SALT,
-			'******' AS U_SECRET,
-			t.U_APP_ID,
-			t.U_APP_CHANNEL,
-			t.U_APP_VERSION,
-			t.U_ONLINE,
-			t.U_LATEST_ONLINE,
-			t.U_STATUS,
-			t.U_TIME24
-		FROM SYS_AUTHZ_USER_LIST t
-		LEFT JOIN SYS_AUTHZ_USER_ROLE_RELATION y ON y.U_ID = t.U_ID
-	   WHERE t.U_USERNAME != 'admin'
+			t.u_id,
+			t.u_uid,
+			t.u_code,
+			t.u_username,
+			'******' AS u_password,
+			'******' AS u_salt,
+			'******' AS u_secret,
+			t.u_app_id,
+			t.u_app_channel,
+			t.u_app_version,
+			t.u_online,
+			t.u_latest_online,
+			t.u_status,
+			t.u_time24
+		FROM sys_authz_user_list t
+		LEFT JOIN sys_authz_user_role_relation y ON y.u_id = t.u_id
+	   WHERE t.u_username != 'admin'
 		<if test="model.roleId != null and model.roleId != ''">
-			and EXISTS (SELECT y.U_ID
-				 FROM SYS_AUTHZ_USER_ROLE_RELATION y 
-				WHERE y.U_ID = t.U_ID
-				  AND y.R_ID = #{model.roleId}
+			and EXISTS (SELECT y.u_id
+				 FROM sys_authz_user_role_relation y
+				WHERE y.u_id = t.u_id
+				  AND y.r_id = #{model.roleId}
 			 )
 		</if>
 		<if test="model.status != null and model.status != ''">
-			and t.U_STATUS = #{model.status}
+			and t.u_status = #{model.status}
 		</if>
 		<if test="model.username != null and model.username != ''">
-			and t.U_USERNAME like CONCAT('%',#{model.username},'%')
+			and t.u_username like CONCAT('%',#{model.username},'%')
 		</if>
 	</select>
 	
 	<select id="getPagedAllocatedList" resultMap="RoleMap" parameterType="AuthzUserModel" useCache="false">
 		SELECT
-			t.R_ID,
-			t.R_KEY,
-			t.R_NAME,
-			t.R_TYPE,
-			t.R_INTRO,
-			t.R_STATUS,
-			(SELECT COUNT(x.R_ID) FROM SYS_AUTHZ_USER_ROLE_RELATION x WHERE x.R_ID = t.R_ID) as R_USERS,
-			t.R_TIME24
-		FROM SYS_AUTHZ_ROLE_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.R_ID = x.R_ID
-		WHERE x.U_ID = #{id}
+			t.r_id,
+			t.r_key,
+			t.r_name,
+			t.r_type,
+			t.r_intro,
+			t.r_status,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			t.R_time24
+		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		WHERE x.u_id = #{id}
 		<if test="model.status != null and model.status != ''">
-			and t.R_STATUS = #{model.status}
+			and t.r_status = #{model.status}
 		</if>
 		<if test="model.type != null and model.type != ''">
-			and t.R_TYPE = #{model.type}
+			and t.r_type = #{model.type}
 		</if>
 		<if test="model.name != null and model.name != ''">
-			and t.R_NAME like CONCAT('%',#{model.name},'%')
+			and t.r_name like CONCAT('%',#{model.name},'%')
 		</if>
 	</select>
 	
 	<select id="getPagedUnAllocatedList" resultMap="RoleMap" parameterType="AuthzUserModel" useCache="false">
 		SELECT
-			t.R_ID,
-			t.R_KEY,
-			t.R_NAME,
-			t.R_TYPE,
-			t.R_INTRO,
-			t.R_STATUS,
-			(SELECT COUNT(x.R_ID) FROM SYS_AUTHZ_USER_ROLE_RELATION x WHERE x.R_ID = t.R_ID) as R_USERS,
-			t.R_TIME24
-		FROM SYS_AUTHZ_ROLE_LIST t
-		WHERE NOT EXISTS ( SELECT '1' FROM SYS_AUTHZ_USER_ROLE_RELATION z WHERE t.R_ID = z.R_ID and z.U_ID = #{id})
+			t.r_id,
+			t.r_key,
+			t.r_name,
+			t.r_type,
+			t.r_intro,
+			t.r_status,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			t.R_time24
+		FROM sys_authz_role_list t
+		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.r_id = z.r_id and z.u_id = #{id})
 		<if test="model.status != null and model.status != ''">
-			and t.R_STATUS = #{model.status}
+			and t.r_status = #{model.status}
 		</if>
 		<if test="model.type != null and model.type != ''">
-			and t.R_TYPE = #{model.type}
+			and t.r_type = #{model.type}
 		</if>
 		<if test="model.name != null and model.name != ''">
-			and t.R_NAME like CONCAT('%',#{model.name},'%')
+			and t.r_name like CONCAT('%',#{model.name},'%')
 		</if>
 	</select>
 	
 	<select id="getRoleKeys" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
-		  SELECT t.R_ID
-			FROM SYS_AUTHZ_ROLE_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.R_ID = x.R_ID
-		   WHERE t.R_STATUS = '1' 
-			 AND x.U_ID = #{userId}
+		  SELECT t.r_id
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		   WHERE t.r_status = '1'
+			 AND x.u_id = #{userId}
 		ORDER BY x.R_PRTY DESC
 	</select>
 	
 	<select id="getRoleList" resultMap="PairMap" useCache="false">
 			SELECT
-				t.R_ID,
-				t.R_NAME
-			FROM SYS_AUTHZ_ROLE_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.R_ID = x.R_ID
-		   WHERE t.R_STATUS = '1' 
-			 AND x.U_ID = #{uid}
-		ORDER BY t.R_NAME ASC
+				t.r_id,
+				t.r_name
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		   WHERE t.r_status = '1'
+			 AND x.u_id = #{uid}
+		ORDER BY t.r_name ASC
 	</select>
 	
 	<select id="getRoles" resultMap="RoleMap" parameterType="java.lang.String" useCache="false">
 			SELECT
-				t.R_ID,
-				t.R_KEY,
-				t.R_NAME,
-				t.R_TYPE,
-				t.R_INTRO,
-				t.R_STATUS,
-				t.R_TIME24
-			FROM SYS_AUTHZ_ROLE_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.R_ID = x.R_ID
-		   WHERE t.R_STATUS = 1
-			 AND x.U_ID = #{userId}
+				t.r_id,
+				t.r_key,
+				t.r_name,
+				t.r_type,
+				t.r_intro,
+				t.r_status,
+				t.R_time24
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		   WHERE t.r_status = 1
+			 AND x.u_id = #{userId}
 		ORDER BY x.R_PRTY ASC
 	</select>
 	
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
-		SELECT DISTINCT y.PERMS
-		FROM SYS_AUTHZ_ROLE_LIST t
-		INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.R_ID = x.R_ID
-		INNER JOIN SYS_AUTHZ_ROLE_PERMS y ON t.R_ID = y.R_ID
-		WHERE x.U_ID = #{userId}
+		SELECT DISTINCT y.perms
+		FROM sys_authz_role_list t
+		INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		INNER JOIN sys_authz_role_perms y ON t.r_id = y.r_id
+		WHERE x.u_id = #{userId}
 		ORDER BY x.R_PRTY ASC
 	</select>
 	
 	<select id="getProfile" resultMap="UserProfileMap" useCache="false">
 		SELECT
 			t.U_PID,
-			t.U_ID,
-			t.U_NICKNAME,
-			t.U_AVATAR,
-			t.U_COUNTRY_CODE,
-			t.U_PHONE,
-			t.U_EMAIL,
-			t.U_GENDER,
-			t.U_BIRTHDAY,
-			t.U_IDCARD,
-			t.U_AGE,
-			t.U_HEIGHT,
-			t.U_WEIGHT,
-			t.U_LANGUAGE,
-			t.U_INTRO,
-			t.U_PHOTOS,
-			t.U_PROVINCE,
-			t.U_CITY,
-			t.U_AREA,
-			t.U_WGS84_LNG,
-			t.U_WGS84_LAT,
-			t.U_DEGREE,
-			t.U_TIME24
-		FROM SYS_AUTHZ_USER_PROFILE t
-	   WHERE t.U_ID = #{uid}
+			t.u_id,
+			t.u_nickname,
+			t.u_avatar,
+			t.u_country_code,
+			t.u_phone,
+			t.u_email,
+			t.u_gender,
+			t.u_birthday,
+			t.u_idcard,
+			t.u_age,
+			t.u_height,
+			t.u_weight,
+			t.u_language,
+			t.u_intro,
+			t.u_photos,
+			t.u_province,
+			t.u_city,
+			t.u_area,
+			t.u_wgs84_lng,
+			t.u_wgs84_lat,
+			t.u_degree,
+			t.u_time24
+		FROM sys_authz_user_profile t
+	   WHERE t.u_id = #{uid}
 	</select>
 
 </mapper>

@@ -23,7 +23,7 @@
 		<!-- 简称 -->
 		<result property="sname" column="SHORT_NAME" />
 		<!-- 组合名 -->
-		<result property="mname" column="MERGER_NAME" />
+		<result property="mname" column="MERGEr_name" />
 		<!-- 拼音 -->
 		<result property="pinyin" column="PINYIN" />
 		<!-- 经度 -->
@@ -78,7 +78,7 @@
 	   		  t.CITY_CODE,
 	   		  t.NAME,
 	   		  t.SHORT_NAME,
-	   		  t.MERGER_NAME,
+	   		  t.MERGEr_name,
 	   		  t.PINYIN,
 	   		  t.LNG,
 	   		  t.LAT
@@ -96,7 +96,7 @@
 	   		  t.CITY_CODE,
 	   		  t.NAME,
 	   		  t.SHORT_NAME,
-	   		  t.MERGER_NAME,
+	   		  t.MERGEr_name,
 	   		  t.PINYIN,
 	   		  t.LNG,
 	   		  t.LAT
@@ -114,7 +114,7 @@
 	   		  t.CITY_CODE,
 	   		  t.NAME,
 	   		  t.SHORT_NAME,
-	   		  t.MERGER_NAME,
+	   		  t.MERGEr_name,
 	   		  t.PINYIN,
 	   		  t.LNG,
 	   		  t.LAT

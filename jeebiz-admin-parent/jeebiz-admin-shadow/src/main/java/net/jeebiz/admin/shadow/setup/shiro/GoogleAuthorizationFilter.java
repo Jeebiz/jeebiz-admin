@@ -99,12 +99,12 @@ public class GoogleAuthorizationFilter extends AuthorizationFilter {
 		if(!StringUtils.hasText(idTokenString)) {
 		}
 		
-		String CLIENT_ID = "";
+		String CLIENt_id = "";
 		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder( new NetHttpTransport(), new GsonFactory())
-		    // Specify the CLIENT_ID of the app that accesses the backend:
-		    .setAudience(Collections.singletonList(CLIENT_ID))
+		    // Specify the CLIENt_id of the app that accesses the backend:
+		    .setAudience(Collections.singletonList(CLIENt_id))
 		    // Or, if multiple clients access the backend:
-		    //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+		    //.setAudience(Arrays.asList(CLIENt_id_1, CLIENt_id_2, CLIENt_id_3))
 		    .build();
 
 		// (Receive idTokenString by HTTPS POST)

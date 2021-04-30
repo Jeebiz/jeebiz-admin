@@ -106,11 +106,11 @@ public class CodeGeneratorService {
                 .setBaseColumnList(Constants.TRUE)  //开启 baseColumnList 默认值：false
                 .setDateType(DateType.ONLY_DATE) //时间类型对应策略 默认值：TIME_PACK
                 .setEntityName(Constants.ENTITY_NAME)  //实体命名方式 默认值：null 例如：%sEntity 生成 EmailUserInfoEntity
-                .setMapperName(Constants.MAPPER_NAME)  //mapper 命名方式 默认值：null 例如：%sDao 生成 UserDao
+                .setMapperName(Constants.MAPPEr_name)  //mapper 命名方式 默认值：null 例如：%sDao 生成 UserDao
                 .setXmlName(Constants.XML_NAME)  //Mapper xml 命名方式 默认值：null 例如：%sDao 生成 UserDao.xml
                 .setServiceName(Constants.SERVICE_NAME)  //service 命名方式  默认值：null 例如：%sBusiness 生成 UserBusiness
                 .setServiceImplName(Constants.SERVICE_IMPL_NAME)  //service impl 命名方式 默认值：null 例如：%sBusinessImpl 生成 UserBusinessImpl
-                .setControllerName(Constants.CONTROLLER_NAME);  //controller 命名方式 默认值：null 例如：%sAction 生成 UserAction
+                .setControllerName(Constants.CONTROLLEr_name);  //controller 命名方式 默认值：null 例如：%sAction 生成 UserAction
         autoGenerator.setGlobalConfig(getGlobalConfig());
     }
 

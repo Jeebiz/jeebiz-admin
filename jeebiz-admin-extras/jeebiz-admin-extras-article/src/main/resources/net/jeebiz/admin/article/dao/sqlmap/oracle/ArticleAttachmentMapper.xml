@@ -16,7 +16,7 @@
 		<!-- 文章附件排序 -->
 		<result property="order" column="A_ORDER" />
 		<!-- 文章附件上传时间 -->
-		<result property="time24" column="A_TIME24" />
+		<result property="time24" column="A_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleAttachmentModel" flushCache="true">
@@ -55,7 +55,7 @@
 			t.A_NAME,
 			t.A_PATH,
 			t.A_ORDER,
-			t.A_TIME24
+			t.A_time24
 		FROM SYS_ARTICLE_CONTENT_ATTS t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
@@ -73,7 +73,7 @@
 			t.A_NAME,
 			t.A_PATH,
 			t.A_ORDER,
-			t.A_TIME24
+			t.A_time24
 		FROM SYS_ARTICLE_CONTENT_ATTS t
 	   WHERE t.A_ID = #{id} 
 	</select>
@@ -86,7 +86,7 @@
 			t.A_NAME,
 			t.A_PATH,
 			t.A_ORDER,
-			t.A_TIME24
+			t.A_time24
 		FROM SYS_ARTICLE_CONTENT_ATTS t
 	   WHERE t.A_CID = #{cid} 
 	</select>

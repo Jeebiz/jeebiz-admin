@@ -4,159 +4,159 @@
 <mapper namespace="net.jeebiz.admin.authz.org.dao.IAuthzOrganizationDao">
 
 	<resultMap id="AuthzOrganizationMap" type="AuthzOrganizationModel">
-		<id property="id" column="ORG_ID" />
-		<result property="code" column="ORG_CODE" />
-		<result property="name" column="ORG_NAME" />
-		<result property="intro" column="ORG_INTRO" />
-		<result property="parent" column="ORG_PARENT" />
-		<result property="uid" column="ORG_UID" />
-		<result property="status" column="ORG_STATUS" />
-		<result property="time24" column="TIME24" />
+		<id property="id" column="org_id" />
+		<result property="code" column="org_code" />
+		<result property="name" column="org_name" />
+		<result property="intro" column="org_intro" />
+		<result property="parent" column="org_parent" />
+		<result property="uid" column="org_uid" />
+		<result property="status" column="org_status" />
+		<result property="time24" column="time24" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="ORG_ID" />
-		<result property="value" column="ORG_NAME" />
+		<result property="key" column="org_id" />
+		<result property="value" column="org_name" />
 	</resultMap>
 
 	<insert id="insert" parameterType="AuthzOrganizationModel" flushCache="true">
-		insert into SYS_AUTHZ_ORG_LIST(ORG_CODE,ORG_NAME,ORG_INTRO,ORG_PARENT,ORG_STATUS,ORG_UID)
+		insert into sys_authz_org_list(org_code,org_name,org_intro,org_parent,org_status,org_uid)
 		values(#{code},#{name},#{intro,jdbcType=VARCHAR},#{parent,jdbcType=VARCHAR},'1',#{uid})
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String">
-		DELETE FROM SYS_AUTHZ_ORG_LIST WHERE ORG_ID = #{id,jdbcType=INTEGER}
+		DELETE FROM sys_authz_org_list WHERE org_id = #{id,jdbcType=INTEGER}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_LIST WHERE ORG_ID IN 
+		DELETE FROM sys_authz_org_list WHERE org_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item,jdbcType=INTEGER} 
         </foreach>
 	</delete>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_AUTHZ_ORG_LIST t 
-		   SET ORG_STATUS = #{status}
-		 WHERE ORG_ID = #{id,jdbcType=INTEGER}
+		UPDATE sys_authz_org_list t
+		   SET org_status = #{status}
+		 WHERE org_id = #{id,jdbcType=INTEGER}
 	</update>
 
 	<update id="update" parameterType="AuthzDepartmentModel" flushCache="true">
-		update SYS_AUTHZ_ORG_LIST t
+		update sys_authz_org_list t
 		<set>
-			<if test="code != null and code != ''">t.ORG_CODE = #{code},</if>
-			<if test="name != null and name != ''">t.ORG_NAME = #{name},</if>
-			<if test="intro != null and intro != ''">t.ORG_INTRO = #{intro},</if>
-			<if test="status != null and status != ''">t.ORG_STATUS = #{status}</if>
+			<if test="code != null and code != ''">t.org_code = #{code},</if>
+			<if test="name != null and name != ''">t.org_name = #{name},</if>
+			<if test="intro != null and intro != ''">t.org_intro = #{intro},</if>
+			<if test="status != null and status != ''">t.org_status = #{status}</if>
 		</set>
-		where t.ORG_ID = #{id,jdbcType=INTEGER}
+		where t.org_id = #{id,jdbcType=INTEGER}
 	</update>
 	
 	<select id="getRootCount" resultType="int" useCache="false">
-		SELECT count(t.ORG_ID) 
-		  FROM SYS_AUTHZ_ORG_LIST t 
-		 WHERE t.ORG_PARENT = 0
+		SELECT count(t.org_id)
+		  FROM sys_authz_org_list t
+		 WHERE t.org_parent = 0
 	</select>
 	
 	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.ORG_ID) 
-		  FROM SYS_AUTHZ_ORG_LIST t 
-		 WHERE t.ORG_PARENT = #{parent,jdbcType=INTEGER}
+		SELECT count(t.org_id)
+		  FROM sys_authz_org_list t
+		 WHERE t.org_parent = #{parent,jdbcType=INTEGER}
 	</select>
 	
 	<select id="getDeptCount" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.DEPT_ID) 
-		  FROM SYS_AUTHZ_ORG_DEPT t 
-		 WHERE t.ORG_ID = #{id,jdbcType=INTEGER}
+		SELECT count(t.dept_id)
+		  FROM sys_authz_org_dept t
+		 WHERE t.org_id = #{id,jdbcType=INTEGER}
 	</select>
 	
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.ORG_ID) 
-		  FROM SYS_AUTHZ_ORG_LIST t 
-		 WHERE t.ORG_CODE = #{code}
+		SELECT count(t.org_id)
+		  FROM sys_authz_org_list t
+		 WHERE t.org_code = #{code}
 		<if test="origin != null and origin != ''">
-			AND t.ORG_ID != #{origin,jdbcType=INTEGER}
+			AND t.org_id != #{origin,jdbcType=INTEGER}
 		 </if>
 	</select>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.ORG_ID) 
-		  FROM SYS_AUTHZ_ORG_LIST t 
-		 WHERE t.ORG_NAME = #{name}
+		SELECT count(t.org_id)
+		  FROM sys_authz_org_list t
+		 WHERE t.org_name = #{name}
 		 <if test="origin != null and origin != ''">
-			AND t.ORG_ID != #{origin,jdbcType=INTEGER}
+			AND t.org_id != #{origin,jdbcType=INTEGER}
 		 </if>
 	</select>
 	
 	<select id="getPagedList" resultMap="AuthzOrganizationMap" parameterType="AuthzDepartmentModel" useCache="false">
 		SELECT
-			t.ORG_ID,
-			t.ORG_CODE,
-			t.ORG_NAME,
-			t.ORG_INTRO,
-			t.ORG_PARENT,
-			t.ORG_UID,
-			t.ORG_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_LIST t
+			t.org_id,
+			t.org_code,
+			t.org_name,
+			t.org_intro,
+			t.org_parent,
+			t.org_uid,
+			t.org_status,
+			t.time24
+		FROM sys_authz_org_list t
 		<where>
 			<if test="model.name != null and model.name != ''">
-				and t.ORG_NAME like CONCAT('%',#{model.name},'%')
+				and t.org_name like CONCAT('%',#{model.name},'%')
 			</if>
 		</where>
-		ORDER By t.TIME24 ASC
+		ORDER By t.time24 ASC
 	</select>
 
 	<select id="getModel" resultMap="AuthzOrganizationMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.ORG_ID,
-			t.ORG_CODE,
-			t.ORG_NAME,
-			t.ORG_INTRO,
-			t.ORG_PARENT,
-			t.ORG_UID,
-			t.ORG_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_LIST t
-	   WHERE t.ORG_ID = #{id,jdbcType=INTEGER} 
+			t.org_id,
+			t.org_code,
+			t.org_name,
+			t.org_intro,
+			t.org_parent,
+			t.org_uid,
+			t.org_status,
+			t.time24
+		FROM sys_authz_org_list t
+	   WHERE t.org_id = #{id,jdbcType=INTEGER}
 	</select>
 	
 	<select id="getOrgList" resultMap="AuthzOrganizationMap" useCache="false">
 		SELECT
-			t.ORG_ID,
-			t.ORG_CODE,
-			t.ORG_NAME,
-			t.ORG_INTRO,
-			t.ORG_PARENT,
-			t.ORG_UID,
-			t.ORG_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_LIST t
-	   WHERE t.ORG_STATUS == 1
+			t.org_id,
+			t.org_code,
+			t.org_name,
+			t.org_intro,
+			t.org_parent,
+			t.org_uid,
+			t.org_status,
+			t.time24
+		FROM sys_authz_org_list t
+	   WHERE t.org_status == 1
 	</select>
 	
 	<select id="getModelList" resultMap="AuthzOrganizationMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.ORG_ID,
-			t.ORG_CODE,
-			t.ORG_NAME,
-			t.ORG_INTRO,
-			t.ORG_PARENT,
-			t.ORG_UID,
-			t.ORG_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_LIST t
+			t.org_id,
+			t.org_code,
+			t.org_name,
+			t.org_intro,
+			t.org_parent,
+			t.org_uid,
+			t.org_status,
+			t.time24
+		FROM sys_authz_org_list t
 		<if test="key != null and key != ''">
-			WHERE t.ORG_ID != #{key,jdbcType=INTEGER}
+			WHERE t.org_id != #{key,jdbcType=INTEGER}
 		</if>
 	</select>
 
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-		SELECT t.ORG_ID,t.ORG_NAME
-		FROM SYS_AUTHZ_ORG_LIST t 
-		WHERE t.ORG_STATUS = 1
+		SELECT t.org_id,t.org_name
+		FROM sys_authz_org_list t
+		WHERE t.org_status = 1
 		<if test="key != null and key != ''">
-			and t.ORG_ID != #{key,jdbcType=INTEGER}
+			and t.org_id != #{key,jdbcType=INTEGER}
 		</if>
 	</select>
 	

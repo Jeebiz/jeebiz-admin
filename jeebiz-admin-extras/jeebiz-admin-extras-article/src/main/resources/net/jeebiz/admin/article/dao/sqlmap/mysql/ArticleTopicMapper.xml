@@ -4,7 +4,7 @@
 
 	<resultMap id="ArticleTopicMap" type="ArticleTopicModel">
         <!-- 文章栏目ID -->
-		<result property="id" column="T_ID" />
+		<result property="id" column="t_id" />
 		<!-- 上级文章栏目ID -->
 		<result property="pid" column="T_PID" />
 		<!-- 上级文章栏目 -->
@@ -26,11 +26,11 @@
 		<!-- 文章栏目排序 -->
 		<result property="order" column="T_ORDER" />
 		<!-- 文章栏目创建时间 -->
-		<result property="time24" column="T_TIME24" />
+		<result property="time24" column="T_time24" />
     </resultMap>
 	
     <resultMap id="PairMap" type="PairModel">
-        <result property="key" column="T_ID"/>
+        <result property="key" column="t_id"/>
         <result property="value" column="T_NAME"/>
     </resultMap>
 	
@@ -40,7 +40,7 @@
 	</insert> 
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_TOPIC WHERE T_ID IN 
+		DELETE FROM SYS_ARTICLE_TOPIC WHERE t_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -49,7 +49,7 @@
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_TOPIC t 
 		   SET T_STATUS = #{status}
-		 WHERE T_ID = #{id}
+		 WHERE t_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="ArticleTopicModel" flushCache="true">
@@ -57,32 +57,32 @@
 		   SET T_NAME = #{name},
 		   	   T_REMARK = #{remark,jdbcType=VARCHAR},
 		       T_ORDER = #{order}
-		 WHERE T_ID = #{id}
+		 WHERE t_id = #{id}
 	</update>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.T_ID) 
+		SELECT count(t.t_id)
 		  FROM SYS_ARTICLE_TOPIC t 
 		 WHERE t.T_NAME = #{name}
 		<if test="origin != null and origin != ''">
-			AND t.T_ID != #{origin}
+			AND t.t_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getPagedList" resultMap="ArticleTopicMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.T_ID,
+			t.t_id,
 			IFNULL(t.T_PID,'0') as T_PID,
-			IFNULL((SELECT x.T_NAME from SYS_ARTICLE_TOPIC x WHERE x.T_ID = t.T_PID),'顶级') as T_PNAME,
+			IFNULL((SELECT x.T_NAME from SYS_ARTICLE_TOPIC x WHERE x.t_id = t.T_PID),'顶级') as T_PNAME,
 			t.T_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.T_UID) as T_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.T_UID) as T_UNAME,
 			t.T_NAME,
 			t.T_REMARK,
 			t.T_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.C_ID = t.T_CID) as T_CNAME,
+			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.T_CID) as T_CNAME,
 			t.T_STATUS,
 			t.T_ORDER,
-			t.T_TIME24
+			t.T_time24
 		FROM SYS_ARTICLE_TOPIC t
 		<where>
 			<if test="model.status != null and model.status != ''">
@@ -97,43 +97,43 @@
 	
 	<select id="getModel" resultMap="ArticleTopicMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.T_ID,
+			t.t_id,
 			IFNULL(t.T_PID,'0') as T_PID,
-			IFNULL((SELECT x.T_NAME from SYS_ARTICLE_TOPIC x WHERE x.T_ID = t.T_PID),'顶级') as T_PNAME,
+			IFNULL((SELECT x.T_NAME from SYS_ARTICLE_TOPIC x WHERE x.t_id = t.T_PID),'顶级') as T_PNAME,
 			t.T_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.T_UID) as T_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.T_UID) as T_UNAME,
 			t.T_NAME,
 			t.T_REMARK,
 			t.T_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.C_ID = t.T_CID) as T_CNAME,
+			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.T_CID) as T_CNAME,
 			t.T_STATUS,
 			t.T_ORDER,
-			t.T_TIME24
+			t.T_time24
 		FROM SYS_ARTICLE_TOPIC t
-	   WHERE t.T_ID = #{id} 
+	   WHERE t.t_id = #{id}
 	</select>
 
     <select id="getTopics" resultMap="ArticleTopicMap" useCache="false">
         SELECT
-			t.T_ID,
+			t.t_id,
 			IFNULL(t.T_PID,'0') as T_PID,
-			IFNULL((SELECT x.T_NAME from SYS_ARTICLE_TOPIC x WHERE x.T_ID = t.T_PID),'顶级') as T_PNAME,
+			IFNULL((SELECT x.T_NAME from SYS_ARTICLE_TOPIC x WHERE x.t_id = t.T_PID),'顶级') as T_PNAME,
 			t.T_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.T_UID) as T_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.T_UID) as T_UNAME,
 			t.T_NAME,
 			t.T_REMARK,
 			t.T_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.C_ID = t.T_CID) as T_CNAME,
+			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.T_CID) as T_CNAME,
 			t.T_STATUS,
 			t.T_ORDER,
-			t.T_TIME24
+			t.T_time24
 	   FROM SYS_ARTICLE_TOPIC t
 	  WHERE t.T_STATUS != 0
-	  START WITH t.T_PID = 0 CONNECT BY t.T_PID = PRIOR t.T_ID
+	  START WITH t.T_PID = 0 CONNECT BY t.T_PID = PRIOR t.t_id
     </select>
     
     <select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-	  SELECT t.T_ID, 
+	  SELECT t.t_id,
 	         t.T_NAME
 		FROM SYS_ARTICLE_TOPIC t
 	   WHERE t.T_STATUS != 0

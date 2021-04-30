@@ -5,7 +5,7 @@
 
 	<resultMap id="InformTemplateMap" type="InformTemplateModel">
 		<!-- 消息通知模板ID -->
-		<id property="id" column="T_ID" />
+		<id property="id" column="t_id" />
 		<!-- 消息通知模板创建人ID -->
 		<result property="uid" column="T_UID" />
 		<!-- 消息通知模板创建人 -->
@@ -29,7 +29,7 @@
 		<!-- 消息通知模板已发消息未读总数 -->
 		<result property="unread" column="T_UNREAD" />
 		<!-- 消息通知模板创建时间 -->
-		<result property="time24" column="TIME24"/>
+		<result property="time24" column="time24"/>
 	</resultMap>
 	
 	<resultMap id="InformTemplateStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO">
@@ -42,17 +42,17 @@
 	</resultMap>
 	
 	<insert id="insert" parameterType="InformTemplateModel" flushCache="true" 
-		keyColumn="T_ID" keyProperty="id" useGeneratedKeys="true">
+		keyColumn="t_id" keyProperty="id" useGeneratedKeys="true">
 		insert into SYS_INFORM_TEMPLATES(T_UID,T_TARGET,T_PROVIDER,T_TITLE,T_CONTENT,T_TID,T_PAYLOAD,T_STATUS)
 		values(#{uid},#{target},#{provider},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},'0')
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String">
-		DELETE FROM SYS_INFORM_TEMPLATES WHERE T_ID = #{id}
+		DELETE FROM SYS_INFORM_TEMPLATES WHERE t_id = #{id}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_INFORM_TEMPLATES WHERE T_ID IN 
+		DELETE FROM SYS_INFORM_TEMPLATES WHERE t_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -61,7 +61,7 @@
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_INFORM_TEMPLATES t 
 		   SET t.T_STATUS = #{status}
-		 WHERE t.T_ID = #{id}
+		 WHERE t.t_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="InformTemplateModel">
@@ -72,20 +72,20 @@
 		   	   t.T_CONTENT = #{content,jdbcType=VARCHAR},
 		   	   t.T_TID = #{tid,jdbcType=VARCHAR},
 		   	   t.T_PAYLOAD = #{payload,jdbcType=VARCHAR}
-		 WHERE t.T_ID = #{id}
+		 WHERE t.t_id = #{id}
 	</update>
 	
 	<select id="getCount" resultType="int" parameterType="InformTemplateModel" useCache="false">
-		SELECT count(t.T_ID) 
+		SELECT count(t.t_id)
 		  FROM SYS_INFORM_TEMPLATES t 
 		 WHERE t.T_TITLE = #{title}
 		   AND t.T_UID = #{uid}
 	</select>
 	
 	<select id="getPagedList" resultMap="InformTemplateMap" >
-		SELECT t.T_ID,
+		SELECT t.t_id,
 			   t.T_UID,
-			   (SELECT IFNULL(x.U_ALIAS,x.U_USERNAME) FROM SYS_AUTHZ_USER_LIST x WHERE x.U_ID = t.T_UID) as T_UNAME, 
+			   (SELECT IFNULL(x.U_ALIAS,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.T_UID) as T_UNAME,
 			   t.T_TARGET,
 			   t.T_PROVIDER,
 			   t.T_TITLE,
@@ -93,9 +93,9 @@
 			   t.T_TID,
 			   t.T_PAYLOAD,
 			   t.T_STATUS
-			   IFNULL(( SELECT COUNT( x.R_ID ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.T_ID ),0) AS T_TOTAL, 
-			   IFNULL(( SELECT count( x.R_ID ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.T_ID AND t.R_STATUS = 0 ),0) AS T_UNREAD,
-			   t.TIME24
+			   IFNULL(( SELECT COUNT( x.r_id ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.t_id ),0) AS T_TOTAL,
+			   IFNULL(( SELECT count( x.r_id ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.t_id AND t.r_status = 0 ),0) AS T_UNREAD,
+			   t.time24
 		  FROM SYS_INFORM_TEMPLATES t
 	   	<where>
 			<if test="model.uid != null and model.uid != '' ">
@@ -117,9 +117,9 @@
 	</select>
 	
 	<select id="getModel" resultMap="InformTemplateMap" parameterType="String" >
-		SELECT t.T_ID,
+		SELECT t.t_id,
 			   t.T_UID,
-			   (SELECT IFNULL(x.U_ALIAS,x.U_USERNAME) FROM SYS_AUTHZ_USER_LIST x WHERE x.U_ID = t.T_UID) as T_UNAME, 
+			   (SELECT IFNULL(x.U_ALIAS,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.T_UID) as T_UNAME,
 			   t.T_TARGET,
 			   t.T_PROVIDER,
 			   t.T_TITLE,
@@ -127,19 +127,19 @@
 			   t.T_TID,
 			   t.T_PAYLOAD,
 			   t.T_STATUS
-			   IFNULL(( SELECT COUNT( x.R_ID ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.T_ID ),0) AS T_TOTAL, 
-			   IFNULL(( SELECT count( x.R_ID ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.T_ID AND t.R_STATUS = 0 ),0) AS T_UNREAD,
-			   t.TIME24
+			   IFNULL(( SELECT COUNT( x.r_id ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.t_id ),0) AS T_TOTAL,
+			   IFNULL(( SELECT count( x.r_id ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.t_id AND t.r_status = 0 ),0) AS T_UNREAD,
+			   t.time24
 		  FROM SYS_INFORM_TEMPLATES t
-	   WHERE t.T_ID = #{id}
+	   WHERE t.t_id = #{id}
 	</select>
 	
 	<select id="getStats" resultMap="InformTemplateStatsMap">
 		SELECT t.T_PROVIDER,
-			   IFNULL(( SELECT COUNT( x.R_ID ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.T_ID ),0) AS T_TOTAL,
-			   IFNULL(( SELECT count( x.R_ID ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.T_ID AND t.R_STATUS = 0 ),0) AS T_UNREAD
+			   IFNULL(( SELECT COUNT( x.r_id ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.t_id ),0) AS T_TOTAL,
+			   IFNULL(( SELECT count( x.r_id ) FROM SYS_INFORM_RECORDS x WHERE x.R_TID = t.t_id AND t.r_status = 0 ),0) AS T_UNREAD
 		FROM SYS_INFORM_TEMPLATES t, SYS_INFORM_TARGETS t2
-	   WHERE t.T_ID = t2.T_ID
+	   WHERE t.t_id = t2.t_id
 	   GROUP BY t.T_PROVIDER
 	</select>
 	

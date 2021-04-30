@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 @SuppressWarnings("serial")
 public class OnlineSession extends SimpleOnlineSession {
 
-	private static final int USER_ID_BIT_MASK = 1 << bitIndexCounter++;
+	private static final int USEr_id_BIT_MASK = 1 << bitIndexCounter++;
 	private static final int USER_AGENT_BIT_MASK = 1 << bitIndexCounter++;
 	private static final int STATUS_BIT_MASK = 1 << bitIndexCounter++;
 	private static final int USERNAME_BIT_MASK = 1 << bitIndexCounter++;
@@ -71,7 +71,7 @@ public class OnlineSession extends SimpleOnlineSession {
         in.defaultReadObject();
         short bitMask = in.readShort();
 
-        if (isFieldPresent(bitMask, USER_ID_BIT_MASK)) {
+        if (isFieldPresent(bitMask, USEr_id_BIT_MASK)) {
             this.userid = (String) in.readObject();
         }
         if (isFieldPresent(bitMask, USER_AGENT_BIT_MASK)) {
@@ -95,7 +95,7 @@ public class OnlineSession extends SimpleOnlineSession {
      */
     private short getAlteredFieldsBitMask() {
         int bitMask = 0;
-        bitMask = userid != null ? bitMask | USER_ID_BIT_MASK : bitMask;
+        bitMask = userid != null ? bitMask | USEr_id_BIT_MASK : bitMask;
         bitMask = userAgent != null ? bitMask | USER_AGENT_BIT_MASK : bitMask;
         bitMask = status != null ? bitMask | STATUS_BIT_MASK : bitMask;
         bitMask = username != null ? bitMask | USERNAME_BIT_MASK : bitMask;

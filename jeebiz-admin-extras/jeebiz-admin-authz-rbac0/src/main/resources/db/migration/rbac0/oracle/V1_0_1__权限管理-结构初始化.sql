@@ -4,142 +4,142 @@
  */
 
 -- Create table
-create table SYS_AUTHZ_ROLE_LIST (
-  R_ID   		VARCHAR2(32) default sys_guid() not null,
-  R_KEY   		VARCHAR2(50) not null,
-  R_NAME   		VARCHAR2(50) not null,
-  R_TYPE   		VARCHAR2(2) default 1,
-  R_INTRO  		VARCHAR2(1000),
-  R_STATUS		VARCHAR2(2) default 1,
-  R_TIME24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  CONSTRAINT UNIQUE_R_KEY UNIQUE(R_KEY),
-  CONSTRAINT PK_RID PRIMARY KEY(R_ID)
+create table sys_authz_role_list (
+  r_id   		VARCHAR2(32) default sys_guid() not null,
+  r_key   		VARCHAR2(50) not null,
+  r_name   		VARCHAR2(50) not null,
+  r_type   		VARCHAR2(2) default 1,
+  r_intro  		VARCHAR2(1000),
+  r_status		VARCHAR2(2) default 1,
+  R_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  CONSTRAINT UNIQUE_r_key UNIQUE(r_key),
+  CONSTRAINT PK_RID PRIMARY KEY(r_id)
 );
 -- Add comments to the table 
-comment on table SYS_AUTHZ_ROLE_LIST  is '角色信息表';
+comment on table sys_authz_role_list  is '角色信息表';
 -- Add comments to the columns 
-comment on column SYS_AUTHZ_ROLE_LIST.R_ID  is '角色ID';
-comment on column SYS_AUTHZ_ROLE_LIST.R_KEY  is '角色编码';
-comment on column SYS_AUTHZ_ROLE_LIST.R_NAME  is '角色名称';
-comment on column SYS_AUTHZ_ROLE_LIST.R_TYPE  is '角色类型（1:原生|2:继承|3:复制|4:自定义）';
-comment on column SYS_AUTHZ_ROLE_LIST.R_INTRO  is '角色简介';
-comment on column SYS_AUTHZ_ROLE_LIST.R_STATUS  is '角色状态（0:禁用|1:可用）';
-comment on column SYS_AUTHZ_ROLE_LIST.R_TIME24  is '初始化时间';
+comment on column sys_authz_role_list.r_id  is '角色ID';
+comment on column sys_authz_role_list.r_key  is '角色编码';
+comment on column sys_authz_role_list.r_name  is '角色名称';
+comment on column sys_authz_role_list.r_type  is '角色类型（1:原生|2:继承|3:复制|4:自定义）';
+comment on column sys_authz_role_list.r_intro  is '角色简介';
+comment on column sys_authz_role_list.r_status  is '角色状态（0:禁用|1:可用）';
+comment on column sys_authz_role_list.R_time24  is '初始化时间';
 
 -- Create table
-create table SYS_AUTHZ_ROLE_PERMS (
-  R_ID   		VARCHAR2(32) not null,
-  PERMS 		VARCHAR2(50) not null,
-  CONSTRAINT UNIQUE_RID_PERMS UNIQUE(R_ID, PERMS)
+create table sys_authz_role_perms (
+  r_id   		VARCHAR2(32) not null,
+  perms 		VARCHAR2(50) not null,
+  CONSTRAINT UNIQUE_RID_perms UNIQUE(r_id, perms)
 );
 -- Add comments to the table 
-comment on table SYS_AUTHZ_ROLE_PERMS  is '角色-权限关系表（角色-菜单-按钮）';
+comment on table sys_authz_role_perms  is '角色-权限关系表（角色-菜单-按钮）';
 -- Add comments to the columns 
-comment on column SYS_AUTHZ_ROLE_PERMS.R_ID  is '角色ID';
-comment on column SYS_AUTHZ_ROLE_PERMS.PERMS  is '权限标记：(等同SYS_AUTHZ_FEATURE_OPTS.OPT_PERMS)';
+comment on column sys_authz_role_perms.r_id  is '角色ID';
+comment on column sys_authz_role_perms.perms  is '权限标记：(等同sys_authz_feature_opts.opt_perms)';
 
 -- Create table
-create table SYS_AUTHZ_USER_LIST (
-  U_ID   			VARCHAR2(32) default sys_guid() not null,
-  U_USERNAME 		VARCHAR2(100) not null,
-  U_PASSWORD 		VARCHAR2(100) not null,
-  U_SALT			VARCHAR2(64),
-  U_SECRET			VARCHAR2(128),
-  U_STATUS			VARCHAR2(1),
-  U_UID   			VARCHAR2(32),
-  U_CODE   			VARCHAR2(32),
-  U_APP_ID 			VARCHAR2(50),
-  U_APP_CHANNEL		VARCHAR2(50),
-  U_APP_VERSION		VARCHAR2(20),
-  U_ONLINE			VARCHAR2(1),
-  U_LATEST_ONLINE	VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  U_TIME24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  CONSTRAINT idx_uname UNIQUE(U_USERNAME),
-  CONSTRAINT idx_uuid UNIQUE(U_UID),
-  CONSTRAINT PK_UID PRIMARY KEY(U_ID)
+create table sys_authz_user_list (
+  u_id   			VARCHAR2(32) default sys_guid() not null,
+  u_username 		VARCHAR2(100) not null,
+  u_password 		VARCHAR2(100) not null,
+  u_salt			VARCHAR2(64),
+  u_secret			VARCHAR2(128),
+  u_status			VARCHAR2(1),
+  u_uid   			VARCHAR2(32),
+  u_code   			VARCHAR2(32),
+  u_app_id 			VARCHAR2(50),
+  u_app_channel		VARCHAR2(50),
+  u_app_version		VARCHAR2(20),
+  u_online			VARCHAR2(1),
+  u_latest_online	VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  u_time24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  CONSTRAINT idx_uname UNIQUE(u_username),
+  CONSTRAINT idx_uuid UNIQUE(u_uid),
+  CONSTRAINT PK_UID PRIMARY KEY(u_id)
 );
 -- Add comments to the table 
-comment on table SYS_AUTHZ_USER_LIST  is '用户账户信息表';
+comment on table sys_authz_user_list  is '用户账户信息表';
 -- Add comments to the columns 
-comment on column SYS_AUTHZ_USER_LIST.U_ID  is '用户ID';
-comment on column SYS_AUTHZ_USER_LIST.U_USERNAME  is '用户名';
-comment on column SYS_AUTHZ_USER_LIST.U_PASSWORD  is '用户密码';
-comment on column SYS_AUTHZ_USER_LIST.U_SALT  is '用户密码盐：用于密码加解密';
-comment on column SYS_AUTHZ_USER_LIST.U_SECRET  is '用户秘钥：用于用户JWT加解密';
-comment on column SYS_AUTHZ_USER_LIST.U_STATUS  is '用户状态（0:禁用|1:可用|2:锁定）';
-comment on column SYS_AUTHZ_USER_LIST.U_UID  is '用户唯一UID（用户编号）';
-comment on column SYS_AUTHZ_USER_LIST.U_CODE  is '用户唯一编号（内部工号）';
-comment on column SYS_AUTHZ_USER_LIST.U_APP_ID  is '用户客户端应用ID';
-comment on column SYS_AUTHZ_USER_LIST.U_APP_CHANNEL  is '用户客户端应用渠道编码';
-comment on column SYS_AUTHZ_USER_LIST.U_APP_VERSION  is '用户客户端版本';
-comment on column SYS_AUTHZ_USER_LIST.U_ONLINE  is '用户是否在线（1：是，0：否）';
-comment on column SYS_AUTHZ_USER_LIST.U_LATEST_ONLINE  is '用户最近一次在线登录时间';
-comment on column SYS_AUTHZ_USER_LIST.U_TIME24  is '初始化时间';
+comment on column sys_authz_user_list.u_id  is '用户ID';
+comment on column sys_authz_user_list.u_username  is '用户名';
+comment on column sys_authz_user_list.u_password  is '用户密码';
+comment on column sys_authz_user_list.u_salt  is '用户密码盐：用于密码加解密';
+comment on column sys_authz_user_list.u_secret  is '用户秘钥：用于用户JWT加解密';
+comment on column sys_authz_user_list.u_status  is '用户状态（0:禁用|1:可用|2:锁定）';
+comment on column sys_authz_user_list.u_uid  is '用户唯一UID（用户编号）';
+comment on column sys_authz_user_list.u_code  is '用户唯一编号（内部工号）';
+comment on column sys_authz_user_list.u_app_id  is '用户客户端应用ID';
+comment on column sys_authz_user_list.u_app_channel  is '用户客户端应用渠道编码';
+comment on column sys_authz_user_list.u_app_version  is '用户客户端版本';
+comment on column sys_authz_user_list.u_online  is '用户是否在线（1：是，0：否）';
+comment on column sys_authz_user_list.u_latest_online  is '用户最近一次在线登录时间';
+comment on column sys_authz_user_list.u_time24  is '初始化时间';
 
 -- Create table
-create table SYS_AUTHZ_USER_PROFILE (
+create table sys_authz_user_profile (
   U_PID   			VARCHAR2(32) default sys_guid() not null,
-  U_ID   			VARCHAR2(32) not null,
-  U_NICKNAME		VARCHAR2(100) not null,
-  U_AVATAR			VARCHAR2(300),
-  U_COUNTRY_CODE	VARCHAR2(20),
-  U_PHONE			VARCHAR2(11),
-  U_EMAIL			VARCHAR2(100),
-  U_BIRTHDAY		VARCHAR2(20),
-  U_GENDER			VARCHAR2(2),
-  U_IDCARD			VARCHAR2(20),
-  U_AGE				VARCHAR2(3),
-  U_HEIGHT			VARCHAR2(4),
-  U_WEIGHT			VARCHAR2(5),
-  U_LANGUAGE		VARCHAR2(50),
-  U_INTRO			VARCHAR2(500),
-  U_PHOTOS			VARCHAR2(2000),
-  U_PROVINCE		VARCHAR2(50),
-  U_CITY			VARCHAR2(50),
-  U_AREA			VARCHAR2(50),
-  U_WGS84_LNG		VARCHAR2(50),
-  U_WGS84_LAT		VARCHAR2(50),
-  U_DEGREE			VARCHAR2(3),
-  U_TIME24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  u_id   			VARCHAR2(32) not null,
+  u_nickname		VARCHAR2(100) not null,
+  u_avatar			VARCHAR2(300),
+  u_country_code	VARCHAR2(20),
+  u_phone			VARCHAR2(11),
+  u_email			VARCHAR2(100),
+  u_birthday		VARCHAR2(20),
+  u_gender			VARCHAR2(2),
+  u_idcard			VARCHAR2(20),
+  u_age				VARCHAR2(3),
+  u_height			VARCHAR2(4),
+  u_weight			VARCHAR2(5),
+  u_language		VARCHAR2(50),
+  u_intro			VARCHAR2(500),
+  u_photos			VARCHAR2(2000),
+  u_province		VARCHAR2(50),
+  u_city			VARCHAR2(50),
+  u_area			VARCHAR2(50),
+  u_wgs84_lng		VARCHAR2(50),
+  u_wgs84_lat		VARCHAR2(50),
+  u_degree			VARCHAR2(3),
+  u_time24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT PK_UID PRIMARY KEY(U_PID)
 );
 -- Add comments to the table 
-comment on table SYS_AUTHZ_USER_PROFILE  is '用户描述信息表';
+comment on table sys_authz_user_profile  is '用户描述信息表';
 -- Add comments to the columns 
-comment on column SYS_AUTHZ_USER_PROFILE.U_PID  is '用户描述ID';
-comment on column SYS_AUTHZ_USER_PROFILE.U_ID  is '用户ID';
-comment on column SYS_AUTHZ_USER_PROFILE.U_NICKNAME  is '用户昵称';
-comment on column SYS_AUTHZ_USER_PROFILE.U_AVATAR  is '用户头像：图片路径或图标样式';
-comment on column SYS_AUTHZ_USER_PROFILE.U_PHONE  is '手机号码';
-comment on column SYS_AUTHZ_USER_PROFILE.U_EMAIL  is '邮箱地址';
-comment on column SYS_AUTHZ_USER_PROFILE.U_BIRTHDAY  is '出生日期';
-comment on column SYS_AUTHZ_USER_PROFILE.U_GENDER  is '性别：（M：男，F：女）';
-comment on column SYS_AUTHZ_USER_PROFILE.U_IDCARD  is '身份证号码';
-comment on column SYS_AUTHZ_USER_PROFILE.U_AGE  is '用户年龄';
-comment on column SYS_AUTHZ_USER_PROFILE.U_HEIGHT  is '用户身高';
-comment on column SYS_AUTHZ_USER_PROFILE.U_WEIGHT  is '用户体重';
-comment on column SYS_AUTHZ_USER_PROFILE.U_LANGUAGE  is '官方语言';
-comment on column SYS_AUTHZ_USER_PROFILE.U_INTRO  is '用户简介';
-comment on column SYS_AUTHZ_USER_PROFILE.U_PHOTOS  is '个人生活照片（包含是否封面标记、序号、地址的JSON字符串）';
-comment on column SYS_AUTHZ_USER_PROFILE.U_PROVINCE  is '用户位置：常驻省份';
-comment on column SYS_AUTHZ_USER_PROFILE.U_CITY  is '用户位置：常驻城市';
-comment on column SYS_AUTHZ_USER_PROFILE.U_AREA  is '用户位置：常驻区域';
-comment on column SYS_AUTHZ_USER_PROFILE.U_WGS84_LNG  is '用户位置：wgs84经度';
-comment on column SYS_AUTHZ_USER_PROFILE.U_WGS84_LAT  is '用户位置：wgs84纬度';
-comment on column SYS_AUTHZ_USER_PROFILE.U_DEGREE  is '用户信息完成度';
-comment on column SYS_AUTHZ_USER_PROFILE.U_TIME24  is '初始化时间';
+comment on column sys_authz_user_profile.U_PID  is '用户描述ID';
+comment on column sys_authz_user_profile.u_id  is '用户ID';
+comment on column sys_authz_user_profile.u_nickname  is '用户昵称';
+comment on column sys_authz_user_profile.u_avatar  is '用户头像：图片路径或图标样式';
+comment on column sys_authz_user_profile.u_phone  is '手机号码';
+comment on column sys_authz_user_profile.u_email  is '邮箱地址';
+comment on column sys_authz_user_profile.u_birthday  is '出生日期';
+comment on column sys_authz_user_profile.u_gender  is '性别：（M：男，F：女）';
+comment on column sys_authz_user_profile.u_idcard  is '身份证号码';
+comment on column sys_authz_user_profile.u_age  is '用户年龄';
+comment on column sys_authz_user_profile.u_height  is '用户身高';
+comment on column sys_authz_user_profile.u_weight  is '用户体重';
+comment on column sys_authz_user_profile.u_language  is '官方语言';
+comment on column sys_authz_user_profile.u_intro  is '用户简介';
+comment on column sys_authz_user_profile.u_photos  is '个人生活照片（包含是否封面标记、序号、地址的JSON字符串）';
+comment on column sys_authz_user_profile.u_province  is '用户位置：常驻省份';
+comment on column sys_authz_user_profile.u_city  is '用户位置：常驻城市';
+comment on column sys_authz_user_profile.u_area  is '用户位置：常驻区域';
+comment on column sys_authz_user_profile.u_wgs84_lng  is '用户位置：wgs84经度';
+comment on column sys_authz_user_profile.u_wgs84_lat  is '用户位置：wgs84纬度';
+comment on column sys_authz_user_profile.u_degree  is '用户信息完成度';
+comment on column sys_authz_user_profile.u_time24  is '初始化时间';
 
 -- Create table
-create table SYS_AUTHZ_USER_ROLE_RELATION (
-  U_ID   			VARCHAR2(32) not null,
-  R_ID   			VARCHAR2(32) not null,
+create table sys_authz_user_role_relation (
+  u_id   			VARCHAR2(32) not null,
+  r_id   			VARCHAR2(32) not null,
   R_PRTY			VARCHAR2(2) default '0',
-  CONSTRAINT UNIQUE_UID_RID UNIQUE(U_ID, R_ID)
+  CONSTRAINT UNIQUE_UID_RID UNIQUE(u_id, r_id)
 );
 -- Add comments to the table 
-comment on table SYS_AUTHZ_USER_ROLE_RELATION  is '用户-角色关系表';
+comment on table sys_authz_user_role_relation  is '用户-角色关系表';
 -- Add comments to the columns 
-comment on column SYS_AUTHZ_USER_ROLE_RELATION.U_ID  is '用户ID';
-comment on column SYS_AUTHZ_USER_ROLE_RELATION.R_ID  is '角色ID';
-comment on column SYS_AUTHZ_USER_ROLE_RELATION.R_PRTY  is '优先级：用于默认登录角色';
+comment on column sys_authz_user_role_relation.u_id  is '用户ID';
+comment on column sys_authz_user_role_relation.r_id  is '角色ID';
+comment on column sys_authz_user_role_relation.R_PRTY  is '优先级：用于默认登录角色';
 

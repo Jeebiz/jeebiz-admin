@@ -16,7 +16,7 @@
 		<!-- 文章消息状态（0:未读|1:已读） -->
 		<result property="status" column="M_STATUS" />
 		<!-- 文章消息发送时间 -->
-		<result property="time24" column="M_TIME24" />
+		<result property="time24" column="M_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleMessageModel" flushCache="true">
@@ -35,10 +35,10 @@
 			t.M_ID,
 			t.M_CID,
 			t.M_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.M_UID) as M_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.M_UID) as M_UNAME,
 			t.M_MSG,
 			t.M_STATUS,
-			t.M_TIME24
+			t.M_time24
 		FROM SYS_ARTICLE_MESSAGES t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
@@ -48,7 +48,7 @@
 				and t.M_UID = #{model.uid}
 			</if>
 		</where>
-		ORDER By t.M_TIME24 ASC
+		ORDER By t.M_time24 ASC
 	</select>
 	
 	<select id="getModel" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
@@ -56,10 +56,10 @@
 			t.M_ID,
 			t.M_CID,
 			t.M_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.M_UID) as M_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.M_UID) as M_UNAME,
 			t.M_MSG,
 			t.M_STATUS,
-			t.M_TIME24
+			t.M_time24
 		FROM SYS_ARTICLE_MESSAGES t
 	  WHERE t.M_ID = #{id} 
 	</select>
@@ -69,13 +69,13 @@
 			t.M_ID,
 			t.M_CID,
 			t.M_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.M_UID) as M_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.M_UID) as M_UNAME,
 			t.M_MSG,
 			t.M_STATUS,
-			t.M_TIME24
+			t.M_time24
 		FROM SYS_ARTICLE_MESSAGES t
 	   WHERE t.M_CID = #{cid}
-	ORDER By t.M_TIME24 ASC
+	ORDER By t.M_time24 ASC
 	</select>
 
 </mapper>

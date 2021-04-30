@@ -4,7 +4,7 @@
 
 	<resultMap id="ArticleMap" type="ArticleModel">
         <!-- 文章D -->
-		<result property="id" column="C_ID" />
+		<result property="id" column="c_id" />
 		<!-- 文章栏目ID -->
 		<result property="tid" column="C_TID" />
 		<!-- 文章栏目名称 -->
@@ -38,27 +38,27 @@
 		<!-- 文章点赞数 -->
 		<result property="liked" column="C_LIKED" />
 		<!-- 文章发布时间 -->
-		<result property="ptime24" column="C_PTIME24" />
+		<result property="ptime24" column="C_Ptime24" />
 		<!-- 文章创建时间 -->
-		<result property="time24" column="C_TIME24" />
+		<result property="time24" column="C_time24" />
 		<!-- 文章发布对象 -->
-        <collection property="targets" column="{cid=C_ID}" select="getTargets"> </collection>
+        <collection property="targets" column="{cid=c_id}" select="getTargets"> </collection>
         <!-- 文章标签信息 -->
-        <collection property="tags" column="{cid=C_ID}" select="getTags"> </collection>
+        <collection property="tags" column="{cid=c_id}" select="getTags"> </collection>
         <!-- 文章附件信息 -->
-        <collection property="atts" column="{cid=C_ID}" select="getAttachments"> </collection>
+        <collection property="atts" column="{cid=c_id}" select="getAttachments"> </collection>
     </resultMap>
 	
     <resultMap id="ArticleDetailMap" extends="ArticleMap" type="net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO">
     	<!-- 文章作者信息 -->
         <association property="author" javaType="net.jeebiz.admin.extras.article.web.dto.ArticleAuthorDTO"/>
         <!-- 文章评论信息 -->
-        <collection property="comments" column="{cid=C_ID}" select="getComments"> </collection>
+        <collection property="comments" column="{cid=c_id}" select="getComments"> </collection>
     </resultMap>
 	
 	 <resultMap id="ArticleTargetMap" type="ArticleTargetModel">
 	    <!-- 文章发布对象记录ID -->
-		<result property="id" column="T_ID" />
+		<result property="id" column="t_id" />
 		<!-- 文章ID -->
 		<result property="cid" column="T_CID" />
 		<!-- 文章发布对象ID（学院ID|专业ID|班级ID|账户ID） -->
@@ -69,13 +69,13 @@
     
 	<resultMap id="ArticleTagMap" type="ArticleTagModel">
         <!-- 文章标签ID -->
-		<result property="id" column="T_ID" />
+		<result property="id" column="t_id" />
 		<!-- 文章ID -->
 		<result property="cid" column="T_CID" />
 		<!-- 文章标签名称 -->
 		<result property="name" column="T_NAME" />
 		<!-- 文章标签设置时间 -->
-		<result property="time24" column="T_TIME24" />
+		<result property="time24" column="T_time24" />
     </resultMap>
     
 	<resultMap id="ArticleAttachmentMap" type="ArticleAttachmentModel">
@@ -92,12 +92,12 @@
 		<!-- 文章附件排序 -->
 		<result property="order" column="A_ORDER" />
 		<!-- 文章附件上传时间 -->
-		<result property="time24" column="A_TIME24" />
+		<result property="time24" column="A_time24" />
     </resultMap>
     
     <resultMap id="ArticleCommentMap" type="ArticleCommentModel">
         <!-- 文章评论ID -->
-		<result property="id" column="C_ID" />
+		<result property="id" column="c_id" />
 		<!-- 文章ID -->
 		<result property="cid" column="C_CID" />
 		<!-- 上级文章评论ID -->
@@ -119,19 +119,19 @@
 		<!-- 文章评论排序 -->
 		<result property="order" column="C_ORDER" />
 		<!-- 文章评论时间 -->
-		<result property="time24" column="C_TIME24" />
+		<result property="time24" column="C_time24" />
     </resultMap>
     
 	<insert id="insert" parameterType="ArticleModel" flushCache="true">
 		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
 	        SELECT sys_guid() FROM dual
 	    </selectKey>
-		INSERT INTO SYS_ARTICLE_CONTENTS(C_ID,C_TID,C_UID,C_CID,C_TITLE,C_DIGEST,C_CONTENT,C_ORDER)
-		VALUES (#{id},#{tid},#{uid},(SELECT x.T_CID from SYS_ARTICLE_TOPIC x where x.T_ID = #{tid}),#{title},#{digest},#{content},#{order})
+		INSERT INTO SYS_ARTICLE_CONTENTS(c_id,C_TID,C_UID,C_CID,C_TITLE,C_DIGEST,C_CONTENT,C_ORDER)
+		VALUES (#{id},#{tid},#{uid},(SELECT x.T_CID from SYS_ARTICLE_TOPIC x where x.t_id = #{tid}),#{title},#{digest},#{content},#{order})
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENTS WHERE C_ID IN 
+		DELETE FROM SYS_ARTICLE_CONTENTS WHERE c_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -140,19 +140,19 @@
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENTS t 
 		   SET C_STATUS = #{status}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENTS t 
 		   SET C_RCMD = #{status}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setReview" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENTS t 
 		   SET C_REVIEW = #{status}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="ArticleModel" flushCache="true">
@@ -164,18 +164,18 @@
 		   	   C_DIGEST = #{digest},
 		   	   C_CONTENT = #{content},
 		       C_ORDER = #{order}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<select id="getPagedList" resultMap="ArticleMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_TID,
-			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.T_ID = t.C_TID) as C_TNAME,
+			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.t_id = t.C_TID) as C_TNAME,
 			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.C_ID = t.C_CID) as C_CNAME,
+			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.C_CID) as C_CNAME,
 			t.C_TITLE,
 			t.C_DIGEST,
 			t.C_CONTENT,
@@ -186,8 +186,8 @@
 			t.C_BROWSE,
 			t.C_COLLECT,
 			t.C_LIKED,
-			t.C_PTIME24,
-			t.C_TIME24
+			t.C_Ptime24,
+			t.C_time24
 		FROM SYS_ARTICLE_CONTENTS t
 		<where>
 			<if test="model.status != null and model.status != ''">
@@ -199,13 +199,13 @@
 	
 	<select id="getModel" resultMap="ArticleMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_TID,
-			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.T_ID = t.C_TID) as C_TNAME,
+			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.t_id = t.C_TID) as C_TNAME,
 			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.C_ID = t.C_CID) as C_CNAME,
+			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.C_CID) as C_CNAME,
 			t.C_TITLE,
 			t.C_DIGEST,
 			t.C_CONTENT,
@@ -216,21 +216,21 @@
 			t.C_BROWSE,
 			t.C_COLLECT,
 			t.C_LIKED,
-			t.C_PTIME24,
-			t.C_TIME24
+			t.C_Ptime24,
+			t.C_time24
 		FROM SYS_ARTICLE_CONTENTS t
-	   WHERE t.C_ID = #{id} 
+	   WHERE t.c_id = #{id}
 	</select>
 	
 	<select id="getDetail" resultMap="ArticleDetailMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_TID,
-			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.T_ID = t.C_TID) as C_TNAME,
+			(SELECT x.T_NAME from SYS_ARTICLE_TOPIC x where x.t_id = t.C_TID) as C_TNAME,
 			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_CID,
-			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.C_ID = t.C_CID) as C_CNAME,
+			(SELECT x.C_NAME from SYS_ARTICLE_CATEGORY x where x.c_id = t.C_CID) as C_CNAME,
 			t.C_TITLE,
 			t.C_DIGEST,
 			t.C_CONTENT,
@@ -241,15 +241,15 @@
 			t.C_BROWSE,
 			t.C_COLLECT,
 			t.C_LIKED,
-			t.C_PTIME24,
-			t.C_TIME24
+			t.C_Ptime24,
+			t.C_time24
 		FROM SYS_ARTICLE_CONTENTS t
-	   WHERE t.C_ID = #{id} 
+	   WHERE t.c_id = #{id}
 	</select>
     
     <select id="getTargets" resultMap="ArticleTargetMap" useCache="false">
 		SELECT
-			t.T_ID,
+			t.t_id,
 			t.T_CID,
 			t.T_TID,
 			NVL((SELECT x.BJMC FROM GXXX_BJXXB x WHERE x.ID = t.T_TID), 
@@ -260,13 +260,13 @@
 	
     <select id="getTags" resultMap="ArticleTagMap" useCache="false">
 		SELECT
-			t.T_ID,
+			t.t_id,
 			t.T_CID,
 			t.T_NAME,
-			t.T_TIME24
+			t.T_time24
 		FROM SYS_ARTICLE_CONTENT_TAGS t
 	   WHERE t.T_CID = #{cid}
-	ORDER By t.T_TIME24 ASC
+	ORDER By t.T_time24 ASC
 	</select>
 	
 	<select id="getAttachments" resultMap="ArticleAttachmentMap" useCache="false">
@@ -276,7 +276,7 @@
 			t.A_NAME,
 			t.A_PATH,
 			t.A_ORDER,
-			t.A_TIME24
+			t.A_time24
 		FROM SYS_ARTICLE_CONTENT_ATTS t
 	   WHERE t.A_CID = #{cid} 
 	     AND t.A_TYPE != 1
@@ -290,7 +290,7 @@
 			t.A_NAME,
 			t.A_PATH,
 			t.A_ORDER,
-			t.A_TIME24
+			t.A_time24
 		FROM SYS_ARTICLE_CONTENT_ATTS t
 	   WHERE t.A_CID = #{cid} 
 	     AND t.A_TYPE = 1
@@ -298,22 +298,22 @@
     
     <select id="getComments" resultMap="ArticleCommentMap" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_CID,
 			t.C_PID,
 			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.C_REVIEW,
 			t.C_STATUS,
 			t.C_RCMD,
 			t.C_ORDER,
-			t.C_TIME24
+			t.C_time24
 	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
 	  WHERE t.C_STATUS != 0
 	    AND t.C_CID = #{cid}
-	  START WITH t.C_PID = 0 CONNECT BY t.C_PID = PRIOR t.C_ID
+	  START WITH t.C_PID = 0 CONNECT BY t.C_PID = PRIOR t.c_id
 	</select>
     
 </mapper>

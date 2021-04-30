@@ -4,268 +4,253 @@
 	
 	<resultMap id="RoleMap" type="AuthzRoleModel">
 		<!-- 角色ID -->
-		<result property="id" column="R_ID" />
+		<result property="id" column="r_id" />
 		<!-- 角色编码 -->
-		<result property="key" column="R_KEY" />
+		<result property="key" column="r_key" />
 		<!-- 角色名称 -->
-		<result property="name" column="R_NAME" />
+		<result property="name" column="r_name" />
 		<!-- 角色类型（1:原生|2:继承|3:复制|4:自定义） -->
-		<result property="type" column="R_TYPE" />
+		<result property="type" column="r_type" />
 		<!-- 角色简介 -->
-		<result property="intro" column="R_INTRO" />
+		<result property="intro" column="r_intro" />
 		<!-- 角色状态（0:禁用|1:可用） -->
-		<result property="status" column="R_STATUS" />
+		<result property="status" column="r_status" />
 		<!-- 角色已分配用户量 -->
 		<result property="users" column="R_USERS" />
 		<!-- 初始化时间 -->
-		<result property="time24" column="R_TIME24" />
+		<result property="time24" column="R_time24" />
 		<!-- 角色授权的标记集合：将 perms list属性映射到collection : http://jaychang.iteye.com/blog/2357143 -->
-        <collection property="perms" column="R_ID" select="getPermsByRoleId">  
+        <collection property="perms" column="r_id" select="getPermsByRoleId">
             <result column="perm" />  
         </collection> 
 	</resultMap>
 	
 	<resultMap id="UserMap" type="AuthzUserModel">
 		<!-- 用户名称 -->
-		<result property="id" column="U_ID" />
+		<result property="id" column="u_id" />
 		<!-- 用户名称 -->
-        <result property="username" column="U_USERNAME"/>
+        <result property="username" column="u_username"/>
         <!-- 用户密码 -->
-        <result property="password" column="U_PASSWORD"/>
+        <result property="password" column="u_password"/>
         <!-- 用户密码盐：用于密码加解密 -->
-        <result property="salt" column="U_SALT"/>
+        <result property="salt" column="u_salt"/>
         <!-- 用户秘钥：用于用户JWT加解密 -->
-        <result property="secret" column="U_SECRET"/>
-        <!-- 用户别名（昵称） -->
-        <result property="alias" column="U_ALIAS"/>
-        <!-- 用户头像：图片路径或图标样式  -->
-		<result property="avatar" column="U_AVATAR" />
-        <!-- 手机号码 -->
-        <result property="phone" column="U_PHONE"/>
-        <!-- 电子邮箱 -->
-        <result property="email" column="U_EMAIL"/>
-        <!-- 性别：（male：男，female：女） -->
-        <result property="gender" column="U_GENDER" />
-        <!-- 出生日期 -->
-		<result property="birthday" column="U_BIRTHDAY" />
-		<!-- 身份证号码 -->
-		<result property="idcard" column="U_IDCARD" />
-		<!-- 用户备注 -->
-		<result property="remark" column="U_REMARK" />
+        <result property="secret" column="u_secret"/>
+
         <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
-        <result property="status" column="U_STATUS"/>
+        <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
-        <result property="time24" column="U_TIME24"/>
+        <result property="time24" column="u_time24"/>
         <!-- 角色ID（可能多个组合，如：1,2） -->
-		<result property="roleId" column="R_ID" />
+		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
-		<result property="roleName" column="R_NAME" />
+		<result property="roleName" column="r_name" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="R_ID" />
-		<result property="value" column="R_NAME" />
+		<result property="key" column="r_id" />
+		<result property="value" column="r_name" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzRoleModel" useGeneratedKeys="true" keyProperty="id"  flushCache="true">
-		insert into SYS_AUTHZ_ROLE_LIST(R_KEY,R_NAME,R_TYPE,R_INTRO,R_STATUS)
+		insert into sys_authz_role_list(r_key,r_name,r_type,r_intro,r_status)
 		values(#{key},#{name},#{type},#{intro},'1')
 	</insert>
 	
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ROLE_LIST WHERE R_ID = #{id} AND R_KEY != 'admin'
+		DELETE FROM sys_authz_role_list WHERE r_id = #{id} AND r_key != 'admin'
 	</delete>
 
 	<delete id="batchDelete" parameterType="java.util.List" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ROLE_LIST WHERE R_ID IN (
+		DELETE FROM sys_authz_role_list WHERE r_id IN (
 		<foreach collection="list" index="index" item="item" separator=",">
 			#{item}
 		</foreach>
-		) AND R_KEY != 'admin'
+		) AND r_key != 'admin'
 	</delete>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_AUTHZ_ROLE_LIST 
-		   SET R_STATUS = #{status}
-		 WHERE R_ID = #{roleId}
-		   AND R_KEY != 'admin'
+		UPDATE sys_authz_role_list
+		   SET r_status = #{status}
+		 WHERE r_id = #{roleId}
+		   AND r_key != 'admin'
 	</update>
 	
 	<update id="resetPrty" parameterType="java.lang.String" flushCache="true">
 	   	DECLARE
 	   	BEGIN
-			UPDATE SYS_AUTHZ_USER_ROLE_RELATION 
+			UPDATE sys_authz_user_role_relation
 			   SET R_PRTY = 0
-			 WHERE U_ID = #{userId};
-			UPDATE SYS_AUTHZ_USER_ROLE_RELATION 
+			 WHERE u_id = #{userId};
+			UPDATE sys_authz_user_role_relation
 			   SET R_PRTY = 1
-			 WHERE R_ID = #{roleId}
-			   AND U_ID = #{userId};
+			 WHERE r_id = #{roleId}
+			   AND u_id = #{userId};
 		END;			   
 	</update>
 	
 	<update id="update" parameterType="AuthzRoleModel" flushCache="true">
-		update SYS_AUTHZ_ROLE_LIST t
+		update sys_authz_role_list t
 		<set>
-			<if test="name != null and name != ''">t.R_NAME = #{name},</if>
-			<if test="type != null and type != ''">t.R_TYPE = #{type},</if>
-			<if test="intro != null and intro != ''">t.R_INTRO = #{intro},</if>
-			<if test="status != null and status != ''">t.R_STATUS = #{status}</if>
+			<if test="name != null and name != ''">t.r_name = #{name},</if>
+			<if test="type != null and type != ''">t.r_type = #{type},</if>
+			<if test="intro != null and intro != ''">t.r_intro = #{intro},</if>
+			<if test="status != null and status != ''">t.r_status = #{status}</if>
 		</set>
-		where t.R_ID = #{id}
-		  AND t.R_KEY != 'admin'
+		where t.r_id = #{id}
+		  AND t.r_key != 'admin'
 	</update>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="true">
-		SELECT count(t.R_ID) 
-		  FROM SYS_AUTHZ_ROLE_LIST t 
-		 WHERE t.R_NAME = #{name}
+		SELECT count(t.r_id)
+		  FROM sys_authz_role_list t
+		 WHERE t.r_name = #{name}
 		 <if test="origin != null and origin != ''">
-		   AND t.R_ID != #{origin}
+		   AND t.r_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getCountByUid" resultType="int" parameterType="java.lang.String">
-		SELECT count(t.U_ID) FROM SYS_AUTHZ_USER_ROLE_RELATION t WHERE t.R_ID = #{uid}
+		SELECT count(t.u_id) FROM sys_authz_user_role_relation t WHERE t.r_id = #{uid}
 	</select>
 	
 	<select id="getRoles" resultMap="RoleMap" useCache="true">
 		SELECT
-			t.R_ID,
-			t.R_KEY,
-			t.R_NAME,
-			t.R_TYPE,
-			t.R_INTRO,
-			t.R_STATUS,
-			t.R_TIME24
-		FROM SYS_AUTHZ_ROLE_LIST t
+			t.r_id,
+			t.r_key,
+			t.r_name,
+			t.r_type,
+			t.r_intro,
+			t.r_status,
+			t.R_time24
+		FROM sys_authz_role_list t
 	</select>
 	
 	<select id="getUserRoles" resultMap="RoleMap" useCache="false">
 		SELECT
-			t.R_ID,
-			t.R_KEY,
-			t.R_NAME,
-			t.R_TYPE,
-			t.R_INTRO,
-			t.R_STATUS,
-			t.R_TIME24
-		FROM SYS_AUTHZ_ROLE_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.R_ID = x.R_ID
-		WHERE x.U_ID = #{userId}
+			t.r_id,
+			t.r_key,
+			t.r_name,
+			t.r_type,
+			t.r_intro,
+			t.r_status,
+			t.R_time24
+		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		WHERE x.u_id = #{userId}
 	</select>
 	
 	<select id="getPermsByRoleId" resultType="string" useCache="true">  
-        SELECT x.PERMS FROM SYS_AUTHZ_ROLE_PERMS x WHERE x.R_ID = #{id}  
+        SELECT x.perms FROM sys_authz_role_perms x WHERE x.r_id = #{id}
     </select>
 	
 	<select id="getModel" resultMap="RoleMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t.R_ID,
-			t.R_KEY,
-			t.R_NAME,
-			t.R_TYPE,
-			t.R_INTRO,
-			t.R_STATUS,
-			(SELECT COUNT(x.R_ID) FROM SYS_AUTHZ_USER_ROLE_RELATION x WHERE x.R_ID = t.R_ID) as R_USERS,
-			t.R_TIME24
-		FROM SYS_AUTHZ_ROLE_LIST t
-	   WHERE t.R_ID = #{id}
-	     AND t.R_KEY != 'admin'
+			t.r_id,
+			t.r_key,
+			t.r_name,
+			t.r_type,
+			t.r_intro,
+			t.r_status,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			t.R_time24
+		FROM sys_authz_role_list t
+	   WHERE t.r_id = #{id}
+	     AND t.r_key != 'admin'
 	</select>
 	
 	<select id="getPagedList" resultMap="RoleMap" parameterType="AuthzRoleModel" useCache="false">
 		SELECT
-			t.R_ID,
-			t.R_KEY,
-			t.R_NAME,
-			t.R_TYPE,
-			t.R_INTRO,
-			t.R_STATUS,
-			(SELECT COUNT(x.R_ID) FROM SYS_AUTHZ_USER_ROLE_RELATION x WHERE x.R_ID = t.R_ID) as R_USERS,
-			t.R_TIME24
-		FROM SYS_AUTHZ_ROLE_LIST t
-	   WHERE t.R_KEY != 'admin'
+			t.r_id,
+			t.r_key,
+			t.r_name,
+			t.r_type,
+			t.r_intro,
+			t.r_status,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			t.R_time24
+		FROM sys_authz_role_list t
+	   WHERE t.r_key != 'admin'
 		<if test="model.status != null and model.status != ''">
-			and t.R_STATUS = #{model.status}
+			and t.r_status = #{model.status}
 		</if>
 		<if test="model.type != null and model.type != ''">
-			and t.R_TYPE = #{model.type}
+			and t.r_type = #{model.type}
 		</if>
 		<if test="model.name != null and model.name != ''">
-			and t.R_NAME like CONCAT('%',#{model.name},'%')
+			and t.r_name like CONCAT('%',#{model.name},'%')
 		</if>
 	</select>
 
 	<insert id="setUsers" flushCache="true">
-    	insert into SYS_AUTHZ_USER_ROLE_RELATION(R_ID,U_ID)
+    	insert into sys_authz_user_role_relation(r_id,u_id)
     	values <foreach collection="userIds" item="item" separator =",">
 		(#{roleId},#{item})
         </foreach>
     </insert>
     
     <insert id="setUsersByKey" flushCache="true">
-    	insert into SYS_AUTHZ_USER_ROLE_RELATION(R_ID,U_ID)
+    	insert into sys_authz_user_role_relation(r_id,u_id)
     	values <foreach collection="userIds" item="item" separator =",">
-		((SELECT x.R_ID FROM SYS_AUTHZ_ROLE_LIST x WHERE x.R_KEY = #{roleKey}),#{item})
+		((SELECT x.r_id FROM sys_authz_role_list x WHERE x.r_key = #{roleKey}),#{item})
         </foreach>
     </insert>
     
     <delete id="deleteUsers" flushCache="true">
-    	DELETE FROM SYS_AUTHZ_USER_ROLE_RELATION WHERE R_ID = #{roleId} AND R_KEY != 'admin'
+    	DELETE FROM sys_authz_user_role_relation WHERE r_id = #{roleId} AND r_key != 'admin'
     	<foreach collection="userIds" item="item" separator =" OR " open=" AND ( " close=")">
-		U_ID = #{item}
+		u_id = #{item}
         </foreach>
     </delete>
     
 	<select id="getPagedAllocatedList" resultMap="UserMap" parameterType="AuthzRoleModel" useCache="false">
 		SELECT
-			t.U_ID,
-			t.U_USERNAME,
-			'******' AS U_PASSWORD,
-			t.U_AVATAR,
-			t.U_PHONE,
-			t.U_EMAIL,
+			t.u_id,
+			t.u_username,
+			'******' AS u_password,
+			t.u_avatar,
+			t.u_phone,
+			t.u_email,
 			t.U_REMARK,
-			t.U_STATUS,
-			t.U_TIME24
-		FROM SYS_AUTHZ_USER_LIST t INNER JOIN SYS_AUTHZ_USER_ROLE_RELATION x ON t.U_ID = x.U_ID 
-		WHERE x.R_ID = #{model.id}
+			t.u_status,
+			t.u_time24
+		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
+		WHERE x.r_id = #{model.id}
 		<if test="model.status != null and model.status != ''">
-			and t.U_STATUS = #{model.status}
+			and t.u_status = #{model.status}
 		</if>
 		<if test="model.username != null and model.username != ''">
-			and t.U_USERNAME like CONCAT('%',#{model.username},'%')
+			and t.u_username like CONCAT('%',#{model.username},'%')
 		</if>
 	</select>
 	
 	<select id="getPagedUnAllocatedList" resultMap="UserMap" parameterType="AuthzRoleModel" useCache="false">
 		SELECT
-			t.U_ID,
-			t.U_USERNAME,
-			'******' AS U_PASSWORD,
-			t.U_AVATAR,
-			t.U_PHONE,
-			t.U_EMAIL,
+			t.u_id,
+			t.u_username,
+			'******' AS u_password,
+			t.u_avatar,
+			t.u_phone,
+			t.u_email,
 			t.U_REMARK,
-			t.U_STATUS,
-			t.U_TIME24 
-		FROM SYS_AUTHZ_USER_LIST t 
-		WHERE NOT EXISTS ( SELECT '1' FROM SYS_AUTHZ_USER_ROLE_RELATION z WHERE t.U_ID = z.U_ID and z.R_ID = #{id} )
+			t.u_status,
+			t.u_time24
+		FROM sys_authz_user_list t
+		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.u_id = z.u_id and z.r_id = #{id} )
 		<if test="model.status != null and model.status != ''">
-			and t.U_STATUS = #{model.status}
+			and t.u_status = #{model.status}
 		</if>
 		<if test="model.username != null and model.username != ''">
-			and t.U_USERNAME like CONCAT('%',#{model.username},'%')
+			and t.u_username like CONCAT('%',#{model.username},'%')
 		</if>
 	</select>
 	
 	
 	<select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-		 SELECT t.R_ID,
-				t.R_NAME
-		FROM SYS_AUTHZ_ROLE_LIST t
-	   WHERE t.R_STATUS = 1
-		ORDER BY t.R_TIME24 DESC
+		 SELECT t.r_id,
+				t.r_name
+		FROM sys_authz_role_list t
+	   WHERE t.r_status = 1
+		ORDER BY t.R_time24 DESC
 	</select>
 	
 </mapper>

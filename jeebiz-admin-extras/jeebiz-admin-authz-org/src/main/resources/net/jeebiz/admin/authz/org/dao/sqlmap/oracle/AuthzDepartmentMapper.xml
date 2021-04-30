@@ -4,152 +4,152 @@
 <mapper namespace="net.jeebiz.admin.authz.org.dao.IAuthzDepartmentDao">
 
 	<resultMap id="AuthzDepartmentMap" type="AuthzDepartmentModel">
-		<id property="id" column="DEPT_ID"/>
-		<result property="orgId" column="ORG_ID"/>
-		<result property="orgName" column="ORG_NAME"/>
-		<result property="code" column="DEPT_CODE"/>
-		<result property="name" column="DEPT_NAME"/>
-		<result property="intro" column="DEPT_INTRO"/>
-		<result property="parent" column="DEPT_PARENT"/>
-		<result property="uid" column="DEPT_UID"/>
-		<result property="status" column="DEPT_STATUS"/>
-		<result property="time24" column="TIME24"/>
+		<id property="id" column="dept_id"/>
+		<result property="orgId" column="org_id"/>
+		<result property="orgName" column="org_name"/>
+		<result property="code" column="dept_code"/>
+		<result property="name" column="dept_name"/>
+		<result property="intro" column="dept_intro"/>
+		<result property="parent" column="dept_parent"/>
+		<result property="uid" column="dept_uid"/>
+		<result property="status" column="dept_status"/>
+		<result property="time24" column="time24"/>
 	</resultMap>
 
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="DEPT_ID"/>
-		<result property="value" column="DEPT_NAME"/>
+		<result property="key" column="dept_id"/>
+		<result property="value" column="dept_name"/>
 	</resultMap>
 
 	<insert id="insert" parameterType="AuthzDepartmentModel" flushCache="true">
-		insert into SYS_AUTHZ_ORG_DEPT(ORG_ID,DEPT_CODE,DEPT_NAME,DEPT_INTRO,DEPT_PARENT,DEPT_STATUS,DEPT_UID)
+		insert into sys_authz_org_dept(org_id,dept_code,dept_name,dept_intro,dept_parent,dept_status,dept_uid)
 		values(#{orgId},#{code},#{name},#{intro,jdbcType=VARCHAR},#{parent,jdbcType=VARCHAR},'1',#{uid})
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_DEPT WHERE DEPT_ID = #{id}
+		DELETE FROM sys_authz_org_dept WHERE dept_id = #{id}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_DEPT WHERE DEPT_ID IN
+		DELETE FROM sys_authz_org_dept WHERE dept_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
 			#{item}
 		</foreach>
 	</delete>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_AUTHZ_ORG_DEPT t
-		   SET DEPT_STATUS = #{status}
-		 WHERE DEPT_ID = #{id}
+		UPDATE sys_authz_org_dept t
+		   SET dept_status = #{status}
+		 WHERE dept_id = #{id}
 	</update>
 
 	<update id="update" parameterType="AuthzDepartmentModel" flushCache="true">
-		update SYS_AUTHZ_ORG_DEPT t
+		update sys_authz_org_dept t
 		<set>
-			<if test="code != null and code != ''">t.DEPT_CODE = #{code},</if>
-			<if test="name != null and name != ''">t.DEPT_NAME = #{name},</if>
-			<if test="intro != null and intro != ''">t.DEPT_INTRO = #{intro},</if>
-			<if test="status != null and status != ''">t.DEPT_STATUS = #{status}</if>
+			<if test="code != null and code != ''">t.dept_code = #{code},</if>
+			<if test="name != null and name != ''">t.dept_name = #{name},</if>
+			<if test="intro != null and intro != ''">t.dept_intro = #{intro},</if>
+			<if test="status != null and status != ''">t.dept_status = #{status}</if>
 		</set>
-		where t.DEPT_ID = #{id}
+		where t.dept_id = #{id}
 	</update>
 	
 	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.DEPT_ID) 
-		  FROM SYS_AUTHZ_ORG_DEPT t 
-		 WHERE t.DEPT_PARENT = #{parent}
+		SELECT count(t.dept_id)
+		  FROM sys_authz_org_dept t
+		 WHERE t.dept_parent = #{parent}
 	</select>
 	
 	<select id="getStaffCount" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.STAFF_ID) 
-		  FROM SYS_AUTHZ_ORG_STAFF t 
-		 WHERE t.DEPT_ID = #{id}
+		SELECT count(t.staff_id)
+		  FROM sys_authz_org_staff t
+		 WHERE t.dept_id = #{id}
 	</select>
 	
 	<select id="getDeptCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.DEPT_ID) 
-		  FROM SYS_AUTHZ_ORG_DEPT t 
-		 WHERE t.DEPT_CODE = #{code}
-		   AND t.ORG_ID = #{orgId}
+		SELECT count(t.dept_id)
+		  FROM sys_authz_org_dept t
+		 WHERE t.dept_code = #{code}
+		   AND t.org_id = #{orgId}
 		<if test="deptId != null and deptId != ''">
-			AND t.DEPT_ID != #{deptId}
+			AND t.dept_id != #{deptId}
 		 </if>
 	</select>
 	
 	<select id="getDeptCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.DEPT_ID) 
-		  FROM SYS_AUTHZ_ORG_DEPT t 
-		 WHERE t.DEPT_NAME = #{name}
-		   AND t.ORG_ID = #{orgId}
+		SELECT count(t.dept_id)
+		  FROM sys_authz_org_dept t
+		 WHERE t.dept_name = #{name}
+		   AND t.org_id = #{orgId}
 		 <if test="deptId != null and deptId != ''">
-			AND t.DEPT_ID != #{deptId}
+			AND t.dept_id != #{deptId}
 		 </if>
 	</select>
 
 	<select id="getPagedList" resultMap="AuthzDepartmentMap" parameterType="AuthzDepartmentModel" useCache="false">
 		SELECT
-		t.ORG_ID,
-		(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t.ORG_ID) as ORG_NAME,
-		t.DEPT_ID,
-		t.DEPT_CODE,
-		t.DEPT_NAME,
-		t.DEPT_INTRO,
-		t.DEPT_PARENT,
-		t.DEPT_UID,
-		t.DEPT_STATUS,
-		t.TIME24
-		FROM SYS_AUTHZ_ORG_DEPT t
+		t.org_id,
+		(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
+		t.dept_id,
+		t.dept_code,
+		t.dept_name,
+		t.dept_intro,
+		t.dept_parent,
+		t.dept_uid,
+		t.dept_status,
+		t.time24
+		FROM sys_authz_org_dept t
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
-				and t.ORG_ID = #{model.orgId}
+				and t.org_id = #{model.orgId}
 			</if>
 			<if test="model.name != null and model.name != ''">
-				and t.DEPT_NAME like '%'||#{model.name}||'%'
+				and t.dept_name like '%'||#{model.name}||'%'
 			</if>
 		</where>
-		ORDER By t.TIME24 ASC
+		ORDER By t.time24 ASC
 	</select>
 
 	<select id="getModel" resultMap="AuthzDepartmentMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t.DEPT_CODE,
-			t.DEPT_NAME,
-			t.DEPT_INTRO,
-			t.DEPT_PARENT,
-			t.DEPT_UID,
-			t.DEPT_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_DEPT t
-	   WHERE t.DEPT_ID = #{id}
+			t.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
+			t.dept_id,
+			t.dept_code,
+			t.dept_name,
+			t.dept_intro,
+			t.dept_parent,
+			t.dept_uid,
+			t.dept_status,
+			t.time24
+		FROM sys_authz_org_dept t
+	   WHERE t.dept_id = #{id}
 	</select>
 	
 	<select id="getModelList" resultMap="AuthzDepartmentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t.DEPT_CODE,
-			t.DEPT_NAME,
-			t.DEPT_INTRO,
-			t.DEPT_PARENT,
-			t.DEPT_UID,
-			t.DEPT_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_DEPT t
+			t.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
+			t.dept_id,
+			t.dept_code,
+			t.dept_name,
+			t.dept_intro,
+			t.dept_parent,
+			t.dept_uid,
+			t.dept_status,
+			t.time24
+		FROM sys_authz_org_dept t
 		<if test="key != null and key != ''">
-			WHERE t.DEPT_ID = #{key}
+			WHERE t.dept_id = #{key}
 		</if>
 	</select>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-	   SELECT t.DEPT_ID,t.DEPT_NAME
-		 FROM SYS_AUTHZ_ORG_DEPT t 
-		WHERE t.DEPT_STATUS = 1
+	   SELECT t.dept_id,t.dept_name
+		 FROM sys_authz_org_dept t
+		WHERE t.dept_status = 1
 		<if test="key != null and key != ''">
-			AND t.ORG_ID = #{key}
+			AND t.org_id = #{key}
 		</if>
 	</select>
 

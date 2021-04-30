@@ -4,7 +4,7 @@
 
     <resultMap id="ArticleCategoryMap" type="ArticleCategoryModel">
         <!-- 文章分类ID -->
-		<result property="id" column="C_ID" />
+		<result property="id" column="c_id" />
 		<!-- 文章分类创建者ID -->
 		<result property="uid" column="C_UID" />
 		<!-- 文章分类创建者姓名 -->
@@ -22,11 +22,11 @@
 		<!-- 文章分类状态（0:禁用|1:可用） -->
 		<result property="status" column="C_STATUS" />
 		<!--文章分类创建时间 -->
-		<result property="time24" column="C_TIME24" />
+		<result property="time24" column="C_time24" />
     </resultMap>
     
     <resultMap id="PairMap" type="PairModel">
-        <result property="key" column="C_ID"/>
+        <result property="key" column="c_id"/>
         <result property="value" column="C_NAME"/>
     </resultMap>
 
@@ -36,7 +36,7 @@
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CATEGORY WHERE C_ID IN 
+		DELETE FROM SYS_ARTICLE_CATEGORY WHERE c_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -45,7 +45,7 @@
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CATEGORY t 
 		   SET C_STATUS = #{status}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="ArticleCategoryModel" flushCache="true">
@@ -55,30 +55,30 @@
 		   	   C_INTRO = #{intro},
 		   	   C_KEYWORDS = #{keywords},
 		       C_ORDER = #{order}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.C_ID) 
+		SELECT count(t.c_id)
 		  FROM SYS_ARTICLE_CATEGORY t 
 		 WHERE t.C_NAME = #{name}
 		<if test="origin != null and origin != ''">
-			AND t.C_ID != #{origin}
+			AND t.c_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getPagedList" resultMap="ArticleCategoryMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_NAME,
 			t.C_GRADE,
 			t.C_INTRO,
 			t.C_KEYWORDS,
 			t.C_STATUS,
 			t.C_ORDER,
-			t.C_TIME24
+			t.C_time24
 		FROM SYS_ARTICLE_CATEGORY t
 		<where>
 			<if test="model.status != null and model.status != ''">
@@ -89,7 +89,7 @@
 	</select>
 	
 	<select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-	  SELECT t.C_ID, 
+	  SELECT t.c_id,
 	         t.C_NAME
 		FROM SYS_ARTICLE_CATEGORY t
 	   WHERE t.C_STATUS != 0
@@ -98,18 +98,18 @@
 	
 	<select id="getModel" resultMap="ArticleCategoryMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_NAME,
 			t.C_GRADE,
 			t.C_INTRO,
 			t.C_KEYWORDS,
 			t.C_STATUS,
 			t.C_ORDER,
-			t.C_TIME24
+			t.C_time24
 		FROM SYS_ARTICLE_CATEGORY t
-	   WHERE t.C_ID = #{id} 
+	   WHERE t.c_id = #{id}
 	</select>
 
 </mapper>

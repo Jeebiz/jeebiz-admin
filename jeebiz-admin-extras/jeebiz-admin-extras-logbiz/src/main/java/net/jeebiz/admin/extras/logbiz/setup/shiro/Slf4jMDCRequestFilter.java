@@ -28,7 +28,7 @@ public class Slf4jMDCRequestFilter extends AccessControlFilter {
 		
 		HttpServletRequest httpRequest = WebUtils.toHttp(request);
 		
-		MDC.put("requestId", StringUtils.defaultString(httpRequest.getHeader(XHeaders.X_REQUEST_ID), sequence.nextId().toString())); 
+		MDC.put("requestId", StringUtils.defaultString(httpRequest.getHeader(XHeaders.X_REQUESt_id), sequence.nextId().toString())); 
 		MDC.put("requestURL", httpRequest.getRequestURL().toString());
 		MDC.put("requestURI", httpRequest.getRequestURI());
 		MDC.put("queryString", httpRequest.getQueryString());

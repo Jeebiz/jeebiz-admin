@@ -3,8 +3,8 @@
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.IAuthzRolePermsDao">
 	
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="OPT_ID" />
-		<result property="value" column="OPT_PERMS" />
+		<result property="key" column="opt_id" />
+		<result property="value" column="opt_perms" />
 	</resultMap>
 	
     <insert id="setPerms" flushCache="true" useGeneratedKeys="false">
@@ -13,7 +13,7 @@
 			begin
 		]]>
 			<foreach collection="perms" item="item" separator =";" close=";">
-				insert into SYS_AUTHZ_ROLE_PERMS(R_ID,PERMS) VALUES(#{roleId},#{item})
+				insert into sys_authz_role_perms(r_id,perms) VALUES(#{roleId},#{item})
 	        </foreach>
 		<![CDATA[
 			end;
@@ -21,18 +21,18 @@
     </insert>
     
 	<delete id="delPerms" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ROLE_PERMS WHERE R_ID = #{roleId} AND R_KEY != 'admin'
+		DELETE FROM sys_authz_role_perms WHERE r_id = #{roleId} AND r_key != 'admin'
 		<if test="perms != null and perms.size() > 0">
 		<foreach collection="perms" item="item" separator =" OR " open=" AND ( " close=")">
-		PERMS = #{item}
+		perms = #{item}
         </foreach>
 		</if>
     </delete>
     
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="true">
-		SELECT t.PERMS AS perms 
-		FROM SYS_AUTHZ_ROLE_PERMS t
-		WHERE t.R_ID = #{roleId}
+		SELECT t.perms AS perms
+		FROM sys_authz_role_perms t
+		WHERE t.r_id = #{roleId}
 	</select>
     
 </mapper>

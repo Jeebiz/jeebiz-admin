@@ -4,35 +4,35 @@
 <mapper namespace="net.jeebiz.admin.authz.org.dao.IAuthzPostDao">
 
 	<resultMap id="AuthzPostMap" type="AuthzPostModel">
-		<id property="id" column="POST_ID" />
-		<result property="orgId" column="ORG_ID" />
-		<result property="orgName" column="ORG_NAME" />
-		<result property="deptId" column="DEPT_ID" />
-		<result property="deptName" column="DEPT_NAME" />
+		<id property="id" column="post_id" />
+		<result property="orgId" column="org_id" />
+		<result property="orgName" column="org_name" />
+		<result property="deptId" column="dept_id" />
+		<result property="deptName" column="dept_name" />
 		<result property="code" column="POST_CODE" />
-		<result property="name" column="POST_NAME" />
-		<result property="intro" column="POST_INTRO" />
-		<result property="uid" column="POST_UID" />
-		<result property="status" column="POST_STATUS" />
-		<result property="time24" column="TIME24" />
+		<result property="name" column="post_name" />
+		<result property="intro" column="post_intro" />
+		<result property="uid" column="post_uid" />
+		<result property="status" column="post_status" />
+		<result property="time24" column="time24" />
 	</resultMap>
 
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="POST_ID" />
-		<result property="value" column="POST_NAME" />
+		<result property="key" column="post_id" />
+		<result property="value" column="post_name" />
 	</resultMap>
 
 	<insert id="insert" parameterType="AuthzPostModel" flushCache="true">
-		insert into SYS_AUTHZ_ORG_POST(DEPT_ID,POST_CODE,POST_NAME,POST_INTRO,POST_STATUS,POST_UID)
+		insert into SYS_AUTHZ_ORG_POST(dept_id,POST_CODE,post_name,post_intro,post_status,post_uid)
 		values(#{deptId},#{code},#{name},#{intro,jdbcType=VARCHAR},'1',#{uid})
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_POST WHERE POST_ID = #{id}
+		DELETE FROM SYS_AUTHZ_ORG_POST WHERE post_id = #{id}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_POST WHERE POST_ID IN
+		DELETE FROM SYS_AUTHZ_ORG_POST WHERE post_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
 			#{item}
 		</foreach>
@@ -40,110 +40,110 @@
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_AUTHZ_ORG_POST t
-		   SET POST_STATUS = #{status}
-		 WHERE POST_ID = #{id}
+		   SET post_status = #{status}
+		 WHERE post_id = #{id}
 	</update>
 
 	<update id="update" parameterType="AuthzPostModel" flushCache="true">
 		update SYS_AUTHZ_ORG_POST t
 		<set>
-			<if test="deptId != null and deptId != ''">t.DEPT_ID = #{deptId},</if>
+			<if test="deptId != null and deptId != ''">t.dept_id = #{deptId},</if>
 			<if test="code != null and code != ''">t.POST_CODE = #{code},</if>
-			<if test="name != null and name != ''">t.POST_NAME = #{name},</if>
-			<if test="intro != null and intro != ''">t.POST_INTRO = #{intro},</if>
-			<if test="status != null and status != ''">t.POST_STATUS = #{status}</if>
+			<if test="name != null and name != ''">t.post_name = #{name},</if>
+			<if test="intro != null and intro != ''">t.post_intro = #{intro},</if>
+			<if test="status != null and status != ''">t.post_status = #{status}</if>
 		</set>
-		where t.POST_ID = #{id}
+		where t.post_id = #{id}
 	</update>
 
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.POST_ID) 
+		SELECT count(t.post_id)
 		  FROM SYS_AUTHZ_ORG_POST t 
 		 WHERE t.POST_CODE = #{code}
 		<if test="origin != null and origin != ''">
-			AND t.POST_ID != #{origin}
+			AND t.post_id != #{origin}
 		 </if>
 	</select>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.POST_ID) 
+		SELECT count(t.post_id)
 		  FROM SYS_AUTHZ_ORG_POST t 
-		 WHERE t.POST_NAME = #{name}
+		 WHERE t.post_name = #{name}
 		 <if test="origin != null and origin != ''">
-			AND t.POST_ID != #{origin}
+			AND t.post_id != #{origin}
 		 </if>
 	</select>
 
 	<select id="getPagedList" resultMap="AuthzPostMap" parameterType="AuthzPostModel" useCache="false">
 		SELECT
-			t2.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t2.DEPT_NAME,
-			t.POST_ID,
+			t2.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			t.dept_id,
+			t2.dept_name,
+			t.post_id,
 			t.POST_CODE,
-			t.POST_NAME,
-			t.POST_INTRO,
-			t.POST_UID,
-			t.POST_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_POST t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
+			t.post_name,
+			t.post_intro,
+			t.post_uid,
+			t.post_status,
+			t.time24
+		FROM SYS_AUTHZ_ORG_POST t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
-				and t2.ORG_ID = #{model.orgId}
+				and t2.org_id = #{model.orgId}
 			</if>
 			<if test="model.deptId != null and model.deptId != ''">
-				and t.DEPT_ID = #{model.deptId}
+				and t.dept_id = #{model.deptId}
 			</if>
 			<if test="model.name != null and model.name != ''">
-				and t.POST_NAME like '%'||#{model.name}||'%'
+				and t.post_name like '%'||#{model.name}||'%'
 			</if>
 		</where>
-		ORDER By t.TIME24 ASC
+		ORDER By t.time24 ASC
 	</select>
 
 	<select id="getModel" resultMap="AuthzPostMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t2.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t2.DEPT_NAME,
-			t.POST_ID,
+			t2.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			t.dept_id,
+			t2.dept_name,
+			t.post_id,
 			t.POST_CODE,
-			t.POST_NAME,
-			t.POST_INTRO,
-			t.POST_UID,
-			t.POST_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_POST t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
-	   WHERE t.POST_ID = #{id} 
+			t.post_name,
+			t.post_intro,
+			t.post_uid,
+			t.post_status,
+			t.time24
+		FROM SYS_AUTHZ_ORG_POST t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+	   WHERE t.post_id = #{id}
 	</select>
 	
 	<select id="getModelList" resultMap="AuthzPostMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t2.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t2.DEPT_NAME,
-			t.POST_ID,
+			t2.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			t.dept_id,
+			t2.dept_name,
+			t.post_id,
 			t.POST_CODE,
-			t.POST_NAME,
-			t.POST_INTRO,
-			t.POST_UID,
-			t.POST_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_POST t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
+			t.post_name,
+			t.post_intro,
+			t.post_uid,
+			t.post_status,
+			t.time24
+		FROM SYS_AUTHZ_ORG_POST t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 		<if test="key != null and key != ''">
-			WHERE t.POST_ID = #{key} 
+			WHERE t.post_id = #{key}
 		</if>
 	</select>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
-	   SELECT t.POST_ID,t.POST_NAME
+	   SELECT t.post_id,t.post_name
 		 FROM SYS_AUTHZ_ORG_POST t 
-		WHERE t.POST_STATUS = 1
+		WHERE t.post_status = 1
 		<if test="key != null and key != ''">
-			AND t.DEPT_ID = #{key}
+			AND t.dept_id = #{key}
 		</if>
 	</select>
 

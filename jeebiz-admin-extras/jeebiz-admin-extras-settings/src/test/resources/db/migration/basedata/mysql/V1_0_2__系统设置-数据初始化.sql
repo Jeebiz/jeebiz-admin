@@ -32,13 +32,13 @@ VALUES ('email', 'Socks代理地址', 'socksProxyHost', '127.0.0.1', 'text', 're
 INSERT INTO SYS_DATA_SETTINGS (D_GROUP, D_LABEL, D_KEY, D_TEXT, D_TYPE, D_RULES, D_REMARK, D_PLACEHOLDER, D_SOURCE, D_STATUS, D_ORDER)
 VALUES ('email', 'Socks代理端口', 'socksProxyPort', '1080', 'text', 'required', '', '', '', 1, 8);
 
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_type, f_icon, f_parent, f_visible, f_order)
 VALUES ('2', '基础设置', '基础设置', 'sets', '', '1', '', '0', '1', '4');
-INSERT INTO SYS_AUTHZ_FEATURE_LIST (F_ID, F_NAME, F_ABB, F_CODE, F_URL, F_TYPE, F_ICON, F_PARENT, F_VISIBLE, F_ORDER) 
+INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_type, f_icon, f_parent, f_visible, f_order)
 VALUES ('3', '系统设置', '系统设置', 'appsets', '', '1', '', '2', '1', '4');
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, OPT_VISIBLE, opt_perms, opt_order)
 VALUES ('3', '查看', '', '0', 'sets:list', 1);
-INSERT INTO SYS_AUTHZ_FEATURE_OPTS (F_ID, OPT_NAME, OPT_ICON, OPT_VISIBLE, OPT_PERMS, OPT_ORDER)
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, OPT_VISIBLE, opt_perms, opt_order)
 VALUES ('3', '保存', '', '0', 'sets:reset', 2);
 
 COMMIT;

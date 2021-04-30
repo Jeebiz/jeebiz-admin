@@ -4,138 +4,138 @@
 <mapper namespace="net.jeebiz.admin.authz.org.dao.IAuthzTeamDao">
 
 	<resultMap id="AuthzTeamMap" type="AuthzTeamModel">
-		<id property="id" column="TEAM_ID" />
-		<result property="orgId" column="ORG_ID" />
-		<result property="orgName" column="ORG_NAME" />
-		<result property="deptId" column="DEPT_ID" />
-		<result property="deptName" column="DEPT_NAME" />
-		<result property="name" column="TEAM_NAME" />
-		<result property="intro" column="TEAM_INTRO" />
-		<result property="uid" column="TEAM_UID" />
-		<result property="status" column="TEAM_STATUS" />
-		<result property="time24" column="TIME24" />
+		<id property="id" column="team_id" />
+		<result property="orgId" column="org_id" />
+		<result property="orgName" column="org_name" />
+		<result property="deptId" column="dept_id" />
+		<result property="deptName" column="dept_name" />
+		<result property="name" column="team_name" />
+		<result property="intro" column="team_intro" />
+		<result property="uid" column="team_uid" />
+		<result property="status" column="team_status" />
+		<result property="time24" column="time24" />
 	</resultMap>
 
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="TEAM_ID" />
-		<result property="value" column="TEAM_NAME" />
+		<result property="key" column="team_id" />
+		<result property="value" column="team_name" />
 	</resultMap>
 
 	<insert id="insert" parameterType="AuthzTeamModel" flushCache="true">
-		insert into SYS_AUTHZ_ORG_TEAM(DEPT_ID,TEAM_NAME,TEAM_INTRO,TEAM_STATUS,TEAM_UID)
+		insert into sys_authz_org_team(dept_id,team_name,team_intro,team_status,team_uid)
 		values(#{deptId},#{name},#{intro,jdbcType=VARCHAR},'1',#{uid})
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_TEAM WHERE TEAM_ID = #{id}
+		DELETE FROM sys_authz_org_team WHERE team_id = #{id}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_TEAM WHERE TEAM_ID IN
+		DELETE FROM sys_authz_org_team WHERE team_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
 			#{item}
 		</foreach>
 	</delete>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_AUTHZ_ORG_TEAM t
-		   SET TEAM_STATUS = #{status}
-		 WHERE TEAM_ID = #{id}
+		UPDATE sys_authz_org_team t
+		   SET team_status = #{status}
+		 WHERE team_id = #{id}
 	</update>
 
 	<update id="update" parameterType="AuthzTeamModel" flushCache="true">
-		update SYS_AUTHZ_ORG_TEAM t
+		update sys_authz_org_team t
 		<set>
-			<if test="name != null and name != ''">t.TEAM_NAME = #{name},</if>
-			<if test="intro != null and intro != ''">t.TEAM_INTRO = #{intro},</if>
-			<if test="status != null and status != ''">t.TEAM_STATUS = #{status}</if>
+			<if test="name != null and name != ''">t.team_name = #{name},</if>
+			<if test="intro != null and intro != ''">t.team_intro = #{intro},</if>
+			<if test="status != null and status != ''">t.team_status = #{status}</if>
 		</set>
-		where t.TEAM_ID = #{id}
+		where t.team_id = #{id}
 	</update>
 
 	<select id="getTeamCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.TEAM_ID) 
-		  FROM SYS_AUTHZ_ORG_TEAM t 
-		 WHERE t.TEAM_NAME = #{name}
-		   AND t.DEPT_ID = #{deptId}
+		SELECT count(t.team_id)
+		  FROM sys_authz_org_team t
+		 WHERE t.team_name = #{name}
+		   AND t.dept_id = #{deptId}
 		 <if test="teamId != null and teamId != ''">
-			AND t.TEAM_ID != #{teamId}
+			AND t.team_id != #{teamId}
 		 </if>
 	</select>
 	
 	<select id="getStaffCount" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.U_ID) 
-		  FROM SYS_AUTHZ_USER_LIST t 
-		 WHERE t.TEAM_ID = #{id}
+		SELECT count(t.u_id)
+		  FROM sys_authz_user_list t
+		 WHERE t.team_id = #{id}
 	</select>
 
 	<select id="getPagedList" resultMap="AuthzTeamMap" parameterType="AuthzTeamModel" useCache="false">
 		SELECT
-			t2.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t2.DEPT_NAME,
-			t.TEAM_ID,
-			t.TEAM_NAME,
-			t.TEAM_INTRO,
-			t.TEAM_UID,
-			t.TEAM_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_TEAM t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
+			t2.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			t.dept_id,
+			t2.dept_name,
+			t.team_id,
+			t.team_name,
+			t.team_intro,
+			t.team_uid,
+			t.team_status,
+			t.time24
+		FROM sys_authz_org_team t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
-				and t2.ORG_ID = #{model.orgId}
+				and t2.org_id = #{model.orgId}
 			</if>
 			<if test="model.deptId != null and model.deptId != ''">
-				and t.DEPT_ID = #{model.deptId}
+				and t.dept_id = #{model.deptId}
 			</if>
 			<if test="model.name != null and model.name != ''">
-				and t.TEAM_NAME like '%'||#{model.name}||'%'
+				and t.team_name like '%'||#{model.name}||'%'
 			</if>
 		</where>
-		ORDER By t.TIME24 ASC
+		ORDER By t.time24 ASC
 	</select>
 
 	<select id="getModel" resultMap="AuthzTeamMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t2.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t2.DEPT_NAME,
-			t.TEAM_ID,
-			t.TEAM_NAME,
-			t.TEAM_INTRO,
-			t.TEAM_UID,
-			t.TEAM_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_TEAM t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
-	   WHERE t.TEAM_ID = #{id} 
+			t2.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			t.dept_id,
+			t2.dept_name,
+			t.team_id,
+			t.team_name,
+			t.team_intro,
+			t.team_uid,
+			t.team_status,
+			t.time24
+		FROM sys_authz_org_team t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+	   WHERE t.team_id = #{id}
 	</select>
 
 	<select id="getModelList" resultMap="AuthzTeamMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t2.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t2.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			t2.DEPT_NAME,
-			t.TEAM_ID,
-			t.TEAM_NAME,
-			t.TEAM_INTRO,
-			t.TEAM_UID,
-			t.TEAM_STATUS,
-			t.TIME24
-		FROM SYS_AUTHZ_ORG_TEAM t inner join SYS_AUTHZ_ORG_DEPT t2 on t2.DEPT_ID = t.DEPT_ID
+			t2.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			t.dept_id,
+			t2.dept_name,
+			t.team_id,
+			t.team_name,
+			t.team_intro,
+			t.team_uid,
+			t.team_status,
+			t.time24
+		FROM sys_authz_org_team t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 		<if test="key != null and key != ''">
-			WHERE t.TEAM_ID = #{key} 
+			WHERE t.team_id = #{key}
 		</if>
 	</select>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
-	   SELECT t.TEAM_ID,t.TEAM_NAME
-		 FROM SYS_AUTHZ_ORG_TEAM t 
-		WHERE t.TEAM_STATUS = 1
+	   SELECT t.team_id,t.team_name
+		 FROM sys_authz_org_team t
+		WHERE t.team_status = 1
 		<if test="key != null and key != ''">
-			AND t.DEPT_ID = #{key}
+			AND t.dept_id = #{key}
 		</if>
 	</select>
 

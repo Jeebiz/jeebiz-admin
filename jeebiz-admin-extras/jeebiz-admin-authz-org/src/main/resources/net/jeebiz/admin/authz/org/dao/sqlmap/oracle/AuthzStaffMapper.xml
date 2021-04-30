@@ -4,125 +4,125 @@
 <mapper namespace="net.jeebiz.admin.authz.org.dao.IAuthzStaffDao">
 	
 	<resultMap id="AuthzStaffMap" type="AuthzStaffModel">
-		<id property="id" column="STAFF_ID" />
-		<result property="orgId" column="ORG_ID" />
-		<result property="orgName" column="ORG_NAME" />
-		<result property="deptId" column="DEPT_ID" />
-		<result property="deptName" column="DEPT_NAME" />
-		<result property="teamId" column="TEAM_ID" />
-		<result property="teamName" column="TEAM_NAME" />
-		<result property="postId" column="POST_ID" />
-		<result property="postName" column="POST_NAME" />
-		<result property="intro" column="STAFF_INTRO" />
-		<result property="status" column="STAFF_STATUS" />
-		<result property="time24" column="TIME24" />
-		<result property="username" column="U_USERNAME" />
+		<id property="id" column="staff_id" />
+		<result property="orgId" column="org_id" />
+		<result property="orgName" column="org_name" />
+		<result property="deptId" column="dept_id" />
+		<result property="deptName" column="dept_name" />
+		<result property="teamId" column="team_id" />
+		<result property="teamName" column="team_name" />
+		<result property="postId" column="post_id" />
+		<result property="postName" column="post_name" />
+		<result property="intro" column="staff_intro" />
+		<result property="status" column="staff_status" />
+		<result property="time24" column="time24" />
+		<result property="username" column="u_username" />
 		<result property="alias" column="U_ALIAS" />
-		<result property="avatar" column="U_AVATAR" />
-		<result property="phone" column="U_PHONE" />
-		<result property="email" column="U_EMAIL" />
+		<result property="avatar" column="u_avatar" />
+		<result property="phone" column="u_phone" />
+		<result property="email" column="u_email" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzStaffModel" flushCache="true">
-		insert into SYS_AUTHZ_ORG_STAFF(ORG_ID,DEPT_ID,TEAM_ID,POST_ID,STAFF_ID,STAFF_INTRO,POST_STATUS,TIME24)
+		insert into sys_authz_org_staff(org_id,dept_id,team_id,post_id,staff_id,staff_intro,post_status,time24)
 		values(#{orgId},#{deptId},#{teamId,jdbcType=VARCHAR},#{postId},#{id},#{intro,jdbcType=VARCHAR},'1',#{time24})
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_STAFF WHERE STAFF_ID = #{id}
+		DELETE FROM sys_authz_org_staff WHERE staff_id = #{id}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_STAFF WHERE STAFF_ID IN 
+		DELETE FROM sys_authz_org_staff WHERE staff_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_AUTHZ_ORG_STAFF t 
-		   SET STAFF_STATUS = #{status}
-		 WHERE STAFF_ID = #{id}
+		UPDATE sys_authz_org_staff t
+		   SET staff_status = #{status}
+		 WHERE staff_id = #{id}
 	</update>
 
 	<update id="update" parameterType="AuthzStaffModel" flushCache="true">
-		update SYS_AUTHZ_ORG_STAFF t
+		update sys_authz_org_staff t
 		<set>
-			<if test="orgId != null and orgId != ''">t.ORG_ID = #{orgId},</if>
-			<if test="deptId != null and deptId != ''">t.DEPT_ID = #{deptId},</if>
-			<if test="teamId != null and teamId != ''">t.TEAM_ID = #{teamId},</if>
-			<if test="postId != null and postId != ''">t.POST_ID = #{postId},</if>
-			<if test="intro != null and intro != ''">t.STAFF_INTRO = #{intro},</if>
-			<if test="time24 != null and time24 != ''">t.TIME24 = #{time24}</if>
+			<if test="orgId != null and orgId != ''">t.org_id = #{orgId},</if>
+			<if test="deptId != null and deptId != ''">t.dept_id = #{deptId},</if>
+			<if test="teamId != null and teamId != ''">t.team_id = #{teamId},</if>
+			<if test="postId != null and postId != ''">t.post_id = #{postId},</if>
+			<if test="intro != null and intro != ''">t.staff_intro = #{intro},</if>
+			<if test="time24 != null and time24 != ''">t.time24 = #{time24}</if>
 		</set>
-		where t.STAFF_ID = #{id}
+		where t.staff_id = #{id}
 	</update>
 	
 	<select id="getCountByUid" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.STAFF_ID) FROM SYS_AUTHZ_ORG_STAFF t WHERE t.STAFF_ID = #{uid}
+		SELECT count(t.staff_id) FROM sys_authz_org_staff t WHERE t.staff_id = #{uid}
 	</select>
 	
 	<select id="getPagedList" resultMap="AuthzStaffMap" parameterType="AuthzStaffModel" useCache="false">
 		SELECT
-			t.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			(select x.DEPT_NAME from SYS_AUTHZ_ORG_DEPT x where x.DEPT_ID = t.DEPT_ID) as DEPT_NAME,
-			t.TEAM_ID,
-			(select x.TEAM_NAME from SYS_AUTHZ_ORG_TEAM x where x.DEPT_ID = t.DEPT_ID AND x.TEAM_ID = t.TEAM_ID) as TEAM_NAME,
-			t.POST_ID,
-			(select x.POST_NAME from SYS_AUTHZ_ORG_POSITION x where x.DEPT_ID = t.DEPT_ID AND x.POST_ID = t.POST_ID) as POST_NAME,
-			t.STAFF_ID,
-			t.STAFF_INTRO,
-			t.STAFF_STATUS,
-			t.TIME24,
-			t2.U_USERNAME,
+			t.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
+			t.dept_id,
+			(select x.dept_name from sys_authz_org_dept x where x.dept_id = t.dept_id) as dept_name,
+			t.team_id,
+			(select x.team_name from sys_authz_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
+			t.post_id,
+			(select x.post_name from sys_authz_org_position x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
+			t.staff_id,
+			t.staff_intro,
+			t.staff_status,
+			t.time24,
+			t2.u_username,
 			t2.U_ALIAS,
-			t2.U_AVATAR,
-			t2.U_PHONE,
-			t2.U_EMAIL
-		FROM SYS_AUTHZ_ORG_STAFF t inner join SYS_AUTHZ_USER_LIST t2 on t2.U_ID = t.STAFF_ID
+			t2.u_avatar,
+			t2.u_phone,
+			t2.u_email
+		FROM sys_authz_org_staff t inner join sys_authz_user_list t2 on t2.u_id = t.staff_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
-				and t.ORG_ID = #{model.orgId}
+				and t.org_id = #{model.orgId}
 			</if>
 			<if test="model.deptId != null and model.deptId != ''">
-				and t.DEPT_ID = #{model.deptId}
+				and t.dept_id = #{model.deptId}
 			</if>
 			<if test="model.teamId != null and model.teamId != ''">
-				and t.TEAM_ID = #{model.teamId}
+				and t.team_id = #{model.teamId}
 			</if>
 			<if test="model.postId != null and model.postId != ''">
-				and t.POST_ID = #{model.postId}
+				and t.post_id = #{model.postId}
 			</if>
 			<if test="model.name != null and model.name != ''">
-				and ( t2.U_USERNAME like '%'||#{model.name}||'%' OR t2.U_ALIAS like '%'||#{model.name}||'%')
+				and ( t2.u_username like '%'||#{model.name}||'%' OR t2.U_ALIAS like '%'||#{model.name}||'%')
 			</if>
 		</where>
-		ORDER By t.TIME24 ASC
+		ORDER By t.time24 ASC
 	</select>
 
 	<select id="getModel" resultMap="AuthzStaffMap" parameterType="java.lang.String" useCache="true">
 		SELECT
-			t.ORG_ID,
-			(select x.ORG_NAME from SYS_AUTHZ_ORG_LIST x where x.ORG_ID = t.ORG_ID) as ORG_NAME,
-			t.DEPT_ID,
-			(select x.DEPT_NAME from SYS_AUTHZ_ORG_DEPT x where x.DEPT_ID = t.DEPT_ID) as DEPT_NAME,
-			t.TEAM_ID,
-			(select x.TEAM_NAME from SYS_AUTHZ_ORG_TEAM x where x.DEPT_ID = t.DEPT_ID AND x.TEAM_ID = t.TEAM_ID) as TEAM_NAME,
-			t.POST_ID,
-			(select x.POST_NAME from SYS_AUTHZ_ORG_POSITION x where x.DEPT_ID = t.DEPT_ID AND x.POST_ID = t.POST_ID) as POST_NAME,
-			t.STAFF_ID,
-			t.STAFF_INTRO,
-			t.STAFF_STATUS,
-			t.TIME24,
-			t2.U_USERNAME,
+			t.org_id,
+			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
+			t.dept_id,
+			(select x.dept_name from sys_authz_org_dept x where x.dept_id = t.dept_id) as dept_name,
+			t.team_id,
+			(select x.team_name from sys_authz_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
+			t.post_id,
+			(select x.post_name from sys_authz_org_position x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
+			t.staff_id,
+			t.staff_intro,
+			t.staff_status,
+			t.time24,
+			t2.u_username,
 			t2.U_ALIAS,
-			t2.U_AVATAR,
-			t2.U_PHONE,
-			t2.U_EMAIL
-		FROM SYS_AUTHZ_ORG_STAFF t inner join SYS_AUTHZ_USER_LIST t2 on t2.U_ID = t.STAFF_ID
-	   WHERE t.STAFF_ID = #{id} 
+			t2.u_avatar,
+			t2.u_phone,
+			t2.u_email
+		FROM sys_authz_org_staff t inner join sys_authz_user_list t2 on t2.u_id = t.staff_id
+	   WHERE t.staff_id = #{id}
 	</select>
     
 </mapper>

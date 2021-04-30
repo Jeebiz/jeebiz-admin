@@ -4,13 +4,13 @@
 
 	<resultMap id="ArticleTagMap" type="ArticleTagModel">
         <!-- 文章标签ID -->
-		<result property="id" column="T_ID" />
+		<result property="id" column="t_id" />
 		<!-- 文章ID -->
 		<result property="cid" column="T_CID" />
 		<!-- 文章标签名称 -->
 		<result property="name" column="T_NAME" />
 		<!-- 文章标签设置时间 -->
-		<result property="time24" column="T_TIME24" />
+		<result property="time24" column="T_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleTagModel" flushCache="true">
@@ -18,7 +18,7 @@
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_TAGS WHERE T_ID IN 
+		DELETE FROM SYS_ARTICLE_CONTENT_TAGS WHERE t_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -27,18 +27,18 @@
 	<update id="update" parameterType="ArticleTagModel" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENT_TAGS t 
 		   SET T_NAME = #{name}
-		 WHERE T_ID = #{id}
+		 WHERE t_id = #{id}
 	</update>
 	
 	<select id="getRowList" resultMap="ArticleTagMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.T_ID,
+			t.t_id,
 			t.T_CID,
 			t.T_NAME,
-			t.T_TIME24
+			t.T_time24
 		FROM SYS_ARTICLE_CONTENT_TAGS t
 	   WHERE t.T_CID = #{cid}
-	ORDER By t.T_TIME24 ASC
+	ORDER By t.T_time24 ASC
 	</select>
 
 </mapper>

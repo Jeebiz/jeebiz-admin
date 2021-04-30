@@ -4,7 +4,7 @@
 
     <resultMap id="ArticleCommentMap" type="ArticleCommentModel">
         <!-- 文章评论ID -->
-		<result property="id" column="C_ID" />
+		<result property="id" column="c_id" />
 		<!-- 文章ID -->
 		<result property="cid" column="C_CID" />
 		<!-- 上级文章评论ID -->
@@ -26,16 +26,16 @@
 		<!-- 文章评论排序 -->
 		<result property="order" column="C_ORDER" />
 		<!-- 文章评论时间 -->
-		<result property="time24" column="C_TIME24" />
+		<result property="time24" column="C_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleCommentModel" flushCache="true">
 		INSERT INTO SYS_ARTICLE_CONTENT_COMMENTS(C_CID,C_PID,C_UID,C_TYPE,C_TEXT,C_REVIEW,C_STATUS,C_RCMD,C_ORDER)
-		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,IFNULL((SELECT MAX(x.C_ORDER) FROM SYS_ARTICLE_CONTENT_COMMENTS x WHERE x.C_ID = #{cid}),0))
+		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,IFNULL((SELECT MAX(x.C_ORDER) FROM SYS_ARTICLE_CONTENT_COMMENTS x WHERE x.c_id = #{cid}),0))
 	</insert> 
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_COMMENTS WHERE C_ID IN 
+		DELETE FROM SYS_ARTICLE_CONTENT_COMMENTS WHERE c_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -44,42 +44,42 @@
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
 		   SET D_STATUS = #{status}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
 		   SET C_RCMD = #{recommend}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="setReview" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
 		   SET C_REVIEW = #{review}
-		 WHERE C_ID = #{id}
+		 WHERE c_id = #{id}
 	</update>
 	
 	<update id="update" parameterType="ArticleCommentModel" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
 		   SET C_TEXT = #{text},
-		   	   C_TIME24 = to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss')
-		 WHERE C_ID = #{id}
+		   	   C_time24 = to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss')
+		 WHERE c_id = #{id}
 	</update>
     
 	<select id="getPagedList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_CID,
 			t.C_PID,
 			t.C_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.C_REVIEW,
 			t.C_STATUS,
 			t.C_RCMD,
 			t.C_ORDER,
-			t.C_TIME24
+			t.C_time24
 		FROM SYS_ARTICLE_CONTENT_COMMENTS t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
@@ -90,36 +90,36 @@
 	
 	<select id="getModel" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_CID,
 			t.C_PID,
 			t.C_UID,
-		    (SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+		    (SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.C_REVIEW,
 			t.C_STATUS,
 			t.C_RCMD,
 			t.C_ORDER,
-			t.C_TIME24
+			t.C_time24
 	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
-	  WHERE t.C_ID = #{id} 
+	  WHERE t.c_id = #{id}
 	</select>
 
 	<select id="getRowList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_CID,
 			t.C_PID,
 			t.C_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.C_REVIEW,
 			t.C_STATUS,
 			t.C_RCMD,
 			t.C_ORDER,
-			t.C_TIME24
+			t.C_time24
 	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
 	  WHERE t.C_STATUS != 0
 	    AND t.C_UID = #{uid}
@@ -127,22 +127,22 @@
 	
 	<select id="getTreeList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.C_ID,
+			t.c_id,
 			t.C_CID,
 			t.C_PID,
 			t.C_UID,
-			(SELECT IFNULL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.C_UID) as C_UNAME,
+			(SELECT IFNULL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.C_UID) as C_UNAME,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.C_REVIEW,
 			t.C_STATUS,
 			t.C_RCMD,
 			t.C_ORDER,
-			t.C_TIME24
+			t.C_time24
 	   FROM SYS_ARTICLE_CONTENT_COMMENTS t
 	  WHERE t.C_STATUS != 0
 	    AND t.C_UID = #{uid}
-	  START WITH t.C_PID = 0 CONNECT BY t.C_PID = PRIOR t.C_ID
+	  START WITH t.C_PID = 0 CONNECT BY t.C_PID = PRIOR t.c_id
 	</select>
 
 </mapper>

@@ -5,7 +5,7 @@
 
 	<resultMap id="InformRecordMap" type="InformRecordModel">
 		<!-- 消息通知记录ID -->
-		<id property="id" column="R_ID" />
+		<id property="id" column="r_id" />
 		<!-- 消息通知发送人ID -->
 		<result property="uid" column="R_UID" />
 		<!-- 消息通知发送人 -->
@@ -27,9 +27,9 @@
 		<!-- 通知信息关联数据载体,JOSN格式的数据 -->
 		<result property="payload" column="R_PAYLOAD" />
 		<!-- 消息通知阅读状态：（0:未阅读、1:已阅读） -->
-		<result property="status" column="R_STATUS" />
+		<result property="status" column="r_status" />
 		<!-- 消息通知创建时间 -->
-		<result property="time24" column="TIME24"/>
+		<result property="time24" column="time24"/>
 	</resultMap>
 	
 	<resultMap id="InformRecordStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO">
@@ -42,7 +42,7 @@
 	</resultMap>
 	
 	<insert id="insert" parameterType="InformRecordModel">
-		insert into SYS_INFORM_RECORDS(R_UID,R_PROVIDER,R_TAG,R_TO,R_TITLE,R_CONTENT,R_TID,R_PAYLOAD,R_STATUS)
+		insert into SYS_INFORM_RECORDS(R_UID,R_PROVIDER,R_TAG,R_TO,R_TITLE,R_CONTENT,R_TID,R_PAYLOAD,r_status)
 		values(#{uid},#{provider},#{tag,jdbcType=VARCHAR},#{toUid},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},0)
 	</insert>
 	
@@ -54,43 +54,43 @@
 		delete from SYS_INFORM_RECORDS where R_TO = #{toUid}
 		<if test="ids != null">
 		<foreach collection="ids" item="id" open=" AND (" separator=" OR " close=")" >
-			R_ID = #{id}
+			r_id = #{id}
 		</foreach>
 		</if>
 	</delete>
 	
 	<update id="update" parameterType="InformRecordModel">
 		UPDATE SYS_INFORM_RECORDS t 
-		   SET t.R_STATUS = #{status}
+		   SET t.r_status = #{status}
 		 WHERE t.R_TO = #{toUid}
 		 <if test="ids != null">
 			 <foreach collection="ids" item="item" open=" AND (" separator=" OR " close=")" >
-				t.R_ID = #{item}
+				t.r_id = #{item}
 			 </foreach>
 		 </if>
 	</update>
 	
 	<select id="getCount" resultType="Integer" parameterType="InformRecordModel">
-		SELECT IFNULL(COUNT(t.R_ID), 0) COUNT 
+		SELECT IFNULL(COUNT(t.r_id), 0) COUNT
 		FROM SYS_INFORM_RECORDS t
 		WHERE t.R_TO = #{toUid}
-		  AND t.R_STATUS = 0
+		  AND t.r_status = 0
 	</select>
 	
 	<select id="getPagedList" resultMap="InformRecordMap" >
-		SELECT t.R_ID,
+		SELECT t.r_id,
 			   t.R_UID,
-			   (SELECT IFNULL(x.U_ALIAS,x.U_USERNAME) FROM SYS_AUTHZ_USER_LIST x WHERE x.U_ID = t.R_UID) as R_UNAME, 
+			   (SELECT IFNULL(x.U_ALIAS,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.R_UID) as R_UNAME,
 		   	   t.R_PROVIDER,
 		   	   t.R_TAG,
 			   t.R_TITLE,
 			   t.R_CONTENT,
 			   t.R_TID,
 			   t.R_TO,
-			   (SELECT IFNULL(x.U_ALIAS,x.U_USERNAME) FROM SYS_AUTHZ_USER_LIST x WHERE x.U_ID = t.R_TO) as R_TO_UNAME,
+			   (SELECT IFNULL(x.U_ALIAS,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.R_TO) as R_TO_UNAME,
 			   t.R_PAYLOAD,
-			   t.R_STATUS,
-			   t.TIME24
+			   t.r_status,
+			   t.time24
 		  FROM SYS_INFORM_RECORDS t
 	   <where>
 		   <if test="model.toUid != null and model.toUid != '' ">
@@ -100,37 +100,37 @@
 				AND t.T_PROVIDER = #{model.provider}
 			</if>
 			<if test="model.status != null and model.status != '' ">
-				AND t.R_STATUS = #{model.status}
+				AND t.r_status = #{model.status}
 			</if>
 			<if test="model.keywords != null and model.keywords != '' ">
 				AND t.R_TITLE like CONCAT('%',#{model.keywords},'%')
 			</if>
 	   </where>
-		ORDER BY t.TIME24 DESC
+		ORDER BY t.time24 DESC
 	</select>
 	
 	<select id="getModel" resultMap="InformRecordMap" parameterType="String" >
-		SELECT t.R_ID,
+		SELECT t.r_id,
 			   t.R_UID,
-			   (SELECT IFNULL(x.U_ALIAS,x.U_USERNAME) FROM SYS_AUTHZ_USER_LIST x WHERE x.U_ID = t.R_UID) as R_UNAME, 
+			   (SELECT IFNULL(x.U_ALIAS,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.R_UID) as R_UNAME,
 		   	   t.R_PROVIDER,
 		   	   t.R_TAG,
 			   t.R_TITLE,
 			   t.R_CONTENT,
 			   t.R_TID,
 			   t.R_TO,
-			   (SELECT IFNULL(x.U_ALIAS,x.U_USERNAME) FROM SYS_AUTHZ_USER_LIST x WHERE x.U_ID = t.R_TO) as R_TO_UNAME,
+			   (SELECT IFNULL(x.U_ALIAS,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.R_TO) as R_TO_UNAME,
 			   t.R_PAYLOAD,
-			   t.R_STATUS,
-			   t.TIME24
+			   t.r_status,
+			   t.time24
 		  FROM SYS_INFORM_RECORDS t
-	     WHERE t.R_ID = #{id}
+	     WHERE t.r_id = #{id}
 	</select>
 	
 	<select id="getStats" resultMap="InformRecordStatsMap">
 		SELECT t.R_PROVIDER,
-			   COUNT( t.R_ID ) as R_TOTAL,
-		   	   SUM( CASE WHEN t.R_STATUS = '0' THEN 1 ELSE 0 END ) as R_UNREAD
+			   COUNT( t.r_id ) as R_TOTAL,
+		   	   SUM( CASE WHEN t.r_status = '0' THEN 1 ELSE 0 END ) as R_UNREAD
 		FROM SYS_INFORM_RECORDS t
 	   WHERE t.R_TO = #{toUid}
 	   GROUP BY t.R_PROVIDER

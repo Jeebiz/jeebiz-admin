@@ -18,7 +18,7 @@
 		<!-- 访问来源User-Agent -->
 		<result property="agent" column="V_AGENT" />
 		<!-- 文章访问时间 -->
-		<result property="time24" column="V_TIME24" />
+		<result property="time24" column="V_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleVisitModel" flushCache="true">
@@ -30,11 +30,11 @@
 			t.V_ID,
 			t.V_CID,
 			t.V_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.V_UID) as V_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.V_UID) as V_UNAME,
 			t.V_ADDR,
 			t.V_LOCATION,
 			t.V_AGENT,
-			t.V_TIME24
+			t.V_time24
 		FROM SYS_ARTICLE_VISITS t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
@@ -44,7 +44,7 @@
 				and t.V_UID = #{model.uid}
 			</if>
 		</where>
-		ORDER By t.V_TIME24 ASC
+		ORDER By t.V_time24 ASC
 	</select>
 		
 	<select id="getRowList" resultMap="ArticleVisitMap" parameterType="java.lang.String" useCache="false">
@@ -52,14 +52,14 @@
 			t.V_ID,
 			t.V_CID,
 			t.V_UID,
-			(SELECT NVL(x.U_ALIAS, x.U_USERNAME) from SYS_AUTHZ_USER_LIST x where x.U_ID = t.V_UID) as V_UNAME,
+			(SELECT NVL(x.U_ALIAS, x.u_username) from sys_authz_user_list x where x.u_id = t.V_UID) as V_UNAME,
 			t.V_ADDR,
 			t.V_LOCATION,
 			t.V_AGENT,
-			t.V_TIME24
+			t.V_time24
 		FROM SYS_ARTICLE_VISITS t
 	   WHERE t.V_CID = #{cid}
-	ORDER By t.V_TIME24 ASC
+	ORDER By t.V_time24 ASC
 	</select>
 
 </mapper>

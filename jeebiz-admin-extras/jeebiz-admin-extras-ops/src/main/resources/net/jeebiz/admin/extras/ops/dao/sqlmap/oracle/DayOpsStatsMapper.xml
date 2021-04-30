@@ -4,7 +4,7 @@
 	
 	<resultMap id="DayOpsStatsMap" type="net.jeebiz.admin.extras.ops.web.dto.DayOpsStatsDTO">
 		<!-- 心动用户唯一ID（用户信息表ID） -->
-		<result property="uid" column="U_ID" />
+		<result property="uid" column="u_id" />
 		<!-- 今日心动我的人数 -->
 		<result property="heartbeatMe" column="U_HEARTBEAT_ME" />
 		<!-- 今日查看我的资料人数 -->
@@ -13,9 +13,9 @@
 	
 	<select id="getDayOpsStats" resultMap="DayOpsStatsMap" useCache="false">
 		SELECT t1.DATE,
-		      ( SELECT COUNT(1) FROM KDING_AUTHZ_USER_LIST x INNER JOIN KDING_AUTHZ_USER_PROFILE y ON x.U_ID = y.U_ID WHERE DATE_FORMAT(x.U_TIME24,'%Y-%m-%d 00:00:00') = t1.DATE ) AA,
+		      ( SELECT COUNT(1) FROM KDING_AUTHZ_USER_LIST x INNER JOIN KDING_AUTHZ_USER_PROFILE y ON x.u_id = y.u_id WHERE DATE_FORMAT(x.u_time24,'%Y-%m-%d 00:00:00') = t1.DATE ) AA,
 			  ( SELECT COUNT(1) FROM KDING_PAYMENT_ORDER x1 WHERE x1.OUT_TRADE_NO IS NOT NULL AND DATE_FORMAT(x1.CREATE_TIME,'%Y-%m-%d 00:00:00') = t1.DATE) BB,
-			  ( SELECT COUNT(DISTINCT x1.USER_ID) FROM KDING_PAYMENT_ORDER x1 WHERE x1.OUT_TRADE_NO IS NOT NULL AND DATE_FORMAT(x1.CREATE_TIME,'%Y-%m-%d 00:00:00') = t1.DATE) CC,
+			  ( SELECT COUNT(DISTINCT x1.USEr_id) FROM KDING_PAYMENT_ORDER x1 WHERE x1.OUT_TRADE_NO IS NOT NULL AND DATE_FORMAT(x1.CREATE_TIME,'%Y-%m-%d 00:00:00') = t1.DATE) CC,
 			  ( SELECT SUM(x1.TOTAL_FEE) FROM KDING_PAYMENT_ORDER x1 WHERE x1.OUT_TRADE_NO IS NOT NULL AND DATE_FORMAT(x1.CREATE_TIME,'%Y-%m-%d 00:00:00') = t1.DATE) DD
 		FROM ( SELECT DATE_FORMAT(NOW(),'%Y-%m-%d 00:00:00') DATE FROM DUAL) t1
 	</select>

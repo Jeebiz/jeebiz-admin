@@ -4,7 +4,7 @@
 
     <resultMap id="ArticleTargetMap" type="ArticleTargetModel">
 	    <!-- 文章发布对象记录ID -->
-		<result property="id" column="T_ID" />
+		<result property="id" column="t_id" />
 		<!-- 文章ID -->
 		<result property="cid" column="T_CID" />
 		<!-- 文章发布对象ID（学院ID|专业ID|班级ID|账户ID） -->
@@ -18,14 +18,14 @@
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE T_ID IN 
+		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE t_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
 	</delete>
 	
 	<delete id="delete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE T_ID = #{id}
+		DELETE FROM SYS_ARTICLE_CONTENT_TARGETS WHERE t_id = #{id}
 	</delete>
 	
 	<delete id="deleteTarget" flushCache="true">
@@ -35,12 +35,12 @@
 	<update id="update" parameterType="ArticleTargetModel" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENT_TARGETS t 
 		   SET T_TID = #{tid}
-		 WHERE T_ID = #{id}
+		 WHERE t_id = #{id}
 	</update>
 	
 	<select id="getTargetList" resultMap="ArticleTargetMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.T_ID,
+			t.t_id,
 			t.T_CID,
 			t.T_TID
 		FROM SYS_ARTICLE_CONTENT_TARGETS t
