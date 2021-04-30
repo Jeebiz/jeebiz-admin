@@ -69,7 +69,7 @@ public class JJwtAuthenticationFailureHandler implements AuthenticationFailureHa
 			} 
 			// Jwt无效
 			else if (cause instanceof InvalidJwtToken) {
-				JSONObject.writeJSONString(response.getWriter(), AuthcResponse.error(AuthcResponseCode.SC_AUTHZ_TOKEN_INVALid.getCode(),
+				JSONObject.writeJSONString(response.getWriter(), AuthcResponse.error(AuthcResponseCode.SC_AUTHZ_TOKEN_INVALID.getCode(),
 						"Jwt无效"));
 			}
 			// Jwt缺失

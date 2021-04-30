@@ -1,7 +1,5 @@
 package net.jeebiz.admin.extras.logbiz.setup.shiro.listener;
 
-import java.util.UUid;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +11,14 @@ import org.apache.shiro.biz.utils.WebUtils;
 import org.apache.shiro.biz.web.filter.authc.listener.LogoutListener;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import net.jeebiz.boot.api.annotation.BusinessType;
+import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.utils.Constants;
 
 /**
@@ -30,6 +30,8 @@ public class ShiroAuthzLogoutListener implements LogoutListener {
 
 	protected static final String STATUS_SUCCESS = "success";
 	protected static final String STATUS_FAIL = "fail";
+	@Autowired
+	protected Sequence sequence;
 	
 	@Override
 	public void beforeLogout(Subject subject, ServletRequest request, ServletResponse response) {
@@ -67,7 +69,7 @@ public class ShiroAuthzLogoutListener implements LogoutListener {
 	
 	protected void recordRequest(HttpServletRequest request) {
 		
-		ThreadContext.put("uuid", UUid.randomUUid().toString()); // Add the fishtag;
+		ThreadContext.put("requestId", sequence.nextId().toString()); 
 		ThreadContext.put("requestURL", request.getRequestURL().toString());
 		ThreadContext.put("requestURI", request.getRequestURI());
 		ThreadContext.put("queryString", request.getQueryString());

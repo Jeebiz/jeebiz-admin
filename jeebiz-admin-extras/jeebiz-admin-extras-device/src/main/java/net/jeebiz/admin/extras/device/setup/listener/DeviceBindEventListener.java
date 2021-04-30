@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.device.dao.ideviceActivateDao;
-import net.jeebiz.admin.extras.device.dao.ideviceBindDao;
+import net.jeebiz.admin.extras.device.dao.IDeviceActivateDao;
+import net.jeebiz.admin.extras.device.dao.IDeviceBindDao;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceActivateModel;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceBindModel;
 import net.jeebiz.admin.extras.device.web.dto.DeviceBindEventDTO;
@@ -25,9 +25,9 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 
 
     @Autowired
-    private ideviceActivateDao deviceActivationDao;
+    private IDeviceActivateDao deviceActivationDao;
     @Autowired
-    private ideviceBindDao deviceBindDao;
+    private IDeviceBindDao deviceBindDao;
 
     @Override
     public void onApplicationEvent(DeviceBindEvent event) {
@@ -65,11 +65,11 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 		}
     }
     
-    public ideviceActivateDao getDeviceActivationDao() {
+    public IDeviceActivateDao getDeviceActivationDao() {
 		return deviceActivationDao;
 	}
     
-    public ideviceBindDao getDeviceBindDao() {
+    public IDeviceBindDao getDeviceBindDao() {
 		return deviceBindDao;
 	}
     

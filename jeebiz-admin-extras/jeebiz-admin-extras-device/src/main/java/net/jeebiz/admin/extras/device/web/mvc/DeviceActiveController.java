@@ -28,7 +28,7 @@ public class DeviceActiveController extends BaseApiController {
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(paramType = "header", required = true, name = XHeaders.X_DEVICE_IMEI, value = "客户端设备唯一标识", dataType = "String"),
 		@ApiImplicitParam(paramType = "header", required = true, name = XHeaders.X_DEVICE_MODEL, value = "客户端设备型号", dataType = "String"),
-		@ApiImplicitParam(paramType = "header", required = true, name = XHeaders.X_APP_id, value = "应用id", dataType = "String"),
+		@ApiImplicitParam(paramType = "header", required = true, name = XHeaders.X_APP_ID, value = "应用id", dataType = "String"),
 		@ApiImplicitParam(paramType = "header", required = true, name = XHeaders.X_APP_CHANNEL, value = "应用渠道编码", dataType = "String"),
 		@ApiImplicitParam(paramType = "header", required = true, name = XHeaders.X_APP_VERSION, value = "应用客户端版本号", dataType = "String")
 	})
@@ -37,7 +37,7 @@ public class DeviceActiveController extends BaseApiController {
 		
 		String deviceIMEI = request.getHeader(XHeaders.X_DEVICE_IMEI);
 		String deviceModel = request.getHeader(XHeaders.X_DEVICE_MODEL);
-		String appId = request.getHeader(XHeaders.X_APP_id);
+		String appId = request.getHeader(XHeaders.X_APP_ID);
 		String appChannel = request.getHeader(XHeaders.X_APP_CHANNEL);
 		String appVersion = request.getHeader(XHeaders.X_APP_VERSION);
 		log.info(XHeaders.X_DEVICE_IMEI + "：{}", deviceIMEI);

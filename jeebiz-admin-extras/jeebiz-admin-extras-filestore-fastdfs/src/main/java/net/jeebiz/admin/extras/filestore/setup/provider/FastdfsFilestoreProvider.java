@@ -8,7 +8,7 @@ package net.jeebiz.admin.extras.filestore.setup.provider;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import java.util.UUid;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -140,7 +140,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
         	StorePath storePath = this.storeFile(file, width, height);
 
 			// 上传文件
-            String uuid = UUid.randomUUid().toString();
+            String uuid = UUID.randomUUID().toString();
 			
 			
 			// 文件存储记录对象
@@ -203,7 +203,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 				// 文件存储记录对象
 				FilestoreModel model = new FilestoreModel();
 				
-				String uuid = UUid.randomUUid().toString();
+				String uuid = UUID.randomUUID().toString();
 				model.setUuid(uuid);
 				model.setUid(principal.getUserid());
 				model.setName(file.getOriginalFilename());
@@ -301,7 +301,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		
 		// 文件存储信息
 
-        String uuid1 = UUid.randomUUid().toString();
+        String uuid1 = UUID.randomUUID().toString();
 		
         FilestoreDTO attDTO = new FilestoreDTO();
 		attDTO.setUuid(uuid1);

@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUid;
+import java.util.UUID;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
@@ -62,7 +62,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 				fileDir.mkdirs();
 			};
 			
-			String uuid = UUid.randomUUid().toString();
+			String uuid = UUID.randomUUID().toString();
 			String basename = DateFormatUtils.format(System.currentTimeMillis(), "YYYYMMDD") + File.separator + uuid;
 			String path = basename + FilenameUtils.getFullExtension(file.getOriginalFilename());
 			
@@ -114,7 +114,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 					fileDir.mkdirs();
 				};
 				
-				String uuid = UUid.randomUUid().toString();
+				String uuid = UUID.randomUUID().toString();
 				String path =  DateFormatUtils.format(System.currentTimeMillis(), "YYYYMMDD") + File.separator + uuid + FilenameUtils.getFullExtension(file.getOriginalFilename());
 				
 				file.transferTo(new File(fileDir, path));
@@ -225,7 +225,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			fileDir.mkdirs();
 		};
 
-		String uuid1 = UUid.randomUUid().toString();
+		String uuid1 = UUID.randomUUID().toString();
 		String path =  DateFormatUtils.format(System.currentTimeMillis(), "YYYYMMDD") + File.separator + uuid + FilenameUtils.getFullExtension(file.getOriginalFilename());
 		file.transferTo(new File(fileDir, path));
 		

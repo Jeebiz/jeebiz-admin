@@ -59,7 +59,7 @@ public class ConfigBuilder {
     /**
      * SQL语句类型
      */
-    private idbQuery dbQuery;
+    private IDbQuery dbQuery;
     private String superEntityClass;
     private String superMapperClass;
     /**
@@ -232,7 +232,7 @@ public class ConfigBuilder {
     private void handlerPackage(TemplateConfig template, String outputDir, PackageConfig config) {
         // 包信息
         packageInfo = new HashMap<>(8);
-        packageInfo.put(ConstVal.MODULE_name, config.getModuleName());
+        packageInfo.put(ConstVal.MODULE_NAME, config.getModuleName());
         packageInfo.put(ConstVal.ENTITY, joinPackage(config.getParent(), config.getEntity()));
         packageInfo.put(ConstVal.MAPPER, joinPackage(config.getParent(), config.getMapper()));
         packageInfo.put(ConstVal.XML, joinPackage(config.getParent(), config.getXml()));

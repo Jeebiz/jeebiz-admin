@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import net.jeebiz.admin.extras.logbiz.setup.shiro.Slf4jMDCRequestFilter;
+import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.web.servlet.handler.Slf4jMDCInterceptor;
 
 @Configuration
@@ -28,9 +29,11 @@ public class JeebizLogbizConfiguration implements WebMvcConfigurer {
 	}*/
 
 	@Bean("log4j2")
-	public FilterRegistrationBean<Slf4jMDCRequestFilter> slf4jMDCRequestFilter() {
+	public FilterRegistrationBean<Slf4jMDCRequestFilter> slf4jMDCRequestFilter(Sequence sequence) {
 		FilterRegistrationBean<Slf4jMDCRequestFilter> registration = new FilterRegistrationBean<Slf4jMDCRequestFilter>();
-		registration.setFilter(new Slf4jMDCRequestFilter());
+		Slf4jMDCRequestFilter filter = new Slf4jMDCRequestFilter();
+		filter.setSequence(sequence);
+		registration.setFilter(filter);
 		registration.setEnabled(false);
 		return registration;
 	}

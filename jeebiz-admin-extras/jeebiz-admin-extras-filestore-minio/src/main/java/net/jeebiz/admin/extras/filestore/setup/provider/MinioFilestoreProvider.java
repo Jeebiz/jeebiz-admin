@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUid;
+import java.util.UUID;
 
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
@@ -82,7 +82,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
                 LOG.info("create a new bucket.");
             }
 			
-			String uuid = UUid.randomUUid().toString();
+			String uuid = UUID.randomUUID().toString();
 			String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 			String objectName = sdf.format(new Date()) + "/" + uuid + "." + ext;
 			
@@ -147,7 +147,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
             ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			for (MultipartFile file : files) {
 
-				String uuid = UUid.randomUUid().toString();
+				String uuid = UUID.randomUUID().toString();
 				String ext = FilenameUtils.getExtension(file.getOriginalFilename());
 				String objectName = sdf.format(new Date()) + "/" + uuid + "." + ext;
 				
@@ -257,7 +257,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 		String storePath = getMinioClient().getObjectUrl(Constants.GROUP_name, objectName);
 		
 		// 文件存储信息
-		String uuid1 = UUid.randomUUid().toString();
+		String uuid1 = UUID.randomUUID().toString();
 		FilestoreDTO attDTO = new FilestoreDTO();
 		attDTO.setUuid(uuid1);
 		attDTO.setName(file.getOriginalFilename());

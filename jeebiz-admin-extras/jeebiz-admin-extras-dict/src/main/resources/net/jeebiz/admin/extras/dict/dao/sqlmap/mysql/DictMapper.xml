@@ -5,11 +5,11 @@
 	
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="d_key" />
-		<result property="value" column="D_TEXT" />
+		<result property="value" column="d_text" />
 	</resultMap>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-		   SELECT t.d_key,t.D_TEXT
+		   SELECT t.d_key,t.d_text
 			 FROM SYS_DATA_PAIRVALUE t 
 			WHERE t.d_group = #{key}
 			  AND t.d_status = 1

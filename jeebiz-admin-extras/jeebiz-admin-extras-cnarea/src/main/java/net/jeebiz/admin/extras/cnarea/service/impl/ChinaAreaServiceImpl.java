@@ -25,8 +25,8 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 	
 	private static final String PCODE = "pcode";
 	private static final String CODE = "code";
-	private static final String name = "name";
-	private static final String DEFAULt_name = "市辖区";
+	private static final String NAME = "name";
+	private static final String DEFAULT_NAME = "市辖区";
 	
 	@Override
 	public List<ChinaAreaPairDTO> getChinaProvTree() {
@@ -42,7 +42,7 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 					// 省级
 					ChinaAreaPairDTO provPaorDTO = new ChinaAreaPairDTO();
 					
-					provPaorDTO.setName(MapUtils.getString(provMap, name));
+					provPaorDTO.setName(MapUtils.getString(provMap, NAME));
 					provPaorDTO.setValue(MapUtils.getString(provMap, CODE));
 					provPaorDTO.setChildren(pairList.stream()
 							.filter(cityMap -> MapUtils.getString(cityMap, PCODE).equals(MapUtils.getString(provMap, CODE)))
@@ -51,8 +51,8 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 								// 市级
 								ChinaAreaPairDTO cityPaorDTO = new ChinaAreaPairDTO();
 								
-								String name = MapUtils.getString(cityMap, name);
-								cityPaorDTO.setName(StringUtils.equalsIgnoreCase(name, DEFAULt_name) ? MapUtils.getString(provMap, name) : name);
+								String name = MapUtils.getString(cityMap, NAME);
+								cityPaorDTO.setName(StringUtils.equalsIgnoreCase(name, DEFAULT_NAME) ? MapUtils.getString(provMap, name) : name);
 								cityPaorDTO.setValue(MapUtils.getString(cityMap, CODE));
 								cityPaorDTO.setChildren(pairList.stream()
 										.filter(areaMap -> MapUtils.getString(areaMap, PCODE).equals(MapUtils.getString(cityMap, CODE)))

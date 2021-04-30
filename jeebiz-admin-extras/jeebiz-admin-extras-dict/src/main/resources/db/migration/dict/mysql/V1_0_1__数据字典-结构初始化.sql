@@ -24,7 +24,7 @@ CREATE TABLE `SYS_DATA_PAIRVALUE` (
   `d_label` varchar(200) NOT NULL COMMENT '数据标签',
   `d_key` varchar(50) NOT NULL COMMENT '数据键',
   `D_VALUE` varchar(500) NOT NULL COMMENT '数据值',
-  `D_TEXT` varchar(2000) COMMENT '数据描述',
+  `d_text` varchar(2000) COMMENT '数据描述',
   `d_status` int(1) DEFAULT 1 COMMENT '数据状态:（0:不可用|1：可用）',
   `d_order` int(10) DEFAULT 1 COMMENT '数据排序:组内排序',
   PRIMARY KEY (`d_id`),

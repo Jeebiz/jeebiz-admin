@@ -11,7 +11,7 @@ import net.jeebiz.admin.extras.device.dao.entities.DeviceBindModel;
 import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface ideviceBindDao extends BaseMapper<DeviceBindModel> {
+public interface IDeviceBindDao extends BaseMapper<DeviceBindModel> {
 
 	/**
 	 * @param deviceIMEI

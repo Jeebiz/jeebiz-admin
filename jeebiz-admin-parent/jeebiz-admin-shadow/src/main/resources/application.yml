@@ -532,7 +532,7 @@ logging:
     jdbc:
       enabled: true
       appenders: 
-      - table-name: SYS_DATA_LOG_AUTHZ
+      - table-name: sys_data_log_authz
         marker: Authz-Log
         column-mappings: 
         - column: LOG_OPT
@@ -553,7 +553,7 @@ logging:
           pattern: "%X{uid}"          
         - column: CREATE_TIME
           pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
-      - table-name: SYS_DATA_LOG_BIZ
+      - table-name: sys_data_log_biz
         marker: Biz-Log
         column-mappings: 
         - column: LOG_MODULE

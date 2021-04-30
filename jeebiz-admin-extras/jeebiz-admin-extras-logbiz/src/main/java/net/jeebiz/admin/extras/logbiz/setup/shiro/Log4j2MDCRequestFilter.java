@@ -4,7 +4,7 @@
  */
 package net.jeebiz.admin.extras.logbiz.setup.shiro;
 
-import java.util.UUid;
+import java.util.UUID;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -22,7 +22,7 @@ public class Log4j2MDCRequestFilter extends AccessControlFilter {
 			throws Exception {
 		
 		HttpServletRequest httpRequest = WebUtils.toHttp(request);
-		ThreadContext.put("uuid", UUid.randomUUid().toString()); // Add the fishtag;
+		ThreadContext.put("uuid", UUID.randomUUID().toString()); // Add the fishtag;
 		ThreadContext.put("requestURL", httpRequest.getRequestURL().toString());
 		ThreadContext.put("requestURI", httpRequest.getRequestURI());
 		ThreadContext.put("queryString", httpRequest.getQueryString());

@@ -20,7 +20,7 @@ import net.jeebiz.boot.api.sequence.Sequence;
 
 public class Slf4jMDCRequestFilter extends AccessControlFilter {
 	
-	private final Sequence sequence = new Sequence(0);
+	protected Sequence sequence;
 	
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
@@ -28,7 +28,7 @@ public class Slf4jMDCRequestFilter extends AccessControlFilter {
 		
 		HttpServletRequest httpRequest = WebUtils.toHttp(request);
 		
-		MDC.put("requestId", StringUtils.defaultString(httpRequest.getHeader(XHeaders.X_REQUESt_id), sequence.nextId().toString())); 
+		MDC.put("requestId", StringUtils.defaultString(httpRequest.getHeader(XHeaders.X_REQUEST_ID), sequence.nextId().toString())); 
 		MDC.put("requestURL", httpRequest.getRequestURL().toString());
 		MDC.put("requestURI", httpRequest.getRequestURI());
 		MDC.put("queryString", httpRequest.getQueryString());
@@ -56,6 +56,14 @@ public class Slf4jMDCRequestFilter extends AccessControlFilter {
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		return true;
+	}
+
+	public Sequence getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Sequence sequence) {
+		this.sequence = sequence;
 	}
 
 }

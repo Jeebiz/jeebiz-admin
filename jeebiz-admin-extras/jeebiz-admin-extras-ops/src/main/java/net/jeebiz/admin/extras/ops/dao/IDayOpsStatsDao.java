@@ -15,7 +15,7 @@ import net.jeebiz.admin.extras.ops.web.dto.DayOpsStatsDTO;
  * 每日运营统计
  */
 @Mapper
-public interface idayOpsStatsDao extends BaseMapper<DayOpsStatsEntity> {
+public interface IDayOpsStatsDao extends BaseMapper<DayOpsStatsEntity> {
 	
 	DayOpsStatsDTO getDayOpsStats();
 	

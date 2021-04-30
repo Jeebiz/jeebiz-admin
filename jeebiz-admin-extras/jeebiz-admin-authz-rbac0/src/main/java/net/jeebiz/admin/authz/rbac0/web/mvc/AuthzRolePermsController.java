@@ -70,7 +70,7 @@ public class AuthzRolePermsController extends BaseMapperController {
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(paramType = "body", name = "permsDTO", value = "角色分配的功能权限信息", dataType = "AuthzRoleAllotPermsDTO")
 	})
-	@BusinessLog(module = Constants.AUTHZ_ROLE_perms, business = "给指定角色分配权限，角色Id：${roleid}", opt = BusinessType.DELETE)
+	@BusinessLog(module = Constants.AUTHZ_ROLE_PERMS, business = "给指定角色分配权限，角色Id：${roleid}", opt = BusinessType.DELETE)
 	@PostMapping("perms")
 	@RequiresPermissions("role:perms")
 	@ResponseBody
@@ -90,7 +90,7 @@ public class AuthzRolePermsController extends BaseMapperController {
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(paramType = "body", name = "permsDTO", value = "角色取消分配的权限信息", dataType = "AuthzRoleAllotPermsDTO")
 	})
-	@BusinessLog(module = Constants.AUTHZ_ROLE_perms, business = "取消已分配给指定角色的权限", opt = BusinessType.DELETE)
+	@BusinessLog(module = Constants.AUTHZ_ROLE_PERMS, business = "取消已分配给指定角色的权限", opt = BusinessType.DELETE)
 	@PostMapping("unperms")
 	@RequiresPermissions("role:unperms")
 	@ResponseBody

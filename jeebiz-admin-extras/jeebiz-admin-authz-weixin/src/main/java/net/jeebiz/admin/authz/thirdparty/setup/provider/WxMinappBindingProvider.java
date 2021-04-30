@@ -93,10 +93,10 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 	 		}
 	 		userModel.setUid(uid);
 			userModel.setUsername(phoneNumberInfo.getPurePhoneNumber());
-			String appId = request.getHeader(XHeaders.X_APP_id);
+			String appId = request.getHeader(XHeaders.X_APP_ID);
 			String appChannel = request.getHeader(XHeaders.X_APP_CHANNEL);
 			String appVersion = request.getHeader(XHeaders.X_APP_VERSION);
-			log.info(XHeaders.X_APP_id + "：{}", appId);
+			log.info(XHeaders.X_APP_ID + "：{}", appId);
 			log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 			log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
 			userModel.setAppId(appId);

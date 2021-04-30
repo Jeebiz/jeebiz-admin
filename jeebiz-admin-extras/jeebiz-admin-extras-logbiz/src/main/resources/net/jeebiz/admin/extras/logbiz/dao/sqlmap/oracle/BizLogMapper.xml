@@ -4,49 +4,49 @@
 <mapper namespace="net.jeebiz.admin.extras.logbiz.dao.IBizLogDao" >
 	
 	 <resultMap id="BizLogMap" type="BizLogModel">
-		<result property="id" column="LOG_id" />
-		<result property="userId" column="LOG_USERid" />
-		<result property="userName" column="LOG_USERname" />
-		<result property="module" column="LOG_MODULE" />
-		<result property="business" column="LOG_BIZ" />
-		<result property="opt" column="LOG_OPT" />
-		<result property="addr" column="LOG_ADDR" />
-		<result property="location" column="LOG_LOCATION" />
-		<result property="msg" column="LOG_MSG" />
-		<result property="exception" column="LOG_EXCP" javaType="java.lang.String" jdbcType="CLOB"/>
-		<result property="timestamp" column="LOG_TIMESTAMP"/>
+		<result property="id" column="log_id" />
+		<result property="userid" column="log_userid" />
+		<result property="username" column="log_username" />
+		<result property="module" column="log_module" />
+		<result property="business" column="log_biz" />
+		<result property="opt" column="log_opt" />
+		<result property="addr" column="log_addr" />
+		<result property="location" column="log_location" />
+		<result property="msg" column="log_msg" />
+		<result property="exception" column="log_excp" javaType="java.lang.String" jdbcType="CLOB"/>
+		<result property="timestamp" column="log_timestamp"/>
 	</resultMap>
 	
 	<select id="getPagedList" resultMap="BizLogMap" parameterType="BizLogModel">
 		SELECT
-			t.LOG_id,
-			t.CREATOR as LOG_USERid,
-			t2.u_username as LOG_USERname,
-			t.LOG_MODULE,
-			t.LOG_BIZ,
-			t.LOG_OPT,
-			t.LOG_ADDR,
-			t.LOG_LOCATION,
-			t.LOG_MSG,
-			t.LOG_EXCP,
-			t.CREATE_TIME as LOG_TIME
-		FROM SYS_DATA_LOG_BIZ t, sys_authz_user_list t2
-		WHERE t.CREATOR = t2.u_id
+			t.log_id,
+			t.creator as log_userid,
+			t2.u_username as log_username,
+			t.log_module,
+			t.log_biz,
+			t.log_opt,
+			t.log_addr,
+			t.log_location,
+			t.log_msg,
+			t.log_excp,
+			t.create_time as log_time
+		FROM sys_data_log_biz t, sys_authz_user_list t2
+		WHERE t.creator = t2.u_id
 		<if test="model.userId != null and model.userId != '' ">
-			AND t.CREATOR = #{model.userId}
+			AND t.creator = #{model.userId}
 		</if>
 		<if test="model.module != null and model.module != '' ">
-			AND t.LOG_MODULE = #{model.module}
+			AND t.log_module = #{model.module}
 		</if>
 		<if test="model.business != null and model.business != '' ">
-			AND t.LOG_BIZ like '%' || #{model.business} || '%'
+			AND t.log_biz like '%' || #{model.business} || '%'
 		</if>
 		<if test="model.opt != null and model.opt != '' ">
-			AND t.LOG_OPT = #{model.opt}
+			AND t.log_opt = #{model.opt}
 		</if>
 		<if test="model.keywords != null and model.keywords != '' ">
-			AND (t.LOG_ADDR like '%'||#{model.keywords}||'%' 
-				OR t.LOG_LOCATION like '%'||#{model.keywords}||'%' 
+			AND (t.log_addr like '%'||#{model.keywords}||'%' 
+				OR t.log_location like '%'||#{model.keywords}||'%' 
 				OR t2.u_username like '%'||#{model.keywords}||'%')
 		</if>
 		<if test="model.begintime != null and model.begintime != '' and model.endtime != null and model.endtime != '' ">

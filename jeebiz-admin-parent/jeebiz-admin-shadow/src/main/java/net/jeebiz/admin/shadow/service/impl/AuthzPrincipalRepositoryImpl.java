@@ -280,10 +280,10 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				ServletRequest request = WebThreadContext.getRequest();
 				if(Objects.nonNull(request) && request instanceof ShiroHttpServletRequest) {
 					ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
-					String appId = shiroRequest.getHeader(XHeaders.X_APP_id);
+					String appId = shiroRequest.getHeader(XHeaders.X_APP_ID);
 					String appChannel = shiroRequest.getHeader(XHeaders.X_APP_CHANNEL);
 					String appVersion = shiroRequest.getHeader(XHeaders.X_APP_VERSION);
-					log.info(XHeaders.X_APP_id + "：{}", appId);
+					log.info(XHeaders.X_APP_ID + "：{}", appId);
 					log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 					log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
 					userModel.setAppId(appId);
@@ -415,10 +415,10 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				ServletRequest request = WebThreadContext.getRequest();
 				if(Objects.nonNull(request) && request instanceof ShiroHttpServletRequest) {
 					ShiroHttpServletRequest shiroRequest = (ShiroHttpServletRequest) request;
-					String appId = shiroRequest.getHeader(XHeaders.X_APP_id);
+					String appId = shiroRequest.getHeader(XHeaders.X_APP_ID);
 					String appChannel = shiroRequest.getHeader(XHeaders.X_APP_CHANNEL);
 					String appVersion = shiroRequest.getHeader(XHeaders.X_APP_VERSION);
-					log.info(XHeaders.X_APP_id + "：{}", appId);
+					log.info(XHeaders.X_APP_ID + "：{}", appId);
 					log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 					log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
 					userModel.setAppId(appId);

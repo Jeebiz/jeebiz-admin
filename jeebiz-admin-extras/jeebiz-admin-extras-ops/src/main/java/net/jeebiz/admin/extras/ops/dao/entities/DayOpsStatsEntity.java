@@ -15,7 +15,7 @@ import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName(value = "KDING_OPS_STATS")
+@TableName(value = "ops_stats", keepGlobalPrefix = true)
 public class DayOpsStatsEntity extends BaseEntity<DayOpsStatsEntity> {
 
 	/**
@@ -26,31 +26,31 @@ public class DayOpsStatsEntity extends BaseEntity<DayOpsStatsEntity> {
 	/**
 	 * 统计日期
 	 */
-	@TableField(value = "DAY")
+	@TableField(value = "day")
 	private String day;
 	/**
 	 * 新增注册用户数
 	 */
-	@TableField(value = "DR")
+	@TableField(value = "dr")
 	private Long dr;
 	/**
 	 * 当日活跃用户数
 	 */
-	@TableField(value = "DAU")
+	@TableField(value = "dau")
 	private Long dau;
 	/**
 	 * 当日购买会员用户数
 	 */
-	@TableField(value = "PAY_NUMBER")
+	@TableField(value = "pay_number")
 	private Long number;
 	/**
 	 * 当日购买会员次数
 	 */
-	@TableField(value = "PAY_TOTAL")
+	@TableField(value = "pay_total")
 	private Long total;
 	/**
 	 * 当日购买会员金额
 	 */
-	@TableField(value = "PAY_AMOUNT")
+	@TableField(value = "pay_amount")
 	private Double amount;
 }
