@@ -5,14 +5,14 @@
 	
 	<resultMap id="KeyValueMap" type="KeyValueModel">
 		<result property="id" column="D_ID" />
-		<result property="gkey" column="D_GROUP_KEY" />
-		<result property="gtext" column="D_GROUP_TEXT" />
+		<result property="gkey" column="d_group_KEY" />
+		<result property="gtext" column="d_group_TEXT" />
 		<result property="label" column="D_LABEL" />
 		<result property="key" column="D_KEY" />
 		<result property="value" column="D_VALUE" />
 		<result property="text" column="D_TEXT" />
-		<result property="status" column="D_STATUS" />
-		<result property="order" column="D_ORDER" />
+		<result property="status" column="d_status" />
+		<result property="order" column="d_order" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
@@ -21,7 +21,7 @@
 	</resultMap>
 	
 	<insert id="insert" parameterType="KeyValueModel" flushCache="true">
-		insert into SYS_DATA_PAIRVALUE(D_GROUP,D_LABEL,D_KEY,D_VALUE,D_TEXT,D_STATUS,D_ORDER)
+		insert into SYS_DATA_PAIRVALUE(d_group,D_LABEL,D_KEY,D_VALUE,D_TEXT,d_status,d_order)
 		values(#{gkey},#{label},#{key},#{value},#{text,jdbcType=VARCHAR},#{status},#{order})
 	</insert>
 	
@@ -34,7 +34,7 @@
 	
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_DATA_PAIRVALUE t 
-		   SET D_STATUS = #{status}
+		   SET d_status = #{status}
 		 WHERE D_ID = #{id}
 	</update>
 	
@@ -43,8 +43,8 @@
 		   SET D_LABEL = #{label},
 		   	   D_VALUE = #{value},
 		   	   D_TEXT = #{text,jdbcType=VARCHAR},
-		       D_STATUS = #{status},
-		       D_ORDER = #{order}
+		       d_status = #{status},
+		       d_order = #{order}
 		 WHERE D_ID = #{id}
 	</update>
 	
@@ -56,10 +56,10 @@
                set D_LABEL = #{item.label},
                    D_VALUE = #{item.value},,
                	   D_TEXT = #{item.text,jdbcType=VARCHAR},
-               	   D_STATUS = #{item.status},
-		       	   D_ORDER = #{item.order}
+               	   d_status = #{item.status},
+		       	   d_order = #{item.order}
              WHERE D_ID = #{item.id} 
-               AND D_GROUP = #{item.gkey} 
+               AND d_group = #{item.gkey}
         </foreach>
         end;
     </update>
@@ -67,40 +67,40 @@
 	<select id="getPagedList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.D_ID,
-			t.D_GROUP as D_GROUP_KEY,
-			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.D_GROUP) as D_GROUP_TEXT,
+			t.d_group as d_group_KEY,
+			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.d_group) as d_group_TEXT,
 			t.D_LABEL,
 			t.D_KEY,
 			t.D_VALUE,
 			t.D_TEXT,
-			t.D_STATUS,
-			t.D_ORDER
+			t.d_status,
+			t.d_order
 		FROM SYS_DATA_PAIRVALUE t
 		<where>
 			<if test="model.gkey != null and model.gkey != ''">
-				and t.D_GROUP = #{model.gkey}
+				and t.d_group = #{model.gkey}
 			</if>
 			<if test="model.status != null and model.status != ''">
-				and t.D_STATUS = #{model.status}
+				and t.d_status = #{model.status}
 			</if>
 			<if test="model.value != null and model.value != ''">
 				and instr(t.D_TEXT,#{model.value}) > 0
 			</if>
 		</where>
-		ORDER By t.D_GROUP,t.D_ORDER ASC
+		ORDER By t.d_group,t.d_order ASC
 	</select>
 	
 	<select id="getModel" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.D_ID,
-			t.D_GROUP as D_GROUP_KEY,
-			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.D_GROUP) as D_GROUP_TEXT,
+			t.d_group as d_group_KEY,
+			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.d_group) as d_group_TEXT,
 			t.D_LABEL,
 			t.D_KEY,
 			t.D_VALUE,
 			t.D_TEXT,
-			t.D_STATUS,
-			t.D_ORDER
+			t.d_status,
+			t.d_order
 		FROM SYS_DATA_PAIRVALUE t
 		WHERE t.D_ID = #{id} 
 	</select>
@@ -108,47 +108,47 @@
 	<select id="getModelList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.D_ID,
-			t.D_GROUP as D_GROUP_KEY,
-			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.D_GROUP) as D_GROUP,
+			t.d_group as d_group_KEY,
+			(SELECT x.G_TEXT FROM SYS_DATA_PAIRGROUP x WHERE x.G_KEY = t.d_group) as d_group,
 			t.D_LABEL,
 			t.D_KEY,
 			t.D_VALUE,
 			t.D_TEXT,
-			t.D_STATUS,
-			t.D_ORDER
+			t.d_status,
+			t.d_order
 		FROM SYS_DATA_PAIRVALUE t
-		WHERE t.D_GROUP = #{gkey} 
-		ORDER By t.D_GROUP,t.D_ORDER ASC
+		WHERE t.d_group = #{gkey}
+		ORDER By t.d_group,t.d_order ASC
 	</select>
 	
 	<select id="getKeyValueList" resultMap="KeyValueMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.D_ID,
-			t.D_GROUP as D_GROUP_KEY,
+			t.d_group as d_group_KEY,
 			t.D_LABEL,
 			t.D_KEY,
 			t.D_VALUE,
 			t.D_TEXT,
-			t.D_STATUS,
-			t.D_ORDER
+			t.d_status,
+			t.d_order
 		FROM SYS_DATA_PAIRVALUE t
-		WHERE t.D_GROUP IN 
+		WHERE t.d_group IN
 		<foreach collection="gkeyList" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
-		ORDER By t.D_GROUP,t.D_ORDER ASC
+		ORDER By t.d_group,t.d_order ASC
 	</select>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 		   SELECT t.D_KEY,t.D_TEXT
 			 FROM SYS_DATA_PAIRVALUE t 
-			WHERE t.D_GROUP = #{key} 
-			  AND t.D_STATUS = 1
-		 ORDER By t.D_ORDER ASC
+			WHERE t.d_group = #{key}
+			  AND t.d_status = 1
+		 ORDER By t.d_order ASC
 	</select>
 	
 	<select id="getGroupList" resultType="java.lang.String" useCache="false">
-		 SELECT t.D_GROUP FROM SYS_DATA_PAIRVALUE t WHERE t.D_ID IN 
+		 SELECT t.d_group FROM SYS_DATA_PAIRVALUE t WHERE t.D_ID IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -161,7 +161,7 @@
 	<select id="getCount" parameterType="KeyValueModel" resultType="java.lang.Integer" useCache="false">
 		SELECT COUNT(1)  
 		  FROM SYS_DATA_PAIRVALUE t 
-		 WHERE t.D_GROUP = #{gkey}
+		 WHERE t.d_group = #{gkey}
 		   AND t.D_KEY = #{key}
 		   <if test="id != null and id != ''">
 			AND t.D_ID != #{id}
@@ -172,7 +172,7 @@
 	<select id="getCountRenew" parameterType="KeyValueModel" resultType="java.lang.Integer" useCache="false">
 		SELECT COUNT(1)
 		FROM SYS_DATA_PAIRVALUE t
-		WHERE t.D_GROUP = (SELECT D_GROUP FROM SYS_DATA_PAIRVALUE WHERE D_ID = #{id})
+		WHERE t.d_group = (SELECT d_group FROM SYS_DATA_PAIRVALUE WHERE D_ID = #{id})
 		  AND t.D_KEY = #{key} 
 		  AND t.D_ID != #{id}
 		  AND ROWNUM = 1

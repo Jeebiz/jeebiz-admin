@@ -5,7 +5,7 @@
 	
 	<resultMap id="SettingsMap" type="SettingsModel">
 		<result property="id" column="D_ID" />
-		<result property="gkey" column="D_GROUP" />
+		<result property="gkey" column="d_group" />
 		<result property="label" column="D_LABEL" />
 		<result property="key" column="D_KEY" />
 		<result property="value" column="D_TEXT" />
@@ -15,8 +15,8 @@
 		<result property="remark" column="D_REMARK" />
 		<result property="placeholder" column="D_PLACEHOLDER" />
 		<result property="source" column="D_SOURCE" />
-		<result property="status" column="D_STATUS" />
-		<result property="order" column="D_ORDER" />
+		<result property="status" column="d_status" />
+		<result property="order" column="d_order" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
@@ -27,7 +27,7 @@
 	<select id="getModelList" resultMap="SettingsMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.D_ID,
-			t.D_GROUP,
+			t.d_group,
 			t.D_LABEL,
 			t.D_KEY,
 			t.D_TEXT,
@@ -37,22 +37,22 @@
 			t.D_REMARK,
 			t.D_PLACEHOLDER,
 			t.D_SOURCE,
-			t.D_STATUS,
-			t.D_ORDER
-		FROM SYS_DATA_SETTINGS t
-		WHERE t.D_GROUP = #{gkey} 
-		ORDER By t.D_ORDER ASC
+			t.d_status,
+			t.d_order
+		FROM sys_data_settings t
+		WHERE t.d_group = #{gkey}
+		ORDER By t.d_order ASC
 	</select>
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
 		SELECT t.D_KEY,t.D_TEXT
-		FROM SYS_DATA_SETTINGS t 
-		WHERE t.D_GROUP = #{gkey} 
-		  and t.D_STATUS = 1
+		FROM sys_data_settings t
+		WHERE t.d_group = #{gkey}
+		  and t.d_status = 1
 	</select>
 	
 	<update id="update" parameterType="SettingsModel" flushCache="true">
-		UPDATE SYS_DATA_SETTINGS t
+		UPDATE sys_data_settings t
 		<set>
 			<if test="label != null and label != ''">t.D_LABEL = #{label},</if>
 			<if test="value != null and value != ''">t.D_TEXT = #{value},</if>
@@ -62,15 +62,15 @@
 			<if test="remark != null and remark != ''">t.D_REMARK = #{remark},</if>
 			<if test="placeholder != null and placeholder != ''">t.D_PLACEHOLDER = #{placeholder},</if>
 			<if test="source != null and source != ''">t.D_SOURCE = #{source},</if>
-			<if test="status != null and status != ''">t.D_STATUS = #{status},</if>
-			<if test="order != null and order != ''">t.D_ORDER = #{order}</if>
+			<if test="status != null and status != ''">t.d_status = #{status},</if>
+			<if test="order != null and order != ''">t.d_order = #{order}</if>
 		</set>
 		 WHERE t.D_ID = #{id}
 	</update>
 	
 	<update id="batchUpdate" flushCache="true">
     	<foreach collection="list" index="index" item="item" open="" separator=";" close="">  
-            update SYS_DATA_SETTINGS 
+            update sys_data_settings
             <set>
 				<if test="item.label != null and item.label != ''">t.D_LABEL = #{item.label},</if>
 				<if test="item.value != null and item.value != ''">t.D_TEXT = #{item.value},</if>
@@ -80,11 +80,11 @@
 				<if test="item.remark != null and item.remark != ''">t.D_REMARK = #{item.remark},</if>
 				<if test="item.placeholder != null and item.placeholder != ''">t.D_PLACEHOLDER = #{item.placeholder},</if>
 				<if test="item.source != null and item.source != ''">t.D_SOURCE = #{item.source},</if>
-				<if test="item.status != null and item.status != ''">t.D_STATUS = #{item.status},</if>
-				<if test="item.order != null and item.order != ''">t.D_ORDER = #{item.order}</if>
+				<if test="item.status != null and item.status != ''">t.d_status = #{item.status},</if>
+				<if test="item.order != null and item.order != ''">t.d_order = #{item.order}</if>
 			</set>
            WHERE D_ID = #{item.id}
-		     AND D_GROUP = #{item.gkey} 
+		     AND d_group = #{item.gkey}
         </foreach>
     </update>
 		

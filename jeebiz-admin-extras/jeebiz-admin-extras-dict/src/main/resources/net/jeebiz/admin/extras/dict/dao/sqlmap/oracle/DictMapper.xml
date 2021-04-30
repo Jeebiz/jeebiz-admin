@@ -11,9 +11,9 @@
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 		   SELECT t.D_KEY,t.D_TEXT
 			 FROM SYS_DATA_PAIRVALUE t 
-			WHERE t.D_GROUP = #{key} 
-			  AND t.D_STATUS = 1
-		 ORDER By t.D_ORDER ASC
+			WHERE t.d_group = #{key}
+			  AND t.d_status = 1
+		 ORDER By t.d_order ASC
 	</select>
 
 </mapper>

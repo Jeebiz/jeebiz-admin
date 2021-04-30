@@ -43,7 +43,7 @@
 	
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE SYS_ARTICLE_CONTENT_COMMENTS t 
-		   SET D_STATUS = #{status}
+		   SET d_status = #{status}
 		 WHERE c_id = #{id}
 	</update>
 	
