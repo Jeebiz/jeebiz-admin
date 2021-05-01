@@ -13,11 +13,11 @@
 
 	<dependencies>
 
-		<!-- For Jeebiz API -->
+		<!-- For Jeebiz Core -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-boot-api</artifactId>
-			<version>${jeebiz-boot.version}</version>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-extras-core</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<!-- For Mybatis -->
 		<dependency>

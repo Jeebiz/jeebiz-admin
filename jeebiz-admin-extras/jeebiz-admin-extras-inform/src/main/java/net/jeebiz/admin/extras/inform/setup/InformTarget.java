@@ -7,7 +7,10 @@ package net.jeebiz.admin.extras.inform.setup;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
+import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
+import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
 /**
@@ -18,21 +21,31 @@ public enum InformTarget {
 	/**
 	 * 所有用户
 	 */
-	ALL("所有用户"),
+	ALL("所有用户", (userId)->{
+        return RedisKeyGenerator.getKeyStr(RedisConstant.USER_INFO_PREFIX, "*");
+    }),
 	/**
 	 * 指定用户
 	 */
-	SPECIFIC("指定用户");
+	SPECIFIC("指定用户", (userId)->{
+        return RedisKeyGenerator.getUserInfoPrefix(userId);
+    });
 
 	private String target;
-
-	private InformTarget(String target) {
+    private Function<String,String> function;
+    
+	private InformTarget(String target, Function<String,String> function) {
 		this.target = target;
+		this.function = function;
 	}
 
 	public String getTarget() {
 		return target;
 	}
+	
+	public Function<String, String> getFunction() {
+        return function;
+    }
 
 	public boolean equals(InformTarget target) {
 		return this.compareTo(target) == 0;

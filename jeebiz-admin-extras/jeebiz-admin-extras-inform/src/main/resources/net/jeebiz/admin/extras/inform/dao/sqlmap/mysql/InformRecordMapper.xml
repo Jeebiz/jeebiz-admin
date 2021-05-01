@@ -72,8 +72,8 @@
 	
 	<select id="getCount" resultType="Integer" parameterType="InformRecordModel">
 		SELECT IFNULL(COUNT(t.r_id), 0) COUNT
-		FROM SYS_INFORM_RECORDS t
-		WHERE t.R_TO = #{toUid}
+		FROM sys_inform_records t
+		WHERE t.r_to = #{toUid}
 		  AND t.r_status = 0
 	</select>
 	

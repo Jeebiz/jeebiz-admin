@@ -78,7 +78,7 @@ comment on column sys_authz_user_list.u_time24  is '初始化时间';
 
 -- Create table
 create table sys_authz_user_profile (
-  U_Pid   			VARCHAR2(32) default sys_guid() not null,
+  u_pid   			VARCHAR2(32) default sys_guid() not null,
   u_id   			VARCHAR2(32) not null,
   u_nickname		VARCHAR2(100) not null,
   u_avatar			VARCHAR2(300),
@@ -101,12 +101,12 @@ create table sys_authz_user_profile (
   u_wgs84_lat		VARCHAR2(50),
   u_degree			VARCHAR2(3),
   u_time24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  CONSTRAINT PK_Uid PRIMARY KEY(U_Pid)
+  CONSTRAINT PK_Uid PRIMARY KEY(u_pid)
 );
 -- Add comments to the table 
 comment on table sys_authz_user_profile  is '用户描述信息表';
 -- Add comments to the columns 
-comment on column sys_authz_user_profile.U_Pid  is '用户描述id';
+comment on column sys_authz_user_profile.u_pid  is '用户描述id';
 comment on column sys_authz_user_profile.u_id  is '用户id';
 comment on column sys_authz_user_profile.u_nickname  is '用户昵称';
 comment on column sys_authz_user_profile.u_avatar  is '用户头像：图片路径或图标样式';

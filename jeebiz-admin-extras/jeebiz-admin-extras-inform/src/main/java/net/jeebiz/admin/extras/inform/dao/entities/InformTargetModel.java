@@ -9,14 +9,14 @@ import org.apache.ibatis.type.Alias;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.BaseModel;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
 @Alias(value = "InformTargetModel")
 @Getter
 @Setter
 @ToString
-public class InformTargetModel extends BaseModel<InformTargetModel> {
+public class InformTargetModel extends PaginationEntity<InformTargetModel> {
 
 	/**
 	 * 消息通知模板id

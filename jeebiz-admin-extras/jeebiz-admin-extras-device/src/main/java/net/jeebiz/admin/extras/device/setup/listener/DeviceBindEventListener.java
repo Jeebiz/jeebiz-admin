@@ -9,6 +9,8 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
@@ -25,7 +27,7 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 
 
     @Autowired
-    private IDeviceActivateDao deviceActivationDao;
+    private IDeviceActivateDao devicedeviceDao;
     @Autowired
     private IDeviceBindDao deviceBindDao;
 
@@ -34,39 +36,81 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
     	
     	try {
 			// 1、根据参数查询对应的设备是否已经存在
-			DeviceBindEventDTO bind = event.getBind();
-			DeviceActivateModel model = getDeviceActivationDao().getActivatedByDeviceIMEI(bind.getDeviceIMEI());
+			DeviceBindEventDTO eventDto = event.getBind();
+			QueryWrapper<DeviceActivateModel> queryWrapper = new QueryWrapper<>();
+    		// 1、判断是否 Apple 设备
+    		if(StringUtils.hasText(eventDto.getIdfa()) ) {
+    			// ios 手机的 idfa 原值  > IOS 6+的设备id字段，32位
+    			queryWrapper = queryWrapper.eq("DEVICE_IDFA", eventDto.getIdfa());
+    		}
+    		else if(StringUtils.hasText(eventDto.getOpenudid()) ) {
+    			queryWrapper = queryWrapper.eq("DEVICE_OPENUDID", eventDto.getOpenudid());
+    		}
+    		// 2、判断是否 Android 设备
+			else if(StringUtils.hasText(eventDto.getAndroidid()) ) {
+    			queryWrapper = queryWrapper.eq("DEVICE_ANDROIDID", eventDto.getAndroidid());
+    		}
+			else if(StringUtils.hasText(eventDto.getOaid()) ) {
+    			queryWrapper = queryWrapper.eq("DEVICE_OAID", eventDto.getOaid());
+    		}
+    		else if(StringUtils.hasText(eventDto.getImei()) ) {
+    			queryWrapper = queryWrapper.eq("DEVICE_IMEI", eventDto.getImei());
+    		}
+    		// 3、查询是对应的设备信息
+			DeviceActivateModel model = getDevicedeviceDao().selectOne(queryWrapper);
+			if(Objects.isNull(model)) {
+				model = DeviceActivateModel.builder()
+						.appId(eventDto.getAppId())
+			            .appChannel(eventDto.getAppChannel())
+			            .appVersion(eventDto.getAppVer())
+			            .idfa(eventDto.getIdfa())
+			            .idfa_md5(StringUtils.hasText(eventDto.getIdfa()) ? DigestUtils.md5DigestAsHex(eventDto.getIdfa().getBytes()) : null)
+			            .openudid(eventDto.getOpenudid())
+			            .openudid_md5(StringUtils.hasText(eventDto.getOpenudid()) ? DigestUtils.md5DigestAsHex(eventDto.getOpenudid().getBytes()) : null)
+			            .androidid(eventDto.getAndroidid())
+			            .androidid_md5(StringUtils.hasText(eventDto.getAndroidid()) ? DigestUtils.md5DigestAsHex(eventDto.getAndroidid().getBytes()) : null)
+			            .oaid(eventDto.getOaid())
+			            .oaid_md5(StringUtils.hasText(eventDto.getOaid()) ? DigestUtils.md5DigestAsHex(eventDto.getOaid().getBytes()) : null)
+			            .imei(eventDto.getImei())
+			            .imei_md5(StringUtils.hasText(eventDto.getImei()) ? DigestUtils.md5DigestAsHex(eventDto.getImei().getBytes()) : null)
+			            .model(eventDto.getModel())
+			            .mac(eventDto.getMac())
+			            .ua(eventDto.getUa())
+			            .ip(eventDto.getIp())
+			            .build();
+				getDevicedeviceDao().insert(model);
+    		}
 			if(Objects.nonNull(model)){
 				// 2、查询设备对应的用户绑定数据
 				DeviceBindModel bindModel = getDeviceBindDao().selectOne(new QueryWrapper<DeviceBindModel>()
-						.eq("ACTIVATEd_id", model.getId())
-						.eq("CREATOR", bind.getUid()));
+						.eq("device_id", model.getId())
+						.eq("creator", eventDto.getUid()));
 				// 2.1、存在则更新客户端信息
 				if(Objects.nonNull(bindModel)){
-					bindModel.setAppId(bind.getAppId());
-					bindModel.setAppChannel(bind.getAppChannel());
-					bindModel.setAppVersion(bind.getAppVersion());
+					bindModel.setAppId(eventDto.getAppId());
+					bindModel.setAppChannel(eventDto.getAppChannel());
+					bindModel.setAppVersion(eventDto.getAppVer());
 					getDeviceBindDao().updateById(bindModel);
 				} 
 				// 2.2、不存在，则新增记录
 				else {
 					bindModel = DeviceBindModel.builder()
-						 .activatedId(model.getId())
-			             .appId(bind.getAppId())
-			             .appChannel(bind.getAppChannel())
-			             .appVersion(bind.getAppVersion())
-			             .creator(bind.getUid())
+						 .deviceId(model.getId())
+			             .appId(eventDto.getAppId())
+			             .appChannel(eventDto.getAppChannel())
+			             .appVersion(eventDto.getAppVer())
+			             .creator(eventDto.getUid())
 			             .build();
 					getDeviceBindDao().insert(bindModel);
 				}
 			}
-    	} catch (Exception e) {
+		} catch (Exception e) {
 			log.error("Device Bind Exception:", e);
 		}
     }
     
-    public IDeviceActivateDao getDeviceActivationDao() {
-		return deviceActivationDao;
+    public IDeviceActivateDao getDevicedeviceDao() {
+		return devicedeviceDao;
 	}
     
     public IDeviceBindDao getDeviceBindDao() {

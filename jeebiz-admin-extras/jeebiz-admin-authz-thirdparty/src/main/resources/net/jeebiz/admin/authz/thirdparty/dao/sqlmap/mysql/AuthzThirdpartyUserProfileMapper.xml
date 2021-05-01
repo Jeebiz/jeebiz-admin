@@ -4,7 +4,7 @@
 	
 	<resultMap id="UserProfileMap" type="AuthzThirdpartyUserProfileModel">
         <!-- 用户描述id -->
-		<result property="id" column="U_Pid" />
+		<result property="id" column="u_pid" />
 		<!-- 用户id -->
 		<result property="uid" column="u_id" />
         <!-- 用户别名（昵称） -->
@@ -98,7 +98,7 @@
 		FROM sys_authz_user_profile t
 	   WHERE t.u_phone = #{phone}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_Pid != #{origin}
+		   AND t.u_pid != #{origin}
 		 </if>
 		LIMIT 1 
 	</select>
@@ -108,7 +108,7 @@
 		  FROM sys_authz_user_profile t
 		 WHERE t.u_email = #{email}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_Pid != #{origin}
+		   AND t.u_pid != #{origin}
 		 </if>
 		 LIMIT 1
 	</select>
@@ -118,14 +118,14 @@
 		  FROM sys_authz_user_profile t
 		 WHERE t.u_idcard = #{idcard}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_Pid != #{origin}
+		   AND t.u_pid != #{origin}
 		 </if>
 		  LIMIT 1
 	</select>
 	
 	<select id="getModel" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.U_Pid,
+			t.u_pid,
 			t.u_id,
 			t.u_nickname,
 			t.u_avatar,

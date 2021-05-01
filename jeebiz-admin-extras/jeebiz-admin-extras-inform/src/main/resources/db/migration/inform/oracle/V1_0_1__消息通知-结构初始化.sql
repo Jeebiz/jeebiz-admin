@@ -2,7 +2,7 @@
 -- ----------------------------
 -- Create table 
 -- ----------------------------
-create table SYS_INFORM_TEMPlatES (
+create table $${table-prefix}inform_templates (
   	t_id      		VARCHAR2(32) default sys_guid() not null,
   	t_uid			VARCHAR2(32) not null,
   	T_TARGET   		VARCHAR2(10) default 'ALL',
@@ -16,18 +16,18 @@ create table SYS_INFORM_TEMPlatES (
   	CONSTRAINT INFORMS_PK PRIMARY KEY(t_id)
 );
 -- Add comments to the table 
-comment on table SYS_INFORM_TEMPlatES is '消息通知信息表';
+comment on table $${table-prefix}inform_templates is '消息通知信息表';
 -- Add comments to the columns 
-comment on column SYS_INFORM_TEMPlatES.t_id is '消息通知id';
-comment on column SYS_INFORM_TEMPlatES.t_uid  is '消息通知创建人id';
-comment on column SYS_INFORM_TEMPlatES.T_TARGET  is '消息通知面向对象';
-comment on column SYS_INFORM_TEMPlatES.T_PROVidER  is '消息通知的发送提供者';
-comment on column SYS_INFORM_TEMPlatES.T_TITLE  is '消息通知标题（可能包含变量）';
-comment on column SYS_INFORM_TEMPlatES.T_CONTENT  is '消息通知内容（可能包含变量）';
-comment on column SYS_INFORM_TEMPlatES.t_tid  is '消息通知对应第三方平台内的模板id';
-comment on column SYS_INFORM_TEMPlatES.T_PAYLOAD  is '消息通知变量载体,JOSN格式的数据';
-comment on column SYS_INFORM_TEMPlatES.t_status  is '消息通知状态：（0:停用、1:启用）';
-comment on column SYS_INFORM_TEMPlatES.time24  is '消息通知创建时间';
+comment on column $${table-prefix}inform_templates.t_id is '消息通知id';
+comment on column $${table-prefix}inform_templates.t_uid  is '消息通知创建人id';
+comment on column $${table-prefix}inform_templates.T_TARGET  is '消息通知面向对象';
+comment on column $${table-prefix}inform_templates.T_PROVidER  is '消息通知的发送提供者';
+comment on column $${table-prefix}inform_templates.T_TITLE  is '消息通知标题（可能包含变量）';
+comment on column $${table-prefix}inform_templates.T_CONTENT  is '消息通知内容（可能包含变量）';
+comment on column $${table-prefix}inform_templates.t_tid  is '消息通知对应第三方平台内的模板id';
+comment on column $${table-prefix}inform_templates.T_PAYLOAD  is '消息通知变量载体,JOSN格式的数据';
+comment on column $${table-prefix}inform_templates.t_status  is '消息通知状态：（0:停用、1:启用）';
+comment on column $${table-prefix}inform_templates.time24  is '消息通知创建时间';
 
 -- ----------------------------
 -- Create table 

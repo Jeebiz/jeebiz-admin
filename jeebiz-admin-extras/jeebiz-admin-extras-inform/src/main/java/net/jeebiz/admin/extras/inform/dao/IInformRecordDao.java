@@ -12,10 +12,10 @@ import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IInformRecordDao extends BaseDao<InformRecordModel> {
+public interface IInformRecordDao extends BaseMapper<InformRecordModel> {
 	
 	/**
 	 * 消息通知统计信息

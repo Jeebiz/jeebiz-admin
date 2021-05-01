@@ -9,10 +9,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformTargetModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IInformTargetDao extends BaseDao<InformTargetModel> {
+public interface IInformTargetDao extends BaseMapper<InformTargetModel> {
 
 	int deleteByTid(@Param("tid") String tid);
 	

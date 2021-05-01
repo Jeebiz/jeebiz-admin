@@ -43,7 +43,7 @@
 	
 	<resultMap id="UserProfileMap" type="AuthzUserProfileModel">
         <!-- 用户描述id -->
-		<result property="id" column="U_Pid" />
+		<result property="id" column="u_pid" />
 		<!-- 用户id -->
 		<result property="uid" column="u_id" />
         <!-- 用户别名（昵称） -->
@@ -388,7 +388,7 @@
 	
 	<select id="getProfile" resultMap="UserProfileMap" useCache="false">
 		SELECT
-			t.U_Pid,
+			t.u_pid,
 			t.u_id,
 			t.u_nickname,
 			t.u_avatar,

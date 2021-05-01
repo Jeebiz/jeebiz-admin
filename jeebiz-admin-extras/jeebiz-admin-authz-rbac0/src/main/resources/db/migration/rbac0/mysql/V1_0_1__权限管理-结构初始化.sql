@@ -59,7 +59,7 @@ CREATE TABLE `sys_authz_user_list` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_user_profile`;
 CREATE TABLE `sys_authz_user_profile` (
-  `U_Pid` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户描述id',
+  `u_pid` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '用户描述id',
   `u_id` bigint(11) NOT NULL COMMENT '用户id',
   `u_nickname` varchar(50) DEFAULT NULL COMMENT '用户昵称',
   `u_avatar` varchar(500) DEFAULT NULL COMMENT '用户头像：图片路径或图标样式',
@@ -82,7 +82,7 @@ CREATE TABLE `sys_authz_user_profile` (
   `u_wgs84_lat` decimal(10,6) DEFAULT NULL COMMENT '用户位置：wgs84纬度',
   `u_degree` int(3) DEFAULT '0' COMMENT '用户信息完成度',
   `u_time24` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '初始化时间',
-  PRIMARY KEY (`U_Pid`),
+  PRIMARY KEY (`u_pid`),
   UNIQUE KEY `idx_uid` (`u_id`) USING BTREE,
   UNIQUE KEY `idx_phone` (`u_phone`) USING BTREE,
   UNIQUE KEY `idx_nickname` (`u_nickname`) USING BTREE

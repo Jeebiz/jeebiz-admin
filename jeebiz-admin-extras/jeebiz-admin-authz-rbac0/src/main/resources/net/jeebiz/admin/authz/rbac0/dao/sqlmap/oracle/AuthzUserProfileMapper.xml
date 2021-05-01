@@ -4,7 +4,7 @@
 	
 	<resultMap id="UserProfileMap" type="AuthzUserProfileModel">
         <!-- 用户描述id -->
-		<result property="id" column="U_Pid" />
+		<result property="id" column="u_pid" />
 		<!-- 用户id -->
 		<result property="uid" column="u_id" />
         <!-- 用户别名（昵称） -->
@@ -55,7 +55,7 @@
 		<selectKey keyProperty="id" order="BEFORE" resultType="String">
 			SELECT sys_guid() FROM dual
 		</selectKey>
-		INSERT INTO sys_authz_user_profile(U_Pid, u_id, u_nickname, u_avatar, u_country_code, u_phone,
+		INSERT INTO sys_authz_user_profile(u_pid, u_id, u_nickname, u_avatar, u_country_code, u_phone,
 			u_email, u_birthday, u_gender, u_idcard,
 			u_age, u_height, u_weight, u_language, u_intro,
 			u_photos, u_province, u_city, u_area,
@@ -103,7 +103,7 @@
 		 FROM sys_authz_user_profile t
 		WHERE t.u_phone = #{phone}
 		<if test="origin != null and origin != ''">
-		   AND t.U_Pid != #{origin}
+		   AND t.u_pid != #{origin}
 		 </if>
 		  AND ROWNUM = 1
 	</select>
@@ -113,7 +113,7 @@
 		 FROM sys_authz_user_profile t
 		WHERE t.u_email = #{email}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_Pid != #{origin}
+		   AND t.u_pid != #{origin}
 		 </if>
 		AND ROWNUM = 1
 	</select>
@@ -123,14 +123,14 @@
 		 FROM sys_authz_user_profile t
 		WHERE t.u_idcard = #{idcard}
 		 <if test="origin != null and origin != ''">
-		   AND t.U_Pid != #{origin}
+		   AND t.u_pid != #{origin}
 		 </if>
 		 AND ROWNUM = 1
 	</select>
 	
 	<select id="getProfile" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.U_Pid,
+			t.u_pid,
 			t.u_id,
 			t.u_nickname,
 			t.u_avatar,
@@ -159,7 +159,7 @@
 	
 	<select id="getModel" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-			t.U_Pid,
+			t.u_pid,
 			t.u_id,
 			t.u_nickname,
 			t.u_avatar,
@@ -183,7 +183,7 @@
 			t.u_degree,
 			t.u_time24
 		FROM sys_authz_user_profile t
-	   WHERE t.U_Pid = #{id}
+	   WHERE t.u_pid = #{id}
 	</select>
 	
 </mapper>

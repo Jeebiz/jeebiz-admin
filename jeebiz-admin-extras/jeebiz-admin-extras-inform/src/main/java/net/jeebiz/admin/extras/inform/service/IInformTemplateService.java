@@ -8,9 +8,9 @@ import java.util.List;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
 import net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
-public interface IInformTemplateService extends IBaseService<InformTemplateModel> {
+public interface IInformTemplateService extends IBaseMapperService<InformTemplateModel> {
 	
 	/**
 	 * 消息通知统计信息

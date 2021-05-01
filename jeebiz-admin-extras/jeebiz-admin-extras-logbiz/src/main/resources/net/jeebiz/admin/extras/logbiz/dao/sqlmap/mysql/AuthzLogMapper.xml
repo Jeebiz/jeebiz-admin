@@ -5,8 +5,6 @@
 	
 	<resultMap id="AuthzLogMap" type="AuthzLogModel">
 		<result property="id" column="log_id" />
-		<result property="userid" column="log_userid" />
-		<result property="username" column="log_username" />
 		<result property="opt" column="log_opt" />
 		<result property="protocol" column="log_protocol" />
 		<result property="addr" column="log_addr" />
@@ -15,13 +13,17 @@
 		<result property="msg" column="log_msg" />
 		<result property="exception" column="log_excp" />
 		<result property="timestamp" column="log_timestamp"/>
+		<result property="userId" column="log_userid" />
+		<result property="nickname" column="log_nickname" />
+		<result property="deviceId" column="device_id" />
+		<result property="appId" column="u_app_id" />
+		<result property="appChannel" column="u_app_channel" />
+		<result property="appVersion" column="u_app_version" />
 	</resultMap>
 	 
 	<select id="getPagedList" resultMap="AuthzLogMap" parameterType="AuthzLogModel">
 		SELECT
 			t.log_id,
-			t.creator as log_userid,
-			t2.u_username as log_username,
 			t.log_opt,
 			t.log_protocol,
 			t.log_addr,
@@ -29,8 +31,14 @@
 			t.log_status,
 			t.log_msg,
 			t.log_excp,
-			t.create_time as log_timestamp 
-		FROM sys_data_log_authz t INNER JOIN sys_authz_user_list t2 ON t.creator = t2.u_id
+			t.create_time as log_timestamp,
+			t.creator as log_userid,
+			t2.u_nickname as log_nickname,
+			t.device_id,
+			t.u_app_id,
+			t.u_app_channel,
+			t.u_app_version
+		FROM sys_log_authz t INNER JOIN sys_authz_user_profile t2 ON t.creator = t2.u_id
 		<where>
 			<if test="model.userId != null and model.userId != '' ">
 				AND t.creator = #{model.userId}
@@ -38,15 +46,14 @@
 			<if test="model.opt != null and model.opt != '' ">
 				AND t.log_opt = #{model.opt}
 			</if>
-			<if test="model.keywords != null and model.keywords != '' ">
-				AND (t.log_addr like '%'||#{model.keywords}||'%' 
-					OR t.log_location like '%'||#{model.keywords}||'%' 
-					OR t2.u_username like '%'||#{model.keywords}||'%')
+			<if test="model.nickname != null and model.nickname != '' ">
+				AND t2.u_nickname like CONCAT('%',#{model.nickname},'%')
 			</if>
 			<if test="model.begintime != null and model.begintime != '' 
 					  and model.endtime != null and model.endtime != '' ">
 				<![CDATA[ AND t.create_time BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
 			</if>
+			ORDER BY t.create_time DESC
 		</where>
 	</select>
 	

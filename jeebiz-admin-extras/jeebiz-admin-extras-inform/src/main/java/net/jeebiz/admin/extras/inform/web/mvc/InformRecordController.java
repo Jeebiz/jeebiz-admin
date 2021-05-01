@@ -32,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
 import net.jeebiz.admin.extras.inform.service.IInformRecordService;
 import net.jeebiz.admin.extras.inform.setup.Constants;
+import net.jeebiz.admin.extras.inform.setup.InformTarget;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordPaginationDTO;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordDTO;
@@ -54,10 +55,9 @@ public class InformRecordController extends BaseMapperController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<Integer> pending() throws Exception {
-		
 		InformRecordModel model = new InformRecordModel();
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setToUid(principal.getUserid());
+		model.setToUid(principal.getUserid());   
 		
 		return ApiRestResponse.success(getInformService().getCount(model));
 	}
@@ -104,7 +104,7 @@ public class InformRecordController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<InformRecordDTO> detail(@RequestParam("id")  String id) throws Exception {
 		
-		InformRecordModel model = getInformService().getModel(id);
+		InformRecordModel model = getInformService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("inform.get.empty"));
 		}
@@ -129,8 +129,8 @@ public class InformRecordController extends BaseMapperController {
 		model.setStatus("1");
 		
 		// 执行消息通知阅读操作
-		int result = getInformService().update(model);
-		if(result == 1) {
+		boolean result = getInformService().updateById(model);
+		if(result) {
 			return success("inform.read.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -151,8 +151,8 @@ public class InformRecordController extends BaseMapperController {
 		model.setStatus("1");
 		
 		// 执行消息通知阅读操作
-		int result = getInformService().update(model);
-		if(result == 1) {
+		boolean result = getInformService().updateById(model);
+		if(result) {
 			return success("inform.readall.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

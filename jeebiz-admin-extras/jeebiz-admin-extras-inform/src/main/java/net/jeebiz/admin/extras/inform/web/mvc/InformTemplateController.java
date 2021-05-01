@@ -102,8 +102,8 @@ public class InformTemplateController extends BaseMapperController {
 			return fail("inform.template.new.conflict");
 		}
 		// 新增一条数据库配置记录
-		int result = getInformTemplateService().insert(model);
-		if(result == 1) {
+		boolean result = getInformTemplateService().save(model);
+		if(result) {
 			return success("inform.template.new.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -121,8 +121,8 @@ public class InformTemplateController extends BaseMapperController {
 	public ApiRestResponse<String> delete(@RequestParam("ids") String ids) throws Exception {
 		// 执行消息通知模板删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.split(ids,","));
-		int result = getInformTemplateService().batchDelete(idList);
-		if(result > 0) {
+		boolean result = getInformTemplateService().removeByIds(idList);
+		if(result) {
 			return success("inform.template.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -143,8 +143,8 @@ public class InformTemplateController extends BaseMapperController {
 		if(ct > 0) {
 			return fail("inform.template.renew.conflict");
 		}
-		int result = getInformTemplateService().update(model);
-		if(result == 1) {
+		boolean result = getInformTemplateService().updateById(model);
+		if(result) {
 			return success("inform.template.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -161,7 +161,7 @@ public class InformTemplateController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<InformTemplateDTO> detail(@RequestParam("id") String id) throws Exception {
 		
-		InformTemplateModel model = getInformTemplateService().getModel(id);
+		InformTemplateModel model = getInformTemplateService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("inform.template.get.empty"));
 		}

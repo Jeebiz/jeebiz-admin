@@ -6,12 +6,12 @@ package net.jeebiz.admin.extras.device.setup.listener;
 
 import org.springframework.biz.context.event.EnhancedEvent;
 
-import net.jeebiz.admin.extras.device.web.dto.DeviceActiveEventDTO;
+import net.jeebiz.admin.extras.device.web.dto.DeviceActivateEventDTO;
 
 @SuppressWarnings("serial")
-public class DeviceActiveEvent extends EnhancedEvent<DeviceActiveEventDTO> {
+public class DeviceActivateEvent extends EnhancedEvent<DeviceActivateEventDTO> {
 
-	public DeviceActiveEvent(Object source, DeviceActiveEventDTO bind) {
+	public DeviceActivateEvent(Object source, DeviceActivateEventDTO bind) {
 		super(source, bind);
 	}
 

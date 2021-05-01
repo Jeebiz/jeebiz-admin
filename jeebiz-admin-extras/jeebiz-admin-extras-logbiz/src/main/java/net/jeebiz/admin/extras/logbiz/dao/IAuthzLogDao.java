@@ -7,13 +7,13 @@ package net.jeebiz.admin.extras.logbiz.dao;
 import org.apache.ibatis.annotations.Mapper;
 
 import net.jeebiz.admin.extras.logbiz.dao.entities.AuthzLogModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 /**
  * 
  */		
 @Mapper
-public interface IAuthzLogDao extends BaseDao<AuthzLogModel>{
+public interface IAuthzLogDao extends BaseMapper<AuthzLogModel>{
 	
 	
 }

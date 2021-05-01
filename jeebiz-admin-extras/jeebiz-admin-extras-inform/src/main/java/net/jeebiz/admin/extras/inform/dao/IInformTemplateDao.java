@@ -11,10 +11,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
 import net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IInformTemplateDao extends BaseDao<InformTemplateModel> {
+public interface IInformTemplateDao extends BaseMapper<InformTemplateModel> {
 
 	/**
 	 * 消息通知统计信息

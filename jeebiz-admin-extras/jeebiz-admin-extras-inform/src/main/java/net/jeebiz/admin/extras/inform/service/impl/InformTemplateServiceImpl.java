@@ -12,15 +12,15 @@ import net.jeebiz.admin.extras.inform.dao.IInformTemplateDao;
 import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
 import net.jeebiz.admin.extras.inform.service.IInformTemplateService;
 import net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
-public class InformTemplateServiceImpl extends BaseServiceImpl<InformTemplateModel, IInformTemplateDao>
+public class InformTemplateServiceImpl extends BaseMapperServiceImpl<InformTemplateModel, IInformTemplateDao>
 		implements IInformTemplateService {
 
 	@Override
 	public List<InformTemplateStatsDTO> getStats() {
-		return getDao().getStats();
+		return getBaseMapper().getStats();
 	}
 
 }

@@ -8,18 +8,20 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import net.jeebiz.admin.extras.inform.setup.InformProvider;
-import net.jeebiz.boot.api.dao.entities.PaginationModel;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
 @Alias(value = "InformRecordModel")
 @Getter
 @Setter
 @ToString
-public class InformRecordModel extends PaginationModel<InformRecordModel> {
+public class InformRecordModel extends PaginationEntity<InformRecordModel> {
 
 	/**
 	 * 消息通知记录id
@@ -78,6 +80,12 @@ public class InformRecordModel extends PaginationModel<InformRecordModel> {
 	 * 消息通知创建时间
 	 */
 	private String time24;
+	/**
+	 * 消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]）
+	 */
+	@TableField("R_ROUTE")
+	private String route;
+	
 	/**
 	 * 模糊搜索关键字
 	 */

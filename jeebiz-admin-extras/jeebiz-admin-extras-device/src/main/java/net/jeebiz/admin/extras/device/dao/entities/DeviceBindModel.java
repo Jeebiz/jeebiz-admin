@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
 @Alias(value = "DeviceBindModel")
-@TableName(value = "KDING_DEVICE_USERS")
+@TableName(value = "device_users", keepGlobalPrefix = true)
 @Builder
 @Data
 @NoArgsConstructor
@@ -34,53 +34,52 @@ public class DeviceBindModel extends Model<DeviceBindModel> implements Cloneable
     /**
 	 * 主键，自增
 	 */
-	@TableId(value="id",type= IdType.AUTO)
+	@TableId(value="id", type= IdType.AUTO)
 	private Long id;
 	/**
-	 * 应用id
+	 * 应用ID
 	 */
-	@TableField(value = "APP_id")
+	@TableField(value = "u_app_id")
 	private String appId;
 	/**
 	 * 应用渠道编码
 	 */
-	@TableField(value = "APP_CHANNEL")
+	@TableField(value = "u_app_channel")
 	private String appChannel;
 	/**
 	 *应用版本号
 	 */
-	@TableField(value = "APP_VERSION")
+	@TableField(value = "u_app_version")
 	private String appVersion;
 	/**
-	 *设备激活记录id
+	 *设备记录ID
 	 */
-	@TableField(value = "ACTIVATEd_id")
-    private Long activatedId;
-	
+	@TableField(value = "device_id")
+    private Long deviceId;
 	/**
 	 * 是否删除 0未删除 1已删除
 	 */
-	@TableField(value = "IS_DELETE")
+	@TableField(value = "is_delete")
 	private Integer isDelete;
 	/**
 	 * 创建人id
 	 */
-	@TableField(value = "CREATOR")
+	@TableField(value = "creator")
 	private Long creator;
-	/**
-	 * 更新人id
-	 */
-	@TableField(value = "MODIFYER")
-	private Long modifyer;
 	/**
 	 * 创建时间
 	 */
-	@TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
+	@TableField(value = "create_time", fill = FieldFill.INSERT)
 	private Date createTime;
+	/**
+	 * 更新人id
+	 */
+	@TableField(value = "modifyer")
+	private Long modifyer;
 	/**
 	 * 更新时间
 	 */
-	@TableField(value = "MODIFY_TIME", fill = FieldFill.INSERT_UPDATE)
+	@TableField(value = "modify_time", fill = FieldFill.INSERT_UPDATE)
 	private Date modifyTime;
     
 }

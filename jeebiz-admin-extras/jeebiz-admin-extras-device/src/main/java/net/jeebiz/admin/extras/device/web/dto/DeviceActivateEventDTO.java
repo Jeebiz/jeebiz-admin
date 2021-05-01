@@ -11,18 +11,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiModel(value = "DeviceBindEventDTO", description = "设备绑定操作DTO")
+@ApiModel(value = "DeviceActiveEventDTO", description = "设备激活操作DTO")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceBindEventDTO {
-
-	/**
-	 * 设备关联的用户ID（用户信息表ID）
-	 */
-	@ApiModelProperty(name = "uid", dataType = "Long", value = "设备关联的用户ID（用户信息表ID）")
-	private Long uid;
+public class DeviceActivateEventDTO {
+	
 	/**
 	 * 应用ID
 	 */
@@ -79,7 +74,7 @@ public class DeviceBindEventDTO {
 	@ApiModelProperty(name = "ua", dataType = "String", value = "用户代理(User Agent)")
 	public String ua;
 	/**
-	 * 媒体投放系统获取的用户终端的公共IP地址
+	 *媒体投放系统获取的用户终端的公共IP地址
 	 */
 	@ApiModelProperty(name = "ip", dataType = "String", value = "媒体投放系统获取的用户终端的公共IP地址")
 	public String ip;
