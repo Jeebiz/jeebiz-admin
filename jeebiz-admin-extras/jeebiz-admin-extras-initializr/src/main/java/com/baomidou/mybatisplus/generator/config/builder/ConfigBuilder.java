@@ -319,7 +319,7 @@ public class ConfigBuilder {
      * @return 补充完整信息后的表
      */
     private List<TableInfo> processTable(List<TableInfo> tableList, NamingStrategy strategy, StrategyConfig config) {
-        String[] tablePrefix = config.getTablePrefix();
+        Set<String> tablePrefix = config.getTablePrefix();
         for (TableInfo tableInfo : tableList) {
             String entityName;
             INameConvert nameConvert = strategyConfig.getNameConvert();

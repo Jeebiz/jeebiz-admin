@@ -17,6 +17,11 @@
 			<artifactId>jeebiz-boot-api</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-admin-extras-redis</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		
 		<!-- For Validation -->
 		<dependency>

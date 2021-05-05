@@ -9,6 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.function.BiFunction;
+
+import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 
 /**
  * 第三方账号类型
@@ -18,32 +21,48 @@ public enum ThirdpartyType {
 	/**
 	 * 微信小程序
 	 */
-	WXMA("微信小程序"),
+	WXMA("微信小程序", (userId, userType) ->{
+        return RedisKeyGenerator.getUserQueryPrefix(userId, "00");
+    }),
 	/**
 	 * 微信小程序
 	 */
-	WXMP("微信公众号"),
+	WXMP("微信公众号", (userId, userType) ->{
+        return RedisKeyGenerator.getUserQueryPrefix(userId, "00");
+    }),
 	/**
 	 * 腾讯QQ
 	 */
-	QQ("腾讯QQ"),
+	QQ("腾讯QQ", (userId, userType) ->{
+        return RedisKeyGenerator.getUserQueryPrefix(userId, "00");
+    }),
 	/**
 	 * 微信小程序
 	 */
-	WEIBO("新浪微博"),
+	WEIBO("新浪微博", (userId, userType) ->{
+        return RedisKeyGenerator.getUserQueryPrefix(userId, "00");
+    }),
 	/**
 	 * 易班
 	 */
-	YIBAN("易班");
+	YIBAN("易班", (userId, userType) ->{
+        return RedisKeyGenerator.getUserQueryPrefix(userId, "00");
+    });
 
 	private String vendor;
-
-	private ThirdpartyType(String vendor) {
+    private BiFunction<String, String, String> function;
+    
+	private ThirdpartyType(String vendor, BiFunction<String, String, String> function) {
 		this.vendor = vendor;
+        this.function = function;
 	}
 
 	public String getVendor() {
 		return vendor;
+	}
+	
+	public BiFunction<String, String, String> getFunction() {
+		return function;
 	}
 
 	public boolean equals(ThirdpartyType type) {

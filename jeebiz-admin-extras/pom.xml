@@ -39,6 +39,7 @@
 		<module>jeebiz-admin-extras-settings</module>
 		<module>jeebiz-admin-extras-sms-aliyun</module>
 		<module>jeebiz-admin-extras-sms-txcloud</module>
+		<module>jeebiz-admin-extras-redis</module>
 	</modules>
 	
 	<build>

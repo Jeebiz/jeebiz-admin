@@ -22,16 +22,10 @@
 			<artifactId>jeebiz-boot-webmvc-autoconfigure</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.gavaghan/geodesy -->
 		<dependency>
-		    <groupId>org.gavaghan</groupId>
-		    <artifactId>geodesy</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.github.hiwepy/httpconn -->
-		<dependency>
-		    <groupId>com.github.hiwepy</groupId>
-		    <artifactId>httpconn</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-admin-extras-redis</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		
 		<!-- For Validation -->
@@ -77,29 +71,6 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>dozer-extra-converters</artifactId>
 		</dependency> 
-		
-		<!-- For Spring Boot's Redis -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-pool2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-		</dependency>
-		<!-- For Redisson -->
-		<dependency>
-		    <groupId>org.redisson</groupId>
-		    <artifactId>redisson-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>io.reactivex.rxjava2</groupId>
-		    <artifactId>rxjava</artifactId>
-		</dependency>
 		<!-- For Okhttp 3.x -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -109,10 +80,6 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-biz-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>com.github.streamone</groupId>
-		    <artifactId>shiro-redisson</artifactId>
 		</dependency>
 		<!-- For Mybatis -->
 		<dependency>

@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.jeebiz</groupId>
+		<artifactId>jeebiz-admin-extras</artifactId>
+		<version>1.0.1-ce-SNAPSHOT</version>
+	</parent>
+	<artifactId>jeebiz-admin-extras-redis</artifactId>
+	
+	<dependencies>
+		
+		<!-- For Jeebiz API -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-boot-api</artifactId>
+			<version>${jeebiz-boot.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.gavaghan/geodesy -->
+		<dependency>
+		    <groupId>org.gavaghan</groupId>
+		    <artifactId>geodesy</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.hiwepy/httpconn -->
+		<dependency>
+		    <groupId>com.github.hiwepy</groupId>
+		    <artifactId>httpconn</artifactId>
+		</dependency>
+		 		
+		<!-- For Spring Boot's Redis -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-pool2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		<!-- For Redisson -->
+		<dependency>
+		    <groupId>org.redisson</groupId>
+		    <artifactId>redisson-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.reactivex.rxjava2</groupId>
+		    <artifactId>rxjava</artifactId>
+		</dependency>
+		<!-- For Shiro -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-biz-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.github.streamone</groupId>
+		    <artifactId>shiro-redisson</artifactId>
+		</dependency>
+		
+	</dependencies>
+	
+</project>
