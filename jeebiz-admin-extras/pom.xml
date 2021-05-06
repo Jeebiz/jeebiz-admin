@@ -40,6 +40,7 @@
 		<module>jeebiz-admin-extras-sms-aliyun</module>
 		<module>jeebiz-admin-extras-sms-txcloud</module>
 		<module>jeebiz-admin-extras-redis</module>
+		<module>jeebiz-admin-extras-sequence</module>
 	</modules>
 	
 	<build>
