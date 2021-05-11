@@ -19,6 +19,11 @@ CREATE TABLE `sys_data_settings` (
   `d_source` varchar(1000) DEFAULT NULL COMMENT '参数来源： 格式如 [{"key":"1","value":"选项一"},{"key":"2","value":"选项二"},...]',
   `d_status` int(1) DEFAULT 1 COMMENT '参数状态:（0:不可用|1：可用）',
   `d_order` int(3) DEFAULT 1 COMMENT '参数排序:组内排序',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0：未删除，1：已删除）',
+  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`d_id`),
   UNIQUE KEY (`d_group`,`d_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统参数设置表';

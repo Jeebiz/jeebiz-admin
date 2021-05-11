@@ -10,13 +10,19 @@
 	<artifactId>jeebiz-admin-extras-sessions</artifactId>
 	
 	<dependencies>
-
+	
+		<!-- For Jeebiz API -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-boot-api</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-admin-extras-redis</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
 		<!-- For Mybatis -->
 		<dependency>
 			<groupId>com.baomidou</groupId>

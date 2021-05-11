@@ -4,6 +4,8 @@
  */
 package net.jeebiz.admin.extras.sessions.web.dto;
 
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -46,5 +48,14 @@ public class SessionDTO {
 	/** 已强制退出:1:是，0:否 */
 	@ApiModelProperty(value = "forceLogout", dataType = "String", notes = "已强制退出:1:是，0:否", allowableValues = "1,0")
 	private String forceLogout;
+	
+	/** 最后登录时间 */
+	private Date lastLoginTimestamp;
+	/** 最后退出时间 */
+	private Date lastStopTimestamp;
+	/** 登录次数 */
+	private Integer loginCount = 0;
+	/** 总的在线时长（秒为单位） */
+	private Long totalOnlineTime = 0L;
 
 }

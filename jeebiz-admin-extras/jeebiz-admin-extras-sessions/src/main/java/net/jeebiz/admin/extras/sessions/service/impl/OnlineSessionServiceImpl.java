@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 
+import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
+import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.admin.extras.sessions.dao.IOnlineSessionDao;
 import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
 import net.jeebiz.admin.extras.sessions.service.IOnlineSessionService;
@@ -31,7 +33,9 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 	@Autowired  
     private SessionDAO sessionDao;
-
+	@Autowired  
+    private RedisOperationTemplate redisOperationTemplate;
+	
 	@Override
 	public List<OnlineSessionDTO> getActiveSessions() {
 		
@@ -41,7 +45,7 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
     	Collection<Session> sessions = getSessionDao().getActiveSessions();
     	List<OnlineSessionDTO> onlineSessions = Lists.newArrayList();
     	for(Session session : sessions){         
-
+    		
 			OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(session.getId()), session.getHost(),
 					dateFormat.format(session.getStartTimestamp()), 
 					dateFormat.format(session.getLastAccessTime()),
@@ -62,8 +66,9 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
 	}
 
 	@Override
-	public boolean forceLogout(String sessionId) {
-		try {  
+	public boolean kickout(String sessionId) {
+		try {
+			// 1、先从缓存中读取Session对象，更改会话状态（RedissonSession会自动更新对应的缓存），以便客户端访问期间Session状态感知
             Session session = getSessionDao().readSession(sessionId);  
             if(session != null) {  
             	if(session instanceof SimpleOnlineSession) {
@@ -72,6 +77,8 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
         		}
                 session.setAttribute(Constants.SESSION_FORCE_LOGOUT_KEY, Boolean.TRUE);  
             }
+            // 2、最终手动删除
+            getSessionDao().delete(session);
             return true;
         } catch (Exception e) {/*ignore*/
         	return false;
@@ -79,23 +86,27 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
 	}  
 	
 	@Override
-	public void offline(String sessionId) {
-		// TODO Auto-generated method stub
+	public int offline(String sessionId) {
 		
+		getRedisOperationTemplate().setBit(RedisKeyGenerator.getUserSessionState(), 0, false);
+
+		return 1;
 	}
 
 	@Override
-	public void online(OnlineSessionModel onlineSession) {
-		// TODO Auto-generated method stub
+	public int online(OnlineSessionModel onlineSession) {
 		
+		getRedisOperationTemplate().setBit(RedisKeyGenerator.getUserSessionState(), 0, true);
+		
+		return 1; 
 	}
 	
 	public SessionDAO getSessionDao() {
 		return sessionDao;
 	}
 
-	public void setSessionDao(SessionDAO sessionDao) {
-		this.sessionDao = sessionDao;
+	public RedisOperationTemplate getRedisOperationTemplate() {
+		return redisOperationTemplate;
 	}
 	
 }

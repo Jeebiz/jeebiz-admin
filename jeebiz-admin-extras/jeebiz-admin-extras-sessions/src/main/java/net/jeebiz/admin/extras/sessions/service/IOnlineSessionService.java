@@ -14,10 +14,10 @@ public interface IOnlineSessionService extends IBaseService<OnlineSessionModel> 
 
 	List<OnlineSessionDTO> getActiveSessions();
 
-	void offline(String sessionId);
+	int offline(String sessionId);
 
-	void online(OnlineSessionModel onlineSession);
+	int online(OnlineSessionModel onlineSession);
 
-	boolean forceLogout(String sessionId);
+	boolean kickout(String sessionId);
 			 
 }

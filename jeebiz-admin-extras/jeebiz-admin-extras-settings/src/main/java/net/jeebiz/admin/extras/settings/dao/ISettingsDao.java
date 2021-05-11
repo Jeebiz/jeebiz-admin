@@ -10,11 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.settings.dao.entities.SettingsModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
 @Mapper
-public interface ISettingsDao extends BaseDao<SettingsModel> {
+public interface ISettingsDao extends BaseMapper<SettingsModel> {
 
 	/**
 	 * 根据分组查询该分组下的系统参数

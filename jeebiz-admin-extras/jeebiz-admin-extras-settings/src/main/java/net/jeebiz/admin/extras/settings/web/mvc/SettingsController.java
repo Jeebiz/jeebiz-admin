@@ -96,8 +96,8 @@ public class SettingsController extends BaseApiController {
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody SettingsRenewDTO renewDTO) throws Exception {
 		SettingsModel model = getBeanMapper().map(renewDTO, SettingsModel.class);
-		int result = getSettingsService().update(model);
-		if(result == 1) {
+		boolean result = getSettingsService().updateById(model);
+		if(result) {
 			return success("settings.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

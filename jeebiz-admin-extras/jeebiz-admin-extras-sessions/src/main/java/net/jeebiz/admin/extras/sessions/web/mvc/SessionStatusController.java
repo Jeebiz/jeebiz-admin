@@ -56,10 +56,10 @@ public class SessionStatusController extends BaseApiController {
 		@ApiImplicitParam(paramType = "body", name = "appDTO", value = "应用信息传输对象", dataType = "MyApplicationDTO") 
 	})
 	@BusinessLog(module = Constants.EXTRAS_SESSIONS, business = "创建新数据源", opt = BusinessType.INSERT)
-    @PatchMapping("/{sessionId}/forceLogout")  
-    public String forceLogout(@PathVariable("sessionId") String sessionId,   
+    @PatchMapping("/{sessionId}/kickout")  
+    public String kickout(@PathVariable("sessionId") String sessionId,   
         RedirectAttributes redirectAttributes) {  
-    	getOnlineSessionService().forceLogout(sessionId);
+    	getOnlineSessionService().kickout(sessionId);
         redirectAttributes.addFlashAttribute("msg", "强制退出成功！");  
         return "redirect:/sessions";  
     }

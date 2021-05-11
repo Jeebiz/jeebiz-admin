@@ -47,6 +47,10 @@ public interface RedisConstant {
 	 */
 	String USER_TOKEN = "user:token";
 	/**
+	 * redis 用户回话状态
+	 */
+	String USER_SESSION_STATE = "user:session.state";
+	/**
 	 * redis 用户信息前缀
 	 */
 	String USER_INFO_PREFIX = "user:info";

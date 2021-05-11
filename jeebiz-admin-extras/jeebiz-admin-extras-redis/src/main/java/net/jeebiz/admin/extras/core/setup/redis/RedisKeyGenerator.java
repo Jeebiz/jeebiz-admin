@@ -34,6 +34,10 @@ public class RedisKeyGenerator {
 		return getKeyStr(RedisConstant.USER_GEO_LOCATION);
 	}
 	
+	public static String getUserSessionState() {
+		return getKeyStr(RedisConstant.USER_SESSION_STATE);
+	}
+	
 	public static String getUserGeoLocation(String userId) {
 		return getKeyStr(RedisConstant.USER_GEO_LOCATION, userId);
 	}

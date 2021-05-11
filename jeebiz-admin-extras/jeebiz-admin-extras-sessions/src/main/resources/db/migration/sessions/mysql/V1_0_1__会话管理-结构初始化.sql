@@ -1,21 +1,22 @@
 
 
-
 -- ----------------------------
--- Table structure for SYS_DATA_SESSIONS
+-- Table structure for sys_user_sessions
 -- ----------------------------
-DROP TABLE IF EXISTS `SYS_DATA_SESSIONS`;
-CREATE TABLE `SYS_DATA_SESSIONS` (
-  `S_id` varchar(50) NOT NULL COMMENT '用户会话id编号',
-  `S_USERid` varchar(32) NOT NULL COMMENT '当前登录的用户Id',
-  `S_USERname` varchar(100) NOT NULL COMMENT '当前登录的用户名称',
-  `S_HOST` text NOT NULL COMMENT '用户主机地址',
-  `S_START_TIMESTAMP` varchar(50) NOT NULL COMMENT '用户登录时间',
-  `S_LASTACCESS_TIME` varchar(200) NOT NULL COMMENT '最后访问时间',
-  `S_USERAGENT` varchar(500) NOT NULL COMMENT '用户浏览器类型',
-  `S_SYSTEM_HOST` varchar(500) NOT NULL COMMENT '用户登录时系统IP',
-  `S_SESSION` blob NOT NULL COMMENT 'Session对象',
-  `S_TIMEOUT` varchar(500) NOT NULL COMMENT '会话多久后过期（毫秒） ',
-  `S_STATUS` varchar(20) NOT NULL COMMENT '在线状态',
-  PRIMARY KEY (`S_id`)
+DROP TABLE IF EXISTS `sys_user_sessions`;
+CREATE TABLE `sys_user_sessions` (
+  `s_id` varchar(50) NOT NULL COMMENT '用户会话id编号',
+  `s_uid` varchar(32) NOT NULL COMMENT '当前登录的用户Id',
+  `s_uname` varchar(100) NOT NULL COMMENT '当前登录的用户名称',
+  `s_sessionId` varchar(200) NOT NULL COMMENT '用户会话UUID',
+  `s_host` varchar(200)  NOT NULL COMMENT '用户主机地址',
+  `s_start_timestamp` varchar(50) NOT NULL COMMENT '用户登录时间',
+  `s_last_access_time` varchar(200) NOT NULL COMMENT '最后访问时间',
+  `s_ua` varchar(500) NOT NULL COMMENT '用户浏览器类型',
+  `s_address` varchar(100) NOT NULL COMMENT '用户登录时系统IP',
+  `s_session` blob NOT NULL COMMENT 'Session对象',
+  `s_force_logout` bigint(12) NOT NULL COMMENT '会话多久后过期（毫秒） ',
+  `s_timeout` bigint(12) NOT NULL COMMENT '会话多久后过期（毫秒） ',
+  `s_status` tinyint(2) NOT NULL COMMENT '在线状态（0：离线，1：在线）',
+  PRIMARY KEY (`s_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户会话信息表';
