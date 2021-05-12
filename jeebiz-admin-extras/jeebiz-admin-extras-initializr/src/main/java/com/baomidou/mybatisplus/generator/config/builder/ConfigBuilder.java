@@ -15,26 +15,39 @@
  */
 package com.baomidou.mybatisplus.generator.config.builder;
 
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableField;
-import com.baomidou.mybatisplus.generator.config.po.TableFill;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.querys.H2Query;
-import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
+import com.baomidou.mybatisplus.generator.config.ConstVal;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.IDbQuery;
+import com.baomidou.mybatisplus.generator.config.INameConvert;
+import com.baomidou.mybatisplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.TemplateConfig;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
+import com.baomidou.mybatisplus.generator.config.po.TableFill;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.querys.H2Query;
+import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 /**
  * 配置汇总 传递给文件生成工具
@@ -394,13 +407,12 @@ public class ConfigBuilder {
         }
     }
 
-
     /**
      * 获取所有的数据库表信息
      */
     private List<TableInfo> getTablesInfo(StrategyConfig config) {
-        boolean isInclude = (null != config.getInclude() && config.getInclude().length > 0);
-        boolean isExclude = (null != config.getExclude() && config.getExclude().length > 0);
+        boolean isInclude = Objects.nonNull(config.getInclude()) && !config.getInclude().isEmpty();
+        boolean isExclude = Objects.nonNull(config.getExclude()) && !config.getExclude().isEmpty();
         if (isInclude && isExclude) {
             throw new RuntimeException("<strategy> 标签中 <include> 与 <exclude> 只能配置一项！");
         }
@@ -461,10 +473,10 @@ public class ConfigBuilder {
             }
             if (isInclude) {
                 sql.append(" AND ").append(dbQuery.tableName()).append(" IN (")
-                    .append(Arrays.stream(config.getInclude()).map(tb -> "'" + tb + "'").collect(Collectors.joining(","))).append(")");
+                    .append(config.getInclude().stream().map(tb -> "'" + tb + "'").collect(Collectors.joining(","))).append(")");
             } else if (isExclude) {
                 sql.append(" AND ").append(dbQuery.tableName()).append(" NOT IN (")
-                    .append(Arrays.stream(config.getInclude()).map(tb -> "'" + tb + "'").collect(Collectors.joining(","))).append(")");
+                    .append(config.getInclude().stream().map(tb -> "'" + tb + "'").collect(Collectors.joining(","))).append(")");
             }
             TableInfo tableInfo;
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
@@ -729,9 +741,9 @@ public class ConfigBuilder {
      * @param prefix   ignore
      * @return 根据策略返回处理后的名称
      */
-    private String processName(String name, NamingStrategy strategy, String[] prefix) {
+    private String processName(String name, NamingStrategy strategy, Set<String> prefix) {
         boolean removePrefix = false;
-        if (prefix != null && prefix.length != 0) {
+        if (Objects.nonNull(prefix) && !prefix.isEmpty()) {
             removePrefix = true;
         }
         String propertyName;

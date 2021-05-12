@@ -15,6 +15,7 @@ import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@SuppressWarnings("serial")
 @TableName(value = "ops_stats", keepGlobalPrefix = true)
 public class DayOpsStatsEntity extends BaseEntity<DayOpsStatsEntity> {
 
