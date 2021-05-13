@@ -13,7 +13,7 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.github.tobato.fastdfs.spring.boot.FastdfsProperties;
 import com.github.tobato.fastdfs.spring.boot.FastdfsTemplate;
 
-import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
+import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.setup.provider.FastdfsFilestoreProvider;
 
 
@@ -26,9 +26,9 @@ import net.jeebiz.admin.extras.filestore.setup.provider.FastdfsFilestoreProvider
 public class JeebizFilestoreFastDFSConfiguration {
   
 	@Bean
-	public FastdfsFilestoreProvider fastdfsFilestoreProvider(IFilestoreDao filestoreDao, FastFileStorageClient fdfsStorageClient,
+	public FastdfsFilestoreProvider fastdfsFilestoreProvider(IFileMapper fileMapper, FastFileStorageClient fdfsStorageClient,
 			FastdfsTemplate fdfsTemplate) {
-		return new FastdfsFilestoreProvider(filestoreDao, fdfsStorageClient, fdfsTemplate);
+		return new FastdfsFilestoreProvider(fileMapper, fdfsStorageClient, fdfsTemplate);
 	}
 	
 }

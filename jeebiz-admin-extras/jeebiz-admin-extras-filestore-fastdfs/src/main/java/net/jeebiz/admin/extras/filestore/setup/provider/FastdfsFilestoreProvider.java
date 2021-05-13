@@ -6,6 +6,7 @@ package net.jeebiz.admin.extras.filestore.setup.provider;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -17,6 +18,7 @@ import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.biz.utils.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
@@ -31,28 +33,28 @@ import com.github.tobato.fastdfs.spring.boot.FileStorePath;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
-import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
+import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
+import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.setup.Constants;
 import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
+import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 
 public class FastdfsFilestoreProvider implements FilestoreProvider {
 	
 	private DownloadByteArray callback = new DownloadByteArray();
-	private IFilestoreDao filestoreDao;
+	private IFileMapper fileMapper;
 	private FastFileStorageClient fdfsStorageClient;
 	private FastdfsTemplate fdfsTemplate;
 
-	public FastdfsFilestoreProvider(IFilestoreDao filestoreDao, 
+	public FastdfsFilestoreProvider(IFileMapper fileMapper, 
 									FastFileStorageClient fdfsStorageClient,
 									FastdfsTemplate fdfsTemplate) {
-		this.filestoreDao = filestoreDao;
+		this.fileMapper = fileMapper;
 		this.fdfsStorageClient = fdfsStorageClient;
 		this.fdfsTemplate = fdfsTemplate;
 	}
@@ -71,8 +73,8 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 	
 	protected Set<MetaData> metaDataSet(MultipartFile file) {
 		Set<MetaData> metaDataSet = Sets.newHashSet();
-		try {
-			Metadata metadata = ImageMetadataReader.readMetadata(file.getInputStream());
+		try ( InputStream inputStream = file.getInputStream(); ) {
+			Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
 			for (Directory directory : metadata.getDirectories()) {
 			    for (Tag tag : directory.getTags()) {
 			        //格式化输出[directory.getName()] - tag.getTagName() = tag.getDescription()
@@ -90,7 +92,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		return metaDataSet;
 	}
 	
-	protected StorePath storeFile(MultipartFile file, int width, int height) throws IOException {
+	protected StorePath storeFile( MultipartFile file, int width, int height) throws IOException {
 		// 文件存储结果
     	StorePath storePath = null;
         // 上传的是图片
@@ -132,8 +134,8 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public FilestoreDTO upload(MultipartFile file, int width, int height) throws Exception {
-		FilestoreModel model = null;
+	public FileDTO upload(MultipartFile file, int width, int height) throws Exception {
+		FileEntity entity = null;
 		try {
 			
 			// 文件存储结果
@@ -142,26 +144,25 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 			// 上传文件
             String uuid = UUID.randomUUID().toString();
 			
-			
 			// 文件存储记录对象
-			model = new FilestoreModel();
+			entity = new FileEntity();
 
 			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			
-			model.setUuid(uuid);
-			model.setUid(principal.getUserid());
-			model.setName(file.getOriginalFilename());
-			model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-			model.setTo(FilestoreEnum.FDFS.getKey());
-			model.setGroup(storePath.getGroup());
-			model.setPath(storePath.getPath());
+			entity.setUuid(uuid);
+			entity.setUid(principal.getUserid());
+			entity.setName(file.getOriginalFilename());
+			entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
+			entity.setTo(FilestoreEnum.FDFS.getKey());
+			entity.setGroup(storePath.getGroup());
+			entity.setPath(storePath.getPath());
 			if(storePath instanceof FileStorePath) {
-				model.setThumb(((FileStorePath)storePath).getThumb());
+				entity.setThumb(((FileStorePath)storePath).getThumb());
 			}
-			getFilestoreDao().insert(model);
+			getFileMapper().insert(entity);
 			
 			// 文件存储信息
-			FilestoreDTO attDTO = new FilestoreDTO();
+			FileDTO attDTO = new FileDTO();
 			attDTO.setUuid(uuid);
 			attDTO.setName(file.getOriginalFilename());
 			attDTO.setPath(storePath.getPath());
@@ -170,14 +171,14 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 				attDTO.setThumb(((FileStorePath)storePath).getThumb());
 				attDTO.setThumbUrl(getFdfsTemplate().getThumbAccsssURL((FileStorePath)storePath));
 			}
-			attDTO.setExt(model.getExt());
+			attDTO.setExt(entity.getExt());
 			
 			return attDTO;
 
 		} catch (Exception e) {
 			try {
-				if (model != null) {
-					getFdfsStorageClient().deleteFile(model.getGroup(), model.getPath());
+				if (entity != null) {
+					getFdfsStorageClient().deleteFile(entity.getGroup(), entity.getPath());
 				}
 			} catch (Exception e1) {
 				// 忽略删除异常
@@ -187,59 +188,11 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FilestoreDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
-
-		List<FilestoreModel> modelList = Lists.newArrayList();
-		List<FilestoreDTO> attList = Lists.newArrayList();
-		try {
-			
-			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-			
-			for (MultipartFile file : files) {
-
-				// 文件存储结果
-	        	StorePath storePath = this.storeFile(file, width, height);
-				
-				// 文件存储记录对象
-				FilestoreModel model = new FilestoreModel();
-				
-				String uuid = UUID.randomUUID().toString();
-				model.setUuid(uuid);
-				model.setUid(principal.getUserid());
-				model.setName(file.getOriginalFilename());
-				model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-				model.setTo(FilestoreEnum.FDFS.getKey());
-				model.setGroup(storePath.getGroup());
-				model.setPath(storePath.getPath());
-				if(storePath instanceof FileStorePath) {
-					model.setThumb(((FileStorePath)storePath).getThumb());
-				}
-				getFilestoreDao().insert(model);
-				modelList.add(model);
-
-				// 文件存储信息
-				FilestoreDTO attDTO = new FilestoreDTO();
-				attDTO.setUuid(uuid);
-				attDTO.setName(file.getOriginalFilename());
-				attDTO.setPath(storePath.getPath());
-				attDTO.setUrl(getFdfsTemplate().getAccsssURL(storePath));
-				if(storePath instanceof FileStorePath) {
-					attDTO.setThumb(((FileStorePath)storePath).getThumb());
-					attDTO.setThumbUrl(getFdfsTemplate().getThumbAccsssURL((FileStorePath)storePath));
-				}
-				attDTO.setExt(model.getExt());
-
-				attList.add(attDTO);
-
-			}
-		} catch (IOException e) {
-			try {
-				for (FilestoreModel model : modelList) {
-					getFdfsStorageClient().deleteFile(model.getGroup(), model.getPath());
-				}
-			} catch (Exception e1) {
-				// 忽略删除异常
-			}
+	public List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
+		List<FileDTO> attList = Lists.newArrayList();
+		for (MultipartFile file : files) {
+			FileDTO attDTO = this.upload(file, width, height);
+			attList.add(attDTO);
 		}
 		return attList;
 	}
@@ -250,15 +203,13 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		if(CollectionUtils.isEmpty(paths)) {
 			return false;
 		}
-		// 查询文件信息
-		List<FilestoreModel> files = getFilestoreDao().getPaths(paths);
-		// 删除文件记录
-		getFilestoreDao().deleteByPaths(paths);
+		// 查询path对象的文件记录
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
-		for (FilestoreModel model : files) {
+		for (FileEntity entity : fileList) {
 			// 删除旧的文件
-			getFdfsStorageClient().deleteFile(model.getGroup(), model.getPath());
-			getFilestoreDao().delete(model.getUuid());
+			getFdfsStorageClient().deleteFile(entity.getGroup(), entity.getPath());
+			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
 		}
 
 		return true;
@@ -271,14 +222,12 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 			return false;
 		}
 		// 查询Uid对象的文件记录
-		List<FilestoreModel> files = getFilestoreDao().getFiles(uuids);
-		// 删除文件记录
-		getFilestoreDao().deleteByUuids(uuids);
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
-		for (FilestoreModel model : files) {
+		for (FileEntity entity : fileList) {
 			// 删除旧的文件
-			getFdfsStorageClient().deleteFile(model.getGroup(), model.getPath());
-			getFilestoreDao().delete(model.getUuid());
+			getFdfsStorageClient().deleteFile(entity.getGroup(), entity.getPath());
+			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
 		}
 
 		return true;
@@ -286,11 +235,11 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 
 
 	@Override
-	public FilestoreDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
+	public FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
 
 		// 查询文件信息
-		FilestoreModel model = getFilestoreDao().getModel(uuid);
-		if(model == null) {
+		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
+		if(entity == null) {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		
@@ -303,7 +252,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 
         String uuid1 = UUID.randomUUID().toString();
 		
-        FilestoreDTO attDTO = new FilestoreDTO();
+        FileDTO attDTO = new FileDTO();
 		attDTO.setUuid(uuid1);
 		attDTO.setName(file.getOriginalFilename());
 		attDTO.setPath(storePath.getPath());
@@ -314,121 +263,75 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		}
 		
 		// 文件存储记录对象
-		model.setUuid(uuid1);
-		model.setUid(principal.getUserid());
-		model.setName(file.getOriginalFilename());
-		model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-		model.setTo(FilestoreEnum.FDFS.getKey());
-		model.setGroup(storePath.getGroup());
-		model.setPath(storePath.getPath());
+		entity.setUuid(uuid1);
+		entity.setUid(principal.getUserid());
+		entity.setName(file.getOriginalFilename());
+		entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
+		entity.setTo(FilestoreEnum.FDFS.getKey());
+		entity.setGroup(storePath.getGroup());
+		entity.setPath(storePath.getPath());
 		if(storePath instanceof FileStorePath) {
-			model.setThumb(((FileStorePath)storePath).getThumb());
+			entity.setThumb(((FileStorePath)storePath).getThumb());
 		}
-		getFilestoreDao().insert(model);
+		getFileMapper().insert(entity);
 
 		// 删除旧的文件
-		getFdfsStorageClient().deleteFile(model.getGroup(), model.getPath());
-		getFilestoreDao().delete(uuid);
+		getFdfsStorageClient().deleteFile(entity.getGroup(), entity.getPath());
+		getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
 
-		attDTO.setExt(model.getExt());
+		attDTO.setExt(entity.getExt());
 		return attDTO;
 	}
-
 	
 	@Override
-	public List<FilestoreDTO> listByPath(List<String> paths) throws Exception {
+	public List<FileDTO> listByPath(List<String> paths) throws Exception {
 
-		List<FilestoreDTO> attList = Lists.newArrayList();
         if (CollectionUtils.isEmpty(paths)) {
-            return attList;
+            return Lists.newArrayList();
         }
 		// 查询文件信息
-		List<FilestoreModel> fileList = getFilestoreDao().getPaths(paths);
+        List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
 		if (CollectionUtils.isEmpty(fileList)) {
-            return attList;
+            return Lists.newArrayList();
         }
-		// 根据传入路径顺序进行排序
-		for (FilestoreModel model : fileList) {
-			for (int i = 0; i < paths.size(); i++) {
-				if(StringUtils.equalsIgnoreCase(model.getPath(), paths.get(i))) {
-					model.setOrder(i);
-				}
-			}
-		}
-		fileList = fileList.stream().sorted().collect(Collectors.toList());
-		// 循环进行对象转换
-		for (FilestoreModel model : fileList) {
-
-			// 文件存储信息
-			FilestoreDTO attDTO = new FilestoreDTO();
-
-			attDTO.setUuid(model.getUuid());
-			attDTO.setName(model.getName());
-			attDTO.setPath(model.getPath());
-			attDTO.setUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getPath()));
-			if(StringUtils.isNoneBlank(model.getThumb())) {
-				attDTO.setThumb(model.getThumb());
-				attDTO.setThumbUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getThumb()));
-			}
-			attDTO.setExt(model.getExt());
-			// 文件元数据
-			try {
-				Set<MetaData> metaDatas = getFdfsStorageClient().getMetadata(model.getGroup(), model.getPath());
-				if(!CollectionUtils.isEmpty(metaDatas)) {
-					attDTO.setMetadata(metaDatas.stream().map(m -> {
-						FileMetaDataDTO metaDTO = new FileMetaDataDTO();
-						metaDTO.setName(m.getName());
-						metaDTO.setValue(m.getValue());
-						return metaDTO;
-					}).collect(Collectors.toSet()));
-				}
-            } catch (Throwable e) {
-			}
-
-			attList.add(attDTO);
-
-		}
-
-		return attList;
+		return this.mapperFile(fileList);
 	}
 	
 	@Override
-	public List<FilestoreDTO> listByUuid(List<String> uuids) throws Exception {
+	public List<FileDTO> listByUuid(List<String> uuids) throws Exception {
 
-		List<FilestoreDTO> attList = Lists.newArrayList();
-
-		// 查询文件信息
-		List<FilestoreModel> fileList = getFilestoreDao().getFiles(uuids);
-		if (CollectionUtils.isEmpty(fileList)) {
-            return attList;
+		if (CollectionUtils.isEmpty(uuids)) {
+            return Lists.newArrayList();
         }
-		// 根据传入路径顺序进行排序
-		for (FilestoreModel model : fileList) {
-			for (int i = 0; i < uuids.size(); i++) {
-				if(StringUtils.equalsIgnoreCase(model.getUuid(), uuids.get(i))) {
-					model.setOrder(i);
-				}
-			}
-		}
+		// 查询文件信息
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
+		if (CollectionUtils.isEmpty(fileList)) {
+            return Lists.newArrayList();
+        }
+		return this.mapperFile(fileList);
+	}
+	
+	private List<FileDTO> mapperFile(List<FileEntity> fileList) throws Exception {
+		List<FileDTO> attList = Lists.newArrayList();
 		fileList = fileList.stream().sorted().collect(Collectors.toList());
 		// 循环进行对象转换
-		for (FilestoreModel model : fileList) {
+		for (FileEntity entity : fileList) {
 
 			// 文件存储信息
-			FilestoreDTO attDTO = new FilestoreDTO();
+			FileDTO attDTO = new FileDTO();
 
-			attDTO.setUuid(model.getUuid());
-			attDTO.setName(model.getName());
-			attDTO.setPath(model.getPath());
-			attDTO.setUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getPath()));
-			if(StringUtils.isNoneBlank(model.getThumb())) {
-				attDTO.setThumb(model.getThumb());
-				attDTO.setThumbUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getThumb()));
+			attDTO.setUuid(entity.getUuid());
+			attDTO.setName(entity.getName());
+			attDTO.setPath(entity.getPath());
+			attDTO.setUrl(getFdfsTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
+			if(StringUtils.isNoneBlank(entity.getThumb())) {
+				attDTO.setThumb(entity.getThumb());
+				attDTO.setThumbUrl(getFdfsTemplate().getAccsssURL(entity.getGroup(), entity.getThumb()));
 			}
-			attDTO.setExt(model.getExt());
+			attDTO.setExt(entity.getExt());
 			// 文件元数据
 			try {
-				Set<MetaData> metaDatas = getFdfsStorageClient().getMetadata(model.getGroup(), model.getPath());
+				Set<MetaData> metaDatas = getFdfsStorageClient().getMetadata(entity.getGroup(), entity.getPath());
 				if(!CollectionUtils.isEmpty(metaDatas)) {
 					attDTO.setMetadata(metaDatas.stream().map(m -> {
 						FileMetaDataDTO metaDTO = new FileMetaDataDTO();
@@ -447,26 +350,27 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		return attList;
 	}
 	
+	
 	@Override
-	public FilestoreDownloadDTO downloadByPath(String path) throws Exception {
+	public FileDownloadDTO downloadByPath(String path) throws Exception {
 		
 		// 查询文件信息
-		FilestoreModel model = getFilestoreDao().getByPath(path);
-		if(model == null) {
+		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_path", path));
+		if(entity == null) {
 			throw new BizRuntimeException(path + "指向的文件不存在");
 		}
 		
 		// 文件存储信息
-		FilestoreDownloadDTO attDTO = new FilestoreDownloadDTO();
+		FileDownloadDTO attDTO = new FileDownloadDTO();
 		
-		attDTO.setUuid(model.getUuid());
-		attDTO.setName(model.getName());
-		attDTO.setPath(model.getPath());
-		attDTO.setUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getPath()));
+		attDTO.setUuid(entity.getUuid());
+		attDTO.setName(entity.getName());
+		attDTO.setPath(entity.getPath());
+		attDTO.setUrl(getFdfsTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
 		
 		// 文件元数据
 		try {
-			Set<MetaData> metaDatas = getFdfsStorageClient().getMetadata(model.getGroup(), model.getPath());
+			Set<MetaData> metaDatas = getFdfsStorageClient().getMetadata(entity.getGroup(), entity.getPath());
 			if(!CollectionUtils.isEmpty(metaDatas)) {
 				attDTO.setMetadata(metaDatas.stream().map(m -> {
 					FileMetaDataDTO metaDTO = new FileMetaDataDTO();
@@ -478,7 +382,7 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		} catch (Exception e) {
 		}
 		
-		byte[] bytes = getFdfsStorageClient().downloadFile(model.getGroup(), model.getPath(), callback);
+		byte[] bytes = getFdfsStorageClient().downloadFile(entity.getGroup(), entity.getPath(), callback);
 		attDTO.setBytes(bytes);
 		  
 		return attDTO;
@@ -486,25 +390,25 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public FilestoreDownloadDTO downloadByUuid(String uuid) throws Exception {
+	public FileDownloadDTO downloadByUuid(String uuid) throws Exception {
 		
 		// 查询文件信息
-		FilestoreModel model = getFilestoreDao().getByUuid(uuid);
-		if(model == null) {
+		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
+		if(entity == null) {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		
 		// 文件存储信息
-		FilestoreDownloadDTO attDTO = new FilestoreDownloadDTO();
+		FileDownloadDTO attDTO = new FileDownloadDTO();
 		
-		attDTO.setUuid(model.getUuid());
-		attDTO.setName(model.getName());
-		attDTO.setPath(model.getPath());
-		attDTO.setUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getPath()));
+		attDTO.setUuid(entity.getUuid());
+		attDTO.setName(entity.getName());
+		attDTO.setPath(entity.getPath());
+		attDTO.setUrl(getFdfsTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
 		
 		// 文件元数据
 		try {
-			Set<MetaData> metaDatas = getFdfsStorageClient().getMetadata(model.getGroup(), model.getPath());
+			Set<MetaData> metaDatas = getFdfsStorageClient().getMetadata(entity.getGroup(), entity.getPath());
 			if(!CollectionUtils.isEmpty(metaDatas)) {
 				attDTO.setMetadata(metaDatas.stream().map(m -> {
 					FileMetaDataDTO metaDTO = new FileMetaDataDTO();
@@ -516,14 +420,14 @@ public class FastdfsFilestoreProvider implements FilestoreProvider {
 		} catch (Throwable e) {
 		}
 		
-		byte[] bytes = getFdfsStorageClient().downloadFile(model.getGroup(), model.getPath(), callback);
+		byte[] bytes = getFdfsStorageClient().downloadFile(entity.getGroup(), entity.getPath(), callback);
 		attDTO.setBytes(bytes);
 		  
 		return attDTO;
 	}
 
-	public IFilestoreDao getFilestoreDao() {
-		return filestoreDao;
+	public IFileMapper getFileMapper() {
+		return fileMapper;
 	}
 
 	public FastFileStorageClient getFdfsStorageClient() {

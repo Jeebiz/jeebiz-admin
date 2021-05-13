@@ -6,9 +6,9 @@ import java.util.Set;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-@ApiModel(value = "FilestoreDownloadDTO", description = "文件存储信息DTO")
+@ApiModel(value = "FileDownloadDTO", description = "文件存储信息DTO")
 @Data
-public class FilestoreDownloadDTO {
+public class FileDownloadDTO {
 
 	/**
 	 * 文件UUid

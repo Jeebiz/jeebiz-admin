@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
+import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.setup.provider.FilestoreProvider;
 import net.jeebiz.admin.extras.filestore.setup.provider.LocalFilestoreProvider;
 
@@ -29,7 +29,7 @@ public class JeebizFilestoreConfiguration {
 	
 	@Bean
 	@ConditionalOnMissingBean
-	public FilestoreProvider filestoreProvider(IFilestoreDao filestoreDao,
+	public FilestoreProvider filestoreProvider(IFileMapper filestoreDao,
 			JeebizFilestoreProperties filestoreProperties) {
 		return new LocalFilestoreProvider(filestoreDao, filestoreProperties);
 	}

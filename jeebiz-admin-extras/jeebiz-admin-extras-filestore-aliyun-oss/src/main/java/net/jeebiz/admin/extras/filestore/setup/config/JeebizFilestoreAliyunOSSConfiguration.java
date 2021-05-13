@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.cloud.spring.boot.oss.OssConstants;
 import com.aliyun.oss.OSS;
 
-import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
+import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.setup.provider.AliyunOssFilestoreProvider;
 import net.jeebiz.admin.extras.filestore.setup.provider.AliyunOssTemplate;
 import net.jeebiz.admin.extras.filestore.setup.provider.FilestoreProvider;
@@ -28,9 +28,9 @@ import net.jeebiz.admin.extras.filestore.setup.provider.FilestoreProvider;
 public class JeebizFilestoreAliyunOSSConfiguration {
 
 	@Bean
-	public AliyunOssFilestoreProvider aliyunOssFilestoreProvider(IFilestoreDao filestoreDao, OSS ossClient,
+	public AliyunOssFilestoreProvider aliyunOssFilestoreProvider(IFileMapper fileMapper, OSS ossClient,
 			AliyunOssProperties ossProperties, AliyunOssTemplate ossTemplate) {
-		return new AliyunOssFilestoreProvider(filestoreDao, ossClient, ossProperties, ossTemplate);
+		return new AliyunOssFilestoreProvider(fileMapper, ossClient, ossProperties, ossTemplate);
 	}
 	
 	@Bean
@@ -39,11 +39,11 @@ public class JeebizFilestoreAliyunOSSConfiguration {
 	}
 	
 	@Bean
-	public FilestoreProvider filestoreProvider(IFilestoreDao filestoreDao, 
+	public FilestoreProvider filestoreProvider(IFileMapper fileMapper, 
 			OSS ossClient,
 			AliyunOssProperties ossProperties, 
 			AliyunOssTemplate ossTemplate) {
-		return new AliyunOssFilestoreProvider(filestoreDao, ossClient, ossProperties, ossTemplate);
+		return new AliyunOssFilestoreProvider(fileMapper, ossClient, ossProperties, ossTemplate);
 	}
 	
 }

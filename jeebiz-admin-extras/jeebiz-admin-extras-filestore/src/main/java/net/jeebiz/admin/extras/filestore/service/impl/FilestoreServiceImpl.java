@@ -10,17 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
-import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
+import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
+import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.service.IFilestoreService;
 import net.jeebiz.admin.extras.filestore.setup.provider.FilestoreProvider;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
-public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFilestoreDao> implements IFilestoreService{
+public class FilestoreServiceImpl extends BaseMapperServiceImpl<FileEntity, IFileMapper> implements IFilestoreService{
 	
 	@Autowired
 	private FilestoreProvider filestoreProvider;
@@ -31,12 +31,12 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	};
 	
 	@Override
-	public FilestoreDTO upload(MultipartFile file, int width, int height) throws Exception {
+	public FileDTO upload(MultipartFile file, int width, int height) throws Exception {
 		return getFilestoreProvider().upload(file, width, height);
 	}
 	
 	@Override
-	public List<FilestoreDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
+	public List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
 		return getFilestoreProvider().upload(files, width, height);
 	}
 
@@ -51,27 +51,27 @@ public class FilestoreServiceImpl extends BaseServiceImpl<FilestoreModel, IFiles
 	}
 
 	@Override
-	public FilestoreDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
+	public FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
 		return getFilestoreProvider().reupload(uuid, file, width, height);
 	}
 	
 	@Override
-	public List<FilestoreDTO> listByPath(List<String> paths) throws Exception {
+	public List<FileDTO> listByPath(List<String> paths) throws Exception {
 		return getFilestoreProvider().listByPath(paths);
 	}
 
 	@Override
-	public List<FilestoreDTO> listByUuid(List<String> uuids) throws Exception {
+	public List<FileDTO> listByUuid(List<String> uuids) throws Exception {
 		return getFilestoreProvider().listByUuid(uuids);
 	}
 	
 	@Override
-	public FilestoreDownloadDTO downloadByPath(String path) throws Exception {
+	public FileDownloadDTO downloadByPath(String path) throws Exception {
 		return getFilestoreProvider().downloadByPath(path); 
 	}
 
 	@Override
-	public FilestoreDownloadDTO downloadByUuid(String uuid) throws Exception {
+	public FileDownloadDTO downloadByUuid(String uuid) throws Exception {
 		return getFilestoreProvider().downloadByUuid(uuid);
 	}
 

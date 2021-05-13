@@ -8,35 +8,49 @@ package net.jeebiz.admin.extras.filestore.setup.provider;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.biz.utils.FilenameUtils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.coobird.thumbnailator.Thumbnails;
-import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
-import net.jeebiz.admin.extras.filestore.dao.entities.FilestoreModel;
+import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
+import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.setup.config.JeebizFilestoreProperties;
 import net.jeebiz.admin.extras.filestore.utils.AttUtils;
+import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreDownloadDTO;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 
 public class LocalFilestoreProvider implements FilestoreProvider {
 
-	private IFilestoreDao filestoreDao;
+	private IFileMapper fileMapper;
 	private JeebizFilestoreProperties filestoreProperties;
+	private final String groupName = "files";
 	
-	public LocalFilestoreProvider(IFilestoreDao filestoreDao, JeebizFilestoreProperties filestoreProperties) {
-		this.filestoreDao = filestoreDao;
+	public LocalFilestoreProvider(IFileMapper fileMapper, JeebizFilestoreProperties filestoreProperties) {
+		this.fileMapper = fileMapper;
 		this.filestoreProperties = filestoreProperties;
 	}
 
@@ -51,13 +65,34 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		config.setEndpoint(filestoreProperties.getEndpoint());
 		return config;
 	}
+	
+	protected Set<FileMetaDataDTO> metaDataSet(File file) {
+		Set<FileMetaDataDTO> metaDataSet = Sets.newHashSet();
+		try (InputStream inputStream = FileUtils.openInputStream(file);) {
+			Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
+			for (Directory directory : metadata.getDirectories()) {
+			    for (Tag tag : directory.getTags()) {
+			        //格式化输出[directory.getName()] - tag.getTagName() = tag.getDescription()
+			        System.out.format("[%s] - %s = %s%n",  directory.getName(), tag.getTagName(), tag.getDescription());
+			        metaDataSet.add(new FileMetaDataDTO(directory.getName(), tag.getTagName()));
+			    }
+			    if (directory.hasErrors()) {
+			        for (String error : directory.getErrors()) {
+			            System.err.format("ERROR: %s", error);
+			        }
+			    }
+			}
+		} catch (Exception e) {
+		}
+		return metaDataSet;
+	}
 
 	@Override
-	public FilestoreDTO upload(MultipartFile file, int width, int height) throws Exception {
+	public FileDTO upload(MultipartFile file, int width, int height) throws Exception {
 		try {
 			
 			// 文件存储目录
-			File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), "files");
+			File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), groupName);
 			if (!fileDir.exists()) {
 				fileDir.mkdirs();
 			};
@@ -75,23 +110,31 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			}
 			
 			// 文件存储记录对象
-			FilestoreModel model = new FilestoreModel();
+			FileEntity entity = new FileEntity();
 
 			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			
-			model.setUuid(uuid);
-			model.setUid(principal.getUserid());
-			model.setName(file.getOriginalFilename());
-			model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-			model.setTo(FilestoreEnum.LOCAL.getKey());
-			model.setPath(path);
-			getFilestoreDao().insert(model);
+			entity.setUuid(uuid);
+			entity.setUid(principal.getUserid());
+			entity.setName(file.getOriginalFilename());
+			entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
+			entity.setTo(FilestoreEnum.LOCAL.getKey());
+			entity.setGroup(groupName);
+			entity.setPath(path);
+			entity.setThumb(thumbPath);
+			getFileMapper().insert(entity);
 			
 			// 文件存储信息
-			FilestoreDTO attDTO = new FilestoreDTO();
+			FileDTO attDTO = new FileDTO();
 			attDTO.setUuid(uuid);
 			attDTO.setName(file.getOriginalFilename());
 			attDTO.setPath(path);
+			//attDTO.setUrl(getOssTemplate().getAccsssURL(storePath));
+			if(StringUtils.isNotBlank(thumbPath)) {
+				attDTO.setThumb(thumbPath);
+				//attDTO.setThumbUrl(getOssTemplate().getThumbAccsssURL(storePath));
+			}
+			attDTO.setExt(entity.getExt());
 			
 			return attDTO;
 			
@@ -101,46 +144,11 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FilestoreDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
-		List<FilestoreDTO> attList = Lists.newArrayList();
-		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+	public List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
+		List<FileDTO> attList = Lists.newArrayList();
 		for (MultipartFile file : files) {
-			
-			try {
-				
-				// 文件存储目录
-				File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), "files");
-				if (!fileDir.exists()) {
-					fileDir.mkdirs();
-				};
-				
-				String uuid = UUID.randomUUID().toString();
-				String path =  DateFormatUtils.format(System.currentTimeMillis(), "YYYYMMDD") + File.separator + uuid + FilenameUtils.getFullExtension(file.getOriginalFilename());
-				
-				file.transferTo(new File(fileDir, path));
-				
-				// 文件存储记录对象
-				FilestoreModel model = new FilestoreModel();
-				
-				model.setUuid(uuid);
-				model.setUid(principal.getUserid());
-				model.setName(file.getOriginalFilename());
-				model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-				model.setTo(FilestoreEnum.LOCAL.getKey());
-				model.setPath(path);
-				getFilestoreDao().insert(model);
-				
-				// 文件存储信息
-				FilestoreDTO attDTO = new FilestoreDTO();
-				attDTO.setUuid(uuid);
-				attDTO.setName(file.getOriginalFilename());
-				attDTO.setPath(path);
-				
-				attList.add(attDTO);
-				
-			} catch (Exception e) {
-				throw new BizRuntimeException("测试报告附件存储IO异常");
-			}
+			FileDTO attDTO = this.upload(file, width, height);
+			attList.add(attDTO);
 		}
 		return attList;
 	}
@@ -153,23 +161,21 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		}
 		
 		// 文件存储目录
-		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), "files");
+		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), groupName);
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		};
 		
-		// 查询Uid对象的文件记录
-		List<FilestoreModel> files = getFilestoreDao().getPaths(paths);
-		// 删除文件记录
-		getFilestoreDao().deleteByPaths(paths);
+		// 查询path对象的文件记录
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
-		for (FilestoreModel model : files) {
+		for (FileEntity entity : fileList) {
 			// 删除旧的文件
-			File oldFile = new File(fileDir, model.getPath()); 
+			File oldFile = new File(fileDir, entity.getPath()); 
 			if(oldFile.exists()) {
 				oldFile.delete();
 			}
-			getFilestoreDao().delete(model.getUuid());
+			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
 		}
 		
 		return true;
@@ -183,24 +189,22 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		}
 		
 		// 文件存储目录
-		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), "files");
+		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), groupName);
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		};
 		
 		// 查询Uid对象的文件记录
-		List<FilestoreModel> files = getFilestoreDao().getFiles(uuids);
-		// 删除文件记录
-		getFilestoreDao().deleteByUuids(uuids);
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
-		for (FilestoreModel model : files) {
+		for (FileEntity entity : fileList) {
 			
 			// 删除旧的文件
-			File oldFile = new File(fileDir, model.getPath()); 
+			File oldFile = new File(fileDir, entity.getPath()); 
 			if(oldFile.exists()) {
 				oldFile.delete();
 			}
-			getFilestoreDao().delete(model.getUuid());
+			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
 			
 		}
 		
@@ -210,17 +214,18 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 
 
 	@Override
-	public FilestoreDTO reupload(String uuid, MultipartFile file, int width, int height) throws IOException {
+	public FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws IOException {
+		
 		// 查询文件信息
-		FilestoreModel model = getFilestoreDao().getByUuid(uuid);
-		if(model == null) {
+		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
+		if(entity == null) {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		
 		// 上传新文件
 		
 		// 文件存储目录
-		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), "files");
+		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		};
@@ -230,98 +235,148 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		file.transferTo(new File(fileDir, path));
 		
 		// 文件存储信息
-		FilestoreDTO attDTO = new FilestoreDTO();
+		FileDTO attDTO = new FileDTO();
 		attDTO.setUuid(uuid1);
 		attDTO.setName(file.getOriginalFilename());
 		attDTO.setPath(path);
 		
 		// 文件存储记录对象
-		model.setUid(uuid1);
-		model.setName(file.getOriginalFilename());
-		model.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-		model.setTo(FilestoreEnum.LOCAL.getKey());
-		model.setPath(path);
-		getFilestoreDao().insert(model);
+		entity.setUid(uuid1);
+		entity.setName(file.getOriginalFilename());
+		entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
+		entity.setTo(FilestoreEnum.LOCAL.getKey());
+		entity.setPath(path);
+		getFileMapper().insert(entity);
 		
 		// 删除旧的文件
-		File oldFile = new File(fileDir, model.getPath()); 
+		File oldFile = new File(fileDir, entity.getPath()); 
 		if(oldFile.exists()) {
 			oldFile.delete();
 		}
-		getFilestoreDao().delete(uuid);
+		getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
 		
 		return attDTO;
 	}
  
 	@Override
-	public List<FilestoreDTO> listByPath(List<String> paths) throws Exception {
-		
-		List<FilestoreDTO> attList = Lists.newArrayList();
-		
-		for (String path : paths) {
-			
-			// 文件存储信息
-			FilestoreDTO attDTO = new FilestoreDTO();
-			
-			attDTO.setPath(path);
-			//attDTO.setUrl(getFdfsTemplate().getAccsssURL(Constants.GROUP_name, path));
-			
-			attList.add(attDTO);
-
-		} 
-		
-		return attList;
+	public List<FileDTO> listByPath(List<String> paths) throws Exception {
+        if (CollectionUtils.isEmpty(paths)) {
+            return Lists.newArrayList();
+        }
+		// 查询文件信息
+        List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
+		if (CollectionUtils.isEmpty(fileList)) {
+            return Lists.newArrayList();
+        }
+		return this.mapperFile(fileList);
 	}
 
 	@Override
-	public List<FilestoreDTO> listByUuid(List<String> uuids) throws Exception {
-		
-		List<FilestoreDTO> attList = Lists.newArrayList();
-		
+	public List<FileDTO> listByUuid(List<String> uuids) throws Exception {
+		if (CollectionUtils.isEmpty(uuids)) {
+            return Lists.newArrayList();
+        }
 		// 查询文件信息
-		List<FilestoreModel> fileList = getFilestoreDao().getFiles(uuids);
-				
-		for (FilestoreModel model : fileList) {
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
+		if (CollectionUtils.isEmpty(fileList)) {
+            return Lists.newArrayList();
+        }
+		return this.mapperFile(fileList);
+	}
+	
+	private List<FileDTO> mapperFile(List<FileEntity> fileList) {
+		List<FileDTO> attList = Lists.newArrayList();
+		fileList = fileList.stream().sorted().collect(Collectors.toList());
+		// 循环进行对象转换
+		for (FileEntity entity : fileList) {
+			
+			File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
+			if (!fileDir.exists()) {
+				fileDir.mkdirs();
+			};
 			
 			// 文件存储信息
-			FilestoreDTO attDTO = new FilestoreDTO();
-			
-			attDTO.setUuid(model.getUuid());
-			attDTO.setName(model.getName());
-			attDTO.setPath(model.getPath());
-			//attDTO.setUrl(getFdfsTemplate().getAccsssURL(model.getGroup(), model.getPath()));
-			
+			FileDTO attDTO = new FileDTO();
+
+			attDTO.setUuid(entity.getUuid());
+			attDTO.setName(entity.getName());
+			attDTO.setPath(entity.getPath());
+			//attDTO.setUrl(getFdfsTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
+			if(StringUtils.isNoneBlank(entity.getThumb())) {
+				attDTO.setThumb(entity.getThumb());
+				//attDTO.setThumbUrl(getFdfsTemplate().getAccsssURL(entity.getGroup(), entity.getThumb()));
+			}
+			attDTO.setExt(entity.getExt());
+			// 文件元数据
+			try {
+				attDTO.setMetadata(this.metaDataSet(new File(fileDir, entity.getPath())));
+			} catch (Exception e) {
+			}
+
 			attList.add(attDTO);
 
-		} 
-		
+		}
+
 		return attList;
 	}
 	
-
 	@Override
-	public FilestoreDownloadDTO downloadByPath(String path) throws Exception {
+	public FileDownloadDTO downloadByPath(String path) throws Exception {
 		
-		// TODO Auto-generated method stub
-		return null;
+		// 查询文件信息
+		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_path", path));
+		if(entity == null) {
+			throw new BizRuntimeException(path + "指向的文件不存在");
+		}
+		
+		// 文件存储信息
+		FileDownloadDTO attDTO = new FileDownloadDTO();
+		
+		attDTO.setUuid(entity.getUuid());
+		attDTO.setName(entity.getName());
+		attDTO.setPath(entity.getPath());
+		attDTO.setUrl("");
+		
+		// 文件存储目录
+		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
+		if (!fileDir.exists()) {
+			fileDir.mkdirs();
+		};
+		attDTO.setBytes(FileCopyUtils.copyToByteArray(new File(fileDir, entity.getPath())));
+		  
+		return attDTO;
 	}
 
 	@Override
-	public FilestoreDownloadDTO downloadByUuid(String uuid) throws Exception {
+	public FileDownloadDTO downloadByUuid(String uuid) throws Exception {
 
 		// 查询文件信息
-		FilestoreModel model = getFilestoreDao().getModel(uuid);
-		if(model == null) {
+		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
+		if(entity == null) {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		
-		// TODO Auto-generated method stub
-		return null;
+		// 文件存储信息
+		FileDownloadDTO attDTO = new FileDownloadDTO();
+		
+		attDTO.setUuid(entity.getUuid());
+		attDTO.setName(entity.getName());
+		attDTO.setPath(entity.getPath());
+		attDTO.setUrl("");
+		
+		// 文件存储目录
+		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
+		if (!fileDir.exists()) {
+			fileDir.mkdirs();
+		};
+		attDTO.setBytes(FileCopyUtils.copyToByteArray(new File(fileDir, entity.getPath())));
+		  
+		return attDTO;
 	}
 	
 	
-	public IFilestoreDao getFilestoreDao() {
-		return filestoreDao;
+	public IFileMapper getFileMapper() {
+		return fileMapper;
 	}
 
 	public JeebizFilestoreProperties getFilestoreProperties() {

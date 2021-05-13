@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import io.minio.MinioClient;
 import io.minio.spring.boot.MinioAutoConfiguration;
 import io.minio.spring.boot.MinioProperties;
-import net.jeebiz.admin.extras.filestore.dao.IFilestoreDao;
+import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.setup.provider.MinioFilestoreProvider;
 
 
@@ -27,9 +27,9 @@ import net.jeebiz.admin.extras.filestore.setup.provider.MinioFilestoreProvider;
 public class JeebizFilestoreMinioConfiguration {
 
 	@Bean
-	public MinioFilestoreProvider minioFilestoreProvider(IFilestoreDao filestoreDao, MinioClient minioClient,
+	public MinioFilestoreProvider minioFilestoreProvider(IFileMapper fileMapper, MinioClient minioClient,
 			MinioProperties minioProperties) {
-		return new MinioFilestoreProvider(filestoreDao, minioClient, minioProperties);
+		return new MinioFilestoreProvider(fileMapper, minioClient, minioProperties);
 	}
 	
 }

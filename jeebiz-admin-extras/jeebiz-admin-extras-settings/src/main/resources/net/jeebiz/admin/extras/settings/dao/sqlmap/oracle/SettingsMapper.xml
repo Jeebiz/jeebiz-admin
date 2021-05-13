@@ -16,7 +16,7 @@
 		<result property="placeholder" column="d_placeholder" />
 		<result property="source" column="d_source" />
 		<result property="status" column="d_status" />
-		<result property="order" column="d_order" />
+		<result property="orderBy" column="d_order" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
@@ -63,7 +63,7 @@
 			<if test="placeholder != null and placeholder != ''">t.d_placeholder = #{placeholder},</if>
 			<if test="source != null and source != ''">t.d_source = #{source},</if>
 			<if test="status != null and status != ''">t.d_status = #{status},</if>
-			<if test="order != null and order != ''">t.d_order = #{order}</if>
+			<if test="orderBy != null and orderBy != ''">t.d_order = #{orderBy}</if>
 		</set>
 		 WHERE t.d_id = #{id}
 	</update>
@@ -83,7 +83,7 @@
 				<if test="item.placeholder != null and item.placeholder != ''">t.d_placeholder = #{item.placeholder},</if>
 				<if test="item.source != null and item.source != ''">t.d_source = #{item.source},</if>
 				<if test="item.status != null and item.status != ''">t.d_status = #{item.status},</if>
-				<if test="item.order != null and item.order != ''">t.d_order = #{item.order}</if>
+				<if test="item.orderBy != null and item.orderBy != ''">t.d_order = #{item.orderBy}</if>
 			</set>
            WHERE t.d_id = #{item.id}
 		     AND t.d_group = #{item.gkey}

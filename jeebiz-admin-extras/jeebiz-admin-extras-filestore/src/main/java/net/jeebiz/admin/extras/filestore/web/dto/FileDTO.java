@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value = "FilestoreDTO", description = "文件存储信息DTO")
+@ApiModel(value = "FileDTO", description = "文件存储信息DTO")
 @Data
-public class FilestoreDTO {
+public class FileDTO {
 
 	@ApiModelProperty(name = "uuid", dataType = "String", value = "文件UUid")
 	private String uuid;
