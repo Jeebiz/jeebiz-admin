@@ -7,7 +7,6 @@ package net.jeebiz.admin.extras.filestore.setup.provider;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
@@ -17,8 +16,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
-import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.biz.utils.FilenameUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,7 +85,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public FileDTO upload(MultipartFile file, int width, int height) throws Exception {
+	public FileDTO upload(String uid, MultipartFile file, int width, int height) throws Exception {
 		try {
 			
 			// 文件存储目录
@@ -112,10 +109,8 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			// 文件存储记录对象
 			FileEntity entity = new FileEntity();
 
-			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-			
+			entity.setUid(uid);
 			entity.setUuid(uuid);
-			entity.setUid(principal.getUserid());
 			entity.setName(file.getOriginalFilename());
 			entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
 			entity.setTo(FilestoreEnum.LOCAL.getKey());
@@ -144,10 +139,10 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
+	public List<FileDTO> upload(String uid, MultipartFile[] files, int width, int height) throws Exception {
 		List<FileDTO> attList = Lists.newArrayList();
 		for (MultipartFile file : files) {
-			FileDTO attDTO = this.upload(file, width, height);
+			FileDTO attDTO = this.upload(uid, file, width, height);
 			attList.add(attDTO);
 		}
 		return attList;
@@ -155,105 +150,66 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	
 	@Override
 	public boolean deleteByPath(List<String> paths) throws Exception {
-		
 		if(CollectionUtils.isEmpty(paths)) {
 			return false;
 		}
-		
+		// 查询path对象的文件记录
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
+		return this.deleteFiles(fileList);
+	}
+	
+	@Override
+	public boolean deleteByUuid(List<String> uuids) throws Exception {
+		if(CollectionUtils.isEmpty(uuids)) {
+			return false;
+		}
+		// 查询Uid对象的文件记录
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
+		return this.deleteFiles(fileList);
+	}
+
+	private boolean deleteFiles(List<FileEntity> fileList) throws Exception {
 		// 文件存储目录
 		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), groupName);
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		};
-		
-		// 查询path对象的文件记录
-		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
 		for (FileEntity entity : fileList) {
+			
 			// 删除旧的文件
 			File oldFile = new File(fileDir, entity.getPath()); 
 			if(oldFile.exists()) {
 				oldFile.delete();
 			}
-			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
+			getFileMapper().deleteById(entity.getId());
+			
 		}
-		
 		return true;
 	}
 	
 	@Override
-	public boolean deleteByUuid(List<String> uuids) throws IOException {
+	public FileDTO reupload(String uid, String uuid, MultipartFile file, int width, int height) throws Exception {
 		
-		if(CollectionUtils.isEmpty(uuids)) {
-			return false;
-		}
-		
-		// 文件存储目录
-		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), groupName);
-		if (!fileDir.exists()) {
-			fileDir.mkdirs();
-		};
-		
-		// 查询Uid对象的文件记录
-		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
-		// 删除服务器文件，如果出现异常将会回滚前面的操作
-		for (FileEntity entity : fileList) {
-			
-			// 删除旧的文件
-			File oldFile = new File(fileDir, entity.getPath()); 
-			if(oldFile.exists()) {
-				oldFile.delete();
-			}
-			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
-			
-		}
-		
-		return true;
-		
-	}
-
-
-	@Override
-	public FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws IOException {
-		
-		// 查询文件信息
+		// 查询旧文件信息
 		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
 		if(entity == null) {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		
 		// 上传新文件
+		FileDTO attDTO = this.upload(uid, file, width, height);
 		
-		// 文件存储目录
+		// 删除旧的文件
 		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		};
-
-		String uuid1 = UUID.randomUUID().toString();
-		String path =  DateFormatUtils.format(System.currentTimeMillis(), "YYYYMMDD") + File.separator + uuid + FilenameUtils.getFullExtension(file.getOriginalFilename());
-		file.transferTo(new File(fileDir, path));
-		
-		// 文件存储信息
-		FileDTO attDTO = new FileDTO();
-		attDTO.setUuid(uuid1);
-		attDTO.setName(file.getOriginalFilename());
-		attDTO.setPath(path);
-		
-		// 文件存储记录对象
-		entity.setUid(uuid1);
-		entity.setName(file.getOriginalFilename());
-		entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-		entity.setTo(FilestoreEnum.LOCAL.getKey());
-		entity.setPath(path);
-		getFileMapper().insert(entity);
-		
-		// 删除旧的文件
 		File oldFile = new File(fileDir, entity.getPath()); 
 		if(oldFile.exists()) {
 			oldFile.delete();
 		}
-		getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
+		getFileMapper().deleteById(entity.getId());
 		
 		return attDTO;
 	}
@@ -322,40 +278,25 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	
 	@Override
 	public FileDownloadDTO downloadByPath(String path) throws Exception {
-		
 		// 查询文件信息
 		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_path", path));
 		if(entity == null) {
 			throw new BizRuntimeException(path + "指向的文件不存在");
 		}
-		
-		// 文件存储信息
-		FileDownloadDTO attDTO = new FileDownloadDTO();
-		
-		attDTO.setUuid(entity.getUuid());
-		attDTO.setName(entity.getName());
-		attDTO.setPath(entity.getPath());
-		attDTO.setUrl("");
-		
-		// 文件存储目录
-		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
-		if (!fileDir.exists()) {
-			fileDir.mkdirs();
-		};
-		attDTO.setBytes(FileCopyUtils.copyToByteArray(new File(fileDir, entity.getPath())));
-		  
-		return attDTO;
+		return this.mapperFile(entity);
 	}
 
 	@Override
 	public FileDownloadDTO downloadByUuid(String uuid) throws Exception {
-
 		// 查询文件信息
 		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
 		if(entity == null) {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
-		
+		return this.mapperFile(entity);
+	}
+	
+	private FileDownloadDTO mapperFile(FileEntity entity) throws Exception {
 		// 文件存储信息
 		FileDownloadDTO attDTO = new FileDownloadDTO();
 		
@@ -373,7 +314,6 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		  
 		return attDTO;
 	}
-	
 	
 	public IFileMapper getFileMapper() {
 		return fileMapper;

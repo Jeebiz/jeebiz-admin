@@ -11,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
+import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,9 +32,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import net.jeebiz.admin.extras.filestore.service.IFilestoreService;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.utils.CollectionUtils;
@@ -62,7 +64,8 @@ public class FilestoreController extends BaseApiController {
 		if (null == file){
 			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
 		}
-		FileDTO result = getFilestoreService().upload(file, width, height);
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		FileDTO result = getFilestoreService().upload(principal.getUserid(), file, width, height);
 		if (result == null) {
 			return fail("file.upload.fail");
 		}
@@ -79,7 +82,8 @@ public class FilestoreController extends BaseApiController {
 		if (null == files || files.length == 0){
 			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
 		}
-		List<FileDTO> result = getFilestoreService().upload(files, width, height);
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		List<FileDTO> result = getFilestoreService().upload(principal.getUserid(), files, width, height);
 		if (CollectionUtils.isEmpty(result)) {
 			return fail("file.upload.fail");
 		}
@@ -147,7 +151,8 @@ public class FilestoreController extends BaseApiController {
 		if (null == file){
 			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
 		}
-		FileDTO result = getFilestoreService().reupload(uuid,file, width, height);
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		FileDTO result = getFilestoreService().reupload(principal.getUserid(), uuid,file, width, height);
 		if (result == null) {
 			return fail("file.reupload.fail");
 		}

@@ -31,13 +31,13 @@ public class FilestoreServiceImpl extends BaseMapperServiceImpl<FileEntity, IFil
 	};
 	
 	@Override
-	public FileDTO upload(MultipartFile file, int width, int height) throws Exception {
-		return getFilestoreProvider().upload(file, width, height);
+	public FileDTO upload(String uid, MultipartFile file, int width, int height) throws Exception {
+		return getFilestoreProvider().upload(uid, file, width, height);
 	}
 	
 	@Override
-	public List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
-		return getFilestoreProvider().upload(files, width, height);
+	public List<FileDTO> upload(String uid, MultipartFile[] files, int width, int height) throws Exception {
+		return getFilestoreProvider().upload(uid, files, width, height);
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public class FilestoreServiceImpl extends BaseMapperServiceImpl<FileEntity, IFil
 	}
 
 	@Override
-	public FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
-		return getFilestoreProvider().reupload(uuid, file, width, height);
+	public FileDTO reupload(String uid, String uuid, MultipartFile file, int width, int height) throws Exception {
+		return getFilestoreProvider().reupload(uid, uuid, file, width, height);
 	}
 	
 	@Override

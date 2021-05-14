@@ -29,7 +29,7 @@ public interface IFilestoreService extends IBaseMapperService<FileEntity>{
 	 * @param height 缩放高度
 	 * @return
 	 */
-	FileDTO upload(MultipartFile file, int width, int height) throws Exception;
+	FileDTO upload(String uid, MultipartFile file, int width, int height) throws Exception;
 	
 	/**
 	 * 文件存储
@@ -38,7 +38,7 @@ public interface IFilestoreService extends IBaseMapperService<FileEntity>{
 	 * @param height 缩放高度
 	 * @return
 	 */
-	List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception;
+	List<FileDTO> upload(String uid, MultipartFile[] files, int width, int height) throws Exception;
 
 	/**
 	 * 删除文件
@@ -60,7 +60,7 @@ public interface IFilestoreService extends IBaseMapperService<FileEntity>{
 	 * @param file	文件
 	 * @return
 	 */
-	FileDTO reupload(String uuid,  MultipartFile file, int width, int height) throws Exception;
+	FileDTO reupload(String uid, String uuid,  MultipartFile file, int width, int height) throws Exception;
 	
 	/**
 	  *   根据给出的文件相对路径获取文件信息

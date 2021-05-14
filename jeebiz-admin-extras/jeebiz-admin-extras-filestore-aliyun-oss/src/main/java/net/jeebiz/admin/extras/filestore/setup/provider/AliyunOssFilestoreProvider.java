@@ -248,7 +248,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public FileDTO upload( MultipartFile file, int width, int height) throws Exception {
+	public FileDTO upload(String uid,  MultipartFile file, int width, int height) throws Exception {
 		FileEntity entity = null;
 		try {
 			
@@ -301,10 +301,10 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FileDTO> upload( MultipartFile[] files, int width, int height) throws Exception {
+	public List<FileDTO> upload(String uid,  MultipartFile[] files, int width, int height) throws Exception {
 		List<FileDTO> attList = Lists.newArrayList();
 		for (MultipartFile file : files) {
-			FileDTO attDTO = this.upload(file, width, height);
+			FileDTO attDTO = this.upload(uid, file, width, height);
 			attList.add(attDTO);
 		}
 		return attList;
@@ -312,43 +312,36 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 
 	@Override
 	public boolean deleteByPath(List<String> paths) throws Exception {
-
 		if(CollectionUtils.isEmpty(paths)) {
 			return false;
 		}
 		// 查询path对象的文件记录
 		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
-		// 删除服务器文件，如果出现异常将会回滚前面的操作
-		for (FileEntity entity : fileList) {
-			// 删除旧的文件
-			getOssClient().deleteObject(entity.getGroup(), entity.getPath());
-			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
-		}
-
-		return true;
+		return this.deleteFiles(fileList);
 	}
 
 	@Override
 	public boolean deleteByUuid(List<String> uuids) throws Exception {
-
 		if(CollectionUtils.isEmpty(uuids)) {
 			return false;
 		}
 		// 查询Uid对象的文件记录
-		 List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
+		return this.deleteFiles(fileList);
+	}
+
+	private boolean deleteFiles(List<FileEntity> fileList) throws Exception {
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
 		for (FileEntity entity : fileList) {
 			// 删除旧的文件
 			getOssClient().deleteObject(entity.getGroup(), entity.getPath());
-			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
+			getFileMapper().deleteById(entity.getId());
 		}
-
 		return true;
 	}
 
-
 	@Override
-	public FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
+	public FileDTO reupload(String uid, String uuid, MultipartFile file, int width, int height) throws Exception {
 
 		// 查询文件信息
 		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
@@ -356,104 +349,45 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		
-		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		// 上传新文件
+		FileDTO attDTO = this.upload(uid, file, width, height);
 		
-        // 文件存储结果
-    	AliyunOssStorePath storePath = this.storeFile(file, width, height);
-		
-		// 文件存储信息
-
-        String uuid1 = UUID.randomUUID().toString();
-		
-        FileDTO attDTO = new FileDTO();
-		attDTO.setUuid(uuid1);
-		attDTO.setName(file.getOriginalFilename());
-		attDTO.setPath(storePath.getPath());
-		attDTO.setUrl(getOssTemplate().getAccsssURL(storePath));
-		if(StringUtils.isNotBlank(storePath.getThumb())) {
-			attDTO.setThumb(storePath.getThumb());
-			attDTO.setThumbUrl(getOssTemplate().getThumbAccsssURL(storePath));
-		}
-		
-		// 文件存储记录对象
-		entity.setUuid(uuid1);
-		entity.setUid(principal.getUserid());
-		entity.setName(file.getOriginalFilename());
-		entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-		entity.setTo(FilestoreEnum.OSS_ALIYUN.getKey());
-		entity.setGroup(storePath.getBucket());
-		entity.setPath(storePath.getPath());
-		entity.setThumb(storePath.getThumb());
-		getFileMapper().insert(entity);
-
 		// 删除旧的文件
 		getOssClient().deleteObject(entity.getGroup(), entity.getPath());
-		getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
+		getFileMapper().deleteById(entity.getId());
 
-		attDTO.setExt(entity.getExt());
 		return attDTO;
 	}
 
 	
 	@Override
 	public List<FileDTO> listByPath(List<String> paths) throws Exception {
-
-		List<FileDTO> attList = Lists.newArrayList();
-        if (CollectionUtils.isEmpty(paths)) {
-            return attList;
+		if (CollectionUtils.isEmpty(paths)) {
+            return Lists.newArrayList();
         }
 		// 查询文件信息
         List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
 		if (CollectionUtils.isEmpty(fileList)) {
-            return attList;
+            return Lists.newArrayList();
         }
-		fileList = fileList.stream().sorted().collect(Collectors.toList());
-		// 循环进行对象转换
-		for (FileEntity entity : fileList) {
-
-			// 文件存储信息
-			FileDTO attDTO = new FileDTO();
-
-			attDTO.setUuid(entity.getUuid());
-			attDTO.setName(entity.getName());
-			attDTO.setPath(entity.getPath());
-			attDTO.setUrl(getOssTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
-			if(StringUtils.isNoneBlank(entity.getThumb())) {
-				attDTO.setThumb(entity.getThumb());
-				attDTO.setThumbUrl(getOssTemplate().getAccsssURL(entity.getGroup(), entity.getThumb()));
-			}
-			attDTO.setExt(entity.getExt());
-			// 文件元数据
-			try {
-				ObjectMetadata metaData = getOssClient().getObjectMetadata(entity.getGroup(), entity.getPath());
-				if(!Objects.isNull(metaData)) {
-					attDTO.setMetadata(metaData.getRawMetadata().entrySet().stream().map(m -> {
-						FileMetaDataDTO metaDTO = new FileMetaDataDTO();
-						metaDTO.setName(m.getKey());
-						metaDTO.setValue(m.getValue().toString());
-						return metaDTO; 
-					}).collect(Collectors.toSet()));
-				}
-			} catch (Exception e) {
-			}
-
-			attList.add(attDTO);
-
-		}
-
-		return attList;
+		return this.mapperFile(fileList);
 	}
 	
 	@Override
 	public List<FileDTO> listByUuid(List<String> uuids) throws Exception {
-
-		List<FileDTO> attList = Lists.newArrayList();
-
+		if (CollectionUtils.isEmpty(uuids)) {
+            return Lists.newArrayList();
+        }
 		// 查询文件信息
 		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
 		if (CollectionUtils.isEmpty(fileList)) {
-            return attList;
+            return Lists.newArrayList();
         }
+		return this.mapperFile(fileList);
+	}
+	
+	private List<FileDTO> mapperFile(List<FileEntity> fileList) throws Exception {
+		List<FileDTO> attList = Lists.newArrayList();	
 		fileList = fileList.stream().sorted().collect(Collectors.toList());
 		// 循环进行对象转换
 		for (FileEntity entity : fileList) {
@@ -499,49 +433,21 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		if(entity == null) {
 			throw new BizRuntimeException(path + "指向的文件不存在");
 		}
-		
-		// 文件存储信息
-		FileDownloadDTO attDTO = new FileDownloadDTO();
-		
-		attDTO.setUuid(entity.getUuid());
-		attDTO.setName(entity.getName());
-		attDTO.setPath(entity.getPath());
-		attDTO.setUrl(getOssTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
-		
-		// ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
-		OSSObject ossObject = getOssClient().getObject(new GetObjectRequest(entity.getGroup(), entity.getPath()).
-                <GetObjectRequest>withProgressListener(progressListener));
-		
-		// 文件元数据
-		try {
-			ObjectMetadata metaData = ossObject.getObjectMetadata();
-			if(!Objects.isNull(metaData)) {
-				attDTO.setMetadata(metaData.getRawMetadata().entrySet().stream().map(m -> {
-					FileMetaDataDTO metaDTO = new FileMetaDataDTO();
-					metaDTO.setName(m.getKey());
-					metaDTO.setValue(m.getValue().toString());
-					return metaDTO; 
-				}).collect(Collectors.toSet()));
-			}
-		} catch (Exception e) {
-		}
-		
-		// 读取文件内容
-		attDTO.setBytes(IOUtils.readStreamAsByteArray(ossObject.getObjectContent()));
-		
-		return attDTO;
+		return this.mapperFile(entity);
 		
 	}
 
 	@Override
 	public FileDownloadDTO downloadByUuid(String uuid) throws Exception {
-		
 		// 查询文件信息
 		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
 		if(entity == null) {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
-		
+		return this.mapperFile(entity);
+	}
+	
+	private FileDownloadDTO mapperFile(FileEntity entity) throws Exception {
 		// 文件存储信息
 		FileDownloadDTO attDTO = new FileDownloadDTO();
 		

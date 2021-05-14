@@ -15,8 +15,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
-import org.apache.shiro.biz.utils.SubjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.biz.utils.FilemimeUtils;
@@ -60,7 +58,6 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	public FilestoreEnum getProvider() {
 		return FilestoreEnum.OSS_MINIO;
 	}
-	
 
 	@Override
 	public FilestoreConfig getConfig() {
@@ -70,7 +67,7 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public FileDTO upload(MultipartFile file, int width, int height) throws Exception {
+	public FileDTO upload(String uid, MultipartFile file, int width, int height) throws Exception {
 		
 		FileDTO attDTO = null;
 		
@@ -101,10 +98,9 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 
 			// 文件存储记录对象
 			FileEntity entity = new FileEntity();
-			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			
+			entity.setUid(uid);
 			entity.setUuid(uuid);
-			entity.setUid(principal.getUserid());
 			entity.setName(file.getOriginalFilename());
 			entity.setExt(ext);
 			entity.setTo(FilestoreEnum.OSS_MINIO.getKey());
@@ -133,10 +129,10 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception {
+	public List<FileDTO> upload(String uid, MultipartFile[] files, int width, int height) throws Exception {
 		List<FileDTO> attList = Lists.newArrayList();
 		for (MultipartFile file : files) {
-			FileDTO attDTO = this.upload(file, width, height);
+			FileDTO attDTO = this.upload(uid, file, width, height);
 			attList.add(attDTO);
 		}
 		return attList;
@@ -144,40 +140,37 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 
 	@Override
 	public boolean deleteByPath(List<String> paths) throws Exception {
-		
 		if(CollectionUtils.isEmpty(paths)) {
 			return false;
 		}
 		// 查询path对象的文件记录
 		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_path", paths));
-		// 删除服务器文件，如果出现异常将会回滚前面的操作
-		for (FileEntity entity : fileList) {
-			// 删除旧的文件
-			getMinioClient().removeObject(entity.getGroup(), entity.getPath());
-			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
-		}
-		
-		return true;
+		return this.deleteFiles(fileList);
 	}
 	
 	@Override
 	public boolean deleteByUuid(List<String> uuids) throws Exception {
-		
+		if(CollectionUtils.isEmpty(uuids)) {
+			return false;
+		}
 		// 查询Uid对象的文件记录
-        List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
+		List<FileEntity> fileList = getFileMapper().selectList(new QueryWrapper<FileEntity>().in("f_uuid", uuids));
+		return this.deleteFiles(fileList);
+	}
+	
+	private boolean deleteFiles(List<FileEntity> fileList) throws Exception {
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
 		for (FileEntity entity : fileList) {
 			// 删除旧的文件
 			getMinioClient().removeObject(entity.getGroup(), entity.getPath());
-			getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", entity.getUuid()));
+			getFileMapper().deleteById(entity.getId());
 		}
-		
 		return true;
 	}
 
 
 	@Override
-	public FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception {
+	public FileDTO reupload(String uid, String uuid, MultipartFile file, int width, int height) throws Exception {
 		
 		// 查询文件信息
 		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
@@ -185,37 +178,12 @@ public class MinioFilestoreProvider implements FilestoreProvider {
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		
-		String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-		String objectName = sdf.format(new Date()) + "/" + uuid + "." + ext;
-		
-        Map<String, String> headerMap = new HashMap<>(); 
-        
-        ServerSideEncryption sse = ServerSideEncryption.atRest();
-        String contentType = FilemimeUtils.getFileMimeType(file.getOriginalFilename());
-        
-        // 上传新文件	
-        getMinioClient().putObject(entity.getGroup(), objectName, file.getInputStream(), file.getSize(), headerMap, sse, contentType);
-		String storePath = getMinioClient().getObjectUrl(Constants.GROUP_name, objectName);
-		
-		// 文件存储信息
-		String uuid1 = UUID.randomUUID().toString();
-		FileDTO attDTO = new FileDTO();
-		attDTO.setUuid(uuid1);
-		attDTO.setName(file.getOriginalFilename());
-		attDTO.setPath(storePath);
-		
-		// 文件存储记录对象
-		entity.setUid(uuid1);
-		entity.setName(file.getOriginalFilename());
-		entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-		entity.setTo(FilestoreEnum.OSS_MINIO.getKey());
-		entity.setGroup(entity.getGroup());
-		entity.setPath(storePath);
-		getFileMapper().insert(entity);
+		// 上传新文件
+		FileDTO attDTO = this.upload(uid, file, width, height);
 		
 		// 删除旧的文件
 		getMinioClient().removeObject(entity.getGroup(), entity.getPath());
-		getFileMapper().delete(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
+		getFileMapper().deleteById(entity.getId());
 		
 		return attDTO;
 	}

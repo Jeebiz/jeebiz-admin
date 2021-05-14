@@ -28,19 +28,19 @@ public interface FilestoreProvider {
 	
 	/**
 	 * 文件存储
-	 * @param bucketName bucket 
+	 * @param uid 用户ID 
 	 * @param file 文件
 	 * @return
 	 */
-	FileDTO upload(MultipartFile file, int width, int height) throws Exception;
+	FileDTO upload(String uid, MultipartFile file, int width, int height) throws Exception;
 	
 	/**
 	 * 存储接口
-	 * @param bucketName bucket 
-	 * @param files
+	 * @param uid 用户ID
+	 * @param files 文件数组
 	 * @return
 	 */
-	List<FileDTO> upload(MultipartFile[] files, int width, int height) throws Exception;
+	List<FileDTO> upload(String uid, MultipartFile[] files, int width, int height) throws Exception;
 	
 	/**
 	 * 删除文件
@@ -62,7 +62,7 @@ public interface FilestoreProvider {
 	 * @param file	文件
 	 * @return
 	 */
-	FileDTO reupload(String uuid, MultipartFile file, int width, int height) throws Exception;
+	FileDTO reupload(String uid, String uuid, MultipartFile file, int width, int height) throws Exception;
 	
 	/**
 	 * 根据给出的文件相对路径下载文件
