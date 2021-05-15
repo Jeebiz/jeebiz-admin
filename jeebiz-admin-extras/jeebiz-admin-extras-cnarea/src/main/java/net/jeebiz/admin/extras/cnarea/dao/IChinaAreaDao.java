@@ -12,12 +12,12 @@ import org.apache.ibatis.annotations.Param;
 import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
 
 
 @Mapper
-public interface IChinaAreaDao extends BaseDao<ChinaAreaModel> {
+public interface IChinaAreaDao extends BaseMapper<ChinaAreaModel> {
 	
 	/**
 	 * 查询中国省、市、区数结构

@@ -2,10 +2,10 @@
 
 
 -- ----------------------------
--- Table structure for SYS_DATA_PAIRVALUE
+-- Table structure for sys_data_pairvalue
 -- ----------------------------
-DROP TABLE IF EXISTS `SYS_DATA_PAIRVALUE`;
-CREATE TABLE `SYS_DATA_PAIRVALUE` (
+DROP TABLE IF EXISTS `sys_data_pairvalue`;
+CREATE TABLE `sys_data_pairvalue` (
   `d_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '数据id',
   `d_group` varchar(50) NOT NULL COMMENT '数据分组',
   `d_label` varchar(50) NOT NULL COMMENT '数据标签',

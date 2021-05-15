@@ -15,7 +15,7 @@ create table sys_log_authz (
   u_app_id	VARCHAR2(11),
   u_app_channel	VARCHAR2(50),
   u_app_version	VARCHAR2(20),
-  CONSTRAINT sys_log_authz_PK PRIMARY KEY(LOG_id)
+  CONSTRAINT sys_log_authz_PK PRIMARY KEY(LOg_id)
 );     
 -- Add comments to the table 
 comment on table sys_log_authz  is '认证授权日志信息表';

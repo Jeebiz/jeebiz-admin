@@ -17,11 +17,11 @@ import net.jeebiz.admin.extras.cnarea.service.IChinaAreaService;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 
 @Service
-public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChinaAreaDao> implements IChinaAreaService {
+public class ChinaAreaServiceImpl extends BaseMapperServiceImpl<ChinaAreaModel, IChinaAreaDao> implements IChinaAreaService {
 	
 	private static final String PCODE = "pcode";
 	private static final String CODE = "code";
@@ -33,7 +33,7 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 		/**
 		 * 查询中国省、市、区数结构
 		 */
-		List<BaseMap> pairList =  getDao().getChinaPairList();
+		List<BaseMap> pairList =  getBaseMapper().getChinaPairList();
 		
 		return pairList.stream()
 				.filter(provMap -> MapUtils.getString(provMap, PCODE).equals("0"))
@@ -76,27 +76,27 @@ public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaModel, IChina
 	
 	@Override
 	public List<ChinaAreaDTO> getChinaProvList() {
-		return getDao().getChinaProvList();
+		return getBaseMapper().getChinaProvList();
 	}
 
 	@Override
 	public List<ChinaAreaPairDTO> getChinaProvPairList() {
-		return getDao().getChinaProvPairList();
+		return getBaseMapper().getChinaProvPairList();
 	}
 
 	@Override
 	public List<ChinaAreaPairDTO> getChinaAreaPairList(String pcode) {
-		return getDao().getChinaAreaPairList(pcode);
+		return getBaseMapper().getChinaAreaPairList(pcode);
 	}
 
 	@Override
 	public List<ChinaAreaDTO> getChinaAreaList(String pcode) {
-		return getDao().getChinaAreaList(pcode);
+		return getBaseMapper().getChinaAreaList(pcode);
 	}
 
 	@Override
 	public ChinaAreaDTO getChinaCity(String name) {
-		return getDao().getChinaArea("1", name);
+		return getBaseMapper().getChinaArea("1", name);
 	}
 
 }

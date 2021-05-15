@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.dict.dao.IKeyGroupDao;
 import net.jeebiz.admin.extras.dict.dao.entities.KeyGroupModel;
 import net.jeebiz.admin.extras.dict.service.IKeyGroupService;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
-public class KeyGroupServiceImpl extends BaseServiceImpl<KeyGroupModel, IKeyGroupDao> implements IKeyGroupService {
+public class KeyGroupServiceImpl extends BaseMapperServiceImpl<KeyGroupModel, IKeyGroupDao> implements IKeyGroupService {
 	
 	@Override
 	public List<KeyGroupModel> getKeyGroupList() {
-		return getDao().getKeyGroupList();
+		return getBaseMapper().getKeyGroupList();
 	}
 
 }

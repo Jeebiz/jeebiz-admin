@@ -10,7 +10,7 @@
 	
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 		   SELECT t.d_key,t.d_text
-			 FROM SYS_DATA_PAIRVALUE t 
+			 FROM sys_data_pairvalue t
 			WHERE t.d_group = #{key}
 			  AND t.d_status = 1
 		 ORDER By t.d_order ASC

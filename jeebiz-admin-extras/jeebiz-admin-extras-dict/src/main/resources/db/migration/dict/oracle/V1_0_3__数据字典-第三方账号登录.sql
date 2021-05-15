@@ -1,16 +1,16 @@
 
 -- ----------------------------
--- Records of SYS_DATA_PAIRGROUP
+-- Records of sys_data_pairgroup
 -- ----------------------------
 
-INSERT INTO SYS_DATA_PAIRGROUP ( G_KEY, G_TEXT, G_STATUS, G_ORDER) VALUES ('DSFDLFS', '第三方登录方式', '1', '15');
+INSERT INTO sys_data_pairgroup ( g_key, g_text, g_status, g_order) VALUES ('DSFDLFS', '第三方登录方式', '1', '15');
 
 -- ----------------------------
--- Records of SYS_DATA_PAIRVALUE
+-- Records of sys_data_pairvalue
 -- ----------------------------
 
-INSERT INTO SYS_DATA_PAIRVALUE ( d_group, d_label, d_key, D_VALUE, d_text, d_status, d_order) VALUES ( 'DSFDLFS', '腾讯QQ', 'qq', 'qq','腾讯QQ授权登录', '1', '24');
-INSERT INTO SYS_DATA_PAIRVALUE ( d_group, d_label, d_key, D_VALUE, d_text, d_status, d_order) VALUES ( 'DSFDLFS', '微信', 'wx', 'wx','微信授权登录', '1', '25');
+INSERT INTO sys_data_pairvalue ( d_group, d_label, d_key, d_value, d_text, d_status, d_order) VALUES ( 'DSFDLFS', '腾讯QQ', 'qq', 'qq','腾讯QQ授权登录', '1', '24');
+INSERT INTO sys_data_pairvalue ( d_group, d_label, d_key, d_value, d_text, d_status, d_order) VALUES ( 'DSFDLFS', '微信', 'wx', 'wx','微信授权登录', '1', '25');
 
 
 COMMIT;

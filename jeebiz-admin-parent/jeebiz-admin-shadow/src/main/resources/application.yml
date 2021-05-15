@@ -481,7 +481,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-      #      field-strategy: not-empty
       #mp2.3+ 全局表前缀 mp_
       table-prefix: jeebiz_
       #是否自动刷新 Mapper 对应的 XML 文件，默认不自动刷新。如果配置了该属性，Mapper 对应的 XML 文件会自动刷新，更改 XML 文件后，无需再次重启工程，由此节省大量时间。
@@ -543,7 +542,7 @@ logging:
           pattern: "%X{remoteAddr}"
         - column: LOG_LOCATION
           pattern: "%X{location}"  
-        - column: LOG_STATUS
+        - column: LOg_status
           pattern: "%X{status}"
         - column: LOG_MSG
           pattern: "%msg"

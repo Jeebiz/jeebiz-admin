@@ -4,7 +4,9 @@
  */
 package net.jeebiz.admin.extras.dict.service.impl;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,58 +24,58 @@ import net.jeebiz.admin.extras.dict.service.IKeyValueService;
 import net.jeebiz.admin.extras.dict.setup.Constants;
 import net.jeebiz.admin.extras.dict.setup.event.KeyValueDeletedEvent;
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 
 @Service
-public class KeyValueServiceImpl extends BaseServiceImpl<KeyValueModel, IKeyValueDao> implements IKeyValueService {
+public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IKeyValueDao> implements IKeyValueService {
 	
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int insert(KeyValueModel model) {
+	public boolean save(KeyValueModel model) {
 		// 清理Redis缓存
 		if(getRedisTemplate().hasKey(Constants.KEY_PREFIX + model.getGkey())) {
 			getRedisTemplate().delete(Constants.KEY_PREFIX + model.getGkey());
 		}
-		return super.insert(model);
+		return super.save(model);
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int batchDelete(List<?> list) {
-		List<String> groups = getDao().getGroupList(list);
+	public boolean removeByIds(Collection<? extends Serializable> list) {
+		List<String> groups = getBaseMapper().getGroupList(list);
 		for (String gkey : groups) {
 			getEventPublisher().publishEvent(new KeyValueDeletedEvent(this, gkey));
 		}
-		return super.batchDelete(list);
+		return super.removeByIds(list);
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int setStatus(String id, String status) {
-		List<String> groups = getDao().getGroupList(Arrays.asList(id));
+		List<String> groups = getBaseMapper().getGroupList(Arrays.asList(id));
 		for (String gkey : groups) {
 			getEventPublisher().publishEvent(new KeyValueDeletedEvent(this, gkey));
 		}
-		return super.setStatus(id, status);
+		return getBaseMapper().setStatus(id, status);
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int batchUpdate(List<KeyValueModel> list) {
-		List<String> groups = getDao().getGroupList(list.stream().map(m -> { return m.getId();}).collect(Collectors.toList()));
+	public boolean updateBatchById(Collection<KeyValueModel> list) {
+		List<String> groups = getBaseMapper().getGroupList(list.stream().map(m -> { return m.getId();}).collect(Collectors.toList()));
 		for (String gkey : groups) {
 			getEventPublisher().publishEvent(new KeyValueDeletedEvent(this, gkey));
 		}
-		return super.batchUpdate(list);
+		return super.updateBatchById(list);
 	}
 
 	@Override
 	public Map<String, List<KeyValueModel>> getGroupPairValues(String[] gkeys) {
-		List<KeyValueModel> keyValueList = getDao().getKeyValueList(Arrays.asList(gkeys));
+		List<KeyValueModel> keyValueList = getBaseMapper().getKeyValueList(Arrays.asList(gkeys));
 		if(CollectionUtils.isEmpty(keyValueList)) {
 			return Maps.newHashMap();
 		}
@@ -86,7 +88,7 @@ public class KeyValueServiceImpl extends BaseServiceImpl<KeyValueModel, IKeyValu
 	
 	@Override
 	public List<PairModel> getPairValues(String gkey) {
-		return getDao().getPairValues(gkey);
+		return getBaseMapper().getPairValues(gkey);
 	}
 	
 	public RedisTemplate<String, Object> getRedisTemplate() {

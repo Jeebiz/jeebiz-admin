@@ -107,8 +107,8 @@ public class KeyGroupController extends BaseApiController {
 		
 		// 新增一条数据库配置记录
 		KeyGroupModel model = getBeanMapper().map(DTO, KeyGroupModel.class);
-		int result = getKeyGroupService().insert(model);
-		if(result == 1) {
+		boolean result = getKeyGroupService().save(model);
+		if(result) {
 			return success("keygroup.new.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -126,8 +126,8 @@ public class KeyGroupController extends BaseApiController {
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
 		// 执行基础数据分组删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-		int result = getKeyGroupService().batchDelete(idList);
-		if(result > 0) {
+		boolean result = getKeyGroupService().removeByIds(idList);
+		if(result) {
 			return success("keygroup.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -156,8 +156,8 @@ public class KeyGroupController extends BaseApiController {
 		}
 		
 		KeyGroupModel model = getBeanMapper().map(DTO, KeyGroupModel.class);
-		int result = getKeyGroupService().update(model);
-		if(result == 1) {
+		boolean result = getKeyGroupService().updateById(model);
+		if(result) {
 			return success("keygroup.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -190,7 +190,7 @@ public class KeyGroupController extends BaseApiController {
 	@RequiresPermissions("keygroup:detail")
 	@ResponseBody
 	public ApiRestResponse<KeyGroupDTO> detail(@RequestParam("id") String id) throws Exception { 
-		KeyGroupModel model = getKeyGroupService().getModel(id);
+		KeyGroupModel model = getKeyGroupService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("keygroup.get.empty"));
 		}

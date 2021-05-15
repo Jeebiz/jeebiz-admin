@@ -4,16 +4,18 @@
  */
 package net.jeebiz.admin.extras.dict.dao;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.dict.dao.entities.KeyValueModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IKeyValueDao extends BaseDao<KeyValueModel> {
+public interface IKeyValueDao extends BaseMapper<KeyValueModel> {
 	
 	public List<KeyValueModel> getKeyValueList(@Param("gkeys") List<String> gkeys);
 	
@@ -22,6 +24,6 @@ public interface IKeyValueDao extends BaseDao<KeyValueModel> {
 	 * @param list
 	 * @return
 	 */
-	public List<String> getGroupList(@Param("gkeys") List<?> gkeys);
+	public List<String> getGroupList(@Param("gkeys") Collection<? extends Serializable> gkeys);
 	
 }

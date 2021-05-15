@@ -7,9 +7,9 @@ package net.jeebiz.admin.extras.dict.service;
 import java.util.List;
 
 import net.jeebiz.admin.extras.dict.dao.entities.KeyGroupModel;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
-public interface IKeyGroupService extends IBaseService<KeyGroupModel> {
+public interface IKeyGroupService extends IBaseMapperService<KeyGroupModel> {
 
 	/**
 	 * 查询分组数据

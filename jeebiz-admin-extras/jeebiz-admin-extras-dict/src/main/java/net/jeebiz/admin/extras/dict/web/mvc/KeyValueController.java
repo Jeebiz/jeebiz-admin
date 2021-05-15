@@ -127,8 +127,8 @@ public class KeyValueController extends BaseApiController {
 			return fail("keyvalue.new.conflict");
 		}
 		// 新增一条数据库配置记录
-		int result = getKeyValueService().insert(model);
-		if(result == 1) {
+		boolean result = getKeyValueService().save(model);
+		if(result) {
 			return success("keyvalue.new.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -146,8 +146,8 @@ public class KeyValueController extends BaseApiController {
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
 		// 执行基础数据删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-		int result = getKeyValueService().batchDelete(idList);
-		if(result > 0) {
+		boolean result = getKeyValueService().removeByIds(idList);
+		if(result) {
 			return success("keyvalue.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -169,8 +169,8 @@ public class KeyValueController extends BaseApiController {
 		if(ct > 0) {
 			return fail("keyvalue.renew.conflict");
 		}
-		int result = getKeyValueService().update(model);
-		if(result == 1) {
+		boolean result = getKeyValueService().updateById(model);
+		if(result) {
 			return success("keyvalue.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -214,7 +214,7 @@ public class KeyValueController extends BaseApiController {
 				list.add(model);
 			}
 			// 批量执行基础数据更新操作
-			getKeyValueService().batchUpdate(list);
+			getKeyValueService().updateBatchById(list);
 			return success("keyvalue.renew.success");
 		} catch (Exception e) {
 			return fail("keyvalue.renew.fail");
@@ -229,7 +229,7 @@ public class KeyValueController extends BaseApiController {
 	@RequiresPermissions("keyvalue:detail")
 	@ResponseBody
 	public ApiRestResponse<KeyValueDTO> detail(@RequestParam("id") String id) throws Exception { 
-		KeyValueModel model = getKeyValueService().getModel(id);
+		KeyValueModel model = getKeyValueService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("keyvalue.get.empty"));
 		}

@@ -1,6 +1,6 @@
 
 -- Create table
-create table SYS_DATA_PAIRVALUE (
+create table sys_data_pairvalue (
   d_id  		VARCHAR2(32) default sys_guid() not null,
   d_group   	VARCHAR2(50) not null,
   d_label		VARCHAR2(50) not null,
@@ -11,15 +11,15 @@ create table SYS_DATA_PAIRVALUE (
   primary key (d_group, d_key)
 );
 -- Add comments to the table 
-comment on table SYS_DATA_PAIRVALUE  is '基础数据信息表';
+comment on table sys_data_pairvalue  is '基础数据信息表';
 -- Add comments to the columns 
-comment on column SYS_DATA_PAIRVALUE.d_id  is '数据id';
-comment on column SYS_DATA_PAIRVALUE.d_group  is '数据分组';
-comment on column SYS_DATA_PAIRVALUE.d_label  is '数据标签';
-comment on column SYS_DATA_PAIRVALUE.d_key  is '数据键';
-comment on column SYS_DATA_PAIRVALUE.d_text  is '数据值';
-comment on column SYS_DATA_PAIRVALUE.d_status  is '数据状态:（0:不可用|1：可用）';
-comment on column SYS_DATA_PAIRVALUE.d_order  is '数据排序:组内排序';
+comment on column sys_data_pairvalue.d_id  is '数据id';
+comment on column sys_data_pairvalue.d_group  is '数据分组';
+comment on column sys_data_pairvalue.d_label  is '数据标签';
+comment on column sys_data_pairvalue.d_key  is '数据键';
+comment on column sys_data_pairvalue.d_text  is '数据值';
+comment on column sys_data_pairvalue.d_status  is '数据状态:（0:不可用|1：可用）';
+comment on column sys_data_pairvalue.d_order  is '数据排序:组内排序';
 
 
 -- Create table
