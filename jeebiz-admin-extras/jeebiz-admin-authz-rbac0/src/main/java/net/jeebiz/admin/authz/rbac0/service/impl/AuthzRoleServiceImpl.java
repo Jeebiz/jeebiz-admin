@@ -27,10 +27,10 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
-public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthzRoleDao>
+public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, IAuthzRoleDao>
 		implements IAuthzRoleService {
 	
 	@Autowired
@@ -42,8 +42,8 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int insert(AuthzRoleModel model) {
-		int ct = getDao().insert(model);
+	public boolean save(AuthzRoleModel model) {
+		int ct = getBaseMapper().insert(model);
 		// 此次提交的授权标记
 		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
 		// 有授权
@@ -51,13 +51,13 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 			// 执行授权
 			getAuthzRolePermsDao().setPerms(model.getId(), perms);
 		}
-		return ct;
+		return ct > 0;
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int update(AuthzRoleModel model) {
-		int ct = getDao().update(model);
+		int ct = getBaseMapper().updateById(model);
 		// 查询已经授权标记
 		List<String> oldperms = getAuthzRolePermsDao().getPermissions(model.getId());
 		// 此次提交的授权标记
@@ -86,11 +86,11 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int delete(String id) {
-		AuthzRoleModel model = getDao().getModel(id);
+		AuthzRoleModel model = getBaseMapper().selectById(id);
 		if (model.getUsers() > 0){
 			return -1;
 		}
-		int ct = getDao().delete(id);
+		int ct = getBaseMapper().deleteById(id);
 		// 删除授权
 		getAuthzRolePermsDao().delPerms(id, Lists.newArrayList());
 		return ct;
@@ -99,7 +99,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int setStatus(String roleId, String status) {
-		return getDao().setStatus(roleId, status);
+		return getBaseMapper().setStatus(roleId, status);
 	}
 	
 	@Override
@@ -110,7 +110,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 			// 查询角色与用户是否已经有关联
 			List<String> oldRoles = getAuthzUserDao().getRoleKeys(userId);
 			if (CollectionUtils.isEmpty(oldRoles) || !oldRoles.contains(model.getRoleId())){
-				rt += getDao().setUsers(model.getRoleId(), Arrays.asList(userId));
+				rt += getBaseMapper().setUsers(model.getRoleId(), Arrays.asList(userId));
 			}
 		}
 		return rt;
@@ -119,12 +119,12 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int doUnAllot(AuthzRoleAllotUserModel model) {
-		return getDao().deleteUsers(model.getRoleId(), model.getUserIds());
+		return getBaseMapper().deleteUsers(model.getRoleId(), model.getUserIds());
 	}
 	
 	@Override
 	public List<AuthzRoleModel> getRoles(){
-		return getDao().getRoles();
+		return getBaseMapper().getRoles();
 	}
 	
 	@Override
@@ -137,7 +137,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 			}
 		}
 		
-		List<AuthzUserModel> records = getDao().getPagedAllocatedList(page, paginationDTO);
+		List<AuthzUserModel> records = getBaseMapper().getPagedAllocatedList(page, paginationDTO);
 		page.setRecords(records);
 		
 		return page;
@@ -154,7 +154,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleModel, IAuthz
 			}
 		}
 		
-		List<AuthzUserModel> records = getDao().getPagedUnAllocatedList(page, paginationDTO);
+		List<AuthzUserModel> records = getBaseMapper().getPagedUnAllocatedList(page, paginationDTO);
 		page.setRecords(records);
 		
 		return page;

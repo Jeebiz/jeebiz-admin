@@ -4,7 +4,7 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `$${table-prefix}inform_templates`;
 CREATE TABLE `$${table-prefix}inform_templates` (
-  `t_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '消息模板id',
+  `t_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '消息模板id',
   `t_target` varchar(10) DEFAULT 'ALL' COMMENT '消息模板面向对象',
   `t_provider` varchar(50) NOT NULL COMMENT '消息通知的发送提供者',
   `t_title` varchar(200) NOT NULL COMMENT '消息通知标题（可能包含变量）',
@@ -47,7 +47,7 @@ CREATE TABLE `$${table-prefix}inform_records` (
   `r_title` varchar(200) NOT NULL COMMENT '消息通知标题（可能包含变量）',
   `r_content` text COMMENT '消息通知内容（可能包含变量）',
   `r_tid` varchar(200) COMMENT '消息通知模板id（系统内信息模板、微信订阅消息等模板id）',
-  `r_to` int(11) COMMENT '消息通知接收人id',
+  `r_to` bigint(12) COMMENT '消息通知接收人id',
   `r_payload` varchar(2000) COMMENT '通知信息关联数据载体,JOSN格式的数据',
   `r_status` varchar(1) DEFAULT '0' COMMENT '消息通知阅读状态：（0:未阅读、1:已阅读）',
   `creator` bigint(12) DEFAULT NULL COMMENT '消息通知创建人id',

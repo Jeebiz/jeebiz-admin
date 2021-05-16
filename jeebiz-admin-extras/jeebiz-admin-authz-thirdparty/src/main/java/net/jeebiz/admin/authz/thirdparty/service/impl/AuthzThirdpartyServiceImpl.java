@@ -13,6 +13,8 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
@@ -20,11 +22,11 @@ import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.setup.provider.ThirdpartyBindingProvider;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
 @SuppressWarnings({"rawtypes","unchecked"})
-public class AuthzThirdpartyServiceImpl extends BaseServiceImpl<AuthzThirdpartyModel, IAuthzThirdpartyDao>
+public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThirdpartyModel, IAuthzThirdpartyDao>
 		implements IAuthzThirdpartyService {
 	
 	private List<ThirdpartyBindingProvider> bindingProviders;
@@ -46,10 +48,11 @@ public class AuthzThirdpartyServiceImpl extends BaseServiceImpl<AuthzThirdpartyM
 		
 	}
 	
+	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int unbind(ThirdpartyType type, String openid) throws AuthenticationException {
-		AuthzThirdpartyModel model = getDao().getModelByOpenId(type.name(), openid);
+	public int unbindByUnionid(ThirdpartyType type, String unionid) throws AuthenticationException {
+		AuthzThirdpartyModel model = this.getModelByUnionId(type, unionid);
 		if(null == model) {
 			return 0;
 		}
@@ -58,14 +61,31 @@ public class AuthzThirdpartyServiceImpl extends BaseServiceImpl<AuthzThirdpartyM
 				provider.unbind(model);
 			}
 		}
-		int ct = getDao().delete(model.getId());
+		int ct = getBaseMapper().deleteById(model.getId());
+		return ct;
+	}
+
+	
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int unbindByOpenid(ThirdpartyType type, String openid) throws AuthenticationException {
+		AuthzThirdpartyModel model = this.getModelByOpenId(type, openid);
+		if(null == model) {
+			return 0;
+		}
+		for (ThirdpartyBindingProvider provider : getBindingProviders()) {
+			if(provider.getType().equals(model.getType())) {
+				provider.unbind(model);
+			}
+		}
+		int ct = getBaseMapper().deleteById(model.getId());
 		return ct;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int unbindByUid(ThirdpartyType type, String uid) throws AuthenticationException {
-		AuthzThirdpartyModel model = getDao().getModelByUid(type.name(), uid);
+		AuthzThirdpartyModel model = this.getModelByUid(type, uid);
 		if(null == model) {
 			return 0;
 		}
@@ -74,22 +94,54 @@ public class AuthzThirdpartyServiceImpl extends BaseServiceImpl<AuthzThirdpartyM
 				provider.unbind(model);
 			}
 		}
-		int ct = getDao().delete(model.getId());
+		int ct = getBaseMapper().deleteById(model.getId());
 		return ct;
 	}	
+
+	@Override
+	public AuthzThirdpartyModel getModelByUnionId(ThirdpartyType type, String unionid) {
+		AuthzThirdpartyModel model = getBaseMapper().selectOne(new QueryWrapper<AuthzThirdpartyModel>()
+				.eq("t_type", type.name())
+				.eq("t_unionid", unionid));
+		return model;
+	}
+
+	@Override
+	public AuthzThirdpartyModel getModelByOpenId(ThirdpartyType type, String openid) {
+		AuthzThirdpartyModel model = getBaseMapper().selectOne(new QueryWrapper<AuthzThirdpartyModel>()
+				.eq("t_type", type.name())
+				.eq("t_openid", openid));
+		return model;
+	}
+	
+	@Override
+	public AuthzThirdpartyModel getModelByUid(ThirdpartyType type, String uid) {
+		AuthzThirdpartyModel model = getBaseMapper().selectOne(new QueryWrapper<AuthzThirdpartyModel>()
+				.eq("t_type", type.name())
+				.eq("u_id", uid));
+		return model;
+	}
+	
+	@Override
+	public int getCountByUnionId(String unionid) {
+		return getBaseMapper().selectCount(new QueryWrapper<AuthzThirdpartyModel>().eq("t_unionid", unionid));
+	}
 	
     @Override
     public int getCountByOpenId(String openid) {
-        return dao.getCountByOpenId(openid);
+        return getBaseMapper().selectCount(new QueryWrapper<AuthzThirdpartyModel>().eq("t_openid", openid));
     }
 
 	@Override
 	public int getCountByUid(ThirdpartyType type, String uid) {
-		return getDao().getCountByUid(type.name(), uid);
+		return getBaseMapper().selectCount(new QueryWrapper<AuthzThirdpartyModel>()
+				.eq("t_type", type.name())
+				.eq("u_id", uid));
 	}
-	 
+	
 	public List<ThirdpartyBindingProvider> getBindingProviders() {
 		return bindingProviders;
 	}
+
 	
 }

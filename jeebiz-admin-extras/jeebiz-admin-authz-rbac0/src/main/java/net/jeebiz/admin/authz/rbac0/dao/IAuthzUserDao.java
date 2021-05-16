@@ -13,12 +13,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 /**
  * 用户管理DAO
  */
 @Mapper
-public interface IAuthzUserDao extends BaseDao<AuthzUserModel>{
+public interface IAuthzUserDao extends BaseMapper<AuthzUserModel>{
 
 	/**
 	 * 通过用户id查询用户信息

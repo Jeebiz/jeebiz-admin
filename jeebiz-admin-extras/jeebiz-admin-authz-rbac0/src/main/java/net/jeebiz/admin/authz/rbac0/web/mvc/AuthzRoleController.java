@@ -131,8 +131,8 @@ public class AuthzRoleController extends BaseApiController {
 		model.setKey(RandomStringUtils.random(10,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
 		// 角色类型（1:原生|2:继承|3:复制|4:自定义）
 		model.setType("4");
-		int result = getAuthzRoleService().insert(model);
-		if(result > 0) {
+		boolean result = getAuthzRoleService().save(model);
+		if(result) {
 			return success("role.new.success", result);
 		}
 		return fail("role.new.fail");
@@ -184,7 +184,7 @@ public class AuthzRoleController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresPermissions("role:detail")
 	public ApiRestResponse<AuthzRoleDTO> detail(@RequestParam("id") String id) throws Exception {
-		AuthzRoleModel model = getAuthzRoleService().getModel(id);
+		AuthzRoleModel model = getAuthzRoleService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("role.get.empty"));
 		}
@@ -218,12 +218,9 @@ public class AuthzRoleController extends BaseApiController {
 	@RequiresPermissions("role:delete")
 	public ApiRestResponse<String> deleteByIds(@RequestBody List<String> ids) throws Exception {
 		if (!CollectionUtils.isEmpty(ids)) {
-			int total = getAuthzRoleService().batchDelete(ids);
-			if(total > 0) {
+			boolean total = getAuthzRoleService().removeByIds(ids);
+			if(total) {
 				return success("role.delete.success", total);
-			}
-			if (total == -1){
-				return fail("role.user.not-empty");
 			}
 			return fail("role.delete.fail", total);
 		}

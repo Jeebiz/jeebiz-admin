@@ -14,14 +14,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 /**
  * 角色管理Dao
  * @author hiwepy
  */
 @Mapper
-public interface IAuthzRoleDao extends BaseDao<AuthzRoleModel>{
+public interface IAuthzRoleDao extends BaseMapper<AuthzRoleModel>{
 		
     /**
      * 给角色分配用户

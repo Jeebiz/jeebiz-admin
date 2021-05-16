@@ -13,12 +13,12 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
 /**
  * @author hiwepy
  */
-public interface IAuthzRoleService extends IBaseService<AuthzRoleModel>{
+public interface IAuthzRoleService extends IBaseMapperService<AuthzRoleModel>{
     
 	/**
 	 * 执行分配用户逻辑操作
@@ -61,5 +61,9 @@ public interface IAuthzRoleService extends IBaseService<AuthzRoleModel>{
 	 * @return
 	 */
 	public Page<AuthzUserModel> getPagedUnAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO);
+
+	int update(AuthzRoleModel model);
+
+	int delete(String id);
 	
 }

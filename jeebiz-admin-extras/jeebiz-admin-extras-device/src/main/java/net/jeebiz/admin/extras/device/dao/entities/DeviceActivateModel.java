@@ -33,7 +33,7 @@ public class DeviceActivateModel extends BaseEntity<DeviceActivateModel> {
 	 * 主键，自增
 	 */
 	@TableId(value="id",type= IdType.AUTO)
-	private Long id;
+	private String id;
 	/**
 	 * 应用ID
 	 */

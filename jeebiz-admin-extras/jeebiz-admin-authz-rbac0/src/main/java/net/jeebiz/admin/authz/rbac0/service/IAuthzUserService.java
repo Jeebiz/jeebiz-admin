@@ -11,13 +11,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
 
 /**
  * 用户管理Service接口
  */
-public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
+public interface IAuthzUserService extends IBaseMapperService<AuthzUserModel> {
 	
 	/**
 	 * 查询系统所有用户
@@ -85,5 +85,9 @@ public interface IAuthzUserService extends IBaseService<AuthzUserModel> {
 	 * @return
 	 */
 	public Page<AuthzRoleModel> getPagedUnAllocatedList(AuthzUserModel model);
+
+	int delete(String id);
+
+	int update(AuthzUserModel model);
 
 }

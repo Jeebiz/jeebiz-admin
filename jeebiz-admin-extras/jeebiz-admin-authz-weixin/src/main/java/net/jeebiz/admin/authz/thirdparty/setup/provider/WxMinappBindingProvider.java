@@ -19,12 +19,12 @@ import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserDao;
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserProfileDao;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserProfileModel;
+import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
+import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyUserProfileService;
+import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyUserService;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzWeixinMaBindDTO;
 import net.jeebiz.boot.api.XHeaders;
@@ -42,11 +42,11 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
     // 默认密码
  	private String defaultPassword = "123456";
 	@Autowired
-	private IAuthzThirdpartyDao authzThirdpartyDao;
+	private IAuthzThirdpartyService authzThirdpartyService;
 	@Autowired
-	private IAuthzThirdpartyUserDao authzThirdpartyUserDao;
+	private IAuthzThirdpartyUserService authzThirdpartyUserService;
 	@Autowired
-	private IAuthzThirdpartyUserProfileDao authzThirdpartyUserProfileDao;
+	private IAuthzThirdpartyUserProfileService authzThirdpartyUserProfileService;
 	@Autowired
 	private WxMaService wxMaService;
 	
@@ -63,9 +63,9 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 			// 根据jscode获取会话信息
 			WxMaJscode2SessionResult sessionResult = getWxMaService().jsCode2SessionInfo(bindDTO.getJscode());
 			// 判断是否已经完成绑定
-			int rt = getAuthzThirdpartyDao().getCountByUid(sessionResult.getOpenid());
+			int rt = getAuthzThirdpartyService().getCountByUid(sessionResult.getOpenid());
 			if(rt > 0) {
-				AuthzThirdpartyModel model = getAuthzThirdpartyDao().getModelByOpenId(this.getType().name(), sessionResult.getOpenid());
+				AuthzThirdpartyModel model = getAuthzThirdpartyService().getModelByOpenId(this.getType(), sessionResult.getOpenid());
 				return model;
 			}
 			
@@ -88,10 +88,10 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 	        userModel.setPassword(hash.toBase64());
 	        // Uid检查重复
 	 		String uid = randomString.nextNumberString();
-	 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
+	 		while (getAuthzThirdpartyUserService().getCountByUid(uid) != 0) {
 	 			uid = randomString.nextNumberString();
 	 		}
-	 		userModel.setUid(uid);
+	 		userModel.setUuid(uid);
 			userModel.setUsername(phoneNumberInfo.getPurePhoneNumber());
 			String appId = request.getHeader(XHeaders.X_APP_ID);
 			String appChannel = request.getHeader(XHeaders.X_APP_CHANNEL);
@@ -102,7 +102,7 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 			userModel.setAppId(appId);
 			userModel.setAppChannel(appChannel);
 			userModel.setAppVer(appVersion);
-			getAuthzThirdpartyUserDao().insert(userModel);
+			getAuthzThirdpartyUserService().save(userModel);
 			// 创建本地关联用户详情
 			AuthzThirdpartyUserProfileModel userProfileModel = new AuthzThirdpartyUserProfileModel();
 			userProfileModel.setUid(userModel.getId());
@@ -115,7 +115,7 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 			userProfileModel.setLanguage(userInfo.getLanguage());
 			userProfileModel.setCountryCode(phoneNumberInfo.getCountryCode());
 			userProfileModel.setPhone(phoneNumberInfo.getPhoneNumber());
-			getAuthzThirdpartyUserProfileDao().insert(userProfileModel);
+			getAuthzThirdpartyUserProfileService().save(userProfileModel);
 			
 			// 创建本地关联用户第三方登录信息
 			AuthzThirdpartyModel model = new AuthzThirdpartyModel();
@@ -123,7 +123,7 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 			model.setUid(userModel.getId());
 			model.setOpenid(sessionResult.getOpenid());
 			model.setUnionid(sessionResult.getUnionid());
-			getAuthzThirdpartyDao().insert(model);
+			getAuthzThirdpartyService().save(model);
 			
 			return model;
 		} catch (WxErrorException e) {
@@ -136,16 +136,16 @@ public class WxMinappBindingProvider implements ThirdpartyBindingProvider<AuthzW
 		return 0;
 	}
 	
-	public IAuthzThirdpartyDao getAuthzThirdpartyDao() {
-		return authzThirdpartyDao;
+	public IAuthzThirdpartyService getAuthzThirdpartyService() {
+		return authzThirdpartyService;
 	}
 	
-	public IAuthzThirdpartyUserDao getAuthzThirdpartyUserDao() {
-		return authzThirdpartyUserDao;
+	public IAuthzThirdpartyUserService getAuthzThirdpartyUserService() {
+		return authzThirdpartyUserService;
 	}
 	
-	public IAuthzThirdpartyUserProfileDao getAuthzThirdpartyUserProfileDao() {
-		return authzThirdpartyUserProfileDao;
+	public IAuthzThirdpartyUserProfileService getAuthzThirdpartyUserProfileService() {
+		return authzThirdpartyUserProfileService;
 	}
 	
 	public WxMaService getWxMaService() {

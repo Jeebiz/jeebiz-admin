@@ -8,14 +8,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserProfileModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 /**
  * 用户详情管理DAO
  * @author hiwepy
  */
 @Mapper
-public interface IAuthzThirdpartyUserProfileDao extends BaseDao<AuthzThirdpartyUserProfileModel>{
+public interface IAuthzThirdpartyUserProfileDao extends BaseMapper<AuthzThirdpartyUserProfileModel>{
 
 	/**
 	 * 根据手机号查询相同手机号数量

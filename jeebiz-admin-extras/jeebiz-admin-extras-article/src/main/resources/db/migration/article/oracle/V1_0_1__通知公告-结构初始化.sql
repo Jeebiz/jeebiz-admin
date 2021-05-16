@@ -37,7 +37,7 @@ create table sys_article_topic (
   t_remark		CLOB,
   t_order		NUMBER(3) DEFAULT 0,
   t_status		NUMBER(1) DEFAULT 0,
-  T_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  t_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT PK_ARTICLE_TOPIc_tid PRIMARY KEY (t_id)
 );
 
@@ -50,7 +50,7 @@ comment on column sys_article_topic.t_cid IS '文章分类id';
 comment on column sys_article_topic.t_remark IS '文章栏目备注';
 comment on column sys_article_topic.t_status IS '文章栏目状态（0:禁用|1:可用）';
 comment on column sys_article_topic.t_order IS '文章栏目排序';
-comment on column sys_article_topic.T_time24 IS '文章栏目创建时间';
+comment on column sys_article_topic.t_time24 IS '文章栏目创建时间';
 
 -- Create table
 create table sys_article_contents (
@@ -163,7 +163,7 @@ create table sys_article_content_tags (
   t_id   VARCHAR2(32) DEFAULT sys_guid() NOT NULL,
   t_cid  VARCHAR2(32) NOT NULL,
   t_name VARCHAR2(20),
-  T_time24 	VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  t_time24 	VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT PK_ARTICLE_TAG_Tid PRIMARY KEY (t_id)
 );
 
@@ -171,7 +171,7 @@ comment on table sys_article_content_tags is '文章标签表';
 comment on column sys_article_content_tags.t_id is '文章标签id';
 comment on column sys_article_content_tags.t_cid is '文章id';
 comment on column sys_article_content_tags.t_name is '文章标签名称';
-comment on column sys_article_content_tags.T_time24 is '文章标签设置时间';
+comment on column sys_article_content_tags.t_time24 is '文章标签设置时间';
 
 -- Create table
 create table SYS_ARTICLE_MESSAGES (

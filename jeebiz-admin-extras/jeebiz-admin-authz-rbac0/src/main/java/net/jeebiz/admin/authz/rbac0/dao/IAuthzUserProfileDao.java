@@ -8,14 +8,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 /**
  * 用户详情管理DAO
  * @author hiwepy
  */
 @Mapper
-public interface IAuthzUserProfileDao extends BaseDao<AuthzUserProfileModel>{
+public interface IAuthzUserProfileDao extends BaseMapper<AuthzUserProfileModel>{
 
 	/**
 	 * 根据用户Id查询用户信息

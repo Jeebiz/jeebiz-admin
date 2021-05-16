@@ -10,8 +10,10 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
+import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
+import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyUserProfileService;
+import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyUserService;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkBindDTO;
 
@@ -19,7 +21,11 @@ import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkBindDTO;
 public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzDingtalkBindDTO> {
 
 	@Autowired
-	private IAuthzThirdpartyDao authzThirdpartyDao;
+	private IAuthzThirdpartyService authzThirdpartyService;
+	@Autowired
+	private IAuthzThirdpartyUserService authzThirdpartyUserService;
+	@Autowired
+	private IAuthzThirdpartyUserProfileService authzThirdpartyUserProfileService;
 	
 	@Override
 	public ThirdpartyType getType() {
@@ -42,8 +48,16 @@ public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzD
 		return 0;
 	}
 	
-	public IAuthzThirdpartyDao getAuthzThirdpartyDao() {
-		return authzThirdpartyDao;
+	public IAuthzThirdpartyService getAuthzThirdpartyService() {
+		return authzThirdpartyService;
+	}
+	
+	public IAuthzThirdpartyUserService getAuthzThirdpartyUserService() {
+		return authzThirdpartyUserService;
+	}
+	
+	public IAuthzThirdpartyUserProfileService getAuthzThirdpartyUserProfileService() {
+		return authzThirdpartyUserProfileService;
 	}
 
 }

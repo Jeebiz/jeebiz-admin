@@ -4,7 +4,7 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `$${table-prefix}device_activate`;
 CREATE TABLE `$${table-prefix}device_activate` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `app_id` varchar(11) DEFAULT NULL COMMENT '设备安装的客户端应用ID',
   `app_channel` varchar(255) DEFAULT NULL COMMENT '设备安装的客户端应用渠道编码',
   `app_version` varchar(20) DEFAULT NULL COMMENT '设备安装的客户端版本',
@@ -37,8 +37,8 @@ CREATE TABLE `$${table-prefix}device_activate` (
 -- ----------------------------
 DROP TABLE IF EXISTS `$${table-prefix}device_users`;
 CREATE TABLE `$${table-prefix}device_users` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `device_id` bigint(11) DEFAULT NULL COMMENT '设备激活记录ID',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `device_id` bigint(12) DEFAULT NULL COMMENT '设备激活记录ID',
   `u_app_id` varchar(11) DEFAULT NULL COMMENT '用户登录的客户端应用ID',
   `u_app_channel` varchar(255) DEFAULT NULL COMMENT '用户登录的客户端应用渠道编码',
   `u_app_version` varchar(20) DEFAULT NULL COMMENT '用户登录的客户端版本',

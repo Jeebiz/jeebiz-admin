@@ -18,7 +18,7 @@
 		<!-- 第三方认证账号扩展信息 -->
 		<result property="rawdata" column="t_rawdata" />
 		<!-- 第三方账号绑定时间 -->
-		<result property="time24" column="T_time24" />
+		<result property="time24" column="t_time24" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzThirdpartyModel" flushCache="true">
@@ -104,7 +104,7 @@
 			t.t_openid,
 			t.t_devid,
 			t.t_rawdata,
-			t.T_time24
+			t.t_time24
 		FROM sys_authz_user_thirdparty t
 	   WHERE t.u_id = #{uid}
 	     AND t.t_type = #{type}
@@ -119,7 +119,7 @@
 			t.t_openid,
 			t.t_devid,
 			t.t_rawdata,
-			t.T_time24
+			t.t_time24
 		FROM sys_authz_user_thirdparty t
 	   WHERE t.t_unionid = #{unionid}
 	     AND t.t_type = #{type}
@@ -134,7 +134,7 @@
 			t.t_openid,
 			t.t_devid,
 			t.t_rawdata,
-			t.T_time24
+			t.t_time24
 		FROM sys_authz_user_thirdparty t
 	   WHERE t.t_openid = #{openid}
 	     AND t.t_type = #{type}
@@ -149,7 +149,7 @@
 			t.t_openid,
 			t.t_devid,
 			t.t_rawdata,
-			t.T_time24
+			t.t_time24
 		FROM sys_authz_user_thirdparty t
 	   WHERE t.t_id = #{id}
 	</select>
@@ -164,7 +164,7 @@
 			t.t_openid,
 			t.t_devid,
 			t.t_rawdata,
-			t.T_time24
+			t.t_time24
 		FROM sys_authz_user_thirdparty t INNER JOIN sys_authz_user_list t2 ON t.u_id = t2.u_id
 	</select>
 

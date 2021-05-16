@@ -73,24 +73,48 @@ public class AuthzThirdpartyController extends BaseMapperController {
 		
 	}
 
-	@ApiOperation(value = "解绑定第三方账号登录", notes = "删除登录账号绑定的第三方登录账号")
+	@ApiOperation(value = "通过Unionid解绑定第三方账号登录", notes = "删除登录账号绑定的第三方登录账号")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "type", required = true, value = "第三方账号类型：(wxma:微信小程序,wxmp:微信公众号,qq:腾讯QQ,weibo:新浪微博,yiban:易班,)", dataType = "String", 
 				allowableValues = "wxma,wxmp,qq,weibo,yiban"),
-		@ApiImplicitParam(name = "openid", required = true, value = "第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）", dataType = "String")
+		@ApiImplicitParam(name = "unionid", required = true, value = "第三方平台Unionid（通常指第三方账号体系下用户的唯一id）", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_THIRDPT, business = "删除登录账号绑定的第三方登录账号", opt = BusinessType.DELETE)
-	@GetMapping("unbind")
+	@GetMapping("unbind/unionid")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<String> unbind(@Valid @RequestParam("type") String type, @RequestParam("openid") String openid) throws Exception {
+	public ApiRestResponse<String> unbindByUnionid(@Valid @RequestParam("type") String type, @RequestParam("unionid") String unionid) throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 判断用户是否已经有绑定
 		int count = getAuthzThirdpartyService().getCountByUid(ThirdpartyType.valueOfIgnoreCase(type), principal.getUserid());
 		if(count == 0) {
 			return fail("authz.thirdparty.unbind.not-found"); 
 		}
-		int total = getAuthzThirdpartyService().unbind(ThirdpartyType.valueOfIgnoreCase(type), openid);
+		int total = getAuthzThirdpartyService().unbindByUnionid(ThirdpartyType.valueOfIgnoreCase(type), unionid);
+		if(total > 0) {
+			return success("authz.thirdparty.unbind.success", total); 
+		}
+		return fail("authz.thirdparty.unbind.fail"); 
+	}
+	
+	@ApiOperation(value = "通过Openid解绑定第三方账号登录", notes = "删除登录账号绑定的第三方登录账号")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "type", required = true, value = "第三方账号类型：(wxma:微信小程序,wxmp:微信公众号,qq:腾讯QQ,weibo:新浪微博,yiban:易班,)", dataType = "String", 
+				allowableValues = "wxma,wxmp,qq,weibo,yiban"),
+		@ApiImplicitParam(name = "openid", required = true, value = "第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）", dataType = "String")
+	})
+	@BusinessLog(module = Constants.AUTHZ_THIRDPT, business = "删除登录账号绑定的第三方登录账号", opt = BusinessType.DELETE)
+	@GetMapping("unbind/openid")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<String> unbindByOpenid(@Valid @RequestParam("type") String type, @RequestParam("openid") String openid) throws Exception {
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		// 判断用户是否已经有绑定
+		int count = getAuthzThirdpartyService().getCountByUid(ThirdpartyType.valueOfIgnoreCase(type), principal.getUserid());
+		if(count == 0) {
+			return fail("authz.thirdparty.unbind.not-found"); 
+		}
+		int total = getAuthzThirdpartyService().unbindByOpenid(ThirdpartyType.valueOfIgnoreCase(type), openid);
 		if(total > 0) {
 			return success("authz.thirdparty.unbind.success", total); 
 		}

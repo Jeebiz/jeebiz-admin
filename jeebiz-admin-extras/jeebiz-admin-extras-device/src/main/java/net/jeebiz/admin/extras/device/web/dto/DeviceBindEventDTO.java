@@ -22,7 +22,7 @@ public class DeviceBindEventDTO {
 	 * 设备关联的用户ID（用户信息表ID）
 	 */
 	@ApiModelProperty(name = "uid", dataType = "Long", value = "设备关联的用户ID（用户信息表ID）")
-	private Long uid;
+	private String uid;
 	/**
 	 * 应用ID
 	 */

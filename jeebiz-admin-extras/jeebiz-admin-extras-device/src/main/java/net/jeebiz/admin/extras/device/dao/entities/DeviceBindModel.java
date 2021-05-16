@@ -35,7 +35,7 @@ public class DeviceBindModel extends Model<DeviceBindModel> implements Cloneable
 	 * 主键，自增
 	 */
 	@TableId(value="id", type= IdType.AUTO)
-	private Long id;
+	private String id;
 	/**
 	 * 应用ID
 	 */
@@ -55,7 +55,7 @@ public class DeviceBindModel extends Model<DeviceBindModel> implements Cloneable
 	 *设备记录ID
 	 */
 	@TableField(value = "device_id")
-    private Long deviceId;
+    private String deviceId;
 	/**
 	 * 是否删除 0未删除 1已删除
 	 */
@@ -65,7 +65,7 @@ public class DeviceBindModel extends Model<DeviceBindModel> implements Cloneable
 	 * 创建人id
 	 */
 	@TableField(value = "creator")
-	private Long creator;
+	private String creator;
 	/**
 	 * 创建时间
 	 */
@@ -75,7 +75,7 @@ public class DeviceBindModel extends Model<DeviceBindModel> implements Cloneable
 	 * 更新人id
 	 */
 	@TableField(value = "modifyer")
-	private Long modifyer;
+	private String modifyer;
 	/**
 	 * 更新时间
 	 */

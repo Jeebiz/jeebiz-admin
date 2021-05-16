@@ -5,13 +5,13 @@
 package net.jeebiz.admin.authz.rbac0.service;
 
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileModel;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
 
 /**
  * 用户详情管理Service接口
  */
-public interface IAuthzUserProfileService extends IBaseService<AuthzUserProfileModel> {
+public interface IAuthzUserProfileService extends IBaseMapperService<AuthzUserProfileModel> {
 
 	/**
 	 * 根据用户Id查询用户信息

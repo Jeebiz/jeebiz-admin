@@ -8,19 +8,19 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.collect.Lists;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.PaginationModel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "AuthzRoleModel")
 @SuppressWarnings("serial")
-@Getter
-@Setter
-@ToString
-public class AuthzRoleModel extends PaginationModel<AuthzRoleModel> {
+@TableName(value = "sys_authz_role_list")
+@Data
+@EqualsAndHashCode(callSuper=false)
+public class AuthzRoleModel extends PaginationEntity<AuthzRoleModel> {
 
 	/**
 	 * 角色id

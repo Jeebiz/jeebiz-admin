@@ -97,7 +97,7 @@ public class AuthzUserController extends BaseMapperController {
 	@GetMapping("detailById")
 	@RequiresPermissions("user:detail")
 	public ApiRestResponse<AuthzUserDTO> detailById(@RequestParam String id) throws Exception {
-		AuthzUserModel model = getAuthzUserService().getModel(id);
+		AuthzUserModel model = getAuthzUserService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
@@ -110,7 +110,7 @@ public class AuthzUserController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<AuthzUserDTO> detail() throws Exception { 
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		AuthzUserModel model = getAuthzUserService().getModel(principal.getUserid());
+		AuthzUserModel model = getAuthzUserService().getById(principal.getUserid());
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
@@ -162,8 +162,8 @@ public class AuthzUserController extends BaseMapperController {
 		model.setAppChannel(appChannel);
 		model.setAppVer(appVersion);
 		
-		int result = getAuthzUserService().insert(model);
-		if(result == 1) {
+		boolean result = getAuthzUserService().save(model);
+		if(result) {
 			return success("user.new.success", result);
 		}
 		return fail("user.new.fail", result);
@@ -230,8 +230,8 @@ public class AuthzUserController extends BaseMapperController {
 	public ApiRestResponse<String> delUsersByIds(@RequestParam String ids) throws Exception {
 		// 执行用户id删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-		int total = getAuthzUserService().batchDelete(idList);
-		if(total > 0) {
+		boolean total = getAuthzUserService().removeByIds(idList);
+		if(total) {
 			return success("user.delete.success", total); 
 		}
 		return fail("user.delete.fail", total);

@@ -4,6 +4,8 @@
  */
 package net.jeebiz.admin.authz.rbac0.service.impl;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,12 +25,12 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 import net.jeebiz.boot.api.utils.CollectionUtils;
 import net.jeebiz.boot.api.utils.RandomString;
 
 @Service
-public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthzUserDao> implements IAuthzUserService {
+public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, IAuthzUserDao> implements IAuthzUserService {
 	
 	protected RandomString randomString = new RandomString(8);
 
@@ -44,17 +46,17 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
 	
 	@Override
 	public List<AuthzUserModel> getUserList() {
-		return getDao().getUserList();
+		return getBaseMapper().getUserList();
 	}
 	
 	@Override
 	public int setStatus(String userId, String status) {
-		return getDao().setStatus(userId, status);
+		return getBaseMapper().setStatus(userId, status);
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int insert(AuthzUserModel model) {
+	public boolean save(AuthzUserModel model) {
 		
 		// 盐值，用于和密码混合起来用
         String salt = randomString.nextString();
@@ -65,38 +67,38 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
         model.setPassword(hash.toBase64());
         // Uid检查重复
  		String uid = randomString.nextNumberString();
- 		while (getDao().getCountByUid(uid) != 0) {
+ 		while (getBaseMapper().getCountByUid(uid) != 0) {
  			uid = randomString.nextNumberString();
  		}
-        model.setUid(uid);
-		int ct = getDao().insert(model);
+        model.setUuid(uid);
+		int ct = getBaseMapper().insert(model);
 		getAuthzRoleDao().setUsers(model.getRoleId(), Lists.newArrayList(model.getId()));
-		return ct;
+		return ct > 0;
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int batchDelete(List<?> list) {
-		if(CollectionUtils.isEmpty(list)) {
-			return 0;
+	public boolean removeByIds(Collection<? extends Serializable> idList) {
+		if(CollectionUtils.isEmpty(idList)) {
+			return false;
 		}
-		getDao().batchDeleteRole(list);
-		return getDao().batchDelete(list);
+		//getBaseMapper().batchDeleteRole(idList);
+		return getBaseMapper().deleteBatchIds(idList) > 0;
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int delete(String id) {
-		getDao().deleteRole(id);
-		return getDao().delete(id);
+		getBaseMapper().deleteRole(id);
+		return getBaseMapper().deleteById(id);
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int update(AuthzUserModel model) {
-		int ct = getDao().update(model);
+		int ct = getBaseMapper().updateById(model);
 		if(StringUtils.isNotBlank(model.getRoleId())) {
-			getDao().updateRole(model);
+			getBaseMapper().updateRole(model);
 		}
 		return ct;
 	}
@@ -105,14 +107,14 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
 	@Transactional(rollbackFor = Exception.class)
 	public int resetPwd(String userId, String oldPassword, String password) {
 		// 查询用户信息
-		AuthzUserModel model = getDao().getModel(userId);
+		AuthzUserModel model = getBaseMapper().selectById(userId);
         // 通过SimpleHash 来进行加密操作
         SimpleHash oldHash = new SimpleHash(algorithmName, oldPassword, model.getSalt(), hashIterations);
         if (!StringUtils.equals(oldHash.toBase64(), model.getPassword())) {
         	return 0;
         }
         SimpleHash newHash = new SimpleHash(algorithmName, password, model.getSalt(), hashIterations);
-		return getDao().updatePwd(userId, newHash.toBase64());
+		return getBaseMapper().updatePwd(userId, newHash.toBase64());
 	}
 	
 	@Override
@@ -131,12 +133,12 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
 	
 	@Override
 	public List<AuthzRoleModel> getRoles(String userId) {
-		return getDao().getRoles(userId);
+		return getBaseMapper().getRoles(userId);
 	}
 	
 	@Override
 	public List<String> getPermissions(String userId) {
-		return getDao().getPermissions(userId);
+		return getBaseMapper().getPermissions(userId);
 	}
 	
 	@Override
@@ -149,7 +151,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
 			}
 		}
 		
-		List<AuthzRoleModel> records = getDao().getPagedAllocatedList(page, model);
+		List<AuthzRoleModel> records = getBaseMapper().getPagedAllocatedList(page, model);
 		page.setRecords(records);
 		
 		return page;
@@ -166,7 +168,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserModel, IAuthz
 			}
 		}
 		
-		List<AuthzRoleModel> records = getDao().getPagedUnAllocatedList(page, model);
+		List<AuthzRoleModel> records = getBaseMapper().getPagedUnAllocatedList(page, model);
 		page.setRecords(records);
 		
 		return page;
