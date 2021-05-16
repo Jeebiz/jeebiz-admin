@@ -26,7 +26,7 @@
 		<!-- 文章栏目排序 -->
 		<result property="order" column="t_order" />
 		<!-- 文章栏目创建时间 -->
-		<result property="time24" column="T_time24" />
+		<result property="time24" column="t_time24" />
     </resultMap>
 	
     <resultMap id="PairMap" type="PairModel">
@@ -82,7 +82,7 @@
 			(SELECT x.C_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
 			t.t_status,
 			t.t_order,
-			t.T_time24
+			t.t_time24
 		FROM sys_article_topic t
 		<where>
 			<if test="model.status != null and model.status != ''">
@@ -108,7 +108,7 @@
 			(SELECT x.C_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
 			t.t_status,
 			t.t_order,
-			t.T_time24
+			t.t_time24
 		FROM sys_article_topic t
 	   WHERE t.t_id = #{id}
 	</select>
@@ -126,7 +126,7 @@
 			(SELECT x.C_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
 			t.t_status,
 			t.t_order,
-			t.T_time24
+			t.t_time24
 	   FROM sys_article_topic t
 	  WHERE t.t_status != 0
 	  START WITH t.t_pid = 0 CONNECT BY t.t_pid = PRIOR t.t_id

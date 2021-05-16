@@ -10,7 +10,7 @@
 		<!-- 文章标签名称 -->
 		<result property="name" column="t_name" />
 		<!-- 文章标签设置时间 -->
-		<result property="time24" column="T_time24" />
+		<result property="time24" column="t_time24" />
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleTagModel" flushCache="true">
@@ -35,10 +35,10 @@
 			t.t_id,
 			t.t_cid,
 			t.t_name,
-			t.T_time24
+			t.t_time24
 		FROM sys_article_content_tags t
 	   WHERE t.t_cid = #{cid}
-	ORDER By t.T_time24 ASC
+	ORDER By t.t_time24 ASC
 	</select>
 
 </mapper>

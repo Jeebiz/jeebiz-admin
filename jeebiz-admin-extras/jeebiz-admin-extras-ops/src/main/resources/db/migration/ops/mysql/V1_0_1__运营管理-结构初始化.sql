@@ -4,11 +4,11 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `$${table-prefix}ops_stats`;
 CREATE TABLE `sys_data_ops_stats` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `day` datetime NOT NULL COMMENT '统计日期',
-  `dr` bigint(11) NOT NULL COMMENT '新增注册用户数',
-  `dau` bigint(11) NOT NULL COMMENT '当日活跃用户数',
-  `pay_number` bigint(11) NOT NULL COMMENT '付费用户数',
+  `dr` bigint(12) NOT NULL COMMENT '新增注册用户数',
+  `dau` bigint(12) NOT NULL COMMENT '当日活跃用户数',
+  `pay_number` bigint(12) NOT NULL COMMENT '付费用户数',
   `pay_amount` float(11,0) NOT NULL COMMENT '付费金额（元）',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人id',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
