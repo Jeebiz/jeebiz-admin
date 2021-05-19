@@ -162,8 +162,8 @@ public class AuthzFeatureController extends BaseMapperController{
 		 * 菜单类型(1:原生|2:自定义)
 		 */
 		model.setType("2");
-		int total = getAuthzFeatureService().insert(model);
-		if(total > 0) {
+		boolean total = getAuthzFeatureService().save(model);
+		if(total) {
 			// 删除菜单缓存
 			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 			return success("feature.new.success", total);
@@ -181,8 +181,8 @@ public class AuthzFeatureController extends BaseMapperController{
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzFeatureRenewDTO featureDTO) throws Exception { 
 		AuthzFeatureModel model = getBeanMapper().map(featureDTO, AuthzFeatureModel.class);
-		int total = getAuthzFeatureService().update(model);
-		if(total > 0) {
+		boolean total = getAuthzFeatureService().updateById(model);
+		if(total) {
 			// 删除菜单缓存
 			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 			return success("feature.renew.success", total);
@@ -199,7 +199,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@RequiresPermissions("feature:detail")
 	@ResponseBody
 	public ApiRestResponse<AuthzFeatureDTO> detail(@RequestParam("id") String id) throws Exception {
-		AuthzFeatureModel model = getAuthzFeatureService().getModel(id);
+		AuthzFeatureModel model = getAuthzFeatureService().getFeature(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("feature.get.empty"));
 		}
@@ -221,8 +221,8 @@ public class AuthzFeatureController extends BaseMapperController{
 			return fail("feature.delete.child-exists");
 		}
 		
-		int total = getAuthzFeatureService().delete(id);
-		if(total > 0) {
+		boolean total = getAuthzFeatureService().removeById(id);
+		if(total) {
 			// 删除菜单缓存
 			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 			return success("feature.delete.success", total);

@@ -32,7 +32,7 @@ CREATE TABLE `sys_authz_feature_opts` (
   `opt_name` varchar(50) NOT NULL COMMENT '功能操作名称',
   `opt_icon` varchar(100) DEFAULT NULL COMMENT '功能操作图标样式',
   `opt_order` int(2) NOT NULL COMMENT '显示顺序',
-  `OPT_VISIBLE` int(1) NOT NULL COMMENT '是否可见(1:可见|0:不可见)',
+  `opt_visible` int(1) NOT NULL COMMENT '是否可见(1:可见|0:不可见)',
   `opt_perms` varchar(50) NOT NULL COMMENT '权限标记',
   PRIMARY KEY (`opt_id`),
   UNIQUE KEY (`f_id`,`opt_perms`)

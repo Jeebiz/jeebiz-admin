@@ -10,10 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IAuthzFeatureDao extends BaseDao<AuthzFeatureModel> {
+public interface IAuthzFeatureDao extends BaseMapper<AuthzFeatureModel> {
 
 	/**
 	 * 查询所有的功能菜单
@@ -27,5 +27,7 @@ public interface IAuthzFeatureDao extends BaseDao<AuthzFeatureModel> {
 	 * @return
 	 */
 	public List<AuthzFeatureModel> getChildFeatureList(@Param("id") String id);
+
+	public AuthzFeatureModel getFeature(@Param("id") String id);
 	
 }

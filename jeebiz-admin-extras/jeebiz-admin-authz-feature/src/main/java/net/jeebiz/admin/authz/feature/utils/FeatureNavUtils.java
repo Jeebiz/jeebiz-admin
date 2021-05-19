@@ -35,7 +35,7 @@ public final class FeatureNavUtils {
 				// 功能操作图标样式
 				optDTO.setIcon(opt.getIcon());
 				// 功能操作排序
-				optDTO.setOrder(opt.getOrder());
+				optDTO.setOrder(opt.getOrderBy());
 				// 功能菜单id
 				optDTO.setFeatureId( opt.getFeatureId());
 				optDTO.setParent(opt.getFeatureId());
@@ -77,7 +77,7 @@ public final class FeatureNavUtils {
 				// 菜单样式或菜单图标路径
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrdeBy());
 				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
@@ -148,7 +148,7 @@ public final class FeatureNavUtils {
 					// 菜单样式或菜单图标路径
 					featureDTO.setIcon(feature.getIcon());
 					// 菜单显示顺序
-					featureDTO.setOrder(feature.getOrder());
+					featureDTO.setOrder(feature.getOrdeBy());
 					// 父级功能菜单id
 					featureDTO.setParent(feature.getParent());
 					featureDTO.setPid(feature.getParent());
@@ -213,7 +213,7 @@ public final class FeatureNavUtils {
 				// 菜单样式或菜单图标路径
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrdeBy());
 				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
@@ -282,7 +282,7 @@ public final class FeatureNavUtils {
 				// 菜单样式或菜单图标路径
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrdeBy());
 				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
@@ -354,7 +354,7 @@ public final class FeatureNavUtils {
 			// 菜单样式或菜单图标路径
 			featureDTO.setIcon(feature.getIcon());
 			// 菜单显示顺序
-			featureDTO.setOrder(feature.getOrder());
+			featureDTO.setOrder(feature.getOrdeBy());
 			// 父级功能菜单id
 			featureDTO.setParent(feature.getParent());
 			featureDTO.setPid(feature.getParent());
@@ -397,7 +397,7 @@ public final class FeatureNavUtils {
 				// 菜单样式或菜单图标路径
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrdeBy());
 				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
@@ -534,7 +534,7 @@ public final class FeatureNavUtils {
 				// 菜单样式或菜单图标路径
 				featureDTO.setIcon(feature.getIcon());
 				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrder());
+				featureDTO.setOrder(feature.getOrdeBy());
 				// 父级功能菜单id
 				featureDTO.setParent(feature.getParent());
 				featureDTO.setPid(feature.getParent());
@@ -597,7 +597,7 @@ public final class FeatureNavUtils {
 		// 菜单样式或菜单图标路径
 		featureDTO.setIcon(feature.getIcon());
 		// 菜单显示顺序
-		featureDTO.setOrder(feature.getOrder());
+		featureDTO.setOrder(feature.getOrdeBy());
 		// 父级功能菜单id
 		featureDTO.setParent(feature.getParent());
 		featureDTO.setPid(feature.getParent());

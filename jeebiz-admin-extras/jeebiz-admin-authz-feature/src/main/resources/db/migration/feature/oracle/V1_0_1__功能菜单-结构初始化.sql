@@ -39,7 +39,7 @@ create table sys_authz_feature_opts
   	opt_name 		VARCHAR2(100) not null,
   	opt_icon		VARCHAR2(60),
   	opt_order 		VARCHAR2(2),
-  	OPT_VISIBLE 	VARCHAR2(1) default '0' not null,
+  	opt_visible 	VARCHAR2(1) default '0' not null,
   	opt_perms 		VARCHAR2(50),
   	CONSTRAINT UNIQUE_Fid_opt_perms UNIQUE(f_id, opt_perms),
   	CONSTRAINT PK_opt_id PRIMARY KEY(opt_id)
@@ -52,5 +52,5 @@ comment on column sys_authz_feature_opts.opt_id  is '功能操作信息表id';
 comment on column sys_authz_feature_opts.opt_name  is '功能操作名称';
 comment on column sys_authz_feature_opts.opt_icon  is '功能操作图标样式';
 comment on column sys_authz_feature_opts.opt_order is '显示顺序';
-comment on column sys_authz_feature_opts.OPT_VISIBLE  is '是否可见(1:可见|0:不可见)';
+comment on column sys_authz_feature_opts.opt_visible  is '是否可见(1:可见|0:不可见)';
 comment on column sys_authz_feature_opts.opt_perms is '权限标记';

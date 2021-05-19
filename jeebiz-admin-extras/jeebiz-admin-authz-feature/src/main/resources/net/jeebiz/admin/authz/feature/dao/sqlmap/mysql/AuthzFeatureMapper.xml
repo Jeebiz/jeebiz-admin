@@ -19,29 +19,6 @@
 		<result property="perms" column="f_perms" />
 	</resultMap>
 	
-	<insert id="insert" parameterType="AuthzFeatureModel" flushCache="true">
-		insert into sys_authz_feature_list(f_code,f_name,f_abb,f_url,f_path,f_type,f_icon,f_order,f_parent,f_visible)
-		values(#{code},#{name},#{abb},#{url},#{path,jdbcType=VARCHAR},#{type},#{icon},#{order},#{parent,jdbcType=VARCHAR},'1')
-	</insert>
-	
-	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_feature_list WHERE f_id = #{id}
-	</delete>
-	
-	<update id="update" parameterType="AuthzFeatureModel" flushCache="true">
-		update sys_authz_feature_list t
-		<set>
-			<if test="name != null and name != ''">t.f_name = #{name},</if>
-			<if test="abb != null and abb != ''">t.f_abb = #{abb},</if>
-			<if test="url != null and url != ''">t.f_url = #{url},</if>
-			<if test="path != null and path != ''">t.f_path = #{path},</if>
-			<if test="icon != null and icon != ''">t.f_icon = #{icon},</if>
-			<if test="order != null and order != ''">t.f_order = #{order},</if>
-			<if test="visible != null and visible != ''">t.f_visible = #{visible}</if>
-		</set>
-		where t.f_id = #{id}
-	</update>
-	
 	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.f_id)
 		  FROM sys_authz_feature_list t
@@ -57,7 +34,7 @@
 		 </if>
 	</select>
 	
-	<select id="getModel" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="true">
+	<select id="getFeature" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.f_id,
 			t.f_code,

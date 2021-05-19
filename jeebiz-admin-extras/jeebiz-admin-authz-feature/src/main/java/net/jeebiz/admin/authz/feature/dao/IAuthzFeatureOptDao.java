@@ -4,16 +4,19 @@
  */
 package net.jeebiz.admin.authz.feature.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IAuthzFeatureOptDao extends BaseDao<AuthzFeatureOptModel> {
+public interface IAuthzFeatureOptDao extends BaseMapper<AuthzFeatureOptModel> {
+
+	public AuthzFeatureOptModel getFeatureOpt(@Param(value = "id") String id);
 	
 	public List<AuthzFeatureOptModel> getFeatureOpts();
 	
@@ -21,6 +24,6 @@ public interface IAuthzFeatureOptDao extends BaseDao<AuthzFeatureOptModel> {
 	
 	public int getOptCountByName(@Param(value = "name") String name, @Param(value = "featureId") String featureId, @Param(value = "optId") String optId);
 	
-	public int deleteByParent(@Param(value = "id") String id);
+	public int deleteByParent(@Param(value = "id") Serializable id);
 	
 }

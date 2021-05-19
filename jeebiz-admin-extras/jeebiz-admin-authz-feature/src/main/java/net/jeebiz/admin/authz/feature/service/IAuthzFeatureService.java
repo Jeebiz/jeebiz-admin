@@ -7,21 +7,23 @@ package net.jeebiz.admin.authz.feature.service;
 import java.util.List;
 
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
-public interface IAuthzFeatureService extends IBaseService<AuthzFeatureModel>{
+public interface IAuthzFeatureService extends IBaseMapperService<AuthzFeatureModel>{
 
 	/**
-	 * ²éÑ¯ËùÓÐµÄ¹¦ÄÜ²Ëµ¥
+	 * ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ÐµÄ¹ï¿½ï¿½Ü²Ëµï¿½
 	 * @return
 	 */
 	public List<AuthzFeatureModel> getFeatureList();
 	
 	/**
-	 * ²éÑ¯Ö¸¶¨¸¸¼¶²Ëµ¥ÏÂËùÓÐ¿ÉÓÃµÄ²Ëµ¥
+	 * ï¿½ï¿½Ñ¯Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½ÃµÄ²Ëµï¿½
 	 * @param id
 	 * @return
 	 */
 	public List<AuthzFeatureModel> getChildFeatureList(String id);
+
+	public AuthzFeatureModel getFeature(String id);
 	
 }

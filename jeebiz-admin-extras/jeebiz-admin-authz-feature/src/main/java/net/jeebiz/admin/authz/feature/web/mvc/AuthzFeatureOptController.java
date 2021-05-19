@@ -57,8 +57,8 @@ public class AuthzFeatureOptController extends BaseMapperController{
 			return fail("opt.new.name-exists");
 		}
 		AuthzFeatureOptModel model = getBeanMapper().map(optDTO, AuthzFeatureOptModel.class);
-		int total = getAuthzFeatureOptService().insert(model);
-		if(total > 0) {
+		boolean total = getAuthzFeatureOptService().save(model);
+		if(total) {
 			// 删除菜单缓存
 			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 			return success("opt.new.success", total);
@@ -80,8 +80,8 @@ public class AuthzFeatureOptController extends BaseMapperController{
 			return fail("opt.new.name-exists");
 		}
 		AuthzFeatureOptModel model = getBeanMapper().map(optDTO, AuthzFeatureOptModel.class);
-		int total = getAuthzFeatureOptService().update(model);
-		if(total > 0) {
+		boolean total = getAuthzFeatureOptService().updateById(model);
+		if(total) {
 			// 删除菜单缓存
 	        getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 			return success("opt.renew.success", total);
@@ -97,7 +97,7 @@ public class AuthzFeatureOptController extends BaseMapperController{
 	@RequiresPermissions("opt:detail")
 	@ResponseBody
 	public ApiRestResponse<AuthzFeatureOptDTO> detail(@RequestParam("id") String id) throws Exception {
-		AuthzFeatureOptModel model = getAuthzFeatureOptService().getModel(id);
+		AuthzFeatureOptModel model = getAuthzFeatureOptService().getFeatureOpt(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("opt.get.empty"));
 		}
@@ -113,8 +113,8 @@ public class AuthzFeatureOptController extends BaseMapperController{
 	@RequiresPermissions("opt:delete")
 	@ResponseBody
 	public ApiRestResponse<String> delOpt(@RequestParam("id") String id) throws Exception { 
-		int total = getAuthzFeatureOptService().delete(id);
-		if(total > 0) {
+		boolean total = getAuthzFeatureOptService().removeById(id);
+		if(total) {
 			// 删除菜单缓存
 			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 			return success("opt.delete.success", total);

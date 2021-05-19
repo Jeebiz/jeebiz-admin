@@ -9,12 +9,12 @@
 		<result property="name" column="opt_name" />
 		<result property="icon" column="opt_icon" />
 		<result property="order" column="opt_order" />
-		<result property="visible" column="OPT_VISIBLE" />
+		<result property="visible" column="opt_visible" />
 		<result property="perms" column="opt_perms" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzFeatureOptModel" flushCache="true">
-		insert into sys_authz_feature_opts(f_id,opt_name,opt_icon,opt_order,OPT_VISIBLE,opt_perms)
+		insert into sys_authz_feature_opts(f_id,opt_name,opt_icon,opt_order,opt_visible,opt_perms)
 		values(#{featureId},#{name},#{icon},#{order},#{visible},#{perms})
 	</insert>
 	
@@ -32,7 +32,7 @@
 			<if test="name != null and name != ''">t.opt_name = #{name},</if>
 			<if test="icon != null and icon != ''">t.opt_icon = #{icon},</if>
 			<if test="order != null and order != ''">t.opt_order = #{order},</if>
-			<if test="visible != null and visible != ''">t.OPT_VISIBLE = #{visible},</if>
+			<if test="visible != null and visible != ''">t.opt_visible = #{visible},</if>
 			<if test="perms != null and perms != ''">t.opt_perms = #{perms}</if>
 		</set>
 		where t.opt_id = #{id}
@@ -55,7 +55,7 @@
 			t.opt_name,
 			t.opt_icon,
 			t.opt_order,
-			t.OPT_VISIBLE,
+			t.opt_visible,
 			t.opt_perms
 		FROM sys_authz_feature_opts t
 	</select>
@@ -67,7 +67,7 @@
 			t.opt_name,
 			t.opt_icon,
 			t.opt_order,
-			t.OPT_VISIBLE,
+			t.opt_visible,
 			t.opt_perms
 		FROM sys_authz_feature_opts t
 	   <where>
@@ -75,7 +75,7 @@
 				and t.f_id = #{featureId}
 			</if>
 			<if test="visible != null and visible != ''">
-				and t.OPT_VISIBLE = #{visible}
+				and t.opt_visible = #{visible}
 			</if>
 		</where>
 	</select>
@@ -87,7 +87,7 @@
 		t.opt_name,
 		t.opt_icon,
 		t.opt_order,
-		t.OPT_VISIBLE,
+		t.opt_visible,
 		t.opt_perms
 		FROM sys_authz_feature_opts t
 		WHERE t.opt_id = #{id}
