@@ -25,7 +25,7 @@
 		<result property="name" column="opt_name" />
 		<result property="icon" column="opt_icon" />
 		<result property="order" column="opt_order" />
-		<result property="visible" column="OPT_VISIBLE" />
+		<result property="visible" column="opt_visible" />
 		<result property="perms" column="opt_perms" />
 		<result property="checked" column="opt_checked" />
 	</resultMap>
@@ -69,7 +69,7 @@
 			t.opt_name,
 			t.opt_icon,
 			t.opt_order,
-			t.OPT_VISIBLE,
+			t.opt_visible,
 			t.opt_perms,
 			(CASE WHEN (SELECT COUNT(x.perms)
 				 FROM sys_authz_role_perms x
@@ -116,7 +116,7 @@
 			t.opt_name,
 			t.opt_icon,
 			t.opt_order,
-			t.OPT_VISIBLE,
+			t.opt_visible,
 			t.opt_perms,
 			(CASE WHEN (SELECT COUNT(x.perms)
 				 FROM sys_authz_role_perms x
