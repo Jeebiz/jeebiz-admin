@@ -7,17 +7,24 @@ package net.jeebiz.admin.authz.org.dao.entities;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.Alias;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.PaginationModel;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "AuthzOrganizationModel")
 @SuppressWarnings("serial")
-@Getter
-@Setter
-@ToString
-public class AuthzOrganizationModel extends PaginationModel<AuthzOrganizationModel> {
+@TableName(value = "sys_authz_org_list")
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
+public class AuthzOrganizationModel extends PaginationEntity<AuthzOrganizationModel> {
 
 	/**
 	 * 机构id编号
@@ -38,7 +45,7 @@ public class AuthzOrganizationModel extends PaginationModel<AuthzOrganizationMod
 	/**
 	 * 父级机构id编号
 	 */
-	private String parent = "0";
+	private String parent;
 	/**
 	 * 机构创建人id
 	 */

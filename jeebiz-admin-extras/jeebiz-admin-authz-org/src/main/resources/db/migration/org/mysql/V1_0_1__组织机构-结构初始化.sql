@@ -15,7 +15,11 @@ CREATE TABLE `sys_authz_org_list` (
   `org_parent` bigint(12) DEFAULT 0 COMMENT '父级机构id编号',
   `org_uid` bigint(12) NOT NULL COMMENT '机构创建人id',
   `org_status` varchar(1) DEFAULT '0' COMMENT '机构状态（0:禁用|1:可用）',
-  `time24` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '机构创建时间',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`org_id`),
   UNIQUE KEY `UNIQUE_org_code` (`org_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='机构信息表';
@@ -33,16 +37,20 @@ CREATE TABLE `sys_authz_org_dept` (
   `dept_parent` bigint(12) DEFAULT NULL COMMENT '父级部门id编号',
   `dept_uid` bigint(12) NOT NULL COMMENT '部门创建人id',
   `dept_status` varchar(1) DEFAULT '0' COMMENT '部门状态（0:禁用|1:可用）',
-  `time24` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '部门创建时间',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`dept_id`),
   UNIQUE KEY `UNIQUE_dept_code` (`dept_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门信息表';
 
 -- ----------------------------
--- Table structure for SYS_AUTHZ_ORG_POST
+-- Table structure for sys_authz_org_post
 -- ----------------------------
-DROP TABLE IF EXISTS `SYS_AUTHZ_ORG_POST`;
-CREATE TABLE `SYS_AUTHZ_ORG_POST` (
+DROP TABLE IF EXISTS `sys_authz_org_post`;
+CREATE TABLE `sys_authz_org_post` (
   `dept_id` bigint(12) NOT NULL COMMENT '部门id编号',
   `post_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '岗位id编号',
   `POST_CODE` varchar(30) DEFAULT NULL COMMENT '岗位编码',
@@ -50,7 +58,11 @@ CREATE TABLE `SYS_AUTHZ_ORG_POST` (
   `post_intro` varchar(500) COMMENT '岗位简介',
   `post_uid` bigint(12) NOT NULL COMMENT '岗位创建人id',
   `post_status` varchar(1) DEFAULT '0' COMMENT '岗位状态（0:禁用|1:可用）',
-  `time24` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '岗位创建时间',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`post_id`),
   UNIQUE KEY `UNIQUE_POST_CODE` (`POST_CODE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位信息表';
@@ -66,7 +78,11 @@ CREATE TABLE `sys_authz_org_staff` (
   `staff_id` bigint(12) NOT NULL COMMENT  '员工id编码（用户id）',
   `staff_intro` varchar(500) COMMENT '员工简介',
   `staff_status` varchar(1) DEFAULT '0' COMMENT '员工状态（0:禁用|1:可用）',
-  `time24` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '员工入职时间',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   UNIQUE KEY `UNIQUE_ORG_STAFF` (`org_id`,`dept_id`,`post_id`,`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组织机构关联表';
 
@@ -82,7 +98,11 @@ CREATE TABLE `sys_authz_org_team` (
   `team_intro` varchar(500) COMMENT '团队简介',
   `team_uid` bigint(12) NOT NULL COMMENT '团队创建人id',
   `team_status` varchar(1) DEFAULT '0' COMMENT '团队状态（0:禁用|1:可用）',
-  `time24` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '团队创建时间',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='团队信息表';
 

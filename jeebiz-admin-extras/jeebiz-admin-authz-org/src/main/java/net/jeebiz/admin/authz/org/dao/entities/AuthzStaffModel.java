@@ -6,17 +6,24 @@ package net.jeebiz.admin.authz.org.dao.entities;
 
 import org.apache.ibatis.type.Alias;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.PaginationModel;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "AuthzStaffModel")
 @SuppressWarnings("serial")
-@Getter
-@Setter
-@ToString
-public class AuthzStaffModel extends PaginationModel<AuthzStaffModel> {
+@TableName(value = "sys_authz_org_staff")
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
+public class AuthzStaffModel extends PaginationEntity<AuthzStaffModel> {
 
 	/**
 	 * 机构id编号
