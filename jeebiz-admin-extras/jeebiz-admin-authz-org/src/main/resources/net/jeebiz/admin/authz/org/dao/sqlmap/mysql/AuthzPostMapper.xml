@@ -23,29 +23,29 @@
 	</resultMap>
 
 	<insert id="insert" parameterType="AuthzPostModel" flushCache="true">
-		insert into SYS_AUTHZ_ORG_POST(dept_id,POST_CODE,post_name,post_intro,post_status,post_uid)
+		insert into sys_authz_org_post(dept_id,POST_CODE,post_name,post_intro,post_status,post_uid)
 		values(#{deptId},#{code},#{name},#{intro,jdbcType=VARCHAR},'1',#{uid})
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_POST WHERE post_id = #{id}
+		DELETE FROM sys_authz_org_post WHERE post_id = #{id}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_AUTHZ_ORG_POST WHERE post_id IN
+		DELETE FROM sys_authz_org_post WHERE post_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
 			#{item}
 		</foreach>
 	</delete>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_AUTHZ_ORG_POST t
+		UPDATE sys_authz_org_post t
 		   SET post_status = #{status}
 		 WHERE post_id = #{id}
 	</update>
 
 	<update id="update" parameterType="AuthzPostModel" flushCache="true">
-		update SYS_AUTHZ_ORG_POST t
+		update sys_authz_org_post t
 		<set>
 			<if test="deptId != null and deptId != ''">t.dept_id = #{deptId},</if>
 			<if test="code != null and code != ''">t.POST_CODE = #{code},</if>
@@ -58,7 +58,7 @@
 	
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.post_id)
-		  FROM SYS_AUTHZ_ORG_POST t 
+		  FROM sys_authz_org_post t
 		 WHERE t.POST_CODE = #{code}
 		<if test="origin != null and origin != ''">
 			AND t.post_id != #{origin}
@@ -67,7 +67,7 @@
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.post_id)
-		  FROM SYS_AUTHZ_ORG_POST t 
+		  FROM sys_authz_org_post t
 		 WHERE t.post_name = #{name}
 		 <if test="origin != null and origin != ''">
 			AND t.post_id != #{origin}
@@ -87,7 +87,7 @@
 			t.post_uid,
 			t.post_status,
 			t.time24
-		FROM SYS_AUTHZ_ORG_POST t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM sys_authz_org_post t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
 				and t2.org_id = #{model.orgId}
@@ -115,7 +115,7 @@
 			t.post_uid,
 			t.post_status,
 			t.time24
-		FROM SYS_AUTHZ_ORG_POST t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM sys_authz_org_post t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 	   WHERE t.post_id = #{id}
 	</select>
 	
@@ -132,7 +132,7 @@
 			t.post_uid,
 			t.post_status,
 			t.time24
-		FROM SYS_AUTHZ_ORG_POST t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM sys_authz_org_post t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 		<if test="key != null and key != ''">
 			WHERE t.post_id = #{key}
 		</if>
@@ -140,7 +140,7 @@
 
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
 	   SELECT t.post_id,t.post_name
-		 FROM SYS_AUTHZ_ORG_POST t 
+		 FROM sys_authz_org_post t
 		WHERE t.post_status = 1
 		<if test="key != null and key != ''">
 			AND t.dept_id = #{key}
