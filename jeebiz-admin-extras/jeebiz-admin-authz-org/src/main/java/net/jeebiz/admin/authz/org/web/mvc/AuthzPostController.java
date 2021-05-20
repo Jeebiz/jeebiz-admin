@@ -108,10 +108,10 @@ public class AuthzPostController extends BaseApiController {
 	public ApiRestResponse<String> post(@Valid @RequestBody AuthzPostNewDTO postDTO) throws Exception {
 		AuthzPostModel model = getBeanMapper().map(postDTO, AuthzPostModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setUid(principal.getUserid());
+		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
-		int result = getAuthzPostService().insert(model);
-		if(result > 0) {
+		boolean result = getAuthzPostService().save(model);
+		if(result) {
 			return success("authz.post.new.success", result);
 		}
 		return fail("authz.post.new.fail", result);
@@ -126,8 +126,8 @@ public class AuthzPostController extends BaseApiController {
 	@RequiresPermissions("authz-post:renew")
 	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzPostRenewDTO postDTO) throws Exception {
 		AuthzPostModel model = getBeanMapper().map(postDTO, AuthzPostModel.class);
-		int result = getAuthzPostService().update(model);
-		if(result == 1) {
+		boolean result = getAuthzPostService().updateById(model);
+		if(result) {
 			return success("authz.post.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -160,8 +160,8 @@ public class AuthzPostController extends BaseApiController {
 	@RequiresPermissions("authz-post:delete")
 	public ApiRestResponse<String> delete(@RequestParam("id") String id) throws Exception {
 		// 执行岗位信息删除操作
-		int result = getAuthzPostService().delete(id);
-		if(result > 0) {
+		boolean result = getAuthzPostService().removeById(id);
+		if(result) {
 			return success("authz.post.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

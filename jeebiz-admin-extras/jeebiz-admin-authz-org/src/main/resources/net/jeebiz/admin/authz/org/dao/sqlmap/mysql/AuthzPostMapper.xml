@@ -9,7 +9,7 @@
 		<result property="orgName" column="org_name" />
 		<result property="deptId" column="dept_id" />
 		<result property="deptName" column="dept_name" />
-		<result property="code" column="POST_CODE" />
+		<result property="code" column="post_code" />
 		<result property="name" column="post_name" />
 		<result property="intro" column="post_intro" />
 		<result property="uid" column="post_uid" />
@@ -23,7 +23,7 @@
 	</resultMap>
 
 	<insert id="insert" parameterType="AuthzPostModel" flushCache="true">
-		insert into sys_authz_org_post(dept_id,POST_CODE,post_name,post_intro,post_status,post_uid)
+		insert into sys_authz_org_post(dept_id,post_code,post_name,post_intro,post_status,post_uid)
 		values(#{deptId},#{code},#{name},#{intro,jdbcType=VARCHAR},'1',#{uid})
 	</insert>
 
@@ -48,7 +48,7 @@
 		update sys_authz_org_post t
 		<set>
 			<if test="deptId != null and deptId != ''">t.dept_id = #{deptId},</if>
-			<if test="code != null and code != ''">t.POST_CODE = #{code},</if>
+			<if test="code != null and code != ''">t.post_code = #{code},</if>
 			<if test="name != null and name != ''">t.post_name = #{name},</if>
 			<if test="intro != null and intro != ''">t.post_intro = #{intro},</if>
 			<if test="status != null and status != ''">t.post_status = #{status}</if>
@@ -59,7 +59,7 @@
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.post_id)
 		  FROM sys_authz_org_post t
-		 WHERE t.POST_CODE = #{code}
+		 WHERE t.post_code = #{code}
 		<if test="origin != null and origin != ''">
 			AND t.post_id != #{origin}
 		 </if>
@@ -81,7 +81,7 @@
 			t.dept_id,
 			t2.dept_name,
 			t.post_id,
-			t.POST_CODE,
+			t.post_code,
 			t.post_name,
 			t.post_intro,
 			t.post_uid,
@@ -109,7 +109,7 @@
 			t.dept_id,
 			t2.dept_name,
 			t.post_id,
-			t.POST_CODE,
+			t.post_code,
 			t.post_name,
 			t.post_intro,
 			t.post_uid,
@@ -126,7 +126,7 @@
 			t.dept_id,
 			t2.dept_name,
 			t.post_id,
-			t.POST_CODE,
+			t.post_code,
 			t.post_name,
 			t.post_intro,
 			t.post_uid,

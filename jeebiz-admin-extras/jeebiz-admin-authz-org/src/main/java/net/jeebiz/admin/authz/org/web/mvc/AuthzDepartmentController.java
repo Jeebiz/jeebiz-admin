@@ -118,10 +118,10 @@ public class AuthzDepartmentController extends BaseApiController {
 		
 		AuthzDepartmentModel model = getBeanMapper().map(deptDTO, AuthzDepartmentModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setUid(principal.getUserid());
+		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
-		int result = getAuthzDepartmentService().insert(model);
-		if(result > 0) {
+		boolean result = getAuthzDepartmentService().save(model);
+		if(result) {
 			return success("authz.dept.new.success", result);
 		}
 		return fail("authz.dept.new.fail", result);
@@ -146,8 +146,8 @@ public class AuthzDepartmentController extends BaseApiController {
 		}
 		
 		AuthzDepartmentModel model = getBeanMapper().map(deptDTO, AuthzDepartmentModel.class);
-		int result = getAuthzDepartmentService().update(model);
-		if(result == 1) {
+		boolean result = getAuthzDepartmentService().updateById(model);
+		if(result) {
 			return success("authz.dept.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -189,8 +189,8 @@ public class AuthzDepartmentController extends BaseApiController {
 			return fail("authz.dept.delete.staff-exists");
 		}
 		
-		int result = getAuthzDepartmentService().delete(id);
-		if(result > 0) {
+		boolean result = getAuthzDepartmentService().removeById(id);
+		if(result) {
 			return success("authz.dept.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

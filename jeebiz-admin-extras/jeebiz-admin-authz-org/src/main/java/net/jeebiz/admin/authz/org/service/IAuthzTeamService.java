@@ -5,9 +5,9 @@
 package net.jeebiz.admin.authz.org.service;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzTeamModel;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
-public interface IAuthzTeamService extends IBaseService<AuthzTeamModel> {
+public interface IAuthzTeamService extends IBaseMapperService<AuthzTeamModel> {
 	
 	/**
 	 * 根据名称获取记录数

@@ -8,10 +8,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzDepartmentModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IAuthzDepartmentDao extends BaseDao<AuthzDepartmentModel> {
+public interface IAuthzDepartmentDao extends BaseMapper<AuthzDepartmentModel> {
 
 	/**
 	 * 根据编码获取记录数

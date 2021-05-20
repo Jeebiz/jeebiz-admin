@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.authz.org.dao.IAuthzPostDao;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzPostModel;
 import net.jeebiz.admin.authz.org.service.IAuthzPostService;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
-public class AuthzPostServiceImpl extends BaseServiceImpl<AuthzPostModel, IAuthzPostDao> implements IAuthzPostService{
+public class AuthzPostServiceImpl extends BaseMapperServiceImpl<AuthzPostModel, IAuthzPostDao> implements IAuthzPostService{
 
 }

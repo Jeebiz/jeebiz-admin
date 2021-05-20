@@ -26,10 +26,10 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzTeamModel;
 import net.jeebiz.admin.authz.org.service.IAuthzTeamService;
 import net.jeebiz.admin.authz.org.setup.Constants;
+import net.jeebiz.admin.authz.org.web.dto.AuthzTeamDTO;
 import net.jeebiz.admin.authz.org.web.dto.AuthzTeamNewDTO;
 import net.jeebiz.admin.authz.org.web.dto.AuthzTeamPaginationDTO;
 import net.jeebiz.admin.authz.org.web.dto.AuthzTeamRenewDTO;
-import net.jeebiz.admin.authz.org.web.dto.AuthzTeamDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -111,10 +111,10 @@ public class AuthzTeamController extends BaseApiController {
 		}
 		AuthzTeamModel model = getBeanMapper().map(teamDTO, AuthzTeamModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setUid(principal.getUserid());
+		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
-		int result = getAuthzTeamService().insert(model);
-		if(result > 0) {
+		boolean result = getAuthzTeamService().save(model);
+		if(result) {
 			return success("authz.team.new.success", result);
 		}
 		return fail("authz.team.new.fail", result);
@@ -133,8 +133,8 @@ public class AuthzTeamController extends BaseApiController {
 			return fail("authz.team.renew.name-exists");
 		}
 		AuthzTeamModel model = getBeanMapper().map(teamDTO, AuthzTeamModel.class);
-		int result = getAuthzTeamService().update(model);
-		if(result == 1) {
+		boolean result = getAuthzTeamService().updateById(model);
+		if(result) {
 			return success("authz.team.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -172,8 +172,8 @@ public class AuthzTeamController extends BaseApiController {
 			return fail("authz.team.delete.staff-exists");
 		}
 		// 执行团队信息删除操作
-		int result = getAuthzTeamService().delete(id);
-		if(result > 0) {
+		boolean result = getAuthzTeamService().removeById(id);
+		if(result) {
 			return success("authz.team.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

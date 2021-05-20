@@ -4,10 +4,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzTeamModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IAuthzTeamDao extends BaseDao<AuthzTeamModel> {
+public interface IAuthzTeamDao extends BaseMapper<AuthzTeamModel> {
 
 	/**
 	 * 根据名称获取记录数

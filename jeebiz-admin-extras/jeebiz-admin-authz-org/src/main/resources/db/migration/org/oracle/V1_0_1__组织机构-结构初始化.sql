@@ -75,7 +75,7 @@ create table sys_authz_org_post
 (
 	dept_id    		VARCHAR2(32) not null,
 	post_id   		VARCHAR2(32) default sys_guid() not null,
-  	POST_CODE 		VARCHAR2(30) not null,
+  	post_code 		VARCHAR2(30) not null,
   	post_name		VARCHAR2(100) not null,
   	post_intro 		VARCHAR2(500),
   	post_uid		VARCHAR2(32) not null,
@@ -85,7 +85,7 @@ create table sys_authz_org_post
 	create_time		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
 	modifyer		VARCHAR2(32),
 	modify_time		VARCHAR2(32),
-  	CONSTRAINT UNIQUE_POST_CODE UNIQUE(POST_CODE),
+  	CONSTRAINT UNIQUE_POST_CODE UNIQUE(post_code),
   	CONSTRAINT PK_post_id PRIMARY KEY(post_id)
 );
 -- Add comments to the table 
@@ -93,7 +93,7 @@ comment on table sys_authz_org_post  is '岗位信息表';
 -- Add comments to the columns 
 comment on column sys_authz_org_post.dept_id  is '部门id编号';
 comment on column sys_authz_org_post.post_id  is '岗位id编号';
-comment on column sys_authz_org_post.POST_CODE  is '岗位编码';
+comment on column sys_authz_org_post.post_code  is '岗位编码';
 comment on column sys_authz_org_post.post_name  is '岗位名称';
 comment on column sys_authz_org_post.post_intro is '岗位简介';
 comment on column sys_authz_org_post.post_uid is '岗位创建人id';

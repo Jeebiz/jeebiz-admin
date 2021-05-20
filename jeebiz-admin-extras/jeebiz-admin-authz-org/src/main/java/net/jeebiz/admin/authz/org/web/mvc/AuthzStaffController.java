@@ -70,8 +70,8 @@ public class AuthzStaffController extends BaseApiController {
 	@RequiresPermissions("authz-staff:new")
 	public ApiRestResponse<String> staff(@Valid @RequestBody AuthzStaffNewDTO staffDTO) throws Exception {
 		AuthzStaffModel model = getBeanMapper().map(staffDTO, AuthzStaffModel.class);
-		int result = getAuthzStaffService().insert(model);
-		if(result > 0) {
+		boolean result = getAuthzStaffService().save(model);
+		if(result) {
 			return success("authz.staff.new.success", result);
 		}
 		return fail("authz.staff.new.fail", result);
@@ -86,8 +86,8 @@ public class AuthzStaffController extends BaseApiController {
 	@RequiresPermissions("authz-staff:renew")
 	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzStaffRenewDTO staffDTO) throws Exception {
 		AuthzStaffModel model = getBeanMapper().map(staffDTO, AuthzStaffModel.class);
-		int result = getAuthzStaffService().update(model);
-		if(result == 1) {
+		boolean result = getAuthzStaffService().updateById(model);
+		if(result) {
 			return success("authz.staff.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -120,8 +120,8 @@ public class AuthzStaffController extends BaseApiController {
 	@RequiresPermissions("authz-staff:delete")
 	public ApiRestResponse<String> delete(@RequestParam("id") String id) throws Exception {
 		// 执行员工信息删除操作
-		int result = getAuthzStaffService().delete(id);
-		if(result > 0) {
+		boolean result = getAuthzStaffService().removeById(id);
+		if(result) {
 			return success("authz.staff.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

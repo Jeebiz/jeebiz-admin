@@ -101,10 +101,10 @@ public class AuthzOrganizationController extends BaseMapperController {
 		}
 		AuthzOrganizationModel model = getBeanMapper().map(orgDTO, AuthzOrganizationModel.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setUid(principal.getUserid());
+		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
-		int result = getAuthzOrganizationService().insert(model);
-		if(result > 0) {
+		boolean result = getAuthzOrganizationService().save(model);
+		if(result) {
 			return success("authz.org.new.success", result);
 		}
 		return fail("authz.org.new.fail", result);
@@ -130,8 +130,8 @@ public class AuthzOrganizationController extends BaseMapperController {
 		}
 		
 		AuthzOrganizationModel model = getBeanMapper().map(orgDTO, AuthzOrganizationModel.class);
-		int result = getAuthzOrganizationService().update(model);
-		if(result == 1) {
+		boolean result = getAuthzOrganizationService().updateById(model);
+		if(result) {
 			return success("authz.org.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -174,8 +174,8 @@ public class AuthzOrganizationController extends BaseMapperController {
 		}
 		
 		// 执行机构信息删除操作
-		int result = getAuthzOrganizationService().delete(id);
-		if(result > 0) {
+		boolean result = getAuthzOrganizationService().removeById(id);
+		if(result) {
 			return success("authz.org.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

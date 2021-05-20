@@ -10,10 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzOrganizationModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IAuthzOrganizationDao extends BaseDao<AuthzOrganizationModel> {
+public interface IAuthzOrganizationDao extends BaseMapper<AuthzOrganizationModel> {
 
 	int getRootCount();
 	

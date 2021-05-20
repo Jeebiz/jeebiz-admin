@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.authz.org.dao.IAuthzStaffDao;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzStaffModel;
 import net.jeebiz.admin.authz.org.service.IAuthzStaffService;
-import net.jeebiz.boot.api.service.BaseServiceImpl;
+import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
-public class AuthzStaffServiceImpl extends BaseServiceImpl<AuthzStaffModel, IAuthzStaffDao> implements IAuthzStaffService{
+public class AuthzStaffServiceImpl extends BaseMapperServiceImpl<AuthzStaffModel, IAuthzStaffDao> implements IAuthzStaffService{
 
 }

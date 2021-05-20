@@ -31,7 +31,7 @@ public class AuthzTeamModel extends PaginationEntity<AuthzTeamModel> {
 	/**
 	 * 机构id编号
 	 */
-	@TableField(value = "u_app_id")
+	@TableField(value = "org_id")
 	private String orgId;
 	/**
 	 * 机构名称
@@ -41,7 +41,7 @@ public class AuthzTeamModel extends PaginationEntity<AuthzTeamModel> {
 	/**
 	 * 部门id编号
 	 */
-	@TableField(value = "u_app_id")
+	@TableField(value = "dept_id")
 	private String deptId;
 	/**
 	 * 部门名称
@@ -51,28 +51,18 @@ public class AuthzTeamModel extends PaginationEntity<AuthzTeamModel> {
 	/**
 	 * 团队id编号
 	 */
-	@TableId(value="id", type= IdType.AUTO)
+	@TableId(value="team_id", type= IdType.AUTO)
 	private String id;
-	/**
-	 * 团队编码
-	 */
-	@TableField(value = "u_app_channel")
-	private String code;
 	/**
 	 * 团队名称
 	 */
-	@TableField(value = "u_app_channel")
+	@TableField(value = "team_name")
 	private String name;
 	/**
 	 * 团队简介
 	 */
-	@TableField(value = "u_app_channel")
+	@TableField(value = "team_intro")
 	private String intro;
-	/**
-	 * 团队创建人id
-	 */
-	@TableField(value = "u_app_channel")
-	private String uid;
 	/**
 	 * 团队创建人名称
 	 */
@@ -81,7 +71,7 @@ public class AuthzTeamModel extends PaginationEntity<AuthzTeamModel> {
 	/**
 	 * 团队状态（0:禁用|1:可用）
 	 */
-	@TableField(value = "u_app_channel")
+	@TableField(value = "team_status")
 	private String status;
 
 }

@@ -5,8 +5,8 @@
 package net.jeebiz.admin.authz.org.service;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzStaffModel;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
-public interface IAuthzStaffService extends IBaseService<AuthzStaffModel> {
+public interface IAuthzStaffService extends IBaseMapperService<AuthzStaffModel> {
 	
 }

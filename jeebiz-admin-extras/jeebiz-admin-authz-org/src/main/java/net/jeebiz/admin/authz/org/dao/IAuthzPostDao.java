@@ -7,9 +7,9 @@ package net.jeebiz.admin.authz.org.dao;
 import org.apache.ibatis.annotations.Mapper;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzPostModel;
-import net.jeebiz.boot.api.dao.BaseDao;
+import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IAuthzPostDao extends BaseDao<AuthzPostModel> {
+public interface IAuthzPostDao extends BaseMapper<AuthzPostModel> {
 
 }
