@@ -21,39 +21,12 @@
 		<result property="value" column="dept_name" />
 	</resultMap>
 
-	<insert id="insert" parameterType="AuthzDepartmentModel" flushCache="true">
-		insert into sys_authz_org_dept(org_id,dept_code,dept_name,dept_intro,dept_parent,dept_status,dept_uid)
-		values(#{orgId},#{code},#{name},#{intro,jdbcType=VARCHAR},#{parent,jdbcType=VARCHAR},'1',#{uid})
-	</insert>
-
-	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_org_dept WHERE dept_id = #{id}
-	</delete>
-
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_authz_org_dept WHERE dept_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
-        </foreach>
-	</delete>
-
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_authz_org_dept t
 		   SET dept_status = #{status}
 		 WHERE dept_id = #{id}
 	</update>
 
-	<update id="update" parameterType="AuthzDepartmentModel" flushCache="true">
-		update sys_authz_org_dept t
-		<set>
-			<if test="code != null and code != ''">t.dept_code = #{code},</if>
-			<if test="name != null and name != ''">t.dept_name = #{name},</if>
-			<if test="intro != null and intro != ''">t.dept_intro = #{intro},</if>
-			<if test="status != null and status != ''">t.dept_status = #{status}</if>
-		</set>
-		where t.dept_id = #{id}
-	</update>
-	
 	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.dept_id)
 		  FROM sys_authz_org_dept t

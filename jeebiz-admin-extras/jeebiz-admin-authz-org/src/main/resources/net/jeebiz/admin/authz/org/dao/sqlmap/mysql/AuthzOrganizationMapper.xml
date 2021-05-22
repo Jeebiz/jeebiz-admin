@@ -19,37 +19,10 @@
 		<result property="value" column="org_name" />
 	</resultMap>
 
-	<insert id="insert" parameterType="AuthzOrganizationModel" flushCache="true">
-		insert into sys_authz_org_list(org_code,org_name,org_intro,org_parent,org_status,org_uid)
-		values(#{code},#{name},#{intro,jdbcType=VARCHAR},#{parent,jdbcType=VARCHAR},'1',#{uid})
-	</insert>
-	
-	<delete id="delete" parameterType="java.lang.String">
-		DELETE FROM sys_authz_org_list WHERE org_id = #{id,jdbcType=INTEGER}
-	</delete>
-
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_authz_org_list WHERE org_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item,jdbcType=INTEGER} 
-        </foreach>
-	</delete>
-
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_authz_org_list t
 		   SET org_status = #{status}
 		 WHERE org_id = #{id,jdbcType=INTEGER}
-	</update>
-
-	<update id="update" parameterType="AuthzDepartmentModel" flushCache="true">
-		update sys_authz_org_list t
-		<set>
-			<if test="code != null and code != ''">t.org_code = #{code},</if>
-			<if test="name != null and name != ''">t.org_name = #{name},</if>
-			<if test="intro != null and intro != ''">t.org_intro = #{intro},</if>
-			<if test="status != null and status != ''">t.org_status = #{status}</if>
-		</set>
-		where t.org_id = #{id,jdbcType=INTEGER}
 	</update>
 	
 	<select id="getRootCount" resultType="int" useCache="false">

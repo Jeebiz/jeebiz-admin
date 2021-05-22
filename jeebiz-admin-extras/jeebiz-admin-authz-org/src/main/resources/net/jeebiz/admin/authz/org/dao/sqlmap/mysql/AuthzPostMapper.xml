@@ -22,38 +22,10 @@
 		<result property="value" column="post_name" />
 	</resultMap>
 
-	<insert id="insert" parameterType="AuthzPostModel" flushCache="true">
-		insert into sys_authz_org_post(dept_id,post_code,post_name,post_intro,post_status,post_uid)
-		values(#{deptId},#{code},#{name},#{intro,jdbcType=VARCHAR},'1',#{uid})
-	</insert>
-
-	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_org_post WHERE post_id = #{id}
-	</delete>
-
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_authz_org_post WHERE post_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-			#{item}
-		</foreach>
-	</delete>
-
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_authz_org_post t
 		   SET post_status = #{status}
 		 WHERE post_id = #{id}
-	</update>
-
-	<update id="update" parameterType="AuthzPostModel" flushCache="true">
-		update sys_authz_org_post t
-		<set>
-			<if test="deptId != null and deptId != ''">t.dept_id = #{deptId},</if>
-			<if test="code != null and code != ''">t.post_code = #{code},</if>
-			<if test="name != null and name != ''">t.post_name = #{name},</if>
-			<if test="intro != null and intro != ''">t.post_intro = #{intro},</if>
-			<if test="status != null and status != ''">t.post_status = #{status}</if>
-		</set>
-		where t.post_id = #{id}
 	</update>
 	
 	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">

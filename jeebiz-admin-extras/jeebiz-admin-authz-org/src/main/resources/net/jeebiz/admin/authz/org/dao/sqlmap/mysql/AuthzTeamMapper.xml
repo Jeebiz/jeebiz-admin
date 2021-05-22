@@ -21,36 +21,10 @@
 		<result property="value" column="team_name" />
 	</resultMap>
 
-	<insert id="insert" parameterType="AuthzTeamModel" flushCache="true">
-		insert into sys_authz_org_team(dept_id,team_name,team_intro,team_status,team_uid)
-		values(#{deptId,jdbcType=INTEGER},#{name},#{intro,jdbcType=VARCHAR},'1',#{uid})
-	</insert>
-
-	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_org_team WHERE team_id = #{id,jdbcType=INTEGER}
-	</delete>
-
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_authz_org_team WHERE team_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-			#{item,jdbcType=INTEGER}
-		</foreach>
-	</delete>
-
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_authz_org_team t
 		   SET team_status = #{status}
 		 WHERE team_id = #{id,jdbcType=INTEGER}
-	</update>
-
-	<update id="update" parameterType="AuthzTeamModel" flushCache="true">
-		update sys_authz_org_team t
-		<set>
-			<if test="name != null and name != ''">t.team_name = #{name},</if>
-			<if test="intro != null and intro != ''">t.team_intro = #{intro},</if>
-			<if test="status != null and status != ''">t.team_status = #{status}</if>
-		</set>
-		where t.team_id = #{id,jdbcType=INTEGER}
 	</update>
 	
 	<select id="getTeamCountByName" resultType="int" parameterType="java.lang.String" useCache="false">

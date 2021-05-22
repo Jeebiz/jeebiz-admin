@@ -22,40 +22,11 @@
 		<result property="phone" column="u_phone" />
 		<result property="email" column="u_email" />
 	</resultMap>
-	
-	<insert id="insert" parameterType="AuthzStaffModel" flushCache="true">
-		insert into sys_authz_org_staff(org_id,dept_id,team_id,post_id,staff_id,staff_intro,post_status,time24)
-		values(#{orgId},#{deptId},#{teamId,jdbcType=VARCHAR},#{postId},#{id},#{intro,jdbcType=VARCHAR},'1',#{time24})
-	</insert>
-
-	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_org_staff WHERE staff_id = #{id}
-	</delete>
-
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_authz_org_staff WHERE staff_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
-        </foreach>
-	</delete>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_authz_org_staff t
 		   SET staff_status = #{status}
 		 WHERE staff_id = #{id}
-	</update>
-
-	<update id="update" parameterType="AuthzStaffModel" flushCache="true">
-		update sys_authz_org_staff t
-		<set>
-			<if test="orgId != null and orgId != ''">t.org_id = #{orgId},</if>
-			<if test="deptId != null and deptId != ''">t.dept_id = #{deptId},</if>
-			<if test="teamId != null and teamId != ''">t.team_id = #{teamId},</if>
-			<if test="postId != null and postId != ''">t.post_id = #{postId},</if>
-			<if test="intro != null and intro != ''">t.staff_intro = #{intro},</if>
-			<if test="time24 != null and time24 != ''">t.time24 = #{time24}</if>
-		</set>
-		where t.staff_id = #{id}
 	</update>
 	
 	<select id="getCountByUid" resultType="int" parameterType="java.lang.String" useCache="false">
