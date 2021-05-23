@@ -14,7 +14,11 @@ CREATE TABLE `sys_authz_role_list` (
   `r_type` int(1) NOT NULL COMMENT '角色类型（1:原生|2:继承|3:复制|4:自定义）',
   `r_intro` varchar(1000) NOT NULL COMMENT '角色简介',
   `r_status` int(1) NOT NULL DEFAULT '1' COMMENT '角色状态（0:禁用|1:可用）',
-  `R_time24` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '初始化时间',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`r_id`),
   UNIQUE KEY (`r_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色信息表';

@@ -4,15 +4,13 @@
  */
 package net.jeebiz.admin.authz.rbac0.dao.entities;
 
-import java.util.List;
-
 import org.apache.ibatis.type.Alias;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.google.common.collect.Lists;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +18,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Alias(value = "AuthzRolePermsModel")
+@Alias(value = "AuthzRolePermModel")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_role_perms")
 @Builder
@@ -28,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class AuthzRolePermsModel extends Model<AuthzRolePermsModel> {
+public class AuthzRolePermModel extends Model<AuthzRolePermModel> {
 
 	/**
 	 * 	主键 
@@ -36,12 +34,9 @@ public class AuthzRolePermsModel extends Model<AuthzRolePermsModel> {
 	@TableId(value="r_id",type= IdType.AUTO)
 	private String id;
 	/**
-	 * 角色id
+	 * 角色授权的标记
 	 */
-	private String roleId;
-	/**
-	 * 角色授权的标记集合
-	 */
-	private List<String> perms = Lists.newArrayList();
+	@TableField(value = "perms")
+	private String perms;
 
 }

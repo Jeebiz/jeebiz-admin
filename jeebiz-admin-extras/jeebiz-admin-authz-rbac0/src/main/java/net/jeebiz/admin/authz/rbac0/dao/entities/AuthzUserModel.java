@@ -14,10 +14,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.google.common.collect.Lists;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.utils.CollectionUtils;
@@ -25,7 +27,10 @@ import net.jeebiz.boot.api.utils.CollectionUtils;
 @Alias(value = "AuthzUserModel")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_list")
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class AuthzUserModel extends PaginationEntity<AuthzUserModel> {
 
@@ -100,7 +105,7 @@ public class AuthzUserModel extends PaginationEntity<AuthzUserModel> {
 	@TableField(exist = false)
 	private String roleId;
 	@TableField(exist = false)
-	private List<String> roles = Lists.newArrayList();
+	private List<String> roles;
 	/**
 	 * 角色名称（可能多个组合，如：角色1,角色2）
 	 */
@@ -115,7 +120,7 @@ public class AuthzUserModel extends PaginationEntity<AuthzUserModel> {
 	 * 用户关联角色:这里这么写是为了提高前端渲染效率
 	 */
 	@TableField(exist = false)
-	private List<PairModel> roleList = Lists.newArrayList();
+	private List<PairModel> roleList;
 	/**
 	 * 用户详情信息
 	 */

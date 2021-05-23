@@ -41,6 +41,7 @@
 		<module>jeebiz-admin-extras-sms-txcloud</module>
 		<module>jeebiz-admin-extras-redis</module>
 		<module>jeebiz-admin-extras-sequence</module>
+		<module>jeebiz-admin-api</module>
 	</modules>
 	
 	<build>

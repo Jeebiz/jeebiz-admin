@@ -33,7 +33,7 @@ import net.jeebiz.boot.api.utils.RandomString;
 public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, IAuthzUserDao> implements IAuthzUserService {
 	
 	protected RandomString randomString = new RandomString(8);
-
+	
 	@Autowired
 	private IAuthzFeatureDao authzFeatureDao;
 	@Autowired
