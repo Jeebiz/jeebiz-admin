@@ -75,7 +75,7 @@ public class AuthzFeatureModel extends Model<AuthzFeatureModel> {
 	 * 菜单显示顺序
 	 */
 	@TableField(value = "f_order")
-	private String ordeBy;
+	private String orderBy;
 	/**
 	 * 父级功能菜单id
 	 */

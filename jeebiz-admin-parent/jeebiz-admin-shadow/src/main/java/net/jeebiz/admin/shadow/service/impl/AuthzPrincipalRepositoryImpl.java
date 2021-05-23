@@ -274,7 +274,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
 		 			uid = randomString.nextNumberString();
 		 		}
-		 		userModel.setUid(uid);
+		 		userModel.setUuid(uid);
 				// userModel.setUsername(phoneNumberInfo.getPurePhoneNumber());
 		 		userModel.setUsername(randomString.nextString());
 				ServletRequest request = WebThreadContext.getRequest();
@@ -410,7 +410,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
 		 			uid = randomString.nextNumberString();
 		 		}
-		 		userModel.setUid(uid);
+		 		userModel.setUuid(uid);
 				userModel.setUsername(phoneNumberInfo.getPurePhoneNumber());
 				ServletRequest request = WebThreadContext.getRequest();
 				if(Objects.nonNull(request) && request instanceof ShiroHttpServletRequest) {

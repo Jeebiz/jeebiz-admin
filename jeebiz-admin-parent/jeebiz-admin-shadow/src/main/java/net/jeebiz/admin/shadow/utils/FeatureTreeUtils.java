@@ -37,7 +37,7 @@ public final class FeatureTreeUtils {
 				// 功能操作图标样式
 				optMap.put("icon", opt.getIcon());
 				// 功能操作排序
-				optMap.put("order", opt.getOrder());
+				optMap.put("order", opt.getOrderBy());
 				// 功能菜单id
 				optMap.put("featureId", opt.getFeatureId());
 				// 功能操作是否可见(1:可见|0:不可见)
@@ -85,7 +85,7 @@ public final class FeatureTreeUtils {
 				// 菜单样式或菜单图标路径
 				featureMap.put("icon",feature.getIcon());
 				// 菜单显示顺序
-				featureMap.put("order",feature.getOrder());
+				featureMap.put("order",feature.getOrderBy());
 				// 父级功能菜单id
 				featureMap.put("parent",feature.getParent());
 				// 功能菜单URL
@@ -142,7 +142,7 @@ public final class FeatureTreeUtils {
 				// 菜单样式或菜单图标路径
 				featureMap.put("icon",feature.getIcon());
 				// 菜单显示顺序
-				featureMap.put("order",feature.getOrder());
+				featureMap.put("order",feature.getOrderBy());
 				// 父级功能菜单id
 				featureMap.put("parent",feature.getParent());
 				// 功能菜单URL
