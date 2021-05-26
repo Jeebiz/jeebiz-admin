@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>jeebiz-admin-api</module>
 		<module>jeebiz-admin-authz-dingtalk</module>
 		<module>jeebiz-admin-authz-feature</module>	
 		<module>jeebiz-admin-authz-jwt</module>
@@ -29,6 +30,7 @@
 		<module>jeebiz-admin-extras-filestore-aliyun-oss</module>
 		<module>jeebiz-admin-extras-filestore-fastdfs</module>
 		<module>jeebiz-admin-extras-filestore-minio</module>
+		<module>jeebiz-admin-extras-idempotent</module>
 		<module>jeebiz-admin-extras-inform</module>
 		<module>jeebiz-admin-extras-inform-dingtalk</module>
 		<module>jeebiz-admin-extras-inform-weixin</module>
@@ -39,9 +41,6 @@
 		<module>jeebiz-admin-extras-settings</module>
 		<module>jeebiz-admin-extras-sms-aliyun</module>
 		<module>jeebiz-admin-extras-sms-txcloud</module>
-		<module>jeebiz-admin-extras-redis</module>
-		<module>jeebiz-admin-extras-sequence</module>
-		<module>jeebiz-admin-api</module>
 	</modules>
 	
 	<build>

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
-import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
-import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
 import net.jeebiz.boot.api.dao.entities.PairModel;
+import net.jeebiz.boot.extras.redis.setup.RedisConstant;
+import net.jeebiz.boot.extras.redis.setup.RedisKeyGenerator;
 
 /**
  * 消息通知对象

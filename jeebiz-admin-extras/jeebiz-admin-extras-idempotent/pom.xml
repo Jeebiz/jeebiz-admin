@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.jeebiz</groupId>
+		<artifactId>jeebiz-admin-extras</artifactId>
+		<version>1.0.1-ce-SNAPSHOT</version>
+	</parent>
+	<artifactId>jeebiz-admin-extras-idempotent</artifactId>
+	
+	<dependencies>
+		
+		<!-- For Jeebiz API -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jeebiz-boot-extras-redis</artifactId>
+			<version>${jeebiz-boot.version}</version>
+		</dependency>
+		
+		<!-- For Shiro -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-biz-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.github.streamone</groupId>
+		    <artifactId>shiro-redisson</artifactId>
+		</dependency>
+		
+	</dependencies>
+	
+</project>

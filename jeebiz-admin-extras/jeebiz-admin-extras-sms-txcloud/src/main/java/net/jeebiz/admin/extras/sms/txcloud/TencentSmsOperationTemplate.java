@@ -20,13 +20,13 @@ import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
 
 import lombok.extern.log4j.Log4j2;
-import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
-import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.utils.CalendarUtils;
+import net.jeebiz.boot.extras.redis.setup.RedisConstant;
+import net.jeebiz.boot.extras.redis.setup.RedisKeyGenerator;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
  * 腾讯短信服务与消息队列集成逻辑操作模板对象

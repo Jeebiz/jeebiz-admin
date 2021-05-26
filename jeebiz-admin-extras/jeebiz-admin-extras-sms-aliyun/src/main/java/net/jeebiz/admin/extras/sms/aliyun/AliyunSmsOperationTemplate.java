@@ -19,12 +19,12 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.core.setup.redis.RedisConstant;
-import net.jeebiz.admin.extras.core.setup.redis.RedisKeyGenerator;
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.utils.CalendarUtils;
+import net.jeebiz.boot.extras.redis.setup.RedisConstant;
+import net.jeebiz.boot.extras.redis.setup.RedisKeyGenerator;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
  * 阿里云短信服务与消息队列服务集成逻辑操作模板对象

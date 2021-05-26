@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.admin.extras.dict.dao.IKeyValueDao;
 import net.jeebiz.admin.extras.dict.setup.Constants;
 import net.jeebiz.admin.extras.dict.setup.event.KeyValueDeletedEvent;
 import net.jeebiz.boot.api.dao.entities.PairModel;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Component
 public class KeyValueDeletedEventListener implements ApplicationListener<KeyValueDeletedEvent> {
