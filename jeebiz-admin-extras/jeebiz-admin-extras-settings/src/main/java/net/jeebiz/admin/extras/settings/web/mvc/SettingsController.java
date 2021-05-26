@@ -123,7 +123,7 @@ public class SettingsController extends BaseApiController {
 				list.add(model);
 			}
 			// 批量执行系统参数更新操作
-			getSettingsService().batchUpdate(list);
+			getSettingsService().updateBatchById(list);
 			return success("settings.renew.success");
 		} catch (Exception e) {
 			// 逻辑代码，如果发生异常将不会被执行
