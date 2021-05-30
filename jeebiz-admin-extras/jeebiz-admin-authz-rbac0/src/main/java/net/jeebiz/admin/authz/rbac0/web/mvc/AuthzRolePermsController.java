@@ -26,12 +26,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRolePermsModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRolePermsService;
+import net.jeebiz.admin.authz.rbac0.setup.Constants;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotPermsDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.api.utils.Constants;
 import net.jeebiz.boot.api.web.BaseMapperController;
 
 /**
@@ -79,7 +79,7 @@ public class AuthzRolePermsController extends BaseMapperController {
 		AuthzRolePermsModel permsModel = getBeanMapper().map(permsDTO, AuthzRolePermsModel.class);
 		int total = getAuthzRolePermsService().doPerms(permsModel);
         // 删除菜单缓存
-        getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+        //getRedisTemplate().delete(Redisc.AUTHZ_FEATURE_CACHE);
 		if(total > 0) {
 			return success("role.perms.success", total); 
 		}
@@ -98,7 +98,7 @@ public class AuthzRolePermsController extends BaseMapperController {
 		AuthzRolePermsModel permsModel = getBeanMapper().map(permsDTO, AuthzRolePermsModel.class);
 		int total = getAuthzRolePermsService().unPerms(permsModel);
         // 删除菜单缓存
-        getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+        //getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 		if(total > 0) {
 			return success("role.unperms.success", total); 
 		}

@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import net.jeebiz.boot.api.Constants;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.sequence.Sequence;
-import net.jeebiz.boot.api.utils.Constants;
 
 /**
  * 登录认证日志记录：
@@ -31,8 +31,6 @@ import net.jeebiz.boot.api.utils.Constants;
 @Component
 public class ShiroAuthzLoginListener implements LoginListener {
 
-	protected static final String STATUS_SUCCESS = "success";
-	protected static final String STATUS_FAIL = "fail";
 	@Autowired
 	protected Sequence sequence;
 	
@@ -44,7 +42,7 @@ public class ShiroAuthzLoginListener implements LoginListener {
 		
 		ThreadContext.put("opt", BusinessType.LOGIN.getKey());
 		ThreadContext.put("userId", principal.getUserid());
-		ThreadContext.put("status", STATUS_SUCCESS);
+		ThreadContext.put("status", Constants.RT_SUCCESS);
 		
 		recordRequest(WebUtils.toHttp(request));
 		
@@ -60,7 +58,7 @@ public class ShiroAuthzLoginListener implements LoginListener {
 		String userid = token.getPrincipal().toString();
 		ThreadContext.put("opt", BusinessType.LOGIN.getKey());
 		ThreadContext.put("userId", userid);
-		ThreadContext.put("status", STATUS_FAIL);
+		ThreadContext.put("status", Constants.RT_ERROR);
 		
 		recordRequest(WebUtils.toHttp(request));
 		

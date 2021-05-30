@@ -21,7 +21,7 @@ import net.jeebiz.admin.authz.jwt.setup.shiro.DefaultJwtPayloadRepository;
 import net.jeebiz.admin.authz.jwt.setup.shiro.JJwtAuthenticationFailureHandler;
 import net.jeebiz.admin.authz.jwt.setup.shiro.JwtSigningKeyRedisResolver;
 import net.jeebiz.admin.authz.jwt.setup.shiro.JwtTimeRedisProvider;
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Configuration
 @AutoConfigureBefore(name = { 

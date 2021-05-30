@@ -2,7 +2,7 @@ package net.jeebiz.admin.authz.jwt.setup.shiro;
 
 import com.github.hiwepy.jwt.time.JwtTimeProvider;
 
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 public class JwtTimeRedisProvider implements JwtTimeProvider {
 

@@ -17,9 +17,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import net.jeebiz.boot.api.Constants;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.sequence.Sequence;
-import net.jeebiz.boot.api.utils.Constants;
 
 /**
  * 会话注销日志记录：
@@ -28,8 +28,6 @@ import net.jeebiz.boot.api.utils.Constants;
 @Component
 public class ShiroAuthzLogoutListener implements LogoutListener {
 
-	protected static final String STATUS_SUCCESS = "success";
-	protected static final String STATUS_FAIL = "fail";
 	@Autowired
 	protected Sequence sequence;
 	
@@ -46,7 +44,7 @@ public class ShiroAuthzLogoutListener implements LogoutListener {
 		ThreadContext.put("opt", BusinessType.LOGOUT.getKey());
 		ThreadContext.put("userId", principal.getUserid());
 		ThreadContext.put("userName", principal.getUsername());
-		ThreadContext.put("status", STATUS_SUCCESS);
+		ThreadContext.put("status", Constants.RT_SUCCESS);
 		LoggerFactory.getLogger("Authz-Log").error(Constants.authzMarker, String.format("用户:%s账户注销成功.", principal.getUsername()));
 		
 	}
@@ -59,7 +57,7 @@ public class ShiroAuthzLogoutListener implements LogoutListener {
 		ThreadContext.put("opt", BusinessType.LOGOUT.getKey());
 		ThreadContext.put("userId", principal.getUserid());
 		ThreadContext.put("userName", principal.getUsername());
-		ThreadContext.put("status", STATUS_FAIL);
+		ThreadContext.put("status", Constants.RT_FAIL);
 		
 		recordRequest(WebUtils.toHttp(request));
 		

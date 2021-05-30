@@ -30,6 +30,7 @@ import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
+import net.jeebiz.admin.authz.feature.setup.Constants;
 import net.jeebiz.admin.authz.feature.setup.handler.FeatureDataHandlerFactory;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureNewDTO;
@@ -37,7 +38,6 @@ import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureRenewDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
-import net.jeebiz.boot.api.utils.Constants;
 import net.jeebiz.boot.api.web.BaseMapperController;
 
 @Api(tags = "功能菜单：数据维护（Ok）")

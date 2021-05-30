@@ -14,4 +14,6 @@ public class Constants {
 	public static final String TAG_ALL = "*";
 
 	public static final String PUSH_PREFIX = "JEEBIZ_";
+
+	public static final String AUTHZ_LOGIN = "用户登录";
 }
