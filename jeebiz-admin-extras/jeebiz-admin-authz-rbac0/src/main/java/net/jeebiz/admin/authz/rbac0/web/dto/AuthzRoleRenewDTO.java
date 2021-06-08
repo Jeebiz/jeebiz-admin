@@ -9,8 +9,6 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-
-
 import com.google.common.collect.Lists;
 
 import io.swagger.annotations.ApiModel;

@@ -14,8 +14,8 @@ import com.google.common.collect.Lists;
 
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
-import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureOptDTO;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureOptDTO;
 
 public final class FeatureNavUtils {
 	

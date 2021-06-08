@@ -5,7 +5,6 @@
 package net.jeebiz.admin.extras.sms.aliyun;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.biz.utils.DateUtils;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
@@ -15,12 +14,12 @@ import com.aliyun.openservices.spring.boot.AliyunOnsMqTemplate;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
+import net.jeebiz.admin.api.RedisKeyConstant;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.sequence.Sequence;
-import net.jeebiz.boot.extras.redis.setup.RedisConstant;
-import net.jeebiz.boot.extras.redis.setup.RedisKeyGenerator;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
+import net.jeebiz.boot.extras.redis.setup.SmsRedisKey;
 
 /**
  * 阿里云短信服务与消息队列服务集成逻辑操作模板对象
@@ -65,25 +64,26 @@ public class AliyunSmsOperationProducer {
 		// 短信通知： 使用同一个签名和同一个短信模板id，对同一个手机号码发送短信通知，支持50条/日
 		
 		// 2.1、1条/分钟
-		String phoneTimeSecondKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH_mm"), type, phone);
-		String timesOfSecond = redisOperationTemplate.getString(phoneTimeSecondKey);
-		if (timesOfSecond != null && Integer.parseInt(timesOfSecond) > 1) {
+		String phoneTimeMinuteKey = SmsRedisKey.SMS_LIMIT_MINUTE.getFunction().apply(phone, type.toString());
+		String timesOfMinute = redisOperationTemplate.getString(phoneTimeMinuteKey);
+		if (timesOfMinute != null && Integer.parseInt(timesOfMinute) > 1) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.second.limit");
 		}
 		// 2.2、5条/小时
-		String phoneTimeHourKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd_HH"), type, phone);
+		String phoneTimeHourKey = SmsRedisKey.SMS_LIMIT_HOUR.getFunction().apply(phone, type.toString());
 		String timesOfHour = redisOperationTemplate.getString(phoneTimeHourKey);
 		if (timesOfHour != null && Integer.parseInt(timesOfHour) > 5) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.hour.limit");
 		}
 		// 2.3、10条/天
-		String phoneTimeDayKey = RedisKeyGenerator.getSmsMobileTime(DateUtils.getDate("yyyy_MM_dd"), type, phone);
+		String phoneTimeDayKey = SmsRedisKey.SMS_LIMIT_DAY.getFunction().apply(phone, type.toString());
 		String timesOfDay = redisOperationTemplate.getString(phoneTimeDayKey);
-		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisConstant.SMS_TIME_MAX) {
+		if (timesOfDay != null && Integer.parseInt(timesOfDay) > RedisKeyConstant.SMS_TIME_MAX) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.day.limit");
 		}
 		// 2.4、黑名单
-		if (redisOperationTemplate.sHasKey(RedisConstant.SET_SMS_BLACK_LIST, phone)) {
+		String blacklistKey = SmsRedisKey.SMS_BLACKLIST.getFunction().apply(phone, type.toString());
+		if (redisOperationTemplate.sHasKey(blacklistKey, phone)) {
 			throw new BizRuntimeException(ApiCode.SC_BAD_REQUEST, "sms.send.backlist.limit");
 		}
 		

@@ -3,9 +3,9 @@ package net.jeebiz.admin.extras.article.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
 import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
+import net.jeebiz.boot.api.dao.BaseDao;
 
 @Mapper
 public interface IArticleDao extends BaseDao<ArticleModel> {

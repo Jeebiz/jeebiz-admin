@@ -1,5 +1,9 @@
 package net.jeebiz.admin.extras.initializr.setup;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
@@ -11,10 +15,6 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName CustomFreemarkerTemplateEngine

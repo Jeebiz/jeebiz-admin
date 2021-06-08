@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.jeebiz.boot.api.service.BaseServiceImpl;
 import net.jeebiz.admin.extras.article.dao.IArticleAttachmentDao;
 import net.jeebiz.admin.extras.article.dao.IArticleDao;
 import net.jeebiz.admin.extras.article.dao.IArticleTargetDao;
@@ -18,6 +17,7 @@ import net.jeebiz.admin.extras.article.dao.entities.ArticleTargetModel;
 import net.jeebiz.admin.extras.article.service.IArticleService;
 import net.jeebiz.admin.extras.article.utils.ArticleUtils;
 import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
 public class ArticleServiceImpl extends BaseServiceImpl<ArticleModel, IArticleDao> implements IArticleService {

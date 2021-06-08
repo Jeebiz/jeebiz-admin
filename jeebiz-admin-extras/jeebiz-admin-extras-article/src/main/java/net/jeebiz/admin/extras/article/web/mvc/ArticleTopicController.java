@@ -27,6 +27,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleTopicModel;
+import net.jeebiz.admin.extras.article.service.IArticleTopicService;
+import net.jeebiz.admin.extras.article.setup.Constants;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicNewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicPaginationDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicRenewDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleTopicTreeDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.AllowableValues;
 import net.jeebiz.boot.api.annotation.BusinessLog;
@@ -35,14 +43,6 @@ import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.utils.StringUtils;
 import net.jeebiz.boot.api.web.BaseApiController;
 import net.jeebiz.boot.api.web.Result;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleTopicModel;
-import net.jeebiz.admin.extras.article.service.IArticleTopicService;
-import net.jeebiz.admin.extras.article.setup.Constants;
-import net.jeebiz.admin.extras.article.web.dto.ArticleTopicNewDTO;
-import net.jeebiz.admin.extras.article.web.dto.ArticleTopicPaginationDTO;
-import net.jeebiz.admin.extras.article.web.dto.ArticleTopicRenewDTO;
-import net.jeebiz.admin.extras.article.web.dto.ArticleTopicTreeDTO;
-import net.jeebiz.admin.extras.article.web.dto.ArticleTopicDTO;
 
 @Api(tags = "文章栏目查询")
 @RestController

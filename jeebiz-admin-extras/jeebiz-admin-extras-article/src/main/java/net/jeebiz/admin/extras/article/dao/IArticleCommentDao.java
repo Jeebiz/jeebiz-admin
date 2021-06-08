@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleCommentModel;
+import net.jeebiz.boot.api.dao.BaseDao;
 
 @Mapper
 public interface IArticleCommentDao extends BaseDao<ArticleCommentModel> {

@@ -14,9 +14,9 @@ import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.service.IFilestoreService;
 import net.jeebiz.admin.extras.filestore.setup.provider.FilestoreProvider;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service

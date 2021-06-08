@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
+import org.slf4j.helpers.MessageFormatter;
+
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.extras.redis.setup.RedisConstant;
-import net.jeebiz.boot.extras.redis.setup.RedisKeyGenerator;
+import net.jeebiz.boot.extras.redis.setup.RedisKeyConstant;
 
 /**
  * 消息通知对象
@@ -22,13 +23,15 @@ public enum InformTarget {
 	 * 所有用户
 	 */
 	ALL("所有用户", (userId)->{
-        return RedisKeyGenerator.getKeyStr(RedisConstant.USER_INFO_PREFIX, "*");
+		String keyStr = MessageFormatter.format(RedisKeyConstant.USER_INFO_KEY, "zset").getMessage();
+		return RedisKeyConstant.getKeyStr(keyStr);
     }),
 	/**
 	 * 指定用户
 	 */
 	SPECIFIC("指定用户", (userId)->{
-        return RedisKeyGenerator.getUserInfoPrefix(userId);
+		String keyStr = MessageFormatter.format(RedisKeyConstant.USER_INFO_KEY, userId).getMessage();
+		return RedisKeyConstant.getKeyStr(keyStr);
     });
 
 	private String target;

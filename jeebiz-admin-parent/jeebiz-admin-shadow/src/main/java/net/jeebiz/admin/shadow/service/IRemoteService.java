@@ -5,7 +5,6 @@
 package net.jeebiz.admin.shadow.service;
 
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 

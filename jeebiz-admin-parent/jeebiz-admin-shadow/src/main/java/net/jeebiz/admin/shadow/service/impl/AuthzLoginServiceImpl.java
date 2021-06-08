@@ -12,7 +12,6 @@ import java.security.interfaces.RSAPublicKey;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.stereotype.Service;
 
 import com.github.hiwepy.jwt.utils.SecretKeyUtils;

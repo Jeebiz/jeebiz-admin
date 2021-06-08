@@ -1,8 +1,8 @@
 package net.jeebiz.admin.extras.article.service;
 
-import net.jeebiz.boot.api.service.IBaseService;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
 import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
+import net.jeebiz.boot.api.service.IBaseService;
 
 public interface IArticleService extends IBaseService<ArticleModel> {
 

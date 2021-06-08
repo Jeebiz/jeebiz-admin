@@ -9,9 +9,9 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.service.IBaseMapperService;
 
 public interface IFilestoreService extends IBaseMapperService<FileEntity>{

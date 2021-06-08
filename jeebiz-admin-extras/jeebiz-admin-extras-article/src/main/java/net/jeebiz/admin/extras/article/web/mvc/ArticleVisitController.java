@@ -20,12 +20,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.boot.api.web.BaseApiController;
-import net.jeebiz.boot.api.web.Result;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleVisitModel;
 import net.jeebiz.admin.extras.article.service.IArticleVisitService;
-import net.jeebiz.admin.extras.article.web.dto.ArticleVisitPaginationDTO;
 import net.jeebiz.admin.extras.article.web.dto.ArticleVisitDTO;
+import net.jeebiz.admin.extras.article.web.dto.ArticleVisitPaginationDTO;
+import net.jeebiz.boot.api.web.BaseApiController;
+import net.jeebiz.boot.api.web.Result;
 
 @Api(tags = "文章访问：")
 @RestController

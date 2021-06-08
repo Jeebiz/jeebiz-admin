@@ -15,9 +15,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import net.jeebiz.admin.extras.core.setup.redis.RedisOperationTemplate;
 import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
  * 应用启动入口

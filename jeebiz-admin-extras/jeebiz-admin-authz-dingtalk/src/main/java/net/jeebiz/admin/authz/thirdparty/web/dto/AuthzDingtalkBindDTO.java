@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
 
 @ApiModel(value = "AuthzDingtalkBindDTO", description = "钉钉登录绑定参数DTO")
 @Getter

@@ -6,7 +6,6 @@ package net.jeebiz.admin.shadow.setup.shiro;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 import javax.servlet.ServletRequest;
@@ -28,10 +27,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 
 import lombok.extern.slf4j.Slf4j;
-import net.bull.javamelody.internal.common.LOG;
 import net.jeebiz.boot.api.ApiRestResponse;
 
 /**
