@@ -2,7 +2,7 @@
 
 > [danger] Jeebiz Admin 是基于 Spring Boot 整合已有的技术组件，构建的企业级单体应用快速开发脚手架；真正的开箱即用、模块化开发！
 
-- 1、继承 Spring Boot 的 各种特性
+- 1、继承 Jeebiz Boot，具备 Spring Boot 的 各种特性
 
 - 2、集成主流技术：Mybatis-Plus、J2cache、Redis、Spring Security、Swagger、RocketMQ
 
@@ -13,6 +13,8 @@
 - 5、脚本化部署：自动构建可运行的脚本化部署程序；
 
 - 6、Docker镜像支持：支持基于Dockerfile手动构建Docker镜像到Docker Harbor；借助开源软件开源软件 Jenkins + Harbor + Rancher ，实现基于Docker的运维支撑；
+
+- 7、Edas 支持：支持阿里云Edas集群自动化；借助开源软件开源软件 Jenkins + Edas ，实现基于阿里云的Devops；
 
 #### Jeebiz-Admin（开源版） 说明：
 
