@@ -20,7 +20,7 @@ import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
 
 @SuppressWarnings("serial")
-@Alias(value = "DeviceActiveModel")
+@Alias(value = "DeviceActivateModel")
 @TableName(value = "device_activate", keepGlobalPrefix = true)
 @Builder
 @Data

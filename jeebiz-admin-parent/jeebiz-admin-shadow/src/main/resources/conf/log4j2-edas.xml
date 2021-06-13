@@ -16,7 +16,7 @@
 		　　	%l   输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java: 10 ) 
 		-->
 		<!-- 定义LOG存储位置 -->
-		<Property name="LOG_HOME">logs</Property>
+		<Property name="LOG_HOME">/datalog/logs</Property>
 		<!-- 定义应用名称 -->
         <property name="APP_NAME">jeebiz-admin</property>
 		<!-- 日志输出格式:什么时间（日志时间）?什么应用（应用标记）?什么位置（线程、类、方法）?发送了什么（日志内容）? -->
@@ -24,46 +24,36 @@
 		<Property name="LOG_CONSOLE_LAYOUT2">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{[${APP_NAME}]}{red} [%clr{%p} %clr{${sys:PID}}{magenta}] %clr{---}{faint} %clr{[%t]}{faint} %clr{[%C:%M:%L]}{cyan} %clr{:}{faint} %m%n%xwEx</Property>
 		<Property name="LOG_FILE_LAYOUT">%d{yyyy-MM-dd HH:mm:ss.SSS} [${APP_NAME}] %p ${sys:PID} --- [%t] [%C:%M:%L] : %m%n%xwEx</Property>
 		<!-- 日志文件主名称规则 -->
-		<Property name="DEBUG_FILE_NAME">${LOG_HOME}/debug.log</Property>
-		<Property name="INFO_FILE_NAME">${LOG_HOME}/info.log</Property>
-		<Property name="WARN_FILE_NAME">${LOG_HOME}/warn.log</Property>
-		<Property name="ERROR_FILE_NAME">${LOG_HOME}/error.log</Property>
-		<Property name="DRUID_FILE_NAME">${LOG_HOME}/druid-sql.log</Property>
+		<Property name="DEBUG_FILE_NAME">${LOG_HOME}/${APP_NAME}/debug.log</Property>
+		<Property name="INFO_FILE_NAME">${LOG_HOME}/${APP_NAME}/info.log</Property>
+		<Property name="WARN_FILE_NAME">${LOG_HOME}/${APP_NAME}/warn.log</Property>
+		<Property name="ERROR_FILE_NAME">${LOG_HOME}/${APP_NAME}/error.log</Property>
+		<Property name="DRUID_FILE_NAME">${LOG_HOME}/${APP_NAME}/druid-sql.log</Property>
 		<!-- 日志文件备份名称规则 -->
-		<Property name="LOG_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/${APP_NAME}-%d{yyyy-MM-dd}-%i.log.gz</Property>
-		<Property name="DEBUG_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log.gz</Property>
-		<Property name="INFO_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz</Property>
-		<Property name="WARN_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log.gz</Property>
-		<Property name="ERROR_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz</Property>
-		<Property name="DRUID_FILE_PATTERN">${LOG_HOME}/$${date:yyyy-MM}/druid-%d{yyyy-MM-dd}-%i.log.gz</Property>
+		<Property name="DEBUG_FILE_PATTERN">${LOG_HOME}/${APP_NAME}/debug-%d{yyyy-MM-dd}-%i.log</Property>
+		<Property name="INFO_FILE_PATTERN">${LOG_HOME}/${APP_NAME}/info-%d{yyyy-MM-dd}-%i.log</Property>
+		<Property name="WARN_FILE_PATTERN">${LOG_HOME}/${APP_NAME}/warn-%d{yyyy-MM-dd}-%i.log</Property>
+		<Property name="ERROR_FILE_PATTERN">${LOG_HOME}/${APP_NAME}/error-%d{yyyy-MM-dd}-%i.log</Property>
+		<Property name="DRUID_FILE_PATTERN">${LOG_HOME}/${APP_NAME}/druid-%d{yyyy-MM-dd}-%i.log</Property>
 	</Properties>
 	
 	<!--先定义所有的appender-->
 	<Appenders>
 		
-		<!-- 控制台日志输出配置 -->
-		<Console name="Console" target="SYSTEM_OUT">
-			<!--只接受程序中DEBUG级别的日志进行处理-->
-            <!-- <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/> -->
-			<PatternLayout pattern="${LOG_CONSOLE_LAYOUT2}" />
-			<!-- <PatternLayout pattern="[%d{HH:mm:ss.SSS}] %-5level %class{36} %L %M - %msg%xEx%n"/> -->
-		</Console>
-		
 		<!-- DEBUG级别日志文件输出配置 -->
 		<!-- 实时日志放到logs/debug.log文件中,按天或者超过size则自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
    		<RollingRandomAccessFile name="RollingFileDebug" fileName="${DEBUG_FILE_NAME}" filePattern="${DEBUG_FILE_PATTERN}">
             <Filters>
-            	<!--只接受DEBUG级别的日志，其余的全部拒绝处理-->
-                <ThresholdFilter level="DEBUG"/>
+            	 <!--只接受DEBUG级别的日志，其余的全部拒绝处理-->
+            	<ThresholdFilter level="DEBUG"/>
                 <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
             </Filters>
             <PatternLayout pattern="${LOG_FILE_LAYOUT}" />
             <!-- <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %class{36} %L %M - %msg%xEx%n"/> -->
             <Policies>
-				<SizeBasedTriggeringPolicy size="50MB" />
+				<SizeBasedTriggeringPolicy size="5GB" />
 				<TimeBasedTriggeringPolicy interval="1" modulate="true" /> <!-- 对应 filePattern维度，此处为天数 -->
 			</Policies>
-            <DefaultRolloverStrategy max="30" /> <!-- 日志自动删除，最大个数 -->
         </RollingRandomAccessFile>
         
         <!-- INFO级别日志文件输出配置 -->
@@ -77,7 +67,6 @@
             <PatternLayout pattern="${LOG_FILE_LAYOUT}" />
             <!-- <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %class{36} %L %M - %msg%xEx%n"/> -->
             <Policies>
-                <SizeBasedTriggeringPolicy size="50MB"/>
                 <TimeBasedTriggeringPolicy />
             </Policies>
         </RollingFile>
@@ -93,7 +82,6 @@
             <PatternLayout pattern="${LOG_FILE_LAYOUT}" />
             <!-- <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %class{36} %L %M - %msg%xEx%n"/> -->
             <Policies>
-                <SizeBasedTriggeringPolicy size="50MB"/>
                 <TimeBasedTriggeringPolicy />
             </Policies>
         </RollingFile>
@@ -108,7 +96,6 @@
             <PatternLayout pattern="${LOG_FILE_LAYOUT}" />
             <!-- <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %class{36} %L %M - %msg%xEx%n"/> -->
             <Policies>
-                <SizeBasedTriggeringPolicy size="50MB"/>
                 <TimeBasedTriggeringPolicy />
             </Policies>
         </RollingFile>
@@ -118,7 +105,6 @@
             <PatternLayout pattern="${LOG_FILE_LAYOUT}" />
             <!-- <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] %-5level %L %M - %msg%xEx%n"/> -->
             <Policies>
-                <SizeBasedTriggeringPolicy size="50MB"/>
                 <TimeBasedTriggeringPolicy/>
             </Policies>
         </RollingFile>
@@ -138,7 +124,7 @@
 			#INFO 为一般要显示的信息，比如登录登出
 			#DEBUG 为程序的调试信息
 		 -->
-        <Root level="DEBUG" includeLocation="true">   
+        <Root level="WARN" includeLocation="true">   
             <AppenderRef ref="RollingFileDebug"/>
             <AppenderRef ref="RollingFileInfo"/>
             <AppenderRef ref="RollingFileWarn"/>
@@ -146,7 +132,7 @@
         </Root>
         
         <!--记录druid-sql-->
-		<logger name="druid.sql.Statement" level="DEBUG" additivity="true">
+		<logger name="druid.sql.Statement" level="INFO" additivity="false">
             <AppenderRef ref="RollingFileDruidSql"/>
         </logger>
         
@@ -207,10 +193,10 @@
         <!--log4j2 自带过滤日志-->
         
 		<!-- 应用系统日志过滤 -->
-		<Logger name="com.kding" level="DEBUG" additivity="true"/>
-		<Logger name="com.kding.authz" level="DEBUG" additivity="true"/>
-		<Logger name="com.kding.biz" level="DEBUG" additivity="true"/>
-        <Logger name="[Mybatis]com.kding" level="DEBUG" additivity="true"/>
+		<Logger name="com.kding" level="INFO" additivity="true"/>
+		<Logger name="com.kding.authz" level="INFO" additivity="true"/>
+		<Logger name="com.kding.biz" level="INFO" additivity="true"/>
+        <Logger name="[Mybatis]com.kding" level="INFO" additivity="true"/>
 
 	</Loggers>
 </Configuration>

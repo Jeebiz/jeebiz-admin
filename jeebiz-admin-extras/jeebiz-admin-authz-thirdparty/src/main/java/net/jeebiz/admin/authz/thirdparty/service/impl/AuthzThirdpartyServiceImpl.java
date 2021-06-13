@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authc.AuthenticationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,8 @@ public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThird
 		implements IAuthzThirdpartyService {
 	
 	private List<ThirdpartyBindingProvider> bindingProviders;
-	
+
+	@Autowired
 	public AuthzThirdpartyServiceImpl(List<ThirdpartyBindingProvider> bindingProviders) {
 		this.bindingProviders = bindingProviders;
 	}

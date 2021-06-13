@@ -119,10 +119,10 @@ CREATE TABLE `sys_article_content_tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文章标签表';
   
 -- ----------------------------
--- Table structure for SYS_ARTICLE_MESSAGES
+-- Table structure for sys_article_messages
 -- ----------------------------
-DROP TABLE IF EXISTS `SYS_ARTICLE_MESSAGES`;
-CREATE TABLE `SYS_ARTICLE_MESSAGES` (
+DROP TABLE IF EXISTS `sys_article_messages`;
+CREATE TABLE `sys_article_messages` (
   `M_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '文章消息id',
   `M_Cid` bigint(12) NOT NULL COMMENT '文章id',
   `M_Uid` bigint(12) NOT NULL COMMENT '文章消息接收者id',

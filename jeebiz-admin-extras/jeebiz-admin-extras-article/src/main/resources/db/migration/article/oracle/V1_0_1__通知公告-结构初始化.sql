@@ -174,7 +174,7 @@ comment on column sys_article_content_tags.t_name is '文章标签名称';
 comment on column sys_article_content_tags.t_time24 is '文章标签设置时间';
 
 -- Create table
-create table SYS_ARTICLE_MESSAGES (
+create table sys_article_messages (
   M_id   		VARCHAR2(32) DEFAULT sys_guid() NOT NULL,
   M_Cid 		VARCHAR2(32)                    NOT NULL,
   M_Uid 		VARCHAR2(32)                    NOT NULL,
@@ -184,13 +184,13 @@ create table SYS_ARTICLE_MESSAGES (
   CONSTRAINT PK_ARTICLE_MSG_Mid PRIMARY KEY (M_id)
 );
 
-comment on table SYS_ARTICLE_MESSAGES IS '文章消息表';
-comment on column SYS_ARTICLE_MESSAGES.M_id IS '文章消息id';
-comment on column SYS_ARTICLE_MESSAGES.M_Cid IS '文章id';
-comment on column SYS_ARTICLE_MESSAGES.M_Uid IS '文章消息接收者id';
-comment on column SYS_ARTICLE_MESSAGES.M_STATUS IS '文章消息状态（0:未读|1:已读）';
-comment on column SYS_ARTICLE_MESSAGES.M_MSG IS '文章消息内容';
-comment on column SYS_ARTICLE_MESSAGES.M_time24 IS '文章消息发送时间';
+comment on table sys_article_messages IS '文章消息表';
+comment on column sys_article_messages.M_id IS '文章消息id';
+comment on column sys_article_messages.M_Cid IS '文章id';
+comment on column sys_article_messages.M_Uid IS '文章消息接收者id';
+comment on column sys_article_messages.M_STATUS IS '文章消息状态（0:未读|1:已读）';
+comment on column sys_article_messages.M_MSG IS '文章消息内容';
+comment on column sys_article_messages.M_time24 IS '文章消息发送时间';
 
 -- Create table
 create table sys_article_visits (

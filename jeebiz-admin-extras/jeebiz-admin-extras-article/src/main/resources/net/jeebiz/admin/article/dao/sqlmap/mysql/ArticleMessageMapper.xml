@@ -20,11 +20,11 @@
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleMessageModel" flushCache="true">
-		INSERT INTO SYS_ARTICLE_MESSAGES(M_Cid,M_Uid,M_MSG,M_STATUS) VALUES (#{cid},#{uid},#{msg},0)
+		INSERT INTO sys_article_messages(M_Cid,M_Uid,M_MSG,M_STATUS) VALUES (#{cid},#{uid},#{msg},0)
 	</insert>
 	
 	<delete id="batchDelete" flushCache="true">
-		DELETE FROM SYS_ARTICLE_MESSAGES WHERE M_id IN
+		DELETE FROM sys_article_messages WHERE M_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
            #{item} 
         </foreach>
@@ -39,7 +39,7 @@
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
-		FROM SYS_ARTICLE_MESSAGES t
+		FROM sys_article_messages t
 		<where>
 			<if test="model.cid != null and model.cid != ''">
 				and t.M_Cid = #{model.cid}
@@ -60,7 +60,7 @@
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
-		FROM SYS_ARTICLE_MESSAGES t
+		FROM sys_article_messages t
 	  WHERE t.M_id = #{id}
 	</select>
 	
@@ -73,7 +73,7 @@
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
-		FROM SYS_ARTICLE_MESSAGES t
+		FROM sys_article_messages t
 	   WHERE t.M_Cid = #{cid}
 	ORDER By t.M_time24 ASC
 	</select>

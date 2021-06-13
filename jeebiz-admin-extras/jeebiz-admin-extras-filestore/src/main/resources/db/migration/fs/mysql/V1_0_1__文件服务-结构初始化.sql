@@ -1,11 +1,9 @@
 
-
-
 -- ----------------------------
--- Table structure for $${table-prefix}data_files
+-- Table structure for sys_data_files
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}data_files`;
-CREATE TABLE `$${table-prefix}data_files` (
+DROP TABLE IF EXISTS `sys_data_files`;
+CREATE TABLE `sys_data_files` (
   `f_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '文件id',
   `f_uuid` varchar(100) NOT NULL COMMENT '文件UUid',
   `f_ext` varchar(50) NOT NULL COMMENT '文件类型',

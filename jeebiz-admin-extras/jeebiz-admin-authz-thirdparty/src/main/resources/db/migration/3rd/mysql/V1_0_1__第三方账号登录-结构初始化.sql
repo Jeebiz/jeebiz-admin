@@ -1,12 +1,11 @@
 /* 
  * 第三方账号登录表
  */
-
 -- ----------------------------
--- Table structure for $${table-prefix}authz_thirdparty
+-- Table structure for sys_authz_thirdparty
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}authz_thirdparty`;
-CREATE TABLE `$${table-prefix}authz_thirdparty` (
+DROP TABLE IF EXISTS `sys_authz_thirdparty`;
+CREATE TABLE `sys_authz_thirdparty` (
   `u_id` bigint(12) NOT NULL COMMENT '用户id',
   `t_id` bigint(12) NOT NULL COMMENT '第三方账号登录表id',
   `t_type` varchar(50) DEFAULT NULL COMMENT '第三方账号类型：（qq：腾讯QQ，wx：微信）',

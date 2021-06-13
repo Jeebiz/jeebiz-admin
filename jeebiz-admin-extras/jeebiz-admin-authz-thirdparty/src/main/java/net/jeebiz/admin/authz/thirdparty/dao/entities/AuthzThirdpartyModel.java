@@ -21,7 +21,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "AuthzThirdpartyModel")
 @SuppressWarnings("serial")
-@TableName(value = "authz_thirdparty", keepGlobalPrefix = true)
+@TableName(value = "sys_authz_thirdparty")
 @Builder
 @Data
 @NoArgsConstructor

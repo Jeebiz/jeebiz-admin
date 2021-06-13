@@ -21,7 +21,7 @@ import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
 @SuppressWarnings("serial")
 @Alias("FileEntity")
-@TableName(value = "data_files", keepGlobalPrefix = true)
+@TableName(value = "sys_data_files")
 @Builder
 @Data
 @NoArgsConstructor
@@ -29,7 +29,7 @@ import net.jeebiz.boot.api.dao.entities.BaseEntity;
 @EqualsAndHashCode(callSuper=false)
 public class FileEntity extends BaseEntity<FileEntity> implements Comparable<FileEntity> {
 
-	/**
+	/**     
 	 * 文件id
 	 */
 	@TableId(value="f_id",type= IdType.AUTO)

@@ -41,7 +41,7 @@ CREATE TABLE `sys_authz_org_dept` (
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`dept_id`),
-  UNIQUE KEY `UNIQUE_dept_code` (`dept_code`)
+  UNIQUE KEY `uk_dept_code` (`dept_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门信息表';
 
 -- ----------------------------
@@ -62,7 +62,7 @@ CREATE TABLE `sys_authz_org_post` (
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`post_id`),
-  UNIQUE KEY `UNIQUE_POST_CODE` (`post_code`)
+  UNIQUE KEY `uk_post_code` (`post_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位信息表';
 
 -- ----------------------------
@@ -83,7 +83,7 @@ CREATE TABLE `sys_authz_org_staff` (
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  UNIQUE KEY `UNIQUE_ORG_STAFF` (`org_id`,`dept_id`,`post_id`,`staff_id`)
+  UNIQUE KEY `uk_org_staff` (`org_id`,`dept_id`,`post_id`,`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组织机构关联表';
 
 -- ----------------------------
