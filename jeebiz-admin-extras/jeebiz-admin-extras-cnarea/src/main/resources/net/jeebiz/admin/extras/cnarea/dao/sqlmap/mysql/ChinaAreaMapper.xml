@@ -3,9 +3,6 @@
 
 <mapper namespace="net.jeebiz.admin.extras.cnarea.dao.IChinaAreaDao">
 	
-	<!-- 开启二级缓存 -->
-	<cache type="net.oschina.j2cache.mybatis.J2CacheAdapter" />
-	
 	<resultMap id="ChinaAreaMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO">
 		<result property="id" column="id" />
 		<!-- 层级 -->
