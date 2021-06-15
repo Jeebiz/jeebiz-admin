@@ -14,6 +14,7 @@ import com.aliyun.openservices.spring.boot.AbstractMessageListener;
 import com.aliyun.openservices.spring.boot.annotation.MessageConsumer;
 
 import lombok.extern.slf4j.Slf4j;
+import net.jeebiz.boot.api.XHeaders;
 
 @Slf4j
 @Component
@@ -34,12 +35,13 @@ public class AliyunSmsOperationConsumer extends AbstractMessageListener {
         log.info("{} {} ：剩余重试次数{}", Constants.SMS_TOPIC, Constants.TAG_ALL, message.getReconsumeTimes());
         
         JSONObject payload = JSONObject.parseObject(message.getBody(), JSONObject.class);
-        
+
+        String appId = MapUtils.getString(payload, XHeaders.X_APP_ID);
         String phone = MapUtils.getString(payload, Constants.SMS_MOBILE); 
         Integer type = MapUtils.getInteger(payload, Constants.SMS_TYPE);
         Integer countryCode = MapUtils.getInteger(payload, Constants.SMS_COUNTRYCODE);
 		
-        getAliyunSmsOperationTemplate().send(phone, type, countryCode);
+        getAliyunSmsOperationTemplate().send(appId, phone, type, countryCode);
 		
     }
 

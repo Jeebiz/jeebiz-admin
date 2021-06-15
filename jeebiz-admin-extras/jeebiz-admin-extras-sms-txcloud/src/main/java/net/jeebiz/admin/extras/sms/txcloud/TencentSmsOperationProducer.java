@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.sms.aliyun;
+package net.jeebiz.admin.extras.sms.txcloud;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ import net.jeebiz.boot.extras.redis.setup.SmsRedisKey;
  * 阿里云短信服务与消息队列服务集成逻辑操作模板对象
  */
 @Component
-public class AliyunSmsOperationProducer {
+public class TencentSmsOperationProducer {
 
 	protected static final String CODE_OK = "OK";
 	protected static final String CODE_BUSINESS_LIMIT_CONTROL = "isv.BUSINESS_LIMIT_CONTROL";

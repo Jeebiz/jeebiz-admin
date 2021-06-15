@@ -27,6 +27,10 @@ public class AliyunSmsTemplate {
 	}
 
 	public SendSmsResponse send(String phoneNumber, String templateCode, Map<String, Object> templateParams) throws ClientException {
+		return this.send(phoneNumber, templateCode, templateParams, 0);
+	}
+
+	public SendSmsResponse send(String phoneNumber, String templateCode, Map<String, Object> templateParams, int signIdx) throws ClientException {
 		
 		// 1、实例化一个请求对象，根据调用的接口和实际情况
 		SendSmsRequest req = new SendSmsRequest();
@@ -38,7 +42,7 @@ public class AliyunSmsTemplate {
 		req.setTemplateCode(templateCode);
 		
 		// 4、短信签名（必填）-可在短信控制台中找到
-		req.setSignName(smsProperties.getSigns()[0]);
+		req.setSignName(smsProperties.getSigns()[signIdx]);
 		
         // 5、模板中的变量替换JSON串（可选）,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为 {\"name\":\"Tom\", \"code\":\"123\"}
 		req.setTemplateParam(JSONObject.toJSONString(templateParams));
@@ -90,7 +94,7 @@ public class AliyunSmsTemplate {
 		// 3、国际/港澳台短信 senderid: 国内短信填空，默认未开通，如需开通请联系 [sms helper]
 		map.from(smsProperties.getConnectTimeout()).to(req::setSysConnectTimeout);
 
-		/* 4、用户的 session 内容: 可以携带用户侧 id 等上下文信息，server 会原样返回 */
+		/* 4、用户的 session 内容: 可以携带用户侧 ID 等上下文信息，server 会原样返回 */
 		map.from(smsProperties.getReadTimeout()).to(req::setSysReadTimeout);
 		
 		/* 5、短信码号扩展号: 默认未开通，如需开通请联系 [sms helper] */
@@ -117,7 +121,7 @@ public class AliyunSmsTemplate {
 		/* 3、国际/港澳台短信 senderid: 国内短信填空，默认未开通，如需开通请联系 [sms helper] */
 		map.from(smsProperties.getConnectTimeout()).to(req::setSysConnectTimeout);
 	
-		/* 4、用户的 session 内容: 可以携带用户侧 id 等上下文信息，server 会原样返回 */
+		/* 4、用户的 session 内容: 可以携带用户侧 ID 等上下文信息，server 会原样返回 */
 		map.from(smsProperties.getReadTimeout()).to(req::setSysReadTimeout);
 		
 		/* 5、短信码号扩展号: 默认未开通，如需开通请联系 [sms helper] */

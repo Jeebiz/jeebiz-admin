@@ -48,7 +48,7 @@ public class AliyunSmsOperationTemplate {
 	 * @param countryCode
 	 * @return
 	 */
-	public Boolean send(String phone, Integer type, Integer countryCode) {
+	public Boolean send(String appId, String phone, Integer type, Integer countryCode) {
 
 		long start = System.currentTimeMillis();
 		

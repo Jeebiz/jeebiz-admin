@@ -1,5 +1,7 @@
 package net.jeebiz.admin.extras.sms.web.mvc;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +17,10 @@ import net.jeebiz.admin.extras.sms.txcloud.TencentSmsOperationTemplate;
 import net.jeebiz.admin.extras.sms.web.mvc.dto.SmsCheckDTO;
 import net.jeebiz.admin.extras.sms.web.mvc.dto.SmsSendDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.web.BaseMapperController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "短信消息（腾讯云）：发送和校验")
 @RestController
@@ -33,9 +37,10 @@ public class TxcloudSmsController extends BaseMapperController {
 		@ApiImplicitParam(paramType = "body", name = "sendDTO", value = "发送短信DTO", dataType = "SmsSendDTO") 
 	})
 	@PostMapping("send")
-	public ApiRestResponse<String> send(@Validated @RequestBody SmsSendDTO sendDTO) {
+	public ApiRestResponse<String> send(@Validated @RequestBody SmsSendDTO sendDTO, @ApiIgnore HttpServletRequest request) {
 		// 1、调用公共代码发送短信
-		boolean rt = getSmsOperationTemplate().send(sendDTO.getPhone(), sendDTO.getType(), sendDTO.getCountryCode());
+		String appId = request.getHeader(XHeaders.X_APP_ID);
+		boolean rt = getSmsOperationTemplate().send(appId, sendDTO.getPhone(), sendDTO.getType(), sendDTO.getCountryCode());
 		if(rt) {
 			return success("sms.send.success");
 		}

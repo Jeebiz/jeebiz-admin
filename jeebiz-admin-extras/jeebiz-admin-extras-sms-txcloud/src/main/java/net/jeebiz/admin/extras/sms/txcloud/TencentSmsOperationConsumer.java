@@ -14,6 +14,7 @@ import com.aliyun.openservices.spring.boot.AbstractMessageListener;
 import com.aliyun.openservices.spring.boot.annotation.MessageConsumer;
 
 import lombok.extern.slf4j.Slf4j;
+import net.jeebiz.boot.api.XHeaders;
 
 @Slf4j
 @Component
@@ -35,12 +36,13 @@ public class TencentSmsOperationConsumer extends AbstractMessageListener {
         
         JSONObject payload = JSONObject.parseObject(message.getBody(), JSONObject.class);
         
+        String appId = MapUtils.getString(payload, XHeaders.X_APP_ID);
         String phone = MapUtils.getString(payload, Constants.SMS_MOBILE); 
         Integer type = MapUtils.getInteger(payload, Constants.SMS_TYPE);
         Integer countryCode = MapUtils.getInteger(payload, Constants.SMS_COUNTRYCODE);
 		
-        getTencentSmsOperationTemplate().send(phone, type, countryCode);
-		 
+        getTencentSmsOperationTemplate().send(appId, phone, type, countryCode);
+		
     }
 
     public TencentSmsOperationTemplate getTencentSmsOperationTemplate() {
