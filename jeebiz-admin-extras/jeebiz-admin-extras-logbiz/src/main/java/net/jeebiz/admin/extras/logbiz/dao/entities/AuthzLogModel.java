@@ -23,7 +23,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
  */
 @SuppressWarnings("serial")
 @Alias(value = "AuthzLogModel")
-@TableName(value = "log_authz", keepGlobalPrefix = true)
+@TableName(value = "sys_log_authz")
 @Builder
 @Data
 @NoArgsConstructor

@@ -23,7 +23,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
  */
 @SuppressWarnings("serial")
 @Alias("BizLogModel")
-@TableName(value = "log_biz", keepGlobalPrefix = true)
+@TableName(value = "sys_log_biz")
 @Builder
 @Data
 @NoArgsConstructor

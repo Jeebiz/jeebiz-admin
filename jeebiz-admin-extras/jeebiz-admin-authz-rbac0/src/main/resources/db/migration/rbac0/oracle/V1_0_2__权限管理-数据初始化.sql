@@ -17,7 +17,7 @@ VALUES ( '8BA8036C5A8B05E1E050007F010072D3', '*');
 INSERT INTO sys_authz_user_list ( u_id, u_username, u_password, u_salt, u_secret, u_alias, u_avatar, u_phone, u_email, U_REMARK, u_status  )
 VALUES ( '8BA7FCC7C934C6EDE050007F01006EF9', 'admin', '$2a$10$7Q074TSzglthSwIeynXEpeXWVQs6tFDVZ/g7gAmjkTCtz5jx6AdC.', 'MTIzNDU2', 'MTIzNDU2', '超级管理员', '','13735896863', 'jeebiz@163.com', '默认最高权限管理员', '1');
 
-INSERT INTO sys_authz_user_role_relation ( u_id, r_id, R_PRTY)
+INSERT INTO sys_authz_user_role_relation ( u_id, r_id, r_prty)
 VALUES ( '8BA7FCC7C934C6EDE050007F01006EF9', '8BA8036C5A8B05E1E050007F010072D3', '0');
 
 COMMIT;

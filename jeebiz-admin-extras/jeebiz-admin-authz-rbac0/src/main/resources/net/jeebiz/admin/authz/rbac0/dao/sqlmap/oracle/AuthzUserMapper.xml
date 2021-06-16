@@ -104,7 +104,7 @@
 		<!-- 角色状态（0:禁用|1:可用） -->
 		<result property="status" column="r_status" />
 		<!-- 角色已分配用户量 -->
-		<result property="users" column="R_USERS" />
+		<result property="users" column="r_users" />
 		<!-- 初始化时间 -->
 		<result property="time24" column="R_time24" />
 	</resultMap>
@@ -306,7 +306,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
 			t.R_time24
 		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		WHERE x.u_id = #{id}
@@ -329,7 +329,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
 			t.R_time24
 		FROM sys_authz_role_list t
 		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.r_id = z.r_id and z.u_id = #{id})
@@ -349,7 +349,7 @@
 			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		   WHERE t.r_status = '1'
 			 AND x.u_id = #{userId}
-		ORDER BY x.R_PRTY DESC
+		ORDER BY x.r_prty DESC
 	</select>
 	
 	<select id="getRoleList" resultMap="PairMap" useCache="false">
@@ -374,7 +374,7 @@
 			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		   WHERE t.r_status = '1'
 			 AND x.u_id = #{userId}
-		ORDER BY x.R_PRTY ASC
+		ORDER BY x.r_prty ASC
 	</select>
 	
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
@@ -383,7 +383,7 @@
 		INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		INNER JOIN sys_authz_role_perms y ON t.r_id = y.r_id
 		WHERE x.u_id = #{userId}
-		ORDER BY x.R_PRTY ASC
+		ORDER BY x.r_prty ASC
 	</select>
 	
 	<select id="getProfile" resultMap="UserProfileMap" useCache="false">

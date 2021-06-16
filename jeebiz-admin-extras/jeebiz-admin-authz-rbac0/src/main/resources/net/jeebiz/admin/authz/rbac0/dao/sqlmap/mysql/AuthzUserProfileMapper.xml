@@ -48,7 +48,7 @@
 		<!-- 用户信息完成度 -->
 		<result property="degree" column="u_degree" />
         <!-- 初始化时间 -->
-        <result property="time24" column="u_time24"/>
+		<result property="createTime" column="create_time"/>
 	</resultMap>
 	
 	<insert id="insert" parameterType="AuthzUserProfileModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
@@ -149,7 +149,7 @@
 			t.u_wgs84_lng,
 			t.u_wgs84_lat,
 			t.u_degree,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_profile t
 	   WHERE t.u_id = #{uid}
 	</select>
@@ -178,7 +178,7 @@
 			t.u_wgs84_lng,
 			t.u_wgs84_lat,
 			t.u_degree,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_profile t
 	   WHERE t.u_pid = #{id}
 	</select>

@@ -16,9 +16,9 @@
 		<!-- 角色状态（0:禁用|1:可用） -->
 		<result property="status" column="r_status" />
 		<!-- 角色已分配用户量 -->
-		<result property="users" column="R_USERS" />
+		<result property="users" column="r_users" />
 		<!-- 初始化时间 -->
-		<result property="time24" column="R_time24" />
+		<result property="createTime" column="create_time"/>
 		<!-- 角色授权的标记集合：将 perms list属性映射到collection : http://jaychang.iteye.com/blog/2357143 -->
         <collection property="perms" column="r_id" select="getPermsByRoleId">
             <result column="perm" />  
@@ -40,7 +40,7 @@
         <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
         <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
-        <result property="time24" column="u_time24"/>
+        <result property="createTime" column="create_time"/>
         <!-- 角色id（可能多个组合，如：1,2） -->
 		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
@@ -80,10 +80,10 @@
 	   	DECLARE
 	   	BEGIN
 			UPDATE sys_authz_user_role_relation
-			   SET R_PRTY = 0
+			   SET r_prty = 0
 			 WHERE u_id = #{userId};
 			UPDATE sys_authz_user_role_relation
-			   SET R_PRTY = 1
+			   SET r_prty = 1
 			 WHERE r_id = #{roleId}
 			   AND u_id = #{userId};
 		END;			   
@@ -122,7 +122,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t
 	</select>
 	
@@ -134,7 +134,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		WHERE x.u_id = #{userId}
 	</select>
@@ -151,7 +151,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
 			t.R_time24
 		FROM sys_authz_role_list t
 	   WHERE t.r_id = #{id}
@@ -166,7 +166,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as R_USERS,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
 			t.R_time24
 		FROM sys_authz_role_list t
 	   WHERE t.r_key != 'admin'

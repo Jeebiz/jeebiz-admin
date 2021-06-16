@@ -15,7 +15,7 @@ CREATE TABLE `sys_authz_role_list` (
   `r_intro` varchar(1000) NOT NULL COMMENT '角色简介',
   `r_status` int(1) NOT NULL DEFAULT '1' COMMENT '角色状态（0:禁用|1:可用）',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
-  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -52,7 +52,7 @@ CREATE TABLE `sys_authz_user_list` (
   `u_latest_online` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '用户最近一次登录时间',
   `u_status` tinyint(2) DEFAULT NULL COMMENT '用户状态（0:禁用|1:可用|2:锁定）',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
-  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -91,7 +91,7 @@ CREATE TABLE `sys_authz_user_profile` (
   `u_wgs84_lat` decimal(10,6) DEFAULT NULL COMMENT '用户位置：wgs84纬度',
   `u_degree` int(3) DEFAULT '0' COMMENT '用户信息完成度',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
-  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -108,6 +108,6 @@ DROP TABLE IF EXISTS `sys_authz_user_role_relation`;
 CREATE TABLE `sys_authz_user_role_relation` (
   `u_id` bigint(12) NOT NULL COMMENT '用户id',
   `r_id` bigint(12) NOT NULL COMMENT '角色id',
-  `R_PRTY` int(2) NOT NULL DEFAULT 0 COMMENT '优先级：用于默认登录角色',
+  `r_prty` int(2) NOT NULL DEFAULT 0 COMMENT '优先级：用于默认登录角色',
   PRIMARY KEY (`u_id`,`r_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户-角色关系表';

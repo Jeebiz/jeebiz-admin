@@ -133,7 +133,7 @@ comment on column sys_authz_user_profile.u_time24  is '初始化时间';
 create table sys_authz_user_role_relation (
   u_id   			VARCHAR2(32) not null,
   r_id   			VARCHAR2(32) not null,
-  R_PRTY			VARCHAR2(2) default '0',
+  r_prty			VARCHAR2(2) default '0',
   CONSTRAINT UNIQUE_Uid_Rid UNIQUE(u_id, r_id)
 );
 -- Add comments to the table 
@@ -141,5 +141,5 @@ comment on table sys_authz_user_role_relation  is '用户-角色关系表';
 -- Add comments to the columns 
 comment on column sys_authz_user_role_relation.u_id  is '用户id';
 comment on column sys_authz_user_role_relation.r_id  is '角色id';
-comment on column sys_authz_user_role_relation.R_PRTY  is '优先级：用于默认登录角色';
+comment on column sys_authz_user_role_relation.r_prty  is '优先级：用于默认登录角色';
 
