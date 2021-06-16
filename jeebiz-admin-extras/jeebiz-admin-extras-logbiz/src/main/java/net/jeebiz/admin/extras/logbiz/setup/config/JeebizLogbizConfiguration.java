@@ -8,37 +8,19 @@ import org.flywaydb.spring.boot.ext.FlywayFluentConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import net.jeebiz.admin.extras.logbiz.setup.shiro.Log4j2MDCRequestFilter;
 import net.jeebiz.admin.extras.logbiz.setup.shiro.Slf4jMDCRequestFilter;
 import net.jeebiz.boot.api.sequence.Sequence;
-import net.jeebiz.boot.api.web.servlet.handler.Slf4jMDCInterceptor;
 
 @Configuration
 public class JeebizLogbizConfiguration implements WebMvcConfigurer {
-	
-	@Bean
-	public Slf4jMDCInterceptor mdcInterceptor() {
-		return new Slf4jMDCInterceptor();
-	}
 	
 	/*@Bean
 	public Log4j2MDCInterceptor mdcInterceptor() {
 		return new Log4j2MDCInterceptor();
 	}*/
 
-	@Bean("log4j2")
-	public FilterRegistrationBean<Log4j2MDCRequestFilter> log4j2MDCRequestFilter(Sequence sequence) {
-		FilterRegistrationBean<Log4j2MDCRequestFilter> registration = new FilterRegistrationBean<Log4j2MDCRequestFilter>();
-		Log4j2MDCRequestFilter filter = new Log4j2MDCRequestFilter();
-		filter.setSequence(sequence);
-		registration.setFilter(filter);
-		registration.setEnabled(false);
-		return registration;
-	}
-	
 	@Bean("slf4j")
 	public FilterRegistrationBean<Slf4jMDCRequestFilter> slf4jMDCRequestFilter(Sequence sequence) {
 		FilterRegistrationBean<Slf4jMDCRequestFilter> registration = new FilterRegistrationBean<Slf4jMDCRequestFilter>();
@@ -47,11 +29,6 @@ public class JeebizLogbizConfiguration implements WebMvcConfigurer {
 		registration.setFilter(filter);
 		registration.setEnabled(false);
 		return registration;
-	}
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(mdcInterceptor()).addPathPatterns("/**").order(Integer.MIN_VALUE);
 	}
 	
 	@Bean
