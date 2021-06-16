@@ -8,7 +8,7 @@
 		<result property="key" column="g_key" />
 		<result property="value" column="g_text" />
 		<result property="status" column="g_status" />
-		<result property="order" column="g_order" />
+		<result property="orderBy" column="g_order" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">

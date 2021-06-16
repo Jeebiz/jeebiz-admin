@@ -12,7 +12,7 @@
 		<result property="value" column="d_value" />
 		<result property="text" column="d_text" />
 		<result property="status" column="d_status" />
-		<result property="order" column="d_order" />
+		<result property="orderBy" column="d_order" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
