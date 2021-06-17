@@ -59,8 +59,8 @@
 					  and model.endtime != null and model.endtime != '' ">
 				<![CDATA[ AND t.create_time BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
 			</if>
-		 	ORDER BY t.create_time DESC
 		</where>
+	 	ORDER BY t.create_time DESC
 	</select>
 	
 </mapper>
