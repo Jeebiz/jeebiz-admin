@@ -11,19 +11,19 @@
 		<!-- 消息通知发送状态：（0:待发送、1:已发送） -->
 		<result property="status" column="t_status" />
 		<!-- 消息通知发送时间 -->
-		<result property="time24" column="time24"/>
+		<result property="createTime" column="create_time"/>
 	</resultMap>
 	
 	<insert id="insert" parameterType="InformTargetModel">
-		insert into SYS_INFORM_TARGETS(t_id,t_uid,t_status) values(#{tid},#{uid},0)
+		insert into sys_inform_targets(t_id,t_uid,t_status) values(#{tid},#{uid},0)
 	</insert>
 	
 	<delete id="deleteByTid">
-		delete from SYS_INFORM_TARGETS where t_id = #{tid}
+		delete from sys_inform_targets where t_id = #{tid}
 	</delete>
 	
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE SYS_INFORM_TARGETS t 
+		UPDATE sys_inform_targets t
 		   SET t.t_status = #{status}
 		 WHERE t.t_id = #{id}
 	</update>

@@ -11,7 +11,7 @@ create table sys_authz_role_list (
   r_type   		VARCHAR2(2) default 1,
   r_intro  		VARCHAR2(1000),
   r_status		VARCHAR2(2) default 1,
-  R_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  create_time		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT UNIQUE_r_key UNIQUE(r_key),
   CONSTRAINT PK_Rid PRIMARY KEY(r_id)
 );
@@ -24,7 +24,7 @@ comment on column sys_authz_role_list.r_name  is '角色名称';
 comment on column sys_authz_role_list.r_type  is '角色类型（1:原生|2:继承|3:复制|4:自定义）';
 comment on column sys_authz_role_list.r_intro  is '角色简介';
 comment on column sys_authz_role_list.r_status  is '角色状态（0:禁用|1:可用）';
-comment on column sys_authz_role_list.R_time24  is '初始化时间';
+comment on column sys_authz_role_list.create_time  is '初始化时间';
 
 -- Create table
 create table sys_authz_role_perms (
@@ -53,7 +53,7 @@ create table sys_authz_user_list (
   u_app_version		VARCHAR2(20),
   u_online			VARCHAR2(1),
   u_latest_online	VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  u_time24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  create_time			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT idx_uname UNIQUE(u_username),
   CONSTRAINT idx_uuid UNIQUE(u_uid),
   CONSTRAINT PK_Uid PRIMARY KEY(u_id)
@@ -74,7 +74,7 @@ comment on column sys_authz_user_list.u_app_channel  is '用户客户端应用�
 comment on column sys_authz_user_list.u_app_version  is '用户客户端版本';
 comment on column sys_authz_user_list.u_online  is '用户是否在线（1：是，0：否）';
 comment on column sys_authz_user_list.u_latest_online  is '用户最近一次在线登录时间';
-comment on column sys_authz_user_list.u_time24  is '初始化时间';
+comment on column sys_authz_user_list.create_time  is '初始化时间';
 
 -- Create table
 create table sys_authz_user_profile (
@@ -100,7 +100,7 @@ create table sys_authz_user_profile (
   u_wgs84_lng		VARCHAR2(50),
   u_wgs84_lat		VARCHAR2(50),
   u_degree			VARCHAR2(3),
-  u_time24			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  create_time			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT PK_Uid PRIMARY KEY(u_pid)
 );
 -- Add comments to the table 
@@ -127,7 +127,7 @@ comment on column sys_authz_user_profile.u_area  is '用户位置：常驻区域
 comment on column sys_authz_user_profile.u_wgs84_lng  is '用户位置：wgs84经度';
 comment on column sys_authz_user_profile.u_wgs84_lat  is '用户位置：wgs84纬度';
 comment on column sys_authz_user_profile.u_degree  is '用户信息完成度';
-comment on column sys_authz_user_profile.u_time24  is '初始化时间';
+comment on column sys_authz_user_profile.create_time  is '初始化时间';
 
 -- Create table
 create table sys_authz_user_role_relation (

@@ -18,48 +18,22 @@
 		<!-- 角色已分配用户量 -->
 		<result property="users" column="r_users" />
 		<!-- 初始化时间 -->
-		<result property="time24" column="R_time24" />
+		<result property="createTime" column="create_time" />
 		<!-- 角色授权的标记集合：将 perms list属性映射到collection : http://jaychang.iteye.com/blog/2357143 -->
         <collection property="perms" column="r_id" select="getPermsByRoleId">
             <result column="perm" />  
         </collection> 
 	</resultMap>
-	
+
 	<resultMap id="UserMap" type="AuthzUserModel">
 		<!-- 用户名称 -->
 		<result property="id" column="u_id" />
 		<!-- 用户名称 -->
         <result property="username" column="u_username"/>
-        <!-- 用户密码 -->
-        <result property="password" column="u_password"/>
-        <!-- 用户密码盐：用于密码加解密 -->
-        <result property="salt" column="u_salt"/>
-        <!-- 用户秘钥：用于用户JWT加解密 -->
-        <result property="secret" column="u_secret"/>
-        <!-- 用户别名（昵称） -->
-        <result property="alias" column="u_alias"/>
-        <!-- 用户头像：图片路径或图标样式  -->
-		<result property="avatar" column="u_avatar" />
-        <!-- 手机号码 -->
-        <result property="phone" column="u_phone"/>
-        <!-- 电子邮箱 -->
-        <result property="email" column="u_email"/>
-        <!-- 性别：（male：男，female：女） -->
-        <result property="gender" column="u_gender" />
-        <!-- 出生日期 -->
-		<result property="birthday" column="u_birthday" />
-		<!-- 身份证号码 -->
-		<result property="idcard" column="u_idcard" />
-		<!-- 用户备注 -->
-		<result property="remark" column="U_REMARK" />
         <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
         <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
-        <result property="time24" column="u_time24"/>
-        <!-- 角色id（可能多个组合，如：1,2） -->
-		<result property="roleId" column="r_id" />
-		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
-		<result property="roleName" column="r_name" />
+        <result property="createTime" column="create_time"/>
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
@@ -140,7 +114,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t
 	</select>
 	
@@ -152,7 +126,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		WHERE x.u_id = #{userId}
 	</select>
@@ -170,7 +144,7 @@
 			t.r_intro,
 			t.r_status,
 			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t
 	   WHERE t.r_id = #{id}
 	     AND t.r_key != 'admin'
@@ -185,7 +159,7 @@
 			t.r_intro,
 			t.r_status,
 			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t
 	   WHERE t.r_key != 'admin'
 		<if test="model.status != null and model.status != ''">
@@ -245,15 +219,17 @@
 		SELECT
 			t.u_id,
 			t.u_username,
-			'******' AS u_password,
-			t.u_avatar,
-			t.u_phone,
-			t.u_email,
-			t.U_REMARK,
+			x.u_nickname,
+			x.u_avatar,
+			x.u_phone,
+			x.u_email,
+			x.u_intro,
 			t.u_status,
-			t.u_time24
-		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
-		WHERE x.r_id = #{model.id}
+			t.create_time
+		FROM sys_authz_user_list t
+		    inner join sys_authz_user_profile x on t.u_id = x.u_id
+			inner join sys_authz_user_role_relation y ON t.u_id = y.u_id
+		WHERE y.r_id = #{model.id}
 		<if test="model.status != null and model.status != ''">
 			and t.u_status = #{model.status}
 		</if>
@@ -266,14 +242,14 @@
 		SELECT
 			t.u_id,
 			t.u_username,
-			'******' AS u_password,
-			t.u_avatar,
-			t.u_phone,
-			t.u_email,
-			t.U_REMARK,
+			x.u_nickname,
+			x.u_avatar,
+			x.u_phone,
+			x.u_email,
+			x.u_intro,
 			t.u_status,
-			t.u_time24
-		FROM sys_authz_user_list t
+			t.create_time
+		FROM sys_authz_user_list t inner join sys_authz_user_profile x on t.u_id = x.u_id
 		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.u_id = z.u_id and z.r_id = #{id} )
 		<if test="model.status != null and model.status != ''">
 			and t.u_status = #{model.status}
@@ -286,9 +262,9 @@
 	<select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 		 SELECT t.r_id,
 				t.r_name
-		FROM sys_authz_role_list t
-	   WHERE t.r_status = 1
-		ORDER BY t.R_time24 DESC
+		   FROM sys_authz_role_list t
+	      WHERE t.r_status = 1
+	   ORDER BY t.create_time DESC
 	</select>
 	
 </mapper>

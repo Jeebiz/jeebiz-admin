@@ -25,20 +25,20 @@
 		<!-- 消息通知状态：（0:停用、1:启用） -->
 		<result property="status" column="t_status" />
 		<!-- 消息通知模板已发消息总数 -->
-		<result property="total" column="T_TOTAL" />
+		<result property="total" column="t_total" />
 		<!-- 消息通知模板已发消息未读总数 -->
-		<result property="unread" column="T_UNREAD" />
+		<result property="unread" column="t_unread" />
 		<!-- 消息通知模板创建时间 -->
-		<result property="time24" column="time24"/>
+		<result property="createTime" column="create_time"/>
 	</resultMap>
 	
 	<resultMap id="InformTemplateStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO">
 		<!-- 消息通知模板的发送提供者 -->
 		<result property="provider" column="t_provider" />
 		<!-- 消息通知模板已发消息总数 -->
-		<result property="total" column="T_TOTAL" />
+		<result property="total" column="t_total" />
 		<!-- 消息通知模板已发消息未读总数 -->
-		<result property="unread" column="T_UNREAD" />
+		<result property="unread" column="t_unread" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="InformTemplateModel" flushCache="true" 
@@ -84,22 +84,22 @@
 	
 	<select id="getPagedList" resultMap="InformTemplateMap" >
 		SELECT t.t_id,
-			   t.t_uid,
-			   (SELECT IFNULL(x.u_alias,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.t_uid) as t_uname,
+			   t.creator as t_uid,
+			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
 			   t.t_target,
 			   t.t_provider,
 			   t.t_title,
 			   t.t_content,
 			   t.t_tid,
 			   t.t_payload,
-			   t.t_status
-			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS T_TOTAL,
-			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND t.r_status = 0 ),0) AS T_UNREAD,
-			   t.time24
+			   t.t_status,
+			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS t_total,
+			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND x.r_status = 0 ),0) AS t_unread,
+			   t.create_time
 		  FROM sys_inform_templates t
 	   	<where>
 			<if test="model.uid != null and model.uid != '' ">
-				AND t.t_uid = #{model.uid}
+				AND t.creator = #{model.uid}
 			</if>
 			<if test="model.provider != null and model.provider != '' ">
 				AND t.t_provider = #{model.provider}
@@ -118,27 +118,27 @@
 	
 	<select id="getModel" resultMap="InformTemplateMap" parameterType="String" >
 		SELECT t.t_id,
-			   t.t_uid,
-			   (SELECT IFNULL(x.u_alias,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.t_uid) as t_uname,
+			   t.creator as t_uid,
+			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
 			   t.t_target,
 			   t.t_provider,
 			   t.t_title,
 			   t.t_content,
 			   t.t_tid,
 			   t.t_payload,
-			   t.t_status
-			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS T_TOTAL,
-			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND t.r_status = 0 ),0) AS T_UNREAD,
-			   t.time24
+			   t.t_status,
+			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS t_total,
+			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND x.r_status = 0 ),0) AS t_unread,
+			   t.create_time
 		  FROM sys_inform_templates t
 	   WHERE t.t_id = #{id}
 	</select>
 	
 	<select id="getStats" resultMap="InformTemplateStatsMap">
 		SELECT t.t_provider,
-			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS T_TOTAL,
-			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND t.r_status = 0 ),0) AS T_UNREAD
-		FROM sys_inform_templates t, SYS_INFORM_TARGETS t2
+			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS t_total,
+			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND x.r_status = 0 ),0) AS t_unread
+		FROM sys_inform_templates t, sys_inform_targets t2
 	   WHERE t.t_id = t2.t_id
 	   GROUP BY t.t_provider
 	</select>

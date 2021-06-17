@@ -21,7 +21,7 @@
         <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
         <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
-        <result property="time24" column="u_time24"/>
+        <result property="time24" column="create_time"/>
 	</resultMap>
 	
 	<resultMap id="LoginStatusMap" type="AuthzLoginStatusModel">
@@ -88,7 +88,7 @@
 		<!-- 用户信息完成度 -->
 		<result property="degree" column="u_degree" />
         <!-- 初始化时间 -->
-        <result property="time24" column="u_time24"/>
+        <result property="time24" column="create_time"/>
 	</resultMap>
 	
 	<select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
@@ -125,7 +125,7 @@
 				t.u_salt,
 				t.u_secret,
 				t.u_status,
-				t.u_time24
+				t.create_time
 		   from sys_authz_user_list t
 		  where t.u_username = #{username}
 	</sql>
@@ -150,7 +150,7 @@
 				t.u_salt,
 				t.u_secret,
 				t.u_status,
-				t.u_time24
+				t.create_time
 		  from sys_authz_user_list t
 		 where t.u_id = #{id}
     </select>
@@ -164,7 +164,7 @@
 				t.u_salt,
 				t.u_secret,
 				t.u_status,
-				t.u_time24
+				t.create_time
 		  from sys_authz_user_list t
 		 where t.u_code = #{ucode}
     </select>
@@ -178,7 +178,7 @@
 				t.u_salt,
 				t.u_secret,
 				t.u_status,
-				t.u_time24
+				t.create_time
 		   from sys_authz_user_list t
 		  where t.u_uid = #{uid}
     </select>
@@ -212,7 +212,7 @@
 			t2.u_wgs84_lng,
 			t2.u_wgs84_lat,
 			t2.u_degree,
-			t2.u_time24
+			t2.create_time
 		FROM sys_authz_user_list t LEFT JOIN sys_authz_user_profile t2 ON t.u_id = t2.u_id
 	   WHERE t.u_id = #{userid}
     </select> 

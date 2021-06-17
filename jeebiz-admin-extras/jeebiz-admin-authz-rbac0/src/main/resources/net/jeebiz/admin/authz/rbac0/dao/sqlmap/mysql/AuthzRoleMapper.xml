@@ -152,7 +152,7 @@
 			t.r_intro,
 			t.r_status,
 			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t
 	   WHERE t.r_id = #{id}
 	     AND t.r_key != 'admin'
@@ -167,7 +167,7 @@
 			t.r_intro,
 			t.r_status,
 			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t
 	   WHERE t.r_key != 'admin'
 		<if test="model.status != null and model.status != ''">
@@ -212,7 +212,7 @@
 			t.u_email,
 			t.U_REMARK,
 			t.u_status,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
 		WHERE x.r_id = #{model.id}
 		<if test="model.status != null and model.status != ''">
@@ -233,7 +233,7 @@
 			t.u_email,
 			t.U_REMARK,
 			t.u_status,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_list t
 		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.u_id = z.u_id and z.r_id = #{id} )
 		<if test="model.status != null and model.status != ''">
@@ -250,7 +250,7 @@
 				t.r_name
 		FROM sys_authz_role_list t
 	   WHERE t.r_status = 1
-		ORDER BY t.R_time24 DESC
+		ORDER BY t.create_time DESC
 	</select>
 	
 </mapper>

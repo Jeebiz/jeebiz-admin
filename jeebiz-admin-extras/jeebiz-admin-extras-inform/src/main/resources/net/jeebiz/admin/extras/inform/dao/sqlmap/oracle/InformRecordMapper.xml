@@ -9,7 +9,7 @@
 		<!-- 消息通知发送人id -->
 		<result property="uid" column="r_uid" />
 		<!-- 消息通知发送人 -->
-		<result property="uname" column="R_Uname" />
+		<result property="uname" column="r_uname" />
 		<!-- 消息通知的发送提供者 -->
 		<result property="provider" column="r_provider" />
 		<!-- 消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝） -->
@@ -17,7 +17,7 @@
 		<!-- 消息通知接收人id -->
 		<result property="toUid" column="r_to" />
 		<!-- 消息通知接收人 -->
-		<result property="toUname" column="R_TO_Uname" />
+		<result property="toUname" column="r_to_uname" />
 		<!-- 消息通知标题（变量处理后的标题） -->
 		<result property="title" column="r_title" />
 		<!-- 消息通知内容（变量处理后的内容） -->
@@ -29,16 +29,16 @@
 		<!-- 消息通知阅读状态：（0:未阅读、1:已阅读） -->
 		<result property="status" column="r_status" />
 		<!-- 消息通知创建时间 -->
-		<result property="time24" column="time24"/>
+		<result property="createTime" column="create_time"/>
 	</resultMap>
 	
 	<resultMap id="InformStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO">
 		<!-- 消息通知的发送提供者 -->
 		<result property="provider" column="r_provider" />
 		<!-- 该类型通知总数 -->
-		<result property="total" column="R_TOTAL" />
+		<result property="total" column="r_total" />
 		<!-- 该类型未读通知总数 -->
-		<result property="unread" column="R_UNREAD" />
+		<result property="unread" column="r_unread" />
 	</resultMap>
 	
 	<insert id="insert" parameterType="InformRecordModel">
@@ -80,14 +80,14 @@
 	<select id="getPagedList" resultMap="InformRecordMap" >
 		SELECT t.r_id,
 			   t.r_uid,
-			   (SELECT NVL(x.u_alias,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.r_uid) as R_Uname,
+			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
 		   	   t.r_provider,
 		   	   t.r_tag,
 			   t.r_title,
 			   t.r_content,
 			   t.r_tid,
 			   t.r_to,
-			   (SELECT IFNULL(x.u_alias,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.r_to) as R_TO_Uname,
+			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
 			   t.r_payload,
 			   t.r_status,
 			   t.time24
@@ -112,14 +112,14 @@
 	<select id="getModel" resultMap="InformRecordMap" parameterType="String" >
 		SELECT t.r_id,
 			   t.r_uid,
-			   (SELECT NVL(x.u_alias,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.r_uid) as R_Uname,
+			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
 		   	   t.r_provider,
 		   	   t.r_tag,
 			   t.r_title,
 			   t.r_content,
 			   t.r_tid,
 			   t.r_to,
-			   (SELECT IFNULL(x.u_alias,x.u_username) FROM sys_authz_user_list x WHERE x.u_id = t.r_to) as R_TO_Uname,
+			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
 			   t.r_payload,
 			   t.r_status,
 			   t.time24
@@ -129,8 +129,8 @@
 	
 	<select id="getStats" resultMap="InformRecordStatsMap">
 		SELECT t.r_provider,
-			   COUNT( t.r_id ) as R_TOTAL,
-		   	   SUM( CASE WHEN t.r_status = '0' THEN 1 ELSE 0 END ) as R_UNREAD
+			   COUNT( t.r_id ) as r_total,
+		   	   SUM( CASE WHEN t.r_status = '0' THEN 1 ELSE 0 END ) as r_unread
 		FROM sys_inform_records t
 	   WHERE t.r_to = #{toUid}
 	   GROUP BY t.r_provider

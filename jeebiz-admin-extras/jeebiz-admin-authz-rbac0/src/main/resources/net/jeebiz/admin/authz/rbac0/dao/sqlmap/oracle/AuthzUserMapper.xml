@@ -30,7 +30,7 @@
         <!-- 用户状态(0:不可用|1:正常|2:锁定) -->
         <result property="status" column="u_status"/>
         <!-- 初始化时间 -->
-        <result property="time24" column="u_time24"/>
+        <result property="time24" column="create_time"/>
         <!-- 角色id（可能多个组合，如：1,2） -->
 		<result property="roleId" column="r_id" />
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
@@ -87,7 +87,7 @@
 		<!-- 用户信息完成度 -->
 		<result property="degree" column="u_degree" />
         <!-- 初始化时间 -->
-        <result property="time24" column="u_time24"/>
+        <result property="createTime" column="create_time"/>
 	</resultMap>
 	
 	<resultMap id="RoleMap" type="AuthzRoleModel">
@@ -106,7 +106,7 @@
 		<!-- 角色已分配用户量 -->
 		<result property="users" column="r_users" />
 		<!-- 初始化时间 -->
-		<result property="time24" column="R_time24" />
+		<result property="createTime" column="create_time" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
@@ -218,7 +218,7 @@
 			t.u_online,
 			t.u_latest_online,
 			t.u_status,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_list t
 	   WHERE t.u_id = #{id}
 	</select>
@@ -238,7 +238,7 @@
 			t.u_online,
 			t.u_latest_online,
 			t.u_status,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_list t
 		LEFT JOIN sys_authz_user_role_relation y ON y.u_id = t.u_id
 	   WHERE t.u_id = #{id}
@@ -259,7 +259,7 @@
 			t.u_online,
 			t.u_latest_online,
 			t.u_status,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
 	   WHERE t.u_status = 1
 	</select>
@@ -279,7 +279,7 @@
 			t.u_online,
 			t.u_latest_online,
 			t.u_status,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_list t
 		LEFT JOIN sys_authz_user_role_relation y ON y.u_id = t.u_id
 	   WHERE t.u_username != 'admin'
@@ -307,7 +307,7 @@
 			t.r_intro,
 			t.r_status,
 			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		WHERE x.u_id = #{id}
 		<if test="model.status != null and model.status != ''">
@@ -330,7 +330,7 @@
 			t.r_intro,
 			t.r_status,
 			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
-			t.R_time24
+			t.create_time
 		FROM sys_authz_role_list t
 		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.r_id = z.r_id and z.u_id = #{id})
 		<if test="model.status != null and model.status != ''">
@@ -370,7 +370,7 @@
 				t.r_type,
 				t.r_intro,
 				t.r_status,
-				t.R_time24
+				t.create_time
 			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		   WHERE t.r_status = '1'
 			 AND x.u_id = #{userId}
@@ -410,7 +410,7 @@
 			t.u_wgs84_lng,
 			t.u_wgs84_lat,
 			t.u_degree,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_profile t
 	   WHERE t.u_id = #{uid}
 	</select>

@@ -215,7 +215,7 @@
 			t.u_online,
 			t.u_latest_online,
 			t.u_status,
-			t.u_time24
+			t.create_time
 		FROM sys_authz_user_list t
 	   WHERE t.u_id = #{id}
 	</select>
