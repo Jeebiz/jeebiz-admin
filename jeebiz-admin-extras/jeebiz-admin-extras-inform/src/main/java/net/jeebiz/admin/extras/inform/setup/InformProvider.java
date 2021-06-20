@@ -62,7 +62,11 @@ public enum InformProvider {
 	/**
 	 * 极光推送
 	 */
-	JPUSH("极光推送");
+	JPUSH("极光推送"),
+	/**
+	 * GoEasy推送
+	 */
+	GOEASY("GoEasy推送");
 
 	private String provider;
 

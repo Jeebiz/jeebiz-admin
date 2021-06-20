@@ -11,36 +11,21 @@
 	
 	<dependencies>
 		
-		<!-- For KDing API -->
+		<!-- For Jeebiz API -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-admin-extras-core</artifactId>
-			<version>${project.version}</version>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- For Validation -->
+		<!-- For Shiro -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-biz-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Mybatis -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-		</dependency>
-		<!-- For Spring Security -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>security-biz-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Flyway -->
 		<dependency>

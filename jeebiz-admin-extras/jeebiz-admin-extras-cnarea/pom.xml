@@ -11,23 +11,11 @@
 	
 	<dependencies>
 		
-		<!-- For Jeebiz API -->
+		<!-- For Jeebiz API --> 
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-boot-api</artifactId>
-			<version>${jeebiz-boot.version}</version>
-		</dependency>
-		
-		<!-- For Validation -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- For Shiro -->
 		<dependency>
@@ -40,8 +28,8 @@
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.oschina.j2cache</groupId>
-			<artifactId>j2cache-mybatis</artifactId>
+		    <groupId>org.redisson</groupId>
+		    <artifactId>redisson-mybatis</artifactId>
 		</dependency>
 		<!-- For Flyway -->
 		<dependency>

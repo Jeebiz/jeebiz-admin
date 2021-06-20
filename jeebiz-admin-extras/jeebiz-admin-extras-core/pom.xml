@@ -13,9 +13,14 @@
 		
 		<!-- For Jeebiz API -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-api</artifactId>
 			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-boot-webmvc-autoconfigure</artifactId>
+			<version>${jeebiz-boot.version}</version>
 		</dependency>
 		
 		<!-- For Validation -->

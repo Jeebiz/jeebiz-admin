@@ -13,20 +13,9 @@
 	
 		<!-- For Jeebiz API -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-boot-api</artifactId>
-			<version>${jeebiz-boot.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-boot-extras-redis</artifactId>
-			<version>${jeebiz-boot.version}</version>
-		</dependency>
-		
-		<!-- For Mybatis -->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- For Shiro -->
 		<dependency>
@@ -36,6 +25,11 @@
 		<dependency>
 		    <groupId>com.github.streamone</groupId>
 		    <artifactId>shiro-redisson</artifactId>
+		</dependency>
+		<!-- For Mybatis -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
 		</dependency>
 		<!-- For Flyway -->
 		<dependency>
