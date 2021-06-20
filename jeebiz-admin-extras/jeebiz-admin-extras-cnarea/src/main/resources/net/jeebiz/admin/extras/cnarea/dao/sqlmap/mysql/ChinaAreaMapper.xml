@@ -6,13 +6,13 @@
 	<!-- 开启二级缓存 -->
 	<cache type="org.redisson.mybatis.RedissonCache">
 		<!-- timeToLive：此参数指定删除对象之前在缓存中存储对象的最长时间。 -->
-		<property name="timeToLive" value="200000"></property>
+		<property name="timeToLive" value="200000"/>
 		<!-- maxIdleTime: 此参数指定对象在被自动删除之前可以保持空闲/未使用的最长时间。 -->
-		<property name="maxIdleTime" value="100000"></property>
+		<property name="maxIdleTime" value="100000"/>
 		<!-- maxSize: 此参数指定缓存中存储的条目的最大大小。 -->
-		<property name="maxSize" value="100000"></property>
+		<property name="maxSize" value="100000"/>
 		<!-- redissonConfig: 此参数以YAML格式提供指向Redisson配置文件的链接。 -->
-		<property name="redissonConfig" value="redisson.yaml"></property>
+		<property name="redissonConfig" value="redisson-mybatis.yaml"/>
 	</cache>
 	
 	<resultMap id="ChinaAreaMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO">
