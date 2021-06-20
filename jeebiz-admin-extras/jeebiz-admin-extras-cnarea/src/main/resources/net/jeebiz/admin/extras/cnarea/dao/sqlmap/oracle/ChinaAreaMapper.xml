@@ -12,7 +12,7 @@
 		<!-- maxSize: 此参数指定缓存中存储的条目的最大大小。 -->
 		<property name="maxSize" value="100000"></property>
 		<!-- redissonConfig: 此参数以YAML格式提供指向Redisson配置文件的链接。 -->
-		<property name="redissonConfig" value="redisson-mybatis.yaml"></property>
+		<property name="redissonConfig" value="classpath:redisson-mybatis.yaml"></property>
 	</cache>
 	
 	<resultMap id="ChinaAreaMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO">
