@@ -5,6 +5,9 @@
 package net.jeebiz.admin.extras.core.setup.config;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -24,7 +27,18 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         // 或者
         //this.strictUpdateFill(metaObject, "createTime", () -> LocalDateTime.now(), LocalDateTime.class); // 起始版本 3.3.3(推荐)
         // 或者
-        this.fillStrategy(metaObject, "createTime", LocalDateTime.now()); // 也可以使用(3.3.0 该方法有bug)
+        
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        localDateTime = localDateTime.plusSeconds(1);//设置超时时间为1秒
+
+        ZonedDateTime zdt = localDateTime.atZone(zoneId);
+
+        Date date = Date.from(zdt.toInstant());
+        
+        this.fillStrategy(metaObject, "createTime", date); // 也可以使用(3.3.0 该方法有bug)
     }
 
     @Override
@@ -34,7 +48,17 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         // 或者
         // this.strictUpdateFill(metaObject, "modifyTime", () -> LocalDateTime.now(), LocalDateTime.class); // 起始版本 3.3.3(推荐)
         // 或者
-        this.fillStrategy(metaObject, "modifyTime", LocalDateTime.now()); // 也可以使用(3.3.0 该方法有bug)
+
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        localDateTime = localDateTime.plusSeconds(1);//设置超时时间为1秒
+
+        ZonedDateTime zdt = localDateTime.atZone(zoneId);
+
+        Date date = Date.from(zdt.toInstant());
+        this.fillStrategy(metaObject, "modifyTime", date); // 也可以使用(3.3.0 该方法有bug)
     }
 }
 

@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.extras.cnarea.web.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
@@ -12,7 +13,7 @@ import lombok.Data;
 
 @ApiModel(value = "ChinaAreaPairDTO", description = "行政地区信息DTO")
 @Data
-public class ChinaAreaPairDTO {
+public class ChinaAreaPairDTO implements Serializable {
 
 	/**
 	 * 区域名称
