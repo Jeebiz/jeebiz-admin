@@ -27,13 +27,13 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias("OnlineSessionModel")
 @SuppressWarnings("serial")
-@TableName(value = "log_biz", keepGlobalPrefix = true)
+@TableName(value = "sys_authz_user_sessions")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class OnlineSessionModel extends PaginationEntity<OnlineSessionModel> {
+public class SessionEntity extends PaginationEntity<SessionEntity> {
 	
 	/**
 	 * 回话记录id
@@ -77,7 +77,7 @@ public class OnlineSessionModel extends PaginationEntity<OnlineSessionModel> {
 	@TableField(value = "s_status")
 	private String status;
 
-	public OnlineSessionModel(String sessionId, String host, String startTimestamp, String lastAccessTime,
+	public SessionEntity(String sessionId, String host, String startTimestamp, String lastAccessTime,
 			long timeout) {
 		this.sessionId = sessionId;
 		this.host = host;
@@ -86,7 +86,7 @@ public class OnlineSessionModel extends PaginationEntity<OnlineSessionModel> {
 		this.timeout = timeout;
 	}
 
-	public OnlineSessionModel(SimpleDateFormat dateFormat, Session session) {
+	public SessionEntity(SimpleDateFormat dateFormat, Session session) {
 		this.sessionId = String.valueOf(session.getId());
 		this.host = session.getHost();
 		this.startTimestamp = dateFormat.format(session.getStartTimestamp());

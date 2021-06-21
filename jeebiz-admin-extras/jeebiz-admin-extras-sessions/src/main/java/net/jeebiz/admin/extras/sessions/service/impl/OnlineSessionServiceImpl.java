@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 
 import net.jeebiz.admin.extras.sessions.dao.IOnlineSessionDao;
-import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
+import net.jeebiz.admin.extras.sessions.dao.entities.SessionEntity;
 import net.jeebiz.admin.extras.sessions.service.IOnlineSessionService;
 import net.jeebiz.admin.extras.sessions.web.dto.OnlineSessionDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
@@ -27,7 +27,7 @@ import net.jeebiz.boot.extras.redis.setup.RedisKey;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Service
-public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel, IOnlineSessionDao>
+public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionEntity, IOnlineSessionDao>
 		implements IOnlineSessionService {
 
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
@@ -93,7 +93,7 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
 	}
 	
 	@Override
-	public int online(OnlineSessionModel onlineSession) {
+	public int online(SessionEntity onlineSession) {
 		String userSsoStateKey = RedisKey.USER_SSO_STATE.getFunction().apply(null);
 		getRedisOperationTemplate().setBit(userSsoStateKey, 0, true);
 		

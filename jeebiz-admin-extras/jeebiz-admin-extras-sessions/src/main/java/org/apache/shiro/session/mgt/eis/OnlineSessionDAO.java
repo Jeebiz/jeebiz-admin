@@ -8,7 +8,7 @@ import org.apache.shiro.biz.web.Constants;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.OnlineSession;
 
-import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
+import net.jeebiz.admin.extras.sessions.dao.entities.SessionEntity;
 import net.jeebiz.admin.extras.sessions.service.IOnlineSessionService;
 import net.jeebiz.admin.extras.sessions.utils.OnlineSessionUtils;
 
@@ -33,7 +33,7 @@ public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
 
     @Override
     protected Session doReadSession(Serializable sessionId) {
-        OnlineSessionModel sessionModel = getOnlineSessionService().getModel(String.valueOf(sessionId));
+        SessionEntity sessionModel = getOnlineSessionService().getModel(String.valueOf(sessionId));
         if (sessionModel == null) {
             return null;
         }

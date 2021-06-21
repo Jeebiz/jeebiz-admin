@@ -8,15 +8,15 @@ import java.text.SimpleDateFormat;
 
 import org.apache.shiro.session.mgt.OnlineSession;
 
-import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
+import net.jeebiz.admin.extras.sessions.dao.entities.SessionEntity;
 
 public class OnlineSessionUtils {
 
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 
-	public static final OnlineSessionModel toOnlineSession(OnlineSession session) {
+	public static final SessionEntity toOnlineSession(OnlineSession session) {
 		
-		OnlineSessionModel online = new OnlineSessionModel(dateFormat, session);
+		SessionEntity online = new SessionEntity(dateFormat, session);
 		
         online.setId(String.valueOf(session.getId()));
         online.setUserid(session.getUserid());
