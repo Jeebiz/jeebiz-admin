@@ -12,7 +12,7 @@
 		<result property="path" column="f_path" />
 		<result property="type" column="f_type" />
 		<result property="icon" column="f_icon" />
-		<result property="order" column="f_order" />
+		<result property="orderBy" column="f_order" />
 		<result property="parent" column="f_parent" />
 		<result property="visible" column="f_visible" />
 		<result property="root" column="f_root" />

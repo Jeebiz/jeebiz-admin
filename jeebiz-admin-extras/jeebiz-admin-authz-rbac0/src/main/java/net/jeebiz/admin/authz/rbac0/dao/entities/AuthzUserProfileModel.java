@@ -87,12 +87,12 @@ public class AuthzUserProfileModel extends BaseEntity<AuthzUserProfileModel> {
 	 *用户身高
 	 */
 	@TableField(value = "u_height")
-	private int height;
+	private String height;
 	/**
 	 *用户体重
 	 */
 	@TableField(value = "u_weight")
-	private int weight;
+	private String weight;
 	/**
 	 * 官方语言
 	 */

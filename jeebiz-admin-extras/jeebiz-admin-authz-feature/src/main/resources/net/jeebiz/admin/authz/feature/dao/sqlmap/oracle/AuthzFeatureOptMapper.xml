@@ -8,7 +8,7 @@
 		<result property="id" column="opt_id" />
 		<result property="name" column="opt_name" />
 		<result property="icon" column="opt_icon" />
-		<result property="order" column="opt_order" />
+		<result property="orderBy" column="opt_order" />
 		<result property="visible" column="opt_visible" />
 		<result property="perms" column="opt_perms" />
 	</resultMap>

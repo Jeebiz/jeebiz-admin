@@ -1,0 +1,20 @@
+singleServerConfig:
+  idleConnectionTimeout: 10000
+  connectTimeout: 10000
+  timeout: 3000
+  retryAttempts: 3
+  retryInterval: 1500
+  subscriptionsPerConnection: 5
+  #clientName: null
+  address: "redis://47.96.82.188:6379"
+  password: HycBsP5cSp3enyGw
+  subscriptionConnectionMinimumIdleSize: 1
+  subscriptionConnectionPoolSize: 50
+  connectionMinimumIdleSize: 32
+  connectionPoolSize: 64
+  database: 0
+  dnsMonitoringInterval: 5000
+#threads: 0
+#nettyThreads: 0 
+#codec: !<org.redisson.codec.JsonJacksonCodec> {}
+#"transportMode":"NIO"
