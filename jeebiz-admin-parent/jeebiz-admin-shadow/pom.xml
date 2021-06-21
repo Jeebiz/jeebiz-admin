@@ -230,6 +230,11 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>druid-plus-spring-boot-starter</artifactId>
 		</dependency>
+		<!-- For Druid -->
+		<dependency>
+		    <groupId>de.codecentric</groupId>
+		    <artifactId>spring-boot-admin-starter-server</artifactId>
+		</dependency>
 		<!-- For Flyway -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>

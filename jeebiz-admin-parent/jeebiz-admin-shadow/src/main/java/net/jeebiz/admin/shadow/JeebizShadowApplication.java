@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import io.micrometer.core.instrument.MeterRegistry;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
@@ -24,6 +25,7 @@ import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 @EnableJeebiz
 @EnableScheduling
 @EnableWebMvc
+@EnableAdminServer
 //其他路径可以单独添加注解
 //@MapperScan({"net.jeebiz.**.dao"})
 //@ComponentScan({"net.jeebiz.**.setup", "net.jeebiz.**.service", "net.jeebiz.**.aspect", "net.jeebiz.**.task"})
