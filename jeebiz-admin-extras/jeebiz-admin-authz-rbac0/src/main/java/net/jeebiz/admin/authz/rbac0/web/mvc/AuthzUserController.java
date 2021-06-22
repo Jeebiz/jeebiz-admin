@@ -14,6 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.biz.utils.DateUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -83,8 +84,10 @@ public class AuthzUserController extends BaseMapperController {
 		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
 		Page<AuthzUserModel> pageResult = getAuthzUserService().getPagedList(model);
 		List<AuthzUserDTO> retList = new ArrayList<AuthzUserDTO>();
-		for (AuthzUserModel detailModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(detailModel, AuthzUserDTO.class));
+		for (AuthzUserModel userModel : pageResult.getRecords()) {
+			AuthzUserDTO userDTO = getBeanMapper().map(userModel, AuthzUserDTO.class);
+			userDTO.setTime24(DateUtils.formatDateTime(userModel.getCreateTime()));
+			retList.add(userDTO);
 		}
 		
 		return new Result<AuthzUserDTO>(pageResult, retList);

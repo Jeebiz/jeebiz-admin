@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.biz.utils.DateUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,10 +43,10 @@ import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleNewDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRolePaginationDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleRenewDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleStatusRenewDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleUserDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
-import net.jeebiz.boot.api.annotation.AllowableValues;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.dao.entities.PairModel;
@@ -87,7 +88,9 @@ public class AuthzRoleController extends BaseApiController {
 		List<AuthzRoleModel> roles = getAuthzRoleService().getRoles();
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
 		for (AuthzRoleModel roleModel : roles) {
-			retList.add(getBeanMapper().map(roleModel, AuthzRoleDTO.class));
+			AuthzRoleDTO roleDTO = getBeanMapper().map(roleModel, AuthzRoleDTO.class);
+			roleDTO.setTime24(DateUtils.formatDateTime(roleModel.getCreateTime()));
+			retList.add(roleDTO);
 		}
 		return ApiRestResponse.success(retList);
 	}
@@ -104,7 +107,9 @@ public class AuthzRoleController extends BaseApiController {
 		Page<AuthzRoleModel> pageResult = getAuthzRoleService().getPagedList(model);
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
 		for (AuthzRoleModel roleModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(roleModel, AuthzRoleDTO.class));
+			AuthzRoleDTO roleDTO = getBeanMapper().map(roleModel, AuthzRoleDTO.class);
+			roleDTO.setTime24(DateUtils.formatDateTime(roleModel.getCreateTime()));
+			retList.add(roleDTO);
 		}
 		
 		return new Result<AuthzRoleDTO>(pageResult, retList);
@@ -162,15 +167,14 @@ public class AuthzRoleController extends BaseApiController {
 	}
 	
 	@ApiOperation(value = "更新角色状态", notes = "更新角色状态")
-	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "form", name = "id", required = true, value = "角色id", dataType = "String"),
-		@ApiImplicitParam(paramType = "form", name = "status", required = true, value = "角色状态", dataType = "String", allowableValues = "1,0")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "body", name = "renewDTO", value = "角色信息", required = true, dataType = "AuthzRoleStatusRenewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "更新角色状态", opt = BusinessType.UPDATE)
-	@GetMapping("status")
+	@PostMapping("status")
 	@RequiresPermissions("role:status")
-	public ApiRestResponse<String> status(@RequestParam String id, @AllowableValues(allows = "0,1",message = "角色状态错误") @RequestParam String status) throws Exception {
-		int result = getAuthzRoleService().setStatus(id, status);
+	public ApiRestResponse<String> status(@Valid @RequestBody AuthzRoleStatusRenewDTO renewDTO) throws Exception {
+		int result = getAuthzRoleService().setStatus(renewDTO.getId(), renewDTO.getStatus());
 		if(result == 1) {
 			return success("role.status.success", result);
 		}
