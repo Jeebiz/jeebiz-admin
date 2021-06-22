@@ -97,7 +97,7 @@ public class AuthzRoleController extends BaseApiController {
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "角色信息筛选条件", dataType = "AuthzRolePaginationDTO")
 	})
 	@PostMapping("list")
-	@RequiresPermissions("role:list")
+	//@RequiresPermissions("role:list")
 	public Result<AuthzRoleDTO> list(@Valid @RequestBody AuthzRolePaginationDTO paginationDTO){
 		
 		AuthzRoleModel model = getBeanMapper().map(paginationDTO, AuthzRoleModel.class);

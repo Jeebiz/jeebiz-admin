@@ -232,6 +232,7 @@ shiro:
   session-stateless: true
   session-storage-enabled: false
   session-timeout: 1800000
+  static-security-manager-enabled: true
   unauthorized-url: /error
   user-native-session-manager: false
   web: 
@@ -246,6 +247,7 @@ shiro:
     '[/error*]' : anon
     '[/logo/**]' : anon
     '[/swagger-ui.html**]' : headers
+    '[/index.html**]' : headers
     '[/swagger-resources/**]' : headers
     '[/doc.html**]' : headers
     '[/bycdao-ui/**]' : headers
@@ -254,13 +256,18 @@ shiro:
     '[/druid/**]' : anon    
     '[/monitoring**]' : anon
     '[/admin]' : anon
-    '[/admin/assets/**]' : headers
-    '[/admin/applications]' : headers
-    '[/admin/applications/**]' : headers
-    '[/admin/notifications]' : headers
-    '[/admin/notifications/**]' : headers
-    '[/admin/instances]' : headers
-    '[/admin/instances/**]' : headers
+    '[/admin/index.html]' : anon
+    '[/admin/assets/**]' : anon
+    '[/admin/applications]' : anon
+    '[/admin/applications/**]' : anon
+    '[/admin/notifications]' : anon
+    '[/admin/notifications/**]' : anon
+    '[/admin/instances]' : anon
+    '[/admin/instances/**]' : anon
+    '[/admin/about/**]' : anon
+    '[/admin/journal/**]' : anon
+    '[/admin/wallboard/**]' : anon
+    '[/admin/external/**]' : anon
     '[/authz/thirdpt/weixin/ma/config]': headers
     '[/authz/thirdpt/weixin/ma/code2Session]': headers
     '[/authz/thirdpt/weixin/ma/binding]': headers   
@@ -277,7 +284,6 @@ shiro:
     '[/profile]' : headers
     '[/logout]' : headers,logout
     '[/index]' : headers,jwt
-    
 ################################################################################################################  
 ###Spring Boot 相关组件（SpringMVC、Freemarker、Session、Cache、DataSource）配置：  
 ################################################################################################################
@@ -285,6 +291,21 @@ spring:
   # 应用信息配置
   application:
     name: jeebiz-admin
+  boot:
+    admin:
+      context-path: /admin
+      monitor:
+        default-timeout: 5000
+      client:
+        url: http://localhost:8090/admin
+        instance:
+          #name: ${spring.application.name}:${server.}-${server.port}
+          #service-base-url: http://localhost:${server.port}
+          prefer-ip: true
+          metadata:
+            name: ${swagger.title}
+            detail: ${swagger.description}
+            version: ${swagger.version}
   # 缓存配置：
   cache: 
     type: none  #现在改为none,使用j2cache 去配置
@@ -531,7 +552,7 @@ logging:
     jdbc:
       enabled: true
       appenders: 
-      - table-name: sys_data_log_authz
+      - table-name: sys_log_authz
         marker: Authz-Log
         column-mappings: 
         - column: LOG_OPT
@@ -552,7 +573,7 @@ logging:
           pattern: "%X{uid}"          
         - column: CREATE_TIME
           pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
-      - table-name: sys_data_log_biz
+      - table-name: sys_log_biz
         marker: Biz-Log
         column-mappings: 
         - column: LOG_MODULE
