@@ -23,11 +23,11 @@ CREATE TABLE `$${table-prefix}device_activate` (
   `device_ip` varchar(255) DEFAULT NULL COMMENT '媒体投放系统获取的用户终端的公共IP地址',
   `device_ua` varchar(2000) DEFAULT NULL COMMENT '用户代理(User Agent)，一个特殊字符串头，使得服务器能够识别客户使用的操作系统及版本、CPU类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。',
   `status` tinyint(5) NOT NULL DEFAULT 1 COMMENT '是否可用（ 0：不可用，1：可用）',
-  `is_delete` tinyint(5) NOT NULL DEFAULT '0' COMMENT '是否删除  0未删除  1已删除',
-  `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
-  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_imei` (`device_imei`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客户端激活数据表';

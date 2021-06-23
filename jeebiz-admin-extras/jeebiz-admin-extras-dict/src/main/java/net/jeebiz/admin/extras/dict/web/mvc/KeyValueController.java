@@ -40,8 +40,8 @@ import net.jeebiz.admin.extras.dict.web.dto.KeyValueGroupRenewDTO;
 import net.jeebiz.admin.extras.dict.web.dto.KeyValueNewDTO;
 import net.jeebiz.admin.extras.dict.web.dto.KeyValuePaginationDTO;
 import net.jeebiz.admin.extras.dict.web.dto.KeyValueRenewDTO;
+import net.jeebiz.admin.extras.dict.web.dto.KeyValueStatusRenewDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
-import net.jeebiz.boot.api.annotation.AllowableValues;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.dao.entities.PairModel;
@@ -140,7 +140,7 @@ public class KeyValueController extends BaseApiController {
 		@ApiImplicitParam(paramType = "query", name = "ids", value = "基础数据id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "删除基础数据", opt = BusinessType.UPDATE)
-	@GetMapping("delete")
+	@PostMapping("delete")
 	@RequiresPermissions("keyvalue:delete")
 	@ResponseBody
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
@@ -178,17 +178,16 @@ public class KeyValueController extends BaseApiController {
 	}
 	
 	@ApiOperation(value = "更新基础数据状态", notes = "更新基础数据状态")
-	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "基础数据id", dataType = "String"),
-		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "基础数据状态", dataType = "String", allowableValues = "1,0")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(paramType = "body", name = "renewDTO", value = "角色信息", required = true, dataType = "KeyValueStatusRenewDTO")
 	})
 	@BusinessLog(module = Constants.EXTRAS_BASEDATA, business = "更新基础数据状态", opt = BusinessType.UPDATE)
-	@GetMapping("status")
+	@PostMapping("status")
 	@RequiresPermissions("keyvalue:status")
 	@ResponseBody
-	public ApiRestResponse<String> status(@RequestParam String id, @AllowableValues(allows = "0,1",message = "数据状态错误") @RequestParam String status) throws Exception {
-		int result = getKeyValueService().setStatus(id, status);
-		if(result == 1) {
+	public ApiRestResponse<String> status(@Valid @RequestBody KeyValueStatusRenewDTO renewDTO) throws Exception {
+		int result = getKeyValueService().setStatus(renewDTO.getId(), renewDTO.getStatus());
+		if(result == 1) { 
 			return success("keyvalue.status.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

@@ -53,8 +53,8 @@ public class KeyValueRenewDTO {
 	/**
 	 * 数据排序:组内排序
 	 */
-	@ApiModelProperty(name = "order", required = true, dataType = "String", value = "数据排序:组内排序", hidden = true)
+	@ApiModelProperty(name = "orderBy", required = true, dataType = "String", value = "数据排序:组内排序", hidden = true)
 	@NotNull(message = "基础数据排序必填")
-	private int order;
+	private int orderBy;
 
 }

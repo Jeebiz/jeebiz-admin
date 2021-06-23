@@ -58,8 +58,8 @@ public class KeyValueDTO {
 	/**
 	 * 数据排序:组内排序
 	 */
-	@ApiModelProperty(name = "order", dataType = "String", value = "数据排序:组内排序", hidden = true)
-	private int order;
+	@ApiModelProperty(name = "orderBy", dataType = "String", value = "数据排序:组内排序", hidden = true)
+	private int orderBy;
  
 
 }

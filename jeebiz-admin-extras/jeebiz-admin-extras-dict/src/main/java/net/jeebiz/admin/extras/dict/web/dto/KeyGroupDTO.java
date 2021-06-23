@@ -38,8 +38,8 @@ public class KeyGroupDTO {
 	/**
 	 * 数据分组排序
 	 */
-	@ApiModelProperty(name = "order", dataType = "int", value = "数据分组排序")
-	private int order;
+	@ApiModelProperty(name = "orderBy", dataType = "int", value = "数据分组排序")
+	private int orderBy;
 	 
 
 }
