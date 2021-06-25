@@ -9,7 +9,6 @@
 	</parent>
 	
 	<artifactId>jeebiz-admin-extras-logbiz</artifactId>
-	<description>系统日志模块</description>
 	
 	<dependencies>
 	

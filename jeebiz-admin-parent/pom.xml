@@ -10,20 +10,6 @@
 	<artifactId>jeebiz-admin-parent</artifactId>
 	<packaging>pom</packaging>
 
-	<properties>
-
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-		<!--docker build、push地址 -->
-		<docker.workdir>/u01/boot/${project.artifactId}</docker.workdir>
-		<docker.push.repostory>127.0.0.1</docker.push.repostory>
-		<docker.build.repostory>http://127.0.0.1:2376</docker.build.repostory>
-		<!--push镜像到私有库项目的名称 -->
-		<docker.registry.name>jeebiz-admin</docker.registry.name>
-
-	</properties>
-	
 	<modules>
 		<module>jeebiz-admin-shadow</module>
 	</modules>

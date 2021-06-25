@@ -13,26 +13,14 @@
 		
 		<!-- For Jeebiz API -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-boot-api</artifactId>
-			<version>${jeebiz-boot.version}</version>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jeebiz-admin-authz-thirdparty</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		
-		<!-- For Validation -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<!-- For Shiro -->
 		<dependency>
@@ -62,7 +50,6 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>flyway-plus-spring-boot-starter</artifactId>
 		</dependency>
-		
 
 	</dependencies>
 	

@@ -10,10 +10,6 @@
 	<artifactId>jeebiz-admin-monitor</artifactId>
 	
 	<dependencies>
-		<!-- 
-			http://www.ityouknow.com/springboot/2018/02/06/spring-boot-actuator.html
-			https://www.cnblogs.com/shihaiming/p/8488939.html
-		 -->
 		<!-- For Spring Boot Admin -->
 		<dependency>
 			<groupId>de.codecentric</groupId>
@@ -23,7 +19,6 @@
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui</artifactId>
 		</dependency>
-		<!--JMX-bean 管理 -->
 		<dependency>
 			<groupId>org.jolokia</groupId>
 			<artifactId>jolokia-core</artifactId>

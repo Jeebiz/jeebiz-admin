@@ -41,14 +41,6 @@
 	<!--先定义所有的appender-->
 	<Appenders>
 		
-		<!-- 控制台日志输出配置 -->
-		<Console name="Console" target="SYSTEM_OUT">
-			<!--只接受程序中DEBUG级别的日志进行处理-->
-            <!-- <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/> -->
-			<PatternLayout pattern="${LOG_CONSOLE_LAYOUT2}" />
-			<!-- <PatternLayout pattern="[%d{HH:mm:ss.SSS}] %-5level %class{36} %L %M - %msg%xEx%n"/> -->
-		</Console>
-		
 		<!-- DEBUG级别日志文件输出配置 -->
 		<!-- 实时日志放到logs/debug.log文件中,按天或者超过size则自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
    		<RollingRandomAccessFile name="RollingFileDebug" fileName="${DEBUG_FILE_NAME}" filePattern="${DEBUG_FILE_PATTERN}">
@@ -138,8 +130,7 @@
 			#INFO 为一般要显示的信息，比如登录登出
 			#DEBUG 为程序的调试信息
 		 -->
-        <Root level="DEBUG" includeLocation="true">   
-            <AppenderRef ref="RollingFileDebug"/>
+        <Root level="INFO" includeLocation="true">  
             <AppenderRef ref="RollingFileInfo"/>
             <AppenderRef ref="RollingFileWarn"/>
             <AppenderRef ref="RollingFileError"/>
@@ -207,10 +198,10 @@
         <!--log4j2 自带过滤日志-->
         
 		<!-- 应用系统日志过滤 -->
-		<Logger name="com.kding" level="DEBUG" additivity="true"/>
-		<Logger name="com.kding.authz" level="DEBUG" additivity="true"/>
-		<Logger name="com.kding.biz" level="DEBUG" additivity="true"/>
-        <Logger name="[Mybatis]com.kding" level="DEBUG" additivity="true"/>
+		<Logger name="net.jeebiz" level="INFO" additivity="true"/>
+		<Logger name="net.jeebiz.authz" level="INFO" additivity="true"/>
+		<Logger name="net.jeebiz.biz" level="INFO" additivity="true"/>
+        <Logger name="[Mybatis]net.jeebiz" level="INFO" additivity="true"/>
 
 	</Loggers>
 </Configuration>
