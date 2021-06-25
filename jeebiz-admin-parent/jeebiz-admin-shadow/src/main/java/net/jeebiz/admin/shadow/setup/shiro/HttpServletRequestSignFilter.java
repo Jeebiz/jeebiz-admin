@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.biz.utils.WebUtils;
 import org.apache.shiro.biz.web.servlet.http.HttpStatus;
 import org.apache.shiro.web.filter.AccessControlFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpMethod;
@@ -63,13 +62,18 @@ public class HttpServletRequestSignFilter extends AccessControlFilter {
 	private String signParamName = SIGN_PARAM;
 	private String signCookieName = SIGN_PARAM;
 
-	@Autowired
-	private CommonProperteis commonProperteis;
-	@Autowired
-	private MessageSource messageSource;
-	@Autowired
-	private ObjectMapper objectMapper;
-    
+	private final CommonProperteis commonProperteis;
+	private final MessageSource messageSource;
+	private final ObjectMapper objectMapper;
+	
+	public HttpServletRequestSignFilter(CommonProperteis commonProperteis, MessageSource messageSource,
+			ObjectMapper objectMapper) {
+		super();
+		this.commonProperteis = commonProperteis;
+		this.messageSource = messageSource;
+		this.objectMapper = objectMapper;
+	}
+
 	@Override
 	protected void onFilterConfigSet() throws Exception {
 	}
@@ -191,7 +195,7 @@ public class HttpServletRequestSignFilter extends AccessControlFilter {
     }
     
     protected void processFail(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    	String mString = messageSource.getMessage("request.signature.unmatch", null, LocaleContextHolder.getLocale());
+    	String mString = messageSource.getMessage("request.signature.mismatch", null, LocaleContextHolder.getLocale());
     	if (WebUtils.isAjaxResponse(request)) {
     		response.setStatus(HttpStatus.SC_OK);
     		response.setContentType(MediaType.APPLICATION_JSON_VALUE);

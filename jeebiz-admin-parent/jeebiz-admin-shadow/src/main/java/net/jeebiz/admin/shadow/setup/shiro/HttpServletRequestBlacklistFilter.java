@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.biz.utils.WebUtils;
 import org.apache.shiro.biz.web.servlet.http.HttpStatus;
 import org.apache.shiro.web.filter.AccessControlFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.biz.utils.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.MediaType;
@@ -25,15 +25,20 @@ import com.alibaba.fastjson.JSONObject;
 
 import net.jeebiz.admin.api.BizRedisKey;
 import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
-// @Component
 public class HttpServletRequestBlacklistFilter extends AccessControlFilter {
 
-    @Autowired
-    private RedisOperationTemplate redisOperationTemplate;
-	@Autowired
-	private MessageSource messageSource;
+    private final RedisOperationTemplate redisOperationTemplate;
+	private final MessageSource messageSource;
+
+	public HttpServletRequestBlacklistFilter(RedisOperationTemplate redisOperationTemplate,
+			MessageSource messageSource) {
+		super();
+		this.redisOperationTemplate = redisOperationTemplate;
+		this.messageSource = messageSource;
+	}
 
 	@Override
 	protected void onFilterConfigSet() throws Exception {
@@ -57,15 +62,23 @@ public class HttpServletRequestBlacklistFilter extends AccessControlFilter {
 		HttpServletRequest originalRequest = WebUtils.getHttpRequest(request);
 		HttpServletResponse originalResponse = WebUtils.getHttpResponse(response);
     	
-        String devID = originalRequest.getHeader("equipNum");
-
+        String devID = originalRequest.getHeader(XHeaders.X_DEVICE_IMEI);
+        if (!StringUtils.hasText(devID)) {
+            String message = getMessageSource().getMessage("app.blacklist.device.required", null, LocaleContextHolder.getLocale());
+        	if (WebUtils.isAjaxResponse(request)) {
+        		originalResponse.setStatus(HttpStatus.SC_OK);
+        		originalResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        		JSONObject.writeJSONString(originalResponse.getWriter(), ApiRestResponse.fail(20017, message));
+    		} else {
+    			originalResponse.sendError(HttpStatus.SC_FORBIDDEN, message);
+    		}
+        	return;
+        }
+        
         String appBlacklistKey = BizRedisKey.APP_BLACKLIST.getFunction().apply("device", null);
-
-        // KDING_SET_DEVICE_BLACK_LIST
         Boolean isMemeber =  getRedisOperationTemplate().sHasKey(appBlacklistKey, devID);
         if (isMemeber){
-        	//app.blacklist.device
-            String message = getMessageSource().getMessage("app.blacklist.device", null, LocaleContextHolder.getLocale());
+            String message = getMessageSource().getMessage("app.blacklist.device.banned", null, LocaleContextHolder.getLocale());
         	if (WebUtils.isAjaxResponse(request)) {
         		originalResponse.setStatus(HttpStatus.SC_OK);
         		originalResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
