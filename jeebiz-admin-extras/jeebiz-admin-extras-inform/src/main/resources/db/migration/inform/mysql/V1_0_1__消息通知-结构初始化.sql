@@ -14,9 +14,9 @@ CREATE TABLE `sys_inform_templates` (
   `t_status` varchar(1) DEFAULT '0' COMMENT '消息模板状态：（0:停用、1:启用）',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人id',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '更新人id',
-  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`t_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息模板信息表';
 
@@ -31,9 +31,9 @@ CREATE TABLE `sys_inform_targets` (
   `time24` timestamp COMMENT '消息通知发送时间',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人id',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '更新人id',
-  `modify_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   UNIQUE KEY (`t_id`,`t_uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息通知对象表';
 
@@ -54,8 +54,8 @@ CREATE TABLE `sys_inform_records` (
   `r_status` varchar(1) DEFAULT '0' COMMENT '消息通知阅读状态：（0:未阅读、1:已阅读）',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT NULL COMMENT '消息通知创建人id',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '消息通知创建时间',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '消息通知创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '消息通知更新人id',
-  `modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '消息通知更新时间',
+  `modify_time` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '消息通知更新时间',
   PRIMARY KEY (`r_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息通知记录表';

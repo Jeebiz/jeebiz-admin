@@ -22,7 +22,7 @@
 		<!-- 文章评论状态（0:删除|1:正常） -->
 		<result property="status" column="c_status" />
 		<!-- 文章评论推荐（0:未推荐|1:推荐） -->
-		<result property="recommend" column="c_rcmd" />
+		<result property="recommend" column="c_recommend" />
 		<!-- 文章评论排序 -->
 		<result property="order" column="c_order" />
 		<!-- 文章评论时间 -->
@@ -30,7 +30,7 @@
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleCommentModel" flushCache="true">
-		INSERT INTO sys_article_content_comments(c_cid,c_pid,c_uid,C_TYPE,C_TEXT,c_review,c_status,c_rcmd,c_order)
+		INSERT INTO sys_article_content_comments(c_cid,c_pid,c_uid,C_TYPE,C_TEXT,c_review,c_status,c_recommend,c_order)
 		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,IFNULL((SELECT MAX(x.c_order) FROM sys_article_content_comments x WHERE x.c_id = #{cid}),0))
 	</insert> 
 	
@@ -49,7 +49,7 @@
 	
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_content_comments t
-		   SET c_rcmd = #{recommend}
+		   SET c_recommend = #{recommend}
 		 WHERE c_id = #{id}
 	</update>
 	
@@ -77,7 +77,7 @@
 			t.C_TEXT,
 			t.c_review,
 			t.c_status,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_order,
 			t.c_time24
 		FROM sys_article_content_comments t
@@ -99,7 +99,7 @@
 			t.C_TEXT,
 			t.c_review,
 			t.c_status,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_order,
 			t.c_time24
 	   FROM sys_article_content_comments t
@@ -117,7 +117,7 @@
 			t.C_TEXT,
 			t.c_review,
 			t.c_status,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_order,
 			t.c_time24
 	   FROM sys_article_content_comments t
@@ -136,7 +136,7 @@
 			t.C_TEXT,
 			t.c_review,
 			t.c_status,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_order,
 			t.c_time24
 	   FROM sys_article_content_comments t

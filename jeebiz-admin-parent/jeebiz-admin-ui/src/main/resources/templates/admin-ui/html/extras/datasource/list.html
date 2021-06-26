@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+  	<title>数据源管理</title>
+  	<meta charset="utf-8">
+  	<meta name="renderer" content="webkit">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  	<link rel="stylesheet" th:href="@{/assets/layuiadmin/layui/css/layui.css}" media="all">
+	<link rel="stylesheet" th:href="@{/assets/layuiadmin/style/admin.css}"	media="all">
+</head>
+<body>
+
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+			            <label class="layui-form-label">数据源名称</label>
+			            <div class="layui-input-block">
+			              	<input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input">
+			            </div>
+			        </div>
+					<div class="layui-inline">
+						<label class="layui-form-label">数据源类型</label>
+						<div class="layui-input-inline">
+							<select name="dbtype" id="LAY-dbtype">
+								<option value="">请选择类型</option>
+								<option th:each="item,itemStat:${driverList}" th:value="${item.key}" th:text="${item.vendor}" >MySQL</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<button class="layui-btn layui-btn-normal layuiadmin-btn-list" lay-submit lay-filter="LAY-datasource-search">
+							<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="layui-card-body">
+				<div class="LAY-datasource-btns" style="margin-bottom: 10px;">
+					<button class="layui-btn layui-btn-normal layui-btn-sm layuiadmin-btn-admin" data-type="batchdel" data-events="batchdel">删除</button>
+					<button class="layui-btn layui-btn-normal layui-btn-sm layuiadmin-btn-admin" data-type="add" data-events="add">添加</button>
+				</div>
+				<table id="LAY-datasource-list" lay-filter="LAY-datasource-list"></table>
+				<script type="text/html" id="switchTpl">
+  				<input type="checkbox" name="status" value="{{d.status}}" 
+					data-id="{{d.id}}" data-group="{{d.group}}" data-key="{{d.key}}" 
+					lay-skin="switch"  lay-text="可用|禁用" lay-filter="statusDs" {{ d.status == '1' ? 'checked' : '' }}>
+				</script>
+				<script type="text/html" id="table-opt-list">
+          		<a class="layui-btn layui-btn-xs" lay-event="detail"><i class="layui-icon layui-icon-about"></i>详情</a>
+				<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renew"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        		</script>
+			</div>
+		</div>
+	</div>
+	
+	<script th:src="@{/assets/layuiadmin/layui/layui.js}"></script>
+	<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+	<!--[if lt IE 9]>
+	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]--> 
+	<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+	var ctxPath = /*[[@{/}]]*/'';
+	var basePath = /*[[@{/assets/layuiadmin/}]]*/'';
+	/*]]>*/
+	layui.config({
+	  base 	: basePath,  //静态资源所在路径
+	  prefix	: ctxPath,
+	  version	: "20180921"
+	}).extend({
+		index		: "lib/index", //主入口模块
+		datasource	: "extras/datasource/datasource"
+	}).use(['index', 'table', 'datasource']);
+	</script>
+</body>
+</html>

@@ -79,7 +79,7 @@
 			t.t_name,
 			t.t_remark,
 			t.t_cid,
-			(SELECT x.C_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
+			(SELECT x.c_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
 			t.t_status,
 			t.t_order,
 			t.t_time24
@@ -105,7 +105,7 @@
 			t.t_name,
 			t.t_remark,
 			t.t_cid,
-			(SELECT x.C_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
+			(SELECT x.c_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
 			t.t_status,
 			t.t_order,
 			t.t_time24
@@ -123,7 +123,7 @@
 			t.t_name,
 			t.t_remark,
 			t.t_cid,
-			(SELECT x.C_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
+			(SELECT x.c_name from sys_article_category x where x.c_id = t.t_cid) as t_cname,
 			t.t_status,
 			t.t_order,
 			t.t_time24

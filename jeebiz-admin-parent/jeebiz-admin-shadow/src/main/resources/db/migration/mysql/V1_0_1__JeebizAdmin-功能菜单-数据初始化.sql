@@ -11,7 +11,7 @@ INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, 
 VALUES (10, '通知公告', '通知公告', 'articles', '#', '#', 1, 'layui-icon-notice', 0, 1, 2);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (11, '公告分类', '公告分类', 'article-category', 'webui/list3', 'webui/list3', 1, 'layui-icon-notice', 10, 1, 1);
+VALUES (11, '公告分类', '公告分类', 'article-category', 'article/category/list', 'rticle/category/list', 1, 'layui-icon-notice', 10, 1, 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
 VALUES (11, '查询', '', '0', 'article-category:list', 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
@@ -24,7 +24,7 @@ INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_p
 VALUES (11, '状态', '', '0', 'article-category:status', 5);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (12, '公告主题', '公告主题', 'article-topic', 'webui/list3', 'webui/list3', 1, 'layui-icon-notice', 10, 1, 2);
+VALUES (12, '公告主题', '公告主题', 'article-topic', 'article/topic/list', 'article/topic/list', 1, 'layui-icon-notice', 10, 1, 2);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
 VALUES (12, '查询', '', '0', 'article-topic:list', 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
@@ -35,7 +35,7 @@ INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_p
 VALUES (12, '修改', '', '0', 'article-topic:renew', 4);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (13, '公告列表', '公告列表', 'article-list', 'webui/list3', 'webui/list3', 1, 'layui-icon-notice', 10, 1, 3);
+VALUES (13, '公告列表', '公告列表', 'article-list', 'article/list', 'article/list', 1, 'layui-icon-notice', 10, 1, 3);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
 VALUES (13, '查询', '', '0', 'article:list', 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)

@@ -109,6 +109,12 @@
 			<artifactId>jeebiz-admin-extras-core</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
+		<!-- Jeebiz Admin UI -->
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-ui</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
 		
 		<!-- For Google API -->
 	 	<dependency>
@@ -194,6 +200,10 @@
 		   <groupId>com.github.hiwepy</groupId>
 			<artifactId>xxljob-spring-boot-starter</artifactId>
 		</dependency>-->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
 		<!-- For Resilience4j -->
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
@@ -206,15 +216,6 @@
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
 		    <artifactId>resilience4j-rxjava2</artifactId>
-		</dependency>
-		<!-- For Redisson
-		<dependency>
-		    <groupId>org.redisson</groupId>
-		    <artifactId>redisson-spring-boot-starter</artifactId>
-		</dependency> -->
-		<dependency>
-			<groupId>com.github.hiwepy</groupId>
-			<artifactId>hitool-core</artifactId>
 		</dependency>
 		<!-- For Javamelody -->
 		<dependency>
@@ -281,12 +282,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency><!-- 
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
-		</dependency> -->
+		</dependency>
         
 	</dependencies>
 	

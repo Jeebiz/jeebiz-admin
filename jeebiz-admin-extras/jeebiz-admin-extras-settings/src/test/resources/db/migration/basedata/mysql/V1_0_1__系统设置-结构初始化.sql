@@ -28,7 +28,7 @@ CREATE TABLE `sys_data_settings` (
   `d_key` varchar(50) NOT NULL COMMENT '参数键',
   `d_text` varchar(300) NOT NULL COMMENT '参数值',
   `d_unit` varchar(30) DEFAULT NULL COMMENT '参数单位:如 KB',
-  `d_type` varchar(20) DEFAULT 'text' COMMENT '参数展示类型：（ text,textarea,password,checkbox,radio,file,image,color,date,datetime,email,month,number,range,select,switch,tel,time,week,url）',
+  `d_type` varchar(20) DEFAULT 'text' COMMENT '参数展示类型：（ text,textarea,password,checkbox,radio,file,image,color,date,timestamp,email,month,number,range,select,switch,tel,time,week,url）',
   `d_rules` varchar(255) DEFAULT NULL COMMENT '参数验证规则：如（required|range:[0,100] (多个用|隔开)）',
   `d_placeholder` varchar(255) DEFAULT NULL COMMENT '参数提示信息',
   `d_remark` varchar(500) DEFAULT NULL COMMENT '参数备注信息',

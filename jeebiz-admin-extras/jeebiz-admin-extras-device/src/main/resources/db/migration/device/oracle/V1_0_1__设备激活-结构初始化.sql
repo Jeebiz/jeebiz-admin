@@ -25,9 +25,9 @@ CREATE TABLE `$${table-prefix}device_activate` (
   `status` tinyint(5) NOT NULL DEFAULT 1 COMMENT '是否可用（ 0：不可用，1：可用）',
   `is_delete` tinyint(5) NOT NULL DEFAULT '0' COMMENT '是否删除  0未删除  1已删除',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
-  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_imei` (`device_imei`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客户端激活数据表';
@@ -44,9 +44,9 @@ CREATE TABLE `$${table-prefix}device_users` (
   `u_app_version` varchar(20) DEFAULT NULL COMMENT '用户登录的客户端版本',
   `is_delete` tinyint(5) NOT NULL DEFAULT '0' COMMENT '是否删除  0未删除  1已删除',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
-  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_device` (`device_id`),
   KEY `idx_creator` (`CREATOR`)

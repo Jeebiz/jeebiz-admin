@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+  	<title>消息详情标题</title>
+  	<meta charset="utf-8">
+  	<meta name="renderer" content="webkit">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  	<link rel="stylesheet" th:href="@{/assets/layuiadmin/layui/css/layui.css}" media="all">
+	<link rel="stylesheet" th:href="@{/assets/layuiadmin/style/admin.css}"	media="all">
+</head>
+<body>
+
+  <div class="layui-fluid" id="LAY-app-message-detail">
+    <div class="layui-card layuiAdmin-msg-detail">
+        <div class="layui-card-header">
+          <input type="hidden" id="inform-id" th:value="${id}"/>
+          <h1 th:text="${inform.title}">标题</h1>
+          <p>
+            <span th:text="${inform.timestamp}">时间</span>
+          </p>
+        </div>
+        <div class="layui-card-body layui-text">
+          <div class="layadmin-text">
+          	<p th:text="${inform.detail}"></p>
+            <blockquote class="layui-elem-quote">
+              	注：这里读取的是静态的模拟接口，实际应用时，您可以在该页面源代码中，修改成以下任意一种方式
+            </blockquote>
+          </div>
+          
+          <div style="padding-top: 30px;">
+            <a href="javascript:;" layadmin-event="back" class="layui-btn layui-btn-primary layui-btn-sm">返回上级</a>
+          </div>
+        </div>
+    </div>
+  </div>
+
+	<script th:src="@{/assets/layuiadmin/layui/layui.js}"></script>
+  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]--> 
+  <script type="text/javascript" th:inline="javascript">
+   /*<![CDATA[*/
+   	var ctxPath = /*[[@{/}]]*/'';
+    var basePath = /*[[@{/assets/layuiadmin/}]]*/'';
+   /*]]>*/
+  	layui.config({
+	  	base 	: basePath,  //静态资源所在路径
+	  	prefix	: ctxPath,
+	  	version	: "20180921"
+  	}).extend({
+    	index: "lib/index" //主入口模块
+  	}).use(['index'], function() {
+		var $ = layui.$, admin = layui.admin;
+		//更新通知状态
+	    admin.req({
+	        url		: ctxPath + 'extras/inform/read',  //实际使用请改成服务端真实接口
+	        type 	: "POST",
+	        data	: {"id" : $("#inform-id").val()},
+	        success	: function(res){
+	         	
+	        }
+	    });
+		
+	});
+  </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryStatusRenewDTO;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
@@ -29,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.article.dao.entities.ArticleCategoryModel;
 import net.jeebiz.admin.extras.article.service.IArticleCategoryService;
 import net.jeebiz.admin.extras.article.setup.Constants;
-import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryDTO;
+import net.jeebiz.admin.extras.article.web.vo.ArticleCategoryVo;
 import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryNewDTO;
 import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryPaginationDTO;
 import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryRenewDTO;
@@ -58,15 +59,21 @@ public class ArticleCategoryController extends BaseApiController {
 	})
 	@PostMapping("list")
     @RequiresPermissions("article-category:list")
-	public Result<ArticleCategoryDTO> list(@Valid @RequestBody ArticleCategoryPaginationDTO paginationDTO){
+	public Result<ArticleCategoryVo> list(@Valid @RequestBody ArticleCategoryPaginationDTO paginationDTO){
 		
     	ArticleCategoryModel model =  getBeanMapper().map(paginationDTO, ArticleCategoryModel.class);
 		Page<ArticleCategoryModel> pageResult = getArticleCategoryService().getPagedList(model);
-		List<ArticleCategoryDTO> retList = Lists.newArrayList();
-		for (ArticleCategoryModel keyvalueModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(keyvalueModel, ArticleCategoryDTO.class));
+		List<ArticleCategoryVo> retList = Lists.newArrayList();
+		for (ArticleCategoryModel categoryModel : pageResult.getRecords()) {
+
+			ArticleCategoryVo categoryVo = getBeanMapper().map(categoryModel, ArticleCategoryVo.class);
+
+			categoryVo.setUid(categoryModel.getCreator());
+			categoryVo.setTime24(categoryModel.getCreateTime());
+
+			retList.add(categoryVo);
 		}
-		return new Result<ArticleCategoryDTO>(pageResult, retList);
+		return new Result<ArticleCategoryVo>(pageResult, retList);
 		
 	}
 
@@ -98,9 +105,9 @@ public class ArticleCategoryController extends BaseApiController {
 
 		// 新增一条数据库配置记录
 		ArticleCategoryModel model = getBeanMapper().map(DTO, ArticleCategoryModel.class);
-		model.setUid(principal.getUserid());
-		int result = getArticleCategoryService().insert(model);
-		if(result == 1) {
+		model.setCreator(principal.getUserid());
+		boolean result = getArticleCategoryService().save(model);
+		if(result) {
 			return success("article.category.new.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -117,8 +124,8 @@ public class ArticleCategoryController extends BaseApiController {
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
 		// 执行文章分类删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-		int result = getArticleCategoryService().batchDelete(idList);
-		if(result > 0) {
+		boolean result = getArticleCategoryService().removeByIds(idList);
+		if(result) {
 			return success("article.category.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -142,8 +149,8 @@ public class ArticleCategoryController extends BaseApiController {
 		}
 		
 		ArticleCategoryModel model = getBeanMapper().map(DTO, ArticleCategoryModel.class);
-		int result = getArticleCategoryService().update(model);
-		if(result == 1) {
+		boolean result = getArticleCategoryService().updateById(model);
+		if(result) {
 			return success("article.category.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -152,15 +159,14 @@ public class ArticleCategoryController extends BaseApiController {
 	
 	@ApiOperation(value = "更新文章分类状态", notes = "更新文章分类状态")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "id", required = true, value = "文章分类id", dataType = "String"),
-		@ApiImplicitParam(paramType = "query", name = "status", required = true, value = "文章分类状态", dataType = "String", allowableValues = "1,0")
+			@ApiImplicitParam(paramType = "body", name = "DTO", value = "文章分类", required = true, dataType = "ArticleCategoryRenewDTO"),
 	})
 	@BusinessLog(module = Constants.ARTICLE_CATEGORY, business = "更新文章分类状态", opt = BusinessType.UPDATE)
-	@GetMapping("status")
+	@PostMapping("status")
 	@RequiresPermissions("article-category:status")
 	@ResponseBody
-	public ApiRestResponse<String> status(@RequestParam String id, @AllowableValues(allows = "0,1",message = "数据状态错误") @RequestParam String status) throws Exception {
-		int result = getArticleCategoryService().setStatus(id, status);
+	public ApiRestResponse<String> status(@Valid @RequestBody ArticleCategoryStatusRenewDTO renewDTO ) throws Exception {
+		int result = getArticleCategoryService().setStatus(renewDTO.getId(), renewDTO.getStatus());
 		if(result == 1) {
 			return success("article.category.status.success", result);
 		}
@@ -176,12 +182,17 @@ public class ArticleCategoryController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<ArticleCategoryDTO> detail(@RequestParam("id") String id) throws Exception { 
+	public ApiRestResponse<ArticleCategoryVo> detail(@RequestParam("id") String id) throws Exception {
 		ArticleCategoryModel model = getArticleCategoryService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.category.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, ArticleCategoryDTO.class));
+		ArticleCategoryVo categoryVo = getBeanMapper().map(model, ArticleCategoryVo.class);
+
+		categoryVo.setUid(model.getCreator());
+		categoryVo.setTime24(model.getCreateTime());
+
+		return ApiRestResponse.success(categoryVo);
 	}
 
     public IArticleCategoryService getArticleCategoryService() {

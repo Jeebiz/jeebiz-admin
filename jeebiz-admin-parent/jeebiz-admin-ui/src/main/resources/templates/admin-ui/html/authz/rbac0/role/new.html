@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh_CN" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <title>增加角色</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" th:href="@{/assets/layuiadmin/layui/css/layui.css}" media="all">
+  <style type="text/css">
+  #LAY-auth-tree-index.layui-form-danger {
+  	 border-color: #FF5722 !important;
+  	 border: 1px solid;
+  	 border-radius: 2px;
+  }
+  </style>
+</head>
+<body>
+
+	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+	        <label class="layui-form-label">角色名称</label>
+	        <div class="layui-input-block">
+	            <input class="layui-input" type="text" name="name" lay-verify="required" placeholder="请输入角色名称" />
+	        </div>
+	    </div>
+	    <div class="layui-form-item">
+	        <label class="layui-form-label">权限范围</label>
+	        <div class="layui-input-block">
+				<input type="hidden" name="perms" id="LAY-auth-tree-perms" lay-verify="perms" />
+	            <div id="LAY-auth-tree-index"></div>
+	        </div>
+	    </div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色简介</label>
+			<div class="layui-input-block">
+				<textarea type="text" name="intro" lay-verify="required" placeholder="请输入简介名称" 
+					autocomplete="off" class="layui-textarea"></textarea>
+			</div>
+		</div>
+		<div class="layui-form-item layui-hide">
+			<button class="layui-btn" lay-submit lay-filter="LAY-role-submit" id="LAY-role-submit">提交</button>
+		</div>
+	</div>
+
+	<script th:src="@{/assets/layuiadmin/layui/layui.js}"></script> 
+  	<script type="text/javascript" th:inline="javascript">
+   	/*<![CDATA[*/
+   	var ctxPath = /*[[@{/}]]*/'';
+    var basePath = /*[[@{/assets/layuiadmin/}]]*/'';
+   	/*]]>*/
+  	layui.config({
+	  	base 	: basePath,  //静态资源所在路径
+	  	prefix	: ctxPath,
+	  	version	: "20180921"
+  	}).extend({
+  	   	index	: "lib/index", //主入口模块
+  	}).use(['index', "authtree"], function(){
+  		var $ = layui.$, setter = layui.setter, admin = layui.admin, form = layui.form, authtree = layui.authtree;
+  		var checkedPerms = [];
+  		form.verify({
+  			perms : function(value) {
+                if (checkedPerms.length == 0) {
+                	$('#LAY-auth-tree-index').addClass("layui-form-danger");
+                    return '至少需要设置一项功能操作权限!';
+                }
+                $('#LAY-auth-tree-index').removeClass("layui-form-danger");
+            }
+        });
+  		
+  		// 一般来说，权限数据是异步传递过来的
+    	admin.req({
+   	        url			: setter.prefix + 'extras/feature/tree?handler=authtree',
+   	        type 		: "post",
+   	        contentType	: "application/json",
+   	        dataType	: "json",
+   	        success		: function(res){
+   	        	
+   	      		// 渲染时传入渲染目标ID，树形结构数据（具体结构看样例，checked表示默认选中），以及input表单的名字
+   				authtree.render('#LAY-auth-tree-index', res.data, {
+   					inputname: 'permsTemp[]',
+   					layfilter: 'lay-check-auth',
+   					// autoclose: false,
+   					// autochecked: false,
+   					// openchecked: true,
+   					// openall: true,
+   					autowidth: true
+   				});
+   	      		
+   				// PS:使用 form.on() 会引起了事件冒泡延迟的BUG，需要 setTimeout()，并且无法监听全选/全不选
+   				// PS:如果开启双击展开配置，form.on()会记录两次点击事件，authtree.on()不会
+   				/* form.on('checkbox(lay-check-auth)', function(data){
+   					// 注意这里：需要等待事件冒泡完成，不然获取叶子节点不准确。
+   					setTimeout(function(){
+   						console.log('监听 form 触发事件数据', data);
+   						// 获取选中的叶子节点
+   						var leaf = authtree.getLeaf('#LAY-auth-tree-index');
+   						console.log('leaf', leaf);
+   						// 获取最新选中
+   						var lastChecked = authtree.getLastChecked('#LAY-auth-tree-index');
+   						console.log('lastChecked', lastChecked);
+   						// 获取最新取消
+   						var lastNotChecked = authtree.getLastNotChecked('#LAY-auth-tree-index');
+   						console.log('lastNotChecked', lastNotChecked);
+   					}, 100);
+   				}); */
+   				// 使用 authtree.on() 不会有冒泡延迟
+   				authtree.on('change(lay-check-auth)', function(data) {
+   					console.log('监听 authtree 触发事件数据', data);
+   					// 获取所有节点
+   					//var all = authtree.getAll('#LAY-auth-tree-index');
+   					//console.log('all', all);
+   					// 获取所有已选中节点
+   					var checkedNodes = authtree.getChecked('#LAY-auth-tree-index');
+   					console.log('checked', checkedNodes);
+   					var permNodes = [];
+   					for(var i in checkedNodes){
+						if(checkedNodes[i].split(":").length > 1){
+   							permNodes.push(checkedNodes[i]);
+						}
+   					}
+   					checkedPerms = permNodes;
+   					$('#LAY-auth-tree-perms').val(checkedPerms.join(","))
+   					// 获取所有未选中节点
+   					//var notchecked = authtree.getNotChecked('#LAY-auth-tree-index');
+   					//console.log('notchecked', notchecked);
+   					// 获取选中的叶子节点
+   					//var leaf = authtree.getLeaf('#LAY-auth-tree-index');
+   					//console.log('leaf', leaf);
+   					// 获取最新选中
+   					//var lastChecked = authtree.getLastChecked('#LAY-auth-tree-index');
+   					//console.log('lastChecked', lastChecked);
+   					// 获取最新取消
+   					//var lastNotChecked = authtree.getLastNotChecked('#LAY-auth-tree-index');
+   					//console.log('lastNotChecked', lastNotChecked);
+   				});
+   				authtree.on('deptChange(lay-check-auth)', function(data) {
+   					console.log('监听到显示层数改变',data);
+   				});
+   	       
+   	        }
+   	    });
+    	
+  	});
+  </script>
+</body>
+</html>

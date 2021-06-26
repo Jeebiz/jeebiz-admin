@@ -16,8 +16,8 @@ CREATE TABLE `sys_data_files` (
   `f_order` bigint(12) NOT NULL COMMENT '文件同批次的顺序编号',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0：未删除，1：已删除）',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人ID',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
-  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`f_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件存储信息表';

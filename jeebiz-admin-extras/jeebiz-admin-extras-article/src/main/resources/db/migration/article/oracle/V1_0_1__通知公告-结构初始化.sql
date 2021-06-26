@@ -6,10 +6,10 @@
 create table sys_article_category (
   c_id   		VARCHAR2(32) DEFAULT sys_guid() NOT NULL,
   c_uid 		VARCHAR2(32) NOT NULL,
-  C_name 		VARCHAR2(500) NOT NULL,
-  C_GRADE		NUMBER(3) DEFAULT 0,
-  C_INTRO		VARCHAR2(2000) DEFAULT NULL,
-  C_KEYWORDS	VARCHAR2(2000) DEFAULT NULL,
+  c_name 		VARCHAR2(500) NOT NULL,
+  c_grade		NUMBER(3) DEFAULT 0,
+  c_intro		VARCHAR2(2000) DEFAULT NULL,
+  c_keywords	VARCHAR2(2000) DEFAULT NULL,
   c_order		NUMBER(3) DEFAULT 0,
   c_status		NUMBER(1) DEFAULT 0,
   c_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
@@ -19,10 +19,10 @@ create table sys_article_category (
 comment on table sys_article_category IS '文章分类表';
 comment on column sys_article_category.c_id IS '文章分类id';
 comment on column sys_article_category.c_uid IS '文章分类创建者id';
-comment on column sys_article_category.C_name IS '文章分类名称';
-comment on column sys_article_category.C_GRADE IS '文章分类等级';
-comment on column sys_article_category.C_INTRO IS '文章分类简介';
-comment on column sys_article_category.C_KEYWORDS IS '文章分类关键字';
+comment on column sys_article_category.c_name IS '文章分类名称';
+comment on column sys_article_category.c_grade IS '文章分类等级';
+comment on column sys_article_category.c_intro IS '文章分类简介';
+comment on column sys_article_category.c_keywords IS '文章分类关键字';
 comment on column sys_article_category.c_order IS '文章分类排序';
 comment on column sys_article_category.c_status IS '文章分类状态（0:禁用|1:可用）';
 comment on column sys_article_category.c_time24 IS '文章分类创建时间';
@@ -58,18 +58,18 @@ create table sys_article_contents (
   c_tid 		VARCHAR2(32) NOT NULL,
   c_uid 		VARCHAR2(32) NOT NULL,
   c_cid 		VARCHAR2(32) NOT NULL,
-  C_ORGid 		VARCHAR2(32) NOT NULL,
+  c_orgId 		VARCHAR2(32) NOT NULL,
   c_title		VARCHAR2(500) NOT NULL,
   c_digest		VARCHAR2(2000),
   c_content		CLOB,
   c_review		NUMBER(1) DEFAULT 0,
   c_status		NUMBER(1) DEFAULT 1,
   c_order		NUMBER(3) DEFAULT 0,
-  c_rcmd		NUMBER(1) DEFAULT 0,
+  c_recommend	NUMBER(1) DEFAULT 0,
   c_browse		NUMBER(5) DEFAULT 0,
   c_collect		NUMBER(5) DEFAULT 0,
   c_liked		NUMBER(5) DEFAULT 0,
-  C_TTYPE		NUMBER(1) DEFAULT 1,
+  c_target		NUMBER(1) DEFAULT 1,
   c_ptime24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   c_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT PK_ARTICLE_CONTENt_cid PRIMARY KEY (c_id)
@@ -80,18 +80,18 @@ comment on column sys_article_contents.c_id IS '文章id';
 comment on column sys_article_contents.c_tid IS '文章栏目id';
 comment on column sys_article_contents.c_uid IS '文章发布者id';
 comment on column sys_article_contents.c_cid IS '文章分类id';
-comment on column sys_article_contents.C_ORGid IS '文章所属单位id/编号';
+comment on column sys_article_contents.c_orgId IS '文章所属单位id/编号';
 comment on column sys_article_contents.c_title IS '文章标题';
 comment on column sys_article_contents.c_digest IS '文章摘要';
 comment on column sys_article_contents.c_content IS '文章内容';
 comment on column sys_article_contents.c_review IS '文章审核状态（0:未提交|1:待审核|2:审核通过|2:审核不通过）';
 comment on column sys_article_contents.c_status IS '文章状态（0:禁用|1:可用）';
 comment on column sys_article_contents.c_order IS '文章排序';
-comment on column sys_article_contents.c_rcmd IS '文章是否推荐（0:未推荐|1:推荐）';
+comment on column sys_article_contents.c_recommend IS '文章是否推荐（0:未推荐|1:推荐）';
 comment on column sys_article_contents.c_browse IS '文章浏览数';
 comment on column sys_article_contents.c_collect IS '文章收藏数';
 comment on column sys_article_contents.c_liked IS '文章点赞数';
-comment on column sys_article_contents.C_TTYPE IS '文章发布对象（1：全部，2：指定学院，3：指定个人）';
+comment on column sys_article_contents.c_target IS '文章发布对象（1：全部，2：指定学院，3：指定个人）';
 comment on column sys_article_contents.c_ptime24 IS '文章发布时间';
 comment on column sys_article_contents.c_time24 IS '文章创建时间';
 
@@ -139,7 +139,7 @@ create table sys_article_content_comments (
   C_TEXT		VARCHAR2(2000) NOT NULL,
   c_review		NUMBER(1) DEFAULT 0,
   c_status		NUMBER(1) DEFAULT 1,
-  c_rcmd		NUMBER(1) DEFAULT 0,
+  c_recommend		NUMBER(1) DEFAULT 0,
   c_order		NUMBER(3) DEFAULT 0,
   c_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT PK_ARTICLE_CMMt_cid PRIMARY KEY (c_id)
@@ -154,7 +154,7 @@ comment on column sys_article_content_comments.C_TYPE IS '文章评论类型';
 comment on column sys_article_content_comments.C_TEXT IS '文章评论内容';
 comment on column sys_article_content_comments.c_review IS '文章评论审核状态（0:未通过|1:通过）';
 comment on column sys_article_content_comments.c_status IS '文章评论状态（0:删除|1:正常）';
-comment on column sys_article_content_comments.c_rcmd IS '文章评论推荐（0:未推荐|1:推荐）';
+comment on column sys_article_content_comments.c_recommend IS '文章评论推荐（0:未推荐|1:推荐）';
 comment on column sys_article_content_comments.c_order IS '文章评论排序';
 comment on column sys_article_content_comments.c_time24 IS '文章评论时间';
  

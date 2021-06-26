@@ -1,12 +1,16 @@
-package net.jeebiz.admin.extras.article.web.dto;
+package net.jeebiz.admin.extras.article.web.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import net.jeebiz.admin.api.Constants;
 
-@ApiModel(value = "ArticleCategoryDTO", description = "文章分类参数DTO")
+import java.util.Date;
+
+@ApiModel(value = "ArticleCategoryVo", description = "文章分类Vo")
 @Data
-public class ArticleCategoryDTO {
+public class ArticleCategoryVo {
 
 	/**
 	 * 文章分类id
@@ -34,15 +38,21 @@ public class ArticleCategoryDTO {
 	@ApiModelProperty(name = "keywords", dataType = "String", value = "文章分类关键字")
 	private String keywords;
 	/**
+	 * 文章分类状态（0:禁用|1:可用）
+	 */
+	@ApiModelProperty(name = "status", dataType = "Integer", value = "文章分类状态（0:禁用|1:可用）")
+	private Integer status;
+	/**
 	 * 文章分类排序
 	 */
-	@ApiModelProperty(name = "order", dataType = "Integer", value = "文章分类排序")
-	private Integer order;
+	@ApiModelProperty(name = "orderBy", dataType = "Integer", value = "文章分类排序")
+	private Integer orderBy;
 	/**
 	 * 文章分类创建时间
 	 */
 	@ApiModelProperty(name = "time24", dataType = "String", value = "文章分类创建时间")
-	private String time24;
+	@JsonFormat(pattern= Constants.DATE_FORMAT)
+	private Date time24;
 	/**
 	 * 文章分类创建者id
 	 */

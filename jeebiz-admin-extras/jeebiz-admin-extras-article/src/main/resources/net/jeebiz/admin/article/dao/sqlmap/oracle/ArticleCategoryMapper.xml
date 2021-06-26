@@ -10,13 +10,13 @@
 		<!-- 文章分类创建者姓名 -->
 		<result property="uname" column="c_uname" />
 		<!-- 文章分类名称 -->
-		<result property="name" column="C_name" />
+		<result property="name" column="c_name" />
 		<!-- 文章分类等级 -->
-		<result property="grade" column="C_GRADE" />
+		<result property="grade" column="c_grade" />
 		<!-- 文章分类简介 -->
-		<result property="intro" column="C_INTRO" />
+		<result property="intro" column="c_intro" />
 		<!-- 文章分类关键字 -->
-		<result property="keywords" column="C_KEYWORDS" />
+		<result property="keywords" column="c_keywords" />
 		<!-- 文章分类排序 -->
 		<result property="order" column="c_order" />
 		<!-- 文章分类状态（0:禁用|1:可用） -->
@@ -27,11 +27,11 @@
     
     <resultMap id="PairMap" type="PairModel">
         <result property="key" column="c_id"/>
-        <result property="value" column="C_name"/>
+        <result property="value" column="c_name"/>
     </resultMap>
 
 	<insert id="insert" parameterType="ArticleCategoryModel" flushCache="true">
-		INSERT INTO sys_article_category(c_uid,C_name,C_GRADE,C_INTRO,C_KEYWORDS,c_order,c_status)
+		INSERT INTO sys_article_category(c_uid,c_name,c_grade,c_intro,c_keywords,c_order,c_status)
 		VALUES (#{uid},#{name},#{grade},#{intro,jdbcType=VARCHAR},#{keywords,jdbcType=VARCHAR},#{order},1)
 	</insert>
 	
@@ -50,10 +50,10 @@
 	
 	<update id="update" parameterType="ArticleCategoryModel" flushCache="true">
 		UPDATE sys_article_category t
-		   SET C_name = #{name},
-		   	   C_GRADE = #{grade},
-		   	   C_INTRO = #{intro},
-		   	   C_KEYWORDS = #{keywords},
+		   SET c_name = #{name},
+		   	   c_grade = #{grade},
+		   	   c_intro = #{intro},
+		   	   c_keywords = #{keywords},
 		       c_order = #{order}
 		 WHERE c_id = #{id}
 	</update>
@@ -61,7 +61,7 @@
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.c_id)
 		  FROM sys_article_category t
-		 WHERE t.C_name = #{name}
+		 WHERE t.c_name = #{name}
 		<if test="origin != null and origin != ''">
 			AND t.c_id != #{origin}
 		 </if>
@@ -72,10 +72,10 @@
 			t.c_id,
 			t.c_uid,
 			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
-			t.C_name,
-			t.C_GRADE,
-			t.C_INTRO,
-			t.C_KEYWORDS,
+			t.c_name,
+			t.c_grade,
+			t.c_intro,
+			t.c_keywords,
 			t.c_status,
 			t.c_order,
 			t.c_time24
@@ -90,7 +90,7 @@
 	
 	<select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 	  SELECT t.c_id,
-	         t.C_name
+	         t.c_name
 		FROM sys_article_category t
 	   WHERE t.c_status != 0
 	   ORDER BY t.c_order ASC
@@ -101,10 +101,10 @@
 			t.c_id,
 			t.c_uid,
 			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
-			t.C_name,
-			t.C_GRADE,
-			t.C_INTRO,
-			t.C_KEYWORDS,
+			t.c_name,
+			t.c_grade,
+			t.c_intro,
+			t.c_keywords,
 			t.c_status,
 			t.c_order,
 			t.c_time24

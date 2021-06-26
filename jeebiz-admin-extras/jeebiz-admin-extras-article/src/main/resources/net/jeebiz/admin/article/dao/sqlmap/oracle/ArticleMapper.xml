@@ -28,7 +28,7 @@
 		<!-- 文章状态（0:禁用|1:可用） -->
 		<result property="status" column="c_status" />
 		<!-- 文章是否推荐（0:未推荐|1:推荐） -->
-		<result property="recommend" column="c_rcmd" />
+		<result property="recommend" column="c_recommend" />
 		<!-- 文章排序 -->
 		<result property="order" column="c_order" />
 		<!-- 文章浏览数 -->
@@ -115,7 +115,7 @@
 		<!-- 文章评论状态（0:删除|1:正常） -->
 		<result property="status" column="c_status" />
 		<!-- 文章评论推荐（0:未推荐|1:推荐） -->
-		<result property="recommend" column="c_rcmd" />
+		<result property="recommend" column="c_recommend" />
 		<!-- 文章评论排序 -->
 		<result property="order" column="c_order" />
 		<!-- 文章评论时间 -->
@@ -145,7 +145,7 @@
 	
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_contents t
-		   SET c_rcmd = #{status}
+		   SET c_recommend = #{status}
 		 WHERE c_id = #{id}
 	</update>
 	
@@ -175,14 +175,14 @@
 			t.c_uid,
 			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.c_cid,
-			(SELECT x.C_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
+			(SELECT x.c_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
 			t.c_title,
 			t.c_digest,
 			t.c_content,
 			t.c_review,
 			t.c_status,
 			t.c_order,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_browse,
 			t.c_collect,
 			t.c_liked,
@@ -205,14 +205,14 @@
 			t.c_uid,
 			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.c_cid,
-			(SELECT x.C_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
+			(SELECT x.c_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
 			t.c_title,
 			t.c_digest,
 			t.c_content,
 			t.c_review,
 			t.c_status,
 			t.c_order,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_browse,
 			t.c_collect,
 			t.c_liked,
@@ -230,14 +230,14 @@
 			t.c_uid,
 			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
 			t.c_cid,
-			(SELECT x.C_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
+			(SELECT x.c_name from sys_article_category x where x.c_id = t.c_cid) as c_cname,
 			t.c_title,
 			t.c_digest,
 			t.c_content,
 			t.c_review,
 			t.c_status,
 			t.c_order,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_browse,
 			t.c_collect,
 			t.c_liked,
@@ -307,7 +307,7 @@
 			t.C_TEXT,
 			t.c_review,
 			t.c_status,
-			t.c_rcmd,
+			t.c_recommend,
 			t.c_order,
 			t.c_time24
 	   FROM sys_article_content_comments t

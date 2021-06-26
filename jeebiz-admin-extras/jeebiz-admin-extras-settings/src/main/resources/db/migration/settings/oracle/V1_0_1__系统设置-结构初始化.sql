@@ -26,7 +26,7 @@ comment on column sys_data_settings.d_label  is '参数标签';
 comment on column sys_data_settings.d_key  is '参数键';
 comment on column sys_data_settings.d_text  is '参数值';
 comment on column sys_data_settings.d_unit  is '参数单位:如 KB';
-comment on column sys_data_settings.d_type  is '参数展示类型：（ text,textarea,password,checkbox,radio,file,image,color,date,datetime,email,month,number,range,select,switch,tel,time,week,url）';
+comment on column sys_data_settings.d_type  is '参数展示类型：（ text,textarea,password,checkbox,radio,file,image,color,date,timestamp,email,month,number,range,select,switch,tel,time,week,url）';
 comment on column sys_data_settings.d_rules  is '参数验证规则：如（required|range:[0,100] (多个用|隔开)）';
 comment on column sys_data_settings.d_remark  is '参数备注信息';
 comment on column sys_data_settings.d_placeholder  is '参数提示信息';
