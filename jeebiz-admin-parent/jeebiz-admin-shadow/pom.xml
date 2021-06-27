@@ -109,12 +109,6 @@
 			<artifactId>jeebiz-admin-extras-core</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz Admin UI -->
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-ui</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
 		
 		<!-- For Google API -->
 	 	<dependency>

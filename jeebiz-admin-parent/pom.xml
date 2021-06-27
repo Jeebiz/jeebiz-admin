@@ -12,7 +12,6 @@
 
 	<modules>
 		<module>jeebiz-admin-shadow</module>
-		<module>jeebiz-admin-ui</module>
 	</modules>
 	
 </project>
