@@ -1,25 +1,29 @@
 package net.jeebiz.admin.extras.monitor.utils;
 
-import net.jeebiz.admin.extras.monitor.web.vo.*;
+import java.lang.management.ManagementFactory;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
+
+import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.JvmInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.MemInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.SysDiskInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.SysInfoVo;
 import net.jeebiz.boot.api.utils.Arith;
 import net.jeebiz.boot.api.utils.ByteUnitFormat;
 import net.jeebiz.boot.api.utils.WebUtils;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
+import oshi.hardware.CentralProcessor.TickType;
+import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
-import oshi.hardware.CentralProcessor.TickType;
-import oshi.hardware.GlobalMemory;
-
-import java.lang.management.ManagementFactory;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
 
 public class OshiUtils {
 
@@ -113,7 +117,7 @@ public class OshiUtils {
 
         Properties props = System.getProperties();
         JvmInfoVo jvm = new JvmInfoVo();
-
+        
         long total = Runtime.getRuntime().totalMemory();
         long max = Runtime.getRuntime().maxMemory();
         long free = Runtime.getRuntime().freeMemory();

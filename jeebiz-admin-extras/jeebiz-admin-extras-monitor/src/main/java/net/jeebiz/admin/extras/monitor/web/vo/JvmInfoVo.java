@@ -11,58 +11,58 @@ import lombok.Data;
 @Data
 public class JvmInfoVo {
 
-    /**
-     * 当前JVM占用的内存总数(M)
-     */
-    @ApiModelProperty(name = "total", value = "当前JVM占用的内存总数(M)")
-    private double total;
+	/**
+	 * 当前JVM占用的内存总数(M)
+	 */
+	@ApiModelProperty(name = "total", value = "当前JVM占用的内存总数(M)")
+	private double total;
 
-    /**
-     * JVM最大可用内存总数(M)
-     */
-    @ApiModelProperty(name = "max", value = "JVM最大可用内存总数(M)")
-    private double max;
+	/**
+	 * JVM最大可用内存总数(M)
+	 */
+	@ApiModelProperty(name = "max", value = "JVM最大可用内存总数(M)")
+	private double max;
 
-    /**
-     * JVM空闲内存(M)
-     */
-    @ApiModelProperty(name = "free", value = "JVM空闲内存(M)")
-    private double free;
+	/**
+	 * JVM空闲内存(M)
+	 */
+	@ApiModelProperty(name = "free", value = "JVM空闲内存(M)")
+	private double free;
 
-    /**
-     * JVM使用率
-     */
-    @ApiModelProperty(name = "usage", value = "JVM使用率")
-    private double usage;
+	/**
+	 * JVM使用率
+	 */
+	@ApiModelProperty(name = "usage", value = "JVM使用率")
+	private double usage;
 
-    /**
-     * JDK名称
-     */
-    @ApiModelProperty(name = "name", value = "JDK名称")
-    private String name;
+	/**
+	 * JDK名称
+	 */
+	@ApiModelProperty(name = "name", value = "JDK名称")
+	private String name;
 
-    /**
-     * JDK版本
-     */
-    @ApiModelProperty(name = "version", value = "JDK版本")
-    private String version;
+	/**
+	 * JDK版本
+	 */
+	@ApiModelProperty(name = "version", value = "JDK版本")
+	private String version;
 
-    /**
-     * JDK路径
-     */
-    @ApiModelProperty(name = "home", value = "JDK路径")
-    private String home;
+	/**
+	 * JDK路径
+	 */
+	@ApiModelProperty(name = "home", value = "JDK路径")
+	private String home;
 
-    /**
-     * JDK启动时间
-     */
-    @ApiModelProperty(name = "startTime", value = "JDK启动时间")
-    private String startTime;
+	/**
+	 * JDK启动时间
+	 */
+	@ApiModelProperty(name = "startTime", value = "JDK启动时间")
+	private String startTime;
 
-    /**
-     * JDK运行时间
-     */
-    @ApiModelProperty(name = "runTime", value = "JDK运行时间")
-    private String runTime;
+	/**
+	 * JDK运行时间
+	 */
+	@ApiModelProperty(name = "runTime", value = "JDK运行时间")
+	private String runTime;
 
 }
