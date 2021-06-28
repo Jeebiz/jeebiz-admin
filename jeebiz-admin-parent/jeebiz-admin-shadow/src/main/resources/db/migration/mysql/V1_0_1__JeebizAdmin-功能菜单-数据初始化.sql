@@ -54,6 +54,7 @@ VALUES (40, '消息管理', '消息管理', 'inform', '#', '#', 1, 'layui-icon-c
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
 VALUES (41, '消息模板', '消息模板', 'inform-template', 'inform/template', 'inform/template', 1, '', 40, 1, 41);
+
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
 VALUES (41, '查看', '', '0', 'inform-tmpl:list', 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
@@ -78,15 +79,15 @@ INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, 
 VALUES (50, '基础设置', '基础设置', 'sets', '#', '#', 1, 'layui-icon-set', 0, 1, 50);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (51, '基础数据', '基础数据', 'basedata', '/basedata/keyvalue/list', '/basedata/keyvalue/list', 1, '', 50, 1, 51);
+VALUES (51, '基础数据', '基础数据', 'dict', '/dict/keyvalue/list', '/dict/keyvalue/list', 1, '', 50, 1, 51);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (51, '查询', '', '0', 'basedata:list', 1);
+VALUES (51, '查询', '', '0', 'dict:list', 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (51, '增加', '', '0', 'basedata:new', 2);
+VALUES (51, '增加', '', '0', 'dict:new', 2);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (51, '删除', '', '0', 'basedata:delete', 3);
+VALUES (51, '删除', '', '0', 'dict:delete', 3);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (51, '修改', '', '0', 'basedata:renew', 4);
+VALUES (51, '修改', '', '0', 'dict:renew', 4);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
 VALUES (52, '系统设置', '系统设置', 'setting', '#', '#', 1, '#', 50, 1, 4);
@@ -168,22 +169,17 @@ INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, 
 VALUES (81, '安全审计', '安全审计', 'security-audit', '#', '#', 1, '', 80, 1, 81);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (82, '系统异常', '系统异常', 'biz-excps', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 82);
+VALUES (82, '认证日志', '认证日志', 'authz-logs', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 82);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (82, '查询', '', '0', 'logs:excp-list', 1);
+VALUES (82, '查询', '', '0', 'logs:authz-list', 1);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (83, '认证日志', '认证日志', 'authz-logs', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 83);
+VALUES (83, '操作日志', '操作日志', 'opt-logs', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 83);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (83, '查询', '', '0', 'logs:authz-list', 1);
+VALUES (83, '查询', '', '0', 'logs:opt-list', 1);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (84, '操作日志', '操作日志', 'opt-logs', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 81, 1, 84);
-INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (84, '查询', '', '0', 'logs:opt-list', 1);
-
-INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (85, '安全防护', '安全防护', 'security-protection', '#', '#', 1, '', 81, 1, 85);
+VALUES (85, '安全防护', '安全防护', 'security-protection', '#', '#', 1, '', 80, 1, 85);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
 VALUES (86, 'XSS 攻击防护', 'XSS 攻击防护', 'xss-protection', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 85, 1, 86);
@@ -196,31 +192,37 @@ INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_p
 VALUES (87, '保存', '', '0', 'csrf:renew', 1);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (88, '会话监控', '会话监控', 'session-monitoring', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 80, 1, 88);
-INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (88, '查询', '', '0', 'session:list', 1);
-INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (88, '强制退出', '', '0', 'session:kickout', 1);
+VALUES (90, '系统监控', '系统监控', 'system-monitor', '#', '#', 1, 'layui-icon-auz', 80, 1, 90);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (89, '服务监控', '服务监控', 'druid', 'iframe/link/druid', 'iframe/link/druid', 1, '', 80, 1, 89);
+VALUES (91, '会话监控', '会话监控', 'session-monitoring', '/authz/rbac0/user/list', '/authz/rbac0/user/list', 1, '', 90, 1, 91);
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
+VALUES (91, '查询', '', '0', 'session:list', 1);
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
+VALUES (91, '强制退出', '', '0', 'session:kickout', 1);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (90, '快速开发', '快速开发', 'fast-dev', '#', '#', 1, 'layui-icon-code-circle', 0, 1, 90);
+VALUES (92, '数据监控', '数据监控', 'druid', 'iframe/link/druid', 'iframe/link/druid', 1, '', 90, 1, 92);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (91, '自定义菜单', '自定义菜单', 'feature', 'webui/feature', 'webui/feature', 1, '', 90, 1, 91);
-INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (91, '查看', '', '0', 'webui:feature-list', 1);
-INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (91, '增加', '', '0', 'webui:feature-new', 2);
-INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (91, '删除', '', '0', 'webui:feature-delete', 3);
-INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
-VALUES (91, '修改', '', '0', 'webui:feature-renew', 4);
+VALUES (93, '服务监控', '服务监控', 'druid', 'system/monitor', 'system/monitor', 1, '', 90, 1, 93);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (108, '代码生成器', '代码生成器', 'code', 'code/builder', 'code/builder', 1, '', 90, 1, 108);
+VALUES (100, '快速开发', '快速开发', 'fast-dev', '#', '#', 1, 'layui-icon-code-circle', 0, 1, 100);
+
+INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
+VALUES (101, '自定义菜单', '自定义菜单', 'feature', 'webui/feature', 'webui/feature', 1, '', 100, 1, 101);
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
+VALUES (101, '查看', '', '0', 'webui:feature-list', 1);
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
+VALUES (101, '增加', '', '0', 'webui:feature-new', 2);
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
+VALUES (101, '删除', '', '0', 'webui:feature-delete', 3);
+INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
+VALUES (101, '修改', '', '0', 'webui:feature-renew', 4);
+
+INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
+VALUES (108, '代码生成器', '代码生成器', 'code', 'code/builder', 'code/builder', 1, '', 100, 1, 108);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
 VALUES (108, '查看', '', '0', 'formio:list', 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
@@ -233,7 +235,7 @@ INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_p
 VALUES (108, '详情', '', '0', 'formio:detail', 5);
 
 INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_path, f_type, f_icon, f_parent, f_visible, f_order)
-VALUES (109, '服务生成器', '服务生成器', 'service', 'service/builder', 'service/builder', 1, '', 90, 1, 109);
+VALUES (109, '服务生成器', '服务生成器', 'service', 'service/builder', 'service/builder', 1, '', 100, 1, 109);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
 VALUES (109, '查看', '', '0', 'formio:list', 1);
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)

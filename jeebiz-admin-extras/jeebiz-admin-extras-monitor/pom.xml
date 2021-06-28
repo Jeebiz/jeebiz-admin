@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>jeebiz-admin-extras</artifactId>
+        <groupId>net.jeebiz</groupId>
+        <version>1.0.1-ce-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>jeebiz-admin-extras-monitor</artifactId>
+
+    <dependencies>
+
+        <!-- For Jeebiz API -->
+        <dependency>
+            <groupId>net.jeebiz</groupId>
+            <artifactId>jeebiz-admin-api</artifactId>
+            <version>${jeebiz-admin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+        </dependency>
+        <!-- For Shiro -->
+        <dependency>
+            <groupId>com.github.hiwepy</groupId>
+            <artifactId>shiro-biz-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- For Mybatis -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <!-- For Flyway -->
+        <dependency>
+            <groupId>com.github.hiwepy</groupId>
+            <artifactId>flyway-plus-spring-boot-starter</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

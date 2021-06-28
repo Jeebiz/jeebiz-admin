@@ -8,9 +8,9 @@ import org.apache.shiro.biz.web.Constants;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.OnlineSession;
 
-import net.jeebiz.admin.extras.sessions.dao.entities.SessionEntity;
-import net.jeebiz.admin.extras.sessions.service.IOnlineSessionService;
-import net.jeebiz.admin.extras.sessions.utils.OnlineSessionUtils;
+import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
+import net.jeebiz.admin.extras.monitor.service.IOnlineSessionService;
+import net.jeebiz.admin.extras.monitor.utils.OnlineSessionUtils;
 
 public class OnlineSessionDAO extends EnterpriseCacheSessionDAO {
 

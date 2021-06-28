@@ -16,6 +16,19 @@ public class RedisKeyConstant extends net.jeebiz.boot.extras.redis.setup.RedisKe
 	 */
 	public final static String APP_BLACKLIST_PREFIX = "app:blacklist";
 
+	/**
+	 * 服务器资源使用率记录
+	 */
+	public final static String SERVER_USAGE_HISTORY_PREFIX = "server:usage:{}";
+	/**
+	 * 服务器资源使用记录
+	 */
+	public final static String SERVER_USED_HISTORY_PREFIX = "server:used:{}";
+	/**
+	 * 服务器资源空闲记录
+	 */
+	public final static String SERVER_FREE_HISTORY_PREFIX = "server:free:{}";
+
 	public final static String SET_APPS = "user:apps";
 
 	public final static String DBMATA_CATALOG = "dbmata:catalog";

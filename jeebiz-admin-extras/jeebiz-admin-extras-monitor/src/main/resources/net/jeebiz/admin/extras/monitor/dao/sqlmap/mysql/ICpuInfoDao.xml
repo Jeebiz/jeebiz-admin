@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.monitor.dao.ICpuInfoDao">
+
+	<insert id="insert" parameterType="OnlineSessionModel">
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
+	        SELECT IFNULL(MAX(APP_id), 0) + 1 FROM SYS_SESSIONS
+	    </selectKey>
+		INSERT INTO SYS_SESSIONS(APP_id,app_name,APP_DESC,APP_LANG,APP_ADDR,APP_USERid)
+		VALUE(#{id},#{name},#{desc,jdbcType=VARCHAR},#{lang},#{addr},#{userId})
+	</insert>
+
+	<update id="update" parameterType="OnlineSessionModel">
+		update SYS_SESSIONS t
+		<set>
+			<if test="name != null and name != ''">t.app_name = #{name,jdbcType=VARCHAR},</if>
+			<if test="desc != null and desc != ''">t.APP_DESC = #{desc,jdbcType=VARCHAR},</if>
+		</set>
+		where t.APP_id = #{id}
+	</update>
+
+	<resultMap id="OnlineSessionMap" type="OnlineSessionModel">
+		<result property="uid" column="S_id" />
+		<result property="userid" column="S_USERid" />
+		<result property="username" column="S_USERname" />
+		<result property="lang" column="S_HOST" />
+		<result property="addr" column="S_START_TIMESTAMP" />
+		<result property="userId" column="S_LASTACCESS_TIME" />
+		<result property="userId" column="S_USERAGENT" />
+		<result property="userId" column="S_SYSTEM_HOST" />
+		<result property="userId" column="S_TIMEOUT" />
+		<result property="userId" column="S_STATUS" />
+	</resultMap>
+
+	<select id="getPagedList" resultMap="OnlineSessionMap" parameterType="OnlineSessionModel">
+		SELECT
+			t.S_id,
+			t.S_USERid,
+			t.S_USERname,
+			t.S_HOST,
+			t.S_START_TIMESTAMP,
+			t.S_LASTACCESS_TIME,
+			t.S_USERAGENT,
+			t.S_SYSTEM_HOST,
+			t.S_TIMEOUT,
+			t.S_STATUS
+		FROM SYS_SESSIONS t
+		<if test="model.name != null and model.name != ''">
+			and t.app_name like CONCAT('%',#{model.name},'%')
+		</if>
+	</select>
+	
+	<delete id="delete" parameterType="OnlineSessionModel">
+		DELETE FROM SYS_SESSIONS WHERE APP_id = #{id}
+	</delete>
+
+</mapper>
