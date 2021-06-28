@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.springframework.biz.utils.FilenameUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +27,8 @@ import com.drew.metadata.Tag;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import hitool.core.collections.CollectionUtils;
+import hitool.core.io.FilenameUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
@@ -38,7 +39,6 @@ import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
-import hitool.core.collections.CollectionUtils;
 
 public class LocalFilestoreProvider implements FilestoreProvider {
 

@@ -18,6 +18,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
+import org.springframework.biz.utils.RemoteAddrUtils;
 import org.springframework.biz.utils.WebUtils;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -83,7 +84,7 @@ public class GoogleAuthorizationFilter extends AuthorizationFilter {
 	protected AuthenticationToken createGoogleToken(ServletRequest request, ServletResponse response) throws Exception {
 		
 		HttpServletRequest httpRequest = WebUtils.getNativeRequest(request, HttpServletRequest.class);
-		String host = WebUtils.getRemoteAddr(httpRequest);
+		String host = RemoteAddrUtils.getRemoteAddr(httpRequest);
 		
 		String idTokenString = this.obtainAccessToken(httpRequest);
 

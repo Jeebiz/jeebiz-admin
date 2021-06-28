@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 import hitool.core.format.ByteUnitFormat;
+import hitool.core.lang3.network.InetAddressUtils;
 import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.JvmInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.MemInfoVo;
@@ -14,7 +15,6 @@ import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.SysDiskInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.SysInfoVo;
 import net.jeebiz.boot.api.utils.Arith;
-import net.jeebiz.boot.api.utils.WebUtils;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.CentralProcessor.TickType;
@@ -95,8 +95,8 @@ public class OshiUtils {
     {
         SysInfoVo sys = new SysInfoVo();
         Properties props = System.getProperties();
-        sys.setComputerName(WebUtils.getHostName());
-        sys.setComputerIp(WebUtils.getHostIp());
+        sys.setComputerName(InetAddressUtils.getHostName());
+        sys.setComputerIp(InetAddressUtils.getHostAddress());
         sys.setOsName(props.getProperty("os.name"));
         sys.setOsArch(props.getProperty("os.arch"));
         sys.setUserDir(props.getProperty("user.dir"));

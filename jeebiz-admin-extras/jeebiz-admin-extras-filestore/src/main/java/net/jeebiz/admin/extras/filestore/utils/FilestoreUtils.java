@@ -17,8 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import hitool.core.format.ByteUnitFormat;
 import net.coobird.thumbnailator.Thumbnails;
-import net.jeebiz.boot.api.utils.ByteUnitFormat;
 
 public class FilestoreUtils {
 
