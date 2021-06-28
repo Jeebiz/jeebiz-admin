@@ -38,7 +38,7 @@ import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
-import net.jeebiz.boot.api.utils.CollectionUtils;
+import hitool.core.collections.CollectionUtils;
 
 public class LocalFilestoreProvider implements FilestoreProvider {
 

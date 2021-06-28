@@ -24,7 +24,7 @@ import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserProfile
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzWeixinMaBindDTO;
 import net.jeebiz.boot.api.XHeaders;
-import net.jeebiz.boot.api.utils.RandomString;
+import hitool.core.lang3.RandomString;
 
 @Component
 @Slf4j

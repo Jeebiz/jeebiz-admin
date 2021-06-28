@@ -25,7 +25,7 @@ import net.jeebiz.admin.extras.dict.setup.Constants;
 import net.jeebiz.admin.extras.dict.setup.event.KeyValueDeletedEvent;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
-import net.jeebiz.boot.api.utils.CollectionUtils;
+import hitool.core.collections.CollectionUtils;
 
 @Service
 public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IKeyValueDao> implements IKeyValueService {

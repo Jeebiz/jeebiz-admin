@@ -38,7 +38,7 @@ import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.AllowableValues;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
-import net.jeebiz.boot.api.utils.StringUtils;
+import org.springframework.biz.utils.StringUtils;
 import net.jeebiz.boot.api.web.BaseApiController;
 import net.jeebiz.boot.api.web.Result;
 

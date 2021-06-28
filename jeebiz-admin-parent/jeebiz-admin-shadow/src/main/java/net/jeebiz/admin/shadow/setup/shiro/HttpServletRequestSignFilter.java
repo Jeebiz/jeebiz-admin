@@ -30,7 +30,7 @@ import net.jeebiz.admin.shadow.setup.CommonProperteis;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.utils.SignUtils;
-import net.jeebiz.boot.api.utils.StringUtils;
+import org.springframework.biz.utils.StringUtils;
 
 /**
  * 1、参考资料：

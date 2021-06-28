@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import hitool.core.format.ByteUnitFormat;
 import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.JvmInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.MemInfoVo;
@@ -13,7 +14,6 @@ import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.SysDiskInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.SysInfoVo;
 import net.jeebiz.boot.api.utils.Arith;
-import net.jeebiz.boot.api.utils.ByteUnitFormat;
 import net.jeebiz.boot.api.utils.WebUtils;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;

@@ -44,7 +44,7 @@ import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
-import net.jeebiz.boot.api.utils.RandomString;
+import hitool.core.lang3.RandomString;
 import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 

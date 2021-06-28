@@ -1,18 +1,21 @@
 package net.jeebiz.admin.extras.monitor.web.mvc;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.monitor.service.IServerInfoService;
-import net.jeebiz.admin.extras.monitor.utils.OshiUtils;
-import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
-import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
-import net.jeebiz.boot.api.ApiRestResponse;
-import net.jeebiz.boot.api.utils.ByteUnitFormat;
-import net.jeebiz.boot.api.web.BaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import hitool.core.format.ByteUnitFormat;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import net.jeebiz.admin.extras.monitor.service.IServerInfoService;
+import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
+import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.web.BaseController;
 
 @Api(tags = "Sys：系统监控（Ok）")
 @RestController

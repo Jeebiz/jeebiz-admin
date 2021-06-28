@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.api.utils.CollectionUtils;
+import hitool.core.collections.CollectionUtils;
 
 @Alias(value = "AuthzUserModel")
 @SuppressWarnings("serial")

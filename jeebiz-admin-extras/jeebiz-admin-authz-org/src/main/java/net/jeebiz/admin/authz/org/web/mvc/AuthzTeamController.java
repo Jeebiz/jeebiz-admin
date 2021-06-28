@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 
+import hitool.core.collections.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,7 +35,6 @@ import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.api.utils.CollectionUtils;
 import net.jeebiz.boot.api.web.BaseApiController;
 import net.jeebiz.boot.api.web.Result;
 

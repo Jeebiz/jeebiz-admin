@@ -1,14 +1,13 @@
 package net.jeebiz.admin.extras.monitor.web.vo;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 服务器信息

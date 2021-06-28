@@ -4,20 +4,22 @@
  */
 package net.jeebiz.admin.extras.monitor.dao.entities;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.text.SimpleDateFormat;
+
 import org.apache.shiro.biz.web.Constants;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.OnlineSession;
 import org.apache.shiro.session.mgt.SimpleOnlineSession;
 import org.apache.shiro.session.mgt.SimpleOnlineSession.OnlineStatus;
 
-import java.text.SimpleDateFormat;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_sessions")

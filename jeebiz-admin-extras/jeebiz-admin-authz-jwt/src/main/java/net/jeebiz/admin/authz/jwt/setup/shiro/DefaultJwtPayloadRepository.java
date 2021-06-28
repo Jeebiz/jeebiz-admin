@@ -29,7 +29,7 @@ import com.github.hiwepy.jwt.utils.SecretKeyUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.jeebiz.boot.api.utils.CollectionUtils;
+import hitool.core.collections.CollectionUtils;
 
 public class DefaultJwtPayloadRepository extends JwtPayloadRepository implements InitializingBean {
 

@@ -26,8 +26,8 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
 import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
-import net.jeebiz.boot.api.utils.CollectionUtils;
-import net.jeebiz.boot.api.utils.RandomString;
+import hitool.core.collections.CollectionUtils;
+import hitool.core.lang3.RandomString;
 
 @Service
 public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, IAuthzUserDao> implements IAuthzUserService {

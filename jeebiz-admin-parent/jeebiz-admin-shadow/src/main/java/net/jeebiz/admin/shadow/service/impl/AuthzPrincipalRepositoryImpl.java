@@ -65,8 +65,8 @@ import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
 import net.jeebiz.boot.api.XHeaders;
-import net.jeebiz.boot.api.utils.CollectionUtils;
-import net.jeebiz.boot.api.utils.RandomString;
+import hitool.core.collections.CollectionUtils;
+import hitool.core.lang3.RandomString;
 
 @Service("defRepository")
 @Slf4j

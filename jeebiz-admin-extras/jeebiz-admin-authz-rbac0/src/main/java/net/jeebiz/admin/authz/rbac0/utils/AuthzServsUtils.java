@@ -13,7 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 
-import net.jeebiz.boot.api.utils.StringUtils;
+import org.springframework.biz.utils.StringUtils;
 
 public class AuthzServsUtils {
 	

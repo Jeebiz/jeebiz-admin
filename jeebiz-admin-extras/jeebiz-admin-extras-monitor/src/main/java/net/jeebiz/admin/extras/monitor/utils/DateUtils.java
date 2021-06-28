@@ -4,7 +4,7 @@ import java.lang.management.ManagementFactory;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateUtils extends org.springframework.biz.utils.DateUtils {
+public class DateUtils extends hitool.core.lang3.time.DateUtils {
 
     public static String YYYY = "yyyy";
 

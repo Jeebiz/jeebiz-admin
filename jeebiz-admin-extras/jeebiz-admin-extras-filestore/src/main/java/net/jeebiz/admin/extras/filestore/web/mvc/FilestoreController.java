@@ -37,7 +37,7 @@ import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
-import net.jeebiz.boot.api.utils.CollectionUtils;
+import hitool.core.collections.CollectionUtils;
 import net.jeebiz.boot.api.web.BaseApiController;
 
 @Api(tags = "文件服务：文件上传、下载（Ok）")
