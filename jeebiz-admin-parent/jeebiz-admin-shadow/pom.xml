@@ -103,6 +103,12 @@
 			<artifactId>jeebiz-admin-extras-sessions</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
+		<!-- Jeebiz 服务监控（可选） -->
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-extras-monitor</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
 		<!-- Jeebiz Admin 默认配置及初始化 -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>

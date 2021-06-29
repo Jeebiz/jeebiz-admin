@@ -95,8 +95,8 @@ public class OshiUtils {
     {
         SysInfoVo sys = new SysInfoVo();
         Properties props = System.getProperties();
-        sys.setComputerName(InetAddressUtils.getHostName());
-        sys.setComputerIp(InetAddressUtils.getHostAddress());
+        sys.setComputerName(InetAddressUtils.getLocalHostName());
+        sys.setComputerIp(InetAddressUtils.getLocalHostAddress());
         sys.setOsName(props.getProperty("os.name"));
         sys.setOsArch(props.getProperty("os.arch"));
         sys.setUserDir(props.getProperty("user.dir"));
@@ -125,6 +125,7 @@ public class OshiUtils {
         jvm.setTotal(ByteUnitFormat.B.toDouble(unit, total));
         jvm.setMax(ByteUnitFormat.B.toDouble(unit, max));
         jvm.setFree(ByteUnitFormat.B.toDouble(unit, free));
+        jvm.setUsed(ByteUnitFormat.B.toDouble(unit, total - free));
         jvm.setUsage(Arith.mul(Arith.div(total - free, total, 4), 100));
         jvm.setName(ManagementFactory.getRuntimeMXBean().getVmName());
         jvm.setHome(props.getProperty("java.home"));

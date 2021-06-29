@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -69,6 +70,12 @@ public class JvmInfoEntity extends Model<JvmInfoEntity> {
 	 */
 	@TableField(value = "jvm_free")
 	private double free;
+
+	/**
+	 * JVM已用内存(M)
+	 */
+	@TableField(value = "jvm_used")
+	private double used;
 
 	/**
 	 * JVM使用率

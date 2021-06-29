@@ -63,6 +63,7 @@ CREATE TABLE `$${table-prefix}usage_jvm` (
   `jvm_total` double(16) NOT NULL COMMENT '当前JVM占用的内存总数(M)',
   `jvm_max` double(16) NOT NULL COMMENT 'JVM最大可用内存总数(M)',
   `jvm_free` double(16) NOT NULL COMMENT 'JVM空闲内存(M)',
+  `jvm_used` double(16) NOT NULL COMMENT 'JVM已用内存(M)',
   `jvm_usage` double(16) NOT NULL COMMENT 'JVM使用率',
   `jdk_name` varchar(500) NOT NULL COMMENT 'JDK名称',
   `jdk_version` varchar(50) NOT NULL COMMENT 'JDK版本',

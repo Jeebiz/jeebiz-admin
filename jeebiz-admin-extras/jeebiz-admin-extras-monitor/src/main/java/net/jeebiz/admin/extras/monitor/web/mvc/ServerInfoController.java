@@ -1,5 +1,6 @@
 package net.jeebiz.admin.extras.monitor.web.mvc;
 
+import net.jeebiz.admin.extras.monitor.web.vo.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -12,10 +13,10 @@ import hitool.core.format.ByteUnitFormat;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.monitor.service.IServerInfoService;
-import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
-import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.web.BaseController;
+
+import java.util.List;
 
 @Api(tags = "Sys：系统监控（Ok）")
 @RestController
@@ -30,11 +31,11 @@ public class ServerInfoController extends BaseController {
     @GetMapping("info")
     @RequiresPermissions("monitor:list")
     @ResponseBody
-    public ApiRestResponse<ServerInfoVo> info(String unit){
+    public ApiRestResponse<ServerInfoVo> info(){
         try {
-            return ApiRestResponse.success(getServerInfoService().getServerInfo(ByteUnitFormat.valueOf(unit)));
+            return ApiRestResponse.success(getServerInfoService().getServerInfo(ByteUnitFormat.G));
         } catch (Exception e) {
-            return fail("sys.monitor.get.fail");
+            return fail("server.monitor.info.get.fail");
         }
     }
 
@@ -42,48 +43,47 @@ public class ServerInfoController extends BaseController {
     @GetMapping("cpu/info")
     @RequiresPermissions("monitor:list")
     @ResponseBody
-    public ApiRestResponse<CpuInfoVo> cpuInfo(String unit){
+    public ApiRestResponse<CpuInfoVo> cpuInfo(){
         try {
-            return ApiRestResponse.success(getServerInfoService().getCpuInfo(ByteUnitFormat.valueOf(unit)));
+            return ApiRestResponse.success(getServerInfoService().getCpuInfo(ByteUnitFormat.G));
         } catch (Exception e) {
-            return fail("sys.monitor.get.fail");
+            return fail("server.cpu.info.get.fail");
         }
     }
 
-
-    @ApiOperation(value = "CPU相关信息", notes = "获取CPU相关信息")
+    @ApiOperation(value = "内存相关信息", notes = "获取内存相关信息")
     @GetMapping("mem/info")
     @RequiresPermissions("monitor:list")
     @ResponseBody
-    public ApiRestResponse<CpuInfoVo> memInfo(String unit){
+    public ApiRestResponse<MemInfoVo> memInfo(){
         try {
-            return ApiRestResponse.success(getServerInfoService().getCpuInfo(ByteUnitFormat.valueOf(unit)));
+            return ApiRestResponse.success(getServerInfoService().getMemInfo(ByteUnitFormat.G));
         } catch (Exception e) {
-            return fail("sys.monitor.get.fail");
+            return fail("server.mem.info.get.fail");
         }
     }
 
-    @ApiOperation(value = "CPU相关信息", notes = "获取CPU相关信息")
+    @ApiOperation(value = "JVM相关信息", notes = "获取JVM相关信息")
     @GetMapping("jvm/info")
     @RequiresPermissions("monitor:list")
     @ResponseBody
-    public ApiRestResponse<CpuInfoVo> jvmInfo(String unit){
+    public ApiRestResponse<JvmInfoVo> jvmInfo(){
         try {
-            return ApiRestResponse.success(getServerInfoService().getCpuInfo(ByteUnitFormat.valueOf(unit)));
+            return ApiRestResponse.success(getServerInfoService().getJvmInfo(ByteUnitFormat.G));
         } catch (Exception e) {
-            return fail("sys.monitor.get.fail");
+            return fail("server.jvm.info.get.fail");
         }
     }
 
-    @ApiOperation(value = "CPU相关信息", notes = "获取CPU相关信息")
+    @ApiOperation(value = "磁盘相关信息", notes = "获取磁盘相关信息")
     @GetMapping("disk/info")
     @RequiresPermissions("monitor:list")
     @ResponseBody
-    public ApiRestResponse<CpuInfoVo> diskInfo(String unit){
+    public ApiRestResponse<List<SysDiskInfoVo>> diskInfo(){
         try {
-            return ApiRestResponse.success(getServerInfoService().getCpuInfo(ByteUnitFormat.valueOf(unit)));
+            return ApiRestResponse.success(getServerInfoService().getDiskInfos(ByteUnitFormat.G));
         } catch (Exception e) {
-            return fail("sys.monitor.get.fail");
+            return fail("server.disk.info.get.fail");
         }
     }
 

@@ -48,11 +48,17 @@ public class JvmInfoVo {
 	private double free;
 
 	/**
+	 * JVM已用内存
+	 */
+	@ApiModelProperty(name = "used", value = "JVM已用内存")
+	private double used;
+	
+	/**
 	 * JVM使用率
 	 */
 	@ApiModelProperty(name = "usage", value = "JVM使用率")
 	private double usage;
-
+	
 	/**
 	 * JDK启动时间
 	 */

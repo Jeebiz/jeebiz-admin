@@ -4,7 +4,6 @@
  */
 package net.jeebiz.admin.extras.monitor.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,8 +29,6 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 @Service
 public class ServerInfoServiceImpl implements IServerInfoService {
-
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 
 	@Autowired  
     private RedisOperationTemplate redisOperationTemplate;
