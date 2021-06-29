@@ -150,9 +150,9 @@ public class OshiUtils {
             long used = total - free;
 
             SysDiskInfoVo sysFile = new SysDiskInfoVo();
-            sysFile.setDirName(fs.getMount());
-            sysFile.setSysTypeName(fs.getType());
-            sysFile.setTypeName(fs.getName());
+            sysFile.setMount(fs.getMount());
+            sysFile.setName(fs.getName());
+            sysFile.setType(fs.getType());
             sysFile.setTotal(convertFileSize(total));
             sysFile.setFree(convertFileSize(free));
             sysFile.setUsed(convertFileSize(used));

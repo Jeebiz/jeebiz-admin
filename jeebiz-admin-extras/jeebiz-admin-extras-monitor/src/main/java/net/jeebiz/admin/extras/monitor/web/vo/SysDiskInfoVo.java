@@ -14,20 +14,20 @@ public class SysDiskInfoVo {
 	/**
 	 * 盘符路径
 	 */
-	@ApiModelProperty(name = "dirName", value = "盘符路径")
-	private String dirName;
+	@ApiModelProperty(name = "mount", value = "盘符路径")
+	private String mount;
 
 	/**
 	 * 盘符类型
 	 */
-	@ApiModelProperty(name = "sysTypeName", value = "盘符类型")
-	private String sysTypeName;
+	@ApiModelProperty(name = "name", value = "盘符类型")
+	private String name;
 
 	/**
 	 * 文件类型
 	 */
-	@ApiModelProperty(name = "typeName", value = "文件类型")
-	private String typeName;
+	@ApiModelProperty(name = "type", value = "文件类型")
+	private String type;
 
 	/**
 	 * 磁盘总大小
@@ -36,15 +36,15 @@ public class SysDiskInfoVo {
 	private String total;
 
 	/**
-	 * 已经使用量
+	 * 已用磁盘大小
 	 */
-	@ApiModelProperty(name = "used", value = "已经使用量")
+	@ApiModelProperty(name = "used", value = "已用磁盘大小")
 	private String used;
 
 	/**
-	 * 剩余大小
+	 * 剩余磁盘大小
 	 */
-	@ApiModelProperty(name = "free", value = "剩余大小")
+	@ApiModelProperty(name = "free", value = "剩余磁盘大小")
 	private String free;
 
 	/**

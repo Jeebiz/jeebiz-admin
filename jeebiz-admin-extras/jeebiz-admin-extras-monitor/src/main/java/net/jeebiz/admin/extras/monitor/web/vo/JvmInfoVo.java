@@ -12,6 +12,24 @@ import lombok.Data;
 public class JvmInfoVo {
 
 	/**
+	 * JDK名称
+	 */
+	@ApiModelProperty(name = "name", value = "JDK名称")
+	private String name;
+
+	/**
+	 * JDK版本
+	 */
+	@ApiModelProperty(name = "version", value = "JDK版本")
+	private String version;
+
+	/**
+	 * JDK路径
+	 */
+	@ApiModelProperty(name = "home", value = "JDK路径")
+	private String home;
+	
+	/**
 	 * 当前JVM占用的内存总数(M)
 	 */
 	@ApiModelProperty(name = "total", value = "当前JVM占用的内存总数(M)")
@@ -34,24 +52,6 @@ public class JvmInfoVo {
 	 */
 	@ApiModelProperty(name = "usage", value = "JVM使用率")
 	private double usage;
-
-	/**
-	 * JDK名称
-	 */
-	@ApiModelProperty(name = "name", value = "JDK名称")
-	private String name;
-
-	/**
-	 * JDK版本
-	 */
-	@ApiModelProperty(name = "version", value = "JDK版本")
-	private String version;
-
-	/**
-	 * JDK路径
-	 */
-	@ApiModelProperty(name = "home", value = "JDK路径")
-	private String home;
 
 	/**
 	 * JDK启动时间

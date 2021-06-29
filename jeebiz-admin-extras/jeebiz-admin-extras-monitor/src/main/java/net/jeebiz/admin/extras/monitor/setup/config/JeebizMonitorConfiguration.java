@@ -15,7 +15,7 @@ public class JeebizMonitorConfiguration {
 	public FlywayFluentConfiguration flywayMonitorConfiguration() {
 		
 		FlywayFluentConfiguration configuration = new FlywayFluentConfiguration("monitor",
-				"会话管理-模块初始化（会话列表、监控、强制退出等）", "1.0.0");
+				"服务监控-模块初始化（CPU、Mem、JVM等）", "1.0.0");
 		
 		return configuration;
 	}

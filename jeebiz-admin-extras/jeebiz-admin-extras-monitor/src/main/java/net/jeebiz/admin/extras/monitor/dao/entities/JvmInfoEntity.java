@@ -4,6 +4,9 @@
  */
 package net.jeebiz.admin.extras.monitor.dao.entities;
 
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,48 +17,81 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_user_sessions")
+@TableName(value = "usage_jvm", keepGlobalPrefix = true)
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class JvmInfoEntity extends Model<JvmInfoEntity> {
 
 	/**
-	 * 回话记录id
+	 * 主键ID
 	 */
-	@TableId(value="s_id",type= IdType.AUTO)
+	@TableId(value="id",type= IdType.AUTO)
 	private String id;
-	/** 当前登录的用户Id */
-	@TableField(value = "s_uid")
-    private String userid;
-    /** 当前登录的用户名称 */
-	@TableField(value = "s_uname")
-    private String username;
-	/** 用户会话id编号 */
-	@TableField(value = "s_sessionId")
-	private String sessionId;
-	/** 用户主机地址 */
-	@TableField(value = "s_host")
-	private String host;
-	/** 用户登录时间 */
-	@TableField(value = "s_start_timestamp")
-	private String startTimestamp;
-	/** 最后访问时间 */
-	@TableField(value = "s_last_access_time")
-	private String lastAccessTime;
-	/** 用户浏览器类型 */
-	@TableField(value = "s_ua")
-	private String userAgent;
-	/** 用户登录时系统IP */
-	@TableField(value = "s_address")
-	private String address;
-	/** 已强制退出:1:是，0:否 */
-	@TableField(value = "s_force_logout")
-	private String forceLogout;
-	/** 会话多久后过期（毫秒） */
-	@TableField(value = "s_timeout")
-	private long timeout;
-	/** 在线状态（0：离线，1：在线） */
-	@TableField(value = "s_status")
-	private String status;
+	
+	/** 
+	 * 服务器实例ID
+	*/
+	@TableField(value = "instance_id")
+    private String instanceId;
+ 	
+	/**
+	 * JDK名称
+	 */
+	@TableField(value = "jdk_name")
+	private String name;
+
+	/**
+	 * JDK版本
+	 */
+	@TableField(value = "jdk_version")
+	private String version;
+
+	/**
+	 * JDK路径
+	 */
+	@TableField(value = "jdk_home")
+	private String home;
+	
+	/**
+	 * 当前JVM占用的内存总数(M)
+	 */
+	@TableField(value = "jvm_total")
+	private double total;
+
+	/**
+	 * JVM最大可用内存总数(M)
+	 */
+	@TableField(value = "jvm_max")
+	private double max;
+
+	/**
+	 * JVM空闲内存(M)
+	 */
+	@TableField(value = "jvm_free")
+	private double free;
+
+	/**
+	 * JVM使用率
+	 */
+	@TableField(value = "jvm_usage")
+	private double usage;
+
+	/**
+	 * JDK启动时间
+	 */
+	@TableField(value = "jvm_start_time")
+	private String startTime;
+
+	/**
+	 * JDK运行时间
+	 */
+	@TableField(value = "jvm_run_time")
+	private String runTime;
+	
+	/**
+	 * 创建时间
+	 */
+	@TableField(value = "create_time", fill = FieldFill.INSERT)
+	private Date createTime;
 
 }
