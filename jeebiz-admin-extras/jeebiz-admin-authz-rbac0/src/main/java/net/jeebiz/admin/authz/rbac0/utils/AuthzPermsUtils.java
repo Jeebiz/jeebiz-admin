@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.biz.utils.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
-
-import org.springframework.biz.utils.StringUtils;
 
 public class AuthzPermsUtils {
 	

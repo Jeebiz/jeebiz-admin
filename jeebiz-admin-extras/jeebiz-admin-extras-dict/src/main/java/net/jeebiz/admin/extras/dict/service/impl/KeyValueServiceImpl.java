@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
 
+import hitool.core.collections.CollectionUtils;
 import net.jeebiz.admin.extras.dict.dao.IKeyValueDao;
 import net.jeebiz.admin.extras.dict.dao.entities.KeyValueModel;
 import net.jeebiz.admin.extras.dict.service.IKeyValueService;
@@ -25,7 +26,6 @@ import net.jeebiz.admin.extras.dict.setup.Constants;
 import net.jeebiz.admin.extras.dict.setup.event.KeyValueDeletedEvent;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
-import hitool.core.collections.CollectionUtils;
 
 @Service
 public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IKeyValueDao> implements IKeyValueService {

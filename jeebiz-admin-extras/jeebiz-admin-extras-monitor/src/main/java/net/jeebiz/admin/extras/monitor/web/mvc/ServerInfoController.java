@@ -1,6 +1,7 @@
 package net.jeebiz.admin.extras.monitor.web.mvc;
 
-import net.jeebiz.admin.extras.monitor.web.vo.*;
+import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -13,10 +14,13 @@ import hitool.core.format.ByteUnitFormat;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.extras.monitor.service.IServerInfoService;
+import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.JvmInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.MemInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
+import net.jeebiz.admin.extras.monitor.web.vo.SysDiskInfoVo;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.web.BaseController;
-
-import java.util.List;
 
 @Api(tags = "Sys：系统监控（Ok）")
 @RestController

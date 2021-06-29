@@ -1,10 +1,10 @@
 package net.jeebiz.admin.extras.article.web.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
 
 @ApiModel(value = "ArticleCategoryStatusRenewDTO", description = "文章分类状态编辑DTO")
 @Data

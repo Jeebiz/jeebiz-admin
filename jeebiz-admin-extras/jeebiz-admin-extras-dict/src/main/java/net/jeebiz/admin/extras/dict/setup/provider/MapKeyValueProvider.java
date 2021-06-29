@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hitool.core.collections.CollectionUtils;
 import net.jeebiz.admin.extras.dict.service.IKeyValueService;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.provider.KeyValueProvider;
-import hitool.core.collections.CollectionUtils;
 
 public class MapKeyValueProvider implements KeyValueProvider<Map<String, String>> {
 

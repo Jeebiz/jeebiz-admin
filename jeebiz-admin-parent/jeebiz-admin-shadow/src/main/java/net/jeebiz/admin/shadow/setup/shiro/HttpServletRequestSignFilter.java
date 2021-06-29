@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.biz.utils.WebUtils;
 import org.apache.shiro.biz.web.servlet.http.HttpStatus;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.springframework.biz.utils.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpMethod;
@@ -30,7 +31,6 @@ import net.jeebiz.admin.shadow.setup.CommonProperteis;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.utils.SignUtils;
-import org.springframework.biz.utils.StringUtils;
 
 /**
  * 1、参考资料：

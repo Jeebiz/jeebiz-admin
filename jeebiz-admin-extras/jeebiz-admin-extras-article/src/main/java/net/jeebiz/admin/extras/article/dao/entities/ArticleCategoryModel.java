@@ -1,14 +1,14 @@
 package net.jeebiz.admin.extras.article.dao.entities;
 
+import org.apache.ibatis.type.Alias;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import net.jeebiz.boot.api.dao.entities.PaginationEntity;
-import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.jeebiz.boot.api.dao.entities.PaginationModel;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "ArticleCategoryModel")
 @SuppressWarnings("serial")

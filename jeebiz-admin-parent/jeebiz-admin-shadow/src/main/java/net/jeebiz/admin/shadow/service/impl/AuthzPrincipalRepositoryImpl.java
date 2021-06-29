@@ -48,6 +48,8 @@ import com.google.common.collect.Sets;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import hitool.core.collections.CollectionUtils;
+import hitool.core.lang3.RandomString;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao;
@@ -65,8 +67,6 @@ import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
 import net.jeebiz.boot.api.XHeaders;
-import hitool.core.collections.CollectionUtils;
-import hitool.core.lang3.RandomString;
 
 @Service("defRepository")
 @Slf4j

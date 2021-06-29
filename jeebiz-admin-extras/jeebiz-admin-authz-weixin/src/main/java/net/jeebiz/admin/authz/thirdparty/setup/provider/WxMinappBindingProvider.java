@@ -16,6 +16,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import hitool.core.lang3.RandomString;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
@@ -24,7 +25,6 @@ import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserProfile
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzWeixinMaBindDTO;
 import net.jeebiz.boot.api.XHeaders;
-import hitool.core.lang3.RandomString;
 
 @Component
 @Slf4j
