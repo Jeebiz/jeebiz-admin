@@ -52,13 +52,13 @@ public class FileEntity extends BaseEntity<FileEntity> implements Comparable<Fil
 	/**
 	 * 文件存储目标：local:服务本地,fdfs:FastDFS存储服务,oss:阿里云对象存储
 	 */
-	@TableField(value = "f_to")
-	private String to;
+	@TableField(value = "f_store")
+	private String store;
 	/**
 	 * 文件存储分组或存储桶
 	 */
 	@TableField(value = "f_group")
-	private String group;
+	private String group1;
 	/**
 	 * 文件名
 	 */

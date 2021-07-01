@@ -268,8 +268,8 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			entity.setUid(principal.getUserid());
 			entity.setName(file.getOriginalFilename());
 			entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-			entity.setTo(FilestoreEnum.OSS_ALIYUN.getKey());
-			entity.setGroup(storePath.getBucket());
+			entity.setStore(FilestoreEnum.OSS_ALIYUN.getKey());
+			entity.setGroup1(storePath.getBucket());
 			entity.setPath(storePath.getPath());
 			entity.setThumb(storePath.getThumb());
 			getFileMapper().insert(entity);
@@ -291,7 +291,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		} catch (Exception e) {
 			try {
 				if (entity != null) {
-					getOssClient().deleteObject(entity.getGroup(), entity.getPath());
+					getOssClient().deleteObject(entity.getGroup1(), entity.getPath());
 				}
 			} catch (Exception e1) {
 				// 忽略删除异常
@@ -334,7 +334,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		// 删除服务器文件，如果出现异常将会回滚前面的操作
 		for (FileEntity entity : fileList) {
 			// 删除旧的文件
-			getOssClient().deleteObject(entity.getGroup(), entity.getPath());
+			getOssClient().deleteObject(entity.getGroup1(), entity.getPath());
 			getFileMapper().deleteById(entity.getId());
 		}
 		return true;
@@ -353,7 +353,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		FileDTO attDTO = this.upload(uid, file, width, height);
 		
 		// 删除旧的文件
-		getOssClient().deleteObject(entity.getGroup(), entity.getPath());
+		getOssClient().deleteObject(entity.getGroup1(), entity.getPath());
 		getFileMapper().deleteById(entity.getId());
 
 		return attDTO;
@@ -398,15 +398,15 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			attDTO.setUuid(entity.getUuid());
 			attDTO.setName(entity.getName());
 			attDTO.setPath(entity.getPath());
-			attDTO.setUrl(getOssTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
+			attDTO.setUrl(getOssTemplate().getAccsssURL(entity.getGroup1(), entity.getPath()));
 			if(StringUtils.isNoneBlank(entity.getThumb())) {
 				attDTO.setThumb(entity.getThumb());
-				attDTO.setThumbUrl(getOssTemplate().getAccsssURL(entity.getGroup(), entity.getThumb()));
+				attDTO.setThumbUrl(getOssTemplate().getAccsssURL(entity.getGroup1(), entity.getThumb()));
 			}
 			attDTO.setExt(entity.getExt());
 			// 文件元数据
 			try {
-				ObjectMetadata metaData = getOssClient().getObjectMetadata(entity.getGroup(), entity.getPath());
+				ObjectMetadata metaData = getOssClient().getObjectMetadata(entity.getGroup1(), entity.getPath());
 				if(!Objects.isNull(metaData)) {
 					attDTO.setMetadata(metaData.getRawMetadata().entrySet().stream().map(m -> {
 						FileMetaDataDTO metaDTO = new FileMetaDataDTO();
@@ -454,10 +454,10 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		attDTO.setUuid(entity.getUuid());
 		attDTO.setName(entity.getName());
 		attDTO.setPath(entity.getPath());
-		attDTO.setUrl(getOssTemplate().getAccsssURL(entity.getGroup(), entity.getPath()));
+		attDTO.setUrl(getOssTemplate().getAccsssURL(entity.getGroup1(), entity.getPath()));
 		
 		// ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
-		OSSObject ossObject = getOssClient().getObject(new GetObjectRequest(entity.getGroup(), entity.getPath()).
+		OSSObject ossObject = getOssClient().getObject(new GetObjectRequest(entity.getGroup1(), entity.getPath()).
                 <GetObjectRequest>withProgressListener(progressListener));
 		
 		// 文件元数据

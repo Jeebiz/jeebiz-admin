@@ -113,8 +113,8 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			entity.setUuid(uuid);
 			entity.setName(file.getOriginalFilename());
 			entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-			entity.setTo(FilestoreEnum.LOCAL.getKey());
-			entity.setGroup(groupName);
+			entity.setStore(FilestoreEnum.LOCAL.getKey());
+			entity.setGroup1(groupName);
 			entity.setPath(path);
 			entity.setThumb(thumbPath);
 			getFileMapper().insert(entity);
@@ -201,7 +201,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		FileDTO attDTO = this.upload(uid, file, width, height);
 		
 		// 删除旧的文件
-		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
+		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup1());
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		};
@@ -246,7 +246,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		// 循环进行对象转换
 		for (FileEntity entity : fileList) {
 			
-			File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
+			File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup1());
 			if (!fileDir.exists()) {
 				fileDir.mkdirs();
 			};
@@ -306,7 +306,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		attDTO.setUrl("");
 		
 		// 文件存储目录
-		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup());
+		File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), entity.getGroup1());
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
 		};
