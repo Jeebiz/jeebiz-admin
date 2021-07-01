@@ -27,6 +27,7 @@
 		<module>jeebiz-admin-extras-dict</module>
 		<module>jeebiz-admin-extras-editor</module>
 		<module>jeebiz-admin-extras-filestore</module>
+		<module>jeebiz-admin-extras-filestore-aliyun-oss</module>
 		<module>jeebiz-admin-extras-idempotent</module>
 		<module>jeebiz-admin-extras-inform</module>
 		<module>jeebiz-admin-extras-initializr</module>
