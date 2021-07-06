@@ -47,6 +47,23 @@ public class JeebizShadowApplication implements CommandLineRunner {
 		SpringApplication.run(JeebizShadowApplication.class, args);
 	}
 	
+	 public static final String LOCK_STOCK_LUA2 =  
+		      "if (redis.call('exists', KEYS[1]) == 1) then"
+		    + "    local stock = tonumber(redis.call('get', KEYS[1]));"
+		    + "    local num = tonumber(ARGV[1]);"
+		    + "    if (num <= 0) then"
+		    + "        return -4;"
+		    + "    end;"
+		    + "    if (stock <= 0) then"
+		    + "        return -1;"
+		    + "    end;"
+		    + "    if (stock >= num) then"
+		    + "        return redis.call('incrBy', KEYS[1], 0 - num);"
+		    + "    end;"
+		    + "    return -2;"
+		    + "end;"
+		    + "return -3;";
+	 
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -55,7 +72,7 @@ public class JeebizShadowApplication implements CommandLineRunner {
 			
 			//Long rtLong = redisOperationTemplate.luaIncr("test", -1200L);
 			//System.out.println(rtLong);
-			Long rtLong = redisOperationTemplate.executeLuaScript(RedisLua.LOCK_STOCK_LUA2, Lists.newArrayList("test"), -1200L);
+			Long rtLong = redisOperationTemplate.executeLuaScript(LOCK_STOCK_LUA2, Long.class, Lists.newArrayList("test"), 31822);
 			
 			System.out.println(rtLong);
 		} catch (Exception e) {

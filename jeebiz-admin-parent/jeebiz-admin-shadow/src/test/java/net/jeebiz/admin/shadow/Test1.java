@@ -1,3 +1,4 @@
+package net.jeebiz.admin.shadow;
 import org.apache.shiro.crypto.hash.SimpleHash;
 
 /** 
