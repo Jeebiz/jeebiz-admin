@@ -4,7 +4,6 @@
  */
 package net.jeebiz.admin.shadow;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
  * 应用启动入口
@@ -31,9 +29,6 @@ import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 @SpringBootApplication
 public class JeebizShadowApplication implements CommandLineRunner {
 
-	@Autowired
-	private RedisOperationTemplate redisOperationTemplate;
-	
 	@Bean
     public MeterRegistryCustomizer<MeterRegistry> configurer(
             @Value("${spring.application.name}") String applicationName) {
@@ -46,17 +41,6 @@ public class JeebizShadowApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		
-		try {
-			//redisOperationTemplate.unlock("xax", "xas");
-			Long rtLong = redisOperationTemplate.luaIncr("test", -1200L);
-			System.out.println(rtLong);
-			rtLong = redisOperationTemplate.luaIncr("test", 111L);
-			
-			System.out.println(rtLong);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		System.err.println("Spring Boot Application（Jeebiz-Admin-Shadow） Started !");
 	}
 	
