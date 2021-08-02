@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.ops.dao.AppChannelMapper">
+
+	<resultMap type="AppChannel" id="AppChannelResult">
+		<result property="id" column="id" />
+		<result property="appId" column="app_id" />
+		<result property="appName" column="app_name" />
+		<result property="appVersion" column="app_version" />
+		<result property="channelCode" column="channel_code" />
+		<result property="channelDesc" column="channel_desc" />
+		<result property="appVersion" column="app_version" />
+		<result property="downloadUrl" column="download_url" />
+		<result property="isDelete" column="is_delete" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyer" column="modifyer" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+	<sql id="selectAppChannelVo">
+		SELECT
+		t.id,
+		t.app_id,
+		(SELECT x.app_name FROM kdinglive_app_list x WHERE x.app_id = t.app_id) as
+		app_name,
+		t.channel_code,
+		t.channel_desc,
+		(select x.app_version from kdinglive_app_pack x WHERE t.app_id = x.app_id AND
+		t.channel_code = x.app_channel ORDER BY x.id DESC LIMIT 1) as
+		app_version,
+		(select x.link_url from kdinglive_app_pack x WHERE t.app_id = x.app_id AND
+		t.channel_code = x.app_channel ORDER BY x.id DESC LIMIT 1) as
+		download_url,
+		t.is_delete,
+		t.creator,
+		t.create_time,
+		t.modifyer,
+		t.modify_time
+		FROM kdinglive_app_channel t
+	</sql>
+
+	<select id="selectAppChannelList" parameterType="AppChannel"
+		resultMap="AppChannelResult">
+		<include refid="selectAppChannelVo" />
+		<where>
+			<if test="appId != null  and appId != ''"> and t.app_id = #{appId}</if>
+			<if test="channelCode != null  and channelCode != ''"> and t.channel_code = #{channelCode}</if>
+		</where>
+	</select>
+
+	<select id="selectAppChannelById" parameterType="Integer"
+		resultMap="AppChannelResult">
+		<include refid="selectAppChannelVo" />
+		where t.id = #{id}
+	</select>
+
+	<insert id="insertAppChannel" parameterType="AppChannel"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into kdinglive_app_channel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="appId != null">app_id,</if>
+			<if test="channelCode != null and channelCode != ''">channel_code,</if>
+			<if test="channelDesc != null and channelDesc != ''">channel_desc,</if>
+			<if test="isDelete != null">is_delete,</if>
+			<if test="creator != null">creator,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="modifyer != null">modifyer,</if>
+			<if test="modifyTime != null">modify_time,</if>
+			<if test="platform != null">platform,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="appId != null">#{appId},</if>
+			<if test="channelCode != null and channelCode != ''">#{channelCode},</if>
+			<if test="channelDesc != null and channelDesc != ''">#{channelDesc},</if>
+			<if test="isDelete != null">#{isDelete},</if>
+			<if test="creator != null">#{creator},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="modifyer != null">#{modifyer},</if>
+			<if test="modifyTime != null">#{modifyTime},</if>
+			<if test="platform != null">#{platform},</if>
+		</trim>
+	</insert>
+
+	<update id="updateAppChannel" parameterType="AppChannel">
+		update kdinglive_app_channel
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="appId != null">app_id = #{appId},</if>
+			<if test="channelCode != null and channelCode != ''">channel_code = #{channelCode},</if>
+			<if test="channelDesc != null and channelDesc != ''">channel_desc = #{channelDesc},</if>
+			<if test="isDelete != null">is_delete = #{isDelete},</if>
+			<if test="creator != null">creator = #{creator},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="modifyer != null">modifyer = #{modifyer},</if>
+			<if test="modifyTime != null">modify_time = #{modifyTime},</if>
+			<if test="platform != null">platform = #{platform},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteAppChannelById" parameterType="Integer">
+		delete from kdinglive_app_channel where id = #{id}
+	</delete>
+
+	<delete id="deleteAppChannelByIds" parameterType="String">
+		delete from kdinglive_app_channel where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

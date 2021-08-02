@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.ops.dao.AppListMapper">
+    
+    <resultMap type="AppList" id="AppListResult">
+        <result property="appId"    column="app_id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="appPackage"    column="app_package"    />
+        <result property="appDesc"    column="app_desc"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="creator"    column="creator"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyer"    column="modifyer"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectAppListVo">
+        select app_id, app_name, app_package, app_desc, is_delete, creator, create_time, modifyer, modify_time from kdinglive_app_list
+    </sql>
+
+    <select id="selectAppListList" parameterType="AppList" resultMap="AppListResult">
+        <include refid="selectAppListVo"/>
+        <where>  
+            <if test="appName != null  and appName != ''"> and app_name like concat('%', #{appName}, '%')</if>
+            <if test="appPackage != null  and appPackage != ''"> and app_package = #{appPackage}</if>
+            <if test="appDesc != null  and appDesc != ''"> and app_desc = #{appDesc}</if>
+            <if test="creator != null "> and creator = #{creator}</if>
+            <if test="modifyer != null "> and modifyer = #{modifyer}</if>
+            <if test="modifyTime != null "> and modify_time = #{modifyTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppListById" parameterType="Integer" resultMap="AppListResult">
+        <include refid="selectAppListVo"/>
+        where app_id = #{appId}
+    </select>
+        
+    <insert id="insertAppList" parameterType="AppList" useGeneratedKeys="true" keyProperty="appId">
+        insert into kdinglive_app_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appName != null and appName != ''">app_name,</if>
+            <if test="appPackage != null and appPackage != ''">app_package,</if>
+            <if test="appDesc != null and appDesc != ''">app_desc,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyer != null">modifyer,</if>
+            <if test="modifyTime != null">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appName != null and appName != ''">#{appName},</if>
+            <if test="appPackage != null and appPackage != ''">#{appPackage},</if>
+            <if test="appDesc != null and appDesc != ''">#{appDesc},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyer != null">#{modifyer},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAppList" parameterType="AppList">
+        update kdinglive_app_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appName != null and appName != ''">app_name = #{appName},</if>
+            <if test="appPackage != null and appPackage != ''">app_package = #{appPackage},</if>
+            <if test="appDesc != null and appDesc != ''">app_desc = #{appDesc},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyer != null">modifyer = #{modifyer},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+        </trim>
+        where app_id = #{appId}
+    </update>
+
+    <delete id="deleteAppListById" parameterType="Integer">
+        delete from kdinglive_app_list where app_id = #{appId}
+    </delete>
+
+    <delete id="deleteAppListByIds" parameterType="String">
+        delete from kdinglive_app_list where app_id in
+        <foreach item="appId" collection="array" open="(" separator="," close=")">
+            #{appId}
+        </foreach>
+    </delete>
+    
+</mapper>

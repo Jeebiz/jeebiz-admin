@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.ops.dao.AppVersionMapper">
+    
+    <resultMap type="AppVersion" id="AppVersionResult">
+        <result property="id"    column="id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="appVersion"    column="app_version"    />
+        <result property="linkUrl"    column="link_url"    />
+        <result property="upgradeDesc"    column="upgrade_desc"    />
+        <result property="forceUpgrade"    column="force_upgrade"    />
+        <result property="upgradeTime"    column="upgrade_time"    />
+        <result property="status"    column="status"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="creator"    column="creator"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyer"    column="modifyer"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+
+    <select id="selectAppVersionList" parameterType="AppVersion" resultMap="AppVersionResult">
+        SELECT
+            t.id,
+            t.app_id,
+            (SELECT x.app_name FROM kdinglive_app_list x WHERE x.app_id = t.app_id) as app_name,
+            t.app_version,
+            t.link_url,
+            t.upgrade_desc,
+            t.force_upgrade,
+            t.upgrade_time,
+            t.STATUS,
+            t.is_delete,
+            t.creator,
+            t.create_time,
+            t.modifyer,
+            t.modify_time
+        FROM kdinglive_app_version t
+        <where>  
+            <if test="appId != null  and appId != ''"> and t.app_id = #{appId}</if>
+            <if test="appVersion != null  and appVersion != ''"> and t.app_version = #{appVersion}</if>
+            <if test="forceUpgrade != null "> and t.force_upgrade = #{forceUpgrade}</if>
+            <if test="status != null "> and t.status = #{status}</if>
+            <if test="isDelete != null "> and t.is_delete = #{isDelete}</if>
+            <if test="creator != null "> and t.creator = #{creator}</if>
+            <if test="modifyer != null "> and t.modifyer = #{modifyer}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppVersionById" parameterType="Integer" resultMap="AppVersionResult">
+        SELECT
+            t.id,
+            t.app_id,
+            (SELECT x.app_name FROM kdinglive_app_list x WHERE x.app_id = t.app_id) as app_name,
+            t.app_version,
+            t.link_url,
+            t.upgrade_desc,
+            t.force_upgrade,
+            t.upgrade_time,
+            t.STATUS,
+            t.is_delete,
+            t.creator,
+            t.create_time,
+            t.modifyer,
+            t.modify_time
+        FROM kdinglive_app_version t
+       WHERE t.id = #{id}
+    </select>
+        
+    <insert id="insertAppVersion" parameterType="AppVersion" useGeneratedKeys="true" keyProperty="id">
+        insert into kdinglive_app_version
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="appVersion != null and appVersion != ''">app_version,</if>
+            <if test="linkUrl != null and linkUrl != ''">link_url,</if>
+            <if test="upgradeDesc != null and upgradeDesc != ''">upgrade_desc,</if>
+            <if test="forceUpgrade != null">force_upgrade,</if>
+            <if test="upgradeTime != null">upgrade_time,</if>
+            <if test="status != null">status,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyer != null">modifyer,</if>
+            <if test="modifyTime != null">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="appChannel != null">#{appChannel},</if>
+            <if test="appVersion != null and appVersion != ''">#{appVersion},</if>
+            <if test="linkUrl != null and linkUrl != ''">#{linkUrl},</if>
+            <if test="upgradeDesc != null and upgradeDesc != ''">#{upgradeDesc},</if>
+            <if test="forceUpgrade != null">#{forceUpgrade},</if>
+            <if test="upgradeTime != null">#{upgradeTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyer != null">#{modifyer},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAppVersion" parameterType="AppVersion">
+        update kdinglive_app_version
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="appVersion != null and appVersion != ''">app_version = #{appVersion},</if>
+            <if test="linkUrl != null and linkUrl != ''">link_url = #{linkUrl},</if>
+            <if test="upgradeDesc != null and upgradeDesc != ''">upgrade_desc = #{upgradeDesc},</if>
+            <if test="forceUpgrade != null">force_upgrade = #{forceUpgrade},</if>
+            <if test="upgradeTime != null">upgrade_time = #{upgradeTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyer != null">modifyer = #{modifyer},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteAppVersionById" parameterType="Integer">
+        delete from kdinglive_app_version where ID = #{id}
+    </delete>
+
+    <delete id="deleteAppVersionByIds" parameterType="String">
+        delete from kdinglive_app_version where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
