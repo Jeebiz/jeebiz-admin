@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.setup.provider;
+package net.jeebiz.admin.extras.filestore.enums;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,20 +13,20 @@ import java.util.NoSuchElementException;
 /**
  *    存储目标（local:服务本地,fdfs:FastDFS存储服务,minio:MinIO对象存储）
  */
-public enum FilestoreEnum {
+public enum FilestoreChannel {
 	
 	LOCAL("local", "本地目录"),
 	FDFS("fdfs", "FastDFS"),
 	OSS_ALIYUN("oss-aliyun", "对象存储（阿里云）"),
 	OSS_TENCENT("oss-tencent", "对象存储（腾讯云）"),
-	OSS_BAidU("oss-baidu", "对象存储（百度云）"),
+	OSS_BAIDU("oss-baidu", "对象存储（百度云）"),
 	OSS_HUAWEI("oss-huawei", "对象存储（华为云）"),
 	OSS_MINIO("oss-minio", "对象存储（Minio）");
 
 	private String key;
 	private String desc;
 
-	private FilestoreEnum(String key, String desc) {
+	private FilestoreChannel(String key, String desc) {
 		this.key = key;
 		this.desc = desc;
 	}
@@ -47,16 +47,16 @@ public enum FilestoreEnum {
 		this.desc = desc;
 	}
 	
-	public boolean equals(FilestoreEnum type){
+	public boolean equals(FilestoreChannel type){
 		return this.compareTo(type) == 0;
 	}
 	
 	public boolean equals(String key){
-		return this.compareTo(FilestoreEnum.valueOfIgnoreCase(key)) == 0;
+		return this.compareTo(FilestoreChannel.valueOfIgnoreCase(key)) == 0;
 	}
 	
-	public static FilestoreEnum valueOfIgnoreCase(String key) {
-		for (FilestoreEnum optType : FilestoreEnum.values()) {
+	public static FilestoreChannel valueOfIgnoreCase(String key) {
+		for (FilestoreChannel optType : FilestoreChannel.values()) {
 			if(optType.getKey().equalsIgnoreCase(key)) {
 				return optType;
 			}
@@ -66,7 +66,7 @@ public enum FilestoreEnum {
 	
 	public static List<Map<String, String>> toList() {
 		List<Map<String, String>> optList = new LinkedList<Map<String, String>>();
-		for (FilestoreEnum optEnum : FilestoreEnum.values()) {
+		for (FilestoreChannel optEnum : FilestoreChannel.values()) {
 			optList.add(optEnum.toMap());
 		}
 		return optList;

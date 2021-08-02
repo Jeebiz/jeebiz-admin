@@ -7,36 +7,29 @@ package net.jeebiz.admin.extras.filestore.setup.provider;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.Tag;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import hitool.core.collections.CollectionUtils;
 import hitool.core.io.FilenameUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
+import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 import net.jeebiz.admin.extras.filestore.setup.config.JeebizFilestoreProperties;
 import net.jeebiz.admin.extras.filestore.utils.AttUtils;
+import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 
@@ -52,8 +45,8 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public FilestoreEnum getProvider() {
-		return FilestoreEnum.LOCAL;
+	public FilestoreChannel getProvider() {
+		return FilestoreChannel.LOCAL;
 	}
 	
 	@Override
@@ -63,27 +56,6 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 		return config;
 	}
 	
-	protected Set<FileMetaDataDTO> metaDataSet(File file) {
-		Set<FileMetaDataDTO> metaDataSet = Sets.newHashSet();
-		try (InputStream inputStream = FileUtils.openInputStream(file);) {
-			Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
-			for (Directory directory : metadata.getDirectories()) {
-			    for (Tag tag : directory.getTags()) {
-			        //格式化输出[directory.getName()] - tag.getTagName() = tag.getDescription()
-			        System.out.format("[%s] - %s = %s%n",  directory.getName(), tag.getTagName(), tag.getDescription());
-			        metaDataSet.add(new FileMetaDataDTO(directory.getName(), tag.getTagName()));
-			    }
-			    if (directory.hasErrors()) {
-			        for (String error : directory.getErrors()) {
-			            System.err.format("ERROR: %s", error);
-			        }
-			    }
-			}
-		} catch (Exception e) {
-		}
-		return metaDataSet;
-	}
-
 	@Override
 	public FileDTO upload(String uid, MultipartFile file, int width, int height) throws Exception {
 		try {
@@ -113,7 +85,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			entity.setUuid(uuid);
 			entity.setName(file.getOriginalFilename());
 			entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-			entity.setStore(FilestoreEnum.LOCAL.getKey());
+			entity.setStore(FilestoreChannel.LOCAL.getKey());
 			entity.setGroup1(groupName);
 			entity.setPath(path);
 			entity.setThumb(thumbPath);
@@ -265,7 +237,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 			attDTO.setExt(entity.getExt());
 			// 文件元数据
 			try {
-				attDTO.setMetadata(this.metaDataSet(new File(fileDir, entity.getPath())));
+				attDTO.setMetadata(FilestoreUtils.metaDataSet(new File(fileDir, entity.getPath())));
 			} catch (Exception e) {
 			}
 

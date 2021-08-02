@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
@@ -18,7 +19,7 @@ public interface FilestoreProvider {
 	 * Filestore Provider
 	 * @return
 	 */
-	FilestoreEnum getProvider();
+	FilestoreChannel getProvider();
 	
 	/**
 	 * Filestore Config

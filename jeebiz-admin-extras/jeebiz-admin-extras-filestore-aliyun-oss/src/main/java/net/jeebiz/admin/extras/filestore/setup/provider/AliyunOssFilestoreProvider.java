@@ -49,6 +49,7 @@ import hitool.core.io.FilenameUtils;
 import hitool.core.lang3.time.DateUtils;
 import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
+import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 import net.jeebiz.admin.extras.filestore.setup.config.AliyunOssProperties;
 import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
@@ -83,8 +84,8 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public FilestoreEnum getProvider() {
-		return FilestoreEnum.OSS_ALIYUN;
+	public FilestoreChannel getProvider() {
+		return FilestoreChannel.OSS_ALIYUN;
 	}
 	
 	@Override
@@ -268,7 +269,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			entity.setUid(principal.getUserid());
 			entity.setName(file.getOriginalFilename());
 			entity.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
-			entity.setStore(FilestoreEnum.OSS_ALIYUN.getKey());
+			entity.setStore(FilestoreChannel.OSS_ALIYUN.getKey());
 			entity.setGroup1(storePath.getBucket());
 			entity.setPath(storePath.getPath());
 			entity.setThumb(storePath.getThumb());

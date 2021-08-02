@@ -6,19 +6,29 @@ package net.jeebiz.admin.extras.filestore.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
+import com.google.common.collect.Sets;
+
 import hitool.core.format.ByteUnitFormat;
 import net.coobird.thumbnailator.Thumbnails;
+import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
 
 public class FilestoreUtils {
 
@@ -74,4 +84,24 @@ public class FilestoreUtils {
 		return inputStream;
 	}
 	
+	public static Set<FileMetaDataDTO> metaDataSet(File file) {
+		Set<FileMetaDataDTO> metaDataSet = Sets.newHashSet();
+		try (InputStream inputStream = FileUtils.openInputStream(file);) {
+			Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
+			for (Directory directory : metadata.getDirectories()) {
+			    for (Tag tag : directory.getTags()) {
+			        //格式化输出[directory.getName()] - tag.getTagName() = tag.getDescription()
+			        System.out.format("[%s] - %s = %s%n",  directory.getName(), tag.getTagName(), tag.getDescription());
+			        metaDataSet.add(new FileMetaDataDTO(directory.getName(), tag.getTagName()));
+			    }
+			    if (directory.hasErrors()) {
+			        for (String error : directory.getErrors()) {
+			            System.err.format("ERROR: %s", error);
+			        }
+			    }
+			}
+		} catch (Exception e) {
+		}
+		return metaDataSet;
+	}
 }
