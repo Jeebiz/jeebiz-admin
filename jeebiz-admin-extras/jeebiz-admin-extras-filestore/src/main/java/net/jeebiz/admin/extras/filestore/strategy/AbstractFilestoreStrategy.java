@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dozermapper.core.Mapper;
 import com.github.hiwepy.ip2region.spring.boot.IP2regionTemplate;
-import com.google.common.collect.Lists;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.extras.filestore.FilestoreRedisKey;
@@ -72,7 +70,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		return uploadRt;
 	}
 	
-	protected boolean preCheck(FileUploadBO uploadBo) throws Exception {
+	protected <O extends FileUploadBO> boolean preCheck(O uploadBo) throws Exception {
 		// 2.4、黑名单
 		String blacklistKey = FilestoreRedisKey.UPLOAD_BLACKLIST.getKey();
 		if (redisOperationTemplate.sHasKey(blacklistKey, uploadBo.getUserId())) {
@@ -81,23 +79,24 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		return true;
 	}
 	
-	protected void customizedMethod(FileUploadBO uploadBo) throws Exception {
+	protected <O extends FileUploadBO> void customizedMethod(O uploadBo) throws Exception {
 		// TODO Auto-generated method stub
 	};
  
 	protected final <O extends FileUploadBO> FileUploadResult handleUpload(O uploadBo) throws Exception {
 		
-		List<FileDTO> attList = Lists.newArrayList();
-		for (MultipartFile file : uploadBo.getFiles()) {
-			FileDTO attDTO = this.handleUpload(uid, file, width, height);
-			attList.add(attDTO);
-		}
-		return attList;
+		FileUploadResult uploadRt = FileUploadResult.builder()
+				.channel(uploadBo.getChannel())
+				.files(this.handleFileUpload(uploadBo))
+				.status(1)
+				.userId(uploadBo.getUserId())
+				.build();
 		
-		
+		return uploadRt;
+		 
 	}
 	
-	protected abstract <O extends FileUploadBO> FileUploadResult handleUpload(String uid, MultipartFile file, int width, int height) throws Exception;
+	protected abstract <O extends FileUploadBO> List<FileDTO> handleFileUpload(O uploadBo) throws Exception;
 	
 	protected <O extends FileUploadBO> void recordUpload(O uploadBo, FileUploadResult uploadRt) throws Exception {
 		

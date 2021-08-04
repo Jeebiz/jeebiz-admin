@@ -1,5 +1,7 @@
 package net.jeebiz.admin.extras.filestore.bo;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -31,7 +33,7 @@ public class FileUploadResult {
 	 * 文件对象数组
 	 */
 	@ApiModelProperty(name = "files", required = true, value = "文件对象数组")
-	private FileDTO[] files;
+	private List<FileDTO> files;
 	
     /**
 	 * 文件上传状态（ 0：上传失败、1：上传成功）
