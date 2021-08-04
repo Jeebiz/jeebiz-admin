@@ -1,7 +1,5 @@
 package net.jeebiz.admin.extras.filestore.bo;
 
-import java.util.Set;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -9,9 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
-import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
+import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 
-@ApiModel(value = "SendSmsResult", description = "支付结果")
+@ApiModel(value = "FileUploadResult", description = "文件上传结果")
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -28,29 +26,13 @@ public class FileUploadResult {
 	 */
 	@ApiModelProperty(name = "channel", required = true, value = "文件存储渠道")
 	private FilestoreChannel channel;
+	
 	/**
-	 * 文件名称
+	 * 文件对象数组
 	 */
-	@ApiModelProperty(name = "name", value = "文件名称")
-	private String name;
+	@ApiModelProperty(name = "files", required = true, value = "文件对象数组")
+	private FileDTO[] files;
 	
-	@ApiModelProperty(name = "path", value = "文件存储路径")
-	private String path;
-	
-	@ApiModelProperty(name = "thumb", value = "缩略图存储路径（图片类型文件）")
-	private String thumb;
-	
-	@ApiModelProperty(name = "url", value = "文件访问地址")
-	private String url;
-	
-	@ApiModelProperty(name = "thumbUrl", value = "缩略图访问地址（图片类型文件）")
-	private String thumbUrl;
-	
-    @ApiModelProperty(name = "ext", value = "文件类型")
-    private String ext;
-    
-    @ApiModelProperty(name = "metadata", value = "文件元信息")
-    private Set<FileMetaDataDTO> metadata;
     /**
 	 * 文件上传状态（ 0：上传失败、1：上传成功）
 	 */

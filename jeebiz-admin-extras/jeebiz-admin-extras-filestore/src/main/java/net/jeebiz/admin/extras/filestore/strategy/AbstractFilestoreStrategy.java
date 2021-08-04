@@ -1,5 +1,6 @@
 package net.jeebiz.admin.extras.filestore.strategy;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.extras.filestore.FilestoreRedisKey;
 import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
 import net.jeebiz.admin.extras.filestore.bo.FileUploadResult;
+import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.service.IFilestoreService;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 import net.jeebiz.boot.api.ApiCode;
@@ -83,7 +85,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		// TODO Auto-generated method stub
 	};
  
-	protected <O extends FileUploadBO> FileUploadResult handleUpload(O uploadBo) throws Exception {
+	protected final <O extends FileUploadBO> FileUploadResult handleUpload(O uploadBo) throws Exception {
 		
 		List<FileDTO> attList = Lists.newArrayList();
 		for (MultipartFile file : uploadBo.getFiles()) {
@@ -101,24 +103,25 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		
 		// ip获取国家
         String countryByIp = getIpTemplate().getCountryByIp(uploadBo.getIpAddress());
-        /*
+       
         FileEntity fileEntity = FileEntity.builder()
-    			.appId(payBo.getAppId())
-    			.appChannel(payBo.getAppChannel())
-    			.appVer(payBo.getAppVer())
+    			.appId(uploadBo.getAppId())
+    			.appChannel(uploadBo.getAppChannel())
+    			.appVer(uploadBo.getAppVer())
     			.country(countryByIp)
-    			.ipAddress(payBo.getIpAddress())
+    			.ipAddress(uploadBo.getIpAddress())
     			.channel(this.getChannel())
-    			.userId(payBo.getUserId())
+    			.userId(uploadBo.getUserId())
     			.build();
-        flowEntity.setCreateTime(new Date());
-        flowEntity.setCreator(payBo.getUserId());
-        getSmsFlowService().save(flowEntity);*/
+        fileEntity.setCreateTime(new Date());
+        fileEntity.setCreator(uploadBo.getUserId());
+        getFilestoreService().save(fileEntity);
      
 	}
 	
 	protected <O extends FileUploadBO> void afterUpload(O uploadBo, FileUploadResult uploadRt) throws Exception{
 		
+		log.debug("afterUpload");
 		
 	};
 	 
