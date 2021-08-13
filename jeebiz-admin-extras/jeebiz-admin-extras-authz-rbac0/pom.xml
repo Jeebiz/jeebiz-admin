@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
-		<version>1.0.0.RELEASE</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-extras-authz-rbac0</artifactId>
 
@@ -36,13 +36,13 @@
 		</dependency>
 		<!-- For Shiro -->
 		<dependency>
-			<groupId>com.github.vindell</groupId>
-			<artifactId>spring-boot-starter-shiro-biz</artifactId>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-biz-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Flyway -->
 		<dependency>
-			<groupId>com.github.vindell</groupId>
-			<artifactId>spring-boot-starter-flyway-plus</artifactId>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>flyway-plus-spring-boot-starter</artifactId>
 		</dependency>
 
 	</dependencies>

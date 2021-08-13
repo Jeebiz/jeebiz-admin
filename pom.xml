@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-boot-parent</artifactId>
-		<version>1.0.1.RELEASE</version>
+		<version>1.0.2-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>jeebiz-admin-build</artifactId>
-	<version>1.0.0.RELEASE</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>jeebiz-admin</name>
