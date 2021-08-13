@@ -8,8 +8,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -21,7 +19,6 @@ public class KeyValueGroupRenewVo {
 	 */
 	@ApiModelProperty(name = "gkey", dataType = "String", value = "基础数据分组")
 	@NotBlank(message = "基础数据分组必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String gkey;
 	
 	@ApiModelProperty(name = "datas", dataType = "java.util.List<KeyValueRenewVo>", value = "批量更新的基础数据列表")

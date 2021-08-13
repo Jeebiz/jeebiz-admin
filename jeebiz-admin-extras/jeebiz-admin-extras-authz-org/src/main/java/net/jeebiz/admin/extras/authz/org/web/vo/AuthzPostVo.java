@@ -2,8 +2,6 @@ package net.jeebiz.admin.extras.authz.org.web.vo;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -45,7 +43,6 @@ public class AuthzPostVo implements Serializable {
 	 * 岗位名称
 	 */
 	@ApiModelProperty(name = "name", dataType = "String", value = "岗位名称")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String name;
 	/**
 	 * 岗位简介

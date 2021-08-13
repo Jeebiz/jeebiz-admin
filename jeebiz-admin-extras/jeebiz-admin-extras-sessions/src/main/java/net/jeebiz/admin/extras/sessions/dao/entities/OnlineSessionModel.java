@@ -17,10 +17,12 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 
 @Alias("OnlineSessionModel")
 @SuppressWarnings("serial")
-public class OnlineSessionModel extends PaginationModel {
+public class OnlineSessionModel extends PaginationModel<OnlineSessionModel> {
 	
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-	
+
+	/** 主键Id */
+    private String id;
 	/** 当前登录的用户Id */
     private String userid;
     /** 当前登录的用户名称 */
@@ -70,11 +72,19 @@ public class OnlineSessionModel extends PaginationModel {
 			this.status = onlineSession.getStatus().getInfo();
 		}
 		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
-			this.status =  OnlineStatus.force_logout.getInfo();
+			this.status =  OnlineStatus.FORCE_LOGOUT.getInfo();
 		}
 	}
 
-    public String getUserid() {
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getUserid() {
 		return userid;
 	}
 

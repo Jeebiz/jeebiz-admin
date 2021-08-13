@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>jeebiz-admin-build</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1-ce-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>jeebiz-admin</name>

@@ -23,14 +23,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.github.hiwepy.jwt.JwtPayload.RolePair;
 import com.google.common.collect.Sets;
 
-import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
-import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.extras.authz.rbac0.dao.IAuthzRoleDao;
 import net.jeebiz.admin.extras.authz.rbac0.dao.IAuthzRolePermsDao;
 import net.jeebiz.admin.extras.authz.rbac0.dao.IAuthzUserDao;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzRoleModel;
+import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
+import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 	
 @Service("defRepository")
 public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
@@ -73,12 +74,12 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
    		AuthzLoginModel model = getAuthzLoginDao().getAccount(upToken.getUsername(), pwd);
    		// 用户角色ID集合
    		List<String> roles = getAuthzUserDao().getRoles(model.getUserid());
-   		model.setRoles(Sets.newHashSet(roles.iterator()));
+   		model.setRoles(model.getRoles());
    		model.setRoleid(roles.get(0));
    		// 用户权限标记集合
    		Set<String> perms =  Sets.newHashSet();
-		for (String roleid : model.getRoles()) {
-			perms.addAll(getAuthzRolePermsDao().getPermissions(roleid));
+		for (RolePair role : model.getRoles()) {
+			perms.addAll(getAuthzRolePermsDao().getPermissions(role.getId()));
 		}
 		model.setPerms(perms);
    		// 认证信息

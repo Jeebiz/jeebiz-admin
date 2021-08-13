@@ -9,8 +9,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.extras.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.boot.api.dao.BaseDao;
 
 @Mapper
 public interface IAuthzFeatureOptDao extends BaseDao<AuthzFeatureOptModel> {

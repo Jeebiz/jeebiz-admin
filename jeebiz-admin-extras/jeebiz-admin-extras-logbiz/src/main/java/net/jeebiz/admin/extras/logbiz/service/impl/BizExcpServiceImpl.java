@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.logbiz.dao.IBizExcpDao;
 import net.jeebiz.admin.extras.logbiz.dao.entities.BizExcpModel;
 import net.jeebiz.admin.extras.logbiz.service.IBizExcpService;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 /**
  * 系统异常日志Service实现
  */
 @Service
-public class BizExcpServiceImpl extends BaseMapperServiceImpl<BizExcpModel, IBizExcpDao>
+public class BizExcpServiceImpl extends BaseServiceImpl<BizExcpModel, IBizExcpDao>
 		implements IBizExcpService {
 
 	@Override

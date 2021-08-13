@@ -5,8 +5,8 @@
 package net.jeebiz.admin.extras.authz.org.service;
 
 import net.jeebiz.admin.extras.authz.org.dao.entities.AuthzPostModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IAuthzPostService extends BaseService<AuthzPostModel> {
+public interface IAuthzPostService extends IBaseService<AuthzPostModel> {
 	
 }

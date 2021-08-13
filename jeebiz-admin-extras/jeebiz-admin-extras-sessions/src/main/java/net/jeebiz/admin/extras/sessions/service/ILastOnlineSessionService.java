@@ -5,8 +5,8 @@
 package net.jeebiz.admin.extras.sessions.service;
 
 import net.jeebiz.admin.extras.sessions.dao.entities.LastOnlineSessionModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface ILastOnlineSessionService extends BaseService<LastOnlineSessionModel> {
+public interface ILastOnlineSessionService extends IBaseService<LastOnlineSessionModel> {
 
 }

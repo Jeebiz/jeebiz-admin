@@ -5,9 +5,9 @@
 package net.jeebiz.admin.shadow.service;
 
 import net.jeebiz.admin.shadow.dao.entities.HomepageModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IHomepageService extends BaseService<HomepageModel>{
+public interface IHomepageService extends IBaseService<HomepageModel>{
 
 	
 }

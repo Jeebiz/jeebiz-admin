@@ -6,10 +6,10 @@ package net.jeebiz.admin.extras.authz.rbac0.web.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import net.jeebiz.boot.api.vo.AbstractPaginationVo;
+import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 
 @ApiModel(value = "AuthzRolePaginationVo", description = "角色信息分页查询参数Vo")
-public class AuthzRolePaginationVo extends AbstractPaginationVo {
+public class AuthzRolePaginationVo extends AbstractPaginationDTO {
 	
 	/**
 	 * 角色ID

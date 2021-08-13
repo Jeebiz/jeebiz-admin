@@ -54,7 +54,7 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
     			sessionVo.setSystemHost(onlineSession.getSystemHost());
     		}
     		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
-    			sessionVo.setStatus(OnlineStatus.force_logout.getInfo());
+    			sessionVo.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
     		} 
     		onlineSessions.add(sessionVo);
 		}
@@ -68,7 +68,7 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionModel
             if(session != null) {  
             	if(session instanceof SimpleOnlineSession) {
         			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
-        			onlineSession.setStatus(OnlineStatus.force_logout);
+        			onlineSession.setStatus(OnlineStatus.FORCE_LOGOUT);
         		}
                 session.setAttribute(Constants.SESSION_FORCE_LOGOUT_KEY, Boolean.TRUE);  
             }

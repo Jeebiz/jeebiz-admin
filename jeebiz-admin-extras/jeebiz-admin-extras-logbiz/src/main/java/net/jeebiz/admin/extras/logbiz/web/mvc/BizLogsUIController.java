@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import net.jeebiz.admin.extras.logbiz.service.IBizLogService;
-import net.jeebiz.boot.api.webmvc.BaseController;
+import net.jeebiz.boot.api.web.BaseController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "功能操作日志UI跳转")

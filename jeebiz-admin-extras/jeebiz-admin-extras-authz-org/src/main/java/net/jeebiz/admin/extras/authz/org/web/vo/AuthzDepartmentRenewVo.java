@@ -8,8 +8,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -22,41 +20,35 @@ public class AuthzDepartmentRenewVo implements Serializable {
 	 */
 	@ApiModelProperty(name = "orgId", required = true, dataType = "String", value = "机构ID编号")
 	@NotBlank(message = "机构ID编号必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String orgId;
 	/**
 	 * 部门ID编号
 	 */
 	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "部门ID编号")
 	@NotBlank(message = "部门ID编号")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String id;
 	/**
 	 * 部门编码
 	 */
 	@ApiModelProperty(name = "code", required = true, dataType = "String", value = "部门编码")
 	@NotBlank(message = "部门编码必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String code;
 	/**
 	 * 部门名称
 	 */
 	@ApiModelProperty(name = "name", required = true, dataType = "String", value = "部门名称")
 	@NotBlank(message = "部门名称必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String name;
 	/**
 	 * 部门简介
 	 */
 	@ApiModelProperty(name = "intro", dataType = "String", value = "部门简介")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String intro;
 	/**
 	 * 部门状态（0:禁用|1:可用）
 	 */
 	@ApiModelProperty(name = "status", required = true, dataType = "String", value = "部门状态（0:禁用|1:可用）", allowableValues = "1,0")
 	@NotBlank(message = "部门状态必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String status;
 
 	public String getOrgId() {

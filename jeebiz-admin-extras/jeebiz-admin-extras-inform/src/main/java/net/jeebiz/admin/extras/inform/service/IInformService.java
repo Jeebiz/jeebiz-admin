@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IInformService extends BaseService<InformModel> {
+public interface IInformService extends IBaseService<InformModel> {
 	
 	/**
 	 * 消息通知统计信息

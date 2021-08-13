@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.constraints.SafeHtml;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,20 +22,17 @@ public class AuthzOrganizationNewVo implements Serializable {
 	 */
 	@ApiModelProperty(name = "code", required = true, dataType = "String", value = "机构编码")
 	@NotBlank(message = "机构编码必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String code;
 	/**
 	 * 机构名称
 	 */
 	@ApiModelProperty(name = "name", required = true, dataType = "String", value = "机构名称")
 	@NotBlank(message = "机构名称必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String name;
 	/**
 	 * 机构简介
 	 */
 	@ApiModelProperty(name = "intro", dataType = "String", value = "机构简介")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String intro;
 	/**
 	 * 父级机构ID编号

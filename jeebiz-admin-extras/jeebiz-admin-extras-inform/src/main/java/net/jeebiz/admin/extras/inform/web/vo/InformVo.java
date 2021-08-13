@@ -6,8 +6,6 @@ package net.jeebiz.admin.extras.inform.web.vo;
 
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -29,26 +27,22 @@ public class InformVo {
 	 */
 	@ApiModelProperty(name = "title", required = true, dataType = "String", value = "消息通知标题")
 	@NotBlank(message = "消息通知标题必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String title;
 	/**
 	 * 消息通知类型：（notice：通知、direct：私信）
 	 */
 	@ApiModelProperty(name = "type", dataType = "String", value = "消息通知类型：（notice：通知、letter：私信）", allowableValues = "notice,letter")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String type;
 	/**
 	 * 消息通知内容
 	 */
 	@ApiModelProperty(name = "detail", required = true, dataType = "String", value = "消息通知内容")
 	@NotBlank(message = "消息通知内容必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String detail;
 	/**
 	 * 消息通知阅读状态：（0:未阅读、1:已阅读）
 	 */
 	@ApiModelProperty(name = "status", dataType = "String", value = "消息通知阅读状态：（0:未阅读、1:已阅读）", allowableValues = "0,1")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String status;
 	/**
 	 * 消息通知送达时间

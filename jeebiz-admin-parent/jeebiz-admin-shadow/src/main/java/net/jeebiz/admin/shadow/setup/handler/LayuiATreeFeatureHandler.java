@@ -2,10 +2,10 @@ package net.jeebiz.admin.shadow.setup.handler;
 
 import java.util.List;
 
-import net.jeebiz.admin.shadow.utils.FeatureTreeUtils;
 import net.jeebiz.admin.extras.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.extras.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.extras.authz.feature.setup.handler.FeatureTreeDataHandler;
+import net.jeebiz.admin.shadow.utils.FeatureTreeUtils;
 
 public class LayuiATreeFeatureHandler extends FeatureTreeDataHandler {
 

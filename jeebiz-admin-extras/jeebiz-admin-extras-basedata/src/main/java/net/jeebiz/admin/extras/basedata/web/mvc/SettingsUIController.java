@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.swagger.annotations.Api;
 import net.jeebiz.admin.extras.basedata.service.ISettingsService;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
+import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "系统参数设置：UI跳转")

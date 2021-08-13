@@ -4,9 +4,9 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.context.annotation.Configuration;
 
+import net.jeebiz.admin.extras.authz.feature.setup.handler.FeatureDataHandlerFactory;
 import net.jeebiz.admin.shadow.setup.handler.LayuiATreeFeatureHandler;
 import net.jeebiz.admin.shadow.setup.handler.LayuiAuthTreeFeatureHandler;
-import net.jeebiz.admin.extras.authz.feature.setup.handler.FeatureDataHandlerFactory;
 
 @Configuration
 public class ExtrasConfig {

@@ -2,8 +2,6 @@ package net.jeebiz.admin.extras.authz.org.web.vo;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -35,13 +33,11 @@ public class AuthzPostRenewVo implements Serializable {
 	 * 岗位名称
 	 */
 	@ApiModelProperty(name = "name", required = true, dataType = "String", value = "岗位名称")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String name;
 	/**
 	 * 岗位简介
 	 */
 	@ApiModelProperty(name = "intro", dataType = "String", value = "岗位简介")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String intro;
 	/**
 	 * 岗位状态（0:禁用|1:可用）

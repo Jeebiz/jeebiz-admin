@@ -7,8 +7,6 @@ package net.jeebiz.admin.extras.basedata.web.vo;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -21,21 +19,18 @@ public class SettingsRenewVo {
 	 */
 	@ApiModelProperty(name = "id", required = true, dataType = "String", value = "参数ID编号")
 	@NotBlank(message = "参数ID必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String id;
 	/**
 	 * 参数标签
 	 */
 	@ApiModelProperty(name = "label", required = true, dataType = "String", value = "参数标签")
 	@NotBlank(message = "参数标签必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String label;
 	/**
 	 * 参数值
 	 */
 	@ApiModelProperty(name = "value", required = true, dataType = "String", value = "参数值")
 	@NotBlank(message = "参数值必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String value;
 	/**
 	 * 参数单位:如 KB
@@ -73,7 +68,6 @@ public class SettingsRenewVo {
 	 */
 	@ApiModelProperty(name = "status", dataType = "String", value = "参数状态：0:不可用|1：可用", allowableValues = "0,1")
 	@NotBlank(message = "参数状态必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String status;
 	/**
 	 * 参数排序:组内排序

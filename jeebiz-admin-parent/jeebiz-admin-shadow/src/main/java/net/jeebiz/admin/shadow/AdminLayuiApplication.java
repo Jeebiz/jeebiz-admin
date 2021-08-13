@@ -11,19 +11,14 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.spring4all.swagger.EnableSwagger2Doc;
-
-import net.jeebiz.boot.autoconfigure.EnableServiceConfiguration;
-import net.jeebiz.boot.autoconfigure.EnableWebMvcConfiguration;
+import net.jeebiz.boot.autoconfigure.EnableJeebiz;
 
 /**
  * 应用启动入口
  */
 @EnableCaching(proxyTargetClass = true)
-@EnableSwagger2Doc
 @EnableScheduling
-@EnableServiceConfiguration
-@EnableWebMvcConfiguration
+@EnableJeebiz
 @EnableTransactionManagement
 @SpringBootApplication
 public class AdminLayuiApplication implements CommandLineRunner {

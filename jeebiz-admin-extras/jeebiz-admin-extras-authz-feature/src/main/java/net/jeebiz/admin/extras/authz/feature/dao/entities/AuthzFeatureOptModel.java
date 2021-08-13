@@ -10,8 +10,12 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 
 @SuppressWarnings("serial")
 @Alias(value = "AuthzFeatureOptModel")
-public class AuthzFeatureOptModel extends BaseModel {
+public class AuthzFeatureOptModel extends BaseModel<AuthzFeatureOptModel> {
 
+	/**
+	 * 主键ID
+	 */
+	public String id;
 	/**
 	 * 功能菜单ID
 	 */
@@ -40,6 +44,14 @@ public class AuthzFeatureOptModel extends BaseModel {
 	 * 功能操作权限标记
 	 */
 	private String perms;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getFeatureId() {
 		return featureId;

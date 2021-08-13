@@ -12,7 +12,7 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 
 @Alias(value = "AuthzUserAllotRoleModel")
 @SuppressWarnings("serial")
-public class AuthzUserAllotRoleModel extends BaseModel {
+public class AuthzUserAllotRoleModel extends BaseModel<AuthzUserAllotRoleModel> {
 
 	/**
 	 * 角色ID

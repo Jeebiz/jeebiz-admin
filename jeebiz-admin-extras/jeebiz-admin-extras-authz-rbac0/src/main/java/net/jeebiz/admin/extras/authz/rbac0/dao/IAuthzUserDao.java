@@ -11,10 +11,10 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzUserDetailModel;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzUserModel;
+import net.jeebiz.boot.api.dao.BaseDao;
 /**
  * 用户管理DAO
  * @author vindell

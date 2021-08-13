@@ -25,8 +25,8 @@ import net.jeebiz.admin.extras.sessions.setup.Constants;
 import net.jeebiz.admin.extras.sessions.web.vo.OnlineSessionVo;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
-import net.jeebiz.boot.api.webmvc.Result;
+import net.jeebiz.boot.api.web.BaseApiController;
+import net.jeebiz.boot.api.web.Result;
 
 /**
  * http://jinnianshilongnian.iteye.com/blog/2047643
@@ -35,7 +35,7 @@ import net.jeebiz.boot.api.webmvc.Result;
 @Controller
 @RequestMapping("/extras/sessions/ui/")
 @RequiresPermissions("session:*")
-public class SessionStatusUIController extends BaseMapperController {
+public class SessionStatusUIController extends BaseApiController {
 	
 	@Autowired
 	private IOnlineSessionService onlineSessionService;

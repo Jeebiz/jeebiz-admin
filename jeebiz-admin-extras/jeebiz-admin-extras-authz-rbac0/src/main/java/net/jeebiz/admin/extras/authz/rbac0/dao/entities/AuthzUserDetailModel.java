@@ -10,8 +10,12 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 
 @Alias(value = "AuthzUserDetailModel")
 @SuppressWarnings("serial")
-public class AuthzUserDetailModel extends PaginationModel {
-
+public class AuthzUserDetailModel extends PaginationModel<AuthzUserDetailModel> {
+	
+	/**
+	 * 主键ID
+	 */
+	private String id;
 	/**
 	 * 用户名
 	 */
@@ -82,6 +86,14 @@ public class AuthzUserDetailModel extends PaginationModel {
 	 */
 	private String roleName;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getUsername() {
 		return username;
 	}

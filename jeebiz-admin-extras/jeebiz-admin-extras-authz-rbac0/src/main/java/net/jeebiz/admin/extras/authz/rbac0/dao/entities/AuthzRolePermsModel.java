@@ -14,8 +14,12 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 
 @Alias(value = "AuthzRolePermsModel")
 @SuppressWarnings("serial")
-public class AuthzRolePermsModel extends BaseModel {
+public class AuthzRolePermsModel extends BaseModel<AuthzRolePermsModel> {
 
+	/**
+	 * 主键ID
+	 */
+	private String id;
 	/**
 	 * 角色ID
 	 */
@@ -24,6 +28,14 @@ public class AuthzRolePermsModel extends BaseModel {
 	 * 角色授权的标记集合
 	 */
 	private List<String> perms = Lists.newArrayList();
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getRoleId() {
 		return roleId;

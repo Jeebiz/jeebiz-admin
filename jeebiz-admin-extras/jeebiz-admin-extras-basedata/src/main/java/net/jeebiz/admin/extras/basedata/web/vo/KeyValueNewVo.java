@@ -7,8 +7,6 @@ package net.jeebiz.admin.extras.basedata.web.vo;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -20,35 +18,30 @@ public class KeyValueNewVo {
 	 */
 	@ApiModelProperty(name = "gkey", required = true, dataType = "String", value = "基础数据分组")
 	@NotBlank(message = "基础数据分组必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String gkey;
 	/**
 	 * 基础数据键
 	 */
 	@ApiModelProperty(name = "key", dataType = "String", value = "基础数据键")
 	@NotBlank(message = "基础数据键必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String key;
 	/**
 	 * 基础数据标签
 	 */
 	@ApiModelProperty(name = "label", required = true, dataType = "String", value = "基础数据标签")
 	@NotBlank(message = "基础数据标签必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String label;
 	/**
 	 * 基础数据值
 	 */
 	@ApiModelProperty(name = "value", required = true, dataType = "String", value = "基础数据值")
 	@NotBlank(message = "基础数据值必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String value;
 	/**
 	 * 基础数据状态：0:不可用、1：可用
 	 */
 	@ApiModelProperty(name = "status", required = true, dataType = "String", value = "数据状态：0:不可用|1：可用", allowableValues = "0,1")
 	@NotBlank(message = "基础数据状态必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String status;
 	/**
 	 * 数据排序:组内排序

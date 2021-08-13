@@ -10,7 +10,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 
 @Alias(value = "AuthzUserModel")
 @SuppressWarnings("serial")
-public class AuthzUserModel extends PaginationModel {
+public class AuthzUserModel extends PaginationModel<AuthzUserModel> {
 
 	/**
 	 * 用户别名（昵称）

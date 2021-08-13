@@ -8,9 +8,9 @@ import java.util.List;
 
 import net.jeebiz.admin.extras.basedata.dao.entities.KeyValueModel;
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IKeyValueService extends BaseService<KeyValueModel> {
+public interface IKeyValueService extends IBaseService<KeyValueModel> {
 
 	/**
 	 * 根据分组查询该分组下的基础数据

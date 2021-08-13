@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.swagger.annotations.Api;
 import net.jeebiz.admin.extras.logbiz.service.IAuthzLogService;
-import net.jeebiz.boot.api.webmvc.BaseController;
+import net.jeebiz.boot.api.web.BaseController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "认证授权日志UI跳转")

@@ -9,7 +9,6 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.biz.realm.AuthorizingRealmListener;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -32,6 +31,11 @@ public class AuthzRealmListener implements AuthorizingRealmListener {
 			LOG.debug("Authentication Success With Realm : {}.", realm.getName());
 		}
 		
+	}
+
+	@Override
+	public int getOrder() {
+		return 0;
 	}
 
 }

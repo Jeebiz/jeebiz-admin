@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.authz.org.setup;
+package net.jeebiz.admin.extras.authz.feature.setup;
 
 public class Constants {
 

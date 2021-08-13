@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-dependencies</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.1-ce-SNAPSHOT</version>
 		<relativePath>../jeebiz-admin-dependencies</relativePath>
 	</parent>
 	<artifactId>jeebiz-admin-parent</artifactId>

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.annotations.Api;
 import net.jeebiz.admin.extras.basedata.service.IKeyGroupService;
 import net.jeebiz.admin.extras.basedata.service.IKeyValueService;
-import net.jeebiz.boot.api.webmvc.BaseController;
+import net.jeebiz.boot.api.web.BaseController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "基础数据：UI跳转")

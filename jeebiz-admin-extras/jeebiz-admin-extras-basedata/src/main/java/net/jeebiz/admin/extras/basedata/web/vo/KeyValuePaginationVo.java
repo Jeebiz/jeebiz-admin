@@ -6,10 +6,10 @@ package net.jeebiz.admin.extras.basedata.web.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import net.jeebiz.boot.api.vo.AbstractPaginationVo;
+import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 
 @ApiModel(value = "KeyValuePaginationVo", description = "基础数据分页查询参数Vo")
-public class KeyValuePaginationVo extends AbstractPaginationVo {
+public class KeyValuePaginationVo extends AbstractPaginationDTO {
 	
 	/**
 	 * 基础数据分组

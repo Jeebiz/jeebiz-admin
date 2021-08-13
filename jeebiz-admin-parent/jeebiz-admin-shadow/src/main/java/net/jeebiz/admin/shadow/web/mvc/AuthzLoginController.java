@@ -38,11 +38,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.service.IAuthzLoginService;
+import net.jeebiz.admin.shadow.setup.Constants;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
-import net.jeebiz.boot.api.utils.Constants;
-import net.jeebiz.boot.api.webmvc.BaseController;
+import net.jeebiz.boot.api.web.BaseController;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**

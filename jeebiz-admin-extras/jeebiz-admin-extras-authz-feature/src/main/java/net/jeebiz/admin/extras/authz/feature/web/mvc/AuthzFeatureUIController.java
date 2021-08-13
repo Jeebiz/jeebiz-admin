@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.swagger.annotations.Api;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
 import net.jeebiz.admin.extras.authz.feature.service.IAuthzFeatureService;
+import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "功能菜单：界面跳转（Ok）")

@@ -9,11 +9,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import net.jeebiz.boot.api.service.BaseServiceImpl;
 import net.jeebiz.admin.extras.authz.rbac0.dao.IAuthzRolePermsDao;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzRolePermsModel;
 import net.jeebiz.admin.extras.authz.rbac0.service.IAuthzRolePermsService;
 import net.jeebiz.admin.extras.authz.rbac0.utils.AuthzPermsUtils;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
 public class AuthzRolePermsServiceImpl extends BaseServiceImpl<AuthzRolePermsModel, IAuthzRolePermsDao>

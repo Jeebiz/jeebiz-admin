@@ -8,9 +8,9 @@ import java.util.List;
 
 import net.jeebiz.admin.extras.sessions.dao.entities.OnlineSessionModel;
 import net.jeebiz.admin.extras.sessions.web.vo.OnlineSessionVo;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IOnlineSessionService extends BaseService<OnlineSessionModel> {
+public interface IOnlineSessionService extends IBaseService<OnlineSessionModel> {
 
 	List<OnlineSessionVo> getActiveSessions();
 

@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.extras.authz.feature.dao.entities.AuthzFeatureModel;
+import net.jeebiz.boot.api.dao.BaseDao;
 
 @Mapper
 public interface IAuthzFeatureDao extends BaseDao<AuthzFeatureModel> {

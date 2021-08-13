@@ -9,8 +9,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.boot.api.dao.BaseDao;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzRolePermsModel;
+import net.jeebiz.boot.api.dao.BaseDao;
 
 /**
  * 角色权限管理Dao

@@ -19,7 +19,7 @@ import net.jeebiz.admin.extras.authz.org.service.IAuthzDepartmentService;
 import net.jeebiz.admin.extras.authz.org.service.IAuthzOrganizationService;
 import net.jeebiz.admin.extras.authz.org.service.IAuthzPostService;
 import net.jeebiz.admin.extras.authz.org.service.IAuthzStaffService;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
+import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "组织机构人员管理：UI跳转")

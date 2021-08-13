@@ -14,7 +14,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 
 @Alias(value = "AuthzRoleModel")
 @SuppressWarnings("serial")
-public class AuthzRoleModel extends PaginationModel {
+public class AuthzRoleModel extends PaginationModel<AuthzRoleModel> {
 
 	/**
 	 * 角色ID

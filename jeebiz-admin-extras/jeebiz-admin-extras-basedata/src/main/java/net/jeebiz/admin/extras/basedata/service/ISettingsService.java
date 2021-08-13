@@ -8,9 +8,9 @@ import java.util.List;
 
 import net.jeebiz.admin.extras.basedata.dao.entities.SettingsModel;
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface ISettingsService extends BaseService<SettingsModel> {
+public interface ISettingsService extends IBaseService<SettingsModel> {
 	
 	/**
 	 * 根据分组查询该分组下的系统参数

@@ -6,8 +6,6 @@ package net.jeebiz.admin.extras.basedata.web.vo;
 
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -25,7 +23,6 @@ public class KeyValueVo {
 	 */
 	@ApiModelProperty(name = "gkey", dataType = "String", value = "基础数据分组Key")
 	@NotBlank(message = "基础数据分组必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String gkey;
 	
 	/**
@@ -45,20 +42,17 @@ public class KeyValueVo {
 	 */
 	@ApiModelProperty(name = "key", dataType = "String", value = "基础数据键")
 	@NotBlank(message = "基础数据键必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String key;
 	/**
 	 * 基础数据值
 	 */
 	@ApiModelProperty(name = "value", dataType = "String", value = "基础数据值")
 	@NotBlank(message = "基础数据值必填")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String value;
 	/**
 	 * 基础数据状态：0:不可用、1：可用
 	 */
 	@ApiModelProperty(name = "status", dataType = "String", value = "数据状态：0:不可用|1：可用", allowableValues = "0,1")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String status;
 	/**
 	 * 数据排序:组内排序

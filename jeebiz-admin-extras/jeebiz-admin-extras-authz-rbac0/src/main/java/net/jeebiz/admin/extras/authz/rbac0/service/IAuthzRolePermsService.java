@@ -7,14 +7,14 @@ package net.jeebiz.admin.extras.authz.rbac0.service;
 
 import java.util.List;
 
-import net.jeebiz.boot.api.service.BaseService;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzRolePermsModel;
+import net.jeebiz.boot.api.service.IBaseService;
 
 /**
  * 
  * @author <a href="https://github.com/vindell">wandl</a>
  */
-public interface IAuthzRolePermsService extends BaseService<AuthzRolePermsModel>{
+public interface IAuthzRolePermsService extends IBaseService<AuthzRolePermsModel>{
     
 	/**
 	 * 查询角色具备的权限标记 

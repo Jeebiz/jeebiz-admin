@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 
@@ -131,11 +132,11 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserDetailModel, 
 		PaginationModel tModel = (PaginationModel) model;
 		
 		Page<AuthzRoleModel> page = new Page<AuthzRoleModel>(tModel.getPageNo(), tModel.getLimit());
-		if("asc".equalsIgnoreCase(tModel.getSortOrder())) {
-			page.setAsc(tModel.getSortName());
-		} else {
-			page.setDesc(tModel.getSortName());
-		}
+		/*if(!CollectionUtils.isEmpty(model.getOrders())) {
+			for (OrderItem orderBy : model.getOrders()) {
+				page.addOrder(orderBy);
+			}
+		}*/
 		
 		List<AuthzRoleModel> records = getDao().getPagedAllocatedList(page, model);
 		page.setRecords(records);
@@ -149,11 +150,11 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserDetailModel, 
 		PaginationModel tModel = (PaginationModel) model;
 		
 		Page<AuthzRoleModel> page = new Page<AuthzRoleModel>(tModel.getPageNo(), tModel.getLimit());
-		if("asc".equalsIgnoreCase(tModel.getSortOrder())) {
-			page.setAsc(tModel.getSortName());
-		} else {
-			page.setDesc(tModel.getSortName());
-		}
+		/*if(!CollectionUtils.isEmpty(model.getOrders())) {
+			for (OrderItem orderBy : model.getOrders()) {
+				page.addOrder(orderBy);
+			}
+		}*/
 		
 		List<AuthzRoleModel> records = getDao().getPagedUnAllocatedList(page, model);
 		page.setRecords(records);

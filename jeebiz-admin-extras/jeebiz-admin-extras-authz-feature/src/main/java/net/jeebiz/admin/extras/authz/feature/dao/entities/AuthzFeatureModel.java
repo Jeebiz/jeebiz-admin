@@ -13,8 +13,12 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
  */
 @SuppressWarnings("serial")
 @Alias(value = "AuthzFeatureModel")
-public class AuthzFeatureModel extends BaseModel {
+public class AuthzFeatureModel extends BaseModel<AuthzFeatureModel> {
 
+	/**
+	 * 主键ID
+	 */
+	public String id;
 	/**
 	 * 功能菜单名称
 	 */
@@ -55,6 +59,14 @@ public class AuthzFeatureModel extends BaseModel {
 	 * 菜单所拥有的权限标记
 	 */
 	private String perms;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;

@@ -13,7 +13,7 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
  */
 @Alias(value = "AuthzRelationModel")
 @SuppressWarnings("serial")
-public class AuthzRelationModel extends BaseModel {
+public class AuthzRelationModel extends BaseModel<AuthzRelationModel> {
 
 	/**
 	 * 功能菜单ID

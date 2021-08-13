@@ -6,10 +6,10 @@ package net.jeebiz.admin.extras.authz.feature.service;
 
 import java.util.List;
 
-import net.jeebiz.boot.api.service.BaseService;
 import net.jeebiz.admin.extras.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IAuthzFeatureOptService extends BaseService<AuthzFeatureOptModel>{
+public interface IAuthzFeatureOptService extends IBaseService<AuthzFeatureOptModel>{
 
 	public List<AuthzFeatureOptModel> getFeatureOpts();
 	

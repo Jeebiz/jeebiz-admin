@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
 import net.jeebiz.admin.extras.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.extras.authz.rbac0.service.IAuthzUserService;
+import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**

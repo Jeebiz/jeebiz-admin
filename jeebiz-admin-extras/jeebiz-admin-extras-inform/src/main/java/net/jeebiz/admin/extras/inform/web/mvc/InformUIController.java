@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.swagger.annotations.Api;
 import net.jeebiz.admin.extras.inform.service.IInformService;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
+import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "消息通知：UI跳转")

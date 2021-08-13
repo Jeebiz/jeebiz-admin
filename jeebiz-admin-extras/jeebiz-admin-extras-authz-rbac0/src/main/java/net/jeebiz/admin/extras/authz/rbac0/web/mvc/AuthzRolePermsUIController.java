@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.swagger.annotations.Api;
 import net.jeebiz.admin.extras.authz.rbac0.service.IAuthzRoleService;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
+import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**

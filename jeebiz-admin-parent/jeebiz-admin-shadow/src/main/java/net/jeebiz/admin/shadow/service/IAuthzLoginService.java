@@ -11,9 +11,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IAuthzLoginService extends BaseService<AuthzLoginModel>{
+public interface IAuthzLoginService extends IBaseService<AuthzLoginModel>{
 	
 	RSAPublicKey genPublicKey(HttpServletRequest request) throws GeneralSecurityException;
 	

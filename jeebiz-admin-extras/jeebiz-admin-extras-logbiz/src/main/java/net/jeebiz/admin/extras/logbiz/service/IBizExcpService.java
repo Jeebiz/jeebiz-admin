@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.jeebiz.admin.extras.logbiz.dao.entities.BizExcpModel;
-import net.jeebiz.boot.api.service.BaseService;
+import net.jeebiz.boot.api.service.IBaseService;
 
 /**
  * 系统异常日志Service
  */
-public interface IBizExcpService extends BaseService<BizExcpModel>{
+public interface IBizExcpService extends IBaseService<BizExcpModel>{
 
 	List<Map<String, String>> getExcpTypes();
 	

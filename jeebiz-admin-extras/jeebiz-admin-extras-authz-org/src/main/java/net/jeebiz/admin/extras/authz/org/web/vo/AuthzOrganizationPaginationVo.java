@@ -4,20 +4,17 @@
  */
 package net.jeebiz.admin.extras.authz.org.web.vo;
 
-import org.hibernate.validator.constraints.SafeHtml;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import net.jeebiz.boot.api.vo.AbstractPaginationVo;
+import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 
 @ApiModel(value = "AuthzOrganizationPaginationVo", description = "机构信息分页查询参数")
-public class AuthzOrganizationPaginationVo extends AbstractPaginationVo {
+public class AuthzOrganizationPaginationVo extends AbstractPaginationDTO {
 
 	/**
 	 * 机构名称
 	 */
 	@ApiModelProperty(name = "name", dataType = "String", value = "机构名称")
-	@SafeHtml(whitelistType = SafeHtml.WhiteListType.NONE)
 	private String name;
 
 	public String getName() {

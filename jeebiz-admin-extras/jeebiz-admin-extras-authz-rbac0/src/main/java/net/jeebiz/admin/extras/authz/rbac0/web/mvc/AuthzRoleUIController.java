@@ -22,7 +22,7 @@ import net.jeebiz.admin.extras.authz.feature.setup.handler.FeatureFlatDataHandle
 import net.jeebiz.admin.extras.authz.feature.setup.handler.FeatureTreeDataHandler;
 import net.jeebiz.admin.extras.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.extras.authz.rbac0.service.IAuthzRoleService;
-import net.jeebiz.boot.api.webmvc.BaseMapperController;
+import net.jeebiz.boot.api.web.BaseMapperController;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
