@@ -37,3 +37,4 @@ transaction-logs
 secrets.yml
 __MACOSX
 unpackage
+pom.xml.versionsBackup
