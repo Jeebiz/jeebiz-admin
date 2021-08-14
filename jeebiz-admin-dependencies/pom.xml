@@ -15,7 +15,7 @@
 		<layui-admin.version>1.2.1</layui-admin.version>
 		<layim.version>3.8.0</layim.version>
 		<mui.version>0.9.38</mui.version>
-		<jeebiz-admin.version>1.0.1-SNAPSHOT</jeebiz-admin.version>
+		<jeebiz-admin.version>1.0.1-ce-SNAPSHOT</jeebiz-admin.version>
 		<webjar-layui.version>2.4.5</webjar-layui.version>
 	</properties>
 
