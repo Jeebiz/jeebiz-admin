@@ -2,6 +2,7 @@
 <mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping https://dozermapper.github.io/schema/bean-mapping.xsd">
+
     <mapping>
         <class-a>net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserProfileDTO</class-a>
         <class-b>net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileModel</class-b>
@@ -10,4 +11,5 @@
             <b>photos</b>
         </field>
     </mapping>
+
 </mappings>
