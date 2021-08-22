@@ -58,7 +58,7 @@ public class LocalFilestoreStrategy extends AbstractFilestoreStrategy {
 				fileDir.mkdirs();
 			};
 			
-			String uuid = UUID.randomUUID().toString();
+			String uuid = getSequence().nextId().toString();
 			String basename = DateFormatUtils.format(System.currentTimeMillis(), "YYYYMMDD") + File.separator + uuid;
 			String path = basename + FilenameUtils.getFullExtension(file.getOriginalFilename());
 			
@@ -85,7 +85,7 @@ public class LocalFilestoreStrategy extends AbstractFilestoreStrategy {
 			return attDTO;
 			
 		} catch (Exception e) {
-			throw new BizRuntimeException("测试报告附件存储IO异常");
+			throw new BizRuntimeException("存储IO异常");
 		}
 	}
 	

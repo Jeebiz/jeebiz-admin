@@ -339,10 +339,14 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		if(entity == null) {
 			throw new BizRuntimeException(path + "指向的文件不存在");
 		}
-		
-		
-		// TODO Auto-generated method stub
-		return null;
+		FileDownloadResult downloadRt = FileDownloadResult.builder()
+				.channel(FilestoreChannel.valueOf(entity.getStore()))
+				.file(this.handleFileMetadata(entity))
+				.status(1)
+				.userId(entity.getUserId())
+				.build();
+		this.handleFileDownload(entity, downloadRt);
+		return downloadRt;
 	}
 	
 	@Override
