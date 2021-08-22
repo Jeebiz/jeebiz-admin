@@ -55,13 +55,13 @@ import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.utils.CalendarUtils;
 
+
 @Component
 @Configuration
 @EnableConfigurationProperties({ AliyunOssProperties.class })
 @Slf4j
 public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 
-	private static final String FOLDER_SEPARATOR = "/";
 	private static final String ORIGINAL_FILE_NAME = "Original-File-Name";
 	private static final String X_OSS_PROCESS = "?x-oss-process=image/resize,m_fill,h_%d,w_%d,limit_0";
 	private static final AliyunOssGetObjectProgressListener progressListener = new AliyunOssGetObjectProgressListener();
@@ -282,21 +282,22 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 		metadata.setObjectAcl(CannedAccessControlList.PublicRead);
 		
     	// 上传并且生成缩略图
-        StringBuilder builder = new StringBuilder();
-        	builder.append(DateUtils.getDate());
-	        builder.append(FOLDER_SEPARATOR);
-	        builder.append(getSequence().nextId().toString());
-	        builder.append(FilenameUtils.getFullExtension(file.getOriginalFilename()));
+        StringBuilder filePath = new StringBuilder();
+        	filePath.append(DateUtils.getDate());
+	        filePath.append(FOLDER_SEPARATOR);
+	        filePath.append(getSequence().nextId().toString());
+	        filePath.append(FilenameUtils.getFullExtension(file.getOriginalFilename()));
 	        
-        StringBuilder thumPath = new StringBuilder();
+        StringBuilder thumbPath = new StringBuilder();
+        
         // 上传的是图片且可生成缩略图的图片
         if(FilestoreUtils.isImage(file) && width > 0 && height > 0 && FilestoreUtils.thumbable(file)) {
         	// oss 通过 ?x-oss-process=image/resize,w_300,m_lfit 设置缩略图
-        	thumPath.append(builder.toString()).append(String.format(X_OSS_PROCESS, height, width));
+        	thumbPath.append(filePath.toString()).append(String.format(X_OSS_PROCESS, height, width));
 		}
 	        
     	// 创建PutObjectRequest对象。
-		PutObjectRequest putObjectRequest = new PutObjectRequest(ossProperties.getBucketName(), builder.toString(), file.getInputStream()).
+		PutObjectRequest putObjectRequest = new PutObjectRequest(ossProperties.getBucketName(), filePath.toString(), file.getInputStream()).
                 <PutObjectRequest>withProgressListener(progressListener);
 		
 		// 设置元信息
@@ -308,10 +309,10 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 		// 上传文件
     	getOssClient().putObject(putObjectRequest);
     	
-        return new AliyunOssStorePath(ossProperties.getBucketName(), builder.toString(), thumPath.toString());
+        return new AliyunOssStorePath(ossProperties.getBucketName(), filePath.toString(), thumbPath.toString());
         
 	}
-	
+
 	public String getAccsssURL(String bucket, String path) throws Exception {
 		// 过期时间为当日23:59:59
 		Calendar cal = Calendar.getInstance();

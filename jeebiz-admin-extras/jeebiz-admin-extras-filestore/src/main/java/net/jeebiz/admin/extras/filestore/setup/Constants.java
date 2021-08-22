@@ -6,7 +6,7 @@ package net.jeebiz.admin.extras.filestore.setup;
 
 public class Constants {
 
-	public static final String GROUP_name = "group1";
+	public static final String GROUP_NAME = "group1";
 	
 	public static final String DEMO = "Demo模块";
 	

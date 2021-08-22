@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.strategy.local;
+package net.jeebiz.admin.extras.filestore.strategy;
 
 import org.apache.commons.lang3.Validate;
 
@@ -18,7 +18,7 @@ import org.apache.commons.lang3.Validate;
  * </pre>
  *
  */
-public class LocalThumbImage {
+public class ThumbImage {
 
     /**
      * 按默认配置生成缩略图
@@ -44,7 +44,7 @@ public class LocalThumbImage {
      * @param width
      * @param height
      */
-    public LocalThumbImage(int width, int height) {
+    public ThumbImage(int width, int height) {
         this.width = width;
         this.height = height;
     }
@@ -54,14 +54,14 @@ public class LocalThumbImage {
      *
      * @param percent
      */
-    public LocalThumbImage(double percent) {
+    public ThumbImage(double percent) {
         this.percent = percent;
     }
 
     /**
      * 按默认配置生成
      */
-    public LocalThumbImage() {
+    public ThumbImage() {
         this.defaultConfig = true;
     }
 

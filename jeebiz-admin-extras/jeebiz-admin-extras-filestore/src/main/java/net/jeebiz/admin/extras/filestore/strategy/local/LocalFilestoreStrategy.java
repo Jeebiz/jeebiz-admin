@@ -6,16 +6,15 @@ package net.jeebiz.admin.extras.filestore.strategy.local;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import hitool.core.io.FilenameUtils;
+import hitool.core.lang3.time.DateUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import net.jeebiz.admin.extras.filestore.bo.FileData;
 import net.jeebiz.admin.extras.filestore.bo.FileDownloadResult;
@@ -24,6 +23,7 @@ import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 import net.jeebiz.admin.extras.filestore.setup.config.JeebizFilestoreProperties;
 import net.jeebiz.admin.extras.filestore.strategy.AbstractFilestoreStrategy;
+import net.jeebiz.admin.extras.filestore.strategy.ThumbImage;
 import net.jeebiz.admin.extras.filestore.utils.AttUtils;
 import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
@@ -59,16 +59,20 @@ public class LocalFilestoreStrategy extends AbstractFilestoreStrategy {
 			};
 			
 			String uuid = getSequence().nextId().toString();
-			String basename = DateFormatUtils.format(System.currentTimeMillis(), "YYYYMMDD") + File.separator + uuid;
+			String basename = DateUtils.getDate() + File.separator + uuid;
 			String path = basename + FilenameUtils.getFullExtension(file.getOriginalFilename());
 			
 			file.transferTo(new File(fileDir, path));
 			
-			// 保存缩略图
-			String thumbPath =  basename + new LocalThumbImage(width, height).getPrefixName() + FilenameUtils.getFullExtension(file.getOriginalFilename());
-			try(FileOutputStream output = new FileOutputStream(new File(fileDir, thumbPath))){
-				Thumbnails.of(file.getInputStream()).scale(width, height).toOutputStream(output);
-			}
+			// 上传的是图片且可生成缩略图的图片
+			String thumbPath = null;
+	        if(FilestoreUtils.isImage(file) && width > 0 && height > 0 && FilestoreUtils.thumbable(file)) {
+	        	// 保存缩略图
+				thumbPath =  basename + new ThumbImage(width, height).getPrefixName() + FilenameUtils.getFullExtension(file.getOriginalFilename());
+				try(FileOutputStream output = new FileOutputStream(new File(fileDir, thumbPath))){
+					Thumbnails.of(file.getInputStream()).scale(width, height).toOutputStream(output);
+				}
+	        }
 			
 			// 文件存储信息
 			FileData attDTO = new FileData();

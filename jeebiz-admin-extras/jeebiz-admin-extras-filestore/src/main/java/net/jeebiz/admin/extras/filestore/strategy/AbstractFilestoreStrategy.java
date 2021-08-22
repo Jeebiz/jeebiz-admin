@@ -42,6 +42,8 @@ import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Slf4j
 public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, InitializingBean, ApplicationEventPublisherAware {
+
+	protected static final String FOLDER_SEPARATOR = "/";
 	
     @Autowired
     private ObjectMapper objectMapper;

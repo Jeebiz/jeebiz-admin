@@ -2,9 +2,9 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.strategy.local;
+package net.jeebiz.admin.extras.filestore.strategy;
 
-public class LocalStorePath {
+public class FileStorePath {
 
     private String group;
 
@@ -18,7 +18,7 @@ public class LocalStorePath {
     /**
      * 存储文件路径
      */
-    public LocalStorePath() {
+    public FileStorePath() {
         super();
     }
 
@@ -28,7 +28,7 @@ public class LocalStorePath {
      * @param group
      * @param path
      */
-    public LocalStorePath(String group, String path) {
+    public FileStorePath(String group, String path) {
         super();
         this.group = group;
         this.path = path;
@@ -41,7 +41,7 @@ public class LocalStorePath {
      * @param path
      * @param thum
      */
-    public LocalStorePath(String group, String path, String thumb) {
+    public FileStorePath(String group, String path, String thumb) {
         super();
         this.group = group;
         this.path = path;
