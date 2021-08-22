@@ -5,6 +5,7 @@ import java.util.Set;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
 
 @ApiModel(value = "FilestoreDownloadDTO", description = "文件存储信息DTO")
 @Data
@@ -33,7 +34,7 @@ public class FilestoreDownloadDTO {
 	/**
 	 * 文件元信息
 	 */
-	private Set<FileMetaDataDTO> metadata;
+	private Set<FileMetaData> metadata;
 	/*
 	 * 文件字节码
 	 */

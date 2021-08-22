@@ -47,15 +47,15 @@ import com.google.common.collect.Lists;
 
 import hitool.core.io.FilenameUtils;
 import hitool.core.lang3.time.DateUtils;
+import net.jeebiz.admin.extras.filestore.bo.FileData;
+import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
+import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 import net.jeebiz.admin.extras.filestore.setup.config.AliyunOssProperties;
 import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
-import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.sequence.Sequence;
 import net.jeebiz.boot.api.utils.CalendarUtils;
@@ -249,7 +249,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public FileDTO upload(String uid,  MultipartFile file, int width, int height) throws Exception {
+	public FileData upload(String uid,  MultipartFile file, int width, int height) throws Exception {
 		FileEntity entity = null;
 		try {
 			
@@ -276,7 +276,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			getFileMapper().insert(entity);
 			
 			// 文件存储信息
-			FileDTO attDTO = new FileDTO();
+			FileData attDTO = new FileData();
 			attDTO.setUuid(uuid);
 			attDTO.setName(file.getOriginalFilename());
 			attDTO.setPath(storePath.getPath());
@@ -302,10 +302,10 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FileDTO> upload(String uid,  MultipartFile[] files, int width, int height) throws Exception {
-		List<FileDTO> attList = Lists.newArrayList();
+	public List<FileData> upload(String uid,  MultipartFile[] files, int width, int height) throws Exception {
+		List<FileData> attList = Lists.newArrayList();
 		for (MultipartFile file : files) {
-			FileDTO attDTO = this.upload(uid, file, width, height);
+			FileData attDTO = this.upload(uid, file, width, height);
 			attList.add(attDTO);
 		}
 		return attList;
@@ -342,7 +342,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	}
 
 	@Override
-	public FileDTO reupload(String uid, String uuid, MultipartFile file, int width, int height) throws Exception {
+	public FileData reupload(String uid, String uuid, MultipartFile file, int width, int height) throws Exception {
 
 		// 查询文件信息
 		FileEntity entity = getFileMapper().selectOne(new QueryWrapper<FileEntity>().eq("f_uuid", uuid));
@@ -351,7 +351,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		}
 		
 		// 上传新文件
-		FileDTO attDTO = this.upload(uid, file, width, height);
+		FileData attDTO = this.upload(uid, file, width, height);
 		
 		// 删除旧的文件
 		getOssClient().deleteObject(entity.getGroup1(), entity.getPath());
@@ -362,7 +362,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 
 	
 	@Override
-	public List<FileDTO> listByPath(List<String> paths) throws Exception {
+	public List<FileData> listByPath(List<String> paths) throws Exception {
 		if (CollectionUtils.isEmpty(paths)) {
             return Lists.newArrayList();
         }
@@ -375,7 +375,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 	}
 	
 	@Override
-	public List<FileDTO> listByUuid(List<String> uuids) throws Exception {
+	public List<FileData> listByUuid(List<String> uuids) throws Exception {
 		if (CollectionUtils.isEmpty(uuids)) {
             return Lists.newArrayList();
         }
@@ -387,14 +387,14 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 		return this.mapperFile(fileList);
 	}
 	
-	private List<FileDTO> mapperFile(List<FileEntity> fileList) throws Exception {
-		List<FileDTO> attList = Lists.newArrayList();	
+	private List<FileData> mapperFile(List<FileEntity> fileList) throws Exception {
+		List<FileData> attList = Lists.newArrayList();	
 		fileList = fileList.stream().sorted().collect(Collectors.toList());
 		// 循环进行对象转换
 		for (FileEntity entity : fileList) {
 
 			// 文件存储信息
-			FileDTO attDTO = new FileDTO();
+			FileData attDTO = new FileData();
 
 			attDTO.setUuid(entity.getUuid());
 			attDTO.setName(entity.getName());
@@ -410,7 +410,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 				ObjectMetadata metaData = getOssClient().getObjectMetadata(entity.getGroup1(), entity.getPath());
 				if(!Objects.isNull(metaData)) {
 					attDTO.setMetadata(metaData.getRawMetadata().entrySet().stream().map(m -> {
-						FileMetaDataDTO metaDTO = new FileMetaDataDTO();
+						FileMetaData metaDTO = new FileMetaData();
 						metaDTO.setName(m.getKey());
 						metaDTO.setValue(m.getValue().toString());
 						return metaDTO; 
@@ -466,7 +466,7 @@ public class AliyunOssFilestoreProvider implements FilestoreProvider {
 			ObjectMetadata metaData = ossObject.getObjectMetadata();
 			if(!Objects.isNull(metaData)) {
 				attDTO.setMetadata(metaData.getRawMetadata().entrySet().stream().map(m -> {
-					FileMetaDataDTO metaDTO = new FileMetaDataDTO();
+					FileMetaData metaDTO = new FileMetaData();
 					metaDTO.setName(m.getKey());
 					metaDTO.setValue(m.getValue().toString());
 					return metaDTO; 

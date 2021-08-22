@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
- *    存储目标（local:服务本地,fdfs:FastDFS存储服务,minio:MinIO对象存储）
+ *  存储目标（local:服务本地,fdfs:FastDFS存储服务,minio:MinIO对象存储）
  */
 public enum FilestoreChannel {
 	

@@ -10,44 +10,47 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 
-@ApiModel(value = "FileUploadResult", description = "文件上传结果")
+@ApiModel(value = "FileDownloadResult", description = "文件下载结果")
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUploadResult {
+public class FileDownloadResult {
 	
 	/**
 	 * 发起文件存储的用户uid
 	 */
-	@ApiModelProperty(name = "userId", required = true, value = "发起文件存储的用户uid")
+	@ApiModelProperty(name = "userId", value = "发起文件存储的用户uid")
 	private String userId;
+	
 	/**
 	 * 文件存储渠道
 	 */
-	@ApiModelProperty(name = "channel", required = true, value = "文件存储渠道")
+	@ApiModelProperty(name = "channel", value = "文件存储渠道")
 	private FilestoreChannel channel;
 	
 	/**
 	 * 文件对象
 	 */
-	@ApiModelProperty(name = "file", required = true, value = "文件对象")
+	@ApiModelProperty(name = "file", value = "文件对象")
 	private FileData file;
+	
+    /**
+	 * 文件下载状态（ 0：下载失败、1：下载成功）
+	 */
+	@ApiModelProperty(name = "status", value = "文件下载送状态（ 0：下载失败、1：下载成功）")
+	private Integer status;
 	
 	/*
 	 * 文件字节码
 	 */
+	@ApiModelProperty(name = "bytes", value = "文件字节码")
 	private byte[] bytes;
+	
 	/**
 	 * 文件流对象
 	 */
+	@ApiModelProperty(name = "stream", value = "文件流对象")
 	private InputStream stream;
-	
-    /**
-	 * 文件上传状态（ 0：上传失败、1：上传成功）
-	 */
-	@ApiModelProperty(name = "status", value = "文件上传送状态（ 0：上传失败、1：上传成功）")
-	private Integer status;
-	 
-}
 
+}

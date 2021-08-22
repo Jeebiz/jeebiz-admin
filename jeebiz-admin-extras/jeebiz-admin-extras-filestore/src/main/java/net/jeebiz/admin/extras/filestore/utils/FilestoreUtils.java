@@ -28,7 +28,7 @@ import com.google.common.collect.Sets;
 
 import hitool.core.format.ByteUnitFormat;
 import net.coobird.thumbnailator.Thumbnails;
-import net.jeebiz.admin.extras.filestore.web.dto.FileMetaDataDTO;
+import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
 
 public class FilestoreUtils {
 
@@ -84,15 +84,15 @@ public class FilestoreUtils {
 		return inputStream;
 	}
 	
-	public static Set<FileMetaDataDTO> metaDataSet(File file) {
-		Set<FileMetaDataDTO> metaDataSet = Sets.newHashSet();
+	public static Set<FileMetaData> metaDataSet(File file) {
+		Set<FileMetaData> metaDataSet = Sets.newHashSet();
 		try (InputStream inputStream = FileUtils.openInputStream(file);) {
 			Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
 			for (Directory directory : metadata.getDirectories()) {
 			    for (Tag tag : directory.getTags()) {
 			        //格式化输出[directory.getName()] - tag.getTagName() = tag.getDescription()
 			        System.out.format("[%s] - %s = %s%n",  directory.getName(), tag.getTagName(), tag.getDescription());
-			        metaDataSet.add(new FileMetaDataDTO(directory.getName(), tag.getTagName()));
+			        metaDataSet.add(new FileMetaData(directory.getName(), tag.getTagName()));
 			    }
 			    if (directory.hasErrors()) {
 			        for (String error : directory.getErrors()) {

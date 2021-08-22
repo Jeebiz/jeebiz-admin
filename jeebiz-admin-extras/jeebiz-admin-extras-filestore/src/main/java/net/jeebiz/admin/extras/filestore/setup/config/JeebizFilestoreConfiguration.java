@@ -5,14 +5,9 @@
 package net.jeebiz.admin.extras.filestore.setup.config;
 
 import org.flywaydb.spring.boot.ext.FlywayFluentConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
-import net.jeebiz.admin.extras.filestore.setup.provider.FilestoreProvider;
-import net.jeebiz.admin.extras.filestore.setup.provider.LocalFilestoreProvider;
 
 @Configuration
 @EnableConfigurationProperties(JeebizFilestoreProperties.class)
@@ -26,12 +21,5 @@ public class JeebizFilestoreConfiguration {
 		
 		return configuration;
 	}
-	
-	@Bean
-	@ConditionalOnMissingBean
-	public FilestoreProvider filestoreProvider(IFileMapper filestoreDao,
-			JeebizFilestoreProperties filestoreProperties) {
-		return new LocalFilestoreProvider(filestoreDao, filestoreProperties);
-	}
-	
+		
 }

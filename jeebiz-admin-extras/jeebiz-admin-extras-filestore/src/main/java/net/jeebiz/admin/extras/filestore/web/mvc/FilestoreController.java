@@ -6,14 +6,16 @@ package net.jeebiz.admin.extras.filestore.web.mvc;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.biz.utils.WebUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaTypeFactory;
@@ -21,84 +23,182 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import hitool.core.collections.CollectionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import net.jeebiz.admin.extras.filestore.service.IFilestoreService;
-import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FileDownloadDTO;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
+import lombok.extern.slf4j.Slf4j;
+import net.jeebiz.admin.extras.filestore.bo.FileData;
+import net.jeebiz.admin.extras.filestore.bo.FileDeleteBO;
+import net.jeebiz.admin.extras.filestore.bo.FileDownloadResult;
+import net.jeebiz.admin.extras.filestore.bo.FileReuploadBO;
+import net.jeebiz.admin.extras.filestore.bo.FileReuploadResult;
+import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
+import net.jeebiz.admin.extras.filestore.bo.FileUploadResult;
+import net.jeebiz.admin.extras.filestore.bo.FilesUploadBO;
+import net.jeebiz.admin.extras.filestore.bo.FilesUploadResult;
+import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
+import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
+import net.jeebiz.admin.extras.filestore.strategy.FilestoreStrategyRouter;
+import net.jeebiz.admin.extras.filestore.web.param.FileDeleteByPathParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileDeleteByUuidParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileDeleteParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileDownloadByPathParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileDownloadByUuidParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileListByPathParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileListByUuidParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileReuploadParam;
+import net.jeebiz.admin.extras.filestore.web.param.FileUploadParam;
+import net.jeebiz.admin.extras.filestore.web.param.FilesUploadParam;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
+import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.web.BaseApiController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "文件服务：文件上传、下载（Ok）")
 @RestController
 @RequestMapping("/file/store/")
+@Slf4j
 @Validated
 public class FilestoreController extends BaseApiController {
-	
+
 	@Autowired
-	private IFilestoreService filestoreService;
+	private FilestoreStrategyRouter filestoreStrategyRouter;
 	
 	@ApiOperation(value = "文件服务配置信息", notes = "文件服务配置信息")
     @GetMapping("config")
-	public ApiRestResponse<FilestoreConfig> endpoint(){
-		return ApiRestResponse.success(getFilestoreService().getConfig());
+	public ApiRestResponse<FilestoreConfig> config(@ApiParam(value = "存储目标", required = true, defaultValue = "LOCAL") @RequestParam(value = "channel", required = true, defaultValue = "LOCAL") FilestoreChannel channel){
+		FilestoreConfig config = filestoreStrategyRouter.routeFor(channel).getConfig();
+		return ApiRestResponse.success(config);
 	}
 	
 	@ApiOperation(value = "文件服务：单上传文件", notes = "将单个文件上传到指定的存储对象")
     @PostMapping(value = "upload", headers = "content-type=multipart/form-data")
 	@RequiresAuthentication
-    public ApiRestResponse<FileDTO> upload(@ApiParam(value = "附件文件", required = true) @RequestParam(value = "file") @NotNull(message = "文件不能为空") MultipartFile file,
-                                              @ApiParam(value = "缩放长度", required = false, defaultValue = "0") @RequestParam(value = "width", required = false, defaultValue = "0") int width,
-                                              @ApiParam(value = "缩放高度", required = false, defaultValue = "0") @RequestParam(value = "height", required = false, defaultValue = "0") int height) throws Exception {
-		if (null == file){
-			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
-		}
-		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		FileDTO result = getFilestoreService().upload(principal.getUserid(), file, width, height);
-		if (result == null) {
+    public ApiRestResponse<FileData> upload(
+    		@Valid FileUploadParam param,
+    		@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request) throws Exception {
+		try {
+
+			log.info("upload => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、当前登录用户
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+			
+			// 2、文件上传参数
+			FileUploadBO uploadBo = FileUploadBO.builder()
+					.appId(appId)
+	                .appChannel(appChannel)
+	                .appVer(appVersion)
+					.channel(param.getChannel())
+					.file(param.getFile())
+					.width(param.getWidth())
+					.height(param.getHeight())
+					.userId(principal.getUserid())
+					.ipAddress(WebUtils.getRemoteAddr(request))
+					.build();
+			
+			// 3、执行文件上传操作
+			FileUploadResult uploadRt = filestoreStrategyRouter.routeFor(param.getChannel()).upload(uploadBo);
+			if(uploadRt.getStatus() == 1) {
+				return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("file.upload.success"), uploadRt.getFile());
+			}
 			return fail("file.upload.fail");
+		} catch (Exception e) {
+			return ApiRestResponse.error(e.getMessage());
 		}
-		return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("file.upload.success"), result);
 	}
 	
 	@ApiOperation(value = "文件服务：多上传文件", notes = "将多个文件上传到指定的存储对象")
     @PostMapping(value = "uploads", headers = "content-type=multipart/form-data")
 	@RequiresAuthentication
-    public ApiRestResponse<List<FileDTO>> upload(@ApiParam(value = "附件文件", required = true) @RequestParam(value = "files")
-                                                     @NotNull(message = "文件不能为空") MultipartFile[] files,
-                                                     @ApiParam(value = "缩放长度", required = false, defaultValue = "0") @RequestParam(value = "width", required = false, defaultValue = "0") int width,
-                                                     @ApiParam(value = "缩放高度", required = false, defaultValue = "0") @RequestParam(value = "height", required = false, defaultValue = "0") int height) throws Exception {
-		if (null == files || files.length == 0){
+    public ApiRestResponse<List<FileData>> uploads(
+    		@Valid FilesUploadParam param,
+    		@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request) throws Exception {
+		if (param.getFiles().length == 0){
 			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
 		}
-		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		List<FileDTO> result = getFilestoreService().upload(principal.getUserid(), files, width, height);
-		if (CollectionUtils.isEmpty(result)) {
+		
+		try {
+
+			log.info("uploads => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、当前登录用户
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+			
+			// 2、文件上传参数
+			FilesUploadBO uploadBo = FilesUploadBO.builder()
+					.appId(appId)
+	                .appChannel(appChannel)
+	                .appVer(appVersion)
+					.channel(param.getChannel())
+					.files(param.getFiles())
+					.width(param.getWidth())
+					.height(param.getHeight())
+					.userId(principal.getUserid())
+					.ipAddress(WebUtils.getRemoteAddr(request))
+					.build();
+			
+			// 3、执行文件上传操作
+			FilesUploadResult uploadRt = filestoreStrategyRouter.routeFor(param.getChannel()).upload(uploadBo);
+			if(uploadRt.getStatus() == 1) {
+				return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("file.upload.success"), uploadRt.getFiles());
+			}
 			return fail("file.upload.fail");
+		} catch (Exception e) {
+			return ApiRestResponse.error(e.getMessage());
 		}
-		return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("file.upload.success"), result);
 	}
 	
 	@ApiOperation(value = "文件服务：根据uuid删除文件", notes = "删除指定存储对象下的指定文件")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "uuid", value = "文件Uid", required = true, dataType = "String"),
 	})
-	@GetMapping("delete")
+	@PostMapping("delete")
 	@RequiresAuthentication
-	public ApiRestResponse<String> delete(@RequestParam("uuid") @NotEmpty(message = "文件Uid不能为空") String uuid){
+	public ApiRestResponse<String> delete(
+			@Valid FileDeleteParam param,
+			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request){
 		try {
-			getFilestoreService().deleteByUuid(Arrays.asList(uuid));
+
+			log.info("delete => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、当前登录用户
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+			
+			// 2、文件删除参数
+			FileDeleteBO deleteBo = FileDeleteBO.builder()
+					.appId(appId)
+	                .appChannel(appChannel)
+	                .appVer(appVersion)
+					.channel(param.getChannel())
+					.userId(principal.getUserid())
+					.uuids(Arrays.asList(param.getUuid()))
+					.ipAddress(WebUtils.getRemoteAddr(request))
+					.build();
+			
+			// 3、执行文件删除操作
+			filestoreStrategyRouter.routeFor(param.getChannel()).delete(deleteBo);
+			
 			return success("file.delete.success");
 		} catch (Exception e) {
 			return ApiRestResponse.error(e.getMessage());
@@ -106,14 +206,36 @@ public class FilestoreController extends BaseApiController {
 	}
 	
 	@ApiOperation(value = "文件服务：根据path批量删除文件", notes = "批量删除指定存储对象下的指定文件")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "paths", value = "要删除的文件path集合", required = true, dataType = "java.util.List<String>")
-	})
-	@GetMapping("deleteByPath")
+	@PostMapping("deleteByPath")
 	@RequiresAuthentication
-	public ApiRestResponse<String> deleteByPath( @NotNull(message = "文件路径不能为空") @RequestParam("paths") List<String> paths){
+	public ApiRestResponse<String> deleteByPath(
+			@Valid FileDeleteByPathParam param,
+			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request){
 		try {
-			getFilestoreService().deleteByPath(paths);
+
+			log.info("deleteByPath => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、当前登录用户
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+			
+			// 2、文件删除参数
+			FileDeleteBO deleteBo = FileDeleteBO.builder()
+					.appId(appId)
+	                .appChannel(appChannel)
+	                .appVer(appVersion)
+					.channel(param.getChannel())
+					.paths(param.getPaths())
+					.userId(principal.getUserid())
+					.ipAddress(WebUtils.getRemoteAddr(request))
+					.build();
+			
+			// 3、执行文件删除操作
+			filestoreStrategyRouter.routeFor(param.getChannel()).delete(deleteBo);
+			
 			return success("file.delete.success");
 		} catch (Exception e) {
 			logException(this, e);
@@ -122,14 +244,36 @@ public class FilestoreController extends BaseApiController {
 	}
 
 	@ApiOperation(value = "文件服务：根据uuid批量删除文件", notes = "批量删除指定存储对象下的指定文件")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "uuids", value = "要删除的文件Uuid集合", required = true, dataType = "java.util.List<String>")
-	})
-	@GetMapping("deleteByUuid")
+	@PostMapping("deleteByUuid")
 	@RequiresAuthentication
-	public ApiRestResponse<String> deleteByUuid(@NotNull(message = "文件UUid不能为空") @RequestParam("uuids") List<String> uuids){
+	public ApiRestResponse<String> deleteByUuid(
+			@Valid FileDeleteByUuidParam param,
+			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request){
 		try {
-			getFilestoreService().deleteByUuid(uuids);
+
+			log.info("deleteByUuid => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、当前登录用户
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+			
+			// 2、文件删除参数
+			FileDeleteBO deleteBo = FileDeleteBO.builder()
+					.appId(appId)
+	                .appChannel(appChannel)
+	                .appVer(appVersion)
+					.channel(param.getChannel())
+					.userId(principal.getUserid())
+					.uuids(param.getUuids())
+					.ipAddress(WebUtils.getRemoteAddr(request))
+					.build();
+			
+			// 3、执行文件删除操作
+			filestoreStrategyRouter.routeFor(param.getChannel()).delete(deleteBo);
+			
 			return success("file.delete.success");
 		} catch (Exception e) {
 			return ApiRestResponse.error(e.getMessage());
@@ -137,77 +281,121 @@ public class FilestoreController extends BaseApiController {
 	}
 	
 	@ApiOperation(value = "文件服务：重新上传文件", notes = "重新上传指定的文件")
-	@ApiImplicitParams({
-            @ApiImplicitParam(name = "uuid", value = "原文件Uid", required = true, dataType = "String")
-    })
     @PostMapping(value = "reupload", headers = "content-type=multipart/form-data")
 	@RequiresAuthentication
-    public ApiRestResponse<FileDTO> reupload(@RequestParam("uuid")
-			@NotEmpty(message = "原文件UUid不能为空") String uuid,
-                                                 @ApiParam(value = "文件", required = true)
-                                                 @RequestParam("file") @NotNull(message = "文件不能为空") MultipartFile file,
-                                                 @ApiParam(value = "缩放长度", required = false, defaultValue = "0") @RequestParam(value = "width", required = false, defaultValue = "0") int width,
-                                                 @ApiParam(value = "缩放高度", required = false, defaultValue = "0") @RequestParam(value = "height", required = false, defaultValue = "0") int height) throws Exception {
-		if (null == file){
-			return ApiRestResponse.of(ApiCode.SC_UNSATISFIED_PARAM);
-		}
-		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		FileDTO result = getFilestoreService().reupload(principal.getUserid(), uuid,file, width, height);
-		if (result == null) {
+    public ApiRestResponse<FileData> reupload(
+    		@Valid FileReuploadParam param,
+    		@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request) throws Exception {
+		
+		try {
+			
+			log.info("reupload => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、当前登录用户
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+			
+			// 2、文件重新上传参数
+			FileReuploadBO uploadBo = FileReuploadBO.builder()
+					.appId(appId)
+	                .appChannel(appChannel)
+	                .appVer(appVersion)
+					.channel(param.getChannel())
+					.file(param.getFile())
+					.width(param.getWidth())
+					.height(param.getHeight())
+					.userId(principal.getUserid())
+					.ipAddress(WebUtils.getRemoteAddr(request))
+					.build();
+			
+			// 3、执行文件上传操作
+			FileReuploadResult uploadRt = filestoreStrategyRouter.routeFor(param.getChannel()).reupload(uploadBo);
+			if(uploadRt.getStatus() == 1) {
+				return ApiRestResponse.of(ApiCode.SC_SUCCESS, getMessage("file.reupload.success"), uploadRt.getFile());
+			}
 			return fail("file.reupload.fail");
+		} catch (Exception e) {
+			return ApiRestResponse.error(e.getMessage());
 		}
-		return success("file.reupload.success");
 	}
 	
 	@ApiOperation(value = "文件服务：根据path查询文件信息", notes = "根据给出的文件相对路径获取文件信息")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "paths", value = "文件Path集合", required = true, dataType = "java.util.List<String>")
-	})
-	@GetMapping("listByPath")
+	@PostMapping("listByPath")
 	@RequiresAuthentication
-    public ApiRestResponse<List<FileDTO>> listByPath(@NotNull(message = "文件路径不能为空") @RequestParam("paths") List<String> paths){
+    public ApiRestResponse<List<FileData>> listByPath(
+			@Valid FileListByPathParam param,
+			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request){
 		try {
-			return ApiRestResponse.success(getFilestoreService().listByPath(paths));
+			
+			log.info("listByPath => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、执行文件删除操作
+			List<FileData> fileDatas = filestoreStrategyRouter.routeFor(param.getChannel()).listByPath(param.getPaths());
+			
+			return ApiRestResponse.success(fileDatas);
 		} catch (Exception e) {
 			return ApiRestResponse.error(e.getMessage());
 		}
 	}
 	
 	@ApiOperation(value = "文件服务：根据uuid查询文件信息", notes = "根据给出的文件Uuid获取文件信息")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "uuids", value = "文件Uuid集合", required = true, dataType = "java.util.List<String>")
-	})
-	@GetMapping("listByUuid")
+	@PostMapping("listByUuid")
 	@RequiresAuthentication
-    public ApiRestResponse<List<FileDTO>> listByUuid(@NotNull(message = "文件UUid不能为空") @RequestParam("uuids") List<String> uuids){
+    public ApiRestResponse<List<FileData>> listByUuid(
+			@Valid FileListByUuidParam param,
+			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request){
 		try {
-			return ApiRestResponse.success(getFilestoreService().listByUuid(uuids));
+			
+			log.info("listByUuid => appId：{}, appChannel：{}, appVersion：{},", appId, appChannel, appVersion);
+			
+			// 1、执行文件删除操作
+			List<FileData> fileDatas = filestoreStrategyRouter.routeFor(param.getChannel()).listByPath(param.getUuids());
+			
+			return ApiRestResponse.success(fileDatas);
 		} catch (Exception e) {
 			return ApiRestResponse.error(e.getMessage());
 		}
 	}
 	
 	@ApiOperation(value = "文件服务：根据path下载文件", notes = "根据给出的文件相对路径下载文件")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "path", value = "要下载的文件path", required = true, dataType = "String")
-	})
     @GetMapping("downloadByPath")
 	@RequiresAuthentication
-	public ResponseEntity<byte[]> downloadByPath(@NotNull(message = "文件路径不能为空") @RequestParam("path") String path){
+	public ResponseEntity<byte[]> downloadByPath(
+			@Valid FileDownloadByPathParam param,
+			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request){
 
 		ResponseEntity<byte[]> entity = null;
 		try {
 
-			FileDownloadDTO downloadDTO = getFilestoreService().downloadByPath(path);
-			if (downloadDTO != null) {
-
+			log.info("downloadByPath => appId：{}, appChannel：{}, appVersion：{}, path：{}", appId, appChannel, appVersion, param.getPath());
+			
+			FileDownloadResult downloadRt = filestoreStrategyRouter.routeFor(param.getChannel()).downloadByPath(param.getPath());
+			if (Objects.nonNull(downloadRt)) {
+				
+				String filename = downloadRt.getFile().getName();
+				
 				// 定义http头 ，状态
 				HttpHeaders header = new HttpHeaders();
-				header.add("Content-Disposition", "attchement;filename=" + downloadDTO.getName());
-				header.setContentType(MediaTypeFactory.getMediaType(downloadDTO.getName()).get());
+				header.add("Content-Disposition", "attchement;filename=" + filename);
+				header.setContentType(MediaTypeFactory.getMediaType(filename).get());
 
 				// 定义ResponseEntity封装返回信息
-				return new ResponseEntity<byte[]>(downloadDTO.getBytes(), header, HttpStatus.OK);
+				return new ResponseEntity<byte[]>(downloadRt.getBytes(), header, HttpStatus.OK);
 
 			}
 
@@ -219,25 +407,32 @@ public class FilestoreController extends BaseApiController {
 	}
 
 	@ApiOperation(value = "文件服务：根据uuid下载文件", notes = "根据给出的文件Uuid下载文件")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "uuid", value = "要下载的文件Uuid", required = true, dataType = "String")
-	})
-    @GetMapping("downloadByUuid")
+	@GetMapping("downloadByUuid")
 	@RequiresAuthentication
-	public ResponseEntity<byte[]> downloadByUuid( @NotNull(message = "文件Uuid不能为空") @RequestParam("uuid") String uuid) throws Exception {
+	public ResponseEntity<byte[]> downloadByUuid(
+			@Valid FileDownloadByUuidParam param,
+			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
+			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
+			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
+			@ApiIgnore HttpServletRequest request) throws Exception {
 		ResponseEntity<byte[]> entity = null;
 		try {
-
-			FileDownloadDTO downloadDTO = getFilestoreService().downloadByUuid(uuid);
-			if (downloadDTO != null) {
-
+			
+			log.info("downloadByUuid => appId：{}, appChannel：{}, appVersion：{}, path：{}", appId, appChannel, appVersion, param.getUuid());
+			
+			FileDownloadResult downloadRt = filestoreStrategyRouter.routeFor(param.getChannel()).downloadByUuid(param.getUuid());
+			if (Objects.nonNull(downloadRt)) {
+				
+				String filename = downloadRt.getFile().getName();
+				
 				// 定义http头 ，状态
 				HttpHeaders header = new HttpHeaders();
-				header.add("Content-Disposition", "attchement;filename=" + downloadDTO.getName());
-				header.setContentType(MediaTypeFactory.getMediaType(downloadDTO.getName()).get());
+				header.add("Content-Disposition", "attchement;filename=" + filename);
+				header.setContentType(MediaTypeFactory.getMediaType(filename).get());
 
 				// 定义ResponseEntity封装返回信息
-				return new ResponseEntity<byte[]>(downloadDTO.getBytes(), header, HttpStatus.OK);
+				return new ResponseEntity<byte[]>(downloadRt.getBytes(), header, HttpStatus.OK);
 
 			}
 
@@ -246,10 +441,6 @@ public class FilestoreController extends BaseApiController {
 		}
 
 		return entity;
-	}
-	
-	public IFilestoreService getFilestoreService() {
-		return filestoreService;
 	}
 	
 }

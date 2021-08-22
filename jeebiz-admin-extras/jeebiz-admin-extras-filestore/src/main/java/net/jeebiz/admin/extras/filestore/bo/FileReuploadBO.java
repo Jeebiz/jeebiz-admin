@@ -10,19 +10,24 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@ApiModel(value = "FilesUploadBO", description = "多文件上传BO")
+@ApiModel(value = "FileReuploadBO", description = "文件重新上传BO")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilesUploadBO extends FileStoreBO {
-	
+public class FileReuploadBO extends FileStoreBO {
+
 	/**
-	 * 文件对象数组
+	 * 原文件UUID
 	 */
-	@ApiModelProperty(name = "files", required = true, value = "文件对象数组")
-	private MultipartFile[] files;
+	@ApiModelProperty(name = "uuid", value = "原文件UUID")
+	private String uuid;
+	/**
+	 * 文件对象
+	 */
+	@ApiModelProperty(name = "file", required = true, value = "文件对象")
+	private MultipartFile file;
 	/**
 	 * 缩放长度
 	 */

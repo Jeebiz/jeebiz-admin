@@ -1,6 +1,6 @@
 package net.jeebiz.admin.extras.filestore.bo;
 
-import java.io.InputStream;
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 
-@ApiModel(value = "FileUploadResult", description = "文件上传结果")
+@ApiModel(value = "FilesInfoResult", description = "多文件信息")
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUploadResult {
+public class FileListResult {
 	
 	/**
 	 * 发起文件存储的用户uid
@@ -29,19 +29,10 @@ public class FileUploadResult {
 	private FilestoreChannel channel;
 	
 	/**
-	 * 文件对象
+	 * 文件对象数组
 	 */
-	@ApiModelProperty(name = "file", required = true, value = "文件对象")
-	private FileData file;
-	
-	/*
-	 * 文件字节码
-	 */
-	private byte[] bytes;
-	/**
-	 * 文件流对象
-	 */
-	private InputStream stream;
+	@ApiModelProperty(name = "files", required = true, value = "文件对象数组")
+	private List<FileData> files;
 	
     /**
 	 * 文件上传状态（ 0：上传失败、1：上传成功）

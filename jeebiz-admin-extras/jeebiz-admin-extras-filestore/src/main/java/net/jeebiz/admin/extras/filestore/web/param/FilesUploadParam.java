@@ -1,27 +1,26 @@
-package net.jeebiz.admin.extras.filestore.bo;
+package net.jeebiz.admin.extras.filestore.web.param;
+
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 
-@ApiModel(value = "FilesUploadBO", description = "多文件上传BO")
+@ApiModel(value = "FileUploadParam", description = "文件上传参数")
 @Data
-@EqualsAndHashCode(callSuper=false)
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
-public class FilesUploadBO extends FileStoreBO {
-	
+public class FilesUploadParam {
+
+	@ApiModelProperty(name = "channel", value = "存储目标")
+	@NotNull(message = "存储目标不能为空") 
+	private FilestoreChannel channel;
 	/**
 	 * 文件对象数组
 	 */
 	@ApiModelProperty(name = "files", required = true, value = "文件对象数组")
+	@NotNull(message = "文件不能为空")
 	private MultipartFile[] files;
 	/**
 	 * 缩放长度

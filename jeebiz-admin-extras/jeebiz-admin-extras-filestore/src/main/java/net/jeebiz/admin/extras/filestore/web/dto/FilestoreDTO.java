@@ -5,6 +5,7 @@ import java.util.Set;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
 
 @ApiModel(value = "FilestoreDTO", description = "文件存储信息DTO")
 @Data
@@ -25,7 +26,7 @@ public class FilestoreDTO {
     @ApiModelProperty(name = "ext", dataType = "String", value = "文件类型")
     private String ext;
     @ApiModelProperty(name = "metadata", dataType = "java.util.Set<FileMetaDataDTO>", value = "文件元信息")
-    private Set<FileMetaDataDTO> metadata;
+    private Set<FileMetaData> metadata;
 
 }
 

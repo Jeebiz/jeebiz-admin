@@ -41,6 +41,11 @@ public abstract class FileStoreBO {
 	@ApiModelProperty(name = "ipAddress", required = true, value = "文件存储来IP地址")
 	private String ipAddress;
 	/**
+	 * 文件存储桶的名称
+	 */
+	@ApiModelProperty(name = "bucketName", required = true, value = "文件存储桶的名称")
+	private String bucketName;
+	/**
 	 * 发起文件存储的用户uid
 	 */
 	@ApiModelProperty(name = "userId", required = true, value = "发起文件存储的用户uid")

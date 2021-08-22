@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import lombok.extern.slf4j.Slf4j;
+import net.jeebiz.admin.extras.filestore.bo.FileDeleteBO;
 import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
+import net.jeebiz.admin.extras.filestore.bo.FilesUploadBO;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 
 @Component
@@ -32,7 +34,22 @@ public class FilestoreStrategyRouter implements InitializingBean {
         log.info("smsSendStrategyMap:{}", map);
     }
     
+	public FilestoreStrategy routeFor(FilestoreChannel channel) {
+        FilestoreStrategy orderStrategy = map.get(channel);
+        return orderStrategy;
+    }
+	
 	public <O extends FileUploadBO> FilestoreStrategy routeFor(O smsBo) {
+        FilestoreStrategy orderStrategy = map.get(smsBo.getChannel());
+        return orderStrategy;
+    }
+	
+	public <O extends FilesUploadBO> FilestoreStrategy routeFor(O smsBo) {
+        FilestoreStrategy orderStrategy = map.get(smsBo.getChannel());
+        return orderStrategy;
+    }
+
+	public <O extends FileDeleteBO> FilestoreStrategy routeFor(O smsBo) {
         FilestoreStrategy orderStrategy = map.get(smsBo.getChannel());
         return orderStrategy;
     }

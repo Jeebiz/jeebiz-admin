@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.web.dto;
+package net.jeebiz.admin.extras.filestore.bo;
 
 import lombok.Data;
 

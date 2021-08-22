@@ -1,7 +1,5 @@
 package net.jeebiz.admin.extras.filestore.bo;
 
-import java.io.InputStream;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,12 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 
-@ApiModel(value = "FileUploadResult", description = "文件上传结果")
+@ApiModel(value = "FileReuploadResult", description = "文件重新上传结果")
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUploadResult {
+public class FileReuploadResult {
 	
 	/**
 	 * 发起文件存储的用户uid
@@ -33,15 +31,6 @@ public class FileUploadResult {
 	 */
 	@ApiModelProperty(name = "file", required = true, value = "文件对象")
 	private FileData file;
-	
-	/*
-	 * 文件字节码
-	 */
-	private byte[] bytes;
-	/**
-	 * 文件流对象
-	 */
-	private InputStream stream;
 	
     /**
 	 * 文件上传状态（ 0：上传失败、1：上传成功）

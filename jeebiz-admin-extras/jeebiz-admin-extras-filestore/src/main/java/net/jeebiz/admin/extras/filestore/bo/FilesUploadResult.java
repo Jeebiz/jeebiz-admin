@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
-import net.jeebiz.admin.extras.filestore.web.dto.FileDTO;
 
 @ApiModel(value = "FilesUploadResult", description = "多文件上传结果")
 @Data
@@ -33,7 +32,7 @@ public class FilesUploadResult {
 	 * 文件对象数组
 	 */
 	@ApiModelProperty(name = "files", required = true, value = "文件对象数组")
-	private List<FileDTO> files;
+	private List<FileData> files;
 	
     /**
 	 * 文件上传状态（ 0：上传失败、1：上传成功）

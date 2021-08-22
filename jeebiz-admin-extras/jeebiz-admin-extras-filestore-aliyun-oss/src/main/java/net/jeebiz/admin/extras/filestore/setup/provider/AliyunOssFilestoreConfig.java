@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.jeebiz.admin.extras.filestore.web.dto.FilestoreConfig;
+import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
 
 @ApiModel(value = "AliyunOssFilestoreConfig", description = "阿里云对外Oss公开配置")
 @Data

@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.web.dto;
+package net.jeebiz.admin.extras.filestore.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileMetaDataDTO {
+public class FileMetaData {
 
 	private String name;
 
