@@ -5,6 +5,8 @@
 package net.jeebiz.admin.extras.filestore.strategy;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,12 +51,13 @@ import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
 import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
-import net.jeebiz.admin.extras.filestore.setup.config.AliyunOssProperties;
 import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.utils.CalendarUtils;
 
 @Component
+@Configuration
+@EnableConfigurationProperties({ AliyunOssProperties.class })
 @Slf4j
 public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 
@@ -65,8 +70,6 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 	private OSS ossClient;
 	@Autowired
 	private AliyunOssProperties ossProperties;
-	@Autowired
-	private AliyunOssTemplate ossTemplate;
 
 	@Override
 	public FilestoreChannel getChannel() {
@@ -168,10 +171,10 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 			attDTO.setUuid(uuid);
 			attDTO.setName(file.getOriginalFilename());
 			attDTO.setPath(storePath.getPath());
-			attDTO.setUrl(getOssTemplate().getAccsssURL(storePath));
+			attDTO.setUrl(this.getAccsssURL(storePath));
 			if(StringUtils.isNotBlank(storePath.getThumb())) {
 				attDTO.setThumb(storePath.getThumb());
-				attDTO.setThumbUrl(getOssTemplate().getThumbAccsssURL(storePath));
+				attDTO.setThumbUrl(this.getThumbAccsssURL(storePath));
 			}
 			attDTO.setExt(FilenameUtils.getExtension(file.getOriginalFilename()));
 			
@@ -198,10 +201,10 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 			attDTO.setUuid(entity.getUuid());
 			attDTO.setName(entity.getName());
 			attDTO.setPath(entity.getPath());
-			attDTO.setUrl(getOssTemplate().getAccsssURL(entity.getGroup1(), entity.getPath()));
+			attDTO.setUrl(this.getAccsssURL(entity.getGroup1(), entity.getPath()));
 			if(StringUtils.isNoneBlank(entity.getThumb())) {
 				attDTO.setThumb(entity.getThumb());
-				attDTO.setThumbUrl(getOssTemplate().getAccsssURL(entity.getGroup1(), entity.getThumb()));
+				attDTO.setThumbUrl(this.getAccsssURL(entity.getGroup1(), entity.getThumb()));
 			}
 			attDTO.setExt(entity.getExt());
 			// 文件元数据
@@ -309,12 +312,28 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
         
 	}
 	
-	public OSS getOssClient() {
-		return ossClient;
+	public String getAccsssURL(String bucket, String path) throws Exception {
+		// 过期时间为当日23:59:59
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date expiration = new Date(cal.getTimeInMillis());
+		return getOssClient().generatePresignedUrl(bucket, path, expiration).toString();
 	}
 	
-	public AliyunOssTemplate getOssTemplate() {
-		return ossTemplate;
+	public String getAccsssURL(AliyunOssStorePath storePath) throws Exception {
+		return this.getAccsssURL(storePath.getBucket(), storePath.getPath());
+	}
+	
+	public String getThumbAccsssURL(AliyunOssStorePath storePath) throws Exception {
+		return this.getAccsssURL(storePath.getBucket(), storePath.getThumb());
+	}
+	
+	public OSS getOssClient() {
+		return ossClient;
 	}
 	
 }

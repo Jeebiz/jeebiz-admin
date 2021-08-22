@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.jeebiz.admin.extras.filestore.setup.config;
+package net.jeebiz.admin.extras.filestore.strategy;
 
 import static com.alibaba.cloud.spring.boot.oss.OssConstants.PREFIX;
 
