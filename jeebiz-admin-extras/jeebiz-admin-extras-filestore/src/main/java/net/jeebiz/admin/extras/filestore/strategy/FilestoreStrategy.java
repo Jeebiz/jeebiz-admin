@@ -1,5 +1,6 @@
 package net.jeebiz.admin.extras.filestore.strategy;
 
+import net.jeebiz.admin.extras.filestore.bo.FileDeleteBO;
 import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
 import net.jeebiz.admin.extras.filestore.bo.FileUploadResult;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
@@ -26,6 +27,6 @@ public interface FilestoreStrategy {
 	
 	<O extends FileUploadBO> FileUploadResult reupload(O uploadBo) throws Exception;
 	
-	<O extends FileUploadBO> boolean check(O uploadBo) throws Exception;
+	<O extends FileDeleteBO> boolean delete(O deleteBo) throws Exception;
 	
 }

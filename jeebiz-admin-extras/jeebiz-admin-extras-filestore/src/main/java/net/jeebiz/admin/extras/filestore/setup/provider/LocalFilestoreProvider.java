@@ -51,9 +51,7 @@ public class LocalFilestoreProvider implements FilestoreProvider {
 	
 	@Override
 	public FilestoreConfig getConfig() {
-		FilestoreConfig config = new FilestoreConfig();
-		config.setEndpoint(filestoreProperties.getEndpoint());
-		return config;
+		 
 	}
 	
 	@Override

@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 	
 	<properties>
-		<jeebiz-admin.version>1.0.1-ce-SNAPSHOT</jeebiz-admin.version>
+		<jeebiz-admin.version>1.0.2-ce-SNAPSHOT</jeebiz-admin.version>
 		<jeebiz-fastxls.version>1.0.0-SNAPSHOT</jeebiz-fastxls.version>
 	</properties>
 

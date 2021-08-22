@@ -1,7 +1,5 @@
 package net.jeebiz.admin.extras.filestore.bo;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,19 +8,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@ApiModel(value = "FileUploadBO", description = "文件上传BO")
+@ApiModel(value = "LocalFileUploadBO", description = "文件上传BO")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUploadBO extends FileStoreBO {
+public class LocalFileUploadBO extends FileUploadBO {
 	
-	/**
-	 * 文件对象
-	 */
-	@ApiModelProperty(name = "file", required = true, value = "文件对象")
-	private MultipartFile file;
 	/**
 	 * 缩放长度
 	 */

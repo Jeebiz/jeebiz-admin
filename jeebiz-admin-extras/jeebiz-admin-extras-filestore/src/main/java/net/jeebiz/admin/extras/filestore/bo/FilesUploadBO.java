@@ -10,13 +10,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@ApiModel(value = "FileUploadBO", description = "文件上传BO")
+@ApiModel(value = "FilesUploadBO", description = "多文件上传BO")
 @Data
 @EqualsAndHashCode(callSuper=false)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileUploadBO extends FileStoreBO {
+public class FilesUploadBO extends FileStoreBO {
 	
 	/**
 	 * 文件对象
