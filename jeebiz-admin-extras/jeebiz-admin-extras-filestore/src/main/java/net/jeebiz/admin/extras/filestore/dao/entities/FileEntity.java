@@ -56,24 +56,19 @@ public class FileEntity extends BaseEntity<FileEntity> implements Comparable<Fil
 	@TableField(value = "source_ip")
 	private String ipAddress;
 	/**
-	 * 请求来源国：根据支付请求IP地址解析
+	 * 请求来源国：根据请求IP地址解析
 	 */
 	@TableField(value = "source_country")
 	private String country;
 	/**
-	 * 发送渠道
-	 */
-	@TableField(value = "f_channel")
-	private FilestoreChannel channel;
-	/**
 	 * 文件UUid
 	 */
-	@TableField(value = "file_uuid")
+	@TableField(value = "f_uuid")
 	private String uuid;
 	/**
 	 * 文件类型
 	 */
-	@TableField(value = "file_ext")
+	@TableField(value = "f_ext")
 	private String ext;
 	/**
 	 * 文件名
@@ -81,10 +76,10 @@ public class FileEntity extends BaseEntity<FileEntity> implements Comparable<Fil
 	@TableField(value = "f_name")
 	private String name;
 	/**
-	 * 文件存储目标：local:服务本地,fdfs:FastDFS存储服务,oss:阿里云对象存储
+	 * 文件存储目标
 	 */
-	@TableField(value = "f_store")
-	private String store;
+	@TableField(value = "f_channel")
+	private FilestoreChannel channel;
 	/**
 	 * 文件存储分组或存储桶
 	 */

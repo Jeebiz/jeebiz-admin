@@ -17,7 +17,7 @@ public class FileDeleteParam {
 	/**
 	 * 要删除文件的uuid
 	 */
-	@ApiModelProperty(name = "uuids", value = "要删除文件的uuid")
+	@ApiModelProperty(name = "uuid", value = "要删除文件的uuid")
 	@NotNull(message = "文件UUid不能为空")
 	private String uuid;
 

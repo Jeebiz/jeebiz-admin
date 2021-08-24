@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -172,7 +173,7 @@ public class FilestoreController extends BaseApiController {
 	@PostMapping("delete")
 	@RequiresAuthentication
 	public ApiRestResponse<String> delete(
-			@Valid FileDeleteParam param,
+			@Valid @RequestBody FileDeleteParam param,
 			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
@@ -209,7 +210,7 @@ public class FilestoreController extends BaseApiController {
 	@PostMapping("deleteByPath")
 	@RequiresAuthentication
 	public ApiRestResponse<String> deleteByPath(
-			@Valid FileDeleteByPathParam param,
+			@Valid @RequestBody FileDeleteByPathParam param,
 			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
@@ -247,7 +248,7 @@ public class FilestoreController extends BaseApiController {
 	@PostMapping("deleteByUuid")
 	@RequiresAuthentication
 	public ApiRestResponse<String> deleteByUuid(
-			@Valid FileDeleteByUuidParam param,
+			@Valid @RequestBody FileDeleteByUuidParam param,
 			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
@@ -326,7 +327,7 @@ public class FilestoreController extends BaseApiController {
 	@PostMapping("listByPath")
 	@RequiresAuthentication
     public ApiRestResponse<List<FileData>> listByPath(
-			@Valid FileListByPathParam param,
+			@Valid @RequestBody FileListByPathParam param,
 			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
@@ -349,7 +350,7 @@ public class FilestoreController extends BaseApiController {
 	@PostMapping("listByUuid")
 	@RequiresAuthentication
     public ApiRestResponse<List<FileData>> listByUuid(
-			@Valid FileListByUuidParam param,
+			@Valid @RequestBody FileListByUuidParam param,
 			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
@@ -372,7 +373,7 @@ public class FilestoreController extends BaseApiController {
     @GetMapping("downloadByPath")
 	@RequiresAuthentication
 	public ResponseEntity<byte[]> downloadByPath(
-			@Valid FileDownloadByPathParam param,
+			@Valid @RequestBody FileDownloadByPathParam param,
 			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
@@ -410,7 +411,7 @@ public class FilestoreController extends BaseApiController {
 	@GetMapping("downloadByUuid")
 	@RequiresAuthentication
 	public ResponseEntity<byte[]> downloadByUuid(
-			@Valid FileDownloadByUuidParam param,
+			@Valid @RequestBody FileDownloadByUuidParam param,
 			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,

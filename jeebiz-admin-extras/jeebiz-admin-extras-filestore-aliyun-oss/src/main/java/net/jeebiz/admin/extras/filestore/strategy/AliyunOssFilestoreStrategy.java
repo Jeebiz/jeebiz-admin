@@ -48,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.extras.filestore.bo.FileData;
 import net.jeebiz.admin.extras.filestore.bo.FileDownloadResult;
 import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
+import net.jeebiz.admin.extras.filestore.bo.FileStoreBO;
 import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
@@ -64,7 +65,8 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 
 	private static final String ORIGINAL_FILE_NAME = "Original-File-Name";
 	private static final String X_OSS_PROCESS = "?x-oss-process=image/resize,m_fill,h_%d,w_%d,limit_0";
-	private static final AliyunOssGetObjectProgressListener progressListener = new AliyunOssGetObjectProgressListener();
+	private static final AliyunOssPutObjectProgressListener putProgressListener = new AliyunOssPutObjectProgressListener();
+	private static final AliyunOssGetObjectProgressListener getProgressListener = new AliyunOssGetObjectProgressListener();
 	
 	@Autowired
 	private OSS ossClient;
@@ -159,8 +161,10 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 	}
 
 	@Override
-	protected FileData handleFileUpload(MultipartFile file, int width, int height) throws Exception {
+	protected FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, int width, int height) throws Exception {
 		try {
+			
+			uploadBo.setBucketName(ossProperties.getBucketName());
 			
 			// 文件存储结果
         	AliyunOssStorePath storePath = this.storeFile(file, width, height);
@@ -230,7 +234,7 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 		
 		// ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
 		OSSObject ossObject = getOssClient().getObject(new GetObjectRequest(entity.getGroup1(), entity.getPath()).
-                <GetObjectRequest>withProgressListener(progressListener));
+                <GetObjectRequest>withProgressListener(getProgressListener));
 		
 		// 文件元数据
 		try {
@@ -298,7 +302,7 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 	        
     	// 创建PutObjectRequest对象。
 		PutObjectRequest putObjectRequest = new PutObjectRequest(ossProperties.getBucketName(), filePath.toString(), file.getInputStream()).
-                <PutObjectRequest>withProgressListener(progressListener);
+                <PutObjectRequest>withProgressListener(putProgressListener);
 		
 		// 设置元信息
 		Map<String, String> userMetadata = new HashMap<>();

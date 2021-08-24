@@ -18,6 +18,7 @@ import hitool.core.lang3.time.DateUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import net.jeebiz.admin.extras.filestore.bo.FileData;
 import net.jeebiz.admin.extras.filestore.bo.FileDownloadResult;
+import net.jeebiz.admin.extras.filestore.bo.FileStoreBO;
 import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
@@ -49,8 +50,10 @@ public class LocalFilestoreStrategy extends AbstractFilestoreStrategy {
 	}
 	
 	@Override
-	protected FileData handleFileUpload(MultipartFile file, int width, int height) throws Exception {
+	protected FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, int width, int height) throws Exception {
 		try {
+			
+			uploadBo.setBucketName(groupName);
 			
 			// 文件存储目录
 			File fileDir = AttUtils.getTargetDir(getFilestoreProperties().getUserDir(), groupName);

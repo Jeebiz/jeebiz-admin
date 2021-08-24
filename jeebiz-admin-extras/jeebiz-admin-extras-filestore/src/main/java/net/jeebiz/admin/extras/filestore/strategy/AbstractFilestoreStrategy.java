@@ -34,7 +34,6 @@ import net.jeebiz.admin.extras.filestore.bo.FilesUploadBO;
 import net.jeebiz.admin.extras.filestore.bo.FilesUploadResult;
 import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.sequence.Sequence;
@@ -101,7 +100,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 
 	protected final <O extends FileUploadBO> FileUploadResult handleUpload(O uploadBo) throws Exception{
 		
-		FileData fileDto = this.handleFileUpload(uploadBo.getFile(), uploadBo.getWidth(), uploadBo.getHeight());
+		FileData fileDto = this.handleFileUpload(uploadBo, uploadBo.getFile(), uploadBo.getWidth(), uploadBo.getHeight());
 		
 		FileUploadResult uploadRt = FileUploadResult.builder()
 				.channel(uploadBo.getChannel())
@@ -158,7 +157,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		
 		List<FileData> fileList = Lists.newArrayList();
 		for (MultipartFile file : uploadBo.getFiles()) {
-			FileData fileDto = this.handleFileUpload(file, uploadBo.getWidth(), uploadBo.getHeight());
+			FileData fileDto = this.handleFileUpload(uploadBo, file, uploadBo.getWidth(), uploadBo.getHeight());
 			fileList.add(fileDto);
 		}
 		
@@ -183,7 +182,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		
 	};
 
-	protected abstract FileData handleFileUpload(MultipartFile file, int width, int height) throws Exception;
+	protected abstract FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, int width, int height) throws Exception;
 	
 	@Override
 	@Transactional
@@ -256,7 +255,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		}
 		
 		// 2、上传新文件
-		FileData fileDto = this.handleFileUpload(uploadBo.getFile(), uploadBo.getWidth(), uploadBo.getHeight());
+		FileData fileDto = this.handleFileUpload(uploadBo, uploadBo.getFile(), uploadBo.getWidth(), uploadBo.getHeight());
 		
 		// 3、删除旧的文件
 		this.handleFileDelete(fileEntity); 
@@ -287,7 +286,6 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
     			.country(countryByIp)
     			.ext(file.getExt())
     			.name(file.getName())
-    			.store(uploadBo.getChannel().getKey())
     			.group1(uploadBo.getBucketName())
     			.path(file.getPath())
     			.thumb(file.getThumb())
@@ -342,7 +340,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 			throw new BizRuntimeException(path + "指向的文件不存在");
 		}
 		FileDownloadResult downloadRt = FileDownloadResult.builder()
-				.channel(FilestoreChannel.valueOf(entity.getStore()))
+				.channel(entity.getChannel())
 				.file(this.handleFileMetadata(entity))
 				.status(1)
 				.userId(entity.getUserId())
@@ -359,7 +357,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 			throw new BizRuntimeException(uuid + "指向的文件不存在");
 		}
 		FileDownloadResult downloadRt = FileDownloadResult.builder()
-				.channel(FilestoreChannel.valueOf(entity.getStore()))
+				.channel(entity.getChannel())
 				.file(this.handleFileMetadata(entity))
 				.status(1)
 				.userId(entity.getUserId())
