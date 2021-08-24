@@ -84,7 +84,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
     public ApiRestResponse<FileData> upload(
     		@Valid FileUploadParam param,
-    		@RequestHeader(XHeaders.X_APP_ID) String appId,
+    		@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1") String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -125,7 +125,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
     public ApiRestResponse<List<FileData>> uploads(
     		@Valid FilesUploadParam param,
-    		@RequestHeader(XHeaders.X_APP_ID) String appId,
+    		@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -173,7 +173,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
 	public ApiRestResponse<String> delete(
 			@Valid FileDeleteParam param,
-			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -210,7 +210,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
 	public ApiRestResponse<String> deleteByPath(
 			@Valid FileDeleteByPathParam param,
-			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -248,7 +248,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
 	public ApiRestResponse<String> deleteByUuid(
 			@Valid FileDeleteByUuidParam param,
-			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -285,7 +285,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
     public ApiRestResponse<FileData> reupload(
     		@Valid FileReuploadParam param,
-    		@RequestHeader(XHeaders.X_APP_ID) String appId,
+    		@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -327,7 +327,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
     public ApiRestResponse<List<FileData>> listByPath(
 			@Valid FileListByPathParam param,
-			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -350,7 +350,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
     public ApiRestResponse<List<FileData>> listByUuid(
 			@Valid FileListByUuidParam param,
-			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -373,7 +373,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
 	public ResponseEntity<byte[]> downloadByPath(
 			@Valid FileDownloadByPathParam param,
-			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
@@ -411,7 +411,7 @@ public class FilestoreController extends BaseApiController {
 	@RequiresAuthentication
 	public ResponseEntity<byte[]> downloadByUuid(
 			@Valid FileDownloadByUuidParam param,
-			@RequestHeader(XHeaders.X_APP_ID) String appId,
+			@RequestHeader(value = XHeaders.X_APP_ID, defaultValue = "1")  String appId,
 			@RequestHeader(value = XHeaders.X_APP_CHANNEL, defaultValue = "0") String appChannel,
 			@RequestHeader(value = XHeaders.X_APP_VERSION, defaultValue = "1.0.0") String appVersion,
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "en") String languageCode,
