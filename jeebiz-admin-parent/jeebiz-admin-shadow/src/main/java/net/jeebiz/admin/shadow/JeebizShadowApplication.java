@@ -4,6 +4,8 @@
  */
 package net.jeebiz.admin.shadow;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +20,6 @@ import com.beust.jcommander.internal.Lists;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
-import net.jeebiz.boot.extras.redis.setup.RedisLua;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
@@ -47,34 +48,27 @@ public class JeebizShadowApplication implements CommandLineRunner {
 		SpringApplication.run(JeebizShadowApplication.class, args);
 	}
 	
-	 public static final String LOCK_STOCK_LUA2 =  
-		      "if (redis.call('exists', KEYS[1]) == 1) then"
-		    + "    local stock = tonumber(redis.call('get', KEYS[1]));"
-		    + "    local num = tonumber(ARGV[1]);"
-		    + "    if (num <= 0) then"
-		    + "        return -4;"
-		    + "    end;"
-		    + "    if (stock <= 0) then"
-		    + "        return -1;"
-		    + "    end;"
-		    + "    if (stock >= num) then"
-		    + "        return redis.call('incrBy', KEYS[1], 0 - num);"
-		    + "    end;"
-		    + "    return -2;"
-		    + "end;"
-		    + "return -3;";
-	 
 	@Override
 	public void run(String... args) throws Exception {
 		
 		try {
-			//redisOperationTemplate.unlock("xax", "xas");
 			
-			//Long rtLong = redisOperationTemplate.luaIncr("test", -1200L);
-			//System.out.println(rtLong);
-			Long rtLong = redisOperationTemplate.executeLuaScript(LOCK_STOCK_LUA2, Long.class, Lists.newArrayList("test"), 31822);
+			// 加库存
+			//Long rtLong1 = redisOperationTemplate.executeLuaScript(RedisLua.INCR_SCRIPT, Long.class, Lists.newArrayList("test"), 5000);
+			//Long rtLong1 = redisOperationTemplate.luaIncr("test", 5000);
+			//System.out.println(rtLong1);
+			// 减库存
+			//Long rtLong2 = redisOperationTemplate.executeLuaScript(RedisLua.DECR_SCRIPT, Long.class, Lists.newArrayList("test"), 31822);
+			//Long rtLong2 = redisOperationTemplate.luaDecr("test", 31822);
+			//System.out.println(rtLong2);
+			// 加库存
+			Long rtLong3 = redisOperationTemplate.luaHincr("test2", "coin", 3822);
+			System.out.println(rtLong3);
+			// 减库存
+			//Long rtLong4 = redisOperationTemplate.executeLuaScript(RedisLua.HDECR_SCRIPT, Long.class, Lists.newArrayList("test2", "coin"), 343);
+			Long rtLong4 = redisOperationTemplate.luaHdecr("test2", "coin", 343);
+			System.out.println(rtLong4);
 			
-			System.out.println(rtLong);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
