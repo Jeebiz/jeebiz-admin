@@ -4,8 +4,6 @@
  */
 package net.jeebiz.admin.shadow;
 
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -15,8 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import com.beust.jcommander.internal.Lists;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import net.jeebiz.boot.autoconfigure.EnableJeebiz;
@@ -54,19 +50,16 @@ public class JeebizShadowApplication implements CommandLineRunner {
 		try {
 			
 			// 加库存
-			//Long rtLong1 = redisOperationTemplate.executeLuaScript(RedisLua.INCR_SCRIPT, Long.class, Lists.newArrayList("test"), 5000);
-			//Long rtLong1 = redisOperationTemplate.luaIncr("test", 5000);
-			//System.out.println(rtLong1);
+			Long rtLong1 = redisOperationTemplate.luaIncr("test", 5000);
+			System.out.println(rtLong1);
 			// 减库存
-			//Long rtLong2 = redisOperationTemplate.executeLuaScript(RedisLua.DECR_SCRIPT, Long.class, Lists.newArrayList("test"), 31822);
-			//Long rtLong2 = redisOperationTemplate.luaDecr("test", 31822);
-			//System.out.println(rtLong2);
+			Long rtLong2 = redisOperationTemplate.luaDecr("test", 500);
+			System.out.println(rtLong2);
 			// 加库存
 			Long rtLong3 = redisOperationTemplate.luaHincr("test2", "coin", 3822);
 			System.out.println(rtLong3);
 			// 减库存
-			//Long rtLong4 = redisOperationTemplate.executeLuaScript(RedisLua.HDECR_SCRIPT, Long.class, Lists.newArrayList("test2", "coin"), 343);
-			Long rtLong4 = redisOperationTemplate.luaHdecr("test2", "coin", 343);
+			Long rtLong4 = redisOperationTemplate.luaHdecr("test2", "coin", 451);
 			System.out.println(rtLong4);
 			
 		} catch (Exception e) {
