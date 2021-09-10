@@ -23,8 +23,8 @@ public interface IAuthzUserService extends IBaseMapperService<AuthzUserModel> {
 	 * 查询系统所有用户
 	 * @return
 	 */
-	public List<AuthzUserModel> getUserList();
-
+	List<AuthzUserModel> getUserList();
+	
 	/**
 	 * 当前用户设置密码
 	 * @param userId 用户id
@@ -32,7 +32,7 @@ public interface IAuthzUserService extends IBaseMapperService<AuthzUserModel> {
 	 * @param password    新密码
 	 * @return
 	 */
-	public int resetPwd(String userId,String oldPassword,String password);
+	int resetPwd(String userId,String oldPassword,String password);
 	
 	/**
 	 * 更新用户状态
@@ -40,7 +40,7 @@ public interface IAuthzUserService extends IBaseMapperService<AuthzUserModel> {
 	 * @param status 用户状态（0:禁用|1:可用|2:锁定）
 	 * @return
 	 */
-	public int setStatus( String userId, String status);
+	int setStatus( String userId, String status);
 	
 	/**
 	 * 执行用户分配角色逻辑操作
@@ -48,7 +48,7 @@ public interface IAuthzUserService extends IBaseMapperService<AuthzUserModel> {
 	 * @param model
 	 * @return
 	 */
-	public int doAllot(AuthzUserAllotRoleModel model);
+	int doAllot(AuthzUserAllotRoleModel model);
 	
 	/**
 	 * 取消已分配给指定用户的角色
@@ -56,38 +56,39 @@ public interface IAuthzUserService extends IBaseMapperService<AuthzUserModel> {
 	 * @param model
 	 * @return
 	 */
-	public int doUnAllot(AuthzUserAllotRoleModel model);
+	int doUnAllot(AuthzUserAllotRoleModel model);
 	
 	/**
 	 * 获取用户已分配角色id
 	 * @param userId 用户id
 	 * @return
 	 */
-	public List<AuthzRoleModel> getRoles(String userId);
+	List<AuthzRoleModel> getRoles(String userId);
 	
 	/**
 	 * 查询角色具备的权限标记 
 	 * @param userId 用户id
 	 * @return 用户所属角色具备的权限标记
 	 */
-	public List<String> getPermissions(String userId);
+	List<String> getPermissions(String userId);
 	
 	/**
 	 * 分页查询用户已分配角色信息
 	 * @param model
 	 * @return
 	 */
-	public Page<AuthzRoleModel> getPagedAllocatedList(AuthzUserModel model);
+	Page<AuthzRoleModel> getPagedAllocatedList(AuthzUserModel model);
 	
 	/**
 	 * 分页查询用户未分配角色信息
 	 * @param model
 	 * @return
 	 */
-	public Page<AuthzRoleModel> getPagedUnAllocatedList(AuthzUserModel model);
+	Page<AuthzRoleModel> getPagedUnAllocatedList(AuthzUserModel model);
 
 	int delete(String id);
 
 	int update(AuthzUserModel model);
+
 
 }

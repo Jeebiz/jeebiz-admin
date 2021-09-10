@@ -5,6 +5,7 @@
 package net.jeebiz.admin.authz.rbac0.web.mvc;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -47,6 +48,7 @@ import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserNewDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserPaginationDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserProfileDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserRenewDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserResetDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.annotation.AllowableValues;
@@ -117,7 +119,12 @@ public class AuthzUserController extends BaseMapperController {
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
-		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
+		AuthzUserDTO userDTO = getBeanMapper().map(model, AuthzUserDTO.class);
+		AuthzUserProfileModel profileModel = getAuthzUserProfileService().getProfile(principal.getUserid());
+		if(Objects.nonNull(profileModel)) {
+			userDTO.setProfile(getBeanMapper().map(profileModel, AuthzUserProfileDTO.class));
+		}
+		return ApiRestResponse.success(userDTO);
 	}
 	
 	@ApiOperation(value = "登录用户信息", notes = "根据认证信息中的用户id查询用户详情")
@@ -306,13 +313,26 @@ public class AuthzUserController extends BaseMapperController {
 		return success("user.unallot.success", total); 
 	}
 	
+	@ApiOperation(value = "重置信息：当前登录用户", notes = "重置当前登录用户信息")
+	@PostMapping("reset/info")
+	@RequiresAuthentication
+	public ApiRestResponse<String> resetInfo(@Valid @RequestBody AuthzUserResetDTO infoDTO  ) throws Exception {
+		// 密码加密
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		int total = getAuthzUserProfileService().resetInfo(principal.getUserid(), infoDTO);
+		if(total > 0) {
+			return success("user.reset.info.success", total); 
+		}
+		return fail("user.reset.info.fail", total);
+	}
+	
 	@ApiOperation(value = "重置密码：当前登录用户", notes = "重置当前登录用户密码")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "oldPassword", required = true, value = "当前密码", dataType = "String"),
 		@ApiImplicitParam(name = "password", required = true, value = "新密码", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "设置密码", opt = BusinessType.UPDATE)
-	@GetMapping("reset/pwd")
+	@PostMapping("reset/pwd")
 	@RequiresAuthentication
 	public ApiRestResponse<String> resetPwdSelf(@RequestParam(defaultValue = "123456") String oldPassword, @RequestParam String password) throws Exception {
 		// 密码加密

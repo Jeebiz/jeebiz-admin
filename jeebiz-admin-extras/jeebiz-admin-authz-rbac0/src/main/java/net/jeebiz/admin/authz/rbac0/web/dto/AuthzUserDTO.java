@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.authz.rbac0.web.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -84,6 +85,11 @@ public class AuthzUserDTO {
 	 */
 	@ApiModelProperty(name = "roleName", required = true, dataType = "String", value = "角色名称（可能多个组合，如：角色1,角色2）")
 	private String roleName;
+	/**
+	 * 用户状态（0:禁用|1:可用|2:锁定|3:密码过期）
+	 */
+	@ApiModelProperty(name = "status", required = true, value = "用户状态（0:禁用|1:可用|2:锁定|3:密码过期）")
+	private String status;
 	/**
 	 * 初始化时间
 	 */

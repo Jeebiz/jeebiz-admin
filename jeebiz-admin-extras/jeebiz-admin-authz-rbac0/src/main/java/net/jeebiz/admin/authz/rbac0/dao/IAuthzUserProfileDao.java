@@ -22,27 +22,34 @@ public interface IAuthzUserProfileDao extends BaseMapper<AuthzUserProfileModel>{
 	 * @param uid
 	 * @return
 	 */
-	public AuthzUserProfileModel getProfile(@Param("uid") String uid);
+	AuthzUserProfileModel getProfile(@Param("uid") String uid);
+
+	/**
+	 * 根据用户Id查询用户信息
+	 * @param model 参数
+	 * @return
+	 */
+	int updateProfile(AuthzUserProfileModel model);
 	
 	/**
 	 * 根据手机号查询相同手机号数量
 	 * @param phone 手机号码
 	 * @return
 	 */
-	public int getCountByPhone( @Param("phone") String phone, @Param("origin") String origin);
+	int getCountByPhone( @Param("phone") String phone, @Param("origin") String origin);
 
 	/**
 	 * 根据email查询相同手机号数量
 	 * @param email 手机号码
 	 * @return
 	 */
-	public int getCountByEmail( @Param("email") String email, @Param("origin") String origin);
+	int getCountByEmail( @Param("email") String email, @Param("origin") String origin);
 	
 	/**
 	 * 根据idcard查询相同身份证号数量
 	 * @param idcard 身份证号
 	 * @return
 	 */
-	public int getCountByIdcard( @Param("idcard") String idcard, @Param("origin") String origin);
+	int getCountByIdcard( @Param("idcard") String idcard, @Param("origin") String origin);
 	
 }

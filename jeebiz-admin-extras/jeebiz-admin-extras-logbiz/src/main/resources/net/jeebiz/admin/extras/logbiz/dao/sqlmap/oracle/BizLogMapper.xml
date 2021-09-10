@@ -58,7 +58,7 @@
 		<if test="model.begintime != null and model.begintime != '' and model.endtime != null and model.endtime != '' ">
 			<![CDATA[ AND to_date(t.create_time,  'yyyy-mm-dd HH24:mi:ss') BETWEEN to_date(#{model.begintime},  'yyyy-mm-dd HH24:mi:ss') AND to_date(#{model.endtime},  'yyyy-mm-dd HH24:mi:ss') ]]>
 		</if>
-		ORDER BY to_date(t.create_time,  'yyyy-mm-dd HH24:mi:ss') DESC
+		ORDER BY t.log_id DESC
 	</select>
 	
 </mapper>

@@ -51,24 +51,7 @@
 		<result property="createTime" column="create_time"/>
 	</resultMap>
 	
-	<insert id="insert" parameterType="AuthzUserProfileModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-	    INSERT INTO sys_authz_user_profile(u_id, u_nickname, u_avatar, u_country_code, u_phone,
-			u_email, u_birthday, u_gender, u_idcard,
-			u_age, u_height, u_weight, u_language, u_intro,
-			u_photos, u_province, u_city, u_area,
-			u_wgs84_lng, u_wgs84_lat, u_degree)
-		VALUES(#{uid},#{nickname},#{avatar},#{countryCode,jdbcType=VARCHAR}, #{phone},
-			#{email,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{gender}, #{idcard,jdbcType=VARCHAR},
-			#{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, #{language}, #{intro,jdbcType=VARCHAR},
-			#{photos,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR},#{area,jdbcType=VARCHAR},
-			#{longitude,jdbcType=DOUBLE},#{latitude,jdbcType=DOUBLE},#{degree,jdbcType=INTEGER})
-	</insert>
-	
-	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_user_profile WHERE u_id = #{id}
-	</delete>
-	
-	<update id="update" parameterType="AuthzUserProfileModel" flushCache="true">
+	<update id="updateProfile" parameterType="AuthzUserProfileModel" flushCache="true">
 		update sys_authz_user_profile t
 		<set>
 			<if test="nickname != null and nickname != ''">t.u_nickname = #{nickname},</if>

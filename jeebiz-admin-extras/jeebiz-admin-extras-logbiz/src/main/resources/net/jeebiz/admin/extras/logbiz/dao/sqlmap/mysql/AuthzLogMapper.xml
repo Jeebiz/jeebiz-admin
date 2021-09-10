@@ -54,7 +54,7 @@
 				<![CDATA[ AND t.create_time BETWEEN UNIX_TIMESTAMP(#{model.begintime}) AND UNIX_TIMESTAMP( #{model.endtime}) ]]> 
 			</if>
 		</where>
-		ORDER BY t.create_time DESC
+		ORDER BY t.log_id DESC
 	</select>
 	
 </mapper>

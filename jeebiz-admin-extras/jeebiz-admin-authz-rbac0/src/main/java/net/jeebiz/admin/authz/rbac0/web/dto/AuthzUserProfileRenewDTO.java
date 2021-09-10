@@ -48,11 +48,11 @@ public class AuthzUserProfileRenewDTO {
 	@Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "无效的手机号")
 	private String phone;
 	/**
-	 * 性别：（M：男，F：女）
+	 * 性别：（1：男，2：女）
 	 */
-	@ApiModelProperty(name = "gender", required = true, dataType = "String", value = "性别：（M：男，F：女）")
+	@ApiModelProperty(name = "gender", required = true, dataType = "String", value = "性别：（1：男，2：女）")
 	@NotBlank(message = "性别必填")
-	private String gender;
+	private Integer gender;
 	/**
 	 * 电子邮箱
 	 */

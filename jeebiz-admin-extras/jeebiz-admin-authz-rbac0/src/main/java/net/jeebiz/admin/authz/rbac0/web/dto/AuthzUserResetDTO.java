@@ -19,12 +19,12 @@ public class AuthzUserResetDTO {
 	/**
 	 * 用户别名（昵称）
 	 */
-	@ApiModelProperty(name = "alias", dataType = "String", value = "用户昵称")
-	private String alias;
+	@ApiModelProperty(name = "nickname", dataType = "String", value = "用户昵称")
+	private String nickname;
 	/**
 	 * 用户头像：图片路径或图标样式
 	 */
-	@ApiModelProperty(name = "avatar", dataType = "String", value = " 用户头像：图片路径或图标样式")
+	@ApiModelProperty(name = "avatar", dataType = "String", value = "用户头像：图片路径或图标样式")
 	private String avatar;
 	/**
 	 * 职位信息
@@ -47,10 +47,10 @@ public class AuthzUserResetDTO {
 	@ApiModelProperty(name = "remark", dataType = "String", value = "用户备注")
 	private String remark;
 	/**
-	 * 性别：（male：男，female：女）
+	 * 性别：（1：男，2：女）
 	 */
-	@ApiModelProperty(name = "gender", dataType = "String", value = "性别：（male：男，female：女）")
-	private String gender;
+	@ApiModelProperty(name = "gender", dataType = "String", value = "性别：（1：男，2：女）")
+	private Integer gender;
 	/**
 	 * 出生日期
 	 */

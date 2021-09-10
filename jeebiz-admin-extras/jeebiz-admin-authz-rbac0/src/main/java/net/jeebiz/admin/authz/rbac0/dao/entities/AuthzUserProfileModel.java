@@ -69,10 +69,10 @@ public class AuthzUserProfileModel extends BaseEntity<AuthzUserProfileModel> {
 	@TableField(value = "u_birthday")
 	private String birthday;
 	/**
-	 * 性别：（M：男，F：女）
+	 * 性别：（1：男，2：女）
 	 */
 	@TableField(value = "u_gender")
-	private String gender;
+	private int gender;
 	/**
 	 * 身份证号码
 	 */
