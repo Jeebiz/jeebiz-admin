@@ -15,9 +15,8 @@
 		<result property="postName" column="post_name" />
 		<result property="intro" column="staff_intro" />
 		<result property="status" column="staff_status" />
-		<result property="time24" column="time24" />
-		<result property="username" column="u_username" />
-		<result property="alias" column="u_nickname" />
+		<result property="createTime" column="create_time" />
+		<result property="nickname" column="u_nickname" />
 		<result property="avatar" column="u_avatar" />
 		<result property="phone" column="u_phone" />
 		<result property="email" column="u_email" />
@@ -27,19 +26,6 @@
 		UPDATE sys_authz_org_staff t
 		   SET staff_status = #{status}
 		 WHERE staff_id = #{id}
-	</update>
-
-	<update id="update" parameterType="AuthzStaffModel" flushCache="true">
-		update sys_authz_org_staff t
-		<set>
-			<if test="orgId != null and orgId != ''">t.org_id = #{orgId},</if>
-			<if test="deptId != null and deptId != ''">t.dept_id = #{deptId},</if>
-			<if test="teamId != null and teamId != ''">t.team_id = #{teamId},</if>
-			<if test="postId != null and postId != ''">t.post_id = #{postId},</if>
-			<if test="intro != null and intro != ''">t.staff_intro = #{intro},</if>
-			<if test="time24 != null and time24 != ''">t.time24 = #{time24}</if>
-		</set>
-		where t.staff_id = #{id}
 	</update>
 
 	<select id="getCountByUid" resultType="int" parameterType="java.lang.String" useCache="false">
@@ -53,14 +39,13 @@
 			t.dept_id,
 			(select x.dept_name from sys_authz_org_dept x where x.dept_id = t.dept_id) as dept_name,
 			t.post_id,
-			(select x.post_name from sys_authz_org_position x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
+			(select x.post_name from sys_authz_org_post x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
 			t.team_id,
 			(select x.team_name from sys_authz_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
 			t.staff_id,
 			t.staff_intro,
 			t.staff_status,
-			t.time24,
-			t2.u_username,
+			t.create_time,
 			t2.u_nickname,
 			t2.u_avatar,
 			t2.u_phone,
@@ -79,11 +64,14 @@
 			<if test="model.postId != null and model.postId != ''">
 				and t.post_id = #{model.postId}
 			</if>
-			<if test="model.name != null and model.name != ''">
-				and ( t2.u_username like CONCAT('%',#{model.name},'%') OR t2.u_nickname like CONCAT('%',#{model.name},'%') )
+			<if test="model.postName != null and model.postName != ''">
+				and t.post_name like CONCAT('%',#{postName},'%')
+			</if>
+			<if test="model.nickname != null and model.nickname != ''">
+				and t2.u_nickname like CONCAT('%',#{model.nickname},'%')
 			</if>
 		</where>
-		ORDER By t.time24 ASC
+		ORDER By t.staff_id DESC
 	</select>
 
 	<select id="getModel" resultMap="AuthzStaffMap" parameterType="java.lang.String" useCache="true">
@@ -93,19 +81,18 @@
 			t.dept_id,
 			(select x.dept_name from sys_authz_org_dept x where x.dept_id = t.dept_id) as dept_name,
 			t.post_id,
-			(select x.post_name from sys_authz_org_position x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
+			(select x.post_name from sys_authz_org_post x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
 			t.team_id,
 			(select x.team_name from sys_authz_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
 			t.staff_id,
 			t.staff_intro,
 			t.staff_status,
-			t.time24,
-			t2.u_username,
+			t.create_time,
 			t2.u_nickname,
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email
-		FROM sys_authz_org_staff t inner join sys_authz_user_list t2 on t2.u_id = t.staff_id
+		FROM sys_authz_org_staff t inner join sys_authz_user_profile t2 on t2.u_id = t.staff_id
 	   WHERE t.staff_id = #{id}
 	</select>
     

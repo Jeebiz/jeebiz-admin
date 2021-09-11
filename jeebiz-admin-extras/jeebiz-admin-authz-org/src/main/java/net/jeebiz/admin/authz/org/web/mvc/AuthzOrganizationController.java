@@ -144,7 +144,7 @@ public class AuthzOrganizationController extends BaseMapperController {
 		@ApiImplicitParam(name = "status", required = true, value = "机构信息状态", dataType = "String", allowableValues = "1,0")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "更新机构信息状态", opt = BusinessType.UPDATE)
-	@GetMapping("status")
+	@PostMapping("status")
 	@RequiresPermissions("authz-org:status")
 	public ApiRestResponse<String> status(@RequestParam String id, @RequestParam String status) throws Exception {
 		int result = getAuthzOrganizationService().setStatus(id, status);
@@ -160,7 +160,7 @@ public class AuthzOrganizationController extends BaseMapperController {
 		@ApiImplicitParam(name = "id", value = "机构信息id", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "删除机构信息", opt = BusinessType.UPDATE)
-	@GetMapping("delete")
+	@PostMapping("delete")
 	@RequiresPermissions("authz-org:delete")
 	public ApiRestResponse<String> delete(@RequestParam("id") String id) throws Exception {
 		
