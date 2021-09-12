@@ -19,13 +19,7 @@ public class JwtTimeDatabaseProvider implements JwtTimeProvider {
 
 	@Override
 	public long now() {
-		try {
-			String nowString = getCommonDao().getNow();
-			return DateUtils.parseDate(nowString, "yyyy-MM-dd HH:mm:ss").getTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return System.currentTimeMillis();
+		return getCommonDao().getNow();
 	}
 
 	public ICommonDao getCommonDao() {

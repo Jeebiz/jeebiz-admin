@@ -11,10 +11,10 @@ import net.jeebiz.boot.api.service.IBaseMapperService;
 
 public interface IAuthzOrganizationService extends IBaseMapperService<AuthzOrganizationModel> {
 	
-	public int getRootCount();
+	int getRootCount();
 
-	public int getDeptCount(String id);
+	int getDeptCount(String id);
 
-	public List<AuthzOrganizationModel> getOrgList();
+	List<AuthzOrganizationModel> getOrgList();
 	
 }

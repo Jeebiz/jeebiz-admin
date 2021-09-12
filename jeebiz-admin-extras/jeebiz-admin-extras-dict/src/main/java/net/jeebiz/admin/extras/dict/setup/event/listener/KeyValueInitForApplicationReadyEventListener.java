@@ -2,6 +2,7 @@ package net.jeebiz.admin.extras.dict.setup.event.listener;
 
 import java.util.List;
 
+import net.jeebiz.admin.api.BizRedisKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -21,21 +22,18 @@ public class KeyValueInitForApplicationReadyEventListener implements Application
 	@Autowired
 	private IKeyValueDao keyValueDao;
 	@Autowired
-	private RedisOperationTemplate redisOperationTemplate;
+	private RedisOperationTemplate redisOperation;
 	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		
 		List<PairModel> groups = getKeyGroupDao().getPairList();
 		for (PairModel group : groups) {
-			if(!getRedisOperationTemplate().hasKey(Constants.KEY_PREFIX + group.getKey())) {
-				try {
-					List<PairModel> retList = getKeyValueDao().getPairValues(group.getKey());
-					//getRedisOperationTemplate().set(Constants.KEY_PREFIX + group.getKey(), retList);
-					getRedisOperationTemplate().lLeftPush(Constants.KEY_PREFIX + group.getKey(), retList);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			String dictRedisKey = BizRedisKey.APP_DICT.getKey(group.getKey());
+			if(!getRedisOperation().hasKey(dictRedisKey)) {
+				List<PairModel> retList = getKeyValueDao().getPairValues(group.getKey());
+				//getRedisOperationTemplate().set(Constants.KEY_PREFIX + group.getKey(), retList);
+				getRedisOperation().lLeftPush(dictRedisKey, retList);
 			}
 		}
 		
@@ -49,8 +47,8 @@ public class KeyValueInitForApplicationReadyEventListener implements Application
 		return keyValueDao;
 	}
 
-	public RedisOperationTemplate getRedisOperationTemplate() {
-		return redisOperationTemplate;
+	public RedisOperationTemplate getRedisOperation() {
+		return redisOperation;
 	}
 	
 }

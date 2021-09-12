@@ -15,8 +15,18 @@ import net.jeebiz.boot.api.service.BaseServiceImpl;
 public class CommonServiceImpl extends BaseServiceImpl<PairModel, ICommonDao> implements ICommonService {
 
 	@Override
-	public String getNow() {
+	public Long getNow() {
 		return getDao().getNow();
 	}
-	 
+
+	@Override
+	public Long getNowMillis() {
+		return getDao().getNowMillis();
+	}
+
+	@Override
+	public String getNowString(String format) {
+		return getDao().getNowString();
+	}
+
 }

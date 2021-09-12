@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import net.jeebiz.admin.api.BizRedisKey;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -31,15 +33,14 @@ import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IKeyValueDao> implements IKeyValueService {
 	
 	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private RedisOperationTemplate redisOperation;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(KeyValueModel model) {
 		// 清理Redis缓存
-		if(getRedisTemplate().hasKey(Constants.KEY_PREFIX + model.getGkey())) {
-			getRedisTemplate().delete(Constants.KEY_PREFIX + model.getGkey());
-		}
+		String dictRedisKey = BizRedisKey.APP_DICT.getKey(model.getGkey());
+		getRedisOperation().del(dictRedisKey);
 		return super.save(model);
 	}
 	
@@ -90,9 +91,8 @@ public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IK
 	public List<PairModel> getPairValues(String gkey) {
 		return getBaseMapper().getPairValues(gkey);
 	}
-	
-	public RedisTemplate<String, Object> getRedisTemplate() {
-		return redisTemplate;
-	}
 
+	public RedisOperationTemplate getRedisOperation() {
+		return redisOperation;
+	}
 }

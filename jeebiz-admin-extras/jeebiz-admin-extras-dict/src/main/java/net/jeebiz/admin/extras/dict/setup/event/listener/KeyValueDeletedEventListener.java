@@ -2,6 +2,7 @@ package net.jeebiz.admin.extras.dict.setup.event.listener;
 
 import java.util.List;
 
+import net.jeebiz.admin.api.BizRedisKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -18,16 +19,17 @@ public class KeyValueDeletedEventListener implements ApplicationListener<KeyValu
 	@Autowired
 	private IKeyValueDao keyValueDao;
 	@Autowired
-	private RedisOperationTemplate redisOperationTemplate;
+	private RedisOperationTemplate redisOperation;
 	
 	@Override
 	public void onApplicationEvent(KeyValueDeletedEvent event) {
-		if(!getRedisOperationTemplate().hasKey(Constants.KEY_PREFIX + event.getKey())) {
-			getRedisOperationTemplate().del(event.getKey());
-		}
+
+		// 清理Redis缓存
+		String dictRedisKey = BizRedisKey.APP_DICT.getKey(event.getKey());
+		getRedisOperation().del(dictRedisKey);
 		try {
 			List<PairModel> retList = getKeyValueDao().getPairValues(event.getKey());
-			getRedisOperationTemplate().lLeftPush(Constants.KEY_PREFIX + event.getKey(), retList);
+			getRedisOperation().lLeftPush(dictRedisKey, retList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -37,8 +39,8 @@ public class KeyValueDeletedEventListener implements ApplicationListener<KeyValu
 		return keyValueDao;
 	}
 
-	public RedisOperationTemplate getRedisOperationTemplate() {
-		return redisOperationTemplate;
+	public RedisOperationTemplate getRedisOperation() {
+		return redisOperation;
 	}
 	
 }

@@ -3,8 +3,16 @@
 
 <mapper namespace="net.jeebiz.admin.extras.core.dao.ICommonDao">
 	
-	<select id="getNow" resultType="string" useCache="false">
-	   SELECT FROM_UNIXTIME(unix_timestamp(now()), '%Y-%m-%d %H:%i:%S')
+	<select id="getNow" resultType="Long" useCache="false">
+		select unix_timestamp(now())
     </select>
+
+	<select id="getNowMillis" resultType="Long" useCache="false">
+		select replace(unix_timestamp(current_timestamp(3)),'.','')
+	</select>
+
+	<select id="getNowString" resultType="string" useCache="false">
+		SELECT FROM_UNIXTIME(unix_timestamp(now()), '%Y-%m-%d %H:%i:%S')
+	</select>
 
 </mapper>

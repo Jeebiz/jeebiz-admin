@@ -38,12 +38,14 @@ public class OrgUtils {
 				orgDTO.setIntro(org.getIntro());
 				// 父级组织机构id
 				orgDTO.setParent(org.getParent());
+				// 机构状态（0:禁用|1:可用）
+				orgDTO.setStatus(org.getStatus());
 				// 判断是否是有子组织机构
 				boolean isParent = orgList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), org.getId()));
 				if(isParent){
 					// 子组织机构
 					List<AuthzOrganizationTreeDTO> subOrgs = getSubOrgList(org, orgList);
-					if(null != subOrgs && subOrgs.size() > 0) {
+					if(!CollectionUtils.isEmpty(subOrgs)) {
 						orgDTO.setChildren(subOrgs);
 					}
 				} else {
@@ -59,7 +61,6 @@ public class OrgUtils {
 	/**
 	 * 获取组织机构树
 	 * @param orgList
-	 * @param orgOptList
 	 * @return
 	 */
 	public static List<AuthzOrganizationTreeDTO> getOrgTreeList(List<AuthzOrganizationModel> orgList) {
@@ -68,10 +69,10 @@ public class OrgUtils {
 		}
 		// 优先获得最顶层的组织机构集合
 		List<AuthzOrganizationModel> topList = orgList.stream()
-				.filter(org -> StringUtils.equalsIgnoreCase(org.getCode(), "0"))
+				.filter(org -> StringUtils.equalsIgnoreCase(org.getParent(), "0"))
 				.collect(Collectors.toList());
 		List<AuthzOrganizationTreeDTO> orgs = Lists.newArrayList();
-		if(CollectionUtils.isEmpty(topList)){
+		if(!CollectionUtils.isEmpty(topList)){
 			
 			for (AuthzOrganizationModel org : topList) {
 				
@@ -86,6 +87,8 @@ public class OrgUtils {
 				orgDTO.setParent(org.getParent());
 				// 组织机构简介
 				orgDTO.setIntro(org.getIntro());
+				// 机构状态（0:禁用|1:可用）
+				orgDTO.setStatus(org.getStatus());
 				// 判断是否是有子组织机构
 				boolean isParent = orgList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), org.getId()));
 				if(isParent){
@@ -93,7 +96,7 @@ public class OrgUtils {
 					// 子组织机构
 					List<AuthzOrganizationTreeDTO> subOrgs = getSubOrgList(org, orgList);
 					// 有子组织机构
-					if(CollectionUtils.isEmpty(subOrgs)) {
+					if(!CollectionUtils.isEmpty(subOrgs)) {
 						orgDTO.setChildren(subOrgs);
 					}
 				} else {

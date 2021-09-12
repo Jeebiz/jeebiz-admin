@@ -12,31 +12,38 @@ public enum BizRedisKey {
 	 * redis 应用黑名单缓存
 	 */
 	APP_BLACKLIST("应用黑名单", (blType, type)->{
-		return RedisKeyConstant.getKeyStr(RedisKeyConstant.APP_BLACKLIST_PREFIX, blType);
+		return BizRedisKeyConstant.getKeyStr(BizRedisKeyConstant.APP_BLACKLIST_PREFIX, blType);
     }),
+    /**
+     * 数据字典缓存
+     */
+    APP_DICT("数据字典缓存", (blType, type)->{
+        return BizRedisKeyConstant.getKeyStr(BizRedisKeyConstant.APP_DICT_PREFIX, blType);
+    }),
+
     /**
      * 服务器资源使用率记录
      */
     SERVER_USAGE_HISTORY("服务器资源使用率记录", (srType, type)->{
-        String prefix = MessageFormatter.format(RedisKeyConstant.SERVER_USAGE_HISTORY_PREFIX, srType).getMessage();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RedisKeyConstant.YYYYMMDD);
-        return RedisKeyConstant.getKeyStr(prefix, LocalDate.now().format(formatter));
+        String prefix = MessageFormatter.format(BizRedisKeyConstant.SERVER_USAGE_HISTORY_PREFIX, srType).getMessage();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(BizRedisKeyConstant.YYYYMMDD);
+        return BizRedisKeyConstant.getKeyStr(prefix, LocalDate.now().format(formatter));
     }),
     /**
      * 服务器资源使用记录
      */
     SERVER_USED_HISTORY("服务器资源使用记录", (srType, type)->{
-        String prefix = MessageFormatter.format(RedisKeyConstant.SERVER_USED_HISTORY_PREFIX, srType).getMessage();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RedisKeyConstant.YYYYMMDD);
-        return RedisKeyConstant.getKeyStr(prefix, LocalDate.now().format(formatter));
+        String prefix = MessageFormatter.format(BizRedisKeyConstant.SERVER_USED_HISTORY_PREFIX, srType).getMessage();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(BizRedisKeyConstant.YYYYMMDD);
+        return BizRedisKeyConstant.getKeyStr(prefix, LocalDate.now().format(formatter));
     }),
     /**
      * 服务器资源空闲记录
      */
     SERVER_FREE_HISTORY("服务器资源空闲记录", (srType, type)->{
-        String prefix = MessageFormatter.format(RedisKeyConstant.SERVER_FREE_HISTORY_PREFIX, srType).getMessage();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(RedisKeyConstant.YYYYMMDD);
-        return RedisKeyConstant.getKeyStr(prefix, LocalDate.now().format(formatter));
+        String prefix = MessageFormatter.format(BizRedisKeyConstant.SERVER_FREE_HISTORY_PREFIX, srType).getMessage();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(BizRedisKeyConstant.YYYYMMDD);
+        return BizRedisKeyConstant.getKeyStr(prefix, LocalDate.now().format(formatter));
     });
 
     private String desc;

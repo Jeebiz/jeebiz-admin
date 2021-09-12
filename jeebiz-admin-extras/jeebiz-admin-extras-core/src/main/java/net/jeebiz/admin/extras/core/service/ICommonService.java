@@ -8,10 +8,23 @@ import net.jeebiz.boot.api.service.IBaseService;
  */
 public interface ICommonService extends IBaseService<PairModel> {
 
+
 	/**
-	 *  数据库当前时间 ： 
+	 *  数据库当前秒 ：
 	 * @return
 	 */
-	String getNow();
+	Long getNow();
+
+	/**
+	 *  数据库当前毫秒 ：
+	 * @return
+	 */
+	Long getNowMillis();
+
+	/**
+	 *  数据库当前时间 ：
+	 * @return
+	 */
+	String getNowString(String format);
 
 }

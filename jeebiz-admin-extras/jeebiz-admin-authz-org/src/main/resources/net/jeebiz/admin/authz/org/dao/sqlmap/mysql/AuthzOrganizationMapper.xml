@@ -9,9 +9,11 @@
 		<result property="name" column="org_name" />
 		<result property="intro" column="org_intro" />
 		<result property="parent" column="org_parent" />
-		<result property="uid" column="org_uid" />
 		<result property="status" column="org_status" />
-		<result property="time24" column="time24" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyer" column="modifyer" />
+		<result property="modifyTime" column="modify_time" />
 	</resultMap>
 	
 	<resultMap id="PairMap" type="PairModel">
@@ -68,16 +70,18 @@
 			t.org_name,
 			t.org_intro,
 			t.org_parent,
-			t.org_uid,
 			t.org_status,
-			t.time24
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
 		FROM sys_authz_org_list t
 		<where>
 			<if test="model.name != null and model.name != ''">
 				and t.org_name like CONCAT('%',#{model.name},'%')
 			</if>
 		</where>
-		ORDER By t.time24 ASC
+		ORDER By t.org_id DESC
 	</select>
 
 	<select id="getModel" resultMap="AuthzOrganizationMap" parameterType="java.lang.String" useCache="false">
@@ -87,9 +91,11 @@
 			t.org_name,
 			t.org_intro,
 			t.org_parent,
-			t.org_uid,
 			t.org_status,
-			t.time24
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
 		FROM sys_authz_org_list t
 	   WHERE t.org_id = #{id,jdbcType=INTEGER}
 	</select>
@@ -101,11 +107,12 @@
 			t.org_name,
 			t.org_intro,
 			t.org_parent,
-			t.org_uid,
 			t.org_status,
-			t.time24
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
 		FROM sys_authz_org_list t
-	   WHERE t.org_status == 1
 	</select>
 	
 	<select id="getModelList" resultMap="AuthzOrganizationMap" parameterType="java.lang.String" useCache="false">
@@ -115,9 +122,11 @@
 			t.org_name,
 			t.org_intro,
 			t.org_parent,
-			t.org_uid,
 			t.org_status,
-			t.time24
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
 		FROM sys_authz_org_list t
 		<if test="key != null and key != ''">
 			WHERE t.org_id != #{key,jdbcType=INTEGER}

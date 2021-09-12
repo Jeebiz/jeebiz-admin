@@ -15,16 +15,23 @@ import net.jeebiz.boot.api.dao.entities.PairModel;
 @Mapper
 public interface ICommonDao extends BaseDao<PairModel> {
 
+
+	/**
+	 * 数据库当前秒
+	 * @return 数据库当前秒
+	 */
+	Long getNow();
+
+	/**
+	 *  数据库当前毫秒 ：
+	 * @return 数据库当前毫秒
+	 */
+	Long getNowMillis();
+
 	/**
 	 *  数据库当前时间 ： 
-	 * @return
+	 * @return 数据库当前时间
 	 */
-	String getNow();
-	
-	/**
-	 * sys_guid() 
-	 * @return
-	 */
-	String getSysGuid();
-	
+	String getNowString();
+
 }

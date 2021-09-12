@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import net.jeebiz.admin.authz.org.web.dto.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -28,11 +29,6 @@ import net.jeebiz.admin.authz.org.dao.entities.AuthzOrganizationModel;
 import net.jeebiz.admin.authz.org.service.IAuthzOrganizationService;
 import net.jeebiz.admin.authz.org.setup.Constants;
 import net.jeebiz.admin.authz.org.utils.OrgUtils;
-import net.jeebiz.admin.authz.org.web.dto.AuthzOrganizationDTO;
-import net.jeebiz.admin.authz.org.web.dto.AuthzOrganizationNewDTO;
-import net.jeebiz.admin.authz.org.web.dto.AuthzOrganizationPaginationDTO;
-import net.jeebiz.admin.authz.org.web.dto.AuthzOrganizationRenewDTO;
-import net.jeebiz.admin.authz.org.web.dto.AuthzOrganizationTreeDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
@@ -111,9 +107,6 @@ public class AuthzOrganizationController extends BaseMapperController {
 	}
 	
 	@ApiOperation(value = "更新机构信息", notes = "更新机构信息")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "orgDTO", value = "机构信息", required = true, dataType = "AuthzOrganizationRenewDTO"),
-	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "更新机构信息", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("authz-org:renew")
@@ -139,15 +132,11 @@ public class AuthzOrganizationController extends BaseMapperController {
 	}
 	
 	@ApiOperation(value = "更新机构信息状态", notes = "更新机构信息状态")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", required = true, value = "机构信息id", dataType = "String"),
-		@ApiImplicitParam(name = "status", required = true, value = "机构信息状态", dataType = "String", allowableValues = "1,0")
-	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "更新机构信息状态", opt = BusinessType.UPDATE)
 	@PostMapping("status")
 	@RequiresPermissions("authz-org:status")
-	public ApiRestResponse<String> status(@RequestParam String id, @RequestParam String status) throws Exception {
-		int result = getAuthzOrganizationService().setStatus(id, status);
+	public ApiRestResponse<String> status(@Valid @RequestBody AuthzOrganizationStatusDTO satusDTO) throws Exception {
+		int result = getAuthzOrganizationService().setStatus(satusDTO.getId(), satusDTO.getStatus());
 		if(result == 1) {
 			return success("authz.org.status.success", result);
 		}
@@ -156,25 +145,22 @@ public class AuthzOrganizationController extends BaseMapperController {
 	}
 	
 	@ApiOperation(value = "删除机构信息", notes = "删除机构信息")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(name = "id", value = "机构信息id", required = true, dataType = "String")
-	})
 	@BusinessLog(module = Constants.AUTHZ_ORG, business = "删除机构信息", opt = BusinessType.UPDATE)
 	@PostMapping("delete")
 	@RequiresPermissions("authz-org:delete")
-	public ApiRestResponse<String> delete(@RequestParam("id") String id) throws Exception {
+	public ApiRestResponse<String> delete(@Valid @RequestBody AuthzOrganizationDeleteDTO deleteDTO) throws Exception {
 		
-		int count1 = getAuthzOrganizationService().getCountByParent(id);
+		int count1 = getAuthzOrganizationService().getCountByParent(deleteDTO.getId());
 		if(count1 > 0 ) {
 			return fail("authz.org.delete.child-exists");
 		}
-		int count2 = getAuthzOrganizationService().getDeptCount(id);
+		int count2 = getAuthzOrganizationService().getDeptCount(deleteDTO.getId());
 		if(count2 > 0 ) {
 			return fail("authz.org.delete.dept-exists");
 		}
 		
 		// 执行机构信息删除操作
-		boolean result = getAuthzOrganizationService().removeById(id);
+		boolean result = getAuthzOrganizationService().removeById(deleteDTO.getId());
 		if(result) {
 			return success("authz.org.delete.success", result);
 		}

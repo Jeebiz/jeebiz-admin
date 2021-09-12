@@ -22,7 +22,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AuthzOrganizationTreeDTO implements Serializable {
+public class AuthzOrganizationTreeDTO implements Serializable, Comparable<AuthzOrganizationTreeDTO> {
 
 	/**
 	 * 机构id编号
@@ -45,6 +45,11 @@ public class AuthzOrganizationTreeDTO implements Serializable {
 	@ApiModelProperty(name = "intro", dataType = "String", value = "机构简介")
 	private String intro;
 	/**
+	 * 机构状态（0:禁用|1:可用）
+	 */
+	@ApiModelProperty(name = "status", dataType = "String", value = "机构状态（0:禁用|1:可用）")
+	private String status;
+	/**
 	 * 父级机构id编号
 	 */
 	@ApiModelProperty(name = "parent", dataType = "String", value = "父级机构id编号")
@@ -65,4 +70,8 @@ public class AuthzOrganizationTreeDTO implements Serializable {
 		return StringUtils.defaultString(parent, "0");
 	}
 
+	@Override
+	public int compareTo(AuthzOrganizationTreeDTO o) {
+		return StringUtils.compare(this.getCode(), o.getCode());
+	}
 }
