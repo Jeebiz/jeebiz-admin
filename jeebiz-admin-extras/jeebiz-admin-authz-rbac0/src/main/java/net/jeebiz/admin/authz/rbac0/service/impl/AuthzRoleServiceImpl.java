@@ -82,6 +82,35 @@ public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, 
 		}
 		return ct;
 	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updatePermis(AuthzRoleModel model) {
+		int ct = getBaseMapper().updateById(model);
+		// 查询已经授权标记
+		List<String> oldperms = getAuthzRolePermsDao().getPermissions(model.getId());
+		// 此次提交的授权标记
+		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
+		// 之前没有权限
+		if(CollectionUtils.isEmpty(oldperms)) {
+			// 执行授权
+			getAuthzRolePermsDao().setPerms(model.getId(), perms);
+		}
+		// 之前有权限,这里需要筛选出新增的权限和取消的权限
+		else {
+			// 授权标记增量
+			List<String> increments = AuthzPermsUtils.increment(perms, oldperms);
+			if(!CollectionUtils.isEmpty(increments)) {
+				getAuthzRolePermsDao().setPerms(model.getId(), increments);
+			}
+			// 授权标记减量
+			List<String> decrements = AuthzPermsUtils.decrement(perms, oldperms);
+			if(!CollectionUtils.isEmpty(decrements)) {
+				getAuthzRolePermsDao().delPerms(model.getId(), decrements);
+			}
+		}
+		return ct;
+	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)

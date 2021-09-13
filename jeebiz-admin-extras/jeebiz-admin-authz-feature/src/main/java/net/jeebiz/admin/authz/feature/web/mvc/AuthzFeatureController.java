@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,17 +27,20 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.authz.feature.enums.FeatureNodeType;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
 import net.jeebiz.admin.authz.feature.setup.Constants;
-import net.jeebiz.admin.authz.feature.setup.handler.FeatureDataHandlerFactory;
+import net.jeebiz.admin.authz.feature.strategy.FeatureStrategyRouter;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureDTO;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureNewDTO;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureRenewDTO;
+import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import net.jeebiz.boot.api.web.BaseMapperController;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Api(tags = "功能菜单：数据维护（Ok）")
 @RestController
@@ -46,12 +48,13 @@ import net.jeebiz.boot.api.web.BaseMapperController;
 public class AuthzFeatureController extends BaseMapperController{
 
 	@Autowired
-	protected IAuthzFeatureService authzFeatureService;
+	private IAuthzFeatureService authzFeatureService;
 	@Autowired
-	protected IAuthzFeatureOptService authzFeatureOptService;
-
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+	private IAuthzFeatureOptService authzFeatureOptService;
+	@Autowired
+	private FeatureStrategyRouter featureStrategyRouter;
+	@Autowired
+	private RedisOperationTemplate redisOperation;
 	
 	@ApiOperation(value = "功能菜单（全部数据）", notes = "查询功能菜单列表")
 	@GetMapping("list")
@@ -71,11 +74,11 @@ public class AuthzFeatureController extends BaseMapperController{
 	@GetMapping("nav")
 	@RequiresPermissions("feature:list")
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureDTO>> nav(){
+	public ApiRestResponse<List<AuthzFeatureTreeNode>> nav(){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 返回各级菜单 + 对应的功能权限数据
-		return ApiRestResponse.success(FeatureDataHandlerFactory.getTreeHandler().handle(featureList));
+		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList));
 	}
 	
 	@ApiOperation(value = "功能菜单-树形结构数据（包含功能操作按钮）", notes = "查询功能菜单树形结构数据")
@@ -83,31 +86,13 @@ public class AuthzFeatureController extends BaseMapperController{
 	@GetMapping("tree")
 	@RequiresPermissions("feature:list")
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureDTO>> tree(){
+	public ApiRestResponse<List<AuthzFeatureTreeNode>> tree(){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
 		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
 		// 返回各级菜单 + 对应的功能权限数据
-		return ApiRestResponse.success(FeatureDataHandlerFactory.getTreeHandler().handle(featureList, featureOptList));
-		//return ResultUtils.dataMap(FeatureDataHandlerFactory.getTreeHandler().handle(featureList, featureOptList));
-	}
-	
-	@ApiOperation(value = "功能菜单-树形结构数据（包含功能操作按钮）", notes = "查询功能菜单树形结构数据且自定义数据处理器")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "query", name = "tag", required = true, value = "响应数据处理实现对象注册名称", dataType = "String")
-	})
-	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单树形结构数据", opt = BusinessType.SELECT)
-	@GetMapping("tree/tag")
-	@RequiresPermissions("feature:list")
-	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureDTO>> treeByTag(@RequestParam("tag") String tag){
-		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
-		// 所有的功能操作按钮
-		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
-		// 返回各级菜单 + 对应的功能权限数据
-		return ApiRestResponse.success(FeatureDataHandlerFactory.getTreeHandler(tag).handle(featureList, featureOptList));
+		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList, featureOptList));
 		//return ResultUtils.dataMap(FeatureDataHandlerFactory.getTreeHandler().handle(featureList, featureOptList));
 	}
 	
@@ -116,32 +101,14 @@ public class AuthzFeatureController extends BaseMapperController{
 	@PostMapping("flat")
 	@RequiresPermissions("feature:list")
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureDTO>> flat(){
+	public ApiRestResponse<List<AuthzFeatureTreeNode>> flat(){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
 		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
 		
 		// 返回各级菜单 + 对应的功能权限数据
-		return ApiRestResponse.success(FeatureDataHandlerFactory.getFlatHandler().handle(featureList, featureOptList));
-	}
-	
-	@ApiOperation(value = "功能菜单-扁平结构数据（全部数据）", notes = "查询功能菜单扁平结构数据")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam( paramType = "query", name = "tag", required = true, value = "响应数据处理实现对象注册名称", dataType = "String")
-	})
-	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单扁平结构数据", opt = BusinessType.SELECT)
-	@PostMapping("flat/tag")
-	@RequiresPermissions("feature:list")
-	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureDTO>> flatByTag(@RequestParam("tag") String tag){
-		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
-		// 所有的功能操作按钮
-		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
-		
-		// 返回各级菜单 + 对应的功能权限数据
-		return ApiRestResponse.success(FeatureDataHandlerFactory.getFlatHandler(tag).handle(featureList, featureOptList));
+		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.FLAT).handle(featureList, featureOptList));
 	}
 	
 	@ApiOperation(value = "增加功能菜单信息", notes = "增加功能菜单信息")
@@ -165,7 +132,7 @@ public class AuthzFeatureController extends BaseMapperController{
 		boolean total = getAuthzFeatureService().save(model);
 		if(total) {
 			// 删除菜单缓存
-			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+			redisOperation.del(Constants.AUTHZ_FEATURE_CACHE);
 			return success("feature.new.success", total);
 		}
 		return fail("feature.new.fail", total);
@@ -184,7 +151,7 @@ public class AuthzFeatureController extends BaseMapperController{
 		boolean total = getAuthzFeatureService().updateById(model);
 		if(total) {
 			// 删除菜单缓存
-			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+			redisOperation.del(Constants.AUTHZ_FEATURE_CACHE);
 			return success("feature.renew.success", total);
 		}
 		return fail("feature.renew.fail", total);
@@ -224,7 +191,7 @@ public class AuthzFeatureController extends BaseMapperController{
 		boolean total = getAuthzFeatureService().removeById(id);
 		if(total) {
 			// 删除菜单缓存
-			getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
+			redisOperation.del(Constants.AUTHZ_FEATURE_CACHE);
 			return success("feature.delete.success", total);
 		}
 		return fail("feature.delete.fail", total);
@@ -241,8 +208,5 @@ public class AuthzFeatureController extends BaseMapperController{
 	public IAuthzFeatureOptService getAuthzFeatureOptService() {
 		return authzFeatureOptService;
 	}
-
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
-	}
+ 
 }

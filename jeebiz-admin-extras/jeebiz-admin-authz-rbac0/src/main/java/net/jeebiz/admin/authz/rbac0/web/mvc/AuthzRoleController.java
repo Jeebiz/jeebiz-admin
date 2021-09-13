@@ -123,10 +123,10 @@ public class AuthzRoleController extends BaseApiController {
 	@PostMapping("new")
 	@RequiresPermissions("role:new")
 	public ApiRestResponse<String> newRole(@Valid @RequestBody AuthzRoleNewDTO roleDTO) throws Exception {
-		
+		/*
 		if(CollectionUtils.isEmpty(roleDTO.getPerms())) {
 			return fail("role.new.need-perms");
-		}
+		}*/
 		int total = getAuthzRoleService().getCountByName(roleDTO.getName(), null);
 		if(total > 0) {
 			return fail("role.new.exists");
@@ -151,9 +151,10 @@ public class AuthzRoleController extends BaseApiController {
 	@PostMapping("renew")
 	@RequiresPermissions("role:renew")
 	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzRoleRenewDTO roleDTO) throws Exception { 
+		/*
 		if(CollectionUtils.isEmpty(roleDTO.getPerms())) {
 			return fail("role.renew.need-perms");
-		}
+		}*/
 		int total = getAuthzRoleService().getCountByName(roleDTO.getName(), roleDTO.getId());
 		if(total > 0) {
 			return fail("role.renew.exists");

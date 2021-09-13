@@ -11,23 +11,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import net.jeebiz.admin.api.BizRedisKey;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
 
 import hitool.core.collections.CollectionUtils;
+import net.jeebiz.admin.api.BizRedisKey;
 import net.jeebiz.admin.extras.dict.dao.IKeyValueDao;
 import net.jeebiz.admin.extras.dict.dao.entities.KeyValueModel;
 import net.jeebiz.admin.extras.dict.service.IKeyValueService;
-import net.jeebiz.admin.extras.dict.setup.Constants;
 import net.jeebiz.admin.extras.dict.setup.event.KeyValueDeletedEvent;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Service
 public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IKeyValueDao> implements IKeyValueService {
