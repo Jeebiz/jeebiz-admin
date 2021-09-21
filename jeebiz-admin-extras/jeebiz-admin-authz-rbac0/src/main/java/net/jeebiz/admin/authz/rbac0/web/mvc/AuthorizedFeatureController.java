@@ -6,7 +6,11 @@ package net.jeebiz.admin.authz.rbac0.web.mvc;
 
 import java.util.List;
 
+import net.jeebiz.admin.authz.feature.setup.Constants;
+import net.jeebiz.boot.api.annotation.BusinessLog;
+import net.jeebiz.boot.api.annotation.BusinessType;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +64,20 @@ public class AuthorizedFeatureController extends BaseApiController {
 		List<AuthzFeatureOptModel> featureOptList = getAuthorizedFeatureService().getFeatureOpts(principal.getRoleid());
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList, featureOptList));
+	}
+
+	@ApiOperation(value = "功能菜单-树形结构数据（全部菜单数据）", notes = "查询功能菜单树形结构数据")
+	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单树形结构数据", opt = BusinessType.SELECT)
+	@GetMapping("nav")
+	@RequiresPermissions("feature:list")
+	@ResponseBody
+	public ApiRestResponse<List<AuthzFeatureTreeNode>> nav(){
+		// 登录账号信息
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		// 所有的功能菜单
+		List<AuthzFeatureModel> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
+		// 返回各级菜单 + 对应的功能权限数据
+		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList));
 	}
 
 	@ApiOperation(value = "指定功能菜单-树形结构数据（当前登录用户）", notes = "根据功能菜单id及等登录人信息查询该功能菜单的子功能菜单-树形结构数据")
