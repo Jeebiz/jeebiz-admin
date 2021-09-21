@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.jwt.setup.config;
 
@@ -24,9 +24,9 @@ import net.jeebiz.admin.authz.jwt.setup.shiro.JwtTimeRedisProvider;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Configuration
-@AutoConfigureBefore(name = { 
+@AutoConfigureBefore(name = {
 	"com.google.code.kaptcha.spring.boot.KaptchaAutoConfiguration",
-	"org.apache.shiro.spring.boot.ShiroJwtWebAutoConfiguration" 
+	"org.apache.shiro.spring.boot.ShiroJwtWebAutoConfiguration"
 })
 public class JeebizAuthzJwtConfiguration {
 
@@ -34,13 +34,13 @@ public class JeebizAuthzJwtConfiguration {
 	protected JJwtAuthenticationFailureHandler jjwtAuthenticationFailureHandler() {
 		return new JJwtAuthenticationFailureHandler();
 	}
-	
+
     @Bean
 	@ConditionalOnMissingBean
     public SigningKeyResolver signingKeyResolver(StringRedisTemplate stringRedisTemplate) {
     	return new JwtSigningKeyRedisResolver(stringRedisTemplate);
     }
-    
+
 	@Bean
 	@ConditionalOnMissingBean
 	public SignedWithSecretResolverJWTRepository secretResolverJWTRepository(SigningKeyResolver signingKeyResolver) {
@@ -53,20 +53,20 @@ public class JeebizAuthzJwtConfiguration {
 	public JwtTimeProvider jwtTimeProvider(ICommonDao commonDao) {
 		return new JwtTimeDatabaseProvider(commonDao);
 	}**/
-	
+
 	@Bean
 	@ConditionalOnMissingBean
 	public JwtTimeProvider jwtTimeProvider(RedisOperationTemplate redisOperationTemplate) {
 		return new JwtTimeRedisProvider(redisOperationTemplate);
 	}
-	
+
 	@Bean
    	public JwtClock jwtClock(JwtTimeProvider timeProvider) {
 		JwtClock clock = new JwtClock();
 		clock.setTimeProvider(timeProvider);
    		return clock;
    	}
-	
+
     @Bean
     @ConditionalOnMissingBean
    	public SignedWithSecretKeyJWTRepository secretKeyJWTRepository(JwtClock jwtClock) {
@@ -74,20 +74,20 @@ public class JeebizAuthzJwtConfiguration {
     	jWTRepository.setClock(jwtClock);
    		return jWTRepository;
    	}
-    
+
 
 	@Bean
 	@ConditionalOnMissingBean
-   	public JwtPayloadRepository jwtPayloadRepository(SignedWithSecretKeyJWTRepository secretKeyJWTRepository) {
-		return new DefaultJwtPayloadRepository(secretKeyJWTRepository);
+   	public JwtPayloadRepository jwtPayloadRepository(SignedWithSecretKeyJWTRepository secretKeyJWTRepository, RedisOperationTemplate redisOperationTemplate) {
+		return new DefaultJwtPayloadRepository(secretKeyJWTRepository, redisOperationTemplate);
 	}
-	
+
 
 	/*
 	 * @Bean protected SubjectFactory subjectFactory(ShiroBizProperties properties)
 	 * { return new JwtSubjectFactory(new DefaultSessionStorageEvaluator(),
 	 * properties.isStateless()); }
 	 */
-	
-	
+
+
 }

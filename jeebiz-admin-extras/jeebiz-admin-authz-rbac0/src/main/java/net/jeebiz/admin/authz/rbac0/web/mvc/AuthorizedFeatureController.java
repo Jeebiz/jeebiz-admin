@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.web.mvc;
 
@@ -76,7 +76,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureTree);
 	}
-	
+
 	@ApiOperation(value = "功能菜单-树形结构数据（指定角色）", notes = "根据角色id查询角色拥有的功能菜单-树形结构数据")
 	@ApiImplicitParams({
 		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色id", dataType = "String")
@@ -92,7 +92,19 @@ public class AuthorizedFeatureController extends BaseApiController {
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList, featureOptList));
 	}
-	
+
+	@ApiOperation(value = "功能菜单-扁平结构数据（当前登录用户）", notes = "根据服务id及等登录人信息查询该服务的功能菜单-树形结构数据")
+	@GetMapping("flat")
+	@RequiresAuthentication
+	public ApiRestResponse<List<AuthzFeatureTreeNode>> flat(){
+		// 登录账号信息
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		// 所有的功能菜单
+		List<AuthzFeatureModel> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
+		// 返回各级菜单 + 对应的功能权限数据
+		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.FLAT).handle(featureList));
+	}
+
 	@ApiOperation(value = "功能菜单-扁平结构数据（指定角色）", notes = "根据角色id查询角色拥有的功能菜单-扁平结构数据")
 	@ApiImplicitParams({
 		@ApiImplicitParam( paramType = "query", name = "roleId", required = true, value = "角色id", dataType = "String")
@@ -108,21 +120,21 @@ public class AuthorizedFeatureController extends BaseApiController {
 		// 返回叶子节点菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.FLAT).handle(featureList, featureOptList));
 	}
-	
+
 	public IAuthzRoleService getAuthzRoleService() {
 		return authzRoleService;
 	}
-	
+
 	public IAuthzUserService getAuthzUserService() {
 		return authzUserService;
 	}
-	
+
 	public IAuthorizedFeatureService getAuthorizedFeatureService() {
 		return authorizedFeatureService;
 	}
-	
+
 	public IAuthzFeatureService getAuthzFeatureService() {
 		return authzFeatureService;
 	}
-	
+
 }

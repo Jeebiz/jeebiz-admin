@@ -1,4 +1,4 @@
-/* 
+/*
  * 权限核心表：
  * 2、用户信息表、角色信息表、用户-角色关系表、角色-权限关系表（角色-菜单-按钮）、
  */
@@ -29,6 +29,7 @@ CREATE TABLE `sys_authz_role_list` (
 DROP TABLE IF EXISTS `sys_authz_role_perms`;
 CREATE TABLE `sys_authz_role_perms` (
   `r_id` bigint(12) NOT NULL COMMENT '角色id',
+  `r_key` varchar(64) DEFAULT NULL COMMENT '角色编码',
   `perms` varchar(50) NOT NULL COMMENT '权限标记：(等同sys_authz_feature_opts.opt_perms)',
   PRIMARY KEY (`r_id`,`perms`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色-权限关系表（角色-菜单-按钮）';

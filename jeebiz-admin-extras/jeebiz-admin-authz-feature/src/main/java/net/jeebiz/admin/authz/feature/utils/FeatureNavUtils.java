@@ -34,6 +34,8 @@ public final class FeatureNavUtils {
 				// 功能操作名称
 				optDTO.setName(opt.getName());
 				optDTO.setLabel(opt.getName());
+				// 功能操作是叶子节点
+				optDTO.setLeaf(true);
 				// 功能操作图标样式
 				optDTO.setIcon(opt.getIcon());
 				// 功能操作排序
@@ -71,6 +73,8 @@ public final class FeatureNavUtils {
 				// 功能菜单名称
 				featureDTO.setName(feature.getName());
 				featureDTO.setLabel( feature.getName());
+				// 默认指定为叶子节点，下面根据是否有子菜单或功能按钮进行调整
+				featureDTO.setLeaf(true);
 				// 菜单类型(1:原生|2:自定义)
 				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
@@ -90,26 +94,27 @@ public final class FeatureNavUtils {
 				if(isParent){
 					// 子菜单
 					List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
-					if(null != subFeatures && subFeatures.size() > 0) {
+					if(CollectionUtils.isNotEmpty(subFeatures)) {
 						boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
 							featureDTO.setChecked(true);
 						} else {
 							featureDTO.setChecked(false);
 						}
+						featureDTO.setLeaf(false);
 						featureDTO.setChildren(subFeatures);
 					}
 				} else {
-					featureDTO.setLeaf(true);
 					// 当前菜单的操作按钮
 					List<AuthzFeatureTreeNode> featureOpts  = getFeatureOptList(feature, featureOptList);
-					if(null != featureOpts && featureOpts.size() > 0) {
+					if(CollectionUtils.isNotEmpty(featureOpts)) {
 						boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
 							featureDTO.setChecked(true);
 						} else {
 							featureDTO.setChecked(false);
 						}
+						featureDTO.setLeaf(false);
 						featureDTO.setChildren( featureOpts);
 					}
 				}
@@ -139,6 +144,8 @@ public final class FeatureNavUtils {
 					// 功能菜单名称
 					featureDTO.setName(feature.getName());
 					featureDTO.setLabel( feature.getName());
+					// 默认指定为叶子节点，下面根据是否有子菜单或功能按钮进行调整
+					featureDTO.setLeaf(true);
 					// 菜单类型(1:原生|2:自定义)
 					featureDTO.setType(feature.getType());
 					// 菜单样式或菜单图标路径
@@ -158,13 +165,14 @@ public final class FeatureNavUtils {
 					if(isParent){
 						// 子菜单
 						List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
-						if(null != subFeatures && subFeatures.size() > 0) {
+						if(CollectionUtils.isNotEmpty(subFeatures)) {
 							boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 							if(checked) {
 								featureDTO.setChecked(true);
 							} else {
 								featureDTO.setChecked(false);
 							}
+							featureDTO.setLeaf(false);
 							featureDTO.setChildren(subFeatures);
 						}
 					}
@@ -201,6 +209,8 @@ public final class FeatureNavUtils {
 				// 功能菜单名称
 				featureDTO.setName(feature.getName());
 				featureDTO.setLabel( feature.getName());
+				// 默认指定为叶子节点，下面根据是否有子菜单或功能按钮进行调整
+				featureDTO.setLeaf(true);
 				// 菜单类型(1:原生|2:自定义)
 				featureDTO.setType(feature.getType());
 				// 菜单样式或菜单图标路径
@@ -218,7 +228,6 @@ public final class FeatureNavUtils {
 				// 判断是否是有子菜单
 				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 				if(isParent){
-					featureDTO.setLeaf(false);
 					// 子菜单
 					List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
 					// 有子菜单
@@ -229,6 +238,7 @@ public final class FeatureNavUtils {
 						} else {
 							featureDTO.setChecked(false);
 						}
+						featureDTO.setLeaf(false);
 						featureDTO.setChildren(subFeatures);
 					}
 				}
@@ -303,7 +313,7 @@ public final class FeatureNavUtils {
 					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 					// 当前菜单的操作按钮
 					List<AuthzFeatureTreeNode> featureOpts = getFeatureOptList(feature, featureOptList);
-					if(null != featureOpts && featureOpts.size() > 0) {
+					if(CollectionUtils.isNotEmpty(featureOpts)) {
 						boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
 							featureDTO.setChecked(true);
@@ -313,7 +323,6 @@ public final class FeatureNavUtils {
 						featureDTO.setChildren(featureOpts);
 					}
 				}
-				//System.out.println(JSONObject.toJSONString(featureDTO));
 				features.add(featureDTO);
 			}
 
@@ -398,10 +407,9 @@ public final class FeatureNavUtils {
 					featureDTO.setLeaf(isLeaf);
 					featureDTO.setLabel( feature.getName());
 				}
-
 				// 当前菜单的操作按钮
 				List<AuthzFeatureTreeNode> featureOpts  = getFeatureOptList(feature, featureOptList);
-				if(null != featureOpts && featureOpts.size() > 0) {
+				if(CollectionUtils.isNotEmpty(featureOpts)) {
 					boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 					if(checked) {
 						featureDTO.setChecked(true);
@@ -526,15 +534,15 @@ public final class FeatureNavUtils {
 				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有父菜单
 				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
+				featureDTO.setLeaf(isLeaf);
 				if(isLeaf){
 					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 				} else {
-					featureDTO.setLeaf(isLeaf);
 					featureDTO.setLabel( feature.getName());
 				}
 				// 子菜单
 				List<AuthzFeatureTreeNode> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
-				if(null != subFeatures && subFeatures.size() > 0) {
+				if(CollectionUtils.isNotEmpty(subFeatures)) {
 					boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 					if(checked) {
 						featureDTO.setChecked(true);
@@ -586,10 +594,10 @@ public final class FeatureNavUtils {
 		featureDTO.setPerms(feature.getPerms());
 		// 判断是否是有父菜单
 		boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
+		featureDTO.setLeaf(isLeaf);
 		if(isLeaf){
 			featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 		} else {
-			featureDTO.setLeaf(isLeaf);
 			featureDTO.setLabel( feature.getName());
 		}
 		// 子菜单
