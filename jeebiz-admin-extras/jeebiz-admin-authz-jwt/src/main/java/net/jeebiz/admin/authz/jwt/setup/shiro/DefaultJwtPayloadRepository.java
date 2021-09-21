@@ -6,20 +6,13 @@ package net.jeebiz.admin.authz.jwt.setup.shiro;
 
 import java.security.GeneralSecurityException;
 import java.time.Duration;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import javax.crypto.SecretKey;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 
-import com.github.hiwepy.jwt.JwtClaims;
-import com.github.hiwepy.jwt.exception.ExpiredJwtException;
-import com.github.hiwepy.jwt.exception.IncorrectJwtException;
-import com.github.hiwepy.jwt.exception.InvalidJwtToken;
-import com.github.hiwepy.jwt.exception.JwtException;
-import net.jeebiz.admin.api.UserProfiles;
-import net.jeebiz.boot.extras.redis.setup.RedisKey;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -32,13 +25,21 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.hiwepy.jwt.JwtClaims;
 import com.github.hiwepy.jwt.JwtPayload;
+import com.github.hiwepy.jwt.exception.ExpiredJwtException;
+import com.github.hiwepy.jwt.exception.IncorrectJwtException;
+import com.github.hiwepy.jwt.exception.InvalidJwtToken;
+import com.github.hiwepy.jwt.exception.JwtException;
 import com.github.hiwepy.jwt.token.SignedWithSecretKeyJWTRepository;
 import com.github.hiwepy.jwt.utils.SecretKeyUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import hitool.core.collections.CollectionUtils;
+import net.jeebiz.admin.api.UserProfiles;
+import net.jeebiz.boot.extras.redis.setup.RedisKey;
+import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, InitializingBean {
 
