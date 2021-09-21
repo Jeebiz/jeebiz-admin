@@ -83,10 +83,10 @@ public final class FeatureNavUtils {
 				featureDTO.setOrder(feature.getOrderBy());
 				// 父级功能菜单id
 				featureDTO.setPid(feature.getParent());
-				// 功能菜单URL
-				featureDTO.setUrl(feature.getUrl());
+				// 功能菜单地址
+				featureDTO.setPath(feature.getUrl());
 				// 功能菜单对应页面相对路径
-				featureDTO.setPath(feature.getPath());
+				featureDTO.setComponent(feature.getPath());
 				// 菜单所拥有的权限标记
 				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有子菜单
@@ -154,10 +154,10 @@ public final class FeatureNavUtils {
 					featureDTO.setOrder(feature.getOrderBy());
 					// 父级功能菜单id
 					featureDTO.setPid(feature.getParent());
-					// 功能菜单URL
-					featureDTO.setUrl(feature.getUrl());
+					// 功能菜单地址
+					featureDTO.setPath(feature.getUrl());
 					// 功能菜单对应页面相对路径
-					featureDTO.setPath(feature.getPath());
+					featureDTO.setComponent(feature.getPath());
 					// 菜单所拥有的权限标记
 					featureDTO.setPerms(feature.getPerms());
 					// 判断是否是有子菜单
@@ -219,10 +219,10 @@ public final class FeatureNavUtils {
 				featureDTO.setOrder(feature.getOrderBy());
 				// 父级功能菜单id
 				featureDTO.setPid(feature.getParent());
-				// 功能菜单URL
-				featureDTO.setUrl(feature.getUrl());
+				// 功能菜单地址
+				featureDTO.setPath(feature.getUrl());
 				// 功能菜单对应页面相对路径
-				featureDTO.setPath(feature.getPath());
+				featureDTO.setComponent(feature.getPath());
 				// 菜单所拥有的权限标记
 				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有子菜单
@@ -285,10 +285,10 @@ public final class FeatureNavUtils {
 				featureDTO.setOrder(feature.getOrderBy());
 				// 父级功能菜单id
 				featureDTO.setPid(feature.getParent());
-				// 功能菜单URL
-				featureDTO.setUrl(feature.getUrl());
+				// 功能菜单地址
+				featureDTO.setPath(feature.getUrl());
 				// 功能菜单对应页面相对路径
-				featureDTO.setPath(feature.getPath());
+				featureDTO.setComponent(feature.getPath());
 				// 菜单所拥有的权限标记
 				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有子菜单
@@ -353,10 +353,10 @@ public final class FeatureNavUtils {
 			featureDTO.setOrder(feature.getOrderBy());
 			// 父级功能菜单id
 			featureDTO.setPid(feature.getParent());
-			// 功能菜单URL
-			featureDTO.setUrl(feature.getUrl());
+			// 功能菜单地址
+			featureDTO.setPath(feature.getUrl());
 			// 功能菜单对应页面相对路径
-			featureDTO.setPath(feature.getPath());
+			featureDTO.setComponent(feature.getPath());
 			// 菜单所拥有的权限标记
 			featureDTO.setPerms(feature.getPerms());
 			features.add(featureDTO);
@@ -393,10 +393,10 @@ public final class FeatureNavUtils {
 				featureDTO.setOrder(feature.getOrderBy());
 				// 父级功能菜单id
 				featureDTO.setPid(feature.getParent());
-				// 功能菜单URL
-				featureDTO.setUrl(feature.getUrl());
+				// 功能菜单地址
+				featureDTO.setPath(feature.getUrl());
 				// 功能菜单对应页面相对路径
-				featureDTO.setPath(feature.getPath());
+				featureDTO.setComponent(feature.getPath());
 				// 菜单所拥有的权限标记
 				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有父菜单
@@ -526,10 +526,10 @@ public final class FeatureNavUtils {
 				featureDTO.setOrder(feature.getOrderBy());
 				// 父级功能菜单id
 				featureDTO.setPid(feature.getParent());
-				// 功能菜单URL
-				featureDTO.setUrl(feature.getUrl());
-				// 功能组件路径
-				featureDTO.setPath(feature.getPath());
+				// 功能菜单地址
+				featureDTO.setPath(feature.getUrl());
+				// 功能菜单对应页面相对路径
+				featureDTO.setComponent(feature.getPath());
 				// 菜单所拥有的权限标记
 				featureDTO.setPerms(feature.getPerms());
 				// 判断是否是有父菜单
@@ -586,10 +586,10 @@ public final class FeatureNavUtils {
 		featureDTO.setOrder(feature.getOrderBy());
 		// 父级功能菜单id
 		featureDTO.setPid(feature.getParent());
-		// 功能菜单URL
-		featureDTO.setUrl(feature.getUrl());
-		// 功能组件路径
-		featureDTO.setPath(feature.getPath());
+		// 功能菜单地址
+		featureDTO.setPath(feature.getUrl());
+		// 功能菜单对应页面相对路径
+		featureDTO.setComponent(feature.getPath());
 		// 菜单所拥有的权限标记
 		featureDTO.setPerms(feature.getPerms());
 		// 判断是否是有父菜单

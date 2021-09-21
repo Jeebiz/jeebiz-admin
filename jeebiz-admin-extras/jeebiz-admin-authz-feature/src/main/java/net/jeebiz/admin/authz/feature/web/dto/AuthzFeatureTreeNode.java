@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.feature.web.dto;
 
@@ -46,15 +46,15 @@ public class AuthzFeatureTreeNode implements Comparable<AuthzFeatureTreeNode>{
 	@ApiModelProperty(name = "code", value = "功能菜单或功能按钮编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据")
 	private String code;
 	/**
-	 * 功能菜单URL
+	 * 功能菜单地址
 	 */
-	@ApiModelProperty(name = "url", value = "功能菜单URL")
-	private String url;
+	@ApiModelProperty(name = "path", value = "功能菜单地址")
+	private String path;
 	/**
 	 * 功能组件路径
 	 */
-	@ApiModelProperty(name = "path", value = "功能组件路径")
-	private String path;
+	@ApiModelProperty(name = "component", value = "功能组件路径")
+	private String component;
 	/**
 	 * 菜单类型(1:原生|2:自定义)
 	 */
