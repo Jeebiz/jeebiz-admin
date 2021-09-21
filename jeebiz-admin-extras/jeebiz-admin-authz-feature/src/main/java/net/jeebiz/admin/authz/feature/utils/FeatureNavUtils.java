@@ -63,35 +63,12 @@ public final class FeatureNavUtils {
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(childFeatureList)){
 			for (AuthzFeatureModel feature : childFeatureList) {
-				AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
-				// 功能菜单id
-				featureDTO.setId(feature.getId());
-				// 功能菜单简称
-				featureDTO.setAbb(feature.getAbb());
-				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureDTO.setCode(feature.getCode());
-				// 功能菜单名称
-				featureDTO.setName(feature.getName());
-				featureDTO.setLabel( feature.getName());
-				// 默认指定为叶子节点，下面根据是否有子菜单或功能按钮进行调整
-				featureDTO.setLeaf(true);
-				// 菜单类型(1:原生|2:自定义)
-				featureDTO.setType(feature.getType());
-				// 菜单样式或菜单图标路径
-				featureDTO.setIcon(feature.getIcon());
-				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrderBy());
-				// 父级功能菜单id
-				featureDTO.setPid(feature.getParent());
-				// 功能菜单地址
-				featureDTO.setPath(feature.getUrl());
-				// 功能菜单对应页面相对路径
-				featureDTO.setComponent(feature.getPath());
-				// 菜单所拥有的权限标记
-				featureDTO.setPerms(feature.getPerms());
+
+				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有子菜单
-				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
-				if(isParent){
+				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+				featureDTO.setRoot(!hasChildren);
+				if(hasChildren){
 					// 子菜单
 					List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
 					if(CollectionUtils.isNotEmpty(subFeatures)) {
@@ -134,35 +111,11 @@ public final class FeatureNavUtils {
 					.collect(Collectors.toList());
 			if(CollectionUtils.isNotEmpty(childFeatureList)){
 				for (AuthzFeatureModel feature : childFeatureList) {
-					AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
-					// 功能菜单id
-					featureDTO.setId(feature.getId());
-					// 功能菜单简称
-					featureDTO.setAbb(feature.getAbb());
-					// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-					featureDTO.setCode(feature.getCode());
-					// 功能菜单名称
-					featureDTO.setName(feature.getName());
-					featureDTO.setLabel( feature.getName());
-					// 默认指定为叶子节点，下面根据是否有子菜单或功能按钮进行调整
-					featureDTO.setLeaf(true);
-					// 菜单类型(1:原生|2:自定义)
-					featureDTO.setType(feature.getType());
-					// 菜单样式或菜单图标路径
-					featureDTO.setIcon(feature.getIcon());
-					// 菜单显示顺序
-					featureDTO.setOrder(feature.getOrderBy());
-					// 父级功能菜单id
-					featureDTO.setPid(feature.getParent());
-					// 功能菜单地址
-					featureDTO.setPath(feature.getUrl());
-					// 功能菜单对应页面相对路径
-					featureDTO.setComponent(feature.getPath());
-					// 菜单所拥有的权限标记
-					featureDTO.setPerms(feature.getPerms());
+					AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 					// 判断是否是有子菜单
-					boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
-					if(isParent){
+					boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+					featureDTO.setRoot(!hasChildren);
+					if(hasChildren){
 						// 子菜单
 						List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
 						if(CollectionUtils.isNotEmpty(subFeatures)) {
@@ -181,7 +134,41 @@ public final class FeatureNavUtils {
 				return features.stream().sorted().collect(Collectors.toList());
 			}
 			return features;
+
 		}
+
+
+	protected static AuthzFeatureTreeNode toTreeNode(AuthzFeatureModel feature){
+		AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
+		// 功能菜单id
+		featureDTO.setId(feature.getId());
+		// 功能菜单简称
+		featureDTO.setAbb(feature.getAbb());
+		// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
+		featureDTO.setCode(feature.getCode());
+		// 功能菜单名称
+		featureDTO.setName(feature.getName());
+		featureDTO.setLabel( feature.getName());
+		// 默认指定为叶子节点，下面根据是否有子菜单或功能按钮进行调整
+		featureDTO.setLeaf(true);
+		featureDTO.setRoot(feature.isRoot());
+		// 菜单类型(1:原生|2:自定义)
+		featureDTO.setType(feature.getType());
+		// 菜单样式或菜单图标路径
+		featureDTO.setIcon(feature.getIcon());
+		// 菜单显示顺序
+		featureDTO.setOrder(feature.getOrderBy());
+		// 父级功能菜单id
+		featureDTO.setPid(feature.getParent());
+		// 功能菜单地址
+		featureDTO.setPath(feature.getUrl());
+		// 功能菜单对应页面相对路径
+		featureDTO.setComponent(feature.getPath());
+		// 菜单所拥有的权限标记
+		featureDTO.setPerms(feature.getPerms());
+
+		return featureDTO;
+	}
 
 	/**
 	 * 获取菜单树
@@ -199,35 +186,12 @@ public final class FeatureNavUtils {
 
 			for (AuthzFeatureModel feature : topFeatureList) {
 
-				AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
-				// 功能菜单id
-				featureDTO.setId(feature.getId());
-				// 功能菜单简称
-				featureDTO.setAbb(feature.getAbb());
-				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureDTO.setCode(feature.getCode());
-				// 功能菜单名称
-				featureDTO.setName(feature.getName());
-				featureDTO.setLabel( feature.getName());
-				// 默认指定为叶子节点，下面根据是否有子菜单或功能按钮进行调整
-				featureDTO.setLeaf(true);
-				// 菜单类型(1:原生|2:自定义)
-				featureDTO.setType(feature.getType());
-				// 菜单样式或菜单图标路径
-				featureDTO.setIcon(feature.getIcon());
-				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrderBy());
-				// 父级功能菜单id
-				featureDTO.setPid(feature.getParent());
-				// 功能菜单地址
-				featureDTO.setPath(feature.getUrl());
-				// 功能菜单对应页面相对路径
-				featureDTO.setComponent(feature.getPath());
-				// 菜单所拥有的权限标记
-				featureDTO.setPerms(feature.getPerms());
+				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+
 				// 判断是否是有子菜单
-				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
-				if(isParent){
+				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+				featureDTO.setRoot(!hasChildren);
+				if(hasChildren){
 					// 子菜单
 					List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
 					// 有子菜单
@@ -268,32 +232,11 @@ public final class FeatureNavUtils {
 
 			for (AuthzFeatureModel feature : topFeatureList) {
 
-				AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
-				// 功能菜单id
-				featureDTO.setId(feature.getId());
-				// 功能菜单简称
-				featureDTO.setAbb(feature.getAbb());
-				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureDTO.setCode(feature.getCode());
-				// 功能菜单名称
-				featureDTO.setName(feature.getName());
-				// 菜单类型(1:原生|2:自定义)
-				featureDTO.setType(feature.getType());
-				// 菜单样式或菜单图标路径
-				featureDTO.setIcon(feature.getIcon());
-				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrderBy());
-				// 父级功能菜单id
-				featureDTO.setPid(feature.getParent());
-				// 功能菜单地址
-				featureDTO.setPath(feature.getUrl());
-				// 功能菜单对应页面相对路径
-				featureDTO.setComponent(feature.getPath());
-				// 菜单所拥有的权限标记
-				featureDTO.setPerms(feature.getPerms());
+				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有子菜单
-				boolean isParent = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
-				if(isParent){
+				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+				featureDTO.setRoot(!hasChildren);
+				if(hasChildren){
 					featureDTO.setLeaf(false);
 					featureDTO.setLabel( feature.getName());
 					// 子菜单
@@ -309,7 +252,6 @@ public final class FeatureNavUtils {
 						featureDTO.setChildren(subFeatures);
 					}
 				} else {
-					featureDTO.setLeaf(true);
 					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 					// 当前菜单的操作按钮
 					List<AuthzFeatureTreeNode> featureOpts = getFeatureOptList(feature, featureOptList);
@@ -334,34 +276,9 @@ public final class FeatureNavUtils {
 	public static List<AuthzFeatureTreeNode> getFeatureFlatList(List<AuthzFeatureModel> featureList) {
 		List<AuthzFeatureTreeNode> features = Lists.newArrayList();
 		for (AuthzFeatureModel feature : featureList) {
-
-			AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
-			// 功能菜单id
-			featureDTO.setId(feature.getId());
-			// 功能菜单简称
-			featureDTO.setAbb(feature.getAbb());
-			// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-			featureDTO.setCode(feature.getCode());
-			// 功能菜单名称
-			featureDTO.setName(feature.getName());
-			featureDTO.setLabel( feature.getName());
-			// 菜单类型(1:原生|2:自定义)
-			featureDTO.setType(feature.getType());
-			// 菜单样式或菜单图标路径
-			featureDTO.setIcon(feature.getIcon());
-			// 菜单显示顺序
-			featureDTO.setOrder(feature.getOrderBy());
-			// 父级功能菜单id
-			featureDTO.setPid(feature.getParent());
-			// 功能菜单地址
-			featureDTO.setPath(feature.getUrl());
-			// 功能菜单对应页面相对路径
-			featureDTO.setComponent(feature.getPath());
-			// 菜单所拥有的权限标记
-			featureDTO.setPerms(feature.getPerms());
+			AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 			features.add(featureDTO);
 		}
-
 		return features.stream().sorted().collect(Collectors.toList());
 	}
 
@@ -375,30 +292,7 @@ public final class FeatureNavUtils {
 		if(CollectionUtils.isNotEmpty(leafFeatureList)){
 
 			for (AuthzFeatureModel feature : leafFeatureList) {
-
-				AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
-				// 功能菜单id
-				featureDTO.setId(feature.getId());
-				// 功能菜单简称
-				featureDTO.setAbb(feature.getAbb());
-				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureDTO.setCode(feature.getCode());
-				// 功能菜单名称
-				featureDTO.setName(feature.getName());
-				// 菜单类型(1:原生|2:自定义)
-				featureDTO.setType(feature.getType());
-				// 菜单样式或菜单图标路径
-				featureDTO.setIcon(feature.getIcon());
-				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrderBy());
-				// 父级功能菜单id
-				featureDTO.setPid(feature.getParent());
-				// 功能菜单地址
-				featureDTO.setPath(feature.getUrl());
-				// 功能菜单对应页面相对路径
-				featureDTO.setComponent(feature.getPath());
-				// 菜单所拥有的权限标记
-				featureDTO.setPerms(feature.getPerms());
+				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有父菜单
 				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 				if(isLeaf){
@@ -509,29 +403,7 @@ public final class FeatureNavUtils {
 
 			for (AuthzFeatureModel feature : topFeatureList) {
 
-				AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
-				// 功能菜单id
-				featureDTO.setId(feature.getId());
-				// 功能菜单简称
-				featureDTO.setAbb(feature.getAbb());
-				// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-				featureDTO.setCode(feature.getCode());
-				// 功能菜单名称
-				featureDTO.setName(feature.getName());
-				// 菜单类型(1:原生|2:自定义)
-				featureDTO.setType(feature.getType());
-				// 菜单样式或菜单图标路径
-				featureDTO.setIcon(feature.getIcon());
-				// 菜单显示顺序
-				featureDTO.setOrder(feature.getOrderBy());
-				// 父级功能菜单id
-				featureDTO.setPid(feature.getParent());
-				// 功能菜单地址
-				featureDTO.setPath(feature.getUrl());
-				// 功能菜单对应页面相对路径
-				featureDTO.setComponent(feature.getPath());
-				// 菜单所拥有的权限标记
-				featureDTO.setPerms(feature.getPerms());
+				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有父菜单
 				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 				featureDTO.setLeaf(isLeaf);
@@ -570,28 +442,7 @@ public final class FeatureNavUtils {
 				.filter(f -> StringUtils.equals(servId, f.getParent()))
 				.findFirst().get();
 
-		// 功能菜单id
-		featureDTO.setId(feature.getId());
-		// 功能菜单简称
-		featureDTO.setAbb(feature.getAbb());
-		// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
-		featureDTO.setCode(feature.getCode());
-		// 功能菜单名称
-		featureDTO.setName(feature.getName());
-		// 菜单类型(1:原生|2:自定义)
-		featureDTO.setType(feature.getType());
-		// 菜单样式或菜单图标路径
-		featureDTO.setIcon(feature.getIcon());
-		// 菜单显示顺序
-		featureDTO.setOrder(feature.getOrderBy());
-		// 父级功能菜单id
-		featureDTO.setPid(feature.getParent());
-		// 功能菜单地址
-		featureDTO.setPath(feature.getUrl());
-		// 功能菜单对应页面相对路径
-		featureDTO.setComponent(feature.getPath());
-		// 菜单所拥有的权限标记
-		featureDTO.setPerms(feature.getPerms());
+		featureDTO = toTreeNode(feature);
 		// 判断是否是有父菜单
 		boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 		featureDTO.setLeaf(isLeaf);
