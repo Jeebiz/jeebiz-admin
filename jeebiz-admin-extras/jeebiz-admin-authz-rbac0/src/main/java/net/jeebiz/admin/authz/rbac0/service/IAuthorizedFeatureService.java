@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.service;
 
@@ -22,20 +22,21 @@ public interface IAuthorizedFeatureService extends IBaseService<AuthzFeatureMode
 	 * @return
 	 */
 	public List<AuthzFeatureModel> getFeatures(String roleId);
-	
+
 	/**
 	 * 查找功能操作并标记指定角色拥有权限的功能操作选中状态
 	 * @param roleId
 	 * @return
 	 */
 	public List<AuthzFeatureOptModel> getFeatureOpts(String roleId);
-	
+
 	/**
 	 * 根据功能菜单id查询子菜单
-	 * @param servId
+	 * @param roleId
+	 * @param id
 	 * @return
 	 */
 	public AuthzFeatureTreeNode getChildFeatures(String roleId, String id);
-	
+
 }
 
