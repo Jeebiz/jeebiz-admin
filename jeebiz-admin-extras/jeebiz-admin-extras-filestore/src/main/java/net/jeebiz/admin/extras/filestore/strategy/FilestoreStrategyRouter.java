@@ -18,32 +18,32 @@ import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
 @Component
 @Slf4j
 public class FilestoreStrategyRouter implements InitializingBean {
-	
+
     private Map<FilestoreChannel, FilestoreStrategy> map = new HashMap<>();
-    
+
     @Autowired(required = false)
-    private List<FilestoreStrategy> smsSendStrategyList;
+    private List<FilestoreStrategy> filestoreStrategyList;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-    	if(!CollectionUtils.isEmpty(smsSendStrategyList)) {
-    		for (FilestoreStrategy strategy : smsSendStrategyList) {
+    	if(!CollectionUtils.isEmpty(filestoreStrategyList)) {
+    		for (FilestoreStrategy strategy : filestoreStrategyList) {
                 map.put(strategy.getChannel(), strategy);
             }
     	}
-        log.info("smsSendStrategyMap:{}", map);
+        log.info("filestoreStrategyMap:{}", map);
     }
-    
+
 	public FilestoreStrategy routeFor(FilestoreChannel channel) {
         FilestoreStrategy orderStrategy = map.get(channel);
         return orderStrategy;
     }
-	
+
 	public <O extends FileUploadBO> FilestoreStrategy routeFor(O smsBo) {
         FilestoreStrategy orderStrategy = map.get(smsBo.getChannel());
         return orderStrategy;
     }
-	
+
 	public <O extends FilesUploadBO> FilestoreStrategy routeFor(O smsBo) {
         FilestoreStrategy orderStrategy = map.get(smsBo.getChannel());
         return orderStrategy;

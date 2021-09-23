@@ -15,9 +15,9 @@ import net.jeebiz.admin.authz.feature.enums.FeatureNodeType;
 @Component
 @Slf4j
 public class FeatureStrategyRouter implements InitializingBean {
-	
+
     private Map<FeatureNodeType, FeatureStrategy> map = new HashMap<>();
-    
+
     @Autowired(required = false)
     private List<FeatureStrategy> featureStrategyList;
 
@@ -28,9 +28,9 @@ public class FeatureStrategyRouter implements InitializingBean {
                 map.put(strategy.getNodeType(), strategy);
             }
     	}
-        log.info("smsSendStrategyMap:{}", map);
+        log.info("featureStrategyap:{}", map);
     }
-    
+
 	public FeatureStrategy routeFor(FeatureNodeType channel) {
         FeatureStrategy orderStrategy = map.get(channel);
         return orderStrategy;
