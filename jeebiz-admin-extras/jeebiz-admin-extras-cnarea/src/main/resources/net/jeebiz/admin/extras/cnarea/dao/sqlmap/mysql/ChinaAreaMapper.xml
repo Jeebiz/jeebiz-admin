@@ -2,19 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.extras.cnarea.dao.IChinaAreaDao">
-	
-	<!-- 开启二级缓存 -->
-	<cache type="org.redisson.mybatis.RedissonCache">
-		<!-- timeToLive：此参数指定删除对象之前在缓存中存储对象的最长时间。 -->
-		<property name="timeToLive" value="200000"/>
-		<!-- maxIdleTime: 此参数指定对象在被自动删除之前可以保持空闲/未使用的最长时间。 -->
-		<property name="maxIdleTime" value="100000"/>
-		<!-- maxSize: 此参数指定缓存中存储的条目的最大大小。 -->
-		<property name="maxSize" value="100000"/>
-		<!-- redissonConfig: 此参数以YAML格式提供指向Redisson配置文件的链接。 -->
-		<property name="redissonConfig" value="classpath:redisson-mybatis.yaml"/>
-	</cache>
-	
+
 	<resultMap id="ChinaAreaMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO">
 		<result property="id" column="id" />
 		<!-- 层级 -->
@@ -40,7 +28,7 @@
 		<!-- 纬度 -->
 		<result property="lat" column="lat" />
 	</resultMap>
-	
+
 	<resultMap id="CityPairMap" type="net.jeebiz.boot.api.dao.entities.BaseMap">
 		<!-- 行政地区名称 -->
 		<result property="name" column="name" />
@@ -49,35 +37,35 @@
 		<!-- 上级行政代码 -->
 		<result property="pcode" column="parent_code" />
 	</resultMap>
-	
+
 	<resultMap id="AreaPairMap" type="net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO">
 		<!-- 名称 -->
 		<result property="name" column="name" />
 		<!-- 行政代码 -->
 		<result property="value" column="area_code" />
 	</resultMap>
-	
+
 	<select id="getChinaPairList" resultMap="CityPairMap" useCache="false">
 	   SELECT t.area_code, t.parent_code, t.name
-		 FROM cnarea_2019 t 
+		 FROM cnarea_2019 t
 	    WHERE t.level = 0 OR t.level = 1 OR t.level = 2
 	 ORDER By t.area_code ASC
 	</select>
-	
+
 	<select id="getChinaProvPairList" resultMap="AreaPairMap">
 	   SELECT t.area_code, t.name
-		 FROM cnarea_2019 t 
+		 FROM cnarea_2019 t
 	    WHERE t.level = 0
 	 ORDER By t.area_code ASC
 	</select>
-	
+
 	<select id="getChinaAreaPairList" resultMap="AreaPairMap">
 	   SELECT t.area_code, t.name
-		 FROM cnarea_2019 t 
+		 FROM cnarea_2019 t
 	    WHERE t.parent_code = #{pcode}
 	 ORDER By t.area_code ASC
 	</select>
-	
+
 	<select id="getChinaProvList" resultMap="ChinaAreaMap">
 	   SELECT t.id,
 	   		  t.level,
@@ -91,11 +79,11 @@
 	   		  t.pinyin,
 	   		  t.lng,
 	   		  t.lat
-		 FROM cnarea_2019 t 
+		 FROM cnarea_2019 t
 	    WHERE t.level = 0
 	 ORDER By t.area_code ASC
 	</select>
-	
+
 	<select id="getChinaAreaList" resultMap="ChinaAreaMap">
 	   SELECT t.id,
 	   		  t.level,
@@ -109,11 +97,11 @@
 	   		  t.pinyin,
 	   		  t.lng,
 	   		  t.lat
-		 FROM cnarea_2019 t 
+		 FROM cnarea_2019 t
 	    WHERE t.parent_code = #{pcode}
 	 ORDER By t.area_code ASC
 	</select>
-	
+
 	<select id="getChinaArea" resultMap="ChinaAreaMap">
 	   SELECT t.id,
 	   		  t.level,
@@ -127,7 +115,7 @@
 	   		  t.pinyin,
 	   		  t.lng,
 	   		  t.lat
-		 FROM cnarea_2019 t 
+		 FROM cnarea_2019 t
 	    WHERE t.level = #{level}
 	      AND t.short_name = #{name}
 	    LIMIT 1
