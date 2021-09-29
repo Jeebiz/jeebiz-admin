@@ -34,13 +34,13 @@ import net.jeebiz.boot.extras.redis.setup.RedissonOperationTemplate;
  * https://blog.csdn.net/qq_24598601/article/details/105876432
  */
 @Slf4j
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class ApiIdempotentRLockAspect extends AbstractIdempotentAspect {
 
 	@Autowired
 	private RedissonOperationTemplate redissonOperationTemplate;
-	
+
 	@Pointcut("@annotation(net.jeebiz.boot.api.annotation.ApiIdempotent)")
 	public void aspect() {
 		// do nothing
@@ -48,7 +48,7 @@ public class ApiIdempotentRLockAspect extends AbstractIdempotentAspect {
 
 	@Around("aspect()")
 	public Object aroundMethod(ProceedingJoinPoint joinPoint) throws Throwable {
-		
+
 		// 1、获取方法
 		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 		Method method = methodSignature.getMethod();
@@ -114,7 +114,7 @@ public class ApiIdempotentRLockAspect extends AbstractIdempotentAspect {
 			}
 		}
 		return joinPoint.proceed();
-		
+
 	}
 
 }
