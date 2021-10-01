@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.authz.feature.utils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public final class FeatureNavUtils {
 
 				featureOpts.add(optDTO);
 			}
-			return featureOpts.stream().sorted().collect(Collectors.toList());
+			return featureOpts.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return featureOpts;
 	}
@@ -97,7 +98,7 @@ public final class FeatureNavUtils {
 				}
 				features.add(featureDTO);
 			}
-			return features.stream().sorted().collect(Collectors.toList());
+			return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return features;
 	}
@@ -131,7 +132,7 @@ public final class FeatureNavUtils {
 					}
 					features.add(featureDTO);
 				}
-				return features.stream().sorted().collect(Collectors.toList());
+				return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 			}
 			return features;
 
@@ -209,7 +210,7 @@ public final class FeatureNavUtils {
 				features.add(featureDTO);
 			}
 
-			return features.stream().sorted().collect(Collectors.toList());
+			return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return features;
 	}
@@ -279,7 +280,7 @@ public final class FeatureNavUtils {
 			AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 			features.add(featureDTO);
 		}
-		return features.stream().sorted().collect(Collectors.toList());
+		return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 	}
 
 	public static List<AuthzFeatureTreeNode> getFeatureFlatList(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {
