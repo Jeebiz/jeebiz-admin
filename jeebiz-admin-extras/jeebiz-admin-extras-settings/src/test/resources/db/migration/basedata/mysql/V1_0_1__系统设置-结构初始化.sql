@@ -7,7 +7,7 @@
 DROP TABLE IF EXISTS `sys_data_pairvalue`;
 CREATE TABLE `sys_data_pairvalue` (
   `d_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '数据id',
-  `d_group` varchar(50) NOT NULL COMMENT '数据分组',
+  `d_group` varchar(50) NOT NULL COMMENT '数据字典',
   `d_label` varchar(50) NOT NULL COMMENT '数据标签',
   `d_key` varchar(50) NOT NULL COMMENT '数据键',
   `d_text` varchar(300) NOT NULL COMMENT '数据值',

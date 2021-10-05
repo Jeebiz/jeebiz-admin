@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.dict.dao.entities;
 
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 /**
- * 基础数据分组信息Model
+ * 基础数据字典信息Model
  */
 @Alias("KeyGroupModel")
 @SuppressWarnings("serial")
@@ -32,27 +32,32 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 public class KeyGroupModel extends PaginationEntity<KeyGroupModel> {
 
 	/**
-	 * 数据分组id
+	 * 数据字典id
 	 */
 	@TableId(value="g_id",type= IdType.AUTO)
 	private String id;
 	/**
-	 * 数据分组键
+	 * 数据字典键
 	 */
 	@TableField(value = "g_key")
 	private String key;
 	/**
-	 * 数据分组值
+	 * 数据字典值
 	 */
 	@TableField(value = "g_text")
 	private String value;
 	/**
-	 * 数据分组状态：0:不可用、1：可用
+	 * 数据字典简介
+	 */
+	@TableField(value = "g_intro")
+	private String intro;
+	/**
+	 * 数据字典状态：0:不可用、1：可用
 	 */
 	@TableField(value = "g_status")
 	private String status;
 	/**
-	 * 数据分组排序
+	 * 数据字典排序
 	 */
 	@TableField(value = "g_order")
 	private int orderBy;

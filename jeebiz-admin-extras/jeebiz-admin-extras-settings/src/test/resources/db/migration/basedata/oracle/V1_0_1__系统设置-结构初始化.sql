@@ -10,11 +10,11 @@ create table sys_data_pairvalue (
   d_order   	NUMBER default 1 not null,
   primary key (d_group, d_key)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_data_pairvalue  is '基础数据信息表';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_data_pairvalue.d_id  is '数据id';
-comment on column sys_data_pairvalue.d_group  is '数据分组';
+comment on column sys_data_pairvalue.d_group  is '数据字典';
 comment on column sys_data_pairvalue.d_label  is '数据标签';
 comment on column sys_data_pairvalue.d_key  is '数据键';
 comment on column sys_data_pairvalue.d_text  is '数据值';
@@ -39,9 +39,9 @@ create table sys_data_settings (
   d_order   	NUMBER default 1 not null,
   primary key (d_group, d_key)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_data_settings  is '系统参数设置表';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_data_settings.d_id  is '参数id';
 comment on column sys_data_settings.d_group  is '参数分组';
 comment on column sys_data_settings.d_label  is '参数标签';

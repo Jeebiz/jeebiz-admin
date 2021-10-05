@@ -8,15 +8,15 @@ create table sys_data_pairgroup (
   g_order   	NUMBER default 1 not null,
   CONSTRAINT sys_data_pairgroup_UNIQUE UNIQUE(g_key),
   CONSTRAINT sys_data_pairgroup_PK PRIMARY KEY(g_id)
-);     
--- Add comments to the table 
-comment on table sys_data_pairgroup  is '基础数据分组信息表';
--- Add comments to the columns 
-comment on column sys_data_pairgroup.g_id  is '数据分组id';
-comment on column sys_data_pairgroup.g_key  is '数据分组键';
-comment on column sys_data_pairgroup.g_text  is '数据分组值';
-comment on column sys_data_pairgroup.g_status  is '数据分组状态:（0:禁用|1：可用）';
-comment on column sys_data_pairgroup.g_order  is '数据分组排序';
+);
+-- Add comments to the table
+comment on table sys_data_pairgroup  is '基础数据字典信息表';
+-- Add comments to the columns
+comment on column sys_data_pairgroup.g_id  is '数据字典id';
+comment on column sys_data_pairgroup.g_key  is '数据字典键';
+comment on column sys_data_pairgroup.g_text  is '数据字典值';
+comment on column sys_data_pairgroup.g_status  is '数据字典状态:（0:禁用|1：可用）';
+comment on column sys_data_pairgroup.g_order  is '数据字典排序';
 
 -- Create table
 create table sys_data_pairvalue (
@@ -31,11 +31,11 @@ create table sys_data_pairvalue (
   CONSTRAINT sys_data_pairvalue_UNIQUE UNIQUE(d_group, d_key),
   CONSTRAINT sys_data_pairvalue_PK PRIMARY KEY(d_id)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_data_pairvalue  is '基础数据信息表';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_data_pairvalue.d_id  is '数据id';
-comment on column sys_data_pairvalue.d_group  is '数据分组';
+comment on column sys_data_pairvalue.d_group  is '数据字典';
 comment on column sys_data_pairvalue.d_label  is '数据标签';
 comment on column sys_data_pairvalue.d_key  is '数据键';
 comment on column sys_data_pairvalue.d_value  is '数据值';

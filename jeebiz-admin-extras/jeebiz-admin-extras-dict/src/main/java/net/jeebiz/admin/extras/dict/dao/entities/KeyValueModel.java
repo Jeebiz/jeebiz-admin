@@ -32,7 +32,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 public class KeyValueModel extends PaginationEntity<KeyValueModel> {
 
 	/**
-	 * 基础数据分组Key
+	 * 基础数据字典Key
 	 */
 	@TableField(value = "d_group")
 	private String gkey;
@@ -40,7 +40,7 @@ public class KeyValueModel extends PaginationEntity<KeyValueModel> {
 	@TableField(exist = false)
 	private String[] gkeys;
 	/**
-	 * 基础数据分组
+	 * 数据字典
 	 */
 	@TableField(exist = false)
 	private String gtext;
