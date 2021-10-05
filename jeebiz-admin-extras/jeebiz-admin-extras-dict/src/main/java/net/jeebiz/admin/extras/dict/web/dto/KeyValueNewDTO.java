@@ -16,10 +16,10 @@ import lombok.Data;
 public class KeyValueNewDTO {
 
 	/**
-	 * 基础数据分组
+	 * 数据字典
 	 */
-	@ApiModelProperty(name = "gkey", required = true, dataType = "String", value = "基础数据分组")
-	@NotBlank(message = "基础数据分组必填")
+	@ApiModelProperty(name = "gkey", required = true, dataType = "String", value = "数据字典")
+	@NotBlank(message = "基础数据字典必填")
 	private String gkey;
 	/**
 	 * 基础数据键

@@ -19,15 +19,15 @@ public class KeyValueDTO {
 	private String id;
 	
 	/**
-	 * 基础数据分组Key
+	 * 基础数据字典Key
 	 */
-	@ApiModelProperty(name = "gkey", dataType = "String", value = "基础数据分组Key")
+	@ApiModelProperty(name = "gkey", dataType = "String", value = "基础数据字典Key")
 	private String gkey;
 	
 	/**
-	 * 基础数据分组
+	 * 数据字典
 	 */
-	@ApiModelProperty(name = "gtext", dataType = "String", value = "基础数据分组")
+	@ApiModelProperty(name = "gtext", dataType = "String", value = "数据字典")
 	private String gtext;
 	
 	/**
