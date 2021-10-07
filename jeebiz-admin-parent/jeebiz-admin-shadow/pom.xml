@@ -8,9 +8,9 @@
 		<version>1.0.2-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-shadow</artifactId>
-	
+
 	<dependencies>
-		
+
 		<!-- Jeebiz 数据字典（必选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -96,7 +96,7 @@
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-logbiz</artifactId>
 			<version>${jeebiz-admin.version}</version>
-		</dependency> 
+		</dependency>
 		<!-- Jeebiz 回话管理（可选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -115,7 +115,7 @@
 			<artifactId>jeebiz-admin-extras-core</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		
+
 		<!-- For Google API -->
 	 	<dependency>
             <groupId>com.google.api-client</groupId>
@@ -135,12 +135,12 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>docx4j-spring-boot-starter</artifactId>
 		</dependency>
-		<!-- PAC4J For 
+		<!-- PAC4J For
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-pac4j-spring-boot-starter</artifactId>
 		</dependency>
-		
+
         <dependency>
             <groupId>org.pac4j</groupId>
             <artifactId>pac4j-cas</artifactId>
@@ -189,21 +189,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- For Zxing -->
 		<dependency>
             <groupId>com.github.hiwepy</groupId>
             <artifactId>zxing-spring-boot-starter</artifactId>
         </dependency>
-		<!-- For XXL-JOB 
+		<!-- For XXL-JOB
 		<dependency>
 		   <groupId>com.github.hiwepy</groupId>
 			<artifactId>xxljob-spring-boot-starter</artifactId>
 		</dependency>-->
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
 		<!-- For Resilience4j -->
 		<dependency>
 		    <groupId>io.github.resilience4j</groupId>
@@ -267,7 +263,7 @@
 		    <artifactId>orai18n</artifactId>
 		    <scope>runtime</scope>
 		</dependency>
-	     
+
 		<!-- For Embed Tomcat -->
         <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -288,9 +284,9 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-        
+
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -314,13 +310,13 @@
 			<!-- 第三步：生成离线文档 -->
 			<!-- http://blog.didispace.com/swagger2markup-asciidoc/ -->
 			<!-- First, use the swagger2markup plugin to generate asciidoc -->
-			<!-- <plugin> <groupId>io.github.swagger2markup</groupId> <artifactId>swagger2markup-maven-plugin</artifactId> 
+			<!-- <plugin> <groupId>io.github.swagger2markup</groupId> <artifactId>swagger2markup-maven-plugin</artifactId>
 				</plugin> -->
-			<!-- Run the generated asciidoc through Asciidoctor to generate other 
+			<!-- Run the generated asciidoc through Asciidoctor to generate other
 				documentation types, such as PDFs or HTML5 -->
-			<!-- <plugin> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctor-maven-plugin</artifactId> 
+			<!-- <plugin> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctor-maven-plugin</artifactId>
 				</plugin> -->
 		</plugins>
 	</build>
-	
+
 </project>

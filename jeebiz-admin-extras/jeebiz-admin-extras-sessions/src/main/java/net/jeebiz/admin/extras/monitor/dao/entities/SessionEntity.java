@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.monitor.dao.entities;
 
@@ -25,7 +25,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
-@Alias("OnlineSessionModel")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_sessions")
 @Builder
@@ -34,7 +33,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class SessionEntity extends PaginationEntity<SessionEntity> {
-	
+
 	/**
 	 * 回话记录id
 	 */
