@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.extras.monitor.dao.IOnlineSessionDao">
 
-	<insert id="insert" parameterType="MyApplicationModel">
-		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
-	        SELECT IFNULL(MAX(APP_id), 0) + 1 FROM SYS_MYAPP
-	    </selectKey>
-		INSERT INTO SYS_MYAPP(APP_id,app_name,APP_DESC,APP_LANG,APP_ADDR,APP_USERid)
+	<insert id="insert" parameterType="LastOnlineSessionModel">
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">
+			SELECT IFNULL(MAX(APP_id), 0) + 1 FROM SYS_SESSIONS
+		</selectKey>
+		INSERT INTO SYS_SESSIONS(APP_id,app_name,APP_DESC,APP_LANG,APP_ADDR,APP_USERid)
 		VALUE(#{id},#{name},#{desc,jdbcType=VARCHAR},#{lang},#{addr},#{userId})
 	</insert>
 
-	<update id="update" parameterType="MyApplicationModel">
-		update SYS_MYAPP t
+	<update id="update" parameterType="LastOnlineSessionModel">
+		update SYS_SESSIONS t
 		<set>
 			<if test="name != null and name != ''">t.app_name = #{name,jdbcType=VARCHAR},</if>
 			<if test="desc != null and desc != ''">t.APP_DESC = #{desc,jdbcType=VARCHAR},</if>
@@ -19,26 +19,39 @@
 		where t.APP_id = #{id}
 	</update>
 
-	<resultMap id="MyApplicationMap" type="MyApplicationModel">
-		<result property="id" column="APP_id" />
-		<result property="name" column="app_name" />
-		<result property="desc" column="APP_DESC" />
-		<result property="lang" column="APP_LANG" />
-		<result property="addr" column="APP_ADDR" />
-		<result property="userId" column="APP_USERid" />
+	<resultMap id="OnlineSessionMap" type="LastOnlineSessionModel">
+		<result property="uid" column="S_id" />
+		<result property="userid" column="S_USERid" />
+		<result property="username" column="S_USERname" />
+		<result property="lang" column="S_HOST" />
+		<result property="addr" column="S_START_TIMESTAMP" />
+		<result property="userId" column="S_LASTACCESS_TIME" />
+		<result property="userId" column="S_USERAGENT" />
+		<result property="userId" column="S_SYSTEM_HOST" />
+		<result property="userId" column="S_TIMEOUT" />
+		<result property="userId" column="S_STATUS" />
 	</resultMap>
 
-	<select id="getPagedList" resultMap="MyApplicationMap" parameterType="MyApplicationModel">
-		select APP_id, app_name, APP_DESC, APP_LANG, APP_ADDR
-		  from SYS_MYAPP t
-		 where t.APP_USERid = #{userId, jdbcType=VARCHAR}
-		<if test="name != null and name != ''">
-			and t.app_name like '%'|| #{name} ||'%'
+	<select id="getPagedList" resultMap="OnlineSessionMap" parameterType="LastOnlineSessionModel">
+		SELECT
+		t.S_id,
+		t.S_USERid,
+		t.S_USERname,
+		t.S_HOST,
+		t.S_START_TIMESTAMP,
+		t.S_LASTACCESS_TIME,
+		t.S_USERAGENT,
+		t.S_SYSTEM_HOST,
+		t.S_TIMEOUT,
+		t.S_STATUS
+		FROM SYS_SESSIONS t
+		<if test="model.name != null and model.name != ''">
+			and t.app_name like CONCAT('%',#{model.name},'%')
 		</if>
 	</select>
 
-	<delete id="delete" parameterType="MyApplicationModel">
-		DELETE FROM SYS_MYAPP WHERE APP_id = #{id}
+	<delete id="delete" parameterType="LastOnlineSessionModel">
+		DELETE FROM SYS_SESSIONS WHERE APP_id = #{id}
 	</delete>
 
 </mapper>
