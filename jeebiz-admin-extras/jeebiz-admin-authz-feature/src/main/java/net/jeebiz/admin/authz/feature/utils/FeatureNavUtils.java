@@ -42,7 +42,7 @@ public final class FeatureNavUtils {
 				// 功能操作排序
 				optDTO.setOrder(Integer.parseInt(StringUtils.trim(opt.getOrderBy())));
 				// 功能菜单id
-				optDTO.setPid(opt.getFeatureId());
+				optDTO.setPid(Integer.parseInt(StringUtils.trim(opt.getFeatureId())));
 				// 功能操作权限标记
 				optDTO.setPerms(opt.getPerms());
 				// 是否已经授权
@@ -160,7 +160,7 @@ public final class FeatureNavUtils {
 		// 菜单显示顺序
 		featureDTO.setOrder(Integer.parseInt(StringUtils.trim(feature.getOrderBy())));
 		// 父级功能菜单id
-		featureDTO.setPid(feature.getParent());
+		featureDTO.setPid(Integer.parseInt(StringUtils.trim(feature.getParent())));
 		// 功能菜单地址
 		featureDTO.setPath(feature.getUrl());
 		// 功能菜单对应页面相对路径

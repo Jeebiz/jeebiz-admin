@@ -74,7 +74,7 @@ public class AuthzFeatureTreeNode implements Comparable<AuthzFeatureTreeNode>{
 	 * 父级节点id
 	 */
 	@ApiModelProperty(name = "pid", value = "父级节点id")
-	private String pid;
+	private Integer pid;
 	/**
 	 * 权限标记
 	 */
