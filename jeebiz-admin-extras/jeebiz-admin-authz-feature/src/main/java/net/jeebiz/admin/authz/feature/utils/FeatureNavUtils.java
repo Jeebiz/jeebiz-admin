@@ -40,7 +40,7 @@ public final class FeatureNavUtils {
 				// 功能操作图标样式
 				optDTO.setIcon(opt.getIcon());
 				// 功能操作排序
-				optDTO.setOrder(opt.getOrderBy());
+				optDTO.setOrder(Integer.parseInt(StringUtils.trim(opt.getOrderBy())));
 				// 功能菜单id
 				optDTO.setPid(opt.getFeatureId());
 				// 功能操作权限标记
@@ -158,7 +158,7 @@ public final class FeatureNavUtils {
 		// 菜单样式或菜单图标路径
 		featureDTO.setIcon(feature.getIcon());
 		// 菜单显示顺序
-		featureDTO.setOrder(feature.getOrderBy());
+		featureDTO.setOrder(Integer.parseInt(StringUtils.trim(feature.getOrderBy())));
 		// 父级功能菜单id
 		featureDTO.setPid(feature.getParent());
 		// 功能菜单地址

@@ -69,7 +69,7 @@ public class AuthzFeatureTreeNode implements Comparable<AuthzFeatureTreeNode>{
 	 * 显示顺序
 	 */
 	@ApiModelProperty(name = "order", value = "显示顺序")
-	private String order;
+	private Integer order;
 	/**
 	 * 父级节点id
 	 */
@@ -103,11 +103,7 @@ public class AuthzFeatureTreeNode implements Comparable<AuthzFeatureTreeNode>{
 
 	@Override
 	public int compareTo(AuthzFeatureTreeNode o) {
-		try {
-			return Integer.parseInt(StringUtils.trim(order)) - Integer.parseInt(StringUtils.trim(o.getOrder()));
-		} catch (NumberFormatException e) {
-		}
-		return 0;
+		return order.compareTo(o.getOrder());
 	}
 
 }
