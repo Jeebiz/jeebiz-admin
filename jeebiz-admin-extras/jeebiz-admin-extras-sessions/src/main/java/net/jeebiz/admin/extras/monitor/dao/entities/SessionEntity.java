@@ -35,9 +35,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @EqualsAndHashCode(callSuper=false)
 public class SessionEntity extends PaginationEntity<SessionEntity> {
 
-	/**
-	 * 回话记录id
-	 */
+	/** 回话记录id */
 	@TableId(value="s_id",type= IdType.AUTO)
 	private String id;
 	/** 当前登录的用户Id */

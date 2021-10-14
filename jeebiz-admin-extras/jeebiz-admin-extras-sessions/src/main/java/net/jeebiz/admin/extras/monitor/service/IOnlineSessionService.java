@@ -6,18 +6,28 @@ package net.jeebiz.admin.extras.monitor.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
 import net.jeebiz.admin.extras.monitor.web.dto.OnlineSessionDTO;
-import net.jeebiz.boot.api.service.IBaseService;
+import net.jeebiz.admin.extras.monitor.web.param.SessionQueryParam;
+import net.jeebiz.boot.api.service.IBaseMapperService;
 
-public interface IOnlineSessionService extends IBaseService<SessionEntity> {
+public interface IOnlineSessionService extends IBaseMapperService<SessionEntity> {
 
-	List<OnlineSessionDTO> getActiveSessions();
+	List<OnlineSessionDTO> getActiveSessions(SessionQueryParam queryParam, String appId, String appChannel, String appVersion,
+			String languageCode, HttpServletRequest request);
+	
 
+	OnlineSessionDTO getActiveSession(String sessionId, String appId, String appChannel, String appVersion,
+			String languageCode, HttpServletRequest request);
+
+	boolean kickout(String sessionId, String appId, String appChannel, String appVersion,
+			String languageCode, HttpServletRequest request);
+	
 	int offline(String sessionId);
 
 	int online(SessionEntity onlineSession);
 
-	boolean kickout(String sessionId);
 			 
 }

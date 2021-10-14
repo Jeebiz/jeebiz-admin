@@ -4,11 +4,19 @@
  */
 package net.jeebiz.admin.extras.monitor.web.dto;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.shiro.biz.web.Constants;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SimpleOnlineSession;
+import org.apache.shiro.session.mgt.SimpleOnlineSession.OnlineStatus;
+
+import hitool.core.lang3.time.DateFormats;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
 
 /**
  * 在线会话信息
@@ -59,5 +67,47 @@ public class OnlineSessionDTO {
 		this.lastAccessTime = lastAccessTime;
 		this.timeout = timeout;
 	}
+	
+	public static OnlineSessionDTO fromSession(Session session) {
+		
+		OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(session.getId()), session.getHost(),
+				DateFormatUtils.format(session.getStartTimestamp(), DateFormats.DATE_LONGFORMAT), 
+				DateFormatUtils.format(session.getLastAccessTime(), DateFormats.DATE_LONGFORMAT), 
+				session.getTimeout());
+		
+		if(session instanceof SimpleOnlineSession) {
+			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
+			sessionDTO.setStatus(onlineSession.getStatus().getInfo());
+			sessionDTO.setUserAgent(onlineSession.getUserAgent());
+			sessionDTO.setSystemHost(onlineSession.getSystemHost());
+		}
+		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
+			sessionDTO.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
+		} 
+		
+		return sessionDTO;
+	}
+	
+	public static OnlineSessionDTO fromSessionEntity(SessionEntity sessionEntity) {
+		
+		OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(session.getId()), session.getHost(),
+				DateFormatUtils.format(session.getStartTimestamp(), DateFormats.DATE_LONGFORMAT), 
+				DateFormatUtils.format(session.getLastAccessTime(), DateFormats.DATE_LONGFORMAT), 
+				session.getTimeout());
+		
+		if(session instanceof SimpleOnlineSession) {
+			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
+			sessionDTO.setStatus(onlineSession.getStatus().getInfo());
+			sessionDTO.setUserAgent(onlineSession.getUserAgent());
+			sessionDTO.setSystemHost(onlineSession.getSystemHost());
+		}
+		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
+			sessionDTO.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
+		} 
+		
+		return sessionDTO;
+	}
+	
+	
 
 }
