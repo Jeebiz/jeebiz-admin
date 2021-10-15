@@ -59,6 +59,7 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 		SessionEntity sessionEntity = SessionEntity.builder()
 				.sessionId(session.getId().toString())
 				.startTimestamp(session.getStartTimestamp())
+				.timeout(session.getTimeout())
 				.status("1")
 				.build();
 		sessionMapper.insert(sessionEntity);
