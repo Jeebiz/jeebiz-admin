@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.monitor.dao;
 
@@ -10,7 +10,7 @@ import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
 import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface IOnlineSessionDao extends BaseMapper<SessionEntity> {
-	
-	
+public interface ISessionMapper extends BaseMapper<SessionEntity> {
+
+
 }

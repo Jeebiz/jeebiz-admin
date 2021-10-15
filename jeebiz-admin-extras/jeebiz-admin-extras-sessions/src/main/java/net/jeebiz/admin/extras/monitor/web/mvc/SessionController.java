@@ -69,7 +69,7 @@ public class SessionController extends BaseApiController {
 			@RequestHeader(value = XHeaders.X_LANGUAGE, defaultValue = "zh") String languageCode,
 			@ApiIgnore HttpServletRequest request) {
         try {
-			getOnlineSessionService().kickout(kickoutParam, appId, appChannel, appVersion, languageCode, request);
+			getOnlineSessionService().kickout(kickoutParam.getSessionId(), appId, appChannel, appVersion, languageCode, request);
 			return success("session.kickout.success");
 		} catch (Exception e) {
 			return fail("session.kickout.fail");
