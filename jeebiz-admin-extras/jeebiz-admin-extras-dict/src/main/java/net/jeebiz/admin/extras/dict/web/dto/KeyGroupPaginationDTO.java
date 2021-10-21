@@ -11,16 +11,16 @@ import lombok.Setter;
 import lombok.ToString;
 import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 
-@ApiModel(value = "KeyGroupPaginationDTO", description = "基础数据分组分页查询参数DTO")
+@ApiModel(value = "KeyGroupPaginationDTO", description = "基础数据字典分页查询参数DTO")
 @Getter
 @Setter
 @ToString
 public class KeyGroupPaginationDTO extends AbstractPaginationDTO {
 	
 	/**
-	 * 基础数据分组
+	 * 数据字典
 	 */
-	@ApiModelProperty(name = "value", dataType = "String", value = "基础数据分组")
+	@ApiModelProperty(name = "value", dataType = "String", value = "数据字典")
 	private String value;
 
 }

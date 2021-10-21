@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.authz.feature.utils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,9 +40,9 @@ public final class FeatureNavUtils {
 				// 功能操作图标样式
 				optDTO.setIcon(opt.getIcon());
 				// 功能操作排序
-				optDTO.setOrder(opt.getOrderBy());
+				optDTO.setOrder(Integer.parseInt(StringUtils.trim(opt.getOrderBy())));
 				// 功能菜单id
-				optDTO.setPid(opt.getFeatureId());
+				optDTO.setPid(Integer.parseInt(StringUtils.trim(opt.getFeatureId())));
 				// 功能操作权限标记
 				optDTO.setPerms(opt.getPerms());
 				// 是否已经授权
@@ -49,7 +50,7 @@ public final class FeatureNavUtils {
 
 				featureOpts.add(optDTO);
 			}
-			return featureOpts.stream().sorted().collect(Collectors.toList());
+			return featureOpts.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return featureOpts;
 	}
@@ -97,7 +98,7 @@ public final class FeatureNavUtils {
 				}
 				features.add(featureDTO);
 			}
-			return features.stream().sorted().collect(Collectors.toList());
+			return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return features;
 	}
@@ -131,7 +132,7 @@ public final class FeatureNavUtils {
 					}
 					features.add(featureDTO);
 				}
-				return features.stream().sorted().collect(Collectors.toList());
+				return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 			}
 			return features;
 
@@ -157,9 +158,9 @@ public final class FeatureNavUtils {
 		// 菜单样式或菜单图标路径
 		featureDTO.setIcon(feature.getIcon());
 		// 菜单显示顺序
-		featureDTO.setOrder(feature.getOrderBy());
+		featureDTO.setOrder(Integer.parseInt(StringUtils.trim(feature.getOrderBy())));
 		// 父级功能菜单id
-		featureDTO.setPid(feature.getParent());
+		featureDTO.setPid(Integer.parseInt(StringUtils.trim(feature.getParent())));
 		// 功能菜单地址
 		featureDTO.setPath(feature.getUrl());
 		// 功能菜单对应页面相对路径
@@ -209,7 +210,7 @@ public final class FeatureNavUtils {
 				features.add(featureDTO);
 			}
 
-			return features.stream().sorted().collect(Collectors.toList());
+			return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return features;
 	}
@@ -279,7 +280,7 @@ public final class FeatureNavUtils {
 			AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
 			features.add(featureDTO);
 		}
-		return features.stream().sorted().collect(Collectors.toList());
+		return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
 	}
 
 	public static List<AuthzFeatureTreeNode> getFeatureFlatList(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList) {

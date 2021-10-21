@@ -80,12 +80,12 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "根据分组查询基础数据（完整）", notes = "根据分组查询基础数据（完整）")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "gkey", value = "基础数据分组,多个分组用,分割", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "gkey", value = "数据字典,多个分组用,分割", required = true, dataType = "String")
 	})
 	@GetMapping("groups")
 	@RequiresPermissions("keyvalue:list")
 	@ResponseBody
-	public ApiRestResponse<Map<String, List<KeyValueDTO>>> groups(@Valid @NotNull(message = "基础数据分组编码不能为空") @RequestParam String gkey){
+	public ApiRestResponse<Map<String, List<KeyValueDTO>>> groups(@Valid @NotNull(message = "基础数据字典编码不能为空") @RequestParam String gkey){
 		Map<String, List<KeyValueModel>> pairList = getKeyValueService().getGroupPairValues(StringUtils.tokenizeToStringArray(gkey));
 		Map<String, List<KeyValueDTO>> reMap = new HashMap<String, List<KeyValueDTO>>();
 		if(CollectionUtils.isEmpty(pairList)) {
@@ -102,12 +102,12 @@ public class KeyValueController extends BaseApiController {
 	
 	@ApiOperation(value = "根据分组查询基础数据（键值对）", notes = "根据分组查询基础数据（键值对）")
 	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "query", name = "gkey", value = "基础数据分组", required = true, dataType = "String")
+		@ApiImplicitParam(paramType = "query", name = "gkey", value = "数据字典", required = true, dataType = "String")
 	})
 	@GetMapping("pairs")
 	@RequiresPermissions("keyvalue:list")
 	@ResponseBody
-	public ApiRestResponse<List<PairModel>> pairs(@Valid @RequestParam @NotNull(message = "基础数据分组编码不能为空") String gkey) throws Exception {
+	public ApiRestResponse<List<PairModel>> pairs(@Valid @RequestParam @NotNull(message = "基础数据字典编码不能为空") String gkey) throws Exception {
 		return ApiRestResponse.success(getKeyValueService().getPairValues(gkey));
 	}
 	

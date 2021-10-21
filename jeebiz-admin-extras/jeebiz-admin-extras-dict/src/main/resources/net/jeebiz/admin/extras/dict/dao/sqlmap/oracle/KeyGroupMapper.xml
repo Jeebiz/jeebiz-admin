@@ -2,33 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.extras.dict.dao.IKeyGroupDao" >
-	
+
 	<resultMap id="KeyGroupMap" type="KeyGroupModel">
 		<result property="id" column="g_id" />
 		<result property="key" column="g_key" />
 		<result property="value" column="g_text" />
-		<result property="status" column="g_status" />
-		<result property="orderBy" column="g_order" />
+		<result property="intro" column="g_intro" />
+		<result property="status" column="g_status" jdbcType="TINYINT" />
+		<result property="orderBy" column="g_order" jdbcType="TINYINT" />
+		<result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+		<result column="creator" property="creator" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="modifyer" property="modifyer" jdbcType="BIGINT" />
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
 	</resultMap>
-	
+
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="g_key" />
 		<result property="value" column="g_text" />
 	</resultMap>
-	
+
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_data_pairgroup t
 		   SET g_status = #{status}
 		 WHERE g_id = #{id}
 	</update>
-    
+
 	<select id="getPagedList" resultMap="KeyGroupMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.g_id,
 			t.g_key,
 			t.g_text,
+		    t.g_intro,
 			t.g_status,
-			t.g_order
+			t.g_order,
+			t.is_delete,
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
 		FROM sys_data_pairgroup t
 		<where>
 			<if test="model.value != null and model.value != ''">
@@ -37,43 +49,55 @@
 		</where>
 		ORDER By t.g_order ASC
 	</select>
-	
+
 	<select id="getModel" resultMap="KeyGroupMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.g_id,
 			t.g_key,
 			t.g_text,
+			t.g_intro,
 			t.g_status,
-			t.g_order
+			t.g_order,
+			t.is_delete,
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
 		FROM sys_data_pairgroup t
 		WHERE t.g_id = #{id}
 	</select>
-	
+
 	<select id="getKeyGroupList" resultMap="KeyGroupMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.g_id,
 			t.g_key,
 			t.g_text,
+			t.g_intro,
 			t.g_status,
-			t.g_order
+			t.g_order,
+			t.is_delete,
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
 		FROM sys_data_pairgroup t
 		ORDER By t.g_order ASC
 	</select>
-	
+
 	<select id="getPairList" resultMap="PairMap" useCache="false">
 		SELECT t.g_key,t.g_text
 		FROM sys_data_pairgroup t
 		WHERE t.g_status = 1
 	</select>
-	
+
 	<select id="getPairValues" resultMap="PairMap" useCache="false">
 		SELECT t.g_key,t.g_text
 		FROM sys_data_pairgroup t
 		WHERE t.g_status = 1
 	</select>
-	
+
     <select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT COUNT(1) 
+		SELECT COUNT(1)
 		  FROM sys_data_pairgroup t
 		 WHERE t.g_key = #{code}
 		 <if test="origin != null and origin != ''">
@@ -81,9 +105,9 @@
 		 </if>
 		 AND ROWNUM = 1
 	</select>
-	
+
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT COUNT(1) 
+		SELECT COUNT(1)
 		  FROM sys_data_pairgroup t
 		 WHERE t.g_text = #{name}
 		 <if test="origin != null and origin != ''">
@@ -91,6 +115,6 @@
 		 </if>
 		 AND ROWNUM = 1
 	</select>
-    
-		
+
+
 </mapper>

@@ -18,9 +18,9 @@ import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 public class KeyValuePaginationDTO extends AbstractPaginationDTO {
 	
 	/**
-	 * 基础数据分组
+	 * 数据字典
 	 */
-	@ApiModelProperty(name = "gkey", dataType = "String", value = "基础数据分组")
+	@ApiModelProperty(name = "gkey", dataType = "String", value = "数据字典")
 	private String gkey;
 	/**
 	 * 数据状态：0:不可用|1：可用,可用值:0,1

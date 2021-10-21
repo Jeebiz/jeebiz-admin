@@ -1,10 +1,11 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.monitor.dao.entities;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 import org.apache.shiro.biz.web.Constants;
@@ -25,19 +26,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
-@Alias("OnlineSessionModel")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_user_sessions")
+@TableName(value = "sys_authz_session")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class SessionEntity extends PaginationEntity<SessionEntity> {
-	
-	/**
-	 * 回话记录id
-	 */
+
+	/** 回话记录id */
 	@TableId(value="s_id",type= IdType.AUTO)
 	private String id;
 	/** 当前登录的用户Id */
@@ -54,10 +52,10 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 	private String host;
 	/** 用户登录时间 */
 	@TableField(value = "s_start_timestamp")
-	private String startTimestamp;
+	private Date startTimestamp;
 	/** 最后访问时间 */
 	@TableField(value = "s_last_access_time")
-	private String lastAccessTime;
+	private Date lastAccessTime;
 	/** 用户浏览器类型 */
 	@TableField(value = "s_ua")
 	private String userAgent;
@@ -69,14 +67,14 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 	private String forceLogout;
 	/** 备份的当前用户会话 */
 	@TableField(value = "s_session")
-    private OnlineSession session;
+    private String session;
 	/** 会话多久后过期（毫秒） */
 	@TableField(value = "s_timeout")
 	private long timeout;
 	/** 在线状态（0：离线，1：在线） */
 	@TableField(value = "s_status")
 	private String status;
-
+/*
 	public SessionEntity(String sessionId, String host, String startTimestamp, String lastAccessTime,
 			long timeout) {
 		this.sessionId = sessionId;
@@ -99,6 +97,6 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
 			this.status =  OnlineStatus.FORCE_LOGOUT.getInfo();
 		}
-	}
+	}*/
 
 }

@@ -1,12 +1,15 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.dict.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.Date;
 
 @ApiModel(value = "KeyValueDTO", description = "基础数据传输对象")
 @Data
@@ -17,19 +20,19 @@ public class KeyValueDTO {
 	 */
 	@ApiModelProperty(name = "id", dataType = "String", value = "基础数据id编号")
 	private String id;
-	
+
 	/**
-	 * 基础数据分组Key
+	 * 基础数据字典Key
 	 */
-	@ApiModelProperty(name = "gkey", dataType = "String", value = "基础数据分组Key")
+	@ApiModelProperty(name = "gkey", dataType = "String", value = "基础数据字典Key")
 	private String gkey;
-	
+
 	/**
-	 * 基础数据分组
+	 * 数据字典
 	 */
-	@ApiModelProperty(name = "gtext", dataType = "String", value = "基础数据分组")
+	@ApiModelProperty(name = "gtext", dataType = "String", value = "数据字典")
 	private String gtext;
-	
+
 	/**
 	 * 基础数据标签
 	 */
@@ -60,6 +63,12 @@ public class KeyValueDTO {
 	 */
 	@ApiModelProperty(name = "orderBy", dataType = "String", value = "数据排序:组内排序", hidden = true)
 	private int orderBy;
- 
+	/**
+	 * 创建时间
+	 */
+	@ApiModelProperty(name = "createTime", value = "创建时间")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	private Date createTime;
+
 
 }

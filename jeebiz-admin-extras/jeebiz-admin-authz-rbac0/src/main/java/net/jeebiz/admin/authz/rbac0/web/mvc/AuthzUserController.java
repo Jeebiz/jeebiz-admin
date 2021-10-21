@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.web.mvc;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import net.jeebiz.admin.authz.rbac0.web.dto.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
@@ -41,14 +42,6 @@ import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserProfileService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
 import net.jeebiz.admin.authz.rbac0.setup.Constants;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleDTO;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserAllotRoleDTO;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserDTO;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserNewDTO;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserPaginationDTO;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserProfileDTO;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserRenewDTO;
-import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserResetDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.annotation.AllowableValues;
@@ -73,16 +66,16 @@ public class AuthzUserController extends BaseMapperController {
 	private IAuthzUserProfileService authzUserProfileService;
 	@Autowired
 	private IAuthzRoleService authzRoleService;
-	
+
 	@ApiOperation(value = "分页查询用户信息", notes = "分页查询用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "用户信息筛选条件", dataType = "AuthzUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "分页查询用户信息", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresPermissions("user:list")
 	public Result<AuthzUserDTO> list(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
-		
+
 		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
 		Page<AuthzUserModel> pageResult = getAuthzUserService().getPagedList(model);
 		List<AuthzUserDTO> retList = new ArrayList<AuthzUserDTO>();
@@ -91,12 +84,12 @@ public class AuthzUserController extends BaseMapperController {
 			userDTO.setTime24(DateUtils.formatDateTime(userModel.getCreateTime()));
 			retList.add(userDTO);
 		}
-		
+
 		return new Result<AuthzUserDTO>(pageResult, retList);
 	}
-	
+
 	@ApiOperation(value = "指定用户详情", notes = "根据用户id查询用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "用户id", dataType = "String")
 	})
 	@GetMapping("detailById")
@@ -108,12 +101,12 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserDTO.class));
 	}
-	
+
 	@ApiOperation(value = "登录用户详情", notes = "根据认证信息中的用户id查询用户详情")
 	@GetMapping("detail")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<AuthzUserDTO> detail() throws Exception { 
+	public ApiRestResponse<AuthzUserDTO> detail() throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		AuthzUserModel model = getAuthzUserService().getById(principal.getUserid());
 		if(model == null) {
@@ -126,12 +119,12 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return ApiRestResponse.success(userDTO);
 	}
-	
+
 	@ApiOperation(value = "登录用户信息", notes = "根据认证信息中的用户id查询用户详情")
 	@GetMapping("profile")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<AuthzUserProfileDTO> profile() throws Exception { 
+	public ApiRestResponse<AuthzUserProfileDTO> profile() throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		AuthzUserProfileModel model = getAuthzUserProfileService().getProfile(principal.getUserid());
 		if(model == null) {
@@ -139,16 +132,16 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzUserProfileDTO.class));
 	}
-	
+
 	@ApiOperation(value = "增加用户信息", notes = "增加用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "userDTO", value = "用户信息", required = true, dataType = "AuthzUserNewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "新增用户-名称：${name}", opt = BusinessType.INSERT)
 	@PostMapping("new")
     @RequiresPermissions("user:new")
 	public ApiRestResponse<String> newUser(@Valid @RequestBody AuthzUserNewDTO userDTO, @ApiIgnore HttpServletRequest request) throws Exception {
-		
+
 		int total = getAuthzUserService().getCountByName(userDTO.getUsername(), null);
 		if(total > 0) {
 			return fail("user.new.exists");
@@ -157,36 +150,36 @@ public class AuthzUserController extends BaseMapperController {
 		if(total2 > 0) {
 			return fail("user.new.ucode.exists");
 		}
-		
+
 		AuthzUserModel model = getBeanMapper().map(userDTO, AuthzUserModel.class);
-		
+
 		String appId = request.getHeader(XHeaders.X_APP_ID);
 		String appChannel = request.getHeader(XHeaders.X_APP_CHANNEL);
 		String appVersion = request.getHeader(XHeaders.X_APP_VERSION);
-		
+
 		log.info(XHeaders.X_APP_ID + "：{}", appId);
 		log.info(XHeaders.X_APP_CHANNEL + "：{}", appChannel);
 		log.info(XHeaders.X_APP_VERSION + "：{}", appVersion);
-		
+
 		model.setAppId(appId);
 		model.setAppChannel(appChannel);
 		model.setAppVer(appVersion);
-		
+
 		boolean result = getAuthzUserService().save(model);
 		if(result) {
 			return success("user.new.success", result);
 		}
 		return fail("user.new.fail", result);
 	}
-	
+
 	@ApiOperation(value = "修改用户信息", notes = "修改用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "userDTO", value = "用户信息", required = true, dataType = "AuthzUserRenewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "修改用户-名称：${name}", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("user:renew")
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzUserRenewDTO userDTO) throws Exception { 
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzUserRenewDTO userDTO) throws Exception {
 		int total2 = getAuthzUserService().getCountByCode(userDTO.getUcode(), userDTO.getId());
 		if(total2 > 0) {
 			return fail("user.new.ucode.exists");
@@ -198,7 +191,7 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return fail("user.renew.fail", result);
 	}
-	
+
 	@ApiOperation(value = "更新用户状态", notes = "更新用户状态")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "id", required = true, value = "用户id", dataType = "String"),
@@ -214,9 +207,9 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return fail("user.status.fail", result);
 	}
-	
+
 	@ApiOperation(value = "删除用户信息", notes = "删除用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "query", name = "id", value = "用户id", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "删除用户-名称：${userid}", opt = BusinessType.DELETE)
@@ -225,13 +218,13 @@ public class AuthzUserController extends BaseMapperController {
 	public ApiRestResponse<String> delUser(@RequestParam("id") String id) throws Exception {
 		int total = getAuthzUserService().delete(id);
 		if(total > 0) {
-			return success("user.delete.success", total); 
+			return success("user.delete.success", total);
 		}
 		return fail("user.delete.fail", total);
 	}
-	
+
 	@ApiOperation(value = "批量删除用户信息", notes = "批量删除用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(name = "ids", value = "用户id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "删除用户-名称：${userid} ", opt = BusinessType.DELETE)
@@ -242,13 +235,13 @@ public class AuthzUserController extends BaseMapperController {
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
 		boolean total = getAuthzUserService().removeByIds(idList);
 		if(total) {
-			return success("user.delete.success", total); 
+			return success("user.delete.success", total);
 		}
 		return fail("user.delete.fail", total);
 	}
-	
+
 	@ApiOperation(value = "分页查询用户已分配角色信息", notes = "分页查询用户已分配角色信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "已分配角色信息筛选条件", dataType = "AuthzUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "分页查询用户已分配角色信息,用户Id：${userid}", opt = BusinessType.DELETE)
@@ -256,7 +249,7 @@ public class AuthzUserController extends BaseMapperController {
 	@RequiresPermissions("user:allocated")
 	@ResponseBody
 	public Result<AuthzRoleDTO> allocated(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
-		
+
 		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
 		Page<AuthzRoleModel> pageResult = getAuthzUserService().getPagedAllocatedList(model);
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
@@ -265,9 +258,9 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return new Result<AuthzRoleDTO>(pageResult, retList);
 	}
-	
+
 	@ApiOperation(value = "分页查询用户未分配角色信息", notes = "分页查询用户未分配角色信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "未分配角色信息筛选条件", dataType = "AuthzUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "分页查询用户未分配角色信息,用户Id：${userid}", opt = BusinessType.DELETE)
@@ -275,7 +268,7 @@ public class AuthzUserController extends BaseMapperController {
 	@RequiresPermissions("user:unallocated")
 	@ResponseBody
 	public Result<AuthzRoleDTO> unallocated(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
-		
+
 		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
 		Page<AuthzRoleModel> pageResult = getAuthzUserService().getPagedUnAllocatedList(model);
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
@@ -284,35 +277,35 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return new Result<AuthzRoleDTO>(pageResult, retList);
 	}
-	
+
 	@ApiOperation(value = "给指定用户分配角色", notes = "给指定用户分配角色")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "allotDTO", value = "用户分配的角色信息", dataType = "AuthzUserAllotRoleDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "给指定用户分配角色，用户Id：${userid}", opt = BusinessType.DELETE)
 	@PostMapping("allot")
 	@RequiresPermissions("user:allot")
 	@ResponseBody
-	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception { 
+	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception {
 		AuthzUserAllotRoleModel model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleModel.class);
 		int total = getAuthzUserService().doAllot(model);
-		return success("user.allot.success", total); 
+		return success("user.allot.success", total);
 	}
-	
+
 	@ApiOperation(value = "取消已分配给指定用户的角色", notes = "取消已分配给指定用户的角色")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "allotDTO", value = "用户取消分配的角色信息", dataType = "AuthzUserAllotRoleDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "取消已分配给指定用户的角色，用户Id：${userid}", opt = BusinessType.DELETE)
 	@PostMapping("unallot")
 	@RequiresPermissions("user:unallot")
 	@ResponseBody
-	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception { 
+	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception {
 		AuthzUserAllotRoleModel model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleModel.class);
 		int total = getAuthzUserService().doUnAllot(model);
-		return success("user.unallot.success", total); 
+		return success("user.unallot.success", total);
 	}
-	
+
 	@ApiOperation(value = "重置信息：当前登录用户", notes = "重置当前登录用户信息")
 	@PostMapping("reset/info")
 	@RequiresAuthentication
@@ -321,29 +314,25 @@ public class AuthzUserController extends BaseMapperController {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		int total = getAuthzUserProfileService().resetInfo(principal.getUserid(), infoDTO);
 		if(total > 0) {
-			return success("user.reset.info.success", total); 
+			return success("user.reset.info.success", total);
 		}
 		return fail("user.reset.info.fail", total);
 	}
-	
+
 	@ApiOperation(value = "重置密码：当前登录用户", notes = "重置当前登录用户密码")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "oldPassword", required = true, value = "当前密码", dataType = "String"),
-		@ApiImplicitParam(name = "password", required = true, value = "新密码", dataType = "String")
-	})
 	@BusinessLog(module = Constants.AUTHZ_USER, business = "设置密码", opt = BusinessType.UPDATE)
 	@PostMapping("reset/pwd")
 	@RequiresAuthentication
-	public ApiRestResponse<String> resetPwdSelf(@RequestParam(defaultValue = "123456") String oldPassword, @RequestParam String password) throws Exception {
+	public ApiRestResponse<String> resetPwdSelf(@Valid @RequestBody AuthzUserPwdResetDTO pwdDTO ) throws Exception {
 		// 密码加密
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		int total = getAuthzUserService().resetPwd(principal.getUserid(), oldPassword, password);
+		int total = getAuthzUserService().resetPwd(principal.getUserid(), pwdDTO.getOldPassword(), pwdDTO.getPassword());
 		if(total > 0) {
-			return success("user.reset.pwd.success", total); 
+			return success("user.reset.pwd.success", total);
 		}
 		return fail("user.reset.pwd.fail", total);
 	}
-	
+
 	@ApiOperation(value = "角色权限标记：当前登录用户", notes = "查询已分配给当前用户所属角色的权限")
 	@GetMapping("perms")
 	@RequiresAuthentication
@@ -351,7 +340,7 @@ public class AuthzUserController extends BaseMapperController {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		return ApiRestResponse.success(getAuthzUserService().getPermissions(principal.getUserid()));
 	}
-	
+
 	@ApiOperation(value = "角色信息列表：当前登录用户", notes = "查询当前用户全部可用角色信息")
 	@GetMapping("roles")
 	@RequiresAuthentication
@@ -365,7 +354,7 @@ public class AuthzUserController extends BaseMapperController {
 		}
 		return ApiRestResponse.success(retList);
 	}
-	
+
 	public IAuthzUserService getAuthzUserService() {
 		return authzUserService;
 	}
@@ -373,9 +362,9 @@ public class AuthzUserController extends BaseMapperController {
 	public IAuthzUserProfileService getAuthzUserProfileService() {
 		return authzUserProfileService;
 	}
-	
+
 	public IAuthzRoleService getAuthzRoleService() {
 		return authzRoleService;
 	}
-	
+
 }

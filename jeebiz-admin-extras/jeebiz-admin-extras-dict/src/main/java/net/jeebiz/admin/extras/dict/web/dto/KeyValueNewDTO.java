@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.dict.web.dto;
 
@@ -16,10 +16,10 @@ import lombok.Data;
 public class KeyValueNewDTO {
 
 	/**
-	 * 基础数据分组
+	 * 数据字典
 	 */
-	@ApiModelProperty(name = "gkey", required = true, dataType = "String", value = "基础数据分组")
-	@NotBlank(message = "基础数据分组必填")
+	@ApiModelProperty(name = "gkey", required = true, dataType = "String", value = "数据字典")
+	@NotBlank(message = "基础数据字典必填")
 	private String gkey;
 	/**
 	 * 基础数据键
@@ -53,8 +53,8 @@ public class KeyValueNewDTO {
 	/**
 	 * 数据排序:组内排序
 	 */
-	@ApiModelProperty(name = "order", required = true, dataType = "String", value = "数据排序:组内排序", hidden = true)
+	@ApiModelProperty(name = "orderBy", required = true, dataType = "String", value = "数据排序:组内排序", hidden = true)
 	@NotNull(message = "基础数据排序必填")
-	private int order;
+	private int orderBy;
 
 }
