@@ -4,10 +4,8 @@
  */
 package net.jeebiz.admin.extras.monitor.dao.entities;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.ibatis.type.Alias;
 import org.apache.shiro.biz.web.Constants;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.OnlineSession;
@@ -74,8 +72,8 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 	/** 在线状态（0：离线，1：在线） */
 	@TableField(value = "s_status")
 	private String status;
-/*
-	public SessionEntity(String sessionId, String host, String startTimestamp, String lastAccessTime,
+
+	public SessionEntity(String sessionId, String host, Date startTimestamp, Date lastAccessTime,
 			long timeout) {
 		this.sessionId = sessionId;
 		this.host = host;
@@ -84,11 +82,11 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 		this.timeout = timeout;
 	}
 
-	public SessionEntity(SimpleDateFormat dateFormat, Session session) {
+	public SessionEntity(Session session) {
 		this.sessionId = String.valueOf(session.getId());
 		this.host = session.getHost();
-		this.startTimestamp = dateFormat.format(session.getStartTimestamp());
-		this.lastAccessTime = dateFormat.format(session.getLastAccessTime());
+		this.startTimestamp = session.getStartTimestamp();
+		this.lastAccessTime = session.getLastAccessTime();
 		this.timeout = session.getTimeout();
 		if(session instanceof SimpleOnlineSession) {
 			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
@@ -97,6 +95,26 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
 			this.status =  OnlineStatus.FORCE_LOGOUT.getInfo();
 		}
-	}*/
+	}
+
+	public OnlineSession toSession() {
+		
+		OnlineSession session = null;
+        
+        return session;
+    }
+	
+	public static SessionEntity fromSession(OnlineSession session) {
+		
+		SessionEntity online = new SessionEntity(session);
+		
+        online.setId(String.valueOf(session.getId()));
+        online.setUserid(session.getUserid());
+        online.setUsername(session.getUsername());
+        online.setUserAgent(session.getUserAgent());
+        online.setAddress(session.getSystemHost());
+        
+        return online;
+    }
 
 }

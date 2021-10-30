@@ -90,18 +90,16 @@ public class OnlineSessionDTO {
 	
 	public static OnlineSessionDTO fromSessionEntity(SessionEntity sessionEntity) {
 		
-		OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(session.getId()), session.getHost(),
-				DateFormatUtils.format(session.getStartTimestamp(), DateFormats.DATE_LONGFORMAT), 
-				DateFormatUtils.format(session.getLastAccessTime(), DateFormats.DATE_LONGFORMAT), 
-				session.getTimeout());
-		
-		if(session instanceof SimpleOnlineSession) {
-			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
-			sessionDTO.setStatus(onlineSession.getStatus().getInfo());
-			sessionDTO.setUserAgent(onlineSession.getUserAgent());
-			sessionDTO.setSystemHost(onlineSession.getSystemHost());
-		}
-		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
+		OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(sessionEntity.getId()), sessionEntity.getHost(),
+				DateFormatUtils.format(sessionEntity.getStartTimestamp(), DateFormats.DATE_LONGFORMAT), 
+				DateFormatUtils.format(sessionEntity.getLastAccessTime(), DateFormats.DATE_LONGFORMAT), 
+				sessionEntity.getTimeout());
+	
+		sessionDTO.setStatus(sessionEntity.getStatus());
+		sessionDTO.setUserAgent(sessionEntity.getUserAgent());
+		sessionDTO.setSystemHost(sessionEntity.getHost());
+			
+		if(Boolean.TRUE.equals(Boolean.parseBoolean(sessionEntity.getForceLogout()))) {
 			sessionDTO.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
 		} 
 		
