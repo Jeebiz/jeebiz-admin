@@ -255,6 +255,7 @@ shiro:
     '[/kaptcha*]' : anon
     '[/druid/**]' : anon    
     '[/monitoring**]' : anon
+    '[/jobapi/**]' : anon
     '[/admin]' : anon
     '[/admin/index.html]' : anon
     '[/admin/assets/**]' : anon

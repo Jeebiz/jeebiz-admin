@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.jeebiz</groupId>
+		<artifactId>jeebiz-admin-extras</artifactId>
+		<version>1.0.2-ce-SNAPSHOT</version>
+	</parent>
+	<artifactId>jeebiz-admin-extras-xxljob</artifactId>
+	
+	<dependencies>
+		
+		<!-- For Jeebiz API -->
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		<!-- For Shiro -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-biz-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- mail-starter -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- For Mybatis -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+		</dependency>
+		<!-- For XXL-JOB-CORE -->
+		<dependency>
+		    <groupId>com.xuxueli</groupId>
+		    <artifactId>xxl-job-core</artifactId>
+		</dependency>
+		<!-- For Flyway -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>flyway-plus-spring-boot-starter</artifactId>
+		</dependency>
+		
+	</dependencies>
+	
+</project>
