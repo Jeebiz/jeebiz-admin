@@ -104,7 +104,7 @@ public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, Initi
 		try {
 
 			// 1、签发Token并进行Redis缓存
-			String jwtId = RedisKey.USER_TOKEN.getFunction().apply(userId);
+			String jwtId = RedisKey.USER_TOKEN.getKey(userId);
 
 			String jwtString = getSecretKeyJWTRepository().issueJwt(secretKey, jwtId, userId,
 					issuer, userId, claims, algorithm, -1);
@@ -156,7 +156,7 @@ public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, Initi
 				throw new ExpiredJwtException("JWT has expired");
 			}
 			// 3、查询是否用户被禁用
-			String userKey = RedisKey.USER_INFO.getFunction().apply(payload.getSubject());
+			String userKey = RedisKey.USER_INFO.getKey(payload.getSubject());
 			Object disabled = redisOperationTemplate.hGet(userKey, UserProfiles.DISABLED );
 			if(Objects.nonNull(disabled) && Integer.parseInt(disabled.toString()) == 0) {
 				throw new DisabledAccountException("账号已被禁用，请联系管理员！");

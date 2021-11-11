@@ -101,14 +101,14 @@ public class OnlineSessionServiceImpl extends BaseMapperServiceImpl<SessionEntit
 
 	@Override
 	public int offline(String sessionId) {
-		String userSsoStateKey = RedisKey.USER_SSO_STATE.getFunction().apply(null);
+		String userSsoStateKey = RedisKey.USER_SSO_STATE.getKey();
 		getRedisOperation().setBit(userSsoStateKey, 0, false);
 		return 1;
 	}
 
 	@Override
 	public int online(SessionEntity onlineSession) {
-		String userSsoStateKey = RedisKey.USER_SSO_STATE.getFunction().apply(null);
+		String userSsoStateKey = RedisKey.USER_SSO_STATE.getKey();
 		getRedisOperation().setBit(userSsoStateKey, 0, true);
 
 		return 1;

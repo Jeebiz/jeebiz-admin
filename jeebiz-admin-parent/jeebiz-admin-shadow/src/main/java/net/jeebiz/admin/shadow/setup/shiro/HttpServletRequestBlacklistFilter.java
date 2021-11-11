@@ -75,7 +75,7 @@ public class HttpServletRequestBlacklistFilter extends AccessControlFilter {
         	return;
         }
         
-        String appBlacklistKey = BizRedisKey.APP_BLACKLIST.getFunction().apply("device", null);
+        String appBlacklistKey = BizRedisKey.APP_BLACKLIST.getKey("device", null);
         Boolean isMemeber =  getRedisOperationTemplate().sHasKey(appBlacklistKey, devID);
         if (isMemeber){
             String message = getMessageSource().getMessage("app.blacklist.device.banned", null, LocaleContextHolder.getLocale());
