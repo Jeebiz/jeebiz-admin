@@ -116,11 +116,6 @@
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 
-		<!-- For Google API -->
-	 	<dependency>
-            <groupId>com.google.api-client</groupId>
-            <artifactId>google-api-client</artifactId>
-        </dependency>
 		<!-- For Swagger -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
