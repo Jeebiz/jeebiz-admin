@@ -7,18 +7,58 @@
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-boot-parent</artifactId>
 		<version>1.0.2-SNAPSHOT</version>
+		<relativePath/>
 	</parent>
-	
-	<artifactId>jeebiz-admin-build</artifactId>
-	<version>1.0.1-ce-SNAPSHOT</version>
+
+	<artifactId>jeebiz-admin</artifactId>
+	<version>1.0.2-ce-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>jeebiz-admin</name>
 	<url>http://jeebiz.net</url>
-	
+
+	<!-- 组织信息 -->
+	<organization>
+		<name>Jeebiz</name>
+		<url>www.jeebiz.net</url>
+	</organization>
+
+	<!-- 开发者信息 -->
+	<developers>
+		<developer>
+			<name>wandl</name>
+			<email>hnxyhcwdl1003@163.com</email>
+			<organization>jeebiz</organization>
+      		<organizationUrl>http://www.jeebiz.net</organizationUrl>
+			<roles>
+	            <role>developer</role>
+	        </roles>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://nexus.hiwepy.com/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://nexus.hiwepy.com/repository/maven-snapshots/</url>
+			<uniqueVersion>true</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<jeebiz-admin.version>1.0.2-ce-SNAPSHOT</jeebiz-admin.version>
+		<jeebiz-fastxls.version>1.0.0-SNAPSHOT</jeebiz-fastxls.version>
+	</properties>
+
 	<modules>
 		<module>jeebiz-admin-dependencies</module>
-		<module>jeebiz-admin-doc</module>
+		<module>jeebiz-admin-docs</module>
 		<module>jeebiz-admin-extras</module>
 		<module>jeebiz-admin-parent</module>
 	</modules>
