@@ -46,12 +46,6 @@
 			<artifactId>jeebiz-admin-extras-basedata</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz 编辑机：解决文件上传存储问题（可选） -->
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-editor</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
 		<!-- Jeebiz 消息通知（可选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
