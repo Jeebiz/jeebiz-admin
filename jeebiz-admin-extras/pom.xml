@@ -16,7 +16,6 @@
 		<module>jeebiz-admin-extras-authz-org</module>
 		<module>jeebiz-admin-extras-authz-rbac0</module>
 		<module>jeebiz-admin-extras-basedata</module>
-		<module>jeebiz-admin-extras-editor</module>
 		<module>jeebiz-admin-extras-inform</module>
 		<module>jeebiz-admin-extras-logbiz</module>
 		<module>jeebiz-admin-extras-sessions</module>
