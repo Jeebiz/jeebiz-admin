@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>net.jeebiz</groupId>
-		<artifactId>jeebiz-admin-build</artifactId>
+		<artifactId>jeebiz-admin</artifactId>
 		<version>1.0.1-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-dependencies</artifactId>
 	<packaging>pom</packaging>
-	
+
 	<properties>
 		<layui.version>2.4.5</layui.version>
 		<layui-admin.version>1.2.1</layui-admin.version>
@@ -21,22 +21,22 @@
 
 	<dependencyManagement>
 		<dependencies>
-			
+
 			<!-- https://mvnrepository.com/artifact/org.webjars.bower/mui -->
 			<dependency>
 			    <groupId>org.webjars.bower</groupId>
 			    <artifactId>mui</artifactId>
 			    <version>${mui.version}</version>
 			</dependency>
-			
+
 			<!-- https://mvnrepository.com/artifact/org.webjars/layui -->
 			<dependency>
 			    <groupId>org.webjars</groupId>
 			    <artifactId>layui</artifactId>
 			    <version>${webjar-layui.version}</version>
 			</dependency>
-			
+
 		</dependencies>
 	</dependencyManagement>
-	
+
 </project>

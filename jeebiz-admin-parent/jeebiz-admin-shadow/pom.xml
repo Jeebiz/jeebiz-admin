@@ -8,69 +8,69 @@
 		<version>1.0.1-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-shadow</artifactId>
-	
+
 	<properties>
 
 		<!-- Swagger UI JSON 数据访问地址 -->
 		<swagger.input>http://localhost:8080/v2/api-docs</swagger.input>
 		<!--appassembler -->
 		<appassembler-app-name>jeebiz-admin</appassembler-app-name>
-		
+
 		<flyway.version>5.2.0</flyway.version>
-		
+
 	</properties>
 
 	<dependencies>
-		
+
 		<!-- Jeebiz 初始化启动器 （必选）-->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>jeebiz-boot-autoconfigure</artifactId>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-boot-webmvc-autoconfigure</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
 		<!-- Jeebiz 组织机构管理（必选） -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-authz-org</artifactId>
-			<version>${project.version}</version>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz Rbac权限管理：此次选择了比较简单的rbac0的实现（必选） -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-authz-rbac0</artifactId>
-			<version>${project.version}</version>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 基础数据（可选） -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-basedata</artifactId>
-			<version>${project.version}</version>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 编辑机：解决文件上传存储问题（可选） -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-editor</artifactId>
-			<version>${project.version}</version>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 消息通知（可选） -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-inform</artifactId>
-			<version>${project.version}</version>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 业务日志（可选） -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-logbiz</artifactId>
-			<version>${project.version}</version>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 回话管理（可选） -->
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-extras-sessions</artifactId>
-			<version>${project.version}</version>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		
+
 		<!-- For Embedded Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -213,7 +213,7 @@
 		    <groupId>org.ehcache</groupId>
 		    <artifactId>ehcache</artifactId>
 		</dependency> -->
-		<!-- 使用 J2cache 作为 Spring-Cache 实现 
+		<!-- 使用 J2cache 作为 Spring-Cache 实现
 		<dependency>
 		    <groupId>net.oschina.j2cache</groupId>
 		    <artifactId>j2cache-springcache</artifactId>
@@ -248,7 +248,7 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>flyway-plus-spring-boot-starter</artifactId>
 		</dependency>
-		
+
 		<!-- For Druid -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -285,7 +285,7 @@
 		    <artifactId>orai18n</artifactId>
 		    <scope>runtime</scope>
 		</dependency>
-			
+
 		<!-- For Embed Tomcat -->
         <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -301,9 +301,9 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
-        
+
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -327,13 +327,13 @@
 			<!-- 第三步：生成离线文档 -->
 			<!-- http://blog.didispace.com/swagger2markup-asciidoc/ -->
 			<!-- First, use the swagger2markup plugin to generate asciidoc -->
-			<!-- <plugin> <groupId>io.github.swagger2markup</groupId> <artifactId>swagger2markup-maven-plugin</artifactId> 
+			<!-- <plugin> <groupId>io.github.swagger2markup</groupId> <artifactId>swagger2markup-maven-plugin</artifactId>
 				</plugin> -->
-			<!-- Run the generated asciidoc through Asciidoctor to generate other 
+			<!-- Run the generated asciidoc through Asciidoctor to generate other
 				documentation types, such as PDFs or HTML5 -->
-			<!-- <plugin> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctor-maven-plugin</artifactId> 
+			<!-- <plugin> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctor-maven-plugin</artifactId>
 				</plugin> -->
 		</plugins>
 	</build>
-	
+
 </project>

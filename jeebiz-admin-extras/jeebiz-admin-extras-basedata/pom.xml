@@ -8,7 +8,6 @@
 		<version>1.0.1-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-extras-basedata</artifactId>
-	<description>系统设置模块</description>
 
 	<dependencies>
 
@@ -17,7 +16,7 @@
 			<artifactId>jeebiz-boot-api</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
-		
+
 		<!-- For Mybatis -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
@@ -37,7 +36,7 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>flyway-plus-spring-boot-starter</artifactId>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>
