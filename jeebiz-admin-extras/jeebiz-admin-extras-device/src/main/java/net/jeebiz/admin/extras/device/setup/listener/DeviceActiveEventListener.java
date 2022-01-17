@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.device.setup.listener;
 
@@ -25,13 +25,13 @@ public class DeviceActiveEventListener implements ApplicationListener<DeviceActi
 
     @Autowired
     private IDeviceActivateDao devicedeviceDao;
-    
+
     @Override
     public void onApplicationEvent(DeviceActivateEvent event) {
     	try {
-    		
+
     		DeviceActivateEventDTO eventDto = event.getBind();
-			
+
 			QueryWrapper<DeviceActivateModel> queryWrapper = new QueryWrapper<>();
     		// 1、判断是否 Apple 设备
     		if(StringUtils.hasText(eventDto.getIdfa()) ) {
@@ -52,7 +52,7 @@ public class DeviceActiveEventListener implements ApplicationListener<DeviceActi
     			queryWrapper = queryWrapper.eq("DEVICE_IMEI", eventDto.getImei());
     		}
     		// 3、查询是否有对应的设备信息
-    		Integer count = getDevicedeviceDao().selectCount(queryWrapper);
+			Long count = getDevicedeviceDao().selectCount(queryWrapper);
 			if(Objects.isNull(count) || count.intValue() == 0){
 				DeviceActivateModel deviceModel = DeviceActivateModel.builder()
 			            .appId(eventDto.getAppId())
@@ -80,9 +80,9 @@ public class DeviceActiveEventListener implements ApplicationListener<DeviceActi
 			log.error("Device Activate Exception:", e);
 		}
     }
-    
+
     public IDeviceActivateDao getDevicedeviceDao() {
 		return devicedeviceDao;
 	}
-    
+
 }

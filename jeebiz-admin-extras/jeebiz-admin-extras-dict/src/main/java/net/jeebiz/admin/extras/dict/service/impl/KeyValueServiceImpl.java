@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.dict.service.impl;
 
@@ -29,10 +29,10 @@ import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Service
 public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IKeyValueDao> implements IKeyValueService {
-	
+
 	@Autowired
 	private RedisOperationTemplate redisOperation;
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(KeyValueModel model) {
@@ -41,17 +41,17 @@ public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IK
 		getRedisOperation().del(dictRedisKey);
 		return super.save(model);
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean removeByIds(Collection<? extends Serializable> list) {
+	public boolean removeByIds(Collection<?> list) {
 		List<String> groups = getBaseMapper().getGroupList(list);
 		for (String gkey : groups) {
 			getEventPublisher().publishEvent(new KeyValueDeletedEvent(this, gkey));
 		}
 		return super.removeByIds(list);
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int setStatus(String id, String status) {
@@ -61,7 +61,7 @@ public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IK
 		}
 		return getBaseMapper().setStatus(id, status);
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean updateBatchById(Collection<KeyValueModel> list) {
@@ -78,13 +78,13 @@ public class KeyValueServiceImpl extends BaseMapperServiceImpl<KeyValueModel, IK
 		if(CollectionUtils.isEmpty(keyValueList)) {
 			return Maps.newHashMap();
 		}
-		
+
 		Map<String, List<KeyValueModel>> kvMaps = keyValueList.stream()
 				.collect(Collectors.groupingBy(KeyValueModel::getGkey, Collectors.toList()));
 
 		return kvMaps;
 	}
-	
+
 	@Override
 	public List<PairModel> getPairValues(String gkey) {
 		return getBaseMapper().getPairValues(gkey);

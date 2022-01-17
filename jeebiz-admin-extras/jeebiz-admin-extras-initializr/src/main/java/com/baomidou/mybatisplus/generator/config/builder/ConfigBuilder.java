@@ -35,14 +35,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.ConstVal;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.IDbQuery;
-import com.baomidou.mybatisplus.generator.config.INameConvert;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
-import com.baomidou.mybatisplus.generator.config.TemplateConfig;
+import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
@@ -92,7 +85,7 @@ public class ConfigBuilder {
     /**
      * 路径配置信息
      */
-    private Map<String, String> pathInfo;
+    private Map<OutputFile, String> pathInfo;
     /**
      * 策略配置
      */
@@ -127,19 +120,19 @@ public class ConfigBuilder {
                          TemplateConfig template, GlobalConfig globalConfig) {
         // 全局配置
         if (null == globalConfig) {
-            this.globalConfig = new GlobalConfig();
+            this.globalConfig = new GlobalConfig.Builder().build();
         } else {
             this.globalConfig = globalConfig;
         }
         // 模板配置
         if (null == template) {
-            this.template = new TemplateConfig();
+            this.template = new TemplateConfig.Builder().build();
         } else {
             this.template = template;
         }
         // 包配置
         if (null == packageConfig) {
-            handlerPackage(this.template, this.globalConfig.getOutputDir(), new PackageConfig());
+            handlerPackage(this.template, this.globalConfig.getOutputDir(), new PackageConfig.Builder().build());
         } else {
             handlerPackage(this.template, this.globalConfig.getOutputDir(), packageConfig);
         }
@@ -147,7 +140,7 @@ public class ConfigBuilder {
         handlerDataSource(dataSourceConfig);
         // 策略配置
         if (null == strategyConfig) {
-            this.strategyConfig = new StrategyConfig();
+            this.strategyConfig = new StrategyConfig.Builder().build();
         } else {
             this.strategyConfig = strategyConfig;
         }
@@ -230,7 +223,7 @@ public class ConfigBuilder {
      * @return 所以模板路径配置信息
      */
     public TemplateConfig getTemplate() {
-        return template == null ? new TemplateConfig() : template;
+        return template == null ? new TemplateConfig.Builder().build() : template;
     }
 
     // ****************************** 曝露方法 END**********************************
@@ -254,7 +247,7 @@ public class ConfigBuilder {
         packageInfo.put(ConstVal.CONTROLLER, joinPackage(config.getParent(), config.getController()));
 
         // 自定义路径
-        Map<String, String> configPathInfo = config.getPathInfo();
+        Map<OutputFile, String> configPathInfo = config.getPathInfo();
         if (null != configPathInfo) {
             pathInfo = configPathInfo;
         } else {
@@ -303,23 +296,23 @@ public class ConfigBuilder {
      * @param config 策略配置
      */
     private void processTypes(StrategyConfig config) {
-        if (StringUtils.isBlank(config.getSuperServiceClass())) {
+        if (StringUtils.isBlank(config.service().getSuperServiceClass())) {
             superServiceClass = ConstVal.SUPER_SERVICE_CLASS;
         } else {
-            superServiceClass = config.getSuperServiceClass();
+            superServiceClass = config.service().getSuperServiceClass();
         }
-        if (StringUtils.isBlank(config.getSuperServiceImplClass())) {
+        if (StringUtils.isBlank(config.service().getSuperServiceImplClass())) {
             superServiceImplClass = ConstVal.SUPER_SERVICE_IMPL_CLASS;
         } else {
-            superServiceImplClass = config.getSuperServiceImplClass();
+            superServiceImplClass = config.service().getSuperServiceImplClass();
         }
-        if (StringUtils.isBlank(config.getSuperMapperClass())) {
+        if (StringUtils.isBlank(config.mapper().getSuperClass())) {
             superMapperClass = ConstVal.SUPER_MAPPER_CLASS;
         } else {
-            superMapperClass = config.getSuperMapperClass();
+            superMapperClass = config.mapper().getSuperClass();
         }
-        superEntityClass = config.getSuperEntityClass();
-        superControllerClass = config.getSuperControllerClass();
+        superEntityClass = config.entity().getSuperClass();
+        superControllerClass = config.controller().getSuperClass();
     }
 
 
@@ -335,7 +328,7 @@ public class ConfigBuilder {
         Set<String> tablePrefix = config.getTablePrefix();
         for (TableInfo tableInfo : tableList) {
             String entityName;
-            INameConvert nameConvert = strategyConfig.getNameConvert();
+            INameConvert nameConvert = strategyConfig.entity().getNameConvert();
             if (null != nameConvert) {
                 // 自定义处理实体名称
                 entityName = nameConvert.entityNameConvert(tableInfo);

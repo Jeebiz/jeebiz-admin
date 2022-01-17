@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.thirdparty.web.mvc;
 
@@ -52,30 +52,30 @@ public class AuthzThirdpartyController extends BaseMapperController {
 
 	@Autowired
 	protected IAuthzThirdpartyService authzThirdpartyService;
-	
+
 	@ApiOperation(value = "分页查询第三方授权登录", notes = "分页查询第三方授权登录")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "分页筛选条件", dataType = "AuthzThirdpartyPaginationDTO")
 	})
 	@PostMapping("list")
 	@RequiresPermissions("thirdpt:list")
 	@ResponseBody
 	public Result<AuthzThirdpartyDTO> list(@Valid @RequestBody AuthzThirdpartyPaginationDTO paginationDTO){
-		
+
 		AuthzThirdpartyModel model =  getBeanMapper().map(paginationDTO, AuthzThirdpartyModel.class);
 		Page<AuthzThirdpartyModel> pageResult = getAuthzThirdpartyService().getPagedList(model);
 		List<AuthzThirdpartyDTO> retList = Lists.newArrayList();
 		for (AuthzThirdpartyModel thirdpartyModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(thirdpartyModel, AuthzThirdpartyDTO.class));
 		}
-		
+
 		return new Result<AuthzThirdpartyDTO>(pageResult, retList);
-		
+
 	}
 
 	@ApiOperation(value = "通过Unionid解绑定第三方账号登录", notes = "删除登录账号绑定的第三方登录账号")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "type", required = true, value = "第三方账号类型：(wxma:微信小程序,wxmp:微信公众号,qq:腾讯QQ,weibo:新浪微博,yiban:易班,)", dataType = "String", 
+		@ApiImplicitParam(name = "type", required = true, value = "第三方账号类型：(wxma:微信小程序,wxmp:微信公众号,qq:腾讯QQ,weibo:新浪微博,yiban:易班,)", dataType = "String",
 				allowableValues = "wxma,wxmp,qq,weibo,yiban"),
 		@ApiImplicitParam(name = "unionid", required = true, value = "第三方平台Unionid（通常指第三方账号体系下用户的唯一id）", dataType = "String")
 	})
@@ -86,20 +86,20 @@ public class AuthzThirdpartyController extends BaseMapperController {
 	public ApiRestResponse<String> unbindByUnionid(@Valid @RequestParam("type") String type, @RequestParam("unionid") String unionid) throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 判断用户是否已经有绑定
-		int count = getAuthzThirdpartyService().getCountByUid(ThirdpartyType.valueOfIgnoreCase(type), principal.getUserid());
+		Long count = getAuthzThirdpartyService().getCountByUid(ThirdpartyType.valueOfIgnoreCase(type), principal.getUserid());
 		if(count == 0) {
-			return fail("authz.thirdparty.unbind.not-found"); 
+			return fail("authz.thirdparty.unbind.not-found");
 		}
 		int total = getAuthzThirdpartyService().unbindByUnionid(ThirdpartyType.valueOfIgnoreCase(type), unionid);
 		if(total > 0) {
-			return success("authz.thirdparty.unbind.success", total); 
+			return success("authz.thirdparty.unbind.success", total);
 		}
-		return fail("authz.thirdparty.unbind.fail"); 
+		return fail("authz.thirdparty.unbind.fail");
 	}
-	
+
 	@ApiOperation(value = "通过Openid解绑定第三方账号登录", notes = "删除登录账号绑定的第三方登录账号")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "type", required = true, value = "第三方账号类型：(wxma:微信小程序,wxmp:微信公众号,qq:腾讯QQ,weibo:新浪微博,yiban:易班,)", dataType = "String", 
+		@ApiImplicitParam(name = "type", required = true, value = "第三方账号类型：(wxma:微信小程序,wxmp:微信公众号,qq:腾讯QQ,weibo:新浪微博,yiban:易班,)", dataType = "String",
 				allowableValues = "wxma,wxmp,qq,weibo,yiban"),
 		@ApiImplicitParam(name = "openid", required = true, value = "第三方平台Openid（通常指第三方账号体系下某应用中用户的唯一id）", dataType = "String")
 	})
@@ -110,17 +110,17 @@ public class AuthzThirdpartyController extends BaseMapperController {
 	public ApiRestResponse<String> unbindByOpenid(@Valid @RequestParam("type") String type, @RequestParam("openid") String openid) throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 判断用户是否已经有绑定
-		int count = getAuthzThirdpartyService().getCountByUid(ThirdpartyType.valueOfIgnoreCase(type), principal.getUserid());
+		Long count = getAuthzThirdpartyService().getCountByUid(ThirdpartyType.valueOfIgnoreCase(type), principal.getUserid());
 		if(count == 0) {
-			return fail("authz.thirdparty.unbind.not-found"); 
+			return fail("authz.thirdparty.unbind.not-found");
 		}
 		int total = getAuthzThirdpartyService().unbindByOpenid(ThirdpartyType.valueOfIgnoreCase(type), openid);
 		if(total > 0) {
-			return success("authz.thirdparty.unbind.success", total); 
+			return success("authz.thirdparty.unbind.success", total);
 		}
-		return fail("authz.thirdparty.unbind.fail"); 
+		return fail("authz.thirdparty.unbind.fail");
 	}
-	
+
 	public IAuthzThirdpartyService getAuthzThirdpartyService() {
 		return authzThirdpartyService;
 	}

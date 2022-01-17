@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.service.impl;
 
@@ -31,9 +31,9 @@ import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 
 @Service
 public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, IAuthzUserDao> implements IAuthzUserService {
-	
+
 	protected RandomString randomString = new RandomString(8);
-	
+
 	@Autowired
 	private IAuthzFeatureDao authzFeatureDao;
 	@Autowired
@@ -43,26 +43,26 @@ public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, 
 	private String algorithmName = "MD5";
     // 加密的次数,可以进行多次的加密操作
     private int hashIterations = 10;
-	
+
 	@Override
 	public List<AuthzUserModel> getUserList() {
 		return getBaseMapper().getUserList();
 	}
-	
+
 	@Override
 	public int setStatus(String userId, String status) {
 		return getBaseMapper().setStatus(userId, status);
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean save(AuthzUserModel model) {
-		
+
 		// 盐值，用于和密码混合起来用
         String salt = randomString.nextString();
         // 通过SimpleHash 来进行加密操作
         SimpleHash hash = new SimpleHash(algorithmName, model.getPassword(), salt, hashIterations);
-        
+
         model.setSalt(salt);
         model.setPassword(hash.toBase64());
         // Uid检查重复
@@ -75,24 +75,24 @@ public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, 
 		getAuthzRoleDao().setUsers(model.getRoleId(), Lists.newArrayList(model.getId()));
 		return ct > 0;
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean removeByIds(Collection<? extends Serializable> idList) {
+	public boolean removeByIds(Collection<?> idList) {
 		if(CollectionUtils.isEmpty(idList)) {
 			return false;
 		}
 		//getBaseMapper().batchDeleteRole(idList);
 		return getBaseMapper().deleteBatchIds(idList) > 0;
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int delete(String id) {
 		getBaseMapper().deleteRole(id);
 		return getBaseMapper().deleteById(id);
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int update(AuthzUserModel model) {
@@ -102,7 +102,7 @@ public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, 
 		}
 		return ct;
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int resetPwd(String userId, String oldPassword, String password) {
@@ -116,7 +116,7 @@ public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, 
         SimpleHash newHash = new SimpleHash(algorithmName, password, model.getSalt(), hashIterations);
 		return getBaseMapper().updatePwd(userId, newHash.toBase64());
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int doAllot(AuthzUserAllotRoleModel model) {
@@ -130,56 +130,56 @@ public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, 
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	@Override
 	public List<AuthzRoleModel> getRoles(String userId) {
 		return getBaseMapper().getRoles(userId);
 	}
-	
+
 	@Override
 	public List<String> getPermissions(String userId) {
 		return getBaseMapper().getPermissions(userId);
 	}
-	
+
 	@Override
 	public Page<AuthzRoleModel> getPagedAllocatedList(AuthzUserModel model) {
-		
+
 		Page<AuthzRoleModel> page = new Page<AuthzRoleModel>(model.getPageNo(), model.getLimit());
 		if(!CollectionUtils.isEmpty(model.getOrders())) {
 			for (OrderItem orderBy : model.getOrders()) {
 				page.addOrder(orderBy);
 			}
 		}
-		
+
 		List<AuthzRoleModel> records = getBaseMapper().getPagedAllocatedList(page, model);
 		page.setRecords(records);
-		
+
 		return page;
-		
+
 	}
 
 	@Override
 	public Page<AuthzRoleModel> getPagedUnAllocatedList(AuthzUserModel model) {
-		
+
 		Page<AuthzRoleModel> page = new Page<AuthzRoleModel>(model.getPageNo(), model.getLimit());
 		if(!CollectionUtils.isEmpty(model.getOrders())) {
 			for (OrderItem orderBy : model.getOrders()) {
 				page.addOrder(orderBy);
 			}
 		}
-		
+
 		List<AuthzRoleModel> records = getBaseMapper().getPagedUnAllocatedList(page, model);
 		page.setRecords(records);
-		
+
 		return page;
 	}
 
 	public IAuthzFeatureDao getAuthzFeatureDao() {
 		return authzFeatureDao;
 	}
-	
+
 	public IAuthzRoleDao getAuthzRoleDao() {
 		return authzRoleDao;
 	}
-	
+
 }

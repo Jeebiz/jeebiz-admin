@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.thirdparty.service.impl;
 
@@ -29,7 +29,7 @@ import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
 @SuppressWarnings({"rawtypes","unchecked"})
 public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThirdpartyModel, IAuthzThirdpartyDao>
 		implements IAuthzThirdpartyService {
-	
+
 	private List<ThirdpartyBindingProvider> bindingProviders;
 
 	@Autowired
@@ -47,10 +47,10 @@ public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThird
 			}
 		}
 		return null;
-		
+
 	}
-	
-	
+
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int unbindByUnionid(ThirdpartyType type, String unionid) throws AuthenticationException {
@@ -67,7 +67,7 @@ public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThird
 		return ct;
 	}
 
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int unbindByOpenid(ThirdpartyType type, String openid) throws AuthenticationException {
@@ -98,7 +98,7 @@ public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThird
 		}
 		int ct = getBaseMapper().deleteById(model.getId());
 		return ct;
-	}	
+	}
 
 	@Override
 	public AuthzThirdpartyModel getModelByUnionId(ThirdpartyType type, String unionid) {
@@ -115,7 +115,7 @@ public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThird
 				.eq("t_openid", openid));
 		return model;
 	}
-	
+
 	@Override
 	public AuthzThirdpartyModel getModelByUid(ThirdpartyType type, String uid) {
 		AuthzThirdpartyModel model = getBaseMapper().selectOne(new QueryWrapper<AuthzThirdpartyModel>()
@@ -123,27 +123,27 @@ public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThird
 				.eq("u_id", uid));
 		return model;
 	}
-	
+
 	@Override
-	public int getCountByUnionId(String unionid) {
+	public Long getCountByUnionId(String unionid) {
 		return getBaseMapper().selectCount(new QueryWrapper<AuthzThirdpartyModel>().eq("t_unionid", unionid));
 	}
-	
+
     @Override
-    public int getCountByOpenId(String openid) {
+    public Long getCountByOpenId(String openid) {
         return getBaseMapper().selectCount(new QueryWrapper<AuthzThirdpartyModel>().eq("t_openid", openid));
     }
 
 	@Override
-	public int getCountByUid(ThirdpartyType type, String uid) {
+	public Long getCountByUid(ThirdpartyType type, String uid) {
 		return getBaseMapper().selectCount(new QueryWrapper<AuthzThirdpartyModel>()
 				.eq("t_type", type.name())
 				.eq("u_id", uid));
 	}
-	
+
 	public List<ThirdpartyBindingProvider> getBindingProviders() {
 		return bindingProviders;
 	}
 
-	
+
 }

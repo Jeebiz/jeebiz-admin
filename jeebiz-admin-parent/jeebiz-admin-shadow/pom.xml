@@ -40,6 +40,15 @@
 			<artifactId>jeebiz-admin-authz-jwt</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-generator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+			<version>2.3</version>
+		</dependency>
 		<!-- Jeebiz 第三方登录：提供接口实现openid等和账号的绑定 -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>

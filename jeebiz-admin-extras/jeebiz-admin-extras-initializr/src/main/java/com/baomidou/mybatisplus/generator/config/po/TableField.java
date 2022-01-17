@@ -60,7 +60,7 @@ public class TableField {
     }
 
     protected TableField setConvert(StrategyConfig strategyConfig) {
-        if (strategyConfig.isEntityTableFieldAnnotationEnable()) {
+        if (strategyConfig.entity().isTableFieldAnnotationEnable()) {
             this.convert = true;
             return this;
         }
@@ -68,7 +68,7 @@ public class TableField {
             this.convert = false;
         } else {
             // 转换字段
-            if (NamingStrategy.underline_to_camel == strategyConfig.getColumnNaming()) {
+            if (NamingStrategy.underline_to_camel == strategyConfig.entity().getColumnNaming()) {
                 // 包含大写处理
                 if (StringUtils.containsUpperCase(name)) {
                     this.convert = true;
