@@ -161,7 +161,7 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 	}
 
 	@Override
-	protected FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, int width, int height) throws Exception {
+	protected FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, Integer width, Integer height) throws Exception {
 		try {
 			
 			uploadBo.setBucketName(ossProperties.getBucketName());
@@ -276,7 +276,7 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 		return metaDataSet;
 	}
 	
-	protected AliyunOssStorePath storeFile(MultipartFile file, int width, int height) throws IOException {
+	protected AliyunOssStorePath storeFile(MultipartFile file, Integer width, Integer height) throws IOException {
 		
 		// 文件元数据与访问权限
 		ObjectMetadata metadata = new ObjectMetadata();
@@ -295,11 +295,11 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
         StringBuilder thumbPath = new StringBuilder();
         
         // 上传的是图片且可生成缩略图的图片
-        if(FilestoreUtils.isImage(file) && width > 0 && height > 0 && FilestoreUtils.thumbable(file)) {
+        if(FilestoreUtils.isImage(file) && Objects.nonNull(width) && width > 0 && Objects.nonNull(height) && height > 0 && FilestoreUtils.thumbable(file)) {
         	// oss 通过 ?x-oss-process=image/resize,w_300,m_lfit 设置缩略图
         	thumbPath.append(filePath.toString()).append(String.format(X_OSS_PROCESS, height, width));
 		}
-	        
+	    
     	// 创建PutObjectRequest对象。
 		PutObjectRequest putObjectRequest = new PutObjectRequest(ossProperties.getBucketName(), filePath.toString(), file.getInputStream()).
                 <PutObjectRequest>withProgressListener(putProgressListener);

@@ -167,7 +167,7 @@ public class ConfigBuilder {
      *
      * @return 路径配置
      */
-    public Map<String, String> getPathInfo() {
+    public Map<OutputFile, String> getPathInfo() {
         return pathInfo;
     }
 
@@ -335,7 +335,7 @@ public class ConfigBuilder {
             } else {
                 entityName = NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix));
             }
-            if (StringUtils.isNotBlank(globalConfig.getEntityName())) {
+            if (StringUtils.isNotBlank(globalConfig.e)) {
                 tableInfo.setConvert(true);
                 tableInfo.setEntityName(String.format(globalConfig.getEntityName(), entityName));
             } else {

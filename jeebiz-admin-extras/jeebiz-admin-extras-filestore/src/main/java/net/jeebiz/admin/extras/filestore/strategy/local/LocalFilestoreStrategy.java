@@ -6,6 +6,7 @@ package net.jeebiz.admin.extras.filestore.strategy.local;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class LocalFilestoreStrategy extends AbstractFilestoreStrategy {
 	}
 	
 	@Override
-	protected FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, int width, int height) throws Exception {
+	protected FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, Integer width, Integer height) throws Exception {
 		try {
 			
 			uploadBo.setBucketName(groupName);
@@ -69,7 +70,7 @@ public class LocalFilestoreStrategy extends AbstractFilestoreStrategy {
 			
 			// 上传的是图片且可生成缩略图的图片
 			String thumbPath = null;
-	        if(FilestoreUtils.isImage(file) && width > 0 && height > 0 && FilestoreUtils.thumbable(file)) {
+	        if(FilestoreUtils.isImage(file) && Objects.nonNull(width) && width > 0 && Objects.nonNull(height) && height > 0 && FilestoreUtils.thumbable(file)) {
 	        	// 保存缩略图
 				thumbPath =  basename + new ThumbImage(width, height).getPrefixName() + FilenameUtils.getFullExtension(file.getOriginalFilename());
 				try(FileOutputStream output = new FileOutputStream(new File(fileDir, thumbPath))){

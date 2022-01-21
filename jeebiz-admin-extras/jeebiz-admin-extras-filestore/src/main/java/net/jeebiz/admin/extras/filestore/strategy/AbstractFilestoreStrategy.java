@@ -182,7 +182,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		
 	};
 
-	protected abstract FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, int width, int height) throws Exception;
+	protected abstract FileData handleFileUpload(FileStoreBO uploadBo, MultipartFile file, Integer width, Integer height) throws Exception;
 	
 	@Override
 	@Transactional
