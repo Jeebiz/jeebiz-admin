@@ -58,8 +58,9 @@ create table sys_article_contents (
   c_tid 		VARCHAR2(32) NOT NULL,
   c_uid 		VARCHAR2(32) NOT NULL,
   c_cid 		VARCHAR2(32) NOT NULL,
-  c_orgId 		VARCHAR2(32) NOT NULL,
+  c_org_id 		VARCHAR2(32) NOT NULL,
   c_title		VARCHAR2(500) NOT NULL,
+  c_keywords	VARCHAR2(255),
   c_digest		VARCHAR2(2000),
   c_content		CLOB,
   c_review		NUMBER(1) DEFAULT 0,
@@ -80,8 +81,9 @@ comment on column sys_article_contents.c_id IS '文章id';
 comment on column sys_article_contents.c_tid IS '文章栏目id';
 comment on column sys_article_contents.c_uid IS '文章发布者id';
 comment on column sys_article_contents.c_cid IS '文章分类id';
-comment on column sys_article_contents.c_orgId IS '文章所属单位id/编号';
+comment on column sys_article_contents.c_org_id IS '文章所属单位id/编号';
 comment on column sys_article_contents.c_title IS '文章标题';
+comment on column sys_article_contents.c_keywords IS '文章关键字';
 comment on column sys_article_contents.c_digest IS '文章摘要';
 comment on column sys_article_contents.c_content IS '文章内容';
 comment on column sys_article_contents.c_review IS '文章审核状态（0:未提交|1:待审核|2:审核通过|2:审核不通过）';
@@ -135,8 +137,8 @@ create table sys_article_content_comments (
   c_cid 		VARCHAR2(32) NOT NULL,
   c_pid 		VARCHAR2(32) DEFAULT NULL,
   c_uid 		VARCHAR2(32) NOT NULL,
-  C_TYPE		NUMBER(3) DEFAULT 0,
-  C_TEXT		VARCHAR2(2000) NOT NULL,
+  c_type		NUMBER(3) DEFAULT 0,
+  c_text		VARCHAR2(2000) NOT NULL,
   c_review		NUMBER(1) DEFAULT 0,
   c_status		NUMBER(1) DEFAULT 1,
   c_recommend		NUMBER(1) DEFAULT 0,
@@ -150,14 +152,14 @@ comment on column sys_article_content_comments.c_id IS '文章评论id';
 comment on column sys_article_content_comments.c_cid IS '文章id';
 comment on column sys_article_content_comments.c_pid IS '上级文章评论id';
 comment on column sys_article_content_comments.c_uid IS '文章评论者id';
-comment on column sys_article_content_comments.C_TYPE IS '文章评论类型';
-comment on column sys_article_content_comments.C_TEXT IS '文章评论内容';
+comment on column sys_article_content_comments.c_type IS '文章评论类型';
+comment on column sys_article_content_comments.c_text IS '文章评论内容';
 comment on column sys_article_content_comments.c_review IS '文章评论审核状态（0:未通过|1:通过）';
 comment on column sys_article_content_comments.c_status IS '文章评论状态（0:删除|1:正常）';
 comment on column sys_article_content_comments.c_recommend IS '文章评论推荐（0:未推荐|1:推荐）';
 comment on column sys_article_content_comments.c_order IS '文章评论排序';
 comment on column sys_article_content_comments.c_time24 IS '文章评论时间';
- 
+
 -- Create table
 create table sys_article_content_tags (
   t_id   VARCHAR2(32) DEFAULT sys_guid() NOT NULL,
@@ -175,22 +177,22 @@ comment on column sys_article_content_tags.t_time24 is '文章标签设置时间
 
 -- Create table
 create table sys_article_messages (
-  M_id   		VARCHAR2(32) DEFAULT sys_guid() NOT NULL,
-  M_Cid 		VARCHAR2(32)                    NOT NULL,
-  M_Uid 		VARCHAR2(32)                    NOT NULL,
-  M_STATUS		NUMBER(1) DEFAULT 0,
-  M_MSG			VARCHAR2(2000),
-  M_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  CONSTRAINT PK_ARTICLE_MSG_Mid PRIMARY KEY (M_id)
+  m_id   		VARCHAR2(32) DEFAULT sys_guid() NOT NULL,
+  m_cid 		VARCHAR2(32)                    NOT NULL,
+  m_uid 		VARCHAR2(32)                    NOT NULL,
+  m_status		NUMBER(1) DEFAULT 0,
+  m_msg			VARCHAR2(2000),
+  m_time24		VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
+  CONSTRAINT pk_article_msg_mid PRIMARY KEY (M_id)
 );
 
 comment on table sys_article_messages IS '文章消息表';
-comment on column sys_article_messages.M_id IS '文章消息id';
-comment on column sys_article_messages.M_Cid IS '文章id';
-comment on column sys_article_messages.M_Uid IS '文章消息接收者id';
-comment on column sys_article_messages.M_STATUS IS '文章消息状态（0:未读|1:已读）';
-comment on column sys_article_messages.M_MSG IS '文章消息内容';
-comment on column sys_article_messages.M_time24 IS '文章消息发送时间';
+comment on column sys_article_messages.m_id IS '文章消息id';
+comment on column sys_article_messages.m_cid IS '文章id';
+comment on column sys_article_messages.m_uid IS '文章消息接收者id';
+comment on column sys_article_messages.m_status IS '文章消息状态（0:未读|1:已读）';
+comment on column sys_article_messages.m_msg IS '文章消息内容';
+comment on column sys_article_messages.m_time24 IS '文章消息发送时间';
 
 -- Create table
 create table sys_article_visits (
