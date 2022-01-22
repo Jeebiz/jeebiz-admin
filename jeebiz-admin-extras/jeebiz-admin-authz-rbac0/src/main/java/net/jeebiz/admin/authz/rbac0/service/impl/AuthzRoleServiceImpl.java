@@ -17,28 +17,28 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 
-import net.jeebiz.admin.authz.feature.dao.IAuthzFeatureDao;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzRolePermsDao;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzUserDao;
+import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzRolePermsMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, IAuthzRoleDao>
+public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, AuthzRoleModel>
 		implements IAuthzRoleService {
 	
 	@Autowired
-	private IAuthzRolePermsDao authzRolePermsDao;
+	private AuthzRolePermsMapper authzRolePermsMapper;
 	@Autowired
-	private IAuthzFeatureDao authzFeatureDao;
+	private AuthzFeatureMapper authzFeatureMapper;
 	@Autowired
-	private IAuthzUserDao authzUserDao;
+	private AuthzUserMapper authzUserMapper;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -49,7 +49,7 @@ public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, 
 		// 有授权
 		if( !CollectionUtils.isEmpty(perms)) {
 			// 执行授权
-			getAuthzRolePermsDao().setPerms(model.getId(), perms);
+			getAuthzRolePermsMapper().setPerms(model.getId(), perms);
 		}
 		return ct > 0;
 	}
@@ -59,25 +59,25 @@ public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, 
 	public int update(AuthzRoleModel model) {
 		int ct = getBaseMapper().updateById(model);
 		// 查询已经授权标记
-		List<String> oldperms = getAuthzRolePermsDao().getPermissions(model.getId());
+		List<String> oldperms = getAuthzRolePermsMapper().getPermissions(model.getId());
 		// 此次提交的授权标记
 		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
 		// 之前没有权限
 		if(CollectionUtils.isEmpty(oldperms)) {
 			// 执行授权
-			getAuthzRolePermsDao().setPerms(model.getId(), perms);
+			getAuthzRolePermsMapper().setPerms(model.getId(), perms);
 		}
 		// 之前有权限,这里需要筛选出新增的权限和取消的权限
 		else {
 			// 授权标记增量
 			List<String> increments = AuthzPermsUtils.increment(perms, oldperms);
 			if(!CollectionUtils.isEmpty(increments)) {
-				getAuthzRolePermsDao().setPerms(model.getId(), increments);
+				getAuthzRolePermsMapper().setPerms(model.getId(), increments);
 			}
 			// 授权标记减量
 			List<String> decrements = AuthzPermsUtils.decrement(perms, oldperms);
 			if(!CollectionUtils.isEmpty(decrements)) {
-				getAuthzRolePermsDao().delPerms(model.getId(), decrements);
+				getAuthzRolePermsMapper().delPerms(model.getId(), decrements);
 			}
 		}
 		return ct;
@@ -88,25 +88,25 @@ public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, 
 	public int updatePermis(AuthzRoleModel model) {
 		int ct = getBaseMapper().updateById(model);
 		// 查询已经授权标记
-		List<String> oldperms = getAuthzRolePermsDao().getPermissions(model.getId());
+		List<String> oldperms = getAuthzRolePermsMapper().getPermissions(model.getId());
 		// 此次提交的授权标记
 		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
 		// 之前没有权限
 		if(CollectionUtils.isEmpty(oldperms)) {
 			// 执行授权
-			getAuthzRolePermsDao().setPerms(model.getId(), perms);
+			getAuthzRolePermsMapper().setPerms(model.getId(), perms);
 		}
 		// 之前有权限,这里需要筛选出新增的权限和取消的权限
 		else {
 			// 授权标记增量
 			List<String> increments = AuthzPermsUtils.increment(perms, oldperms);
 			if(!CollectionUtils.isEmpty(increments)) {
-				getAuthzRolePermsDao().setPerms(model.getId(), increments);
+				getAuthzRolePermsMapper().setPerms(model.getId(), increments);
 			}
 			// 授权标记减量
 			List<String> decrements = AuthzPermsUtils.decrement(perms, oldperms);
 			if(!CollectionUtils.isEmpty(decrements)) {
-				getAuthzRolePermsDao().delPerms(model.getId(), decrements);
+				getAuthzRolePermsMapper().delPerms(model.getId(), decrements);
 			}
 		}
 		return ct;
@@ -121,7 +121,7 @@ public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, 
 		}
 		int ct = getBaseMapper().deleteById(id);
 		// 删除授权
-		getAuthzRolePermsDao().delPerms(id, Lists.newArrayList());
+		getAuthzRolePermsMapper().delPerms(id, Lists.newArrayList());
 		return ct;
 	}
 	
@@ -137,7 +137,7 @@ public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, 
 		int rt = 0;
 		for (String userId : model.getUserIds()) {
 			// 查询角色与用户是否已经有关联
-			List<String> oldRoles = getAuthzUserDao().getRoleKeys(userId);
+			List<String> oldRoles = getAuthzUserMapper().getRoleKeys(userId);
 			if (CollectionUtils.isEmpty(oldRoles) || !oldRoles.contains(model.getRoleId())){
 				rt += getBaseMapper().setUsers(model.getRoleId(), Arrays.asList(userId));
 			}
@@ -190,28 +190,28 @@ public class AuthzRoleServiceImpl extends BaseMapperServiceImpl<AuthzRoleModel, 
 		
 	}
 	
-	public IAuthzRolePermsDao getAuthzRolePermsDao() {
-		return authzRolePermsDao;
+	public AuthzRolePermsMapper getAuthzRolePermsMapper() {
+		return authzRolePermsMapper;
 	}
 
-	public void setAuthzRolePermsDao(IAuthzRolePermsDao authzRolePermsDao) {
-		this.authzRolePermsDao = authzRolePermsDao;
+	public void setAuthzRolePermsMapper(AuthzRolePermsMapper authzRolePermsMapper) {
+		this.authzRolePermsMapper = authzRolePermsMapper;
 	}
 
-	public IAuthzFeatureDao getAuthzFeatureDao() {
-		return authzFeatureDao;
+	public AuthzFeatureMapper getAuthzFeatureMapper() {
+		return authzFeatureMapper;
 	}
 
-	public void setAuthzFeatureDao(IAuthzFeatureDao authzFeatureDao) {
-		this.authzFeatureDao = authzFeatureDao;
+	public void setAuthzFeatureMapper(AuthzFeatureMapper authzFeatureMapper) {
+		this.authzFeatureMapper = authzFeatureMapper;
 	}
 
-	public IAuthzUserDao getAuthzUserDao() {
-		return authzUserDao;
+	public AuthzUserMapper getAuthzUserMapper() {
+		return authzUserMapper;
 	}
 
-	public void setAuthzUserDao(IAuthzUserDao authzUserDao) {
-		this.authzUserDao = authzUserDao;
+	public void setAuthzUserMapper(AuthzUserMapper authzUserMapper) {
+		this.authzUserMapper = authzUserMapper;
 	}
 
 }

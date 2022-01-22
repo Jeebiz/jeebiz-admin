@@ -23,15 +23,15 @@ import com.baomidou.mybatisplus.generator.config.OutputFile; class MapperGenerat
 	 */
 	public static void main(String[] args) throws SQLException {
 		Map<OutputFile, String> map = new HashMap<>(4);
-		map.put(OutputFile.mapperXml, "jeebiz-admin-extras-device/src/main/resources/mapper/mysql");
+		map.put(OutputFile.mapperXml, "jeebiz-admin-extras-dict/src/main/resources/mapper/mysql");
 
 		FastAutoGenerator.create(DATA_SOURCE_CONFIG)
 				// 全局配置
 				.globalConfig((scanner, builder) -> builder.author("wandl").fileOverride()
-						.outputDir("jeebiz-admin-extras-device/src/main/java"))
+						.outputDir("jeebiz-admin-extras-dict/src/main/java"))
 				// 包配置
 				.packageConfig((scanner, builder) -> builder
-						.parent("net.jeebiz.admin.extras.device")
+						.parent("net.jeebiz.admin.extras.dict")
 						.entity("dao.entities")
 						.mapper("dao")
 						.controller("web.mvc")

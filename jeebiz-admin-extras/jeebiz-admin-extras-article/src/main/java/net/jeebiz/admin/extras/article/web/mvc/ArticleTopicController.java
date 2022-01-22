@@ -28,7 +28,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleTopicModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleTopicEntity;
 import net.jeebiz.admin.extras.article.service.IArticleTopicService;
 import net.jeebiz.admin.extras.article.setup.Constants;
 import net.jeebiz.admin.extras.article.web.dto.ArticleTopicDTO;
@@ -61,10 +61,10 @@ public class ArticleTopicController extends BaseApiController {
     @RequiresPermissions("article-topic:list")
 	public Result<ArticleTopicDTO> list(@Valid @RequestBody ArticleTopicPaginationDTO paginationDTO){
 		
-    	ArticleTopicModel model =  getBeanMapper().map(paginationDTO, ArticleTopicModel.class);
-		Page<ArticleTopicModel> pageResult = getArticleTopicService().getPagedList(model);
+    	ArticleTopicEntity model =  getBeanMapper().map(paginationDTO, ArticleTopicEntity.class);
+		Page<ArticleTopicEntity> pageResult = getArticleTopicService().getPagedList(model);
 		List<ArticleTopicDTO> retList = Lists.newArrayList();
-		for (ArticleTopicModel keyvalueModel : pageResult.getRecords()) {
+		for (ArticleTopicEntity keyvalueModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(keyvalueModel, ArticleTopicDTO.class));
 		}
 		return new Result<ArticleTopicDTO>(pageResult, retList);
@@ -90,7 +90,7 @@ public class ArticleTopicController extends BaseApiController {
 	public ApiRestResponse<String> topic(@Valid @RequestBody ArticleTopicNewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleTopicService().getCountByName(DTO.getName(), null);
+		Long ct = getArticleTopicService().getCountByName(DTO.getName(), null);
 		if(ct > 0) {
 			return fail("article.topic.conflict");
 		}
@@ -98,11 +98,11 @@ public class ArticleTopicController extends BaseApiController {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 
 		// 新增一条数据库配置记录
-		ArticleTopicModel model = getBeanMapper().map(DTO, ArticleTopicModel.class);
+		ArticleTopicEntity model = getBeanMapper().map(DTO, ArticleTopicEntity.class);
 		model.setUid(principal.getUserid());
 		
-		int result = getArticleTopicService().insert(model);
-		if(result == 1) {
+		boolean result = getArticleTopicService().save(model);
+		if(result) {
 			return success("article.topic.new.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -119,8 +119,8 @@ public class ArticleTopicController extends BaseApiController {
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
 		// 执行文章栏目删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-		int result = getArticleTopicService().batchDelete(idList);
-		if(result > 0) {
+		boolean result = getArticleTopicService().removeBatchByIds(idList);
+		if(result) {
 			return success("article.topic.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -138,14 +138,14 @@ public class ArticleTopicController extends BaseApiController {
 	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleTopicRenewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleTopicService().getCountByName(DTO.getName(), DTO.getId());
+		Long ct = getArticleTopicService().getCountByName(DTO.getName(), DTO.getId());
 		if(ct > 0) {
 			return fail("article.topic.conflict");
 		}
 		
-		ArticleTopicModel model = getBeanMapper().map(DTO, ArticleTopicModel.class);
-		int result = getArticleTopicService().update(model);
-		if(result == 1) {
+		ArticleTopicEntity model = getBeanMapper().map(DTO, ArticleTopicEntity.class);
+		boolean result = getArticleTopicService().updateById(model);
+		if(result) {
 			return success("article.topic.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -179,7 +179,7 @@ public class ArticleTopicController extends BaseApiController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<ArticleTopicDTO> detail(@RequestParam("id") String id) throws Exception { 
-		ArticleTopicModel model = getArticleTopicService().getModel(id);
+		ArticleTopicEntity model = getArticleTopicService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.topic.get.empty"));
 		}

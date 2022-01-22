@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import net.jeebiz.admin.extras.dict.dao.IDictDao;
-import net.jeebiz.admin.extras.dict.service.IKeyValueService;
+import net.jeebiz.admin.extras.dict.dao.DictMapper;
+import net.jeebiz.admin.extras.dict.service.IDictPairService;
 import net.jeebiz.admin.extras.dict.setup.DictRedisTemplate;
 import net.jeebiz.admin.extras.dict.setup.provider.MapKeyValueProvider;
 import net.jeebiz.admin.extras.dict.setup.provider.StringKeyValueProvider;
@@ -29,17 +29,17 @@ public class JeebizDictConfiguration {
 
 	@Bean
 	public DictRedisTemplate dictRedisTemplate(RedisTemplate<String, Object> redisTemplate,
-			IDictDao dictDao) {
-		return new DictRedisTemplate(redisTemplate, dictDao);
+			DictMapper dictMapper) {
+		return new DictRedisTemplate(redisTemplate, dictMapper);
 	}
 	
 	@Bean
-	public MapKeyValueProvider mapKeyValueProvider(IKeyValueService keyValueService) {
+	public MapKeyValueProvider mapKeyValueProvider(IDictPairService keyValueService) {
 		return new MapKeyValueProvider( keyValueService );
 	}
 	
 	@Bean
-	public StringKeyValueProvider stringKeyValueProvider(IKeyValueService keyValueService) {
+	public StringKeyValueProvider stringKeyValueProvider(IDictPairService keyValueService) {
 		return new StringKeyValueProvider( keyValueService);
 	}
 	

@@ -5,9 +5,9 @@
 package net.jeebiz.admin.authz.org.service;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzDepartmentModel;
-import net.jeebiz.boot.api.service.IBaseMapperService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IAuthzDepartmentService extends IBaseMapperService<AuthzDepartmentModel> {
+public interface IAuthzDepartmentService extends IBaseService<AuthzDepartmentModel> {
 	
 	/**
 	 * 根据编码获取记录数

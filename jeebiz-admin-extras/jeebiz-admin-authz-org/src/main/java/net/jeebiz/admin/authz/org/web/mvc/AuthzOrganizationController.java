@@ -83,11 +83,11 @@ public class AuthzOrganizationController extends BaseMapperController {
 	@RequiresPermissions("authz-org:new")
 	public ApiRestResponse<String> newOrg(@Valid @RequestBody AuthzOrganizationNewDTO orgDTO) throws Exception {
 		
-		int count1 = getAuthzOrganizationService().getCountByCode(orgDTO.getCode(), null);
+		Long count1 = getAuthzOrganizationService().getCountByCode(orgDTO.getCode(), null);
 		if(count1 > 0) {
 			return fail("authz.org.new.code-exists");
 		}
-		int count2 = getAuthzOrganizationService().getCountByName(orgDTO.getName(), null);
+		Long count2 = getAuthzOrganizationService().getCountByName(orgDTO.getName(), null);
 		if(count2 > 0) {
 			return fail("authz.org.new.name-exists");
 		}
@@ -113,11 +113,11 @@ public class AuthzOrganizationController extends BaseMapperController {
 	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzOrganizationRenewDTO orgDTO) throws Exception {
 		
 		// 查询历史记录
-		int count1 = getAuthzOrganizationService().getCountByCode(orgDTO.getCode(), orgDTO.getId());
+		Long count1 = getAuthzOrganizationService().getCountByCode(orgDTO.getCode(), orgDTO.getId());
 		if(count1 > 0) {
 			return fail("authz.org.renew.code-exists");
 		}
-		int count2 = getAuthzOrganizationService().getCountByName(orgDTO.getName(), orgDTO.getId());
+		Long count2 = getAuthzOrganizationService().getCountByName(orgDTO.getName(), orgDTO.getId());
 		if(count2 > 0) {
 			return fail("authz.org.renew.name-exists");
 		}
@@ -150,7 +150,7 @@ public class AuthzOrganizationController extends BaseMapperController {
 	@RequiresPermissions("authz-org:delete")
 	public ApiRestResponse<String> delete(@Valid @RequestBody AuthzOrganizationDeleteDTO deleteDTO) throws Exception {
 		
-		int count1 = getAuthzOrganizationService().getCountByParent(deleteDTO.getId());
+		Long count1 = getAuthzOrganizationService().getCountByParent(deleteDTO.getId());
 		if(count1 > 0 ) {
 			return fail("authz.org.delete.child-exists");
 		}

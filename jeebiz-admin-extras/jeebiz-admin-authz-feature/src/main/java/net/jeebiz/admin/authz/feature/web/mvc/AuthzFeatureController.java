@@ -120,7 +120,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@RequiresPermissions("feature:new")
 	@ResponseBody
 	public ApiRestResponse<String> feature(@Valid @RequestBody AuthzFeatureNewDTO featureDTO) throws Exception {
-		int count = getAuthzFeatureService().getCountByCode(featureDTO.getCode(), null);
+		Long count = getAuthzFeatureService().getCountByCode(featureDTO.getCode(), null);
 		if(count > 0) {
 			return fail("feature.new.code-exists");
 		}
@@ -183,7 +183,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@ResponseBody
 	public ApiRestResponse<String> delFeature(@RequestParam String id) throws Exception {
 
-		int count = getAuthzFeatureService().getCountByParent(id);
+		Long count = getAuthzFeatureService().getCountByParent(id);
 		if(count > 0) {
 			return fail("feature.delete.child-exists");
 		}

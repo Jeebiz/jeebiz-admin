@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleAttachmentDao">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleAttachmentMapper">
 
-	<resultMap id="ArticleAttachmentMap" type="ArticleAttachmentModel">
+	<resultMap id="ArticleAttachmentMap" type="ArticleAttachmentEntity">
         <!-- 文章附件id -->
 		<result property="id" column="a_id" />
 		<!-- 文章id -->
@@ -18,35 +18,7 @@
 		<!-- 文章附件上传时间 -->
 		<result property="time24" column="a_time24" />
     </resultMap>
-
-	<insert id="insert" parameterType="ArticleAttachmentModel" flushCache="true">
-		INSERT INTO sys_article_content_atts(a_cid,a_type,a_name,a_path,a_order)
-		VALUES (#{cid},#{type},#{name},#{path},#{order})
-	</insert>
-	
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_article_content_atts WHERE a_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
-        </foreach>
-	</delete>
-	
-	<delete id="delete" flushCache="true">
-		DELETE FROM sys_article_content_atts WHERE a_id = #{id}
-	</delete>
-	
-	<delete id="deleteAtt" flushCache="true">
-		DELETE FROM sys_article_content_atts WHERE a_cid = #{cid}
-	</delete>
-	
-	<update id="update" parameterType="ArticleAttachmentModel" flushCache="true">
-		UPDATE sys_article_content_atts t
-		   SET a_name = #{name},
-		   	   a_path = #{path},
-		       a_order = #{order}
-		 WHERE a_id = #{id}
-	</update>
-	
+ 
 	<select id="getPagedList" resultMap="ArticleAttachmentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.a_id,
@@ -63,32 +35,6 @@
 			</if>
 		</where>
 		ORDER By t.a_order ASC
-	</select>
-	
-	<select id="getModel" resultMap="ArticleAttachmentMap" parameterType="java.lang.String" useCache="false">
-		SELECT
-			t.a_id,
-			t.a_cid,
-			t.a_type,
-			t.a_name,
-			t.a_path,
-			t.a_order,
-			t.a_time24
-		FROM sys_article_content_atts t
-	   WHERE t.a_id = #{id}
-	</select>
-	
-	<select id="getAttachmentList" resultMap="ArticleAttachmentMap" parameterType="java.lang.String" useCache="false">
-		SELECT
-			t.a_id,
-			t.a_cid,
-			t.a_type,
-			t.a_name,
-			t.a_path,
-			t.a_order,
-			t.a_time24
-		FROM sys_article_content_atts t
-	   WHERE t.a_cid = #{cid}
 	</select>
 
 </mapper>

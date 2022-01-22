@@ -1,6 +1,6 @@
 package net.jeebiz.admin.extras.ops.service.impl;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.ops.dao.AppListMapper;
 import net.jeebiz.admin.extras.ops.dao.entities.AppList;
 import net.jeebiz.admin.extras.ops.service.IAppListService;
-import net.jeebiz.boot.api.utils.DateUtils;
 
 /**
  * 应用信息Service业务层处理
@@ -53,7 +52,7 @@ public class AppListServiceImpl implements IAppListService
     @Override
     public int insertAppList(AppList appList)
     {
-        appList.setCreateTime(new Date());
+        appList.setCreateTime(LocalDateTime.now());
         return appListMapper.insertAppList(appList);
     }
 
@@ -66,7 +65,7 @@ public class AppListServiceImpl implements IAppListService
     @Override
     public int updateAppList(AppList appList)
     {
-        appList.setModifyTime(new Date());
+        appList.setModifyTime(LocalDateTime.now());
         return appListMapper.updateAppList(appList);
     }
 

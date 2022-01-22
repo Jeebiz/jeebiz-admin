@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleMessageDao">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleMessageMapper">
 
-	<resultMap id="ArticleMessageMap" type="ArticleMessageModel">
+	<resultMap id="ArticleMessageMap" type="ArticleMessageEntity">
         <!-- 文章消息id -->
 		<result property="id" column="M_id" />
 		<!-- 文章id -->
@@ -18,18 +18,7 @@
 		<!-- 文章消息发送时间 -->
 		<result property="time24" column="M_time24" />
     </resultMap>
-
-	<insert id="insert" parameterType="ArticleMessageModel" flushCache="true">
-		INSERT INTO sys_article_messages(M_Cid,M_Uid,M_MSG,M_STATUS) VALUES (#{cid},#{uid},#{msg},0)
-	</insert>
-	
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_article_messages WHERE M_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
-        </foreach>
-	</delete>
-	
+ 
 	<select id="getPagedList" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.M_id,

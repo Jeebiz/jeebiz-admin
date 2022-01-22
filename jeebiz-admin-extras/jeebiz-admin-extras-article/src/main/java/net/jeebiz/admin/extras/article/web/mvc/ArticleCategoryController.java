@@ -27,7 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleCategoryModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleCategoryEntity;
 import net.jeebiz.admin.extras.article.service.IArticleCategoryService;
 import net.jeebiz.admin.extras.article.setup.Constants;
 import net.jeebiz.admin.extras.article.web.dto.ArticleCategoryNewDTO;
@@ -60,10 +60,10 @@ public class ArticleCategoryController extends BaseApiController {
     @RequiresPermissions("article-category:list")
 	public Result<ArticleCategoryVo> list(@Valid @RequestBody ArticleCategoryPaginationDTO paginationDTO){
 		
-    	ArticleCategoryModel model =  getBeanMapper().map(paginationDTO, ArticleCategoryModel.class);
-		Page<ArticleCategoryModel> pageResult = getArticleCategoryService().getPagedList(model);
+    	ArticleCategoryEntity model =  getBeanMapper().map(paginationDTO, ArticleCategoryEntity.class);
+		Page<ArticleCategoryEntity> pageResult = getArticleCategoryService().getPagedList(model);
 		List<ArticleCategoryVo> retList = Lists.newArrayList();
-		for (ArticleCategoryModel categoryModel : pageResult.getRecords()) {
+		for (ArticleCategoryEntity categoryModel : pageResult.getRecords()) {
 
 			ArticleCategoryVo categoryVo = getBeanMapper().map(categoryModel, ArticleCategoryVo.class);
 
@@ -95,7 +95,7 @@ public class ArticleCategoryController extends BaseApiController {
 	public ApiRestResponse<String> keygroup(@Valid @RequestBody ArticleCategoryNewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleCategoryService().getCountByName(DTO.getName(), null);
+		Long ct = getArticleCategoryService().getCountByName(DTO.getName(), null);
 		if(ct > 0) {
 			return fail("article.category.new.name.conflict");
 		}
@@ -103,7 +103,7 @@ public class ArticleCategoryController extends BaseApiController {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 
 		// 新增一条数据库配置记录
-		ArticleCategoryModel model = getBeanMapper().map(DTO, ArticleCategoryModel.class);
+		ArticleCategoryEntity model = getBeanMapper().map(DTO, ArticleCategoryEntity.class);
 		model.setCreator(principal.getUserid());
 		boolean result = getArticleCategoryService().save(model);
 		if(result) {
@@ -142,12 +142,12 @@ public class ArticleCategoryController extends BaseApiController {
 	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleCategoryRenewDTO DTO) throws Exception {
 		
 		// 检查名称是否存在
-		int ct = getArticleCategoryService().getCountByName(DTO.getName(), DTO.getId());
+		Long ct = getArticleCategoryService().getCountByName(DTO.getName(), DTO.getId());
 		if(ct > 0) {
 			return fail("article.category.renew.value.conflict");
 		}
 		
-		ArticleCategoryModel model = getBeanMapper().map(DTO, ArticleCategoryModel.class);
+		ArticleCategoryEntity model = getBeanMapper().map(DTO, ArticleCategoryEntity.class);
 		boolean result = getArticleCategoryService().updateById(model);
 		if(result) {
 			return success("article.category.renew.success", result);
@@ -182,7 +182,7 @@ public class ArticleCategoryController extends BaseApiController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<ArticleCategoryVo> detail(@RequestParam("id") String id) throws Exception {
-		ArticleCategoryModel model = getArticleCategoryService().getModel(id);
+		ArticleCategoryEntity model = getArticleCategoryService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.category.get.empty"));
 		}

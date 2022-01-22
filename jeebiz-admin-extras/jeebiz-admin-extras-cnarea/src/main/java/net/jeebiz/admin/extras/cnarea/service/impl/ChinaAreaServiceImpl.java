@@ -11,17 +11,17 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import net.jeebiz.admin.extras.cnarea.dao.IChinaAreaDao;
-import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
+import net.jeebiz.admin.extras.cnarea.dao.ChinaAreaMapper;
+import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaEntity;
 import net.jeebiz.admin.extras.cnarea.service.IChinaAreaService;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 
 @Service
-public class ChinaAreaServiceImpl extends BaseMapperServiceImpl<ChinaAreaModel, IChinaAreaDao> implements IChinaAreaService {
+public class ChinaAreaServiceImpl extends BaseServiceImpl<ChinaAreaMapper, ChinaAreaEntity> implements IChinaAreaService {
 	
 	private static final String PCODE = "pcode";
 	private static final String CODE = "code";

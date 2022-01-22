@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleMessageDao">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleMessageMapper">
 
-	<resultMap id="ArticleMessageMap" type="ArticleMessageModel">
+	<resultMap id="ArticleMessageMap" type="ArticleMessageEntity">
         <!-- 文章消息id -->
 		<result property="id" column="M_id" />
 		<!-- 文章id -->

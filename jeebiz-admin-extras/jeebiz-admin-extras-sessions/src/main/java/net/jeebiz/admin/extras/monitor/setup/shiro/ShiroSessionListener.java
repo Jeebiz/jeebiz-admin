@@ -15,21 +15,19 @@
  */
 package net.jeebiz.admin.extras.monitor.setup.shiro;
 
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionListenerAdapter;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.monitor.dao.ISessionMapper;
+import net.jeebiz.admin.extras.monitor.dao.SessionMapper;
 import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
 import net.jeebiz.boot.extras.redis.setup.RedisKey;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.SessionListenerAdapter;
-import org.apache.shiro.session.UnknownSessionException;
-import org.apache.shiro.session.mgt.SimpleOnlineSession;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 会话监听
@@ -40,11 +38,11 @@ import org.springframework.stereotype.Component;
 public class ShiroSessionListener extends SessionListenerAdapter {
 
 	@Autowired
-	private SessionDAO sessionDao;
+	private SessionDAO sessionDAO;
 	@Autowired
 	private RedisOperationTemplate redisOperation;
 	@Autowired
-	private ISessionMapper sessionMapper;
+	private SessionMapper sessionMapper;
 
 	/**
 	 * 会话开始

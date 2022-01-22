@@ -4,7 +4,11 @@
  */
 package net.jeebiz.admin.authz.rbac0.web.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import hitool.core.lang3.time.DateFormats;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -94,7 +98,8 @@ public class AuthzUserDTO {
 	 * 初始化时间
 	 */
 	@ApiModelProperty(name = "time24", required = true, dataType = "String", value = "初始化时间")
-	private String time24;
+	@JsonFormat(pattern = DateFormats.DATE_LONGFORMAT)
+	private LocalDateTime time24;
 	/**
 	 * 用户详情信息
 	 */

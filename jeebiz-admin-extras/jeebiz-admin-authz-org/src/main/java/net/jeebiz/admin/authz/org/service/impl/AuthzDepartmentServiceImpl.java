@@ -6,13 +6,13 @@ package net.jeebiz.admin.authz.org.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import net.jeebiz.admin.authz.org.dao.IAuthzDepartmentDao;
+import net.jeebiz.admin.authz.org.dao.AuthzDepartmentMapper;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzDepartmentModel;
 import net.jeebiz.admin.authz.org.service.IAuthzDepartmentService;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzDepartmentServiceImpl extends BaseMapperServiceImpl<AuthzDepartmentModel, IAuthzDepartmentDao> implements IAuthzDepartmentService{
+public class AuthzDepartmentServiceImpl extends BaseServiceImpl< AuthzDepartmentMapper, AuthzDepartmentModel> implements IAuthzDepartmentService{
 
 	@Override
 	public int getCountByCode(String code, String orgId, String deptId) {

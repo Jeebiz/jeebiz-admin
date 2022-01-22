@@ -43,7 +43,7 @@
   {
     "name": "superDaoClass",
     "type": "java.lang.String",
-    "defaultValue": "net.jeebiz.boot.api.dao.BaseDao",
+    "defaultValue": "net.jeebiz.boot.api.dao.BaseMapper",
     "description": "自定义继承的Dao类全称，带包名"
   },
   {

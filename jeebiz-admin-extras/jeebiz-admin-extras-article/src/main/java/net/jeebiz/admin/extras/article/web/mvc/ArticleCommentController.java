@@ -25,7 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleCommentModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleCommentEntity;
 import net.jeebiz.admin.extras.article.service.IArticleCommentService;
 import net.jeebiz.admin.extras.article.setup.Constants;
 import net.jeebiz.admin.extras.article.web.dto.ArticleCommentDTO;
@@ -57,10 +57,10 @@ public class ArticleCommentController extends BaseApiController {
     @RequiresPermissions("article-comment:list")
    	public Result<ArticleCommentDTO> list(@Valid @RequestBody ArticleCommentPaginationDTO paginationDTO){
    		
-       	ArticleCommentModel model =  getBeanMapper().map(paginationDTO, ArticleCommentModel.class);
-   		Page<ArticleCommentModel> pageResult = getArticleCommentService().getPagedList(model);
+       	ArticleCommentEntity model =  getBeanMapper().map(paginationDTO, ArticleCommentEntity.class);
+   		Page<ArticleCommentEntity> pageResult = getArticleCommentService().getPagedList(model);
    		List<ArticleCommentDTO> retList = Lists.newArrayList();
-   		for (ArticleCommentModel keyvalueModel : pageResult.getRecords()) {
+   		for (ArticleCommentEntity keyvalueModel : pageResult.getRecords()) {
    			retList.add(getBeanMapper().map(keyvalueModel, ArticleCommentDTO.class));
    		}
    		return new Result<ArticleCommentDTO>(pageResult, retList);
@@ -86,9 +86,9 @@ public class ArticleCommentController extends BaseApiController {
    	public ApiRestResponse<String> comment(@Valid @RequestBody ArticleCommentNewDTO DTO) throws Exception {
    		
    		// 新增一条数据库配置记录
-   		ArticleCommentModel model = getBeanMapper().map(DTO, ArticleCommentModel.class);
-   		int result = getArticleCommentService().insert(model);
-   		if(result == 1) {
+   		ArticleCommentEntity model = getBeanMapper().map(DTO, ArticleCommentEntity.class);
+   		boolean result = getArticleCommentService().save(model);
+   		if(result) {
    			return success("article.comment.new.success", result);
    		}
    		// 逻辑代码，如果发生异常将不会被执行
@@ -105,8 +105,8 @@ public class ArticleCommentController extends BaseApiController {
    	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
    		// 执行文章评论删除操作
    		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-   		int result = getArticleCommentService().batchDelete(idList);
-   		if(result > 0) {
+   		boolean result = getArticleCommentService().removeBatchByIds(idList);
+   		if(result) {
    			return success("article.comment.delete.success", result);
    		}
    		// 逻辑代码，如果发生异常将不会被执行
@@ -123,9 +123,9 @@ public class ArticleCommentController extends BaseApiController {
    	@ResponseBody
    	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleCommentRenewDTO DTO) throws Exception {
    		
-   		ArticleCommentModel model = getBeanMapper().map(DTO, ArticleCommentModel.class);
-   		int result = getArticleCommentService().update(model);
-   		if(result == 1) {
+   		ArticleCommentEntity model = getBeanMapper().map(DTO, ArticleCommentEntity.class);
+   		boolean result = getArticleCommentService().updateById(model);
+   		if(result) {
    			return success("article.comment.renew.success", result);
    		}
    		// 逻辑代码，如果发生异常将不会被执行
@@ -195,7 +195,7 @@ public class ArticleCommentController extends BaseApiController {
    	@RequiresAuthentication
    	@ResponseBody
    	public ApiRestResponse<ArticleCommentDTO> detail(@RequestParam("id") String id) throws Exception { 
-   		ArticleCommentModel model = getArticleCommentService().getModel(id);
+   		ArticleCommentEntity model = getArticleCommentService().getModel(id);
    		if(model == null) {
    			return ApiRestResponse.fail(getMessage("article.comment.get.empty"));
    		}

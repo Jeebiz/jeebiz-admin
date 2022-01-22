@@ -5,8 +5,8 @@
 package net.jeebiz.admin.extras.filestore.service;
 
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
-import net.jeebiz.boot.api.service.IBaseMapperService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IFilestoreService extends IBaseMapperService<FileEntity>{
+public interface IFilestoreService extends IBaseService<FileEntity>{
 	
 }

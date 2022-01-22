@@ -8,14 +8,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import net.jeebiz.admin.extras.inform.dao.IInformRecordDao;
+import net.jeebiz.admin.extras.inform.dao.InformRecordMapper;
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
 import net.jeebiz.admin.extras.inform.service.IInformRecordService;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class InformRecordServiceImpl extends BaseMapperServiceImpl<InformRecordModel, IInformRecordDao>
+public class InformRecordServiceImpl extends BaseServiceImpl<InformRecordMapper, InformRecordModel>
 		implements IInformRecordService {
 
 	@Override

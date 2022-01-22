@@ -52,18 +52,18 @@ import hitool.core.collections.CollectionUtils;
 import hitool.core.lang3.RandomString;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzRolePermsDao;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzUserDao;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzRolePermsMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserDao;
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyUserProfileDao;
+import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyMapper;
+import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyUserMapper;
+import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyUserProfileMapper;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserProfileModel;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.shadow.dao.IAuthzLoginDao;
+import net.jeebiz.admin.shadow.dao.AuthzLoginMapper;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
 import net.jeebiz.boot.api.XHeaders;
@@ -84,19 +84,19 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	@Autowired
 	private WxMaService wxMaService;
 	@Autowired
-	private IAuthzLoginDao authzLoginDao;
+	private AuthzLoginMapper authzLoginMapper;
 	@Autowired
-	private IAuthzUserDao authzUserDao;
+	private AuthzUserMapper authzUserMapper;
 	@Autowired
-	private IAuthzRoleDao authzRoleDao;
+	private AuthzRoleMapper authzRoleMapper;
 	@Autowired
-	private IAuthzRolePermsDao authzRolePermsDao;
+	private AuthzRolePermsMapper authzRolePermsMapper;
 	@Autowired
-	private IAuthzThirdpartyDao authzThirdpartyDao;
+	private AuthzThirdpartyMapper authzThirdpartyMapper;
 	@Autowired
-	private IAuthzThirdpartyUserDao authzThirdpartyUserDao;
+	private AuthzThirdpartyUserMapper authzThirdpartyUserMapper;
 	@Autowired
-	private IAuthzThirdpartyUserProfileDao authzThirdpartyUserProfileDao;
+	private AuthzThirdpartyUserProfileMapper authzThirdpartyUserProfileMapper;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -129,7 +129,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			throw new UnknownAccountException("Username or password is required.");
 		}
 		// 账号状态
-		AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusWithoutPwd(upToken.getUsername());
+		AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusWithoutPwd(upToken.getUsername());
    		// 账号不存在 或 用户名或密码不正确
    		if(!statusModel.isHasAcc()){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
@@ -148,7 +148,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
         SimpleHash hash = new SimpleHash(algorithmName, password, statusModel.getSalt(), hashIterations);
    		
    		// 用户主体对象
-   		AuthzLoginModel model = getAuthzLoginDao().getAccount(upToken.getUsername(), hash.toBase64());
+   		AuthzLoginModel model = getAuthzLoginMapper().getAccount(upToken.getUsername(), hash.toBase64());
    		if(model == null){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
    		}
@@ -162,7 +162,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		
 		// 账号状态
 		String username = StringUtils.defaultString(dingTalkToken.getJobnumber(), dingTalkToken.getMobile());
-		AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusWithoutPwd(username);
+		AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusWithoutPwd(username);
    		// 账号不存在 或 用户名或密码不正确
    		if(!statusModel.isHasAcc()){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
@@ -181,7 +181,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
         SimpleHash hash = new SimpleHash(algorithmName, password, statusModel.getSalt(), hashIterations);
         
 		//	用户主体对象
-   		AuthzLoginModel model = getAuthzLoginDao().getAccountWithoutPwd(username);
+   		AuthzLoginModel model = getAuthzLoginMapper().getAccountWithoutPwd(username);
    		//	系统没有钉钉userid对应的用户数据，表示第一次扫码登陆
 		if(model == null) {
 			/*
@@ -201,10 +201,10 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			
 			logger.error(JSONObject.toJSONString(detailModel));
 			
-			getAuthzUserDao().insert(detailModel);
+			getAuthzUserMapper().insert(detailModel);
 			
 			// 	查询用户信息
-			model = getAuthzLoginDao().getAccountById(detailModel.getId());
+			model = getAuthzLoginMapper().getAccountById(detailModel.getId());
 			model.setInitial(true);
 			*/
 		} else {
@@ -223,7 +223,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		WxMpAuthenticationToken wxToken = (WxMpAuthenticationToken) token;
 		
 		// 查询微信是否已经绑定
-		int rt = getAuthzThirdpartyDao().getCountByOpenId(wxToken.getOpenid());
+		int rt = getAuthzThirdpartyMapper().getCountByOpenId(wxToken.getOpenid());
 		// 微信未绑定
 		if(rt == 0) {
 			
@@ -233,13 +233,13 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			if(StringUtils.isNotBlank(loginRequest.getUsername())) {
 				
 		    	//	账号状态
-		    	AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusWithoutPwd(loginRequest.getUsername());
+		    	AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusWithoutPwd(loginRequest.getUsername());
 		   		//	账号不存在 或 用户名或密码不正确
 		   		if(!statusModel.isHasAcc()){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
 		   		// 用户主体对象
-		   		AuthzLoginModel model = getAuthzLoginDao().getAccountWithoutPwd(loginRequest.getUsername());
+		   		AuthzLoginModel model = getAuthzLoginMapper().getAccountWithoutPwd(loginRequest.getUsername());
 		   		if(model == null){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
@@ -250,7 +250,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				thirdModel.setUid(model.getUserid());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getAuthzThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyMapper().insert(thirdModel);
 				
 				// 通过SimpleHash 来进行加密操作
 		        SimpleHash hash = new SimpleHash(algorithmName, new String(loginRequest.getPassword()), statusModel.getSalt(), hashIterations);
@@ -271,7 +271,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		        userModel.setPassword(hash.toBase64());
 		        // Uid检查重复
 		 		String uid = randomString.nextNumberString();
-		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
+		 		while (getAuthzThirdpartyUserMapper().getCountByUid(uid) != 0) {
 		 			uid = randomString.nextNumberString();
 		 		}
 		 		userModel.setUuid(uid);
@@ -290,7 +290,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 					userModel.setAppChannel(appChannel);
 					userModel.setAppVer(appVersion);
 				}
-				getAuthzThirdpartyUserDao().insert(userModel);
+				getAuthzThirdpartyUserMapper().insert(userModel);
 				// 创建本地关联用户详情
 				AuthzThirdpartyUserProfileModel userProfileModel = new AuthzThirdpartyUserProfileModel();
 				userProfileModel.setUid(userModel.getId());
@@ -303,7 +303,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				//userProfileModel.setLanguage(userInfo.getLanguage());
 				//userProfileModel.setCountryCode(phoneNumberInfo.getCountryCode());
 				//userProfileModel.setPhone(phoneNumberInfo.getPhoneNumber());
-				getAuthzThirdpartyUserProfileDao().insert(userProfileModel);
+				getAuthzThirdpartyUserProfileMapper().insert(userProfileModel);
 				
 				// 创建本地关联用户第三方登录信息
 				AuthzThirdpartyModel thirdModel = new AuthzThirdpartyModel();
@@ -311,19 +311,19 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				thirdModel.setUid(userModel.getId());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getAuthzThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyMapper().insert(thirdModel);
 				
 				// 设置游客权限
-				getAuthzRoleDao().setUsers("4", Arrays.asList(userModel.getId()));
+				getAuthzRoleMapper().setUsers("4", Arrays.asList(userModel.getId()));
 				
 				// 账号状态
-				AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(userModel.getId());
+				AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusById(userModel.getId());
 				// 账号不存在 或 用户名或密码不正确
 		   		if(!statusModel.isHasAcc()){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
 				// 用户主体对象
-		   		AuthzLoginModel model = getAuthzLoginDao().getAccountByUid(userModel.getId());
+		   		AuthzLoginModel model = getAuthzLoginMapper().getAccountByUid(userModel.getId());
 		   		if(model == null){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
@@ -333,15 +333,15 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		}
 		
 		// 查询第三方登录信息
-		AuthzThirdpartyModel thirdModel = getAuthzThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMP.name(), wxToken.getOpenid());
+		AuthzThirdpartyModel thirdModel = getAuthzThirdpartyMapper().getModelByOpenId(ThirdpartyType.WXMP.name(), wxToken.getOpenid());
 		// 账号状态
-		AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(thirdModel.getUid());
+		AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusById(thirdModel.getUid());
 		// 账号不存在 或 用户名或密码不正确
    		if(!statusModel.isHasAcc()){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
    		}
    		// 用户主体对象
-   		AuthzLoginModel model = getAuthzLoginDao().getAccountByUid(thirdModel.getUid());
+   		AuthzLoginModel model = getAuthzLoginMapper().getAccountByUid(thirdModel.getUid());
    		if(model == null){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
    		}
@@ -355,7 +355,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
  		WxMaAuthenticationToken wxToken = (WxMaAuthenticationToken) token;
 		
 		// 查询微信是否已经绑定
-		int rt = getAuthzThirdpartyDao().getCountByOpenId(wxToken.getOpenid());
+		int rt = getAuthzThirdpartyMapper().getCountByOpenId(wxToken.getOpenid());
 		// 微信未绑定
 		if(rt == 0) {
 			
@@ -365,13 +365,13 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			if(StringUtils.isNotBlank(loginRequest.getUsername())) {
 				
 		    	//	账号状态
-		    	AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusWithoutPwd(loginRequest.getUsername());
+		    	AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusWithoutPwd(loginRequest.getUsername());
 		   		//	账号不存在 或 用户名或密码不正确
 		   		if(!statusModel.isHasAcc()){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
 		   		// 用户主体对象
-		   		AuthzLoginModel model = getAuthzLoginDao().getAccountWithoutPwd(loginRequest.getUsername());
+		   		AuthzLoginModel model = getAuthzLoginMapper().getAccountWithoutPwd(loginRequest.getUsername());
 		   		if(model == null){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
@@ -382,7 +382,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				thirdModel.setUid(model.getUserid());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getAuthzThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyMapper().insert(thirdModel);
 
 				// 通过SimpleHash 来进行加密操作
 		        SimpleHash hash = new SimpleHash(algorithmName, new String(loginRequest.getPassword()), statusModel.getSalt(), hashIterations);
@@ -407,7 +407,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		        userModel.setPassword(hash.toBase64());
 		        // Uid检查重复
 		 		String uid = randomString.nextNumberString();
-		 		while (getAuthzThirdpartyUserDao().getCountByUid(uid) != 0) {
+		 		while (getAuthzThirdpartyUserMapper().getCountByUid(uid) != 0) {
 		 			uid = randomString.nextNumberString();
 		 		}
 		 		userModel.setUuid(uid);
@@ -425,7 +425,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 					userModel.setAppChannel(appChannel);
 					userModel.setAppVer(appVersion);
 				}
-				getAuthzThirdpartyUserDao().insert(userModel);
+				getAuthzThirdpartyUserMapper().insert(userModel);
 				// 创建本地关联用户详情
 				AuthzThirdpartyUserProfileModel userProfileModel = new AuthzThirdpartyUserProfileModel();
 				userProfileModel.setUid(userModel.getId());
@@ -438,7 +438,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				userProfileModel.setLanguage(userInfo.getLanguage());
 				userProfileModel.setCountryCode(Objects.nonNull(phoneNumberInfo) ? phoneNumberInfo.getPurePhoneNumber() : "86");
 				userProfileModel.setPhone(Objects.nonNull(phoneNumberInfo) ? phoneNumberInfo.getPhoneNumber() : "");
-				getAuthzThirdpartyUserProfileDao().insert(userProfileModel);
+				getAuthzThirdpartyUserProfileMapper().insert(userProfileModel);
 				
 				// 创建本地关联用户第三方登录信息
 				AuthzThirdpartyModel thirdModel = new AuthzThirdpartyModel();
@@ -446,19 +446,19 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				thirdModel.setUid(userModel.getId());
 				thirdModel.setOpenid(wxToken.getOpenid());
 				thirdModel.setUnionid(wxToken.getUnionid());
-				getAuthzThirdpartyDao().insert(thirdModel);
+				getAuthzThirdpartyMapper().insert(thirdModel);
 				
 				// 设置游客权限
-				getAuthzRoleDao().setUsers("4", Arrays.asList(userModel.getId()));
+				getAuthzRoleMapper().setUsers("4", Arrays.asList(userModel.getId()));
 				
 				// 账号状态
-				AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(userModel.getId());
+				AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusById(userModel.getId());
 				// 账号不存在 或 用户名或密码不正确
 		   		if(!statusModel.isHasAcc()){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
 				// 用户主体对象
-		   		AuthzLoginModel model = getAuthzLoginDao().getAccountByUid(userModel.getId());
+		   		AuthzLoginModel model = getAuthzLoginMapper().getAccountByUid(userModel.getId());
 		   		if(model == null){
 		   			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 		   		}
@@ -470,15 +470,15 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 
 		try {
 			// 查询第三方登录信息
-			AuthzThirdpartyModel thirdModel = getAuthzThirdpartyDao().getModelByOpenId(ThirdpartyType.WXMA.name(), wxToken.getOpenid());
+			AuthzThirdpartyModel thirdModel = getAuthzThirdpartyMapper().getModelByOpenId(ThirdpartyType.WXMA.name(), wxToken.getOpenid());
 			// 账号状态
-			AuthzLoginStatusModel statusModel = getAuthzLoginDao().getAccountStatusById(thirdModel.getUid());
+			AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusById(thirdModel.getUid());
 			// 账号不存在 或 用户名或密码不正确
 			if(!statusModel.isHasAcc()){
 				throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 			}
 			// 用户主体对象
-			AuthzLoginModel model = getAuthzLoginDao().getAccountByUid(thirdModel.getUid());
+			AuthzLoginModel model = getAuthzLoginMapper().getAccountByUid(thirdModel.getUid());
 			if(model == null){
 				throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
 			}
@@ -497,7 +497,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 
 	protected SimpleAuthenticationInfo principal(AuthzLoginStatusModel statusModel, AuthzLoginModel model, String roleId, String password) {
 		// 用户角色信息集合
-   		List<AuthzRoleModel> roleModels = getAuthzRoleDao().getUserRoles(model.getId());
+   		List<AuthzRoleModel> roleModels = getAuthzRoleMapper().getUserRoles(model.getId());
    		
    		Optional<AuthzRoleModel> roleFirst = CollectionUtils.isEmpty(roleModels) ? Optional.empty()
 				: roleModels.stream().findFirst();
@@ -513,7 +513,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			if(roleFirst.isPresent()) {
 				AuthzRoleModel role = roleFirst.get();
 		   		// 	用户权限标记集合
-				perms.addAll(getAuthzRolePermsDao().getPermissions(role.getId()));
+				perms.addAll(getAuthzRolePermsMapper().getPermissions(role.getId()));
 			}
 			 
 			model.setUserid(model.getId());
@@ -534,7 +534,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			model.setInitial(model.isInitial());
 			
 			// 查询用户个人信息
-			Map<String, Object> profile = getAuthzLoginDao().getAccountProfile(model.getId());
+			Map<String, Object> profile = getAuthzLoginMapper().getAccountProfile(model.getId());
 			model.setProfile(profile);
 			
 		} catch (Exception e) {
@@ -554,7 +554,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			if(principal instanceof AuthzLoginModel) {
 				AuthzLoginModel model = (AuthzLoginModel) principal;
 				// 用户角色信息集合
-		   		List<AuthzRoleModel> roleModels = getAuthzRoleDao().getUserRoles(model.getUserid());
+		   		List<AuthzRoleModel> roleModels = getAuthzRoleMapper().getUserRoles(model.getUserid());
 				if(CollectionUtils.isNotEmpty(roleModels)) {
 					for (AuthzRoleModel authzRoleModel : roleModels) {
 						sets.add(authzRoleModel.getKey());
@@ -572,9 +572,9 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		for (Object principal : principals) {
 			if(principal instanceof AuthzLoginModel) {
 				AuthzLoginModel model = (AuthzLoginModel) principal;
-				set.addAll(getAuthzRolePermsDao().getPermissions(model.getRoleid()));
+				set.addAll(getAuthzRolePermsMapper().getPermissions(model.getRoleid()));
 				for (AuthzRoleModel roleModel : model.getRoleList()) {
-					set.addAll(getAuthzRolePermsDao().getPermissions(roleModel.getId()));
+					set.addAll(getAuthzRolePermsMapper().getPermissions(roleModel.getId()));
 				}
 			}
 		}
@@ -591,32 +591,32 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		return logger;
 	}
 
-	public IAuthzLoginDao getAuthzLoginDao() {
-		return authzLoginDao;
+	public AuthzLoginMapper getAuthzLoginMapper() {
+		return authzLoginMapper;
 	}
 
-	public IAuthzUserDao getAuthzUserDao() {
-		return authzUserDao;
+	public AuthzUserMapper getAuthzUserMapper() {
+		return authzUserMapper;
 	}
 
-	public IAuthzRoleDao getAuthzRoleDao() {
-		return authzRoleDao;
+	public AuthzRoleMapper getAuthzRoleMapper() {
+		return authzRoleMapper;
 	}
 
-	public IAuthzRolePermsDao getAuthzRolePermsDao() {
-		return authzRolePermsDao;
+	public AuthzRolePermsMapper getAuthzRolePermsMapper() {
+		return authzRolePermsMapper;
 	}
 	
-	public IAuthzThirdpartyDao getAuthzThirdpartyDao() {
-		return authzThirdpartyDao;
+	public AuthzThirdpartyMapper getAuthzThirdpartyMapper() {
+		return authzThirdpartyMapper;
 	}
 	
-	public IAuthzThirdpartyUserDao getAuthzThirdpartyUserDao() {
-		return authzThirdpartyUserDao;
+	public AuthzThirdpartyUserMapper getAuthzThirdpartyUserMapper() {
+		return authzThirdpartyUserMapper;
 	}
 	
-	public IAuthzThirdpartyUserProfileDao getAuthzThirdpartyUserProfileDao() {
-		return authzThirdpartyUserProfileDao;
+	public AuthzThirdpartyUserProfileMapper getAuthzThirdpartyUserProfileMapper() {
+		return authzThirdpartyUserProfileMapper;
 	}
 	
 	public WxMaService getWxMaService() {

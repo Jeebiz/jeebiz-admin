@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleVisitDao">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleVisitMapper">
 
-	<resultMap id="ArticleVisitMap" type="ArticleVisitModel">
+	<resultMap id="ArticleVisitMap" type="ArticleVisitEntity">
         <!-- 文章访问id -->
 		<result property="id" column="v_id" />
 		<!-- 文章id -->

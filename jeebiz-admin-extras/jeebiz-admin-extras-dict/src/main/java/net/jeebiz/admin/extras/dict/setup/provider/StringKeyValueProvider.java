@@ -1,13 +1,13 @@
 package net.jeebiz.admin.extras.dict.setup.provider;
 
-import net.jeebiz.admin.extras.dict.service.IKeyValueService;
+import net.jeebiz.admin.extras.dict.service.IDictPairService;
 import net.jeebiz.boot.api.provider.KeyValueProvider;
 
 public class StringKeyValueProvider implements KeyValueProvider<String> {
 	
-	private IKeyValueService keyValueService;
+	private IDictPairService keyValueService;
 	
-	public StringKeyValueProvider(IKeyValueService keyValueService) {
+	public StringKeyValueProvider(IDictPairService keyValueService) {
 		this.keyValueService = keyValueService;
 	}
 
@@ -16,7 +16,7 @@ public class StringKeyValueProvider implements KeyValueProvider<String> {
 		return getKeyValueService().getValue(key);
 	}
 
-	public IKeyValueService getKeyValueService() {
+	public IDictPairService getKeyValueService() {
 		return keyValueService;
 	}
 	

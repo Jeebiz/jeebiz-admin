@@ -8,161 +8,163 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.jeebiz.admin.extras.article.dao.IArticleAttachmentDao;
-import net.jeebiz.admin.extras.article.dao.IArticleDao;
-import net.jeebiz.admin.extras.article.dao.IArticleTargetDao;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleAttachmentModel;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleTargetModel;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+
+import net.jeebiz.admin.extras.article.dao.ArticleAttachmentMapper;
+import net.jeebiz.admin.extras.article.dao.ArticleMapper;
+import net.jeebiz.admin.extras.article.dao.ArticleTargetMapper;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleAttachmentEntity;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleEntity;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleTargetEntity;
 import net.jeebiz.admin.extras.article.service.IArticleService;
 import net.jeebiz.admin.extras.article.utils.ArticleUtils;
 import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class ArticleServiceImpl extends BaseServiceImpl<ArticleModel, IArticleDao> implements IArticleService {
+public class ArticleServiceImpl extends BaseServiceImpl<ArticleMapper, ArticleEntity> implements IArticleService {
 
 	@Autowired
-	private IArticleTargetDao articleTargetDao;
+	private ArticleTargetMapper articleTargetMapper;
 	@Autowired
-	private IArticleAttachmentDao articleAttachmentDao;
+	private ArticleAttachmentMapper articleAttachmentMapper;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int insert(ArticleModel model) {
+	public boolean save(ArticleEntity model) {
 		
 		// 先保存文章内容
-		int rt = getDao().insert(model);
+		int rt = getBaseMapper().insert(model);
 		
 		/**
 		 * 文章发布对象
 		 */
-		List<ArticleTargetModel> targets = model.getTargets();
+		List<ArticleTargetEntity> targets = model.getTargets();
 		if(CollectionUtils.isNotEmpty(targets)) {
-			for (ArticleTargetModel targetModel : targets) {
+			for (ArticleTargetEntity targetModel : targets) {
 				targetModel.setCid(model.getId());
-				getArticleTargetDao().insert(targetModel);
+				getArticleTargetMapper().insert(targetModel);
 			}
 		}
 		/**
 		 * 文章封面
 		 */
-		ArticleAttachmentModel cover = model.getCover();
+		ArticleAttachmentEntity cover = model.getCover();
 		if(!Objects.isNull(cover)) {
 			cover.setCid(model.getId());
 			cover.setType(1);
-			getArticleAttachmentDao().insert(cover);
+			getArticleAttachmentMapper().insert(cover);
 		}
 		/**
 		 * 文章附件
 		 */
-		List<ArticleAttachmentModel> atts = model.getAtts();
+		List<ArticleAttachmentEntity> atts = model.getAtts();
 		if(CollectionUtils.isNotEmpty(atts)) {
-			for (ArticleAttachmentModel attModel : atts) {
+			for (ArticleAttachmentEntity attModel : atts) {
 				if(!Objects.isNull(attModel)) {
 					attModel.setCid(model.getId());
 					attModel.setType(3);
-					getArticleAttachmentDao().insert(attModel);
+					getArticleAttachmentMapper().insert(attModel);
 				}
 			}
 		}
-		return rt;
+		return SqlHelper.retBool(rt);
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int update(ArticleModel model) {
+	public boolean updateById(ArticleEntity model) {
 		
 		// 先更新文章内容
-		int rt = getDao().update(model);
+		int rt = getBaseMapper().updateById(model);
 		
 		/**
 		 * 文章发布对象
 		 */
 		
-		List<ArticleTargetModel> targets = model.getTargets();
+		List<ArticleTargetEntity> targets = model.getTargets();
 		// 查询发布范围
-		List<ArticleTargetModel> oldTargets = getArticleTargetDao().getTargetList(model.getId());
+		List<ArticleTargetEntity> oldTargets = getArticleTargetMapper().getTargetList(model.getId());
 		// 之前没有发布范围
 		if(CollectionUtils.isEmpty(oldTargets) && CollectionUtils.isNotEmpty(targets)) {
-			for (ArticleTargetModel targetModel : targets) {
+			for (ArticleTargetEntity targetModel : targets) {
 				targetModel.setCid(model.getId());
-				getArticleTargetDao().insert(targetModel);
+				getArticleTargetMapper().insert(targetModel);
 			}
 		} else if(CollectionUtils.isNotEmpty(oldTargets) && CollectionUtils.isNotEmpty(targets)) {
 			// 保存新增的发布范围
-			for (ArticleTargetModel targetModel : ArticleUtils.incrementTarget(targets, oldTargets)) {
+			for (ArticleTargetEntity targetModel : ArticleUtils.incrementTarget(targets, oldTargets)) {
 				targetModel.setCid(model.getId());
-				getArticleTargetDao().insert(targetModel);
+				getArticleTargetMapper().insert(targetModel);
 			}
 			// 删除移除的发布范围
-			for (ArticleTargetModel targetModel : ArticleUtils.decrementTarget(targets, oldTargets)) {
-				getArticleTargetDao().delete(targetModel.getId());
+			for (ArticleTargetEntity targetModel : ArticleUtils.decrementTarget(targets, oldTargets)) {
+				getArticleTargetMapper().deleteById(targetModel.getId());
 			}
 		} else {
 			// 没有设置发布范围
-			getArticleTargetDao().deleteTarget(model.getId());
+			getArticleTargetMapper().deleteTarget(model.getId());
 		}
 		/**
 		 * 文章封面
 		 */
-		ArticleAttachmentModel cover = model.getCover();
+		ArticleAttachmentEntity cover = model.getCover();
 		if(!Objects.isNull(cover)) {
 			cover.setType(1);
-			getArticleAttachmentDao().update(cover);
+			getArticleAttachmentMapper().updateById(cover);
 		}
 		/**
 		 * 文章附件
 		 */
-		List<ArticleAttachmentModel> atts = model.getAtts();
+		List<ArticleAttachmentEntity> atts = model.getAtts();
 		// 查询文章附件
-		List<ArticleAttachmentModel> oldAtts = getArticleAttachmentDao().getAttachmentList(model.getId());
+		List<ArticleAttachmentEntity> oldAtts = getArticleAttachmentMapper().getAttachmentList(model.getId());
 		// 之前没有文章附件
 		if(CollectionUtils.isEmpty(oldAtts) && CollectionUtils.isNotEmpty(atts)) {
-			for (ArticleAttachmentModel attModel : atts) {
+			for (ArticleAttachmentEntity attModel : atts) {
 				attModel.setType(3);
-				getArticleAttachmentDao().update(attModel);
+				getArticleAttachmentMapper().updateById(attModel);
 			}
 		} else if(CollectionUtils.isNotEmpty(oldAtts) && CollectionUtils.isNotEmpty(atts)) {
 			// 保存新增的文章附件
-			for (ArticleAttachmentModel attModel : ArticleUtils.incrementAtt(atts, oldAtts)) {
+			for (ArticleAttachmentEntity attModel : ArticleUtils.incrementAtt(atts, oldAtts)) {
 				attModel.setCid(model.getId());
-				getArticleAttachmentDao().insert(attModel);
+				getArticleAttachmentMapper().insert(attModel);
 			}
 			// 删除移除的文章附件
-			for (ArticleAttachmentModel attModel : ArticleUtils.decrementAtt(atts, oldAtts)) {
-				getArticleAttachmentDao().delete(attModel.getId());
+			for (ArticleAttachmentEntity attModel : ArticleUtils.decrementAtt(atts, oldAtts)) {
+				getArticleAttachmentMapper().deleteById(attModel.getId());
 			}
 		} else {
 			// 没有设置文章附件
-			getArticleAttachmentDao().deleteAtt(model.getId());
+			getArticleAttachmentMapper().deleteAtt(model.getId());
 		}
 		
-		return rt;
+		return SqlHelper.retBool(rt);
 	}
 	
 	
 	@Override
 	public int setRecommend(String id, String status) {
-		return getDao().setRecommend(id, status);
+		return getBaseMapper().setRecommend(id, status);
 	}
 
 	@Override
 	public int setReview(String id, String status) {
-		return getDao().setReview(id, status);
+		return getBaseMapper().setReview(id, status);
 	}
 
 	@Override
 	public ArticleDetailDTO getDetail(String id) {
-		return getDao().getDetail(id);
+		return getBaseMapper().getDetail(id);
 	}
 
-	public IArticleTargetDao getArticleTargetDao() {
-		return articleTargetDao;
+	public ArticleTargetMapper getArticleTargetMapper() {
+		return articleTargetMapper;
 	}
 	
-	public IArticleAttachmentDao getArticleAttachmentDao() {
-		return articleAttachmentDao;
+	public ArticleAttachmentMapper getArticleAttachmentMapper() {
+		return articleAttachmentMapper;
 	}
 
     

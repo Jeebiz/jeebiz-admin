@@ -97,7 +97,7 @@ public class InformTemplateController extends BaseMapperController {
 	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformTemplateNewDTO newDTO) throws Exception {
 		InformTemplateModel model = getBeanMapper().map(newDTO, InformTemplateModel.class);
 		
-		int ct = getInformTemplateService().getCount(model);
+		Long ct = getInformTemplateService().getCount(model);
 		if(ct > 0) {
 			return fail("inform.template.new.conflict");
 		}
@@ -139,7 +139,7 @@ public class InformTemplateController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody InformTemplateRenewDTO renewDTO) throws Exception {
 		InformTemplateModel model = getBeanMapper().map(renewDTO, InformTemplateModel.class);
-		int ct = getInformTemplateService().getCount(model);
+		Long ct = getInformTemplateService().getCount(model);
 		if(ct > 0) {
 			return fail("inform.template.renew.conflict");
 		}

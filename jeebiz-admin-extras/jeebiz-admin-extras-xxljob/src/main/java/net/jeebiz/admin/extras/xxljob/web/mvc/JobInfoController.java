@@ -33,7 +33,7 @@ import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
 import com.xxl.job.core.util.DateUtil;
 
-import net.jeebiz.admin.extras.xxljob.dao.XxlJobGroupDao;
+import net.jeebiz.admin.extras.xxljob.dao.XxlJobGroupMapper;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobGroup;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobUser;
@@ -49,7 +49,7 @@ public class JobInfoController {
 	private static Logger logger = LoggerFactory.getLogger(JobInfoController.class);
 
 	@Resource
-	private XxlJobGroupDao xxlJobGroupDao;
+	private XxlJobGroupMapper xxlJobGroupMapper;
 	@Resource
 	private IXxlJobService xxlJobService;
 	
@@ -64,7 +64,7 @@ public class JobInfoController {
 		model.addAttribute("MisfireStrategyEnum", MisfireStrategyEnum.values());	    			// 调度过期策略
 
 		// 执行器列表
-		List<XxlJobGroup> jobGroupList_all =  xxlJobGroupDao.findAll();
+		List<XxlJobGroup> jobGroupList_all =  xxlJobGroupMapper.findAll();
 
 		// filter group
 		List<XxlJobGroup> jobGroupList = filterJobGroupByRole(request, jobGroupList_all);

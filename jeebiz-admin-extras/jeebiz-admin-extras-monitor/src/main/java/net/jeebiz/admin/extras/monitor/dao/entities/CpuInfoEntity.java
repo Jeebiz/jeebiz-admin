@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.extras.monitor.dao.entities;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -17,7 +18,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @SuppressWarnings("serial")
-@TableName(value = "usage_cpu", keepGlobalPrefix = true)
+@TableName(value = "sys_usage_cpu")
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class CpuInfoEntity extends Model<CpuInfoEntity> {
@@ -74,6 +75,6 @@ public class CpuInfoEntity extends Model<CpuInfoEntity> {
 	 * 创建时间
 	 */
 	@TableField(value = "create_time", fill = FieldFill.INSERT)
-	private Date createTime;
+	private LocalDateTime createTime;
 
 }

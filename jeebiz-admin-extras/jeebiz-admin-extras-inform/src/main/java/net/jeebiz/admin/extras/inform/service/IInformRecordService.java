@@ -8,9 +8,9 @@ import java.util.List;
 
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
-import net.jeebiz.boot.api.service.IBaseMapperService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IInformRecordService extends IBaseMapperService<InformRecordModel> {
+public interface IInformRecordService extends IBaseService<InformRecordModel> {
 	
 	/**
 	 * 消息通知统计信息

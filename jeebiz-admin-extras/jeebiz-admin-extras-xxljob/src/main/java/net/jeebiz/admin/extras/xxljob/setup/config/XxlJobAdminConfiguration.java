@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 import com.xxl.job.admin.core.alarm.JobAlarmer;
 import com.xxl.job.admin.core.scheduler.XxlJobScheduler;
 
-import net.jeebiz.admin.extras.xxljob.dao.XxlJobGroupDao;
-import net.jeebiz.admin.extras.xxljob.dao.XxlJobInfoDao;
-import net.jeebiz.admin.extras.xxljob.dao.XxlJobLogDao;
-import net.jeebiz.admin.extras.xxljob.dao.XxlJobLogReportDao;
-import net.jeebiz.admin.extras.xxljob.dao.XxlJobRegistryDao;
+import net.jeebiz.admin.extras.xxljob.dao.XxlJobGroupMapper;
+import net.jeebiz.admin.extras.xxljob.dao.XxlJobInfoMapper;
+import net.jeebiz.admin.extras.xxljob.dao.XxlJobLogMapper;
+import net.jeebiz.admin.extras.xxljob.dao.XxlJobLogReportMapper;
+import net.jeebiz.admin.extras.xxljob.dao.XxlJobRegistryMapper;
 
 /**
  * xxl-job config
@@ -77,15 +77,15 @@ public class XxlJobAdminConfiguration implements InitializingBean, DisposableBea
     // dao, service
 
     @Resource
-    private XxlJobLogDao xxlJobLogDao;
+    private XxlJobLogMapper xxlJobLogMapper;
     @Resource
-    private XxlJobInfoDao xxlJobInfoDao;
+    private XxlJobInfoMapper xxlJobInfoMapper;
     @Resource
-    private XxlJobRegistryDao xxlJobRegistryDao;
+    private XxlJobRegistryMapper xxlJobRegistryMapper;
     @Resource
-    private XxlJobGroupDao xxlJobGroupDao;
+    private XxlJobGroupMapper xxlJobGroupMapper;
     @Resource
-    private XxlJobLogReportDao xxlJobLogReportDao;
+    private XxlJobLogReportMapper xxlJobLogReportMapper;
     @Resource
     private JavaMailSender mailSender;
     @Resource
@@ -130,24 +130,24 @@ public class XxlJobAdminConfiguration implements InitializingBean, DisposableBea
         return logretentiondays;
     }
 
-    public XxlJobLogDao getXxlJobLogDao() {
-        return xxlJobLogDao;
+    public XxlJobLogMapper getXxlJobLogMapper() {
+        return xxlJobLogMapper;
     }
 
-    public XxlJobInfoDao getXxlJobInfoDao() {
-        return xxlJobInfoDao;
+    public XxlJobInfoMapper getXxlJobInfoMapper() {
+        return xxlJobInfoMapper;
     }
 
-    public XxlJobRegistryDao getXxlJobRegistryDao() {
-        return xxlJobRegistryDao;
+    public XxlJobRegistryMapper getXxlJobRegistryMapper() {
+        return xxlJobRegistryMapper;
     }
 
-    public XxlJobGroupDao getXxlJobGroupDao() {
-        return xxlJobGroupDao;
+    public XxlJobGroupMapper getXxlJobGroupMapper() {
+        return xxlJobGroupMapper;
     }
 
-    public XxlJobLogReportDao getXxlJobLogReportDao() {
-        return xxlJobLogReportDao;
+    public XxlJobLogReportMapper getXxlJobLogReportMapper() {
+        return xxlJobLogReportMapper;
     }
 
     public JavaMailSender getMailSender() {

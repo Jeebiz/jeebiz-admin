@@ -8,13 +8,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import net.jeebiz.admin.authz.feature.dao.IAuthzFeatureOptDao;
+import net.jeebiz.admin.authz.feature.dao.AuthzFeatureOptMapper;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzFeatureOptServiceImpl extends BaseMapperServiceImpl<AuthzFeatureOptModel, IAuthzFeatureOptDao> implements IAuthzFeatureOptService {
+public class AuthzFeatureOptServiceImpl extends BaseServiceImpl<AuthzFeatureOptMapper, AuthzFeatureOptModel> implements IAuthzFeatureOptService {
 
 	@Override
 	public AuthzFeatureOptModel getFeatureOpt(String id) {

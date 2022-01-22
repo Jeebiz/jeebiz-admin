@@ -4,7 +4,6 @@
  */
 package net.jeebiz.admin.authz.rbac0.service.impl;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,24 +19,24 @@ import com.google.common.collect.Lists;
 
 import hitool.core.collections.CollectionUtils;
 import hitool.core.lang3.RandomString;
-import net.jeebiz.admin.authz.feature.dao.IAuthzFeatureDao;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzRoleDao;
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzUserDao;
+import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, IAuthzUserDao> implements IAuthzUserService {
+public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, AuthzUserModel> implements IAuthzUserService {
 
 	protected RandomString randomString = new RandomString(8);
 
 	@Autowired
-	private IAuthzFeatureDao authzFeatureDao;
+	private AuthzFeatureMapper authzFeatureMapper;
 	@Autowired
-	private IAuthzRoleDao authzRoleDao;
+	private AuthzRoleMapper authzRoleMapper;
 
 	// 加密方式
 	private String algorithmName = "MD5";
@@ -72,7 +71,7 @@ public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, 
  		}
         model.setUuid(uid);
 		int ct = getBaseMapper().insert(model);
-		getAuthzRoleDao().setUsers(model.getRoleId(), Lists.newArrayList(model.getId()));
+		getAuthzRoleMapper().setUsers(model.getRoleId(), Lists.newArrayList(model.getId()));
 		return ct > 0;
 	}
 
@@ -174,12 +173,12 @@ public class AuthzUserServiceImpl extends BaseMapperServiceImpl<AuthzUserModel, 
 		return page;
 	}
 
-	public IAuthzFeatureDao getAuthzFeatureDao() {
-		return authzFeatureDao;
+	public AuthzFeatureMapper getAuthzFeatureMapper() {
+		return authzFeatureMapper;
 	}
 
-	public IAuthzRoleDao getAuthzRoleDao() {
-		return authzRoleDao;
+	public AuthzRoleMapper getAuthzRoleMapper() {
+		return authzRoleMapper;
 	}
 
 }

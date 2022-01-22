@@ -1,6 +1,6 @@
 package net.jeebiz.admin.extras.ops.service.impl;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class AppChannelServiceImpl implements IAppChannelService
     @Override
     public int insertAppChannel(AppChannel appChannel)
     {
-        appChannel.setCreateTime(new Date());
+        appChannel.setCreateTime(LocalDateTime.now());
         return appChannelMapper.insertAppChannel(appChannel);
     }
 
@@ -65,7 +65,7 @@ public class AppChannelServiceImpl implements IAppChannelService
     @Override
     public int updateAppChannel(AppChannel appChannel)
     {
-        appChannel.setModifyTime(new Date());
+        appChannel.setModifyTime(LocalDateTime.now());
         return appChannelMapper.updateAppChannel(appChannel);
     }
 

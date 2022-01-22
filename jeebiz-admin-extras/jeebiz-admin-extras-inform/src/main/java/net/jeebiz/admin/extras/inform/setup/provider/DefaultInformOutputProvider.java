@@ -4,16 +4,16 @@
  */
 package net.jeebiz.admin.extras.inform.setup.provider;
 
-import net.jeebiz.admin.extras.inform.dao.IInformRecordDao;
+import net.jeebiz.admin.extras.inform.dao.InformRecordMapper;
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
 import net.jeebiz.admin.extras.inform.setup.InformProvider;
 
 public class DefaultInformOutputProvider implements InformOutputProvider<InformRecordModel> {
 
-    private IInformRecordDao informRecordDao;
+    private InformRecordMapper informRecordMapper;
 	
-    public DefaultInformOutputProvider(IInformRecordDao informRecordDao) {
-    	this.informRecordDao = informRecordDao;
+    public DefaultInformOutputProvider(InformRecordMapper informRecordMapper) {
+    	this.informRecordMapper = informRecordMapper;
     }
 	
 	@Override
@@ -23,12 +23,12 @@ public class DefaultInformOutputProvider implements InformOutputProvider<InformR
 	
 	@Override
 	public boolean output(InformRecordModel inform) {
-		getInformRecordDao().insert(inform);
+		getInformRecordMapper().insert(inform);
 		return false;
 	}
 
-	public IInformRecordDao getInformRecordDao() {
-		return informRecordDao;
+	public InformRecordMapper getInformRecordMapper() {
+		return informRecordMapper;
 	}
 	
 }

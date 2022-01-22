@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.dict.dao.SysDictRegionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="DictRegionEntity">
+        <id column="id" property="id" />
+        <id column="code2" property="code2" />
+        <result column="code3" property="code3" />
+        <result column="number" property="number" />
+        <result column="iso_code" property="isoCode" />
+        <result column="iso_name" property="isoName" />
+        <result column="cn_name" property="cnName" />
+        <result column="tw_name" property="twName" />
+        <result column="hk_name" property="hkName" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code2, code3, number, iso_code, iso_name, cn_name, tw_name, hk_name, remark
+    </sql>
+
+</mapper>

@@ -8,16 +8,16 @@
 		<version>1.0.2-ce-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>jeebiz-admin-extras-inform</artifactId>
+	<artifactId>jeebiz-admin-extras-inform</artifactId> 
 	<description>消息通知模块</description>
 
 	<dependencies>
 
-		<!-- For Jeebiz Core -->
+		<!-- For Jeebiz -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-core</artifactId>
-			<version>${project.version}</version>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- For Mybatis -->
 		<dependency>

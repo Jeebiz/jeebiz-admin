@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.device.dao.IDeviceActivateDao;
+import net.jeebiz.admin.extras.device.dao.DeviceActivateMapper;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceActivateModel;
 import net.jeebiz.admin.extras.device.web.dto.DeviceActivateEventDTO;
 
@@ -24,7 +24,7 @@ import net.jeebiz.admin.extras.device.web.dto.DeviceActivateEventDTO;
 public class DeviceActiveEventListener implements ApplicationListener<DeviceActivateEvent> {
 
     @Autowired
-    private IDeviceActivateDao devicedeviceDao;
+    private DeviceActivateMapper devicedeviceMapper;
 
     @Override
     public void onApplicationEvent(DeviceActivateEvent event) {
@@ -52,7 +52,7 @@ public class DeviceActiveEventListener implements ApplicationListener<DeviceActi
     			queryWrapper = queryWrapper.eq("DEVICE_IMEI", eventDto.getImei());
     		}
     		// 3、查询是否有对应的设备信息
-			Long count = getDevicedeviceDao().selectCount(queryWrapper);
+			Long count = getDevicedeviceMapper().selectCount(queryWrapper);
 			if(Objects.isNull(count) || count.intValue() == 0){
 				DeviceActivateModel deviceModel = DeviceActivateModel.builder()
 			            .appId(eventDto.getAppId())
@@ -74,15 +74,15 @@ public class DeviceActiveEventListener implements ApplicationListener<DeviceActi
 			            .ip(eventDto.getIp())
 			            .status(1) // 默认可用
 			            .build();
-				getDevicedeviceDao().insert(deviceModel);
+				getDevicedeviceMapper().insert(deviceModel);
 			}
 		} catch (Exception e) {
 			log.error("Device Activate Exception:", e);
 		}
     }
 
-    public IDeviceActivateDao getDevicedeviceDao() {
-		return devicedeviceDao;
+    public DeviceActivateMapper getDevicedeviceMapper() {
+		return devicedeviceMapper;
 	}
 
 }

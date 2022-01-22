@@ -11,23 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.jeebiz.admin.authz.feature.dao.IAuthzFeatureDao;
-import net.jeebiz.admin.authz.feature.dao.IAuthzFeatureOptDao;
+import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
+import net.jeebiz.admin.authz.feature.dao.AuthzFeatureOptMapper;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzFeatureServiceImpl extends BaseMapperServiceImpl<AuthzFeatureModel, IAuthzFeatureDao> implements IAuthzFeatureService {
+public class AuthzFeatureServiceImpl extends BaseServiceImpl<AuthzFeatureMapper, AuthzFeatureModel> implements IAuthzFeatureService {
  
 	@Autowired
-	private IAuthzFeatureOptDao featureOptDao;
+	private AuthzFeatureOptMapper featureOptMapper;
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeById(Serializable id) {
 		boolean rt = super.removeById(id);
-		getFeatureOptDao().deleteByParent(id);
+		getFeatureOptMapper().deleteByParent(id);
 		return rt;
 	}
 
@@ -46,12 +46,12 @@ public class AuthzFeatureServiceImpl extends BaseMapperServiceImpl<AuthzFeatureM
 		return getBaseMapper().getChildFeatureList(id);
 	}
 
-	public IAuthzFeatureOptDao getFeatureOptDao() {
-		return featureOptDao;
+	public AuthzFeatureOptMapper getFeatureOptMapper() {
+		return featureOptMapper;
 	}
 
-	public void setFeatureOptDao(IAuthzFeatureOptDao featureOptDao) {
-		this.featureOptDao = featureOptDao;
+	public void setFeatureOptMapper(AuthzFeatureOptMapper featureOptMapper) {
+		this.featureOptMapper = featureOptMapper;
 	}
 
 }

@@ -8,13 +8,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import net.jeebiz.admin.authz.org.dao.IAuthzOrganizationDao;
+import net.jeebiz.admin.authz.org.dao.AuthzOrganizationMapper;
 import net.jeebiz.admin.authz.org.dao.entities.AuthzOrganizationModel;
 import net.jeebiz.admin.authz.org.service.IAuthzOrganizationService;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzOrganizationServiceImpl extends BaseMapperServiceImpl<AuthzOrganizationModel, IAuthzOrganizationDao> implements IAuthzOrganizationService{
+public class AuthzOrganizationServiceImpl extends BaseServiceImpl<AuthzOrganizationMapper, AuthzOrganizationModel> implements IAuthzOrganizationService{
 
 	@Override
 	public int getRootCount() {

@@ -1,9 +1,9 @@
 
 -- ----------------------------
--- Table structure for $${table-prefix}usage_cpu
+-- Table structure for sys_usage_cpu
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}usage_cpu`;
-CREATE TABLE `$${table-prefix}usage_cpu` (
+DROP TABLE IF EXISTS `sys_usage_cpu`;
+CREATE TABLE `sys_usage_cpu` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `instance_id` varchar(100) NOT NULL COMMENT '服务器实例ID',
   `cpu_num` bigint(3) DEFAULT 1 COMMENT 'CPU核心数',
@@ -18,10 +18,10 @@ CREATE TABLE `$${table-prefix}usage_cpu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务器CPU使用记录表';
 
 -- ----------------------------
--- Table structure for $${table-prefix}usage_mem
+-- Table structure for sys_usage_mem
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}usage_mem`;
-CREATE TABLE `$${table-prefix}usage_mem` (
+DROP TABLE IF EXISTS `sys_usage_mem`;
+CREATE TABLE `sys_usage_mem` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `instance_id` varchar(100) NOT NULL COMMENT '服务器实例ID',
   `mem_total` double(10,2) NOT NULL COMMENT '内存总量',
@@ -35,10 +35,10 @@ CREATE TABLE `$${table-prefix}usage_mem` (
 
 
 -- ----------------------------
--- Table structure for $${table-prefix}usage_disk
+-- Table structure for sys_usage_disk
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}usage_disk`;
-CREATE TABLE `$${table-prefix}usage_disk` (
+DROP TABLE IF EXISTS `sys_usage_disk`;
+CREATE TABLE `sys_usage_disk` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `instance_id` varchar(100) NOT NULL COMMENT '服务器实例ID',
   `disk_mount` varchar(500) NOT NULL COMMENT '盘符路径',
@@ -54,10 +54,10 @@ CREATE TABLE `$${table-prefix}usage_disk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='服务器内存使用记录表';
 
 -- ----------------------------
--- Table structure for $${table-prefix}usage_jvm
+-- Table structure for sys_usage_jvm
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}usage_jvm`;
-CREATE TABLE `$${table-prefix}usage_jvm` (
+DROP TABLE IF EXISTS `sys_usage_jvm`;
+CREATE TABLE `sys_usage_jvm` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `instance_id` varchar(100) NOT NULL COMMENT '服务器实例ID',
   `jvm_total` double(10,2) NOT NULL COMMENT '当前JVM占用的内存总数(M)',

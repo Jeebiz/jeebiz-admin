@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleCategoryDao">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleCategoryMapper">
 
-    <resultMap id="ArticleCategoryMap" type="ArticleCategoryModel">
+    <resultMap id="ArticleCategoryMap" type="ArticleCategoryEntity">
         <!-- 文章分类id -->
 		<result property="id" column="c_id" />
 		<!-- 文章分类创建者id -->
@@ -29,34 +29,6 @@
         <result property="key" column="c_id"/>
         <result property="value" column="c_name"/>
     </resultMap>
-
-	<insert id="insert" parameterType="ArticleCategoryModel" flushCache="true">
-		INSERT INTO sys_article_category(c_uid,c_name,c_grade,c_intro,c_keywords,c_order,c_status)
-		VALUES (#{uid},#{name},#{grade},#{intro,jdbcType=VARCHAR},#{keywords,jdbcType=VARCHAR},#{order},1)
-	</insert>
-	
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_article_category WHERE c_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
-        </foreach>
-	</delete>
-	
-	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_article_category t
-		   SET c_status = #{status}
-		 WHERE c_id = #{id}
-	</update>
-	
-	<update id="update" parameterType="ArticleCategoryModel" flushCache="true">
-		UPDATE sys_article_category t
-		   SET c_name = #{name},
-		   	   c_grade = #{grade},
-		   	   c_intro = #{intro},
-		   	   c_keywords = #{keywords},
-		       c_order = #{order}
-		 WHERE c_id = #{id}
-	</update>
 	
 	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.c_id)

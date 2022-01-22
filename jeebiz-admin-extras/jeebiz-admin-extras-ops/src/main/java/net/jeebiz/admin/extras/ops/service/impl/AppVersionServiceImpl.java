@@ -1,6 +1,6 @@
 package net.jeebiz.admin.extras.ops.service.impl;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import net.jeebiz.admin.extras.ops.dao.AppVersionMapper;
 import net.jeebiz.admin.extras.ops.dao.entities.AppVersion;
 import net.jeebiz.admin.extras.ops.service.IAppVersionService;
-import net.jeebiz.boot.api.utils.DateUtils;
 
 /**
  * 应用版本发布Service业务层处理
@@ -53,7 +52,7 @@ public class AppVersionServiceImpl implements IAppVersionService
     @Override
     public int insertAppVersion(AppVersion appVersion)
     {
-        appVersion.setCreateTime(new Date());
+        appVersion.setCreateTime(LocalDateTime.now());
         return appVersionMapper.insertAppVersion(appVersion);
     }
 
@@ -66,7 +65,7 @@ public class AppVersionServiceImpl implements IAppVersionService
     @Override
     public int updateAppVersion(AppVersion appVersion)
     {
-        appVersion.setModifyTime(new Date());
+        appVersion.setModifyTime(LocalDateTime.now());
         return appVersionMapper.updateAppVersion(appVersion);
     }
 

@@ -12,8 +12,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 
-import net.jeebiz.admin.extras.article.dao.entities.ArticleAttachmentModel;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleTargetModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleAttachmentEntity;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleTargetEntity;
 
 public class ArticleUtils {
 
@@ -23,7 +23,7 @@ public class ArticleUtils {
 	 * @param oldAtts	： 已经保存附件
 	 * @return
 	 */
-	public static List<ArticleAttachmentModel> incrementAtt(List<ArticleAttachmentModel> atts, List<ArticleAttachmentModel> oldAtts){
+	public static List<ArticleAttachmentEntity> incrementAtt(List<ArticleAttachmentEntity> atts, List<ArticleAttachmentEntity> oldAtts){
 		if(CollectionUtils.isEmpty(atts) || CollectionUtils.isEmpty(oldAtts)) {
 			return Lists.newArrayList();
 		}
@@ -38,7 +38,7 @@ public class ArticleUtils {
 	 * @param oldAtts	： 已经保存附件
 	 * @return
 	 */
-	public static List<ArticleAttachmentModel> decrementAtt(List<ArticleAttachmentModel> atts, List<ArticleAttachmentModel> oldAtts){
+	public static List<ArticleAttachmentEntity> decrementAtt(List<ArticleAttachmentEntity> atts, List<ArticleAttachmentEntity> oldAtts){
 		if(CollectionUtils.isEmpty(oldAtts)) {
 			return Lists.newArrayList(atts);
 		}
@@ -53,7 +53,7 @@ public class ArticleUtils {
 	 * @param oldTargets	： 已经发布范围
 	 * @return
 	 */
-	public static List<ArticleTargetModel> incrementTarget(List<ArticleTargetModel> targets, List<ArticleTargetModel> oldTargets){
+	public static List<ArticleTargetEntity> incrementTarget(List<ArticleTargetEntity> targets, List<ArticleTargetEntity> oldTargets){
 		if(CollectionUtils.isEmpty(targets) || CollectionUtils.isEmpty(oldTargets)) {
 			return Lists.newArrayList();
 		}
@@ -68,7 +68,7 @@ public class ArticleUtils {
 	 * @param oldTargets	： 已经发布范围
 	 * @return
 	 */
-	public static List<ArticleTargetModel> decrementTarget(List<ArticleTargetModel> targets, List<ArticleTargetModel> oldTargets){
+	public static List<ArticleTargetEntity> decrementTarget(List<ArticleTargetEntity> targets, List<ArticleTargetEntity> oldTargets){
 		if(CollectionUtils.isEmpty(oldTargets)) {
 			return Lists.newArrayList(targets);
 		}

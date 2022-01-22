@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import hitool.core.lang3.RandomString;
-import hitool.core.lang3.time.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -64,6 +63,7 @@ import net.jeebiz.boot.api.web.Result;
 public class AuthzRoleController extends BaseApiController {
 	
 	protected RandomString randomString = new RandomString(20);
+	
 	@Autowired
 	private IAuthzRoleService authzRoleService;
 	@Autowired
@@ -89,7 +89,7 @@ public class AuthzRoleController extends BaseApiController {
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
 		for (AuthzRoleModel roleModel : roles) {
 			AuthzRoleDTO roleDTO = getBeanMapper().map(roleModel, AuthzRoleDTO.class);
-			roleDTO.setTime24(DateUtils.formatDateTime(roleModel.getCreateTime()));
+			roleDTO.setTime24(roleModel.getCreateTime());
 			retList.add(roleDTO);
 		}
 		return ApiRestResponse.success(retList);
@@ -108,7 +108,7 @@ public class AuthzRoleController extends BaseApiController {
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
 		for (AuthzRoleModel roleModel : pageResult.getRecords()) {
 			AuthzRoleDTO roleDTO = getBeanMapper().map(roleModel, AuthzRoleDTO.class);
-			roleDTO.setTime24(DateUtils.formatDateTime(roleModel.getCreateTime()));
+			roleDTO.setTime24(roleModel.getCreateTime());
 			retList.add(roleDTO);
 		}
 		
@@ -127,7 +127,7 @@ public class AuthzRoleController extends BaseApiController {
 		if(CollectionUtils.isEmpty(roleDTO.getPerms())) {
 			return fail("role.new.need-perms");
 		}*/
-		int total = getAuthzRoleService().getCountByName(roleDTO.getName(), null);
+		Long total = getAuthzRoleService().getCountByName(roleDTO.getName(), null);
 		if(total > 0) {
 			return fail("role.new.exists");
 		}
@@ -155,7 +155,7 @@ public class AuthzRoleController extends BaseApiController {
 		if(CollectionUtils.isEmpty(roleDTO.getPerms())) {
 			return fail("role.renew.need-perms");
 		}*/
-		int total = getAuthzRoleService().getCountByName(roleDTO.getName(), roleDTO.getId());
+		Long total = getAuthzRoleService().getCountByName(roleDTO.getName(), roleDTO.getId());
 		if(total > 0) {
 			return fail("role.renew.exists");
 		}

@@ -1,9 +1,11 @@
 package net.jeebiz.admin.extras.article.web.vo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import hitool.core.lang3.time.DateFormats;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -52,8 +54,8 @@ public class ArticleCategoryVo {
 	 * 文章分类创建时间
 	 */
 	@ApiModelProperty(name = "time24", dataType = "String", value = "文章分类创建时间")
-	@JsonFormat(pattern= Constants.DATE_FORMAT)
-	private Date time24;
+	@JsonFormat(pattern = DateFormats.DATE_LONGFORMAT)
+	private LocalDateTime time24;
 	/**
 	 * 文章分类创建者id
 	 */

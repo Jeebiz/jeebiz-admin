@@ -4,7 +4,7 @@
  */
 package net.jeebiz.admin.extras.ops.setup.config;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import hitool.core.lang3.RandomString;
 import hitool.core.lang3.time.DateUtils;
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.ops.dao.IDayOpsStatsDao;
+import net.jeebiz.admin.extras.ops.dao.DayOpsStatsMapper;
 import net.jeebiz.admin.extras.ops.dao.entities.DayOpsStatsEntity;
 import net.jeebiz.admin.extras.ops.web.dto.DayOpsStatsDTO;
 
@@ -30,7 +30,7 @@ public class QuartzConfiguration implements InitializingBean {
 	private RandomString randomString = new RandomString(7);
 	
 	@Autowired
-	private IDayOpsStatsDao dayOpsStatsDao;
+	private DayOpsStatsMapper dayOpsStatsMapper;
 	 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -45,7 +45,7 @@ public class QuartzConfiguration implements InitializingBean {
 		
 		String day = DateUtils.getDate("yyyy-MM-dd");
 		
-		DayOpsStatsDTO statsDTO = getDayOpsStatsDao().getDayOpsStats();
+		DayOpsStatsDTO statsDTO = getDayOpsStatsMapper().getDayOpsStats();
 		DayOpsStatsEntity entity = new DayOpsStatsEntity();
 		entity.setDr(statsDTO.getDayRegisterTotal());
 		entity.setDau(statsDTO.getDayLoginTotal());
@@ -54,20 +54,20 @@ public class QuartzConfiguration implements InitializingBean {
 		entity.setAmount(statsDTO.getDayPayAmount());
 		entity.setDay(day);
 		
-		Integer count = getDayOpsStatsDao().selectCount(new QueryWrapper<DayOpsStatsEntity>().eq("DAY", day));
+		Long count = getDayOpsStatsMapper().selectCount(new QueryWrapper<DayOpsStatsEntity>().eq("DAY", day));
 		if(count > 0) {
-	        entity.setModifyTime(new Date());
-			getDayOpsStatsDao().update(entity, new UpdateWrapper<DayOpsStatsEntity>().eq("DAY", day));
+	        entity.setModifyTime(LocalDateTime.now());
+			getDayOpsStatsMapper().update(entity, new UpdateWrapper<DayOpsStatsEntity>().eq("DAY", day));
 		} else {
-	        entity.setCreateTime(new Date());
-			getDayOpsStatsDao().insert(entity);
+	        entity.setCreateTime(LocalDateTime.now());
+			getDayOpsStatsMapper().insert(entity);
 		}
 		
 	}
 	 
 	
-	public IDayOpsStatsDao getDayOpsStatsDao() {
-		return dayOpsStatsDao;
+	public DayOpsStatsMapper getDayOpsStatsMapper() {
+		return dayOpsStatsMapper;
 	}
 	
 }

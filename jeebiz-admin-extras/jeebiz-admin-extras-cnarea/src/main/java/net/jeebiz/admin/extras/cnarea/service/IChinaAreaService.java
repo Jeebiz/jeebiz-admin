@@ -6,13 +6,13 @@ package net.jeebiz.admin.extras.cnarea.service;
 
 import java.util.List;
 
-import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaModel;
+import net.jeebiz.admin.extras.cnarea.dao.entities.ChinaAreaEntity;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaDTO;
 import net.jeebiz.admin.extras.cnarea.web.dto.ChinaAreaPairDTO;
-import net.jeebiz.boot.api.service.IBaseMapperService;
+import net.jeebiz.boot.api.service.IBaseService;
 
 
-public interface IChinaAreaService extends IBaseMapperService<ChinaAreaModel> {
+public interface IChinaAreaService extends IBaseService<ChinaAreaEntity> {
 
 	/**
 	 * 查询中国省、市、区数结构

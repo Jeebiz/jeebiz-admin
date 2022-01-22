@@ -10,7 +10,6 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import net.jeebiz.admin.authz.rbac0.web.dto.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 
-import hitool.core.lang3.time.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -42,6 +40,15 @@ import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserProfileService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
 import net.jeebiz.admin.authz.rbac0.setup.Constants;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserAllotRoleDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserNewDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserPaginationDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserProfileDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserPwdResetDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserRenewDTO;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserResetDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.XHeaders;
 import net.jeebiz.boot.api.annotation.AllowableValues;
@@ -81,7 +88,7 @@ public class AuthzUserController extends BaseMapperController {
 		List<AuthzUserDTO> retList = new ArrayList<AuthzUserDTO>();
 		for (AuthzUserModel userModel : pageResult.getRecords()) {
 			AuthzUserDTO userDTO = getBeanMapper().map(userModel, AuthzUserDTO.class);
-			userDTO.setTime24(DateUtils.formatDateTime(userModel.getCreateTime()));
+			userDTO.setTime24(userModel.getCreateTime());
 			retList.add(userDTO);
 		}
 
@@ -142,11 +149,11 @@ public class AuthzUserController extends BaseMapperController {
     @RequiresPermissions("user:new")
 	public ApiRestResponse<String> newUser(@Valid @RequestBody AuthzUserNewDTO userDTO, @ApiIgnore HttpServletRequest request) throws Exception {
 
-		int total = getAuthzUserService().getCountByName(userDTO.getUsername(), null);
+		Long total = getAuthzUserService().getCountByName(userDTO.getUsername(), null);
 		if(total > 0) {
 			return fail("user.new.exists");
 		}
-		int total2 = getAuthzUserService().getCountByCode(userDTO.getUcode(), null);
+		Long total2 = getAuthzUserService().getCountByCode(userDTO.getUcode(), null);
 		if(total2 > 0) {
 			return fail("user.new.ucode.exists");
 		}
@@ -180,7 +187,7 @@ public class AuthzUserController extends BaseMapperController {
 	@PostMapping("renew")
 	@RequiresPermissions("user:renew")
 	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzUserRenewDTO userDTO) throws Exception {
-		int total2 = getAuthzUserService().getCountByCode(userDTO.getUcode(), userDTO.getId());
+		Long total2 = getAuthzUserService().getCountByCode(userDTO.getUcode(), userDTO.getId());
 		if(total2 > 0) {
 			return fail("user.new.ucode.exists");
 		}

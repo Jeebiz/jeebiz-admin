@@ -27,7 +27,7 @@ public class Constants {
     /**
      * mapper 命名方式
      */
-    public static final String MAPPEr_name = "I%sDao";
+    public static final String MAPPEr_name = "I%sMapper";
 
     /**
      * Mapper xml 命名方式

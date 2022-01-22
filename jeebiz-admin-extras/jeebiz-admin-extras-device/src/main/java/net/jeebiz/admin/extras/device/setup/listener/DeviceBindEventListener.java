@@ -15,8 +15,8 @@ import org.springframework.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.device.dao.IDeviceActivateDao;
-import net.jeebiz.admin.extras.device.dao.IDeviceBindDao;
+import net.jeebiz.admin.extras.device.dao.DeviceActivateMapper;
+import net.jeebiz.admin.extras.device.dao.DeviceBindMapper;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceActivateModel;
 import net.jeebiz.admin.extras.device.dao.entities.DeviceBindModel;
 import net.jeebiz.admin.extras.device.web.dto.DeviceBindEventDTO;
@@ -27,9 +27,9 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 
 
     @Autowired
-    private IDeviceActivateDao devicedeviceDao;
+    private DeviceActivateMapper devicedeviceMapper;
     @Autowired
-    private IDeviceBindDao deviceBindDao;
+    private DeviceBindMapper deviceBindMapper;
 
     @Override
     public void onApplicationEvent(DeviceBindEvent event) {
@@ -57,7 +57,7 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
     			queryWrapper = queryWrapper.eq("DEVICE_IMEI", eventDto.getImei());
     		}
     		// 3、查询是对应的设备信息
-			DeviceActivateModel model = getDevicedeviceDao().selectOne(queryWrapper);
+			DeviceActivateModel model = getDevicedeviceMapper().selectOne(queryWrapper);
 			if(Objects.isNull(model)) {
 				model = DeviceActivateModel.builder()
 						.appId(eventDto.getAppId())
@@ -78,11 +78,11 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 			            .ua(eventDto.getUa())
 			            .ip(eventDto.getIp())
 			            .build();
-				getDevicedeviceDao().insert(model);
+				getDevicedeviceMapper().insert(model);
     		}
 			if(Objects.nonNull(model)){
 				// 2、查询设备对应的用户绑定数据
-				DeviceBindModel bindModel = getDeviceBindDao().selectOne(new QueryWrapper<DeviceBindModel>()
+				DeviceBindModel bindModel = getDeviceBindMapper().selectOne(new QueryWrapper<DeviceBindModel>()
 						.eq("device_id", model.getId())
 						.eq("creator", eventDto.getUid()));
 				// 2.1、存在则更新客户端信息
@@ -90,7 +90,7 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 					bindModel.setAppId(eventDto.getAppId());
 					bindModel.setAppChannel(eventDto.getAppChannel());
 					bindModel.setAppVersion(eventDto.getAppVer());
-					getDeviceBindDao().updateById(bindModel);
+					getDeviceBindMapper().updateById(bindModel);
 				} 
 				// 2.2、不存在，则新增记录
 				else {
@@ -101,7 +101,7 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 			             .appVersion(eventDto.getAppVer())
 			             .creator(eventDto.getUid())
 			             .build();
-					getDeviceBindDao().insert(bindModel);
+					getDeviceBindMapper().insert(bindModel);
 				}
 			}
 		} catch (Exception e) {
@@ -109,12 +109,12 @@ public class DeviceBindEventListener implements ApplicationListener<DeviceBindEv
 		}
     }
     
-    public IDeviceActivateDao getDevicedeviceDao() {
-		return devicedeviceDao;
+    public DeviceActivateMapper getDevicedeviceMapper() {
+		return devicedeviceMapper;
 	}
     
-    public IDeviceBindDao getDeviceBindDao() {
-		return deviceBindDao;
+    public DeviceBindMapper getDeviceBindMapper() {
+		return deviceBindMapper;
 	}
     
 }

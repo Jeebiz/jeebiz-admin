@@ -11,14 +11,14 @@ import org.apache.ibatis.type.Alias;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.PaginationModel;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "AuthzRoleAllotUserModel")
 @SuppressWarnings("serial")
 @Getter
 @Setter
 @ToString
-public class AuthzRoleAllotUserModel extends PaginationModel<AuthzRoleAllotUserModel> {
+public class AuthzRoleAllotUserModel extends PaginationEntity<AuthzRoleAllotUserModel> {
 	/**
 	 * 	主键 
 	 */ 

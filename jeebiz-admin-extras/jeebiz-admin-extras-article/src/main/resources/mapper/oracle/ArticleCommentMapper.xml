@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleCommentDao">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleCommentMapper">
 
-    <resultMap id="ArticleCommentMap" type="ArticleCommentModel">
+    <resultMap id="ArticleCommentMap" type="ArticleCommentEntity">
         <!-- 文章评论id -->
 		<result property="id" column="c_id" />
 		<!-- 文章id -->
@@ -28,43 +28,6 @@
 		<!-- 文章评论时间 -->
 		<result property="time24" column="c_time24" />
     </resultMap>
-
-	<insert id="insert" parameterType="ArticleCommentModel" flushCache="true">
-		INSERT INTO sys_article_content_comments(c_cid,c_pid,c_uid,C_TYPE,C_TEXT,c_review,c_status,c_recommend,c_order)
-		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,NVL((SELECT MAX(x.c_order) FROM sys_article_content_comments x WHERE x.c_id = #{cid}),0))
-	</insert> 
-	
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_article_content_comments WHERE c_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
-        </foreach>
-	</delete>
-	
-	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_article_content_comments t
-		   SET d_status = #{status}
-		 WHERE c_id = #{id}
-	</update>
-	
-	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_article_content_comments t
-		   SET c_recommend = #{recommend}
-		 WHERE c_id = #{id}
-	</update>
-	
-	<update id="setReview" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_article_content_comments t
-		   SET c_review = #{review}
-		 WHERE c_id = #{id}
-	</update>
-	
-	<update id="update" parameterType="ArticleCommentModel" flushCache="true">
-		UPDATE sys_article_content_comments t
-		   SET C_TEXT = #{text},
-		   	   c_time24 = to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss')
-		 WHERE c_id = #{id}
-	</update>
     
 	<select id="getPagedList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT

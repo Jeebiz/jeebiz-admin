@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import hitool.core.collections.CollectionUtils;
-import net.jeebiz.admin.extras.dict.service.IKeyValueService;
+import net.jeebiz.admin.extras.dict.service.IDictPairService;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.provider.KeyValueProvider;
 
 public class MapKeyValueProvider implements KeyValueProvider<Map<String, String>> {
 
-	private IKeyValueService keyValueService;
+	private IDictPairService keyValueService;
 	
-	public MapKeyValueProvider(IKeyValueService keyValueService) {
+	public MapKeyValueProvider(IDictPairService keyValueService) {
 		this.keyValueService = keyValueService;
 	}
 
@@ -30,7 +30,7 @@ public class MapKeyValueProvider implements KeyValueProvider<Map<String, String>
 		return rtMap;
 	}
 
-	public IKeyValueService getKeyValueService() {
+	public IDictPairService getKeyValueService() {
 		return keyValueService;
 	}
 	

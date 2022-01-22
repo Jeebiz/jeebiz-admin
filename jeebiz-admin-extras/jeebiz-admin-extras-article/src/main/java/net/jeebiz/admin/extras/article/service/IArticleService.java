@@ -1,10 +1,10 @@
 package net.jeebiz.admin.extras.article.service;
 
-import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleEntity;
 import net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IArticleService extends IBaseService<ArticleModel> {
+public interface IArticleService extends IBaseService<ArticleEntity> {
 
 	/**
 	 * 

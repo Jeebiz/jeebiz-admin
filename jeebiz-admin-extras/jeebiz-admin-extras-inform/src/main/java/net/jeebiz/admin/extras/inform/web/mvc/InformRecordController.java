@@ -53,7 +53,7 @@ public class InformRecordController extends BaseMapperController {
 	@GetMapping("pending")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<Integer> pending() throws Exception {
+	public ApiRestResponse<Long> pending() throws Exception {
 		InformRecordModel model = new InformRecordModel();
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setToUid(principal.getUserid());   

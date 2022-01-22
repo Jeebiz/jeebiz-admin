@@ -16,18 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
-import net.jeebiz.admin.authz.thirdparty.dao.IAuthzThirdpartyDao;
+import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyMapper;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
 import net.jeebiz.admin.authz.thirdparty.setup.provider.ThirdpartyBindingProvider;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
 import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
 @SuppressWarnings({"rawtypes","unchecked"})
-public class AuthzThirdpartyServiceImpl extends BaseMapperServiceImpl<AuthzThirdpartyModel, IAuthzThirdpartyDao>
+public class AuthzThirdpartyServiceImpl extends BaseServiceImpl<AuthzThirdpartyMapper, AuthzThirdpartyModel>
 		implements IAuthzThirdpartyService {
 
 	private List<ThirdpartyBindingProvider> bindingProviders;

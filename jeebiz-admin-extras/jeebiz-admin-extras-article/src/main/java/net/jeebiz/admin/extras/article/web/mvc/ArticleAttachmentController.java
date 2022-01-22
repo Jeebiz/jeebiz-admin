@@ -22,7 +22,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleAttachmentModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleAttachmentEntity;
 import net.jeebiz.admin.extras.article.service.IArticleAttachmentService;
 import net.jeebiz.admin.extras.article.setup.Constants;
 import net.jeebiz.admin.extras.article.web.dto.ArticleAttachmentDTO;
@@ -49,9 +49,9 @@ public class ArticleAttachmentController extends BaseApiController {
 	@PostMapping("list")
     @RequiresPermissions(value = {"article:list","article:new","article:renew"}, logical = Logical.OR)
 	public ApiRestResponse<List<ArticleAttachmentDTO>> list(@RequestParam("id") String id){
-		List<ArticleAttachmentModel> modelList = getArticleAttachmentService().getModelList(id);
+		List<ArticleAttachmentEntity> modelList = getArticleAttachmentService().getModelList(id);
 		List<ArticleAttachmentDTO> retList = Lists.newArrayList();
-		for (ArticleAttachmentModel model : modelList) {
+		for (ArticleAttachmentEntity model : modelList) {
 			retList.add(getBeanMapper().map(model, ArticleAttachmentDTO.class));
 		}
 		return ApiRestResponse.success(retList);
@@ -67,9 +67,9 @@ public class ArticleAttachmentController extends BaseApiController {
 	public ApiRestResponse<String> upload(@Valid @RequestBody ArticleAttachmentNewDTO DTO) throws Exception {
 		
 		// 新增一条数据库配置记录
-		ArticleAttachmentModel model = getBeanMapper().map(DTO, ArticleAttachmentModel.class);
-		int result = getArticleAttachmentService().insert(model);
-		if(result == 1) {
+		ArticleAttachmentEntity model = getBeanMapper().map(DTO, ArticleAttachmentEntity.class);
+		boolean result = getArticleAttachmentService().save(model);
+		if(result) {
 			return success("article.att.new.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -86,8 +86,8 @@ public class ArticleAttachmentController extends BaseApiController {
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
 		// 执行文章附件删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-		int result = getArticleAttachmentService().batchDelete(idList);
-		if(result > 0) {
+		boolean result = getArticleAttachmentService().removeBatchByIds(idList);
+		if(result) {
 			return success("article.att.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

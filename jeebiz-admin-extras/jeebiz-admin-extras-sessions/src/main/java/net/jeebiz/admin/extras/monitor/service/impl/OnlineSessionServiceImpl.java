@@ -24,21 +24,21 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 
-import net.jeebiz.admin.extras.monitor.dao.ISessionMapper;
+import net.jeebiz.admin.extras.monitor.dao.SessionMapper;
 import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
 import net.jeebiz.admin.extras.monitor.service.IOnlineSessionService;
 import net.jeebiz.admin.extras.monitor.web.dto.OnlineSessionDTO;
 import net.jeebiz.admin.extras.monitor.web.param.SessionQueryParam;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 import net.jeebiz.boot.extras.redis.setup.RedisKey;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Service
-public class OnlineSessionServiceImpl extends BaseMapperServiceImpl<SessionEntity, ISessionMapper>
+public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionMapper, SessionEntity>
 		implements IOnlineSessionService {
 
 	@Autowired
-    private SessionDAO sessionDao;
+    private SessionDAO sessionMapper;
 	@Autowired
     private RedisOperationTemplate redisOperation;
 
@@ -46,8 +46,8 @@ public class OnlineSessionServiceImpl extends BaseMapperServiceImpl<SessionEntit
 	public List<OnlineSessionDTO> getActiveSessions(SessionQueryParam queryParam, String appId, String appChannel, String appVersion,
 			String languageCode, HttpServletRequest request) {
 
-		if(sessionDao == null){
-			throw new IllegalStateException("sessionDao must be set for this filter");
+		if(sessionMapper == null){
+			throw new IllegalStateException("sessionMapper must be set for this filter");
 		}
 
 		Long curruentSequence = queryParam.getLastSequence() + 20;
@@ -68,7 +68,7 @@ public class OnlineSessionServiceImpl extends BaseMapperServiceImpl<SessionEntit
 	public OnlineSessionDTO getActiveSession(String sessionId, String appId, String appChannel, String appVersion,
 			String languageCode, HttpServletRequest request) {
 		// 1、获取在线会话对象
-		Session session = getSessionDao().readSession(sessionId);
+		Session session = getSessionMapper().readSession(sessionId);
 		// 2、对象不为空表示session有效
 		if(Objects.nonNull(session)) {
 			return OnlineSessionDTO.fromSession(session);
@@ -83,7 +83,7 @@ public class OnlineSessionServiceImpl extends BaseMapperServiceImpl<SessionEntit
 			String languageCode, HttpServletRequest request) {
 		try {
 			// 1、先从缓存中读取Session对象，更改会话状态（RedissonSession会自动更新对应的缓存），以便客户端访问期间Session状态感知
-            Session session = getSessionDao().readSession(sessionId);
+            Session session = getSessionMapper().readSession(sessionId);
             if(session != null) {
             	if(session instanceof SimpleOnlineSession) {
         			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
@@ -92,7 +92,7 @@ public class OnlineSessionServiceImpl extends BaseMapperServiceImpl<SessionEntit
                 session.setAttribute(Constants.SESSION_FORCE_LOGOUT_KEY, Boolean.TRUE);
             }
             // 2、最终手动删除
-            getSessionDao().delete(session);
+            getSessionMapper().delete(session);
             return true;
         } catch (Exception e) {/*ignore*/
         	return false;
@@ -114,8 +114,8 @@ public class OnlineSessionServiceImpl extends BaseMapperServiceImpl<SessionEntit
 		return 1;
 	}
 
-	public SessionDAO getSessionDao() {
-		return sessionDao;
+	public SessionDAO getSessionMapper() {
+		return sessionMapper;
 	}
 
 	public RedisOperationTemplate getRedisOperation() {

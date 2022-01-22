@@ -1,6 +1,6 @@
 package net.jeebiz.admin.extras.filestore.strategy;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -32,7 +32,7 @@ import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
 import net.jeebiz.admin.extras.filestore.bo.FileUploadResult;
 import net.jeebiz.admin.extras.filestore.bo.FilesUploadBO;
 import net.jeebiz.admin.extras.filestore.bo.FilesUploadResult;
-import net.jeebiz.admin.extras.filestore.dao.IFileMapper;
+import net.jeebiz.admin.extras.filestore.dao.FileMapper;
 import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
@@ -49,7 +49,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
     @Autowired
 	private Mapper beanMapper;
 	@Autowired
-	private IFileMapper fileMapper;
+	private FileMapper fileMapper;
 	@Autowired
 	private Sequence sequence;
     @Autowired
@@ -293,7 +293,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
     			.userId(uploadBo.getUserId())
     			.uuid(file.getUuid())
     			.build();
-        fileEntity.setCreateTime(new Date());
+        fileEntity.setCreateTime(LocalDateTime.now());
         fileEntity.setCreator(uploadBo.getUserId());
         getFileMapper().insert(fileEntity);
         log.info(" Upload File : {}" , JSONObject.toJSONString(fileEntity));
@@ -377,7 +377,7 @@ public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, In
 		this.eventPublisher = eventPublisher;
 	}
 	
-	public IFileMapper getFileMapper() {
+	public FileMapper getFileMapper() {
 		return fileMapper;
 	}
 

@@ -12,7 +12,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.PaginationModel;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 /**
  * 在线用户最后一次在线信息() 此表对于分析活跃用户有用
@@ -22,7 +22,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationModel;
 @Getter
 @Setter
 @ToString
-public class LastOnlineSessionModel extends PaginationModel<LastOnlineSessionModel> {
+public class LastOnlineSessionModel extends PaginationEntity<LastOnlineSessionModel> {
 	/**
 	 * 回话记录ID
 	 */

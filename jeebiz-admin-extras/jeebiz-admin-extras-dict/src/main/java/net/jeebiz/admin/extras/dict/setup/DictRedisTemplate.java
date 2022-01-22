@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import net.jeebiz.admin.extras.dict.dao.IDictDao;
+import net.jeebiz.admin.extras.dict.dao.DictMapper;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
 public class DictRedisTemplate {
@@ -15,13 +15,13 @@ public class DictRedisTemplate {
 	private static final String KEY_PREFIX = "Dict:";
 	
 	private final RedisTemplate<String, Object> redisTemplate;
-	private final IDictDao dictDao;
+	private final DictMapper dictMapper;
 	
 	public DictRedisTemplate(RedisTemplate<String, Object> redisTemplate, 
-			IDictDao dictDao) {
+			DictMapper dictMapper) {
 		super();
 		this.redisTemplate = redisTemplate;
-		this.dictDao = dictDao;
+		this.dictMapper = dictMapper;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -30,7 +30,7 @@ public class DictRedisTemplate {
 			List<Object> list =  getRedisTemplate().opsForList().range(KEY_PREFIX + key,0,-1);
 			return (List<PairModel>) list.get(0);
 		} else {
-			List<PairModel> retList = getDictDao().getPairValues(key);
+			List<PairModel> retList = getDictMapper().getPairValues(key);
 			getRedisTemplate().opsForList().leftPush(KEY_PREFIX + key, retList);
 			return retList;
 		}
@@ -49,8 +49,8 @@ public class DictRedisTemplate {
 		return redisTemplate;
 	}
 
-	public IDictDao getDictDao() {
-		return dictDao;
+	public DictMapper getDictMapper() {
+		return dictMapper;
 	}
 
 }

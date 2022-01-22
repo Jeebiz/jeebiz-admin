@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleVisitModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleVisitEntity;
 import net.jeebiz.admin.extras.article.service.IArticleVisitService;
 import net.jeebiz.admin.extras.article.web.dto.ArticleVisitDTO;
 import net.jeebiz.admin.extras.article.web.dto.ArticleVisitPaginationDTO;
@@ -44,10 +44,10 @@ public class ArticleVisitController extends BaseApiController {
     @RequiresPermissions("article-topic:list")
 	public Result<ArticleVisitDTO> list(@Valid @RequestBody ArticleVisitPaginationDTO paginationDTO){
 		
-    	ArticleVisitModel model =  getBeanMapper().map(paginationDTO, ArticleVisitModel.class);
-		Page<ArticleVisitModel> pageResult = getArticleVisitService().getPagedList(model);
+    	ArticleVisitEntity model =  getBeanMapper().map(paginationDTO, ArticleVisitEntity.class);
+		Page<ArticleVisitEntity> pageResult = getArticleVisitService().getPagedList(model);
 		List<ArticleVisitDTO> retList = Lists.newArrayList();
-		for (ArticleVisitModel keyvalueModel : pageResult.getRecords()) {
+		for (ArticleVisitEntity keyvalueModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(keyvalueModel, ArticleVisitDTO.class));
 		}
 		return new Result<ArticleVisitDTO>(pageResult, retList);

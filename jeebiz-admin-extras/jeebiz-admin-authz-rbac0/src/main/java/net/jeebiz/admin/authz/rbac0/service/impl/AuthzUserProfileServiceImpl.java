@@ -9,14 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
-import net.jeebiz.admin.authz.rbac0.dao.IAuthzUserProfileDao;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzUserProfileMapper;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileModel;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserProfileService;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserResetDTO;
-import net.jeebiz.boot.api.service.BaseMapperServiceImpl;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzUserProfileServiceImpl extends BaseMapperServiceImpl<AuthzUserProfileModel, IAuthzUserProfileDao> implements IAuthzUserProfileService {
+public class AuthzUserProfileServiceImpl extends BaseServiceImpl<AuthzUserProfileMapper, AuthzUserProfileModel> implements IAuthzUserProfileService {
 
 	@Override
 	public AuthzUserProfileModel getProfile(String uid) {

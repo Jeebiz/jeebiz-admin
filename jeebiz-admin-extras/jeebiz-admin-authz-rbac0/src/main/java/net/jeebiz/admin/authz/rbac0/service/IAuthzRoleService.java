@@ -13,12 +13,12 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-import net.jeebiz.boot.api.service.IBaseMapperService;
+import net.jeebiz.boot.api.service.IBaseService;
 
 /**
  * @author hiwepy
  */
-public interface IAuthzRoleService extends IBaseMapperService<AuthzRoleModel>{
+public interface IAuthzRoleService extends IBaseService<AuthzRoleModel>{
 
 	/**
 	 * 执行分配用户逻辑操作

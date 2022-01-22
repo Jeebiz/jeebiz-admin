@@ -11,14 +11,14 @@ import org.apache.ibatis.type.Alias;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.BaseModel;
+import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
 @Alias(value = "AuthzUserAllotRoleModel")
 @SuppressWarnings("serial")
 @Getter
 @Setter
 @ToString
-public class AuthzUserAllotRoleModel extends BaseModel<AuthzUserAllotRoleModel> {
+public class AuthzUserAllotRoleModel extends BaseEntity<AuthzUserAllotRoleModel> {
 
 	/**
 	 * 角色id

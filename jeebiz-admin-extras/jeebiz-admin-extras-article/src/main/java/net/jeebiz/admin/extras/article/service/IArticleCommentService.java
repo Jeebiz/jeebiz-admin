@@ -1,9 +1,9 @@
 package net.jeebiz.admin.extras.article.service;
 
-import net.jeebiz.admin.extras.article.dao.entities.ArticleCommentModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleCommentEntity;
 import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IArticleCommentService extends IBaseService<ArticleCommentModel> {
+public interface IArticleCommentService extends IBaseService<ArticleCommentEntity> {
 
 	/**
 	 * 

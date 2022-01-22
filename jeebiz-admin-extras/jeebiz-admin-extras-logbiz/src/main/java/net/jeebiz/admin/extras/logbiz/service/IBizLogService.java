@@ -5,11 +5,11 @@
 package net.jeebiz.admin.extras.logbiz.service;
 
 import net.jeebiz.admin.extras.logbiz.dao.entities.BizLogModel;
-import net.jeebiz.boot.api.service.IBaseMapperService;
+import net.jeebiz.boot.api.service.IBaseService;
 
 /**
  * 业务操作日志Service
  */
-public interface IBizLogService extends IBaseMapperService<BizLogModel>{
+public interface IBizLogService extends IBaseService<BizLogModel>{
 
 }

@@ -11,6 +11,12 @@
 
 	<dependencies>
 
+		<!-- For Jeebiz API -->
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
 		<!-- Jeebiz 数据字典（必选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -132,6 +138,7 @@
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 
+
 		<!-- For Swagger -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -201,6 +208,11 @@
 			</exclusions>
 		</dependency>
 
+		<!-- For Okhttp 3.x -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>okhttp3-spring-boot-starter</artifactId>
+		</dependency>
 		<!-- For Zxing -->
 		<dependency>
             <groupId>com.github.hiwepy</groupId>

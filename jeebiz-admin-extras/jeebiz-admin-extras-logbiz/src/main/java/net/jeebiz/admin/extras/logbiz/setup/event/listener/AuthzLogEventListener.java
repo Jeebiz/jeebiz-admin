@@ -9,7 +9,7 @@ import org.apache.logging.log4j.spring.boot.utils.Log4jUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import net.jeebiz.admin.extras.logbiz.dao.entities.AuthzLogModel;
+import net.jeebiz.admin.extras.logbiz.dao.entities.LoginLogModel;
 import net.jeebiz.admin.extras.logbiz.setup.Constants;
 import net.jeebiz.admin.extras.logbiz.setup.event.AuthzLogEvent;
 
@@ -20,7 +20,7 @@ public class AuthzLogEventListener implements ApplicationListener<AuthzLogEvent>
 	@Override
 	public void onApplicationEvent(AuthzLogEvent event) {
 		
-		AuthzLogModel authzLog = event.getBind();
+		LoginLogModel authzLog = event.getBind();
 		
 		//ThreadContext.put("module", authzLog.module());
 		//ThreadContext.put("biz", authzLog.business());

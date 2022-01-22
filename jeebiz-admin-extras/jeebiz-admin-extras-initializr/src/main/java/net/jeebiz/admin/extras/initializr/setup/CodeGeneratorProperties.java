@@ -35,9 +35,9 @@ public class CodeGeneratorProperties {
     private String superServiceImplClass = "com.knowway.cloud.api.service.BaseServiceImpl";
 
     /**
-     * 自定义继承的Dao类全称，带包名
+     * 自定义继承的Mapper类全称，带包名
      */
-    private String superDaoClass = "com.knowway.cloud.api.dao.BaseDao";
+    private String superMapperClass = "com.knowway.cloud.api.dao.BaseMapper";
 
     /**
      * 数据库驱动名称,默认ORACLE驱动
@@ -81,12 +81,12 @@ public class CodeGeneratorProperties {
         this.superServiceImplClass = superServiceImplClass;
     }
 
-    public String getSuperDaoClass() {
-        return superDaoClass;
+    public String getSuperMapperClass() {
+        return superMapperClass;
     }
 
-    public void setSuperDaoClass(String superDaoClass) {
-        this.superDaoClass = superDaoClass;
+    public void setSuperMapperClass(String superMapperClass) {
+        this.superMapperClass = superMapperClass;
     }
 
     public String getDriverName() {

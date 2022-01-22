@@ -106,8 +106,8 @@ public class CodeGeneratorService {
                 .setBaseColumnList(Constants.TRUE)  //开启 baseColumnList 默认值：false
                 .setDateType(DateType.ONLY_DATE) //时间类型对应策略 默认值：TIME_PACK
                 .setEntityName(Constants.ENTITY_name)  //实体命名方式 默认值：null 例如：%sEntity 生成 EmailUserInfoEntity
-                .setMapperName(Constants.MAPPEr_name)  //mapper 命名方式 默认值：null 例如：%sDao 生成 UserDao
-                .setXmlName(Constants.XML_name)  //Mapper xml 命名方式 默认值：null 例如：%sDao 生成 UserDao.xml
+                .setMapperName(Constants.MAPPEr_name)  //mapper 命名方式 默认值：null 例如：%sMapper 生成 UserMapper
+                .setXmlName(Constants.XML_name)  //Mapper xml 命名方式 默认值：null 例如：%sMapper 生成 UserMapper.xml
                 .setServiceName(Constants.SERVICE_name)  //service 命名方式  默认值：null 例如：%sBusiness 生成 UserBusiness
                 .setServiceImplName(Constants.SERVICE_IMPL_name)  //service impl 命名方式 默认值：null 例如：%sBusinessImpl 生成 UserBusinessImpl
                 .setControllerName(Constants.CONTROLLEr_name);  //controller 命名方式 默认值：null 例如：%sAction 生成 UserAction
@@ -174,7 +174,7 @@ public class CodeGeneratorService {
                 .setEntityBooleanColumnRemoveIsPrefix(Constants.TRUE) //Boolean类型字段是否移除is前缀（默认 false）
                 .setRestControllerStyle(Constants.TRUE) //生成 @RestController 控制器
                 .setSuperEntityClass(codeGeneratorProperties.getSuperEntityClass()) //自定义继承的Entity类全称，带包名
-                .setSuperMapperClass(codeGeneratorProperties.getSuperDaoClass()) //自定义继承的Mapper类全称，带包名
+                .setSuperMapperClass(codeGeneratorProperties.getSuperMapperClass()) //自定义继承的Mapper类全称，带包名
                 .setSuperServiceClass(codeGeneratorProperties.getSuperServiceClass()) //自定义继承的Service类全称，带包名
                 .setSuperServiceImplClass(codeGeneratorProperties.getSuperServiceImplClass()) //自定义继承的ServiceImpl类全称，带包名
                 .setSuperControllerClass(codeGeneratorProperties.getSuperControllerClass());  //自定义继承的Controller类全称，带包名

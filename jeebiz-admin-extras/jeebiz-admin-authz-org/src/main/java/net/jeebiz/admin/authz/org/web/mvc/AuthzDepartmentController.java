@@ -180,7 +180,7 @@ public class AuthzDepartmentController extends BaseApiController {
 	@RequiresPermissions("authz-dept:delete")
 	public ApiRestResponse<String> delete(@RequestParam("id") String id) throws Exception {
 		
-		int count1 = getAuthzDepartmentService().getCountByParent(id);
+		Long count1 = getAuthzDepartmentService().getCountByParent(id);
 		if(count1 > 0 ) {
 			return fail("authz.dept.delete.child-exists");
 		}

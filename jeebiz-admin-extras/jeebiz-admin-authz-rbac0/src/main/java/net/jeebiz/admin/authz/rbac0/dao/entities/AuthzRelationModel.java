@@ -9,7 +9,7 @@ import org.apache.ibatis.type.Alias;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.boot.api.dao.entities.BaseModel;
+import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
 /**
  * 功能菜单-功能操作关系表
@@ -19,7 +19,7 @@ import net.jeebiz.boot.api.dao.entities.BaseModel;
 @Getter
 @Setter
 @ToString
-public class AuthzRelationModel extends BaseModel<AuthzRelationModel> {
+public class AuthzRelationModel extends BaseEntity<AuthzRelationModel> {
 	
 	/**
 	 * 	主键 

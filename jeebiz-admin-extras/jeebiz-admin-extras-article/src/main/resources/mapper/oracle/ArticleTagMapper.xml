@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.IArticleTagDao">
+<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleTagMapper">
 
-	<resultMap id="ArticleTagMap" type="ArticleTagModel">
+	<resultMap id="ArticleTagMap" type="ArticleTagEntity">
         <!-- 文章标签id -->
 		<result property="id" column="t_id" />
 		<!-- 文章id -->
@@ -12,33 +12,5 @@
 		<!-- 文章标签设置时间 -->
 		<result property="time24" column="t_time24" />
     </resultMap>
-
-	<insert id="insert" parameterType="ArticleTagModel" flushCache="true">
-		INSERT INTO sys_article_content_tags(t_cid,t_name) VALUES (#{cid},#{name})
-	</insert>
-	
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_article_content_tags WHERE t_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
-        </foreach>
-	</delete>
-	
-	<update id="update" parameterType="ArticleTagModel" flushCache="true">
-		UPDATE sys_article_content_tags t
-		   SET t_name = #{name}
-		 WHERE t_id = #{id}
-	</update>
-	
-	<select id="getRowList" resultMap="ArticleTagMap" parameterType="java.lang.String" useCache="false">
-		SELECT
-			t.t_id,
-			t.t_cid,
-			t.t_name,
-			t.t_time24
-		FROM sys_article_content_tags t
-	   WHERE t.t_cid = #{cid}
-	ORDER By t.t_time24 ASC
-	</select>
 
 </mapper>

@@ -7,9 +7,9 @@ package net.jeebiz.admin.authz.org.service;
 import java.util.List;
 
 import net.jeebiz.admin.authz.org.dao.entities.AuthzOrganizationModel;
-import net.jeebiz.boot.api.service.IBaseMapperService;
+import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IAuthzOrganizationService extends IBaseMapperService<AuthzOrganizationModel> {
+public interface IAuthzOrganizationService extends IBaseService<AuthzOrganizationModel> {
 	
 	int getRootCount();
 

@@ -30,6 +30,54 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>jwt-issuer-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-boot-webmvc-autoconfigure</artifactId>
+			<version>${jeebiz-boot.version}</version>
+		</dependency>
+		<!-- For Validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.tomcat.embed</groupId>
+					<artifactId>tomcat-embed-el</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>validation-mimetypes-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+		</dependency>
+		<!-- For AOP -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+  			<artifactId>spring-boot-starter-aop</artifactId>
+  			<exclusions>
+  				<exclusion>
+  					<groupId>org.springframework.boot</groupId>
+  					<artifactId>spring-boot-starter-logging</artifactId>
+  				</exclusion>
+  			</exclusions>
+		</dependency>
+		<!-- For Dozer -->
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-spring-boot-starter</artifactId>
+		</dependency> 
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>dozer-extra-converters</artifactId>
+		</dependency> 
 		
 	</dependencies>
 	

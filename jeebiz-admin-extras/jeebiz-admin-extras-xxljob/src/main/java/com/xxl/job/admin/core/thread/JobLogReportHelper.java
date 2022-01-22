@@ -69,7 +69,7 @@ public class JobLogReportHelper {
                             xxlJobLogReport.setSucCount(0);
                             xxlJobLogReport.setFailCount(0);
 
-                            Map<String, Object> triggerCountMap = XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogDao().findLogReport(todayFrom, todayTo);
+                            Map<String, Object> triggerCountMap = XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogMapper().findLogReport(todayFrom, todayTo);
                             if (triggerCountMap!=null && triggerCountMap.size()>0) {
                                 int triggerDayCount = triggerCountMap.containsKey("triggerDayCount")?Integer.valueOf(String.valueOf(triggerCountMap.get("triggerDayCount"))):0;
                                 int triggerDayCountRunning = triggerCountMap.containsKey("triggerDayCountRunning")?Integer.valueOf(String.valueOf(triggerCountMap.get("triggerDayCountRunning"))):0;
@@ -82,9 +82,9 @@ public class JobLogReportHelper {
                             }
 
                             // do refresh
-                            int ret = XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogReportDao().update(xxlJobLogReport);
+                            int ret = XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogReportMapper().update(xxlJobLogReport);
                             if (ret < 1) {
-                                XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogReportDao().save(xxlJobLogReport);
+                                XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogReportMapper().save(xxlJobLogReport);
                             }
                         }
 
@@ -110,9 +110,9 @@ public class JobLogReportHelper {
                         // clean expired log
                         List<Long> logIds = null;
                         do {
-                            logIds = XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogDao().findClearLogIds(0, 0, clearBeforeTime, 0, 1000);
+                            logIds = XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogMapper().findClearLogIds(0, 0, clearBeforeTime, 0, 1000);
                             if (logIds!=null && logIds.size()>0) {
-                                XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogDao().clearLog(logIds);
+                                XxlJobAdminConfiguration.getAdminConfig().getXxlJobLogMapper().clearLog(logIds);
                             }
                         } while (logIds!=null && logIds.size()>0);
 

@@ -26,7 +26,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.article.dao.entities.ArticleModel;
+import net.jeebiz.admin.extras.article.dao.entities.ArticleEntity;
 import net.jeebiz.admin.extras.article.service.IArticleService;
 import net.jeebiz.admin.extras.article.setup.Constants;
 import net.jeebiz.admin.extras.article.web.dto.ArticleDTO;
@@ -59,10 +59,10 @@ public class ArticleController extends BaseApiController {
     @RequiresPermissions("article:list")
 	public Result<ArticleDTO> list(@Valid @RequestBody ArticlePaginationDTO paginationDTO){
 		
-    	ArticleModel model =  getBeanMapper().map(paginationDTO, ArticleModel.class);
-		Page<ArticleModel> pageResult = getArticleService().getPagedList(model);
+    	ArticleEntity model =  getBeanMapper().map(paginationDTO, ArticleEntity.class);
+		Page<ArticleEntity> pageResult = getArticleService().getPagedList(model);
 		List<ArticleDTO> retList = Lists.newArrayList();
-		for (ArticleModel keyvalueModel : pageResult.getRecords()) {
+		for (ArticleEntity keyvalueModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(keyvalueModel, ArticleDTO.class));
 		}
 		return new Result<ArticleDTO>(pageResult, retList);
@@ -77,10 +77,10 @@ public class ArticleController extends BaseApiController {
     @RequiresAuthentication 
 	public Result<ArticleDTO> forme(@Valid @RequestBody ArticlePaginationDTO paginationDTO){
 		
-    	ArticleModel model =  getBeanMapper().map(paginationDTO, ArticleModel.class);
-		Page<ArticleModel> pageResult = getArticleService().getPagedList(model);
+    	ArticleEntity model =  getBeanMapper().map(paginationDTO, ArticleEntity.class);
+		Page<ArticleEntity> pageResult = getArticleService().getPagedList(model);
 		List<ArticleDTO> retList = Lists.newArrayList();
-		for (ArticleModel keyvalueModel : pageResult.getRecords()) {
+		for (ArticleEntity keyvalueModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(keyvalueModel, ArticleDTO.class));
 		}
 		return new Result<ArticleDTO>(pageResult, retList);
@@ -97,12 +97,12 @@ public class ArticleController extends BaseApiController {
 	public ApiRestResponse<String> article(@Valid @RequestBody ArticleNewDTO DTO) throws Exception {
 		
 		// 新增一条数据库配置记录
-		ArticleModel model = getBeanMapper().map(DTO, ArticleModel.class);
+		ArticleEntity model = getBeanMapper().map(DTO, ArticleEntity.class);
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setUid(principal.getUserid());
-		int result = getArticleService().insert(model);
-		if(result == 1) {
+		boolean result = getArticleService().save(model);
+		if(result) {
 			return success("article.new.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -119,8 +119,8 @@ public class ArticleController extends BaseApiController {
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
 		// 执行文章信息删除操作
 		List<String> idList = Lists.newArrayList(StringUtils.tokenizeToStringArray(ids));
-		int result = getArticleService().batchDelete(idList);
-		if(result > 0) {
+		boolean result = getArticleService().removeBatchByIds(idList);
+		if(result) {
 			return success("article.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -136,12 +136,12 @@ public class ArticleController extends BaseApiController {
 	@RequiresPermissions("article:renew")
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody ArticleRenewDTO DTO) throws Exception {
-		ArticleModel model = getBeanMapper().map(DTO, ArticleModel.class);
+		ArticleEntity model = getBeanMapper().map(DTO, ArticleEntity.class);
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setUid(principal.getUserid());
-		int result = getArticleService().update(model);
-		if(result == 1) {
+		boolean result = getArticleService().updateById(model);
+		if(result) {
 			return success("article.renew.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行
@@ -210,7 +210,7 @@ public class ArticleController extends BaseApiController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<ArticleDTO> detail(@RequestParam("id") String id) throws Exception { 
-		ArticleModel model = getArticleService().getModel(id);
+		ArticleEntity model = getArticleService().getModel(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("article.get.empty"));
 		}
