@@ -1,9 +1,9 @@
 
 -- ----------------------------
--- Table structure for $${table-prefix}device_activate
+-- Table structure for sys_device_activate
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}device_activate`;
-CREATE TABLE `$${table-prefix}device_activate` (
+DROP TABLE IF EXISTS `sys_device_activate`;
+CREATE TABLE `sys_device_activate` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `app_id` varchar(11) DEFAULT NULL COMMENT '设备安装的客户端应用ID',
   `app_channel` varchar(255) DEFAULT NULL COMMENT '设备安装的客户端应用渠道编码',
@@ -33,10 +33,10 @@ CREATE TABLE `$${table-prefix}device_activate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客户端激活数据表';
 
 -- ----------------------------
--- Table structure for $${table-prefix}device_users
+-- Table structure for sys_device_users
 -- ----------------------------
-DROP TABLE IF EXISTS `$${table-prefix}device_users`;
-CREATE TABLE `$${table-prefix}device_users` (
+DROP TABLE IF EXISTS `sys_device_users`;
+CREATE TABLE `sys_device_users` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `device_id` bigint(12) DEFAULT NULL COMMENT '设备激活记录ID',
   `u_app_id` varchar(11) DEFAULT NULL COMMENT '用户登录的客户端应用ID',
