@@ -41,19 +41,6 @@
 			<artifactId>jeebiz-admin-authz-rbac0</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-jwt</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-generator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity-engine-core</artifactId>
-		</dependency>
 		<!-- Jeebiz 第三方登录：提供接口实现openid等和账号的绑定 -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -208,6 +195,15 @@
 			</exclusions>
 		</dependency>
 
+		<!-- For Shiro JWT -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-jwt-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>jwt-issuer-with-jjwt</artifactId>
+		</dependency>
 		<!-- For Okhttp 3.x -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -240,6 +236,15 @@
 		<dependency>
 		    <groupId>net.bull.javamelody</groupId>
 		    <artifactId>javamelody-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For Mybatis Plus Generator -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-generator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
 		</dependency>
 		<!-- For Druid -->
 		<dependency>

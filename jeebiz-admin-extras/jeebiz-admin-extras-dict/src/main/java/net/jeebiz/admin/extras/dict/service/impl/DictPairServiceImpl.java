@@ -73,7 +73,7 @@ public class DictPairServiceImpl extends BaseServiceImpl<DictPairMapper, DictPai
 
 	@Override
 	public Map<String, List<DictPairEntity>> getGroupPairValues(String[] gkeys) {
-		List<DictPairEntity> keyValueList = getBaseMapper().getKeyValueList(Arrays.asList(gkeys));
+		List<DictPairEntity> keyValueList = getBaseMapper().getDictPairList(Arrays.asList(gkeys));
 		if(CollectionUtils.isEmpty(keyValueList)) {
 			return Maps.newHashMap();
 		}

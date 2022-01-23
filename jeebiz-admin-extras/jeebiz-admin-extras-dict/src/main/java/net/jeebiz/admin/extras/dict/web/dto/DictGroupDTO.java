@@ -4,10 +4,11 @@
  */
 package net.jeebiz.admin.extras.dict.web.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import hitool.core.lang3.time.DateFormats;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -54,7 +55,7 @@ public class DictGroupDTO {
 	 * 创建时间
 	 */
 	@ApiModelProperty(name = "createTime", value = "创建时间")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-	private Date createTime;
+	@JsonFormat(pattern = DateFormats.DATE_LONGFORMAT)
+	private LocalDateTime createTime;
 
 }

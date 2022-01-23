@@ -16,7 +16,7 @@ import net.jeebiz.boot.api.dao.BaseMapper;
 @Mapper
 public interface DictPairMapper extends BaseMapper<DictPairEntity> {
 
-	public List<DictPairEntity> getKeyValueList(@Param("gkeys") List<String> gkeys);
+	public List<DictPairEntity> getDictPairList(@Param("gkeys") List<String> gkeys);
 
 	/**
 	 * 根据给出的基础数据id集合查询所属的数据组集合

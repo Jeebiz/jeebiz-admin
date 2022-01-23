@@ -17,10 +17,10 @@ import com.github.hiwepy.jwt.token.SignedWithSecretResolverJWTRepository;
 
 import io.jsonwebtoken.JwtClock;
 import io.jsonwebtoken.SigningKeyResolver;
-import net.jeebiz.admin.authz.jwt.setup.shiro.DefaultJwtPayloadRepository;
-import net.jeebiz.admin.authz.jwt.setup.shiro.JJwtAuthenticationFailureHandler;
-import net.jeebiz.admin.authz.jwt.setup.shiro.JwtSigningKeyRedisResolver;
-import net.jeebiz.admin.authz.jwt.setup.shiro.JwtTimeRedisProvider;
+import net.jeebiz.admin.shadow.setup.shiro.jwt.DefaultJwtPayloadRepository;
+import net.jeebiz.admin.shadow.setup.shiro.jwt.JJwtAuthenticationFailureHandler;
+import net.jeebiz.admin.shadow.setup.shiro.jwt.JwtSigningKeyRedisResolver;
+import net.jeebiz.admin.shadow.setup.shiro.jwt.JwtTimeRedisProvider;
 import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Configuration
@@ -28,7 +28,7 @@ import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 	"com.google.code.kaptcha.spring.boot.KaptchaAutoConfiguration",
 	"org.apache.shiro.spring.boot.ShiroJwtWebAutoConfiguration"
 })
-public class JeebizAuthzJwtConfiguration {
+public class ShiroJwtConfiguration {
 
 	@Bean
 	protected JJwtAuthenticationFailureHandler jjwtAuthenticationFailureHandler() {
