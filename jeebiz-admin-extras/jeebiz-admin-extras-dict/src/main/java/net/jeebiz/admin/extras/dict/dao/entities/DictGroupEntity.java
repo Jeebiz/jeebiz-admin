@@ -28,7 +28,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-@TableName(value = "sys_data_pairgroup")
+@TableName("sys_data_pairgroup")
 public class DictGroupEntity extends PaginationEntity<DictGroupEntity> {
 
 	/**

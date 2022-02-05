@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("sys_dict_region")
+@TableName("sys_data_region")
 public class DictRegionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
