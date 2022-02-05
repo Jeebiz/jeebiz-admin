@@ -2,8 +2,8 @@ package net.jeebiz.admin.shadow.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import net.jeebiz.admin.extras.core.service.ICommonService;
 import net.jeebiz.admin.shadow.dao.CommonMapper;
+import net.jeebiz.admin.shadow.service.ICommonService;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 

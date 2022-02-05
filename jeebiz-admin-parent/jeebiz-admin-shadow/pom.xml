@@ -110,12 +110,6 @@
 			<artifactId>jeebiz-admin-extras-monitor</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<!-- Jeebiz Admin 默认配置及初始化 -->
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-core</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
 
 		<!-- For Shiro JWT -->
 		<dependency>
