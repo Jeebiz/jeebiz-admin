@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.myapp.dao.BannerMapper">
+
+	<resultMap id="BannerMap" type="BannerEntity">
+		<result property="id" column="app_id" />
+		<result property="uid" column="app_uid" />
+		<result property="name" column="app_name" />
+		<result property="intro" column="app_intro" />
+		<result property="lang" column="app_lang" />
+		<result property="addr" column="app_addr" />
+		<result property="appKey" column="app_key" />
+		<result property="appSecret" column="app_secret" />
+		<result property="userId" column="app_userid" />
+		<result property="isDelete" column="is_delete" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyer" column="modifyer" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+	<resultMap id="PairMap" type="PairModel">
+		<result property="key" column="app_id" />
+		<result property="value" column="app_name" />
+	</resultMap>
+
+	<select id="getPairValues" resultMap="PairMap">
+		select app_id, app_name
+		from sys_data_myapp t
+		where t.app_userid = #{key}
+	</select>
+
+	<select id="getAppList" resultMap="BannerMap" parameterType="String">
+		SELECT
+			t.app_id,
+			t.app_name,
+			t.app_intro,
+			t.app_lang,
+			t.app_addr,
+			t.app_key,
+			t.app_secret,
+			t.app_userid,
+			t.is_delete,
+			t.creator,
+			t.create_time,
+			t.modifyer,
+			t.modify_time
+		FROM sys_data_myapp t
+	</select>
+
+	<select id="getMyApps" resultMap="PairMap">
+		select app_id, app_name
+		from sys_data_myapp t
+		where t.app_userid = #{userId}
+	</select>
+
+	<select id="getPagedList" resultMap="BannerMap" parameterType="BannerEntity">
+		SELECT
+			t.app_id,
+			t.app_name,
+			t.app_intro,
+			t.app_lang,
+			t.app_addr,
+			t.app_key,
+			t.app_secret,
+			t.app_userid,
+			t.is_delete,
+			t.creator,
+			t.create_time
+			t.modifyer,
+			t.modify_time
+		FROM sys_data_myapp t
+		WHERE t.app_userid = #{model.userId, jdbcType=VARCHAR}
+		<if test="model.name != null and model.name != ''">
+			AND t.app_name like '%'|| #{model.name} ||'%'
+		</if>
+	</select>
+
+</mapper>
