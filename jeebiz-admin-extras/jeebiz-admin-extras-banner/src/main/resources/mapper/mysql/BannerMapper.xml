@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.extras.banner.dao.BannerMapper">
+
+	<resultMap id="BannerMap" type="BannerEntity">
+		<result property="id" column="id" />
+		<result property="appId" column="app_id" />
+		<result property="appChannel" column="app_channel" />
+		<result property="region" column="region_code" />
+		<result property="language" column="language" />
+		<result property="title" column="title" />
+		<result property="desc" column="desc" />
+		<result property="iconUrl" column="icon_url" />
+		<result property="imgUrl" column="img_url" />
+		<result property="jumpUrl" column="jump_url" />
+		<result property="type" column="type" />
+		<result property="status" column="status" />
+		<result property="linkType" column="link_type" />
+		<result property="extend" column="extend" />
+		<result property="priority" column="priority" />
+		<result property="isDelete" column="is_delete" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyer" column="modifyer" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+	<select id="getPagedList" resultMap="BannerMap" parameterType="BannerEntity">
+		SELECT
+			t.id,
+			t.app_id,
+			t.app_channel,
+			t.region_code,
+			t.language,
+			t.title,
+			t.desc,
+			t.icon_url,
+			t.img_url,
+			t.jump_url,
+			t.type,
+			t.status,
+			t.link_type,
+			t.extend,
+			t.priority,
+			t.is_delete,
+			t.creator,
+			t.create_time
+			t.modifyer,
+			t.modify_time
+		FROM sys_data_banner t
+		<where>
+			<if test="model.appId != null and model.appId != ''">
+				AND t.app_id = #{appId}
+			</if>
+			<if test="model.appChannel != null and model.appChannel != ''">
+				AND t.app_channel = #{appChannel}
+			</if>
+			<if test="model.region != null and model.region != ''">
+				AND t.region_code = #{region}
+			</if>
+			<if test="model.language != null and model.language != ''">
+				AND t.language = #{language}
+			</if>
+			<if test="model.type != null and model.type != ''">
+				AND t.type = #{type}
+			</if>
+			<if test="model.status != null and model.status != ''">
+				AND t.status = #{status}
+			</if>
+		</where>
+	</select>
+
+</mapper>
