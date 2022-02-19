@@ -1,5 +1,6 @@
 package net.jeebiz.admin.extras.banner.dao.entities;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.ibatis.type.Alias;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -11,41 +12,90 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
+/**
+ * @author wandl
+ */
 @Alias("BannerEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_data_myapp")
+@TableName(value = "sys_data_banner")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class BannerEntity extends PaginationEntity<BannerEntity> {
 
 	/**
-	 * 数据源ID
+	 * 主键ID
 	 */
-	@TableId(value="app_id",type= IdType.AUTO)
+	@TableId(value="id",type= IdType.AUTO)
 	private String id;
-	/** 应用UID */
-	@TableField(value = "app_uid")
-	private String uid;
-	/** 应用名称 */
-	@TableField(value = "app_name")
-	private String name;
-	/** 应用描述 */
-	@TableField(value = "app_intro")
-	private String intro;
-	/** 应用开发语言 */
-	@TableField(value = "app_lang")
-	private String lang;
-	/** 应用部署地址 */
-	@TableField(value = "app_addr")
-	private String addr;
-	/** 应用Key:RSA公钥 */
-	@TableField(value = "app_key")
-	private String appKey;
-	/** 应用Secret:RSA私钥 */
-	@TableField(value = "app_secret")
-	private String appSecret;
-	/** 应用所属人ID */
-	@TableField(value = "app_userid")
-	private String userId;
+	/**
+	 * 客户端应用ID；多个客户端使用,拼接
+	 */
+	@TableField(value = "app_id")
+	private String appId;
+	/**
+	 * 客户端应用渠道编码；多个编码使用,拼接
+	 */
+	@TableField(value = "app_channel")
+	private String appChannel;
+	/**
+	 * 地区编码；多个编码使用,拼接
+	 */
+	@TableField(value = "region_code")
+	private String region;
+	/**
+	 * 语区标签；多个语区使用,拼接
+	 */
+	@TableField(value = "language")
+	private String language;
+	/**
+	 * 该横幅对应的标题
+	 */
+	@TableField(value = "title")
+	private String title;
+	/**
+	 * 该横幅对应的描述
+	 */
+	@TableField(value = "desc")
+	private String desc;
+	/**
+	 * 横幅图标路径
+	 */
+	@TableField(value = "icon_url")
+	private String iconUrl;
+	/**
+	 * 横幅图片路径
+	 */
+	@TableField(value = "img_url")
+	private String imgUrl;
+	/**
+	 * 跳转路径
+	 */
+	@TableField(value = "jump_url")
+	private String jumpUrl;
+	/**
+	 * 横幅类型（0：首页轮班、1：我的页面轮播、2：搜索页面轮播）
+	 */
+	@TableField(value = "type")
+	private Integer type;
+	/**
+	 * 显示状态（0：不显示、1：显示）
+	 */
+	@TableField(value = "status")
+	private Integer status;
+	/**
+	 * 链接类型（0:H5网页、1:客户端、2:仅图片、3:内联网页）
+	 */
+	@TableField(value = "link_type")
+	private Integer linkType;
+	/**
+	 * '扩展字段：过期时间、等待时间'
+	 */
+	@TableField(value = "extend")
+	private String extend;
+	/**
+	 * 权重值，数字越小越靠前
+	 */
+	@TableField(value = "priority")
+	private Integer priority;
 
 }

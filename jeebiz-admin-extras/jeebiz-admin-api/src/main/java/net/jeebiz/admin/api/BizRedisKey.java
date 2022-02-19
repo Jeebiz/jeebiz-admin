@@ -6,6 +6,10 @@ import java.util.function.BiFunction;
 
 import org.slf4j.helpers.MessageFormatter;
 
+/**
+ * @author Administrator
+ */
+
 public enum BizRedisKey {
 
 	/**
@@ -21,6 +25,12 @@ public enum BizRedisKey {
         return BizRedisKeyConstant.getKeyStr(BizRedisKeyConstant.APP_DICT_PREFIX, blType);
     }),
 
+    /**
+     * 轮播图
+     */
+    BANNER_LIST("轮播图", (code, lang) -> {
+        return BizRedisKeyConstant.getKeyStr(BizRedisKeyConstant.BANNER_LIST, code, lang);
+    }),
     /**
      * 服务器资源使用率记录
      */
@@ -48,16 +58,16 @@ public enum BizRedisKey {
 
     private String desc;
     private BiFunction<String, String, String> function;
-    
+
     BizRedisKey(String desc, BiFunction<String, String, String> function) {
         this.desc = desc;
         this.function = function;
     }
-    
+
     public String getDesc() {
 		return desc;
 	}
-    
+
     /**
      * 1、获取全名称key
      * @return
@@ -65,7 +75,7 @@ public enum BizRedisKey {
     public String getKey() {
         return this.function.apply(null, null);
     }
-    
+
     /**
      * 1、获取全名称key
      * @param key
@@ -74,7 +84,7 @@ public enum BizRedisKey {
     public String getKey(String key) {
         return this.function.apply(key, null);
     }
-    
+
     /**
      * 2、获取全名称key
      * @param key
@@ -84,8 +94,4 @@ public enum BizRedisKey {
         return this.function.apply(key, key2);
     }
 
-    public BiFunction<String, String, String> getFunction() {
-        return function;
-    }
-	
 }

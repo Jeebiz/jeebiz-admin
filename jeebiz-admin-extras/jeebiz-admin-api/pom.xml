@@ -8,9 +8,9 @@
 		<version>1.0.2-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-api</artifactId>
-	
+
 	<dependencies>
-	
+
 		 <!-- For Jeebiz API -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -18,7 +18,7 @@
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-boot-extras-redis</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
@@ -73,13 +73,13 @@
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>
 			<artifactId>dozer-spring-boot-starter</artifactId>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>dozer-extra-converters</artifactId>
-		</dependency> 
-		
+		</dependency>
+
 	</dependencies>
-	
-	
+
+
 </project>

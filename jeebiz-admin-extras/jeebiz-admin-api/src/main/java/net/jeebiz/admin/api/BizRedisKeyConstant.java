@@ -15,6 +15,11 @@ public class BizRedisKeyConstant extends RedisKeyConstant {
 	public final static String APP_DICT_PREFIX = "app:dict";
 
 	/**
+	 * 轮播图
+	 */
+	public static final String BANNER_LIST = "banner";
+
+	/**
 	 * 服务器资源使用率记录
 	 */
 	public final static String SERVER_USAGE_HISTORY_PREFIX = "server:usage:{}";
@@ -31,6 +36,6 @@ public class BizRedisKeyConstant extends RedisKeyConstant {
 
 	public final static String DBMATA_CATALOG = "dbmata:catalog";
 	public final static String DBMATA_CATALOG_LODING = "dbmata:catalog:loding";
-	 
-	
+
+
 }

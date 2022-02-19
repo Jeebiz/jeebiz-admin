@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.2-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-extras-banner</artifactId>
 
@@ -16,6 +16,11 @@
 			<groupId>net.jeebiz</groupId>
 			<artifactId>jeebiz-admin-api</artifactId>
 			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-boot-extras-external</artifactId>
+			<version>${jeebiz-boot.version}</version>
 		</dependency>
 		<!-- For Mybatis -->
 		<dependency>
