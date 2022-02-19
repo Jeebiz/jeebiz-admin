@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyUserProfileMapper">
-	
-	<select id="getCountByPhone" resultType="int" parameterType="java.lang.String" useCache="false">
-	  SELECT COUNT(1) 
+
+	<select id="getCountByPhone" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
+	  SELECT COUNT(1)
 		FROM sys_authz_user_profile t
 	   WHERE t.u_phone = #{phone}
 		 <if test="origin != null and origin != ''">
 		   AND t.u_pid != #{origin}
 		 </if>
-		LIMIT 1 
+		LIMIT 1
 	</select>
 
-	<select id="getCountByEmail" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT COUNT(1) 
+	<select id="getCountByEmail" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
+		SELECT COUNT(1)
 		  FROM sys_authz_user_profile t
 		 WHERE t.u_email = #{email}
 		 <if test="origin != null and origin != ''">
@@ -21,9 +21,9 @@
 		 </if>
 		 LIMIT 1
 	</select>
-	
+
 	<select id="getCountByIdcard" resultType="int" parameterType="java.lang.String" useCache="false">
-		SELECT COUNT(1) 
+		SELECT COUNT(1)
 		  FROM sys_authz_user_profile t
 		 WHERE t.u_idcard = #{idcard}
 		 <if test="origin != null and origin != ''">

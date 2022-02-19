@@ -31,7 +31,7 @@
 		<!-- 消息通知模板创建时间 -->
 		<result property="createTime" column="create_time"/>
 	</resultMap>
-	
+
 	<resultMap id="InformTemplateStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO">
 		<!-- 消息通知模板的发送提供者 -->
 		<result property="provider" column="t_provider" />
@@ -40,21 +40,21 @@
 		<!-- 消息通知模板已发消息未读总数 -->
 		<result property="unread" column="t_unread" />
 	</resultMap>
-	
-	<insert id="insert" parameterType="InformTemplateModel" flushCache="true" 
+
+	<insert id="insert" parameterType="InformTemplateModel" flushCache="true"
 		keyColumn="t_id" keyProperty="id" useGeneratedKeys="true">
 		insert into sys_inform_templates(t_uid,t_target,t_provider,t_title,t_content,t_tid,t_payload,t_status)
 		values(#{uid},#{target},#{provider},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},'0')
 	</insert>
-	
+
 	<delete id="delete" parameterType="java.lang.String">
 		DELETE FROM sys_inform_templates WHERE t_id = #{id}
 	</delete>
 
 	<delete id="batchDelete" flushCache="true">
 		DELETE FROM sys_inform_templates WHERE t_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+           #{item}
         </foreach>
 	</delete>
 
@@ -63,7 +63,7 @@
 		   SET t.t_status = #{status}
 		 WHERE t.t_id = #{id}
 	</update>
-	
+
 	<update id="update" parameterType="InformTemplateModel">
 		UPDATE sys_inform_templates t
 		   SET t.t_target = #{target},
@@ -74,14 +74,14 @@
 		   	   t.t_payload = #{payload,jdbcType=VARCHAR}
 		 WHERE t.t_id = #{id}
 	</update>
-	
-	<select id="getCount" resultType="int" parameterType="InformTemplateModel" useCache="false">
+
+	<select id="getCount" resultType="java.lang.Long" parameterType="InformTemplateModel" useCache="false">
 		SELECT count(t.t_id)
 		  FROM sys_inform_templates t
 		 WHERE t.t_title = #{title}
 		   AND t.t_uid = #{uid}
 	</select>
-	
+
 	<select id="getPagedList" resultMap="InformTemplateMap" >
 		SELECT t.t_id,
 			   t.creator as t_uid,
@@ -115,7 +115,7 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="getModel" resultMap="InformTemplateMap" parameterType="String" >
 		SELECT t.t_id,
 			   t.creator as t_uid,
@@ -133,7 +133,7 @@
 		  FROM sys_inform_templates t
 	   WHERE t.t_id = #{id}
 	</select>
-	
+
 	<select id="getStats" resultMap="InformTemplateStatsMap">
 		SELECT t.t_provider,
 			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS t_total,
@@ -142,5 +142,5 @@
 	   WHERE t.t_id = t2.t_id
 	   GROUP BY t.t_provider
 	</select>
-	
+
 </mapper>

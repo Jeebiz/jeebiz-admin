@@ -15,7 +15,7 @@
 		<result property="modifyer" column="modifyer" />
 		<result property="modifyTime" column="modify_time" />
 	</resultMap>
-	
+
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="org_id" />
 		<result property="value" column="org_name" />
@@ -26,26 +26,26 @@
 		   SET org_status = #{status}
 		 WHERE org_id = #{id,jdbcType=INTEGER}
 	</update>
-	
+
 	<select id="getRootCount" resultType="int" useCache="false">
 		SELECT count(t.org_id)
 		  FROM sys_authz_org_list t
 		 WHERE t.org_parent = 0
 	</select>
-	
-	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByParent" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.org_id)
 		  FROM sys_authz_org_list t
 		 WHERE t.org_parent = #{parent,jdbcType=INTEGER}
 	</select>
-	
+
 	<select id="getDeptCount" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.dept_id)
 		  FROM sys_authz_org_dept t
 		 WHERE t.org_id = #{id,jdbcType=INTEGER}
 	</select>
-	
-	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.org_id)
 		  FROM sys_authz_org_list t
 		 WHERE t.org_code = #{code}
@@ -53,8 +53,8 @@
 			AND t.org_id != #{origin,jdbcType=INTEGER}
 		 </if>
 	</select>
-	
-	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.org_id)
 		  FROM sys_authz_org_list t
 		 WHERE t.org_name = #{name}
@@ -62,7 +62,7 @@
 			AND t.org_id != #{origin,jdbcType=INTEGER}
 		 </if>
 	</select>
-	
+
 	<select id="getPagedList" resultMap="AuthzOrganizationMap" parameterType="AuthzDepartmentModel" useCache="false">
 		SELECT
 			t.org_id,
@@ -99,7 +99,7 @@
 		FROM sys_authz_org_list t
 	   WHERE t.org_id = #{id,jdbcType=INTEGER}
 	</select>
-	
+
 	<select id="getOrgList" resultMap="AuthzOrganizationMap" useCache="false">
 		SELECT
 			t.org_id,
@@ -114,7 +114,7 @@
 			t.modify_time
 		FROM sys_authz_org_list t
 	</select>
-	
+
 	<select id="getModelList" resultMap="AuthzOrganizationMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.org_id,
@@ -141,6 +141,6 @@
 			and t.org_id != #{key,jdbcType=INTEGER}
 		</if>
 	</select>
-	
-    
+
+
 </mapper>

@@ -44,7 +44,7 @@
 			t.priority,
 			t.is_delete,
 			t.creator,
-			t.create_time
+			t.create_time,
 			t.modifyer,
 			t.modify_time
 		FROM sys_data_banner t

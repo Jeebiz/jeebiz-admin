@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.authz.org.dao.AuthzPostMapper">
-	
+
 	<resultMap id="AuthzPostMap" type="AuthzPostModel">
 		<id property="id" column="post_id" />
 		<result property="orgId" column="org_id" />
@@ -16,7 +16,7 @@
 		<result property="status" column="post_status" />
 		<result property="time24" column="time24" />
 	</resultMap>
-	
+
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="post_id" />
 		<result property="value" column="post_name" />
@@ -27,8 +27,8 @@
 		   SET post_status = #{status}
 		 WHERE post_id = #{id}
 	</update>
-	
-	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.post_id)
 		  FROM sys_authz_org_post t
 		 WHERE t.post_code = #{code}
@@ -36,8 +36,8 @@
 			AND t.post_id != #{origin}
 		 </if>
 	</select>
-	
-	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.post_id)
 		  FROM sys_authz_org_post t
 		 WHERE t.post_name = #{name}
@@ -90,7 +90,7 @@
 		FROM sys_authz_org_post t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 	   WHERE t.post_id = #{id}
 	</select>
-	
+
 	<select id="getModelList" resultMap="AuthzPostMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t2.org_id,
@@ -118,5 +118,5 @@
 			AND t.dept_id = #{key}
 		</if>
 	</select>
-    
+
 </mapper>

@@ -31,7 +31,7 @@
 		<!-- 消息通知创建时间 -->
 		<result property="time24" column="time24"/>
 	</resultMap>
-	
+
 	<resultMap id="InformRecordStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO">
 		<!-- 消息通知的发送提供者 -->
 		<result property="provider" column="r_provider" />
@@ -40,16 +40,16 @@
 		<!-- 该类型未读通知总数 -->
 		<result property="unread" column="r_unread" />
 	</resultMap>
-	
+
 	<insert id="insert" parameterType="InformRecordModel">
 		insert into sys_inform_records(r_uid,r_provider,r_tag,r_to,r_title,r_content,r_tid,r_payload,r_status)
 		values(#{uid},#{provider},#{tag,jdbcType=VARCHAR},#{toUid},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},0)
 	</insert>
-	
+
 	<delete id="deleteByTid">
 		delete from sys_inform_records where r_tid = #{tid}
 	</delete>
-	
+
 	<delete id="deleteByUid">
 		delete from sys_inform_records where r_to = #{toUid}
 		<if test="ids != null">
@@ -58,7 +58,7 @@
 		</foreach>
 		</if>
 	</delete>
-	
+
 	<update id="update" parameterType="InformRecordModel">
 		UPDATE sys_inform_records t
 		   SET t.r_status = #{status}
@@ -69,14 +69,14 @@
 			 </foreach>
 		 </if>
 	</update>
-	
-	<select id="getCount" resultType="Integer" parameterType="InformRecordModel">
+
+	<select id="getCount" resultType="java.lang.Long" parameterType="InformRecordModel">
 		SELECT IFNULL(COUNT(t.r_id), 0) COUNT
 		FROM sys_inform_records t
 		WHERE t.r_to = #{toUid}
 		  AND t.r_status = 0
 	</select>
-	
+
 	<select id="getPagedList" resultMap="InformRecordMap" >
 		SELECT t.r_id,
 			   t.r_uid,
@@ -108,7 +108,7 @@
 	   </where>
 		ORDER BY t.time24 DESC
 	</select>
-	
+
 	<select id="getModel" resultMap="InformRecordMap" parameterType="String" >
 		SELECT t.r_id,
 			   t.r_uid,
@@ -126,7 +126,7 @@
 		  FROM sys_inform_records t
 	     WHERE t.r_id = #{id}
 	</select>
-	
+
 	<select id="getStats" resultMap="InformRecordStatsMap">
 		SELECT t.r_provider,
 			   COUNT( t.r_id ) as r_total,
@@ -135,5 +135,5 @@
 	   WHERE t.r_to = #{toUid}
 	   GROUP BY t.r_provider
 	</select>
-	
+
 </mapper>

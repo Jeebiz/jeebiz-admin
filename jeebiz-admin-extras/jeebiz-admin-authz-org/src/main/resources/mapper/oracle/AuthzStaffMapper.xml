@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.authz.org.dao.AuthzStaffMapper">
-	
+
 	<resultMap id="AuthzStaffMap" type="AuthzStaffModel">
 		<id property="id" column="staff_id" />
 		<result property="orgId" column="org_id" />
@@ -28,11 +28,11 @@
 		   SET staff_status = #{status}
 		 WHERE staff_id = #{id}
 	</update>
-	
-	<select id="getCountByUid" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByUid" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.staff_id) FROM sys_authz_org_staff t WHERE t.staff_id = #{uid}
 	</select>
-	
+
 	<select id="getPagedList" resultMap="AuthzStaffMap" parameterType="AuthzStaffModel" useCache="false">
 		SELECT
 			t.org_id,
@@ -95,5 +95,5 @@
 		FROM sys_authz_org_staff t inner join sys_authz_user_list t2 on t2.u_id = t.staff_id
 	   WHERE t.staff_id = #{id}
 	</select>
-    
+
 </mapper>

@@ -28,13 +28,13 @@
 		<!-- 文章栏目创建时间 -->
 		<result property="time24" column="t_time24" />
     </resultMap>
-	
+
     <resultMap id="PairMap" type="PairModel">
         <result property="key" column="t_id"/>
         <result property="value" column="t_name"/>
     </resultMap>
-	 	
-	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.t_id)
 		  FROM sys_article_topic t
 		 WHERE t.t_name = #{name}
@@ -42,7 +42,7 @@
 			AND t.t_id != #{origin}
 		 </if>
 	</select>
-	
+
 	<select id="getPagedList" resultMap="ArticleTopicMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.t_id,
@@ -68,7 +68,7 @@
 		</where>
 		ORDER By t.t_order ASC
 	</select>
-	
+
 	<select id="getModel" resultMap="ArticleTopicMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.t_id,
@@ -105,7 +105,7 @@
 	  WHERE t.t_status != 0
 	  START WITH t.t_pid = 0 CONNECT BY t.t_pid = PRIOR t.t_id
     </select>
-    
+
     <select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 	  SELECT t.t_id,
 	         t.t_name

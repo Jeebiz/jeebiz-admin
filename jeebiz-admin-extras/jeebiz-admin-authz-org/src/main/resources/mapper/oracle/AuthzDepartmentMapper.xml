@@ -26,19 +26,19 @@
 		   SET dept_status = #{status}
 		 WHERE dept_id = #{id}
 	</update>
-	
-	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByParent" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.dept_id)
 		  FROM sys_authz_org_dept t
 		 WHERE t.dept_parent = #{parent}
 	</select>
-	
+
 	<select id="getStaffCount" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.staff_id)
 		  FROM sys_authz_org_staff t
 		 WHERE t.dept_id = #{id}
 	</select>
-	
+
 	<select id="getDeptCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.dept_id)
 		  FROM sys_authz_org_dept t
@@ -48,7 +48,7 @@
 			AND t.dept_id != #{deptId}
 		 </if>
 	</select>
-	
+
 	<select id="getDeptCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.dept_id)
 		  FROM sys_authz_org_dept t
@@ -98,7 +98,7 @@
 		FROM sys_authz_org_dept t
 	   WHERE t.dept_id = #{id}
 	</select>
-	
+
 	<select id="getModelList" resultMap="AuthzDepartmentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.org_id,
@@ -116,7 +116,7 @@
 			WHERE t.dept_id = #{key}
 		</if>
 	</select>
-	
+
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 	   SELECT t.dept_id,t.dept_name
 		 FROM sys_authz_org_dept t

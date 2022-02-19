@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.thirdparty.dao;
 
@@ -22,20 +22,20 @@ public interface AuthzThirdpartyUserProfileMapper extends BaseMapper<AuthzThirdp
 	 * @param phone 手机号码
 	 * @return
 	 */
-	public int getCountByPhone( @Param("phone") String phone, @Param("origin") String origin);
+	Long getCountByPhone( @Param("phone") String phone, @Param("origin") String origin);
 
 	/**
 	 * 根据email查询相同手机号数量
 	 * @param email 手机号码
 	 * @return
 	 */
-	public int getCountByEmail( @Param("email") String email, @Param("origin") String origin);
-	
+	Long getCountByEmail( @Param("email") String email, @Param("origin") String origin);
+
 	/**
 	 * 根据idcard查询相同身份证号数量
 	 * @param idcard 身份证号
 	 * @return
 	 */
-	public int getCountByIdcard( @Param("idcard") String idcard, @Param("origin") String origin);
-	
+	Long getCountByIdcard( @Param("idcard") String idcard, @Param("origin") String origin);
+
 }

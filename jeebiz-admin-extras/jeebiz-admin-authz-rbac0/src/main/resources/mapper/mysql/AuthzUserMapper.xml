@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper">
-	
+
 	<resultMap id="UserMap" type="AuthzUserModel">
 		<!-- 用户id -->
 		<result property="id" column="u_id" />
@@ -40,7 +40,7 @@
 		<!-- 角色信息 -->
 		<collection property="roleList" column="{uid=u_id}" select="getRoleList"></collection>
 	</resultMap>
-	
+
 	<resultMap id="UserProfileMap" type="AuthzUserProfileModel">
         <!-- 用户描述id -->
 		<result property="id" column="u_pid" />
@@ -89,7 +89,7 @@
         <!-- 初始化时间 -->
         <result property="createTime" column="create_time"/>
 	</resultMap>
-	
+
 	<resultMap id="RoleMap" type="AuthzRoleModel">
 		<!-- 角色id -->
 		<result property="id" column="r_id" />
@@ -108,40 +108,40 @@
 		<!-- 初始化时间 -->
         <result property="createTime" column="create_time"/>
 	</resultMap>
-	
+
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="r_id" />
 		<result property="value" column="r_name" />
 	</resultMap>
-	
+
 	<insert id="insert" parameterType="AuthzUserModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
 	    INSERT INTO sys_authz_user_list(u_uid, u_code, u_username, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
 		VALUES(#{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{username},#{password},#{salt,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},
 		#{appId,jdbcType=VARCHAR},#{appChannel,jdbcType=VARCHAR},#{appVer,jdbcType=VARCHAR},#{online},'1')
 	</insert>
-	
+
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
 		DELETE FROM sys_authz_user_list WHERE u_id = #{id} AND u_username != 'admin'
 	</delete>
-	
+
 	<delete id="deleteRole" flushCache="true">
     	DELETE FROM sys_authz_user_role_relation WHERE u_id = #{id} AND r_key != 'admin'
     </delete>
-    
+
     <delete id="batchDelete" flushCache="true">
 		DELETE FROM sys_authz_user_list WHERE u_username != 'admin' AND u_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+           #{item}
         </foreach>
 	</delete>
-	
+
 	<delete id="batchDeleteRole" flushCache="true">
 		DELETE FROM sys_authz_user_role_relation WHERE u_username != 'admin' AND u_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+           #{item}
         </foreach>
 	</delete>
-    
+
 	<update id="update" parameterType="AuthzUserModel" flushCache="true">
 		update sys_authz_user_list t
 		<set>
@@ -154,31 +154,31 @@
 		</set>
 		where t.u_id = #{id}
 	</update>
-	
+
 	<update id="updateRole" parameterType="AuthzUserModel" flushCache="true">
     	update sys_authz_user_role_relation set r_id = #{roleId} WHERE u_id = #{id} AND r_key != 'admin'
     </update>
-	
+
 	<update id="updatePwd" parameterType="java.lang.String" flushCache="true">
 		update sys_authz_user_list t
 		   set t.u_password = #{password}
 		 where t.u_id = #{userId}
 	</update>
-	
+
 	<update id="resetPwd" parameterType="java.lang.String" flushCache="true">
 		update sys_authz_user_list t
 		   set t.u_password = #{password}
 		where t.u_id = #{userId}
 		  AND t.u_password = #{oldPassword}
 	</update>
-	
+
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_authz_user_list t
 		   SET t.u_status = #{status}
 		 WHERE t.u_id = #{userId}
 	</update>
-	
-	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
 		  FROM sys_authz_user_list t
 		 WHERE t.u_username = #{name}
@@ -186,8 +186,8 @@
 			AND t.u_id != #{origin}
 		 </if>
 	</select>
-	
-	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
 		  FROM sys_authz_user_list t
 		 WHERE t.u_code = #{code}
@@ -195,11 +195,11 @@
 			AND t.u_id != #{origin}
 		 </if>
 	</select>
-	
-	<select id="getCountByRoleId" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByRoleId" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id) FROM sys_authz_user_role_relation t WHERE t.r_id = #{roleId} AND t.u_id = #{userId}
 	</select>
-	
+
 	<select id="getUserById" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.u_id,
@@ -219,7 +219,7 @@
 		FROM sys_authz_user_list t
 	   WHERE t.u_id = #{id}
 	</select>
-	
+
 	<select id="getModel" resultMap="UserMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.u_id,
@@ -240,7 +240,7 @@
 		LEFT JOIN sys_authz_user_role_relation y ON y.u_id = t.u_id
 	   WHERE t.u_id = #{id}
 	</select>
-	
+
 	<select id="getUserList" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.u_id,
@@ -260,7 +260,7 @@
 		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
 	   WHERE t.u_status = 1
 	</select>
-	
+
 	<select id="getPagedList" resultMap="UserMap" parameterType="AuthzUserModel" useCache="false">
 		SELECT
 			t.u_id,
@@ -294,7 +294,7 @@
 			and t.u_username like CONCAT('%',#{model.username},'%')
 		</if>
 	</select>
-	
+
 	<select id="getPagedAllocatedList" resultMap="RoleMap" parameterType="AuthzUserModel" useCache="false">
 		SELECT
 			t.r_id,
@@ -317,7 +317,7 @@
 			and t.r_name like CONCAT('%',#{model.name},'%')
 		</if>
 	</select>
-	
+
 	<select id="getPagedUnAllocatedList" resultMap="RoleMap" parameterType="AuthzUserModel" useCache="false">
 		SELECT
 			t.r_id,
@@ -340,7 +340,7 @@
 			and t.r_name like CONCAT('%',#{model.name},'%')
 		</if>
 	</select>
-	
+
 	<select id="getRoleKeys" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
 		  SELECT t.r_id
 			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
@@ -348,7 +348,7 @@
 			 AND x.u_id = #{userId}
 		ORDER BY x.r_prty DESC
 	</select>
-	
+
 	<select id="getRoleList" resultMap="PairMap" useCache="false">
 			SELECT
 				t.r_id,
@@ -358,7 +358,7 @@
 			 AND x.u_id = #{uid}
 		ORDER BY t.r_name ASC
 	</select>
-	
+
 	<select id="getRoles" resultMap="RoleMap" parameterType="java.lang.String" useCache="false">
 			SELECT
 				t.r_id,
@@ -373,7 +373,7 @@
 			 AND x.u_id = #{userId}
 		ORDER BY x.r_prty ASC
 	</select>
-	
+
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
 		SELECT DISTINCT y.perms
 		FROM sys_authz_role_list t
@@ -382,7 +382,7 @@
 		WHERE x.u_id = #{userId}
 		ORDER BY x.r_prty ASC
 	</select>
-	
+
 	<select id="getProfile" resultMap="UserProfileMap" useCache="false">
 		SELECT
 			t.u_pid,

@@ -24,7 +24,7 @@
 		<!-- 文章分类创建时间 -->
 		<result property="createTime" column="create_time" />
     </resultMap>
-    
+
     <resultMap id="PairMap" type="PairModel">
         <result property="key" column="c_id"/>
         <result property="value" column="c_name"/>
@@ -36,7 +36,7 @@
 		WHERE c_id = #{id}
 	</update>
 
-	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.c_id)
 		  FROM sys_article_category t
 		 WHERE t.c_name = #{name}
@@ -44,7 +44,7 @@
 			AND t.c_id != #{origin}
 		 </if>
 	</select>
-	
+
 	<select id="getPagedList" resultMap="ArticleCategoryMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
@@ -65,7 +65,7 @@
 		</where>
 		ORDER By t.c_order ASC
 	</select>
-	
+
 	<select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 	  SELECT t.c_id,
 	         t.c_name
@@ -73,7 +73,7 @@
 	   WHERE t.c_status != 0
 	   ORDER BY t.c_order ASC
 	</select>
-	
+
 	<select id="getModel" resultMap="ArticleCategoryMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,

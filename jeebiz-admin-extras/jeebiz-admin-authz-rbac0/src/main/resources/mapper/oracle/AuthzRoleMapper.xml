@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper">
-	
+
 	<resultMap id="RoleMap" type="AuthzRoleModel">
 		<!-- 角色id -->
 		<result property="id" column="r_id" />
@@ -21,8 +21,8 @@
 		<result property="createTime" column="create_time" />
 		<!-- 角色授权的标记集合：将 perms list属性映射到collection : http://jaychang.iteye.com/blog/2357143 -->
         <collection property="perms" column="r_id" select="getPermsByRoleId">
-            <result column="perm" />  
-        </collection> 
+            <result column="perm" />
+        </collection>
 	</resultMap>
 
 	<resultMap id="UserMap" type="AuthzUserModel">
@@ -35,20 +35,20 @@
         <!-- 初始化时间 -->
         <result property="createTime" column="create_time"/>
 	</resultMap>
-	
+
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="r_id" />
 		<result property="value" column="r_name" />
 	</resultMap>
-	
+
 	<insert id="insert" parameterType="AuthzRoleModel" flushCache="true">
-		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">
 	        SELECT sys_guid() FROM dual
 	    </selectKey>
 		insert into sys_authz_role_list(r_id,r_key,r_name,r_type,r_intro,r_status)
 		values(#{id},#{key},#{name},#{type},#{intro},'1')
 	</insert>
-	
+
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
 		DELETE FROM sys_authz_role_list WHERE r_id = #{id} AND r_key != 'admin'
 	</delete>
@@ -67,7 +67,7 @@
 		 WHERE r_id = #{roleId}
 		   AND r_key != 'admin'
 	</update>
-	
+
 	<update id="resetPrty" parameterType="java.lang.String" flushCache="true">
 	   	DECLARE
 	   	BEGIN
@@ -78,9 +78,9 @@
 			   SET r_prty = 1
 			 WHERE r_id = #{roleId}
 			   AND u_id = #{userId};
-		END;			   
+		END;
 	</update>
-	
+
 	<update id="update" parameterType="AuthzRoleModel" flushCache="true">
 		update sys_authz_role_list t
 		<set>
@@ -92,8 +92,8 @@
 		where t.r_id = #{id}
 		  AND t.r_key != 'admin'
 	</update>
-	
-	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="true">
+
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="true">
 		SELECT count(t.r_id)
 		  FROM sys_authz_role_list t
 		 WHERE t.r_name = #{name}
@@ -101,11 +101,11 @@
 		   AND t.r_id != #{origin}
 		 </if>
 	</select>
-	
-	<select id="getCountByUid" resultType="int" parameterType="java.lang.String">
+
+	<select id="getCountByUid" resultType="java.lang.Long" parameterType="java.lang.String">
 		SELECT count(t.u_id) FROM sys_authz_user_role_relation t WHERE t.r_id = #{uid}
 	</select>
-	
+
 	<select id="getRoles" resultMap="RoleMap" useCache="true">
 		SELECT
 			t.r_id,
@@ -117,7 +117,7 @@
 			t.create_time
 		FROM sys_authz_role_list t
 	</select>
-	
+
 	<select id="getUserRoles" resultMap="RoleMap" useCache="false">
 		SELECT
 			t.r_id,
@@ -130,11 +130,11 @@
 		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
 		WHERE x.u_id = #{userId}
 	</select>
-	
-	<select id="getPermsByRoleId" resultType="string" useCache="true">  
+
+	<select id="getPermsByRoleId" resultType="string" useCache="true">
         SELECT x.perms FROM sys_authz_role_perms x WHERE x.r_id = #{id}
     </select>
-	
+
 	<select id="getModel" resultMap="RoleMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.r_id,
@@ -149,7 +149,7 @@
 	   WHERE t.r_id = #{id}
 	     AND t.r_key != 'admin'
 	</select>
-	
+
 	<select id="getPagedList" resultMap="RoleMap" parameterType="AuthzRoleModel" useCache="false">
 		SELECT
 			t.r_id,
@@ -185,7 +185,7 @@
 		end;
 	]]>
     </insert>
-    
+
     <insert id="setUsersByKey" flushCache="true">
     <![CDATA[
 		declare
@@ -214,7 +214,7 @@
 		u_id = #{item}
         </foreach>
     </delete>
-    
+
 	<select id="getPagedAllocatedList" resultMap="UserMap" parameterType="AuthzRoleModel" useCache="false">
 		SELECT
 			t.u_id,
@@ -237,7 +237,7 @@
 			and t.u_username like '%'|| #{model.username} ||'%'
 		</if>
 	</select>
-	
+
 	<select id="getPagedUnAllocatedList" resultMap="UserMap" parameterType="AuthzRoleModel" useCache="false">
 		SELECT
 			t.u_id,
@@ -258,7 +258,7 @@
 			and t.u_username like '%'|| #{model.username} ||'%'
 		</if>
 	</select>
-	
+
 	<select id="getPairList" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
 		 SELECT t.r_id,
 				t.r_name
@@ -266,5 +266,5 @@
 	      WHERE t.r_status = 1
 	   ORDER BY t.create_time DESC
 	</select>
-	
+
 </mapper>

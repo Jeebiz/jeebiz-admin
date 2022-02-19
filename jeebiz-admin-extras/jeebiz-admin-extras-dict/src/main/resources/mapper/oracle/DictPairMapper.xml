@@ -128,7 +128,7 @@
 	</select>
 
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="false">
-		   SELECT t.d_key,t.d_text
+		   SELECT t.d_key,t.d_label
 			 FROM sys_data_pairvalue t
 			WHERE t.d_group = #{key}
 			  AND t.d_status = 1
@@ -146,7 +146,7 @@
 		 SELECT t.d_text FROM sys_data_pairvalue t  WHERE t.d_key = #{key}
 	</select>
 
-	<select id="getCount" parameterType="DictPairEntity" resultType="java.lang.Integer" useCache="false">
+	<select id="getCount" parameterType="DictPairEntity" resultType="java.lang.Long" useCache="false">
 		SELECT COUNT(1)
 		  FROM sys_data_pairvalue t
 		 WHERE t.d_group = #{gkey}
@@ -157,7 +157,7 @@
 		   AND ROWNUM = 1
 	</select>
 
-	<select id="getCountRenew" parameterType="DictPairEntity" resultType="java.lang.Integer" useCache="false">
+	<select id="getCountRenew" parameterType="DictPairEntity" resultType="java.lang.Long" useCache="false">
 		SELECT COUNT(1)
 		FROM sys_data_pairvalue t
 		WHERE t.d_group = (SELECT d_group FROM sys_data_pairvalue WHERE d_id = #{id})

@@ -79,7 +79,7 @@
 		WHERE t.g_status = 1
 	</select>
 
-    <select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
+    <select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT COUNT(1)
 		  FROM sys_data_pairgroup t
 		 WHERE t.g_key = #{code}
@@ -89,7 +89,7 @@
 		LIMIT 1
 	</select>
 
-	<select id="getCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT COUNT(1)
 		  FROM sys_data_pairgroup t
 		 WHERE t.g_text = #{name}

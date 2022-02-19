@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper">
-	
+
 	<resultMap id="AuthzFeatureMap" type="AuthzFeatureModel">
 		<result property="id" column="f_id" />
 		<result property="code" column="f_code" />
@@ -18,14 +18,14 @@
 		<result property="root" column="f_root" />
 		<result property="perms" column="f_perms" />
 	</resultMap>
-	
-	<select id="getCountByParent" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByParent" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.f_id)
 		  FROM sys_authz_feature_list t
 		 WHERE t.f_parent = #{parent}
 	</select>
-	
-	<select id="getCountByCode" resultType="int" parameterType="java.lang.String" useCache="false">
+
+	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.f_id)
 		  FROM sys_authz_feature_list t
 		 WHERE t.f_code = #{code}
@@ -33,7 +33,7 @@
 			AND t.f_id != #{origin}
 		 </if>
 	</select>
-	
+
 	<select id="getFeature" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.f_id,
@@ -52,7 +52,7 @@
 		FROM sys_authz_feature_list t
 	   WHERE t.f_id = #{id}
 	</select>
-	
+
 	<select id="getFeatureList" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.f_id,
@@ -72,7 +72,7 @@
 	   WHERE t.f_visible = 1
        START WITH t.f_url = '#' CONNECT BY t.f_parent = PRIOR t.f_id
 	</select>
-	
+
 	<select id="getChildFeatureList" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.f_id,
@@ -119,5 +119,5 @@
 			</if>
 		</where>
 	</select>
-    
+
 </mapper>
