@@ -4,6 +4,7 @@ import net.jeebiz.admin.api.BizRedisKey;
 import net.jeebiz.admin.extras.banner.setup.BannerType;
 import net.jeebiz.admin.extras.banner.web.dto.BannerDTO;
 import net.jeebiz.boot.extras.redis.setup.RedisKeyConstant;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,10 +50,15 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 
 	@Override
 	public boolean updateById(BannerEntity entity) {
+		BannerEntity oldEntity = super.getById(entity.getId());
 		boolean rt = super.updateById(entity);
 		if(rt){
+			String oldBannerListKey = this.getBannerListKey( oldEntity.getAppId(), oldEntity.getAppChannel(), oldEntity.getRegion(), oldEntity.getLanguage(), oldEntity.getType());
 			String bannerListKey = this.getBannerListKey( entity.getAppId(), entity.getAppChannel(), entity.getRegion(), entity.getLanguage(), entity.getType());
-			if(entity.getStatus() == 0){
+			if(!StringUtils.equalsIgnoreCase(oldBannerListKey, bannerListKey)){
+				redisOperation.hDel(oldBannerListKey, entity.getId());
+				redisOperation.hSet(bannerListKey, entity.getId(), entity);
+			} else if(entity.getStatus() == 0){
 				redisOperation.hDel(bannerListKey, entity.getId());
 			} else{
 				redisOperation.hSet(bannerListKey, entity.getId(), entity);
