@@ -2,9 +2,8 @@ package net.jeebiz.admin.extras.dict.dao;
 
 import net.jeebiz.admin.extras.dict.dao.entities.DictRegionEntity;
 
+import net.jeebiz.boot.api.dao.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>

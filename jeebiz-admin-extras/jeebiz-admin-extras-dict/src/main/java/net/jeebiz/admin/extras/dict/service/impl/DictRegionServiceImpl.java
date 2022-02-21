@@ -1,10 +1,18 @@
 package net.jeebiz.admin.extras.dict.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.google.common.collect.Lists;
 import net.jeebiz.admin.extras.dict.dao.entities.DictRegionEntity;
 import net.jeebiz.admin.extras.dict.dao.DictRegionMapper;
 import net.jeebiz.admin.extras.dict.service.IDictRegionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import net.jeebiz.boot.api.dao.entities.PairModel;
+import net.jeebiz.boot.api.service.BaseServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -15,6 +23,15 @@ import org.springframework.stereotype.Service;
  * @since 2022-01-22
  */
 @Service
-public class DictRegionServiceImpl extends ServiceImpl<DictRegionMapper, DictRegionEntity> implements IDictRegionService {
+public class DictRegionServiceImpl extends BaseServiceImpl<DictRegionMapper, DictRegionEntity> implements IDictRegionService {
 
+    @Override
+    public List<PairModel> getPairList() {
+        List<DictRegionEntity>  regions = getBaseMapper().selectList(new QueryWrapper<DictRegionEntity>()
+                .orderByAsc("id"));
+        if (CollectionUtils.isEmpty(regions)){
+            return  Lists.newArrayList();
+        }
+        return regions.stream().map(region -> new PairModel(region.getCode2(), region.getCnName())).collect(Collectors.toList());
+    }
 }

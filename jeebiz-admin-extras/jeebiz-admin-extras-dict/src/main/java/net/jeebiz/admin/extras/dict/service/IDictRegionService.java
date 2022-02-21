@@ -2,6 +2,7 @@ package net.jeebiz.admin.extras.dict.service;
 
 import net.jeebiz.admin.extras.dict.dao.entities.DictRegionEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import net.jeebiz.boot.api.service.IBaseService;
 
 /**
  * <p>
@@ -11,6 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author wandl
  * @since 2022-01-22
  */
-public interface IDictRegionService extends IService<DictRegionEntity> {
+public interface IDictRegionService extends IBaseService<DictRegionEntity> {
 
 }

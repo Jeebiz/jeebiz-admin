@@ -1,10 +1,12 @@
 package net.jeebiz.admin.extras.dict.dao.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -24,7 +26,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Accessors(chain = true)
 @TableName("sys_data_region")
-public class DictRegionEntity implements Serializable {
+public class DictRegionEntity extends PaginationEntity<DictRegionEntity> {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,46 +39,55 @@ public class DictRegionEntity implements Serializable {
     /**
      * 两位字母
      */
+    @TableField(value = "code2")
     private String code2;
 
     /**
      * 三位字母
      */
+    @TableField(value = "code3")
     private String code3;
 
     /**
      * 数字
      */
+    @TableField(value = "number")
     private String number;
 
     /**
      * ISO 3166-2相应代码
      */
+    @TableField(value = "iso_code")
     private String isoCode;
 
     /**
      * 国家或地区（ISO 英文用名）
      */
+    @TableField(value = "iso_name")
     private String isoName;
 
     /**
-     * 中国 惯用名
+     * 中国大陆 惯用名
      */
+    @TableField(value = "cn_name")
     private String cnName;
 
     /**
-     * 台湾 惯用名
+     * 中国台湾 惯用名
      */
+    @TableField(value = "tw_name")
     private String twName;
 
     /**
-     * 香港 惯用名
+     * 中国香港 惯用名
      */
+    @TableField(value = "hk_name")
     private String hkName;
 
     /**
      * 备注
      */
+    @TableField(value = "remark")
     private String remark;
 
 
