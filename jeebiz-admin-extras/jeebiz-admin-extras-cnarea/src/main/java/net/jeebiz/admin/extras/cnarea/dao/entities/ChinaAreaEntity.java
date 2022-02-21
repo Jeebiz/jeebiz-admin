@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.cnarea.dao.entities;
 
@@ -20,11 +20,12 @@ import lombok.NoArgsConstructor;
 
 /**
  * 中国行政地区信息Model
- * 
+ * https://github.com/kakuilan/china_area_mysql
+ * https://gitee.com/mirrors_kakuilan/china_area_mysql
  */
 @Alias("ChinaAreaModel")
 @SuppressWarnings("serial")
-@TableName(value = "cnarea_2019")
+@TableName(value = "cnarea_2020")
 @Builder
 @Data
 @NoArgsConstructor
