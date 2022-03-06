@@ -78,10 +78,10 @@ public class AuthorizedFeatureController extends BaseApiController {
 	}
 
 	@ApiOperation(value = "功能菜单-树形结构数据（指定角色）", notes = "根据角色id查询角色拥有的功能菜单-树形结构数据")
-	@GetMapping("tree/{roleId}")
+	@GetMapping("treeForRole")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureTreeNode>> tree(@PathVariable("roleId") String roleId){
+	public ApiRestResponse<List<AuthzFeatureTreeNode>> tree(@RequestParam("roleId") String roleId){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮：标记按钮选中状态
@@ -115,10 +115,10 @@ public class AuthorizedFeatureController extends BaseApiController {
 	}
 
 	@ApiOperation(value = "功能菜单-扁平结构数据（指定角色）", notes = "根据角色id查询角色拥有的功能菜单-扁平结构数据")
-	@GetMapping("flat/{roleId}")
+	@GetMapping("flatForRole")
 	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<List<AuthzFeatureTreeNode>> flat(@PathVariable("roleId") String roleId){
+	public ApiRestResponse<List<AuthzFeatureTreeNode>> flat(@RequestParam("roleId") String roleId){
 		// 所有的功能菜单
 		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮：标记按钮选中状态
