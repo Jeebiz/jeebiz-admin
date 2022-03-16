@@ -9,13 +9,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import net.jeebiz.admin.extras.inform.dao.InformTemplateMapper;
-import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
+import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateEntity;
 import net.jeebiz.admin.extras.inform.service.IInformTemplateService;
 import net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class InformTemplateServiceImpl extends BaseServiceImpl<InformTemplateMapper, InformTemplateModel>
+public class InformTemplateServiceImpl extends BaseServiceImpl<InformTemplateMapper, InformTemplateEntity>
 		implements IInformTemplateService {
 
 	@Override

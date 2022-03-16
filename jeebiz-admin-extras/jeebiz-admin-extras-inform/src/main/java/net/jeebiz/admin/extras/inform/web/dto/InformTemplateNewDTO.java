@@ -7,14 +7,15 @@ package net.jeebiz.admin.extras.inform.web.dto;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.admin.extras.inform.setup.InformProvider;
-import net.jeebiz.admin.extras.inform.setup.InformTarget;
+import net.jeebiz.admin.extras.inform.emums.InformSendChannel;
+import net.jeebiz.admin.extras.inform.emums.InformTarget;
 
 @ApiModel(value = "InformTemplateNewDTO", description = "新建消息通知模板DTO")
 @Getter
@@ -29,12 +30,11 @@ public class InformTemplateNewDTO {
 	@NotEmpty(message = "消息通知推送对象不能为空")
 	private InformTarget target;
 	/**
-	 * 发送该模板消息通知的提供者
+	 * 发送该消息通知的提供者
 	 */
-	@ApiModelProperty(name = "provider", required = true, dataType = "InformProvider", value = "消息通知类型")
-	@NotEmpty(message = "消息通知的提供者不能为空")
-	private InformProvider provider;
-	
+	@ApiModelProperty(name = "channel", required = true, value = "发送该消息通知的提供者")
+	@NotNull(message = "消息通知的提供者不能为空")
+	private InformSendChannel channel;
 	/**
 	 * 消息通知接收人id集合
 	 */

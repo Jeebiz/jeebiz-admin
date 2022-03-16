@@ -10,12 +10,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
+import net.jeebiz.admin.extras.inform.dao.entities.InformRecordEntity;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO;
 import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface InformRecordMapper extends BaseMapper<InformRecordModel> {
+public interface InformRecordMapper extends BaseMapper<InformRecordEntity> {
 	
 	/**
 	 * 消息通知统计信息

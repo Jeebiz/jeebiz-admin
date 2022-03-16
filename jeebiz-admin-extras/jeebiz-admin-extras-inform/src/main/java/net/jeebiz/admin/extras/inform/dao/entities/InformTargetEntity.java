@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.inform.dao.entities;
 
@@ -26,12 +26,19 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class InformTargetModel extends PaginationEntity<InformTargetModel> {
+public class InformTargetEntity extends PaginationEntity<InformTargetEntity> {
 
 	/**
 	 * 消息通知模板id
 	 */
 	@TableId(value="t_id",type= IdType.AUTO)
+	private String id;
+
+
+	/**
+	 * 消息通知模板id
+	 */
+	@TableId(value="tmp_id",type= IdType.AUTO)
 	private String tid;
 	/**
 	 * 消息通知接收人id
@@ -48,5 +55,5 @@ public class InformTargetModel extends PaginationEntity<InformTargetModel> {
 	 */
 	@TableField(value = "time24")
 	private String time24;
-	
+
 }
