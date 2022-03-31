@@ -33,6 +33,7 @@
 		<module>jeebiz-admin-extras-logbiz</module>
         <module>jeebiz-admin-extras-monitor</module>
 		<module>jeebiz-admin-extras-ops</module>
+		<module>jeebiz-admin-extras-redis</module>
 		<module>jeebiz-admin-extras-sessions</module>
 		<module>jeebiz-admin-extras-settings</module>
 		<module>jeebiz-admin-extras-xxljob</module>
@@ -69,7 +70,6 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<!-- 设置源文件编码方式 -->
 					<configuration>
-						<defaultLibBundleDir>lib</defaultLibBundleDir>
 						<!-- 源代码编译版本 -->
 						<source>${java.version}</source>
 						<!-- 目标平台编译版本 -->
@@ -151,7 +151,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
 					<configuration>
-						<aggregate>true</aggregate>
 						<charset>${project.build.sourceEncoding}</charset>
 						<encoding>${project.build.sourceEncoding}</encoding>
 						<docencoding>${project.build.sourceEncoding}</docencoding>
@@ -184,9 +183,7 @@
 					<artifactId>maven-source-plugin</artifactId>
 					<!-- 打包source文件为jar文件 -->
 					<configuration>
-						<testFailureIgnore>true</testFailureIgnore>
 						<attach>true</attach>
-						<encoding>UTF-8</encoding>
 					</configuration>
 					<executions>
 						<execution>
