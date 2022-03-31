@@ -1,8 +1,8 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
-package net.jeebiz.admin.extras.inform.setup;
+package net.jeebiz.admin.extras.inform.emums;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +18,7 @@ import net.jeebiz.boot.extras.redis.setup.RedisKeyConstant;
  * 消息通知对象
  */
 public enum InformTarget {
-	
+
 	/**
 	 * 所有用户
 	 */
@@ -36,7 +36,7 @@ public enum InformTarget {
 
 	private String target;
     private Function<String,String> function;
-    
+
 	private InformTarget(String target, Function<String,String> function) {
 		this.target = target;
 		this.function = function;
@@ -45,7 +45,7 @@ public enum InformTarget {
 	public String getTarget() {
 		return target;
 	}
-	
+
 	public Function<String, String> getFunction() {
         return function;
     }
@@ -81,5 +81,5 @@ public enum InformTarget {
 		}
 		return pairList;
 	}
-	 
+
 }

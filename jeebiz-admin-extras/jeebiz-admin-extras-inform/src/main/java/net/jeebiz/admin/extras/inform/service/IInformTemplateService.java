@@ -6,11 +6,11 @@ package net.jeebiz.admin.extras.inform.service;
 
 import java.util.List;
 
-import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
+import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateEntity;
 import net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
-public interface IInformTemplateService extends IBaseService<InformTemplateModel> {
+public interface IInformTemplateService extends IBaseService<InformTemplateEntity> {
 	
 	/**
 	 * 消息通知统计信息

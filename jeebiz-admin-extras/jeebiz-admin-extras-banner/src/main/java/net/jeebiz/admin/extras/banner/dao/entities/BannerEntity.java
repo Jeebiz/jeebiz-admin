@@ -1,16 +1,14 @@
 package net.jeebiz.admin.extras.banner.dao.entities;
 
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.ibatis.type.Alias;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
+
+import java.time.LocalDateTime;
 
 /**
  * @author wandl
@@ -97,5 +95,15 @@ public class BannerEntity extends PaginationEntity<BannerEntity> {
 	 */
 	@TableField(value = "priority")
 	private Integer priority;
+	/**
+	 * 开放时间
+	 */
+	@TableField(value = "open_time")
+	private LocalDateTime openTime;
+	/**
+	 * 关闭时间
+	 */
+	@TableField(value = "close_time")
+	private LocalDateTime closeTime;
 
 }

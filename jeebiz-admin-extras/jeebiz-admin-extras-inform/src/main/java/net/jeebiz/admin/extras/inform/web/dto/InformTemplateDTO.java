@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.inform.web.dto;
 
@@ -8,46 +8,49 @@ import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import net.jeebiz.admin.extras.inform.setup.InformProvider;
-import net.jeebiz.admin.extras.inform.setup.InformTarget;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import net.jeebiz.admin.extras.inform.emums.InformSendChannel;
+import net.jeebiz.admin.extras.inform.emums.InformTarget;
 
 @ApiModel(value = "InformTemplateDTO", description = "消息通知模板对象DTO")
-@Data
+@Getter
+@Setter
+@ToString
 public class InformTemplateDTO {
 
 	/**
-	 * 消息通知模板id
+	 * 消息通知模板ID
 	 */
-	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知模板id")
+	@ApiModelProperty(name = "id", dataType = "String", value = "消息通知模板ID")
 	private String id;
 	/**
-	 * 消息通知模板创建人id
+	 * 消息通知模板创建人ID
 	 */
-	@ApiModelProperty(name = "uid", dataType = "String", value = "消息通知模板创建人id")
+	@ApiModelProperty(name = "uid", dataType = "String", value = "消息通知模板创建人ID")
 	private String uid;
 	/**
 	 * 消息通知模板创建人
 	 */
 	@ApiModelProperty(name = "uname", dataType = "String", value = "消息通知模板创建人")
-	private String uname;	
+	private String uname;
 	/**
 	 * 消息通知推送对象
 	 */
 	@ApiModelProperty(name = "target", dataType = "String", value = "消息通知推送对象：（all：全部用户、users：指定用户）")
 	private InformTarget target;
 	/**
-	 * 发送该模板消息通知的提供者
+	 * 发送该消息通知的提供者
 	 */
-	@ApiModelProperty(name = "provider", dataType = "InformType", value = "消息通知类型")
-	private InformProvider provider;
-	
+	@ApiModelProperty(name = "channel", required = true, value = "发送该消息通知的提供者")
+	private InformSendChannel channel;
 	/**
-	 * 消息通知接收人id集合
+	 * 消息通知接收人ID集合
 	 */
-	@ApiModelProperty(name = "toList", dataType = "java.util.List<String>", value = "消息通知接收人id集合")
+	@ApiModelProperty(name = "toList", dataType = "java.util.List<String>", value = "消息通知接收人ID集合")
 	private List<String> toList;
-	
+
 	/**
 	 * 消息通知标题（可能包含变量）
 	 */
@@ -59,9 +62,9 @@ public class InformTemplateDTO {
 	@ApiModelProperty(name = "content", dataType = "String", value = "消息通知内容（可能包含变量）")
 	private String content;
 	/**
-	 * 模板消息通知对应第三方平台内的模板id
+	 * 模板消息通知对应第三方平台内的模板ID
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "模板消息通知对应第三方平台内的模板id")
+	@ApiModelProperty(name = "tid", dataType = "String", value = "模板消息通知对应第三方平台内的模板ID")
 	private String tid;
 	/**
 	 * 模板消息通知变量载体,JOSN格式的数据
@@ -88,5 +91,5 @@ public class InformTemplateDTO {
 	 */
 	@ApiModelProperty(name = "time24", dataType = "String", value = "消息通知创建时间")
 	private String time24;
-	
+
 }

@@ -16,8 +16,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.jeebiz.admin.extras.inform.setup.InformProvider;
-import net.jeebiz.admin.extras.inform.setup.InformTarget;
+import net.jeebiz.admin.extras.inform.emums.InformTarget;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
@@ -28,7 +27,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class InformTemplateModel extends PaginationEntity<InformTemplateModel> {
+public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity> {
 
 	/**
 	 * 消息通知模板id
@@ -40,11 +39,6 @@ public class InformTemplateModel extends PaginationEntity<InformTemplateModel> {
 	 */
 	@TableField(value = "t_target")
 	private InformTarget target;
-	/**
-	 * 消息通知模板的发送提供者
-	 */
-	@TableField(value = "t_provider")
-	private InformProvider provider;
 	/**
 	 * 消息通知模板标题（可能包含变量）
 	 */

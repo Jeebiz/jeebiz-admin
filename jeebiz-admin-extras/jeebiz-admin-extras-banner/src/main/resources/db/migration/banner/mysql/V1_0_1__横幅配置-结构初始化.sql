@@ -19,6 +19,8 @@ CREATE TABLE `sys_data_banner` (
   `link_type` tinyint(3) DEFAULT NULL COMMENT '链接类型（0:H5网页、1:客户端、2:仅图片、3:内联网页）',
   `extend` varchar(255) DEFAULT NULL COMMENT '扩展字段：过期时间、等待时间',
   `priority` int(5) DEFAULT '999' COMMENT '权重值，数字越小越靠前',
+  `open_time` timestamp NOT NULL COMMENT '开放时间',
+  `close_time` timestamp NOT NULL COMMENT '关闭时间',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

@@ -1,8 +1,8 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
-package net.jeebiz.admin.extras.inform.utils.enums;
+package net.jeebiz.admin.extras.inform.emums;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public enum InformTypeEnum {
-	
+
 	NOTICE("notice", "通知"),
 	LETTER("direct", "私信"),
 	COMMIT_DEPLOY("commit_deploy", "提交发布"),
@@ -43,15 +43,15 @@ public enum InformTypeEnum {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
+
 	public boolean equals(InformTypeEnum type){
 		return this.compareTo(type) == 0;
 	}
-	
+
 	public boolean equals(String key){
 		return this.compareTo(InformTypeEnum.valueOfIgnoreCase(key)) == 0;
 	}
-	
+
 	public static InformTypeEnum valueOfIgnoreCase(String key) {
 		for (InformTypeEnum optType : InformTypeEnum.values()) {
 			if(optType.getKey().equalsIgnoreCase(key)) {
@@ -60,7 +60,7 @@ public enum InformTypeEnum {
 		}
     	throw new NoSuchElementException("Cannot found AuthzOptEnum with key '" + key + "'.");
     }
-	
+
 	public static List<Map<String, String>> toList() {
 		List<Map<String, String>> optList = new LinkedList<Map<String, String>>();
 		for (InformTypeEnum optEnum : InformTypeEnum.values()) {
@@ -75,5 +75,5 @@ public enum InformTypeEnum {
 		optMap.put("desc", this.getDesc());
 		return optMap;
 	}
-	
+
 }

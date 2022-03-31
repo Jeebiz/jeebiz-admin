@@ -30,7 +30,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateModel;
+import net.jeebiz.admin.extras.inform.dao.entities.InformTemplateEntity;
 import net.jeebiz.admin.extras.inform.service.IInformTemplateService;
 import net.jeebiz.admin.extras.inform.setup.Constants;
 import net.jeebiz.admin.extras.inform.web.dto.InformTemplateDTO;
@@ -62,14 +62,14 @@ public class InformTemplateController extends BaseMapperController {
 	@ResponseBody
 	public Result<InformTemplateDTO> list(@Valid @RequestBody InformTemplatePaginationDTO paginationDTO) throws Exception {
 		
-		InformTemplateModel model = getBeanMapper().map(paginationDTO, InformTemplateModel.class);
+		InformTemplateEntity model = getBeanMapper().map(paginationDTO, InformTemplateEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		if(!principal.isAdmin()) {
 			model.setUid(principal.getUserid());
 		}
-		Page<InformTemplateModel> pageResult = getInformTemplateService().getPagedList(model);
+		Page<InformTemplateEntity> pageResult = getInformTemplateService().getPagedList(model);
 		List<InformTemplateDTO> retList = new ArrayList<InformTemplateDTO>();
-		for (InformTemplateModel registryModel : pageResult.getRecords()) {
+		for (InformTemplateEntity registryModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(registryModel, InformTemplateDTO.class));
 		}
 		
@@ -95,7 +95,7 @@ public class InformTemplateController extends BaseMapperController {
 	@RequiresPermissions("inform-tmpl:new")
 	@ResponseBody
 	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformTemplateNewDTO newDTO) throws Exception {
-		InformTemplateModel model = getBeanMapper().map(newDTO, InformTemplateModel.class);
+		InformTemplateEntity model = getBeanMapper().map(newDTO, InformTemplateEntity.class);
 		
 		Long ct = getInformTemplateService().getCount(model);
 		if(ct > 0) {
@@ -138,7 +138,7 @@ public class InformTemplateController extends BaseMapperController {
 	@RequiresPermissions("inform-tmpl:renew")
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody InformTemplateRenewDTO renewDTO) throws Exception {
-		InformTemplateModel model = getBeanMapper().map(renewDTO, InformTemplateModel.class);
+		InformTemplateEntity model = getBeanMapper().map(renewDTO, InformTemplateEntity.class);
 		Long ct = getInformTemplateService().getCount(model);
 		if(ct > 0) {
 			return fail("inform.template.renew.conflict");
@@ -161,7 +161,7 @@ public class InformTemplateController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<InformTemplateDTO> detail(@RequestParam("id") String id) throws Exception {
 		
-		InformTemplateModel model = getInformTemplateService().getById(id);
+		InformTemplateEntity model = getInformTemplateService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("inform.template.get.empty"));
 		}

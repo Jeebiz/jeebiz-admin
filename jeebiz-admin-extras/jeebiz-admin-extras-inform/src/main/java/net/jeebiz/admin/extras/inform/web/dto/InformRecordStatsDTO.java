@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.admin.extras.inform.setup.InformProvider;
+import net.jeebiz.admin.extras.inform.emums.InformSendChannel;
 
 @ApiModel(value = "InformRecordStatsDTO", description = "我的消息通知统计DTO")
 @Getter
@@ -20,8 +20,8 @@ public class InformRecordStatsDTO {
 	/**
 	 * 发送该消息通知的提供者
 	 */
-	@ApiModelProperty(name = "provider", dataType = "InformType", value = "发送该消息通知的提供者")
-	private InformProvider provider;
+	@ApiModelProperty(name = "channel", required = true, value = "发送该消息通知的提供者")
+	private InformSendChannel channel;
 	/**
 	 * 该类型通知总数
 	 */

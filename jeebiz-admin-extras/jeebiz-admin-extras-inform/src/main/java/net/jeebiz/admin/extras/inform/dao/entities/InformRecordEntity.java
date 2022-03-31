@@ -18,7 +18,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.jeebiz.admin.extras.inform.setup.InformProvider;
+import net.jeebiz.admin.extras.inform.emums.InformSendChannel;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
@@ -29,30 +29,51 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class InformRecordModel extends PaginationEntity<InformRecordModel> {
+public class InformRecordEntity extends PaginationEntity<InformRecordEntity> {
 
 	/**
 	 * 消息通知记录id
 	 */
 	@TableId(value="r_id",type= IdType.AUTO)
 	private String id;
+	/**
+	 * 客户端应用ID
+	 */
+	@TableField(value = "app_id")
+	private String appId;
+	/**
+	 * 客户端应用渠道
+	 */
+	@TableField(value = "app_channel")
+	private String appChannel;
+	/**
+	 * 客户端版本
+	 */
+	@TableField(value = "app_version")
+	private String appVer;
+	/**
+	 * 推送渠道
+	 */
+	@TableField(value = "send_channel")
+	private InformSendChannel channel;
+	/**
+	 * 流水编号
+	 */
+	@TableField(value = "flow_no")
+	private String flowNo;
+	
 	@TableField(exist = false)
 	private List<String> ids;
 	/**
 	 * 消息通知发送人id
 	 */
 	@TableField(value = "r_uid")
-	private String uid;
+	private String userId;
 	/**
 	 * 消息通知发送人
 	 */
 	@TableField(exist = false)
 	private String uname;	
-	/**
-	 * 消息通知的发送提供者
-	 */
-	@TableField(value = "r_provider")
-	private InformProvider provider;
 	/**
 	 * 消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝）
 	 */

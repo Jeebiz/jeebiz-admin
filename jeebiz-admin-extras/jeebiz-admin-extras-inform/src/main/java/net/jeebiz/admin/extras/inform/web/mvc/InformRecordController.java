@@ -29,7 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.inform.dao.entities.InformRecordModel;
+import net.jeebiz.admin.extras.inform.dao.entities.InformRecordEntity;
 import net.jeebiz.admin.extras.inform.service.IInformRecordService;
 import net.jeebiz.admin.extras.inform.setup.Constants;
 import net.jeebiz.admin.extras.inform.web.dto.InformRecordDTO;
@@ -54,7 +54,7 @@ public class InformRecordController extends BaseMapperController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<Long> pending() throws Exception {
-		InformRecordModel model = new InformRecordModel();
+		InformRecordEntity model = new InformRecordEntity();
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setToUid(principal.getUserid());   
 		
@@ -71,13 +71,13 @@ public class InformRecordController extends BaseMapperController {
 	@ResponseBody
 	public Result<InformRecordDTO> list(@Valid @RequestBody InformRecordPaginationDTO paginationDTO) throws Exception {
 		
-		InformRecordModel model = getBeanMapper().map(paginationDTO, InformRecordModel.class);
+		InformRecordEntity model = getBeanMapper().map(paginationDTO, InformRecordEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setToUid(principal.getUserid());
 		
-		Page<InformRecordModel> pageResult = getInformService().getPagedList(model);
+		Page<InformRecordEntity> pageResult = getInformService().getPagedList(model);
 		List<InformRecordDTO> retList = new ArrayList<InformRecordDTO>();
-		for (InformRecordModel registryModel : pageResult.getRecords()) {
+		for (InformRecordEntity registryModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(registryModel, InformRecordDTO.class));
 		}
 		
@@ -103,7 +103,7 @@ public class InformRecordController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<InformRecordDTO> detail(@RequestParam("id")  String id) throws Exception {
 		
-		InformRecordModel model = getInformService().getById(id);
+		InformRecordEntity model = getInformService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("inform.get.empty"));
 		}
@@ -121,7 +121,7 @@ public class InformRecordController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<String> read(@RequestParam("ids") String ids) throws Exception {
 		
-		InformRecordModel model = new InformRecordModel();
+		InformRecordEntity model = new InformRecordEntity();
 		model.setIds(Lists.newArrayList(StringUtils.split(ids, ",")));
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setToUid(principal.getUserid());
@@ -144,7 +144,7 @@ public class InformRecordController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<String> readall() throws Exception {
 		
-		InformRecordModel model = new InformRecordModel();
+		InformRecordEntity model = new InformRecordEntity();
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setToUid(principal.getUserid());
 		model.setStatus("1");

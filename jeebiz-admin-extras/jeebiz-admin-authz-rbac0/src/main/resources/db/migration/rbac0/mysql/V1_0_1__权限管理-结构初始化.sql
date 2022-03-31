@@ -18,7 +18,7 @@ CREATE TABLE `sys_authz_role_list` (
   `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
-  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`r_id`),
   UNIQUE KEY (`r_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色信息表';
@@ -56,7 +56,7 @@ CREATE TABLE `sys_authz_user_list` (
   `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
-  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`u_id`),
   UNIQUE KEY `idx_uname` (`u_username`),
   UNIQUE KEY `idx_uuid` (`u_uid`)
@@ -95,7 +95,7 @@ CREATE TABLE `sys_authz_user_profile` (
   `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
-  `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`u_pid`),
   UNIQUE KEY `idx_uid` (`u_id`) USING BTREE,
   UNIQUE KEY `idx_phone` (`u_phone`) USING BTREE,
