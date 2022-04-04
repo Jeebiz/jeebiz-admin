@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper">
 
-	<resultMap id="UserMap" type="AuthzUserModel">
+	<resultMap id="UserMap" type="AuthzUserEntity">
 		<!-- 用户id -->
 		<result property="id" column="u_id" />
 		<!-- 用户唯一Uid（用户编号） -->
@@ -41,7 +41,7 @@
 		<collection property="roleList" column="{uid=u_id}" select="getRoleList"></collection>
 	</resultMap>
 
-	<resultMap id="UserProfileMap" type="AuthzUserProfileModel">
+	<resultMap id="UserProfileMap" type="AuthzUserProfileEntity">
         <!-- 用户描述id -->
 		<result property="id" column="u_pid" />
 		<!-- 用户id -->
@@ -51,7 +51,7 @@
         <!-- 用户头像：图片路径或图标样式  -->
 		<result property="avatar" column="u_avatar" />
         <!-- 手机号码国家码 -->
-        <result property="countryCode" column="u_country_code"/>
+        <result property="countryCode" column="u_region_code"/>
         <!-- 手机号码 -->
         <result property="phone" column="u_phone"/>
         <!-- 电子邮箱 -->
@@ -90,7 +90,7 @@
         <result property="createTime" column="create_time"/>
 	</resultMap>
 
-	<resultMap id="RoleMap" type="AuthzRoleModel">
+	<resultMap id="RoleMap" type="AuthzRoleEntity">
 		<!-- 角色id -->
 		<result property="id" column="r_id" />
 		<!-- 角色编码 -->
@@ -114,7 +114,7 @@
 		<result property="value" column="r_name" />
 	</resultMap>
 
-	<insert id="insert" parameterType="AuthzUserModel" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+	<insert id="insert" parameterType="AuthzUserEntity" useGeneratedKeys="true" keyProperty="id" flushCache="true">
 	    INSERT INTO sys_authz_user_list(u_uid, u_code, u_username, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
 		VALUES(#{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{username},#{password},#{salt,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},
 		#{appId,jdbcType=VARCHAR},#{appChannel,jdbcType=VARCHAR},#{appVer,jdbcType=VARCHAR},#{online},'1')
@@ -142,7 +142,7 @@
         </foreach>
 	</delete>
 
-	<update id="update" parameterType="AuthzUserModel" flushCache="true">
+	<update id="update" parameterType="AuthzUserEntity" flushCache="true">
 		update sys_authz_user_list t
 		<set>
 			<if test="ucode != null and ucode != ''">t.u_code = #{ucode},</if>
@@ -155,7 +155,7 @@
 		where t.u_id = #{id}
 	</update>
 
-	<update id="updateRole" parameterType="AuthzUserModel" flushCache="true">
+	<update id="updateRole" parameterType="AuthzUserEntity" flushCache="true">
     	update sys_authz_user_role_relation set r_id = #{roleId} WHERE u_id = #{id} AND r_key != 'admin'
     </update>
 
@@ -261,7 +261,7 @@
 	   WHERE t.u_status = 1
 	</select>
 
-	<select id="getPagedList" resultMap="UserMap" parameterType="AuthzUserModel" useCache="false">
+	<select id="getPagedList" resultMap="UserMap" parameterType="AuthzUserEntity" useCache="false">
 		SELECT
 			t.u_id,
 			t.u_uid,
@@ -295,7 +295,7 @@
 		</if>
 	</select>
 
-	<select id="getPagedAllocatedList" resultMap="RoleMap" parameterType="AuthzUserModel" useCache="false">
+	<select id="getPagedAllocatedList" resultMap="RoleMap" parameterType="AuthzUserEntity" useCache="false">
 		SELECT
 			t.r_id,
 			t.r_key,
@@ -318,7 +318,7 @@
 		</if>
 	</select>
 
-	<select id="getPagedUnAllocatedList" resultMap="RoleMap" parameterType="AuthzUserModel" useCache="false">
+	<select id="getPagedUnAllocatedList" resultMap="RoleMap" parameterType="AuthzUserEntity" useCache="false">
 		SELECT
 			t.r_id,
 			t.r_key,
@@ -389,7 +389,7 @@
 			t.u_id,
 			t.u_nickname,
 			t.u_avatar,
-			t.u_country_code,
+			t.u_region_code,
 			t.u_phone,
 			t.u_email,
 			t.u_gender,

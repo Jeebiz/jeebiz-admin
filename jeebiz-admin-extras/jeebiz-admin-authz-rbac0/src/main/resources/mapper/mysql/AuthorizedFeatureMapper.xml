@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.AuthorizedFeatureMapper">
-	
-	<resultMap id="AuthzFeatureMap" type="AuthzFeatureModel">
+
+	<resultMap id="AuthzFeatureMap" type="AuthzFeatureEntity">
 		<result property="id" column="f_id" />
 		<result property="name" column="f_name" />
 		<result property="abb" column="f_abb" />
@@ -18,8 +18,8 @@
 		<result property="perms" column="f_perms" />
 		<result property="checked" column="f_checked" />
 	</resultMap>
-	
-	<resultMap id="AuthzFeatureOptMap" type="AuthzFeatureOptModel">
+
+	<resultMap id="AuthzFeatureOptMap" type="AuthzFeatureOptEntity">
 		<result property="featureId" column="f_id" />
 		<result property="id" column="opt_id" />
 		<result property="name" column="opt_name" />
@@ -29,7 +29,7 @@
 		<result property="perms" column="opt_perms" />
 		<result property="checked" column="opt_checked" />
 	</resultMap>
-	
+
 	<select id="getFeatures" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.f_id,
@@ -61,7 +61,7 @@
 			  AND x.r_id = #{roleId}
 		)
 	</select>
-    
+
     <select id="getFeatureOpts" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.f_id,
@@ -78,7 +78,7 @@
 			 ) > 0 THEN 1 ELSE 0 END) opt_checked
 		FROM sys_authz_feature_opts t
 	</select>
-	
+
 	<select id="getChildFeatures" resultMap="AuthzFeatureMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.f_id,
@@ -108,7 +108,7 @@
 		FROM SYS_FEATURE_LIST t
 	   WHERE t.f_visible = 1
 	</select>
-	
+
 	<select id="getChildFeatureOpts" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="false">
 	 SELECT distinct
 			t.f_id,
@@ -127,5 +127,5 @@
        INNER JOIN sys_authz_role_perms t2 ON (t2.perms = t.opt_perms or t2.perms = '*' or t2.perms = '*:*')
        WHERE t2.r_id = #{roleId}
 	</select>
-	
+
 </mapper>

@@ -32,10 +32,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserProfileService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
@@ -83,10 +83,10 @@ public class AuthzUserController extends BaseMapperController {
 	@RequiresPermissions("user:list")
 	public Result<AuthzUserDTO> list(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
 
-		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
-		Page<AuthzUserModel> pageResult = getAuthzUserService().getPagedList(model);
+		AuthzUserEntity model = getBeanMapper().map(paginationDTO, AuthzUserEntity.class);
+		Page<AuthzUserEntity> pageResult = getAuthzUserService().getPagedList(model);
 		List<AuthzUserDTO> retList = new ArrayList<AuthzUserDTO>();
-		for (AuthzUserModel userModel : pageResult.getRecords()) {
+		for (AuthzUserEntity userModel : pageResult.getRecords()) {
 			AuthzUserDTO userDTO = getBeanMapper().map(userModel, AuthzUserDTO.class);
 			userDTO.setTime24(userModel.getCreateTime());
 			retList.add(userDTO);
@@ -102,7 +102,7 @@ public class AuthzUserController extends BaseMapperController {
 	@GetMapping("detailById")
 	@RequiresPermissions("user:detail")
 	public ApiRestResponse<AuthzUserDTO> detailById(@RequestParam String id) throws Exception {
-		AuthzUserModel model = getAuthzUserService().getById(id);
+		AuthzUserEntity model = getAuthzUserService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
@@ -115,12 +115,12 @@ public class AuthzUserController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<AuthzUserDTO> detail() throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		AuthzUserModel model = getAuthzUserService().getById(principal.getUserid());
+		AuthzUserEntity model = getAuthzUserService().getById(principal.getUserid());
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
 		AuthzUserDTO userDTO = getBeanMapper().map(model, AuthzUserDTO.class);
-		AuthzUserProfileModel profileModel = getAuthzUserProfileService().getProfile(principal.getUserid());
+		AuthzUserProfileEntity profileModel = getAuthzUserProfileService().getProfile(principal.getUserid());
 		if(Objects.nonNull(profileModel)) {
 			userDTO.setProfile(getBeanMapper().map(profileModel, AuthzUserProfileDTO.class));
 		}
@@ -133,7 +133,7 @@ public class AuthzUserController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<AuthzUserProfileDTO> profile() throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		AuthzUserProfileModel model = getAuthzUserProfileService().getProfile(principal.getUserid());
+		AuthzUserProfileEntity model = getAuthzUserProfileService().getProfile(principal.getUserid());
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
@@ -158,7 +158,7 @@ public class AuthzUserController extends BaseMapperController {
 			return fail("user.new.ucode.exists");
 		}
 
-		AuthzUserModel model = getBeanMapper().map(userDTO, AuthzUserModel.class);
+		AuthzUserEntity model = getBeanMapper().map(userDTO, AuthzUserEntity.class);
 
 		String appId = request.getHeader(XHeaders.X_APP_ID);
 		String appChannel = request.getHeader(XHeaders.X_APP_CHANNEL);
@@ -191,7 +191,7 @@ public class AuthzUserController extends BaseMapperController {
 		if(total2 > 0) {
 			return fail("user.new.ucode.exists");
 		}
-		AuthzUserModel model = getBeanMapper().map(userDTO, AuthzUserModel.class);
+		AuthzUserEntity model = getBeanMapper().map(userDTO, AuthzUserEntity.class);
 		int result = getAuthzUserService().update(model);
 		if(result > 0) {
 			return success("user.renew.success", result);
@@ -257,10 +257,10 @@ public class AuthzUserController extends BaseMapperController {
 	@ResponseBody
 	public Result<AuthzRoleDTO> allocated(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
 
-		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
-		Page<AuthzRoleModel> pageResult = getAuthzUserService().getPagedAllocatedList(model);
+		AuthzUserEntity model = getBeanMapper().map(paginationDTO, AuthzUserEntity.class);
+		Page<AuthzRoleEntity> pageResult = getAuthzUserService().getPagedAllocatedList(model);
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
-		for (AuthzRoleModel userModel : pageResult.getRecords()) {
+		for (AuthzRoleEntity userModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(userModel, AuthzRoleDTO.class));
 		}
 		return new Result<AuthzRoleDTO>(pageResult, retList);
@@ -276,10 +276,10 @@ public class AuthzUserController extends BaseMapperController {
 	@ResponseBody
 	public Result<AuthzRoleDTO> unallocated(@Valid @RequestBody AuthzUserPaginationDTO paginationDTO){
 
-		AuthzUserModel model = getBeanMapper().map(paginationDTO, AuthzUserModel.class);
-		Page<AuthzRoleModel> pageResult = getAuthzUserService().getPagedUnAllocatedList(model);
+		AuthzUserEntity model = getBeanMapper().map(paginationDTO, AuthzUserEntity.class);
+		Page<AuthzRoleEntity> pageResult = getAuthzUserService().getPagedUnAllocatedList(model);
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
-		for (AuthzRoleModel userModel : pageResult.getRecords()) {
+		for (AuthzRoleEntity userModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(userModel, AuthzRoleDTO.class));
 		}
 		return new Result<AuthzRoleDTO>(pageResult, retList);
@@ -294,7 +294,7 @@ public class AuthzUserController extends BaseMapperController {
 	@RequiresPermissions("user:allot")
 	@ResponseBody
 	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception {
-		AuthzUserAllotRoleModel model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleModel.class);
+		AuthzUserAllotRoleEntity model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleEntity.class);
 		int total = getAuthzUserService().doAllot(model);
 		return success("user.allot.success", total);
 	}
@@ -308,7 +308,7 @@ public class AuthzUserController extends BaseMapperController {
 	@RequiresPermissions("user:unallot")
 	@ResponseBody
 	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception {
-		AuthzUserAllotRoleModel model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleModel.class);
+		AuthzUserAllotRoleEntity model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleEntity.class);
 		int total = getAuthzUserService().doUnAllot(model);
 		return success("user.unallot.success", total);
 	}
@@ -354,9 +354,9 @@ public class AuthzUserController extends BaseMapperController {
 	public ApiRestResponse<List<AuthzRoleDTO>> roles(){
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 	用户角色信息集合
-		List<AuthzRoleModel> roles = getAuthzUserService().getRoles(principal.getUserid());
+		List<AuthzRoleEntity> roles = getAuthzUserService().getRoles(principal.getUserid());
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
-		for (AuthzRoleModel roleModel : roles) {
+		for (AuthzRoleEntity roleModel : roles) {
 			retList.add(getBeanMapper().map(roleModel, AuthzRoleDTO.class));
 		}
 		return ApiRestResponse.success(retList);

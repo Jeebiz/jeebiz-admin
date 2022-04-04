@@ -1,4 +1,4 @@
-/* 
+/*
  * 权限核心表：
  * 2、用户信息表、角色信息表、用户-角色关系表、角色-权限关系表（角色-菜单-按钮）、
  */
@@ -15,9 +15,9 @@ create table sys_authz_role_list (
   CONSTRAINT UNIQUE_r_key UNIQUE(r_key),
   CONSTRAINT PK_Rid PRIMARY KEY(r_id)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_authz_role_list  is '角色信息表';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_authz_role_list.r_id  is '角色id';
 comment on column sys_authz_role_list.r_key  is '角色编码';
 comment on column sys_authz_role_list.r_name  is '角色名称';
@@ -32,9 +32,9 @@ create table sys_authz_role_perms (
   perms 		VARCHAR2(50) not null,
   CONSTRAINT UNIQUE_Rid_perms UNIQUE(r_id, perms)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_authz_role_perms  is '角色-权限关系表（角色-菜单-按钮）';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_authz_role_perms.r_id  is '角色id';
 comment on column sys_authz_role_perms.perms  is '权限标记：(等同sys_authz_feature_opts.opt_perms)';
 
@@ -58,9 +58,9 @@ create table sys_authz_user_list (
   CONSTRAINT idx_uuid UNIQUE(u_uid),
   CONSTRAINT PK_Uid PRIMARY KEY(u_id)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_authz_user_list  is '用户账户信息表';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_authz_user_list.u_id  is '用户id';
 comment on column sys_authz_user_list.u_username  is '用户名';
 comment on column sys_authz_user_list.u_password  is '用户密码';
@@ -82,7 +82,7 @@ create table sys_authz_user_profile (
   u_id   			VARCHAR2(32) not null,
   u_nickname		VARCHAR2(100) not null,
   u_avatar			VARCHAR2(300),
-  u_country_code	VARCHAR2(20),
+  u_region_code	VARCHAR2(20),
   u_phone			VARCHAR2(11),
   u_email			VARCHAR2(100),
   u_birthday		VARCHAR2(20),
@@ -103,9 +103,9 @@ create table sys_authz_user_profile (
   create_time			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   CONSTRAINT PK_Uid PRIMARY KEY(u_pid)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_authz_user_profile  is '用户描述信息表';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_authz_user_profile.u_pid  is '用户描述id';
 comment on column sys_authz_user_profile.u_id  is '用户id';
 comment on column sys_authz_user_profile.u_nickname  is '用户昵称';
@@ -136,9 +136,9 @@ create table sys_authz_user_role_relation (
   r_prty			VARCHAR2(2) default '0',
   CONSTRAINT UNIQUE_Uid_Rid UNIQUE(u_id, r_id)
 );
--- Add comments to the table 
+-- Add comments to the table
 comment on table sys_authz_user_role_relation  is '用户-角色关系表';
--- Add comments to the columns 
+-- Add comments to the columns
 comment on column sys_authz_user_role_relation.u_id  is '用户id';
 comment on column sys_authz_user_role_relation.r_id  is '角色id';
 comment on column sys_authz_user_role_relation.r_prty  is '优先级：用于默认登录角色';

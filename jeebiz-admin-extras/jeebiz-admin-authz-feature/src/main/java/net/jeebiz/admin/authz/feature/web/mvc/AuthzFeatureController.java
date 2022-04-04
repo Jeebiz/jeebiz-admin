@@ -25,8 +25,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
 import net.jeebiz.admin.authz.feature.enums.FeatureNodeType;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
@@ -61,9 +61,9 @@ public class AuthzFeatureController extends BaseMapperController{
 	@RequiresAuthentication
 	public ApiRestResponse<List<AuthzFeatureDTO>> list(){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		List<AuthzFeatureDTO> featureDTOList = Lists.newArrayList();
-		for (AuthzFeatureModel model : featureList) {
+		for (AuthzFeatureEntity model : featureList) {
 			featureDTOList.add(getBeanMapper().map(model, AuthzFeatureDTO.class));
 		}
 		return ApiRestResponse.success(featureDTOList);
@@ -76,7 +76,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@ResponseBody
 	public ApiRestResponse<List<AuthzFeatureTreeNode>> nav(){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList));
 	}
@@ -88,9 +88,9 @@ public class AuthzFeatureController extends BaseMapperController{
 	@ResponseBody
 	public ApiRestResponse<List<AuthzFeatureTreeNode>> tree(){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
-		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
+		List<AuthzFeatureOptEntity> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList, featureOptList));
 		//return ResultUtils.dataMap(FeatureDataHandlerFactory.getTreeHandler().handle(featureList, featureOptList));
@@ -103,9 +103,9 @@ public class AuthzFeatureController extends BaseMapperController{
 	@ResponseBody
 	public ApiRestResponse<List<AuthzFeatureTreeNode>> flat(){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
-		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
+		List<AuthzFeatureOptEntity> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
 
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.FLAT).handle(featureList, featureOptList));
@@ -124,7 +124,7 @@ public class AuthzFeatureController extends BaseMapperController{
 		if(count > 0) {
 			return fail("feature.new.code-exists");
 		}
-		AuthzFeatureModel model = getBeanMapper().map(featureDTO, AuthzFeatureModel.class);
+		AuthzFeatureEntity model = getBeanMapper().map(featureDTO, AuthzFeatureEntity.class);
 		/**
 		 * 菜单类型(1:原生|2:自定义)
 		 */
@@ -147,7 +147,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@RequiresPermissions("feature:renew")
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzFeatureRenewDTO featureDTO) throws Exception {
-		AuthzFeatureModel model = getBeanMapper().map(featureDTO, AuthzFeatureModel.class);
+		AuthzFeatureEntity model = getBeanMapper().map(featureDTO, AuthzFeatureEntity.class);
 		boolean total = getAuthzFeatureService().updateById(model);
 		if(total) {
 			// 删除菜单缓存
@@ -166,7 +166,7 @@ public class AuthzFeatureController extends BaseMapperController{
 	@RequiresPermissions("feature:detail")
 	@ResponseBody
 	public ApiRestResponse<AuthzFeatureDTO> detail(@RequestParam("id") String id) throws Exception {
-		AuthzFeatureModel model = getAuthzFeatureService().getFeature(id);
+		AuthzFeatureEntity model = getAuthzFeatureService().getFeature(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("feature.get.empty"));
 		}

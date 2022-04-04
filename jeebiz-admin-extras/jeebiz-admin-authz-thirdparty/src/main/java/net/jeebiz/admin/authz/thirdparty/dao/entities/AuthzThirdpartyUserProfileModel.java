@@ -51,7 +51,7 @@ public class AuthzThirdpartyUserProfileModel extends BaseEntity<AuthzThirdpartyU
 	/**
 	 * 手机号码国家码
 	 */
-	@TableField(value = "u_country_code")
+	@TableField(value = "u_region_code")
 	private String countryCode;
 	/**
 	 * 手机号码

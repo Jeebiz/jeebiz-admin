@@ -19,14 +19,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
-@Alias("AuthzFeatureOptModel")
+@Alias("AuthzFeatureOptEntity")
 @TableName(value = "sys_authz_feature_opts")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class AuthzFeatureOptModel extends Model<AuthzFeatureOptModel> {
+public class AuthzFeatureOptEntity extends Model<AuthzFeatureOptEntity> {
 
 	/**
 	 * 功能菜单id

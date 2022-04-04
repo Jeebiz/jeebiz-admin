@@ -27,7 +27,7 @@
 		<!-- 角色名称（可能多个组合，如：角色1,角色2） -->
 		<result property="roleName" column="r_name" />
 	</resultMap>
-	
+
 	<resultMap id="LoginStatusMap" type="AuthzLoginStatusModel">
 		<result property="ucount" column="u_count" />
 		<result property="pcount" column="p_count" />
@@ -35,7 +35,7 @@
 		<result property="status" column="u_status" />
 		<result property="salt" column="u_salt" />
 	</resultMap>
-	
+
 	<resultMap id="ProfileMap" type="net.jeebiz.boot.api.dao.entities.BaseMap">
 		<!-- 用户唯一Uid（用户编号） -->
 		<result property="uid" column="u_uid" />
@@ -56,7 +56,7 @@
         <!-- 用户头像：图片路径或图标样式  -->
 		<result property="avatar" column="u_avatar" />
         <!-- 手机号码国家码 -->
-        <result property="countryCode" column="u_country_code"/>
+        <result property="countryCode" column="u_region_code"/>
         <!-- 手机号码 -->
         <result property="phone" column="u_phone"/>
         <!-- 电子邮箱 -->
@@ -94,7 +94,7 @@
         <!-- 初始化时间 -->
         <result property="time24" column="create_time"/>
 	</resultMap>
-	
+
     <select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
 	    select (select count('1') from sys_authz_user_list a where a.u_username = #{username}) u_count,
 		       (select count('1') from sys_authz_user_list b where b.u_username = #{username} and b.u_password = #{password,jdbcType=VARCHAR} ) p_count,
@@ -111,7 +111,7 @@
 		       (select d.u_salt from sys_authz_user_list d where d.u_username = #{username}) as u_salt
 		from dual
     </select>
-    
+
     <select id="getAccountStatusById" parameterType="string" resultMap="LoginStatusMap" useCache="false">
 	    select (select count('1') from sys_authz_user_list a where a.u_id = #{id}) u_count,
 		       (select count('1') from sys_authz_user_list c,sys_authz_user_role_relation x where c.u_id = x.u_id and c.u_id = #{id}) r_count,
@@ -119,7 +119,7 @@
 		       (select d.u_salt from sys_authz_user_list d where d.u_id = #{id}) as u_salt
 		from dual
     </select>
-    
+
     <sql id="AccountSQL">
 		 select t.u_id,
 				t.u_uid,
@@ -144,7 +144,7 @@
     <select id="getAccountWithoutPwd" parameterType="string" resultMap="LoginMap" useCache="false">
         <include refid="AccountSQL"/>
     </select>
-	
+
 	<select id="getAccountById" parameterType="string" resultMap="LoginMap" useCache="false">
          select t.u_id,
 				t.u_uid,
@@ -158,7 +158,7 @@
 		  from sys_authz_user_list t
 		 where t.u_id = #{id}
     </select>
-    
+
     <select id="getAccountByUcode" parameterType="string" resultMap="LoginMap" useCache="false">
          select t.u_id,
 				t.u_uid,
@@ -172,7 +172,7 @@
 		  from sys_authz_user_list t
 		 where t.u_code = #{ucode}
     </select>
-	
+
     <select id="getAccountByUid" parameterType="string" resultMap="LoginMap" useCache="false">
          select t.u_id,
 				t.u_uid,
@@ -186,7 +186,7 @@
 		   from sys_authz_user_list t
 		  where t.u_uid = #{uid}
     </select>
-    
+
     <select id="getAccountProfile" parameterType="string" resultMap="ProfileMap">
 	    SELECT
 			t.u_uid,
@@ -198,7 +198,7 @@
 			t.u_latest_online,
 			t2.u_nickname,
 			t2.u_avatar,
-			t2.u_country_code,
+			t2.u_region_code,
 			t2.u_phone,
 			t2.u_email,
 			t2.u_gender,
@@ -219,6 +219,6 @@
 			t2.create_time
 		FROM sys_authz_user_list t LEFT JOIN sys_authz_user_profile t2 ON t.u_id = t2.u_id
 	   WHERE t.u_id = #{userid}
-    </select> 
+    </select>
 
 </mapper>

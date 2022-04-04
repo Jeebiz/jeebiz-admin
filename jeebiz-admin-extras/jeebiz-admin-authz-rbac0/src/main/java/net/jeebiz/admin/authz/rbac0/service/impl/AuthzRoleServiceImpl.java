@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.service.impl;
 
@@ -21,28 +21,28 @@ import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRolePermsMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, AuthzRoleModel>
+public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, AuthzRoleEntity>
 		implements IAuthzRoleService {
-	
+
 	@Autowired
 	private AuthzRolePermsMapper authzRolePermsMapper;
 	@Autowired
 	private AuthzFeatureMapper authzFeatureMapper;
 	@Autowired
 	private AuthzUserMapper authzUserMapper;
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean save(AuthzRoleModel model) {
+	public boolean save(AuthzRoleEntity model) {
 		int ct = getBaseMapper().insert(model);
 		// 此次提交的授权标记
 		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
@@ -53,10 +53,10 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 		}
 		return ct > 0;
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int update(AuthzRoleModel model) {
+	public int update(AuthzRoleEntity model) {
 		int ct = getBaseMapper().updateById(model);
 		// 查询已经授权标记
 		List<String> oldperms = getAuthzRolePermsMapper().getPermissions(model.getId());
@@ -85,7 +85,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int updatePermis(AuthzRoleModel model) {
+	public int updatePermis(AuthzRoleEntity model) {
 		int ct = getBaseMapper().updateById(model);
 		// 查询已经授权标记
 		List<String> oldperms = getAuthzRolePermsMapper().getPermissions(model.getId());
@@ -111,11 +111,11 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 		}
 		return ct;
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int delete(String id) {
-		AuthzRoleModel model = getBaseMapper().selectById(id);
+		AuthzRoleEntity model = getBaseMapper().selectById(id);
 		if (model.getUsers() > 0){
 			return -1;
 		}
@@ -124,16 +124,16 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 		getAuthzRolePermsMapper().delPerms(id, Lists.newArrayList());
 		return ct;
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int setStatus(String roleId, String status) {
 		return getBaseMapper().setStatus(roleId, status);
 	}
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doAllot(AuthzRoleAllotUserModel model) {
+	public int doAllot(AuthzRoleAllotUserEntity model) {
 		int rt = 0;
 		for (String userId : model.getUserIds()) {
 			// 查询角色与用户是否已经有关联
@@ -147,49 +147,49 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doUnAllot(AuthzRoleAllotUserModel model) {
+	public int doUnAllot(AuthzRoleAllotUserEntity model) {
 		return getBaseMapper().deleteUsers(model.getRoleId(), model.getUserIds());
 	}
-	
+
 	@Override
-	public List<AuthzRoleModel> getRoles(){
+	public List<AuthzRoleEntity> getRoles(){
 		return getBaseMapper().getRoles();
 	}
-	
+
 	@Override
-	public Page<AuthzUserModel> getPagedAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO) {
-		
-		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationDTO.getPageNo(), paginationDTO.getLimit());
+	public Page<AuthzUserEntity> getPagedAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO) {
+
+		Page<AuthzUserEntity> page = new Page<AuthzUserEntity>(paginationDTO.getPageNo(), paginationDTO.getLimit());
 		if(!CollectionUtils.isEmpty(paginationDTO.getOrders())) {
 			for (OrderItem orderBy : paginationDTO.getOrders()) {
 				page.addOrder(orderBy);
 			}
 		}
-		
-		List<AuthzUserModel> records = getBaseMapper().getPagedAllocatedList(page, paginationDTO);
+
+		List<AuthzUserEntity> records = getBaseMapper().getPagedAllocatedList(page, paginationDTO);
 		page.setRecords(records);
-		
+
 		return page;
-		
+
 	}
-	
+
 	@Override
-	public Page<AuthzUserModel> getPagedUnAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO) {
-		
-		Page<AuthzUserModel> page = new Page<AuthzUserModel>(paginationDTO.getPageNo(), paginationDTO.getLimit());
+	public Page<AuthzUserEntity> getPagedUnAllocatedList(AuthzRoleAllotUserPaginationDTO paginationDTO) {
+
+		Page<AuthzUserEntity> page = new Page<AuthzUserEntity>(paginationDTO.getPageNo(), paginationDTO.getLimit());
 		if(!CollectionUtils.isEmpty(paginationDTO.getOrders())) {
 			for (OrderItem orderBy : paginationDTO.getOrders()) {
 				page.addOrder(orderBy);
 			}
 		}
-		
-		List<AuthzUserModel> records = getBaseMapper().getPagedUnAllocatedList(page, paginationDTO);
+
+		List<AuthzUserEntity> records = getBaseMapper().getPagedUnAllocatedList(page, paginationDTO);
 		page.setRecords(records);
-		
+
 		return page;
-		
+
 	}
-	
+
 	public AuthzRolePermsMapper getAuthzRolePermsMapper() {
 		return authzRolePermsMapper;
 	}

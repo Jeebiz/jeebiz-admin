@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.web.mvc;
 import java.util.ArrayList;
@@ -31,9 +31,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
 import net.jeebiz.admin.authz.rbac0.setup.Constants;
@@ -61,14 +61,14 @@ import net.jeebiz.boot.api.web.Result;
 @RestController
 @RequestMapping(value = "/authz/role/")
 public class AuthzRoleController extends BaseApiController {
-	
+
 	protected RandomString randomString = new RandomString(20);
-	
+
 	@Autowired
 	private IAuthzRoleService authzRoleService;
 	@Autowired
 	private IAuthzUserService authzUserService;
-	
+
 	@ApiOperation(value = "可用角色信息列表（键值对）", notes = "获取当前所有可用的角色信息")
 	@GetMapping("pairs")
     @RequiresAuthentication
@@ -80,43 +80,43 @@ public class AuthzRoleController extends BaseApiController {
 		}
 		return ApiRestResponse.success(roleList);
 	}
-	
+
 	@ApiOperation(value = "可用角色信息列表（对象属性）", notes = "查询全部可用角色信息")
 	@GetMapping("roles")
 	@RequiresPermissions("role:list")
 	public ApiRestResponse<List<AuthzRoleDTO>> roles(){
-		List<AuthzRoleModel> roles = getAuthzRoleService().getRoles();
+		List<AuthzRoleEntity> roles = getAuthzRoleService().getRoles();
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
-		for (AuthzRoleModel roleModel : roles) {
+		for (AuthzRoleEntity roleModel : roles) {
 			AuthzRoleDTO roleDTO = getBeanMapper().map(roleModel, AuthzRoleDTO.class);
 			roleDTO.setTime24(roleModel.getCreateTime());
 			retList.add(roleDTO);
 		}
 		return ApiRestResponse.success(retList);
 	}
-	
+
 	@ApiOperation(value = "分页查询角色信息", notes = "分页查询角色信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "角色信息筛选条件", dataType = "AuthzRolePaginationDTO")
 	})
 	@PostMapping("list")
 	//@RequiresPermissions("role:list")
 	public Result<AuthzRoleDTO> list(@Valid @RequestBody AuthzRolePaginationDTO paginationDTO){
-		
-		AuthzRoleModel model = getBeanMapper().map(paginationDTO, AuthzRoleModel.class);
-		Page<AuthzRoleModel> pageResult = getAuthzRoleService().getPagedList(model);
+
+		AuthzRoleEntity model = getBeanMapper().map(paginationDTO, AuthzRoleEntity.class);
+		Page<AuthzRoleEntity> pageResult = getAuthzRoleService().getPagedList(model);
 		List<AuthzRoleDTO> retList = new ArrayList<AuthzRoleDTO>();
-		for (AuthzRoleModel roleModel : pageResult.getRecords()) {
+		for (AuthzRoleEntity roleModel : pageResult.getRecords()) {
 			AuthzRoleDTO roleDTO = getBeanMapper().map(roleModel, AuthzRoleDTO.class);
 			roleDTO.setTime24(roleModel.getCreateTime());
 			retList.add(roleDTO);
 		}
-		
+
 		return new Result<AuthzRoleDTO>(pageResult, retList);
 	}
-	
+
 	@ApiOperation(value = "增加角色信息", notes = "增加角色信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "roleDTO", value = "角色信息", required = true, dataType = "AuthzRoleNewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "新增角色-名称：${name}", opt = BusinessType.INSERT)
@@ -131,7 +131,7 @@ public class AuthzRoleController extends BaseApiController {
 		if(total > 0) {
 			return fail("role.new.exists");
 		}
-		AuthzRoleModel model = getBeanMapper().map(roleDTO, AuthzRoleModel.class);
+		AuthzRoleEntity model = getBeanMapper().map(roleDTO, AuthzRoleEntity.class);
 		// 角色编码
 		model.setKey(RandomStringUtils.random(10,"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"));
 		// 角色类型（1:原生|2:继承|3:复制|4:自定义）
@@ -142,15 +142,15 @@ public class AuthzRoleController extends BaseApiController {
 		}
 		return fail("role.new.fail");
 	}
-	
+
 	@ApiOperation(value = "修改角色信息", notes = "修改角色信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "roleDTO", value = "角色信息", required = true, dataType = "AuthzRoleRenewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "修改角色-名称：${name}", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
 	@RequiresPermissions("role:renew")
-	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzRoleRenewDTO roleDTO) throws Exception { 
+	public ApiRestResponse<String> renew(@Valid @RequestBody AuthzRoleRenewDTO roleDTO) throws Exception {
 		/*
 		if(CollectionUtils.isEmpty(roleDTO.getPerms())) {
 			return fail("role.renew.need-perms");
@@ -159,16 +159,16 @@ public class AuthzRoleController extends BaseApiController {
 		if(total > 0) {
 			return fail("role.renew.exists");
 		}
-		AuthzRoleModel model = getBeanMapper().map(roleDTO, AuthzRoleModel.class);
+		AuthzRoleEntity model = getBeanMapper().map(roleDTO, AuthzRoleEntity.class);
 		int result = getAuthzRoleService().update(model);
 		if(result > 0) {
 			return success("role.renew.success", result);
 		}
 		return fail("role.renew.fail");
 	}
-	
+
 	@ApiOperation(value = "更新角色状态", notes = "更新角色状态")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "renewDTO", value = "角色信息", required = true, dataType = "AuthzRoleStatusRenewDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "更新角色状态", opt = BusinessType.UPDATE)
@@ -181,23 +181,23 @@ public class AuthzRoleController extends BaseApiController {
 		}
 		return fail("role.status.fail", result);
 	}
-	
+
 	@ApiOperation(value = "角色信息详情", notes = "根据角色id查询角色信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "角色id", dataType = "String")
 	})
 	@GetMapping("detail")
 	@RequiresPermissions("role:detail")
 	public ApiRestResponse<AuthzRoleDTO> detail(@RequestParam("id") String id) throws Exception {
-		AuthzRoleModel model = getAuthzRoleService().getById(id);
+		AuthzRoleEntity model = getAuthzRoleService().getById(id);
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("role.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, AuthzRoleDTO.class));
 	}
-	
+
 	@ApiOperation(value = "删除角色信息", notes = "删除角色信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam( paramType = "query", name = "id", required = true, value = "角色id", dataType = "String")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "删除角色-名称：${roleid}", opt = BusinessType.DELETE)
@@ -231,9 +231,9 @@ public class AuthzRoleController extends BaseApiController {
 		}
 		return success("role.delete.success");
 	}
-	
+
 	@ApiOperation(value = "角色已分配用户查询", notes = "分页查询角色已分配用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "已分配用户信息筛选条件", dataType = "AuthzRoleAllotUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "分页查询角色已分配用户信息,角色Id：${roleid}", opt = BusinessType.DELETE)
@@ -241,16 +241,16 @@ public class AuthzRoleController extends BaseApiController {
 	@RequiresPermissions("role:allocated")
 	@ResponseBody
 	public Result<AuthzUserDTO> allocated(@Valid @RequestBody AuthzRoleAllotUserPaginationDTO paginationDTO){
-		Page<AuthzUserModel> pageResult = getAuthzRoleService().getPagedAllocatedList(paginationDTO);
+		Page<AuthzUserEntity> pageResult = getAuthzRoleService().getPagedAllocatedList(paginationDTO);
 		List<AuthzUserDTO> retList = new ArrayList<AuthzUserDTO>();
-		for (AuthzUserModel detailModel : pageResult.getRecords()) {
+		for (AuthzUserEntity detailModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(detailModel, AuthzUserDTO.class));
 		}
 		return new Result<AuthzUserDTO>(pageResult, retList);
 	}
-	
+
 	@ApiOperation(value = "角色未分配用户查询", notes = "分页查询角色未分配用户信息")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "未分配用户信息筛选条件", dataType = "AuthzRoleAllotUserPaginationDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "分页查询角色未分配用户信息,角色Id：${roleid}", opt = BusinessType.DELETE)
@@ -258,44 +258,44 @@ public class AuthzRoleController extends BaseApiController {
 	@RequiresPermissions("role:unallocated")
 	@ResponseBody
 	public Result<AuthzUserDTO> unallocated(@Valid @RequestBody AuthzRoleAllotUserPaginationDTO paginationDTO){
-		Page<AuthzUserModel> pageResult = getAuthzRoleService().getPagedUnAllocatedList(paginationDTO);
+		Page<AuthzUserEntity> pageResult = getAuthzRoleService().getPagedUnAllocatedList(paginationDTO);
 		List<AuthzUserDTO> retList = new ArrayList<AuthzUserDTO>();
-		for (AuthzUserModel detailModel : pageResult.getRecords()) {
+		for (AuthzUserEntity detailModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(detailModel, AuthzUserDTO.class));
 		}
 		return new Result<AuthzUserDTO>(pageResult, retList);
 	}
-	
+
 	@ApiOperation(value = "给指定角色分配用户", notes = "给指定角色分配用户")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "allotDTO", value = "角色分配的用户信息", dataType = "AuthzRoleAllotUserDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "给指定角色分配用户，角色Id：${roleid}", opt = BusinessType.DELETE)
 	@PostMapping("allot")
 	@RequiresPermissions("role:allot")
 	@ResponseBody
-	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzRoleAllotUserDTO allotDTO) throws Exception { 
-		AuthzRoleAllotUserModel model = getBeanMapper().map(allotDTO, AuthzRoleAllotUserModel.class);
+	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzRoleAllotUserDTO allotDTO) throws Exception {
+		AuthzRoleAllotUserEntity model = getBeanMapper().map(allotDTO, AuthzRoleAllotUserEntity.class);
 		int total = getAuthzRoleService().doAllot(model);
 		if(total > 0) {
-			return success("role.allot.success", total); 
+			return success("role.allot.success", total);
 		}
 		return fail("role.allot.fail", total);
 	}
-	
+
 	@ApiOperation(value = "取消已分配给指定角色的用户", notes = "取消已分配给指定角色的用户")
-	@ApiImplicitParams({ 
+	@ApiImplicitParams({
 		@ApiImplicitParam(paramType = "body", name = "allotDTO", value = "角色取消分配的用户信息", dataType = "AuthzRoleAllotUserDTO")
 	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE, business = "取消已分配给指定角色的用户，角色Id：${roleid}", opt = BusinessType.DELETE)
 	@PostMapping("unallot")
 	@RequiresPermissions("role:unallot")
 	@ResponseBody
-	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzRoleAllotUserDTO allotDTO) throws Exception { 
-		AuthzRoleAllotUserModel model = getBeanMapper().map(allotDTO, AuthzRoleAllotUserModel.class);
+	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzRoleAllotUserDTO allotDTO) throws Exception {
+		AuthzRoleAllotUserEntity model = getBeanMapper().map(allotDTO, AuthzRoleAllotUserEntity.class);
 		int total = getAuthzRoleService().doUnAllot(model);
 		if(total > 0) {
-			return success("role.unallot.success", total); 
+			return success("role.unallot.success", total);
 		}
 		return fail("role.unallot.fail", total);
 	}
@@ -304,13 +304,13 @@ public class AuthzRoleController extends BaseApiController {
 	@GetMapping("utree")
 	@RequiresAuthentication
 	public ApiRestResponse<List<AuthzRoleUserDTO>> userTree() throws Exception {
-		
+
 		// 所有角色信息
-		List<AuthzRoleModel> roles = getAuthzRoleService().getRoles();
-		List<AuthzUserModel> users = getAuthzUserService().getUserList();
-		
+		List<AuthzRoleEntity> roles = getAuthzRoleService().getRoles();
+		List<AuthzUserEntity> users = getAuthzUserService().getUserList();
+
 		List<AuthzRoleUserDTO> retList = new ArrayList<AuthzRoleUserDTO>();
-		for (AuthzRoleModel roleModel : roles) {
+		for (AuthzRoleEntity roleModel : roles) {
 			AuthzRoleUserDTO roleUserDTO = getBeanMapper().map(roleModel, AuthzRoleUserDTO.class);
 			if(users != null) {
 				List<AuthzUserDTO> children = users.stream().filter(source -> {
@@ -325,9 +325,9 @@ public class AuthzRoleController extends BaseApiController {
 			retList.add(roleUserDTO);
 		}
 		return ApiRestResponse.success(retList);
-		
+
 	}
-	
+
 	public IAuthzRoleService getAuthzRoleService() {
 		return authzRoleService;
 	}
