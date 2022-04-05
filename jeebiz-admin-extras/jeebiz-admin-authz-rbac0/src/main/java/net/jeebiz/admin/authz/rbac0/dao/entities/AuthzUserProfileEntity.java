@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
-@Alias(value = "AuthzUserProfileModel")
+@Alias(value = "AuthzUserProfileEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_profile")
 @Builder

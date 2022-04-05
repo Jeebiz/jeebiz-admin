@@ -13,7 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "AuthzRoleAllotUserModel")
+@Alias(value = "AuthzRoleAllotUserEntity")
 @SuppressWarnings("serial")
 @Getter
 @Setter

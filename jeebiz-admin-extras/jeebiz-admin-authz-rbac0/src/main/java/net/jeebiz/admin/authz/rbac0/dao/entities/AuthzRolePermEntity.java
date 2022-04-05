@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Alias(value = "AuthzRolePermModel")
+@Alias(value = "AuthzRolePermEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_role_perms")
 @Builder

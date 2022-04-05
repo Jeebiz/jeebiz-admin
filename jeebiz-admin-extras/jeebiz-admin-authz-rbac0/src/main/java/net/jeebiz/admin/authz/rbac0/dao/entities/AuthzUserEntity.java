@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
-@Alias(value = "AuthzUserModel")
+@Alias(value = "AuthzUserEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_list")
 @Builder

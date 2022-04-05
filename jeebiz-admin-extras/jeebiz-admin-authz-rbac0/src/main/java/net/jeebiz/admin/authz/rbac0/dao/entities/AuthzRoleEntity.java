@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "AuthzRoleModel")
+@Alias(value = "AuthzRoleEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_role_list")
 @Builder

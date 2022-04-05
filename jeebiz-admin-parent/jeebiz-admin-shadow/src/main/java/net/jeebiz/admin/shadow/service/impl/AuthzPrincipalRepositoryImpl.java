@@ -188,7 +188,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			logger.debug(JSONObject.toJSONString(dingTalkToken));
 
 			// 	构建新增用户数据信息
-			AuthzUserModel detailModel = new AuthzUserModel();
+			AuthzUserEntity detailModel = new AuthzUserEntity();
 
 			detailModel.setAlias(StringUtils.defaultIfBlank(dingTalkToken.getName(), dingTalkToken.getNick()));
 			detailModel.setAvatar(dingTalkToken.getAvatar());
@@ -556,8 +556,8 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				// 用户角色信息集合
 		   		List<AuthzRoleEntity> roleModels = getAuthzRoleMapper().getUserRoles(model.getUserid());
 				if(CollectionUtils.isNotEmpty(roleModels)) {
-					for (AuthzRoleEntity authzRoleModel : roleModels) {
-						sets.add(authzRoleModel.getKey());
+					for (AuthzRoleEntity AuthzRoleEntity : roleModels) {
+						sets.add(AuthzRoleEntity.getKey());
 					}
 				}
 			}

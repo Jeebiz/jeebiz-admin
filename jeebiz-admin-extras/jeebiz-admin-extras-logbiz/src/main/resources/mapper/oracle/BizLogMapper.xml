@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.extras.logbiz.dao.BizLogMapper" >
-	
+
 	 <resultMap id="BizLogMap" type="BizLogModel">
 		<result property="id" column="log_id" />
 		<result property="module" column="log_biz" />
@@ -20,7 +20,7 @@
 		<result property="appChannel" column="u_app_channel" />
 		<result property="appVersion" column="u_app_version" />
 	</resultMap>
-	
+
 	<select id="getPagedList" resultMap="BizLogMap" parameterType="BizLogModel">
 		SELECT
 			t.log_id,
@@ -60,5 +60,5 @@
 		</if>
 		ORDER BY t.log_id DESC
 	</select>
-	
+
 </mapper>
