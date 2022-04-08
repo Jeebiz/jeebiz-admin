@@ -66,7 +66,7 @@ swagger:
   contact:
     name: 杭州极蚁网络科技有限公司
     email: hiwepy@163.com
-    url: http://www.hiwepy.com/
+    url: https://www.hiwepy.com/
   base-package: net.jeebiz
   base-path-pattern: /**
   # 公共参数

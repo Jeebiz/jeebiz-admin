@@ -6,11 +6,11 @@ package net.jeebiz.admin.extras.monitor.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
+import net.jeebiz.admin.extras.monitor.dao.entities.OnlineSessionEntity;
 import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface SessionMapper extends BaseMapper<SessionEntity> {
+public interface OnlineSessionMapper extends BaseMapper<OnlineSessionEntity> {
 
 
 }

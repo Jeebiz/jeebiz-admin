@@ -26,15 +26,15 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 
-import net.jeebiz.admin.extras.monitor.dao.SessionMapper;
-import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
+import net.jeebiz.admin.extras.monitor.dao.OnlineSessionMapper;
+import net.jeebiz.admin.extras.monitor.dao.entities.OnlineSessionEntity;
 import net.jeebiz.admin.extras.monitor.service.IOnlineSessionService;
 import net.jeebiz.admin.extras.monitor.web.dto.OnlineSessionDTO;
 import net.jeebiz.admin.extras.monitor.web.param.SessionQueryParam;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionMapper, SessionEntity>
+public class OnlineSessionServiceImpl extends BaseServiceImpl<OnlineSessionMapper, OnlineSessionEntity>
 		implements IOnlineSessionService {
 
 	@Autowired
@@ -74,8 +74,8 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionMapper, Ses
 			return OnlineSessionDTO.fromSession(session);
 		}
 		// 3、session已经失效，从数据库查询历史记录
-		SessionEntity sessionEntity = getBaseMapper().selectOne(new QueryWrapper<SessionEntity>().eq("s_sessionId", sessionId));
-		return OnlineSessionDTO.fromSessionEntity(sessionEntity);
+		OnlineSessionEntity onlineSessionEntity = getBaseMapper().selectOne(new QueryWrapper<OnlineSessionEntity>().eq("s_sessionId", sessionId));
+		return OnlineSessionDTO.fromSessionEntity(onlineSessionEntity);
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionMapper, Ses
 	}
 
 	@Override
-	public int online(SessionEntity onlineSession) {
+	public int online(OnlineSessionEntity onlineSession) {
 		String userSsoStateKey = BizRedisKey.USER_SSO_STATE.getKey();
 		getRedisOperation().setBit(userSsoStateKey, 0, true);
 

@@ -120,7 +120,7 @@
 		<result property="time24" column="c_time24" />
     </resultMap>
 
-	<insert id="insert" parameterType="ArticleModel" flushCache="true">
+	<insert id="insert" parameterType="ArticleEntity" flushCache="true">
 		<selectKey keyProperty="id" order="BEFORE" resultType="String">
 	        SELECT sys_guid() FROM dual
 	    </selectKey>
@@ -153,7 +153,7 @@
 		 WHERE c_id = #{id}
 	</update>
 
-	<update id="update" parameterType="ArticleModel" flushCache="true">
+	<update id="update" parameterType="ArticleEntity" flushCache="true">
 		UPDATE sys_article_contents t
 		   SET c_tid =  #{tid},
 		   	   c_cid = #{cid},

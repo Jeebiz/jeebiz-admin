@@ -31,7 +31,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class SessionEntity extends PaginationEntity<SessionEntity> {
+public class OnlineSessionEntity extends PaginationEntity<OnlineSessionEntity> {
 
 	/** 回话记录id */
 	@TableId(value="s_id",type= IdType.AUTO)
@@ -73,8 +73,8 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 	@TableField(value = "s_status")
 	private String status;
 
-	public SessionEntity(String sessionId, String host, Date startTimestamp, Date lastAccessTime,
-			long timeout) {
+	public OnlineSessionEntity(String sessionId, String host, Date startTimestamp, Date lastAccessTime,
+							   long timeout) {
 		this.sessionId = sessionId;
 		this.host = host;
 		this.startTimestamp = startTimestamp;
@@ -82,7 +82,7 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 		this.timeout = timeout;
 	}
 
-	public SessionEntity(Session session) {
+	public OnlineSessionEntity(Session session) {
 		this.sessionId = String.valueOf(session.getId());
 		this.host = session.getHost();
 		this.startTimestamp = session.getStartTimestamp();
@@ -98,22 +98,22 @@ public class SessionEntity extends PaginationEntity<SessionEntity> {
 	}
 
 	public OnlineSession toSession() {
-		
+
 		OnlineSession session = null;
-        
+
         return session;
     }
-	
-	public static SessionEntity fromSession(OnlineSession session) {
-		
-		SessionEntity online = new SessionEntity(session);
-		
+
+	public static OnlineSessionEntity fromSession(OnlineSession session) {
+
+		OnlineSessionEntity online = new OnlineSessionEntity(session);
+
         online.setId(String.valueOf(session.getId()));
         online.setUserid(session.getUserid());
         online.setUsername(session.getUsername());
         online.setUserAgent(session.getUserAgent());
         online.setAddress(session.getSystemHost());
-        
+
         return online;
     }
 

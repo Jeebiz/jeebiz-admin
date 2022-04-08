@@ -26,8 +26,8 @@ import org.springframework.stereotype.Component;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.monitor.dao.SessionMapper;
-import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
+import net.jeebiz.admin.extras.monitor.dao.OnlineSessionMapper;
+import net.jeebiz.admin.extras.monitor.dao.entities.OnlineSessionEntity;
 
 /**
  * 会话监听
@@ -42,7 +42,7 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 	@Autowired
 	private RedisOperationTemplate redisOperation;
 	@Autowired
-	private SessionMapper sessionMapper;
+	private OnlineSessionMapper sessionMapper;
 
 	/**
 	 * 会话开始
@@ -54,13 +54,13 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 		String userSessionsKey = BizRedisKey.USER_SESSIONS.getKey();
 		redisOperation.zAdd(userSessionsKey, session.getId(), session.getStartTimestamp().getTime());
 
-		SessionEntity sessionEntity = SessionEntity.builder()
+		OnlineSessionEntity onlineSessionEntity = OnlineSessionEntity.builder()
 				.sessionId(session.getId().toString())
 				.startTimestamp(session.getStartTimestamp())
 				.timeout(session.getTimeout())
 				.status("1")
 				.build();
-		sessionMapper.insert(sessionEntity);
+		sessionMapper.insert(onlineSessionEntity);
 
 	}
 
@@ -71,12 +71,12 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 	public void onStop(Session session) {
 		log.info("结束session:(" + session.getId() + "," + session.getHost() + ")");
 
-		SessionEntity sessionEntity = SessionEntity.builder()
+		OnlineSessionEntity onlineSessionEntity = OnlineSessionEntity.builder()
 				.sessionId(session.getId().toString())
 				.lastAccessTime(session.getLastAccessTime())
 				.build();
 
-		sessionMapper.update(sessionEntity, new UpdateWrapper<SessionEntity>().eq("s_sessionId", session.getId()));
+		sessionMapper.update(onlineSessionEntity, new UpdateWrapper<OnlineSessionEntity>().eq("s_sessionId", session.getId()));
 
 	}
 
@@ -89,12 +89,12 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 		String userSessionsKey = BizRedisKey.USER_SESSIONS.getKey();
 		redisOperation.zRem(userSessionsKey, session.getId());
 
-		SessionEntity sessionEntity = SessionEntity.builder()
+		OnlineSessionEntity onlineSessionEntity = OnlineSessionEntity.builder()
 				.sessionId(session.getId().toString())
 				.status("0")
 				.build();
 
-		sessionMapper.update(sessionEntity, new UpdateWrapper<SessionEntity>().eq("s_sessionId", session.getId()));
+		sessionMapper.update(onlineSessionEntity, new UpdateWrapper<OnlineSessionEntity>().eq("s_sessionId", session.getId()));
 
 	}
 
