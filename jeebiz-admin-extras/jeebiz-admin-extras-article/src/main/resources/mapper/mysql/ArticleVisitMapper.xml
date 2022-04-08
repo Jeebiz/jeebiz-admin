@@ -21,10 +21,10 @@
 		<result property="time24" column="v_time24" />
     </resultMap>
 
-	<insert id="insert" parameterType="ArticleVisitModel" flushCache="true">
+	<insert id="insert" parameterType="ArticleVisitEntity" flushCache="true">
 		INSERT INTO sys_article_visits(v_cid,v_uid,v_addr,v_location,v_agent) VALUES (#{cid},#{uid},#{addr},#{location},#{agent})
 	</insert>
-	
+
 	<select id="getPagedList" resultMap="ArticleVisitMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.v_id,
@@ -46,7 +46,7 @@
 		</where>
 		ORDER By t.v_time24 ASC
 	</select>
-		
+
 	<select id="getRowList" resultMap="ArticleVisitMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.v_id,

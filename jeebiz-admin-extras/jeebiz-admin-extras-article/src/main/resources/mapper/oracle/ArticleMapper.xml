@@ -48,15 +48,15 @@
         <!-- 文章附件信息 -->
         <collection property="atts" column="{cid=c_id}" select="getAttachments"> </collection>
     </resultMap>
-	
+
     <resultMap id="ArticleDetailMap" extends="ArticleMap" type="net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO">
     	<!-- 文章作者信息 -->
         <association property="author" javaType="net.jeebiz.admin.extras.article.web.dto.ArticleAuthorDTO"/>
         <!-- 文章评论信息 -->
         <collection property="comments" column="{cid=c_id}" select="getComments"> </collection>
     </resultMap>
-	
-	 <resultMap id="ArticleTargetMap" type="ArticleTargetModel">
+
+	 <resultMap id="ArticleTargetMap" type="ArticleTargetEntity">
 	    <!-- 文章发布对象记录id -->
 		<result property="id" column="t_id" />
 		<!-- 文章id -->
@@ -66,8 +66,8 @@
 		<!-- 文章发布对象名称（学院|专业|班级|账户） -->
 		<result property="tname" column="t_tname" />
     </resultMap>
-    
-	<resultMap id="ArticleTagMap" type="ArticleTagModel">
+
+	<resultMap id="ArticleTagMap" type="ArticleTagEntity">
         <!-- 文章标签id -->
 		<result property="id" column="t_id" />
 		<!-- 文章id -->
@@ -77,8 +77,8 @@
 		<!-- 文章标签设置时间 -->
 		<result property="time24" column="t_time24" />
     </resultMap>
-    
-	<resultMap id="ArticleAttachmentMap" type="ArticleAttachmentModel">
+
+	<resultMap id="ArticleAttachmentMap" type="ArticleAttachmentEntity">
         <!-- 文章附件id -->
 		<result property="id" column="a_id" />
 		<!-- 文章id -->
@@ -94,8 +94,8 @@
 		<!-- 文章附件上传时间 -->
 		<result property="time24" column="a_time24" />
     </resultMap>
-    
-    <resultMap id="ArticleCommentMap" type="ArticleCommentModel">
+
+    <resultMap id="ArticleCommentMap" type="ArticleCommentEntity">
         <!-- 文章评论id -->
 		<result property="id" column="c_id" />
 		<!-- 文章id -->
@@ -121,40 +121,40 @@
 		<!-- 文章评论时间 -->
 		<result property="time24" column="c_time24" />
     </resultMap>
-    
+
 	<insert id="insert" parameterType="ArticleModel" flushCache="true">
-		<selectKey keyProperty="id" order="BEFORE" resultType="String">  
+		<selectKey keyProperty="id" order="BEFORE" resultType="String">
 	        SELECT sys_guid() FROM dual
 	    </selectKey>
 		INSERT INTO sys_article_contents(c_id,c_tid,c_uid,c_cid,c_title,c_digest,c_content,c_order)
 		VALUES (#{id},#{tid},#{uid},(SELECT x.t_cid from sys_article_topic x where x.t_id = #{tid}),#{title},#{digest},#{content},#{order})
 	</insert>
-	
+
 	<delete id="batchDelete" flushCache="true">
 		DELETE FROM sys_article_contents WHERE c_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+           #{item}
         </foreach>
 	</delete>
-	
+
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_contents t
 		   SET c_status = #{status}
 		 WHERE c_id = #{id}
 	</update>
-	
+
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_contents t
 		   SET c_recommend = #{status}
 		 WHERE c_id = #{id}
 	</update>
-	
+
 	<update id="setReview" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_contents t
 		   SET c_review = #{status}
 		 WHERE c_id = #{id}
 	</update>
-	
+
 	<update id="update" parameterType="ArticleModel" flushCache="true">
 		UPDATE sys_article_contents t
 		   SET c_tid =  #{tid},
@@ -166,7 +166,7 @@
 		       c_order = #{order}
 		 WHERE c_id = #{id}
 	</update>
-	
+
 	<select id="getPagedList" resultMap="ArticleMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
@@ -196,7 +196,7 @@
 		</where>
 		ORDER By t.c_order ASC
 	</select>
-	
+
 	<select id="getModel" resultMap="ArticleMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
@@ -221,7 +221,7 @@
 		FROM sys_article_contents t
 	   WHERE t.c_id = #{id}
 	</select>
-	
+
 	<select id="getDetail" resultMap="ArticleDetailMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
@@ -246,7 +246,7 @@
 		FROM sys_article_contents t
 	   WHERE t.c_id = #{id}
 	</select>
-    
+
     <select id="getTargets" resultMap="ArticleTargetMap" useCache="false">
 		SELECT
 			t.t_id,
@@ -257,7 +257,7 @@
 		FROM sys_article_content_targets t
 	   WHERE t.t_cid = #{cid}
 	</select>
-	
+
     <select id="getTags" resultMap="ArticleTagMap" useCache="false">
 		SELECT
 			t.t_id,
@@ -268,7 +268,7 @@
 	   WHERE t.t_cid = #{cid}
 	ORDER By t.t_time24 ASC
 	</select>
-	
+
 	<select id="getAttachments" resultMap="ArticleAttachmentMap" useCache="false">
 		SELECT
 			t.a_id,
@@ -282,7 +282,7 @@
 	     AND t.a_type != 1
 	ORDER By t.a_order ASC
 	</select>
-	
+
 	<select id="getCover" resultMap="ArticleAttachmentMap" useCache="false">
 		SELECT
 			t.a_id,
@@ -295,7 +295,7 @@
 	   WHERE t.a_cid = #{cid}
 	     AND t.a_type = 1
 	</select>
-    
+
     <select id="getComments" resultMap="ArticleCommentMap" useCache="false">
 		SELECT
 			t.c_id,
@@ -315,5 +315,5 @@
 	    AND t.c_cid = #{cid}
 	  START WITH t.c_pid = 0 CONNECT BY t.c_pid = PRIOR t.c_id
 	</select>
-    
+
 </mapper>

@@ -34,7 +34,7 @@
         <result property="value" column="t_name"/>
     </resultMap>
 
-	<insert id="insert" parameterType="ArticleTopicModel" flushCache="true">
+	<insert id="insert" parameterType="ArticleTopicEntity" flushCache="true">
 		INSERT INTO sys_article_topic(t_pid,t_uid,t_cid,t_name,t_remark,t_status,t_order)
 		VALUES (#{pid,jdbcType=VARCHAR},#{uid},#{cid},#{name},#{remark,jdbcType=VARCHAR},1,#{order})
 	</insert>
@@ -52,7 +52,7 @@
 		 WHERE t_id = #{id}
 	</update>
 
-	<update id="update" parameterType="ArticleTopicModel" flushCache="true">
+	<update id="update" parameterType="ArticleTopicEntity" flushCache="true">
 		UPDATE sys_article_topic t
 		   SET t_name = #{name},
 		   	   t_remark = #{remark,jdbcType=VARCHAR},

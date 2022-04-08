@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleTargetMapper">
 
-    <resultMap id="ArticleTargetMap" type="ArticleTargetModel">
+    <resultMap id="ArticleTargetMap" type="ArticleTargetEntity">
 	    <!-- 文章发布对象记录id -->
 		<result property="id" column="t_id" />
 		<!-- 文章id -->
@@ -12,11 +12,11 @@
 		<!-- 文章发布对象名称（学院|专业|班级|账户） -->
 		<result property="tname" column="t_tname" />
     </resultMap>
- 
+
 	<delete id="deleteTarget" flushCache="true">
 		DELETE FROM sys_article_content_targets WHERE t_cid = #{cid}
 	</delete>
-	
+
 	<select id="getTargetList" resultMap="ArticleTargetMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.t_id,
@@ -25,5 +25,5 @@
 		FROM sys_article_content_targets t
 	   WHERE t.t_cid = #{cid}
 	</select>
-	
+
 </mapper>
