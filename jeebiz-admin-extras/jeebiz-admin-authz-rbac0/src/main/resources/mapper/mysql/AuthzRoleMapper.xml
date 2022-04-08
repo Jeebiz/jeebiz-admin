@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper">
 
-	<resultMap id="RoleMap" type="AuthzRoleModel">
+	<resultMap id="RoleMap" type="AuthzRoleEntity">
 		<!-- 角色id -->
 		<result property="id" column="r_id" />
 		<!-- 角色编码 -->
@@ -25,7 +25,7 @@
         </collection>
 	</resultMap>
 
-	<resultMap id="UserMap" type="AuthzUserModel">
+	<resultMap id="UserMap" type="AuthzUserEntity">
 		<!-- 用户名称 -->
 		<result property="id" column="u_id" />
 		<!-- 用户名称 -->
@@ -52,7 +52,7 @@
 		<result property="value" column="r_name" />
 	</resultMap>
 
-	<insert id="insert" parameterType="AuthzRoleModel" useGeneratedKeys="true" keyProperty="id"  flushCache="true">
+	<insert id="insert" parameterType="AuthzRoleEntity" useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		insert into sys_authz_role_list(r_key,r_name,r_type,r_intro,r_status)
 		values(#{key},#{name},#{type},#{intro},'1')
 	</insert>
@@ -89,7 +89,7 @@
 		END;
 	</update>
 
-	<update id="update" parameterType="AuthzRoleModel" flushCache="true">
+	<update id="update" parameterType="AuthzRoleEntity" flushCache="true">
 		update sys_authz_role_list t
 		<set>
 			<if test="name != null and name != ''">t.r_name = #{name},</if>
@@ -158,7 +158,7 @@
 	     AND t.r_key != 'admin'
 	</select>
 
-	<select id="getPagedList" resultMap="RoleMap" parameterType="AuthzRoleModel" useCache="false">
+	<select id="getPagedList" resultMap="RoleMap" parameterType="AuthzRoleEntity" useCache="false">
 		SELECT
 			t.r_id,
 			t.r_key,
@@ -202,7 +202,7 @@
         </foreach>
     </delete>
 
-	<select id="getPagedAllocatedList" resultMap="UserMap" parameterType="AuthzRoleModel" useCache="false">
+	<select id="getPagedAllocatedList" resultMap="UserMap" parameterType="AuthzRoleEntity" useCache="false">
 		SELECT
 			t.u_id,
 			t.u_username,
@@ -223,7 +223,7 @@
 		</if>
 	</select>
 
-	<select id="getPagedUnAllocatedList" resultMap="UserMap" parameterType="AuthzRoleModel" useCache="false">
+	<select id="getPagedUnAllocatedList" resultMap="UserMap" parameterType="AuthzRoleEntity" useCache="false">
 		SELECT
 			t.u_id,
 			t.u_username,

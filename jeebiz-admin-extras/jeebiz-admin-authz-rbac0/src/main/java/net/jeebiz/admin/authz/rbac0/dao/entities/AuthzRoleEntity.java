@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.dao.entities;
 
@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "AuthzRoleModel")
+@Alias(value = "AuthzRoleEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_role_list")
 @Builder
@@ -28,7 +28,7 @@ import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class AuthzRoleModel extends PaginationEntity<AuthzRoleModel> {
+public class AuthzRoleEntity extends PaginationEntity<AuthzRoleEntity> {
 
 	/**
 	 * 角色id
@@ -70,5 +70,5 @@ public class AuthzRoleModel extends PaginationEntity<AuthzRoleModel> {
 	 */
 	@TableField(exist = false)
 	private int users;
-	
+
 }

@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.shadow.web.mvc;
 
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
 import net.jeebiz.admin.authz.feature.setup.Constants;
@@ -36,7 +36,7 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 	protected IAuthzFeatureService authzFeatureService;
 	@Autowired
 	protected IAuthzFeatureOptService authzFeatureOptService;
-	
+
 	@ApiOperation(value = "功能菜单-树形结构数据（全部数据）", notes = "查询功能菜单树形结构数据")
 	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单树形结构数据", opt = BusinessType.SELECT)
 	@PostMapping("tree")
@@ -44,9 +44,9 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 	@ResponseBody
 	public ApiRestResponse<List<Map<String, Object>>> tree(){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
-		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
+		List<AuthzFeatureOptEntity> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
 		/*
 		{
 		  "code": 0,
@@ -72,7 +72,7 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(FeatureTreeUtils.getAuthTreeList(featureList, featureOptList));
 	}
-	
+
 	@ApiOperation(value = "功能菜单-扁平结构数据（全部数据）", notes = "查询功能菜单扁平结构数据")
 	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单扁平结构数据", opt = BusinessType.SELECT)
 	@PostMapping("flat")
@@ -80,9 +80,9 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 	@ResponseBody
 	public ApiRestResponse<List<Map<String, Object>>> flat(){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮
-		List<AuthzFeatureOptModel> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
+		List<AuthzFeatureOptEntity> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
 		/*
 		{
 		  "code": 0,
@@ -108,8 +108,8 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(FeatureTreeUtils.getAuthTreeList(featureList, featureOptList));
 	}
-	
-	
+
+
 	public IAuthzFeatureService getAuthzFeatureService() {
 		return authzFeatureService;
 	}
@@ -125,5 +125,5 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 	public void setAuthzFeatureOptService(IAuthzFeatureOptService authzFeatureOptService) {
 		this.authzFeatureOptService = authzFeatureOptService;
 	}
-	
+
 }

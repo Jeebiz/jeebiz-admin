@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.authz.feature.dao.AuthzFeatureOptMapper">
-	
-    <resultMap id="AuthzFeatureOptMap" type="AuthzFeatureOptModel">
+
+    <resultMap id="AuthzFeatureOptMap" type="AuthzFeatureOptEntity">
 		<result property="featureId" column="f_id" />
 		<result property="id" column="opt_id" />
 		<result property="name" column="opt_name" />
@@ -12,21 +12,21 @@
 		<result property="visible" column="opt_visible" />
 		<result property="perms" column="opt_perms" />
 	</resultMap>
-	
-	<insert id="insert" parameterType="AuthzFeatureOptModel" flushCache="true">
+
+	<insert id="insert" parameterType="AuthzFeatureOptEntity" flushCache="true">
 		insert into sys_authz_feature_opts(f_id,opt_name,opt_icon,opt_order,opt_visible,opt_perms)
 		values(#{featureId},#{name},#{icon},#{order},#{visible},#{perms})
 	</insert>
-	
+
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
 		DELETE FROM sys_authz_feature_opts WHERE opt_id = #{id}
 	</delete>
-	
+
 	<delete id="deleteByParent" parameterType="java.lang.String" flushCache="true">
 		DELETE FROM sys_authz_feature_opts WHERE f_id = #{id}
 	</delete>
-	
-	<update id="update" parameterType="AuthzFeatureOptModel" flushCache="true">
+
+	<update id="update" parameterType="AuthzFeatureOptEntity" flushCache="true">
 		update sys_authz_feature_opts t
 		<set>
 			<if test="name != null and name != ''">t.opt_name = #{name},</if>
@@ -37,7 +37,7 @@
 		</set>
 		where t.opt_id = #{id}
 	</update>
-	
+
 	<select id="getOptCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.opt_id)
 		  FROM sys_authz_feature_opts t
@@ -47,7 +47,7 @@
 			AND t.opt_id != #{optId}
 		 </if>
 	</select>
-	
+
 	<select id="getFeatureOpts" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.f_id,
@@ -59,7 +59,20 @@
 			t.opt_perms
 		FROM sys_authz_feature_opts t
 	</select>
-	
+
+	<select id="getFeatureOpt" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.f_id,
+			t.opt_id,
+			t.opt_name,
+			t.opt_icon,
+			t.opt_order,
+			t.opt_visible,
+			t.opt_perms
+		FROM sys_authz_feature_opts t
+		WHERE t.opt_id = #{id}
+	</select>
+
 	<select id="getFeatureOptList" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.f_id,
@@ -82,13 +95,13 @@
 
 	<select id="getModel" resultMap="AuthzFeatureOptMap" parameterType="java.lang.String" useCache="false">
 		SELECT
-		t.f_id,
-		t.opt_id,
-		t.opt_name,
-		t.opt_icon,
-		t.opt_order,
-		t.opt_visible,
-		t.opt_perms
+			t.f_id,
+			t.opt_id,
+			t.opt_name,
+			t.opt_icon,
+			t.opt_order,
+			t.opt_visible,
+			t.opt_perms
 		FROM sys_authz_feature_opts t
 		WHERE t.opt_id = #{id}
 	</select>

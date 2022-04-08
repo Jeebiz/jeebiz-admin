@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.dao.entities;
 
@@ -13,12 +13,12 @@ import lombok.Setter;
 import lombok.ToString;
 import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
-@Alias(value = "AuthzUserAllotRoleModel")
+@Alias(value = "AuthzUserAllotRoleEntity")
 @SuppressWarnings("serial")
 @Getter
 @Setter
 @ToString
-public class AuthzUserAllotRoleModel extends BaseEntity<AuthzUserAllotRoleModel> {
+public class AuthzUserAllotRoleEntity extends BaseEntity<AuthzUserAllotRoleEntity> {
 
 	/**
 	 * 角色id
@@ -28,6 +28,6 @@ public class AuthzUserAllotRoleModel extends BaseEntity<AuthzUserAllotRoleModel>
 	 * 用户id集合
 	 */
 	private List<String> userIds;
- 
+
 
 }

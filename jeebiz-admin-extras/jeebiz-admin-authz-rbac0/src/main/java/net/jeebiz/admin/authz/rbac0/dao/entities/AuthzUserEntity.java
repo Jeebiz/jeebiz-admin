@@ -1,9 +1,10 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.dao.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 
-@Alias(value = "AuthzUserModel")
+@Alias(value = "AuthzUserEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_list")
 @Builder
@@ -32,72 +33,77 @@ import net.jeebiz.boot.api.dao.entities.PairModel;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class AuthzUserModel extends PaginationEntity<AuthzUserModel> {
+public class AuthzUserEntity extends PaginationEntity<AuthzUserEntity> {
 
 	/**
-	 * 用户id
+	 * 主键id
 	 */
-	@TableId(value="u_id",type= IdType.AUTO)
+	@TableId(value="id",type= IdType.AUTO)
 	private String id;
 	/**
-	 * 用户名
+	 * 账号名称
 	 */
-	@TableField(value = "u_username")
+	@TableField(value = "username")
 	private String username;
 	/**
-	 * 密码
+	 * 账号密码
 	 */
-	@TableField(value = "u_password")
+	@TableField(value = "password")
 	private String password;
 	/**
-	 * 用户密码盐：用于密码加解密
+	 * 账号密码盐：用于密码加解密
 	 */
-	@TableField(value = "u_salt")
+	@TableField(value = "salt")
 	private String salt;
 	/**
-	 * 用户秘钥：用于用户JWT加解密
+	 * 账号秘钥：用于用户JWT加解密
 	 */
-	@TableField(value = "u_secret")
+	@TableField(value = "secret")
 	private String secret;
 	/**
-	 * 用户唯一Uid（用户编号）
+	 * 关联用户id
 	 */
-	@TableField(value = "u_uid")
-	private String uuid;
+	@TableField(value = "`user_id`")
+	private String userId;
 	/**
-	 * 用户唯一编号（内部工号）
+	 * 关联用户code（短号/工号）
 	 */
-	@TableField(value = "u_code")
-	protected String ucode;
+	@TableField(value = "user_code")
+	protected String userCode;
 	/**
-	 * 用户客户端应用id
+	 * 登录方式（如：password：账号密码、weixin:微信登录...）
 	 */
-	@TableField(value = "u_app_id")
+	@TableField(value = "`type`")
+	private String type;
+	/**
+	 * 账号最近一次登录客户端应用id
+	 */
+	@TableField(value = "app_id")
 	private String appId;
 	/**
-	 * 用户客户端应用渠道编码
+	 * 账号最近一次登录客户端应用渠道编码
 	 */
-	@TableField(value = "u_app_channel")
+	@TableField(value = "app_channel")
 	private String appChannel;
 	/**
-	 * 用户客户端版本
+	 * 账号最近一次登录客户端版本
 	 */
-	@TableField(value = "u_app_version")
+	@TableField(value = "app_version")
 	private String appVer;
 	/**
 	 * 用户是否在线（1：是，0：否）
 	 */
-	@TableField(value = "u_online")
-	private String online;
+	@TableField(value = "is_online")
+	private boolean online;
 	/**
 	 * 用户最近一次登录时间
 	 */
-	@TableField(value = "u_latest_online")
-	private String onlineLatest;
+	@TableField(value = "latest_online")
+	private LocalDateTime onlineLatest;
 	/**
 	 * 用户状态（0:禁用|1:可用|2:锁定|3:密码过期）
 	 */
-	@TableField(value = "u_status")
+	@TableField(value = "`status`")
 	private String status;
 	/**
 	 * 角色id（可能多个组合，如：1,2）
@@ -125,7 +131,7 @@ public class AuthzUserModel extends PaginationEntity<AuthzUserModel> {
 	 * 用户详情信息
 	 */
 	@TableField(exist = false)
-	private AuthzUserProfileModel profile;
+	private AuthzUserProfileEntity profile;
 
 	public String getRoleId() {
 		return StringUtils.defaultString(roleId, CollectionUtils.isEmpty(roleList) ? "" : roleList.stream().map(mapper -> mapper.getKey()).collect(Collectors.joining(",")));
@@ -142,5 +148,5 @@ public class AuthzUserModel extends PaginationEntity<AuthzUserModel> {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	
+
 }

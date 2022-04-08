@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.feature.service.impl;
 
@@ -13,16 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
 import net.jeebiz.admin.authz.feature.dao.AuthzFeatureOptMapper;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzFeatureServiceImpl extends BaseServiceImpl<AuthzFeatureMapper, AuthzFeatureModel> implements IAuthzFeatureService {
- 
+public class AuthzFeatureServiceImpl extends BaseServiceImpl<AuthzFeatureMapper, AuthzFeatureEntity> implements IAuthzFeatureService {
+
 	@Autowired
 	private AuthzFeatureOptMapper featureOptMapper;
-	
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public boolean removeById(Serializable id) {
@@ -32,17 +32,17 @@ public class AuthzFeatureServiceImpl extends BaseServiceImpl<AuthzFeatureMapper,
 	}
 
 	@Override
-	public AuthzFeatureModel getFeature(String id) {
+	public AuthzFeatureEntity getFeature(String id) {
 		return getBaseMapper().getFeature(id);
 	}
 
 	@Override
-	public List<AuthzFeatureModel> getFeatureList() {
+	public List<AuthzFeatureEntity> getFeatureList() {
 		return getBaseMapper().getFeatureList();
 	}
-	
+
 	@Override
-	public List<AuthzFeatureModel> getChildFeatureList(String id) {
+	public List<AuthzFeatureEntity> getChildFeatureList(String id) {
 		return getBaseMapper().getChildFeatureList(id);
 	}
 

@@ -14,7 +14,7 @@
 	</properties>
 
 	<dependencies>
-		
+
 		<!-- For Jeebiz API -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>

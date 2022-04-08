@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.feature.dao.entities;
 
@@ -22,15 +22,15 @@ import lombok.NoArgsConstructor;
  * 功能菜单信息表
  */
 @SuppressWarnings("serial")
-@Alias(value = "AuthzFeatureModel")
+@Alias(value = "AuthzFeatureEntity")
 @TableName(value = "sys_authz_feature_list")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class AuthzFeatureModel extends Model<AuthzFeatureModel> {
-	
+public class AuthzFeatureEntity extends Model<AuthzFeatureEntity> {
+
 	/**
 	 * 功能菜单id
 	 */

@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.service.impl;
 
@@ -10,22 +10,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRolePermsMapper;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRolePermsModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRolePermsEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRolePermsService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzRolePermsServiceImpl extends BaseServiceImpl<AuthzRolePermsMapper, AuthzRolePermsModel>
+public class AuthzRolePermsServiceImpl extends BaseServiceImpl<AuthzRolePermsMapper, AuthzRolePermsEntity>
 		implements IAuthzRolePermsService {
 
 	@Override
 	public List<String> getPermissions(String roleId) {
 		return getBaseMapper().getPermissions(roleId);
 	}
-	
+
 	@Override
-	public int doPerms(AuthzRolePermsModel model) {
+	public int doPerms(AuthzRolePermsEntity model) {
 		// 此次提交的授权标记
 		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
 		// 有授权
@@ -37,7 +37,7 @@ public class AuthzRolePermsServiceImpl extends BaseServiceImpl<AuthzRolePermsMap
 	}
 
 	@Override
-	public int unPerms(AuthzRolePermsModel model) {
+	public int unPerms(AuthzRolePermsEntity model) {
 		// 查询已经授权标记
 		List<String> oldperms = getBaseMapper().getPermissions(model.getId());
 		// 此次提交的授权标记

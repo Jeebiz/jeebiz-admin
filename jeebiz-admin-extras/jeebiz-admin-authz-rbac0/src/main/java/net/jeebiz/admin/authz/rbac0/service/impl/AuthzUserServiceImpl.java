@@ -22,14 +22,14 @@ import hitool.core.lang3.RandomString;
 import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service
-public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, AuthzUserModel> implements IAuthzUserService {
+public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, AuthzUserEntity> implements IAuthzUserService {
 
 	protected RandomString randomString = new RandomString(8);
 
@@ -44,7 +44,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
     private int hashIterations = 10;
 
 	@Override
-	public List<AuthzUserModel> getUserList() {
+	public List<AuthzUserEntity> getUserList() {
 		return getBaseMapper().getUserList();
 	}
 
@@ -55,7 +55,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public boolean save(AuthzUserModel model) {
+	public boolean save(AuthzUserEntity model) {
 
 		// 盐值，用于和密码混合起来用
         String salt = randomString.nextString();
@@ -94,7 +94,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int update(AuthzUserModel model) {
+	public int update(AuthzUserEntity model) {
 		int ct = getBaseMapper().updateById(model);
 		if(StringUtils.isNotBlank(model.getRoleId())) {
 			getBaseMapper().updateRole(model);
@@ -106,7 +106,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 	@Transactional(rollbackFor = Exception.class)
 	public int resetPwd(String userId, String oldPassword, String password) {
 		// 查询用户信息
-		AuthzUserModel model = getBaseMapper().selectById(userId);
+		AuthzUserEntity model = getBaseMapper().selectById(userId);
         // 通过SimpleHash 来进行加密操作
         SimpleHash oldHash = new SimpleHash(algorithmName, oldPassword, model.getSalt(), hashIterations);
         if (!StringUtils.equals(oldHash.toBase64(), model.getPassword())) {
@@ -118,20 +118,20 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doAllot(AuthzUserAllotRoleModel model) {
+	public int doAllot(AuthzUserAllotRoleEntity model) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doUnAllot(AuthzUserAllotRoleModel model) {
+	public int doUnAllot(AuthzUserAllotRoleEntity model) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public List<AuthzRoleModel> getRoles(String userId) {
+	public List<AuthzRoleEntity> getRoles(String userId) {
 		return getBaseMapper().getRoles(userId);
 	}
 
@@ -141,16 +141,16 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 	}
 
 	@Override
-	public Page<AuthzRoleModel> getPagedAllocatedList(AuthzUserModel model) {
+	public Page<AuthzRoleEntity> getPagedAllocatedList(AuthzUserEntity model) {
 
-		Page<AuthzRoleModel> page = new Page<AuthzRoleModel>(model.getPageNo(), model.getLimit());
+		Page<AuthzRoleEntity> page = new Page<AuthzRoleEntity>(model.getPageNo(), model.getLimit());
 		if(!CollectionUtils.isEmpty(model.getOrders())) {
 			for (OrderItem orderBy : model.getOrders()) {
 				page.addOrder(orderBy);
 			}
 		}
 
-		List<AuthzRoleModel> records = getBaseMapper().getPagedAllocatedList(page, model);
+		List<AuthzRoleEntity> records = getBaseMapper().getPagedAllocatedList(page, model);
 		page.setRecords(records);
 
 		return page;
@@ -158,16 +158,16 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 	}
 
 	@Override
-	public Page<AuthzRoleModel> getPagedUnAllocatedList(AuthzUserModel model) {
+	public Page<AuthzRoleEntity> getPagedUnAllocatedList(AuthzUserEntity model) {
 
-		Page<AuthzRoleModel> page = new Page<AuthzRoleModel>(model.getPageNo(), model.getLimit());
+		Page<AuthzRoleEntity> page = new Page<AuthzRoleEntity>(model.getPageNo(), model.getLimit());
 		if(!CollectionUtils.isEmpty(model.getOrders())) {
 			for (OrderItem orderBy : model.getOrders()) {
 				page.addOrder(orderBy);
 			}
 		}
 
-		List<AuthzRoleModel> records = getBaseMapper().getPagedUnAllocatedList(page, model);
+		List<AuthzRoleEntity> records = getBaseMapper().getPagedUnAllocatedList(page, model);
 		page.setRecords(records);
 
 		return page;

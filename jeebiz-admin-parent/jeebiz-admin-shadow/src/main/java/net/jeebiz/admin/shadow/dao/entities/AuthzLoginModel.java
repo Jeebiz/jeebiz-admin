@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.shadow.dao.entities;
 
@@ -14,7 +14,7 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
 
 @Alias(value = "AuthzLoginModel")
 @SuppressWarnings("serial")
@@ -62,7 +62,7 @@ public class AuthzLoginModel extends ShiroPrincipal {
 	/**
 	 * 用户角色
 	 */
-	private List<AuthzRoleModel> roleList = Lists.newArrayList();
- 
+	private List<AuthzRoleEntity> roleList = Lists.newArrayList();
+
 
 }

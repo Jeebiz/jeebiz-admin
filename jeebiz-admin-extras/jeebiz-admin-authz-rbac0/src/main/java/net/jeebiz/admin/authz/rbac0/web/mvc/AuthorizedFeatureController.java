@@ -10,18 +10,15 @@ import net.jeebiz.admin.authz.feature.setup.Constants;
 import net.jeebiz.boot.api.annotation.BusinessLog;
 import net.jeebiz.boot.api.annotation.BusinessType;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
 import net.jeebiz.admin.authz.feature.enums.FeatureNodeType;
 import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
 import net.jeebiz.admin.authz.feature.strategy.FeatureStrategyRouter;
@@ -57,7 +54,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
+		List<AuthzFeatureEntity> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList));
 	}
@@ -70,9 +67,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
+		List<AuthzFeatureEntity> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
 		// 所有的功能菜单
-		List<AuthzFeatureOptModel> featureOptList = getAuthorizedFeatureService().getFeatureOpts(principal.getRoleid());
+		List<AuthzFeatureOptEntity> featureOptList = getAuthorizedFeatureService().getFeatureOpts(principal.getRoleid());
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList, featureOptList));
 	}
@@ -83,9 +80,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 	@ResponseBody
 	public ApiRestResponse<List<AuthzFeatureTreeNode>> tree(@RequestParam("roleId") String roleId){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮：标记按钮选中状态
-		List<AuthzFeatureOptModel> featureOptList = getAuthorizedFeatureService().getFeatureOpts(roleId);
+		List<AuthzFeatureOptEntity> featureOptList = getAuthorizedFeatureService().getFeatureOpts(roleId);
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.TREE).handle(featureList, featureOptList));
 	}
@@ -109,7 +106,7 @@ public class AuthorizedFeatureController extends BaseApiController {
 		// 登录账号信息
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
+		List<AuthzFeatureEntity> featureList = getAuthorizedFeatureService().getFeatures(principal.getRoleid());
 		// 返回各级菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.FLAT).handle(featureList));
 	}
@@ -120,9 +117,9 @@ public class AuthorizedFeatureController extends BaseApiController {
 	@ResponseBody
 	public ApiRestResponse<List<AuthzFeatureTreeNode>> flat(@RequestParam("roleId") String roleId){
 		// 所有的功能菜单
-		List<AuthzFeatureModel> featureList = getAuthzFeatureService().getFeatureList();
+		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
 		// 所有的功能操作按钮：标记按钮选中状态
-		List<AuthzFeatureOptModel> featureOptList = getAuthorizedFeatureService().getFeatureOpts(roleId);
+		List<AuthzFeatureOptEntity> featureOptList = getAuthorizedFeatureService().getFeatureOpts(roleId);
 		// 返回叶子节点菜单 + 对应的功能权限数据
 		return ApiRestResponse.success(featureStrategyRouter.routeFor(FeatureNodeType.FLAT).handle(featureList, featureOptList));
 	}

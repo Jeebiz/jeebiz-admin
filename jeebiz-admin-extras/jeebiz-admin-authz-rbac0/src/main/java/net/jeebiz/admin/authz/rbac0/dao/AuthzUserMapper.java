@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.dao;
 
@@ -11,49 +11,49 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.boot.api.dao.BaseMapper;
 /**
  * 用户管理DAO
  */
 @Mapper
-public interface AuthzUserMapper extends BaseMapper<AuthzUserModel>{
+public interface AuthzUserMapper extends BaseMapper<AuthzUserEntity>{
 
 	/**
 	 * 通过用户id查询用户信息
 	 * @param id
 	 * @return
 	 */
-	public AuthzUserModel getUserById(String id);
-	
+	public AuthzUserEntity getUserById(String id);
+
 	/**
 	 * 查询系统所有用户
 	 * @return
 	 */
-	public List<AuthzUserModel> getUserList();
-	
+	public List<AuthzUserEntity> getUserList();
+
 	/**
 	 * 删除用户角色记录
 	 * @param id
 	 * @return
 	 */
 	public int deleteRole(String id);
-	
+
 	/**
 	 * 批量删除用户角色
 	 * @param list
 	 * @return
 	 */
 	public int batchDeleteRole(@Param(value="list") List<?> list);
-	
+
 	/**
 	 * 更新用户角色记录
 	 * @param model
 	 * @return
 	 */
-	public int updateRole(AuthzUserModel model);
-	
+	public int updateRole(AuthzUserEntity model);
+
 	/**
 	 * 批量修改用户密码
 	 * @param userid 用户id
@@ -78,23 +78,23 @@ public interface AuthzUserMapper extends BaseMapper<AuthzUserModel>{
 	 * @return
 	 */
 	public int setStatus(@Param("userId") String userId, @Param("status") String status);
-	
+
 	/**
 	 * 获取用户已分配角色id
 	 * @param userId 用户id
 	 * @return
 	 */
 	public List<String> getRoleKeys(@Param(value="userId") String userId);
-	
+
 	/**
 	 * 获取用户已分配角色id
 	 * @param userId 用户id
 	 * @return
 	 */
-	public List<AuthzRoleModel> getRoles(@Param(value="userId") String userId);
-	
+	public List<AuthzRoleEntity> getRoles(@Param(value="userId") String userId);
+
 	/**
-	 * 根据[ROLE_PERMISSION_RElatION]数据查询角色具备的权限信息 
+	 * 根据[ROLE_PERMISSION_RElatION]数据查询角色具备的权限信息
 	 * @param userId 用户id
 	 * @return 角色具备的权限信息
 	 */
@@ -106,15 +106,15 @@ public interface AuthzUserMapper extends BaseMapper<AuthzUserModel>{
 	 * @param model
 	 * @return
 	 */
-	public List<AuthzRoleModel> getPagedAllocatedList(Page<AuthzRoleModel> page, AuthzUserModel model);
-	
+	public List<AuthzRoleEntity> getPagedAllocatedList(Page<AuthzRoleEntity> page, AuthzUserEntity model);
+
 	/**
 	 * 分页查询用户未分配角色信息
 	 * @param page
 	 * @param model
 	 * @return
 	 */
-	public List<AuthzRoleModel> getPagedUnAllocatedList(Page<AuthzRoleModel> page, AuthzUserModel model);
-	
-	
+	public List<AuthzRoleEntity> getPagedUnAllocatedList(Page<AuthzRoleEntity> page, AuthzUserEntity model);
+
+
 }

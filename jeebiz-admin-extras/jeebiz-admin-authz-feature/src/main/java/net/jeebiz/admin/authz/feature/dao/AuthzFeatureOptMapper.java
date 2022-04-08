@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.feature.dao;
 
@@ -10,20 +10,20 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
 import net.jeebiz.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface AuthzFeatureOptMapper extends BaseMapper<AuthzFeatureOptModel> {
+public interface AuthzFeatureOptMapper extends BaseMapper<AuthzFeatureOptEntity> {
 
-	AuthzFeatureOptModel getFeatureOpt(@Param(value = "id") String id);
-	
-	List<AuthzFeatureOptModel> getFeatureOpts();
-	
-	List<AuthzFeatureOptModel> getFeatureOptList(@Param(value = "featureId") String featureId, @Param(value = "visible") String visible);
-	
+	AuthzFeatureOptEntity getFeatureOpt(@Param(value = "id") String id);
+
+	List<AuthzFeatureOptEntity> getFeatureOpts();
+
+	List<AuthzFeatureOptEntity> getFeatureOptList(@Param(value = "featureId") String featureId, @Param(value = "visible") String visible);
+
 	int getOptCountByName(@Param(value = "name") String name, @Param(value = "featureId") String featureId, @Param(value = "optId") String optId);
-	
+
 	int deleteByParent(@Param(value = "id") Serializable id);
-	
+
 }

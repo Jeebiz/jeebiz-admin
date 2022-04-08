@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.dao.entities;
 
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
-@Alias(value = "AuthzUserProfileModel")
+@Alias(value = "AuthzUserProfileEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_profile")
 @Builder
@@ -26,122 +26,137 @@ import net.jeebiz.boot.api.dao.entities.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class AuthzUserProfileModel extends BaseEntity<AuthzUserProfileModel> {
-	
-	/**
-	 * 用户详情Id
-	 */
-	@TableId(value="u_pid",type= IdType.AUTO)
-	private String id;
+public class AuthzUserProfileEntity extends BaseEntity<AuthzUserProfileEntity> {
+
 	/**
 	 * 用户id
 	 */
-	@TableField(value = "u_id")
-	private String uid;
+	@TableId(value="user_id",type= IdType.AUTO)
+	private String userId;
+	/**
+	 * 用户code（短号/工号）
+	 */
+	@TableField(value = "user_code")
+	private String userCode;
 	/**
 	 * 用户别名（昵称）
 	 */
-	@TableField(value = "u_nickname")
+	@TableField(value = "nickname")
 	private String nickname;
 	/**
 	 * 用户头像：图片路径或图标样式
 	 */
-	@TableField(value = "u_avatar")
+	@TableField(value = "avatar")
 	private String avatar;
 	/**
-	 * 手机号码国家码
+	 * 国家/地区编码
 	 */
-	@TableField(value = "u_country_code")
-	private String countryCode;
+	@TableField(value = "region_code")
+	private String regionCode;
 	/**
 	 * 手机号码
 	 */
-	@TableField(value = "u_phone")
+	@TableField(value = "phone")
 	private String phone;
 	/**
 	 * 电子邮箱
 	 */
-	@TableField(value = "u_email")
+	@TableField(value = "email")
 	private String email;
 	/**
 	 * 出生日期
 	 */
-	@TableField(value = "u_birthday")
+	@TableField(value = "birthday")
 	private String birthday;
 	/**
 	 * 性别：（1：男，2：女）
 	 */
-	@TableField(value = "u_gender")
+	@TableField(value = "gender")
 	private int gender;
 	/**
 	 * 身份证号码
 	 */
-	@TableField(value = "u_idcard")
+	@TableField(value = "idcard")
 	private String idcard;
 	/**
 	 * 用户年龄
 	 */
-	@TableField(value = "u_age")
+	@TableField(value = "age")
 	private int age;
 	/**
 	 *用户身高
 	 */
-	@TableField(value = "u_height")
+	@TableField(value = "height")
 	private String height;
 	/**
 	 *用户体重
 	 */
-	@TableField(value = "u_weight")
+	@TableField(value = "weight")
 	private String weight;
 	/**
 	 * 官方语言
 	 */
-	@TableField(value = "u_language")
+	@TableField(value = "language")
 	private String language;
 	/**
 	 * 用户备注
 	 */
-	@TableField(value = "u_intro")
+	@TableField(value = "intro")
 	private String intro;
 	/**
 	 * 个人照片（包含是否封面标记、序号、地址的JSON字符串）
 	 */
-	@TableField(value = "u_photos")
+	@TableField(value = "photos")
 	private String photos;
 	/**
 	 * 用户位置：常驻国家
 	 */
-	@TableField(value = "u_country")
+	@TableField(value = "country")
 	private String country;
 	/**
 	 * 用户位置：常驻省份
 	 */
-	@TableField(value = "u_province")
+	@TableField(value = "province")
 	private String province;
 	/**
 	 * 用户位置：常驻城市
 	 */
-	@TableField(value = "u_city")
+	@TableField(value = "city")
 	private String city;
 	/**
 	 * 用户位置：常驻区域
 	 */
-	@TableField(value = "u_area")
+	@TableField(value = "area")
 	private String area;
 	/**
 	 * 用户位置：常驻地经度
 	 */
-	@TableField(value = "u_wgs84_lng")
+	@TableField(value = "wgs84_lng")
 	private double longitude;
 	/**
 	 * 用户位置：常驻地纬度
 	 */
-	@TableField(value = "u_wgs84_lat")
+	@TableField(value = "wgs84_lat")
 	private double latitude;
 	/**
 	 *用户信息完成度
 	 */
-	@TableField(value = "u_degree")
+	@TableField(value = "degree")
 	private int degree;
-	
+	/**
+	 * 注册客户端应用id
+	 */
+	@TableField(value = "app_id")
+	private String appId;
+	/**
+	 * 注册客户端应用渠道编码
+	 */
+	@TableField(value = "app_channel")
+	private String appChannel;
+	/**
+	 * 注册客户端版本
+	 */
+	@TableField(value = "app_version")
+	private String appVer;
+
 }

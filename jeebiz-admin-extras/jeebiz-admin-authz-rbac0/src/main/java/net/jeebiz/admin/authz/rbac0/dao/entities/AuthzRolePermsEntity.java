@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.rbac0.dao.entities;
 
@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Alias(value = "AuthzRolePermsModel")
+@Alias(value = "AuthzRolePermsEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_role_perms")
 @Builder
@@ -28,11 +28,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class AuthzRolePermsModel extends Model<AuthzRolePermsModel> {
+public class AuthzRolePermsEntity extends Model<AuthzRolePermsEntity> {
 
 	/**
-	 * 	主键 
-	 */ 
+	 * 	主键
+	 */
 	@TableId(value="r_id",type= IdType.AUTO)
 	private String id;
 	/**

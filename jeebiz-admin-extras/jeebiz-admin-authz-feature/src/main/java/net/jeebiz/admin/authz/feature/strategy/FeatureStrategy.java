@@ -2,8 +2,8 @@ package net.jeebiz.admin.authz.feature.strategy;
 
 import java.util.List;
 
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureModel;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptModel;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
+import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
 import net.jeebiz.admin.authz.feature.enums.FeatureNodeType;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
 
@@ -18,8 +18,8 @@ public interface FeatureStrategy {
 	 */
 	FeatureNodeType getNodeType();
 
-	List<AuthzFeatureTreeNode> handle(List<AuthzFeatureModel> featureList);
-	
-	List<AuthzFeatureTreeNode> handle(List<AuthzFeatureModel> featureList, List<AuthzFeatureOptModel> featureOptList);
-	
+	List<AuthzFeatureTreeNode> handle(List<AuthzFeatureEntity> featureList);
+
+	List<AuthzFeatureTreeNode> handle(List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList);
+
 }

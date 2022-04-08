@@ -3,7 +3,7 @@
 
 <mapper namespace="net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper">
 
-	<resultMap id="AuthzFeatureMap" type="AuthzFeatureModel">
+	<resultMap id="AuthzFeatureMap" type="AuthzFeatureEntity">
 		<result property="id" column="f_id" />
 		<result property="code" column="f_code" />
 		<result property="name" column="f_name" />
@@ -93,7 +93,7 @@
 		START WITH t.f_parent = #{id} CONNECT BY t.f_parent = PRIOR t.f_id
 	</select>
 
-	<select id="getPagedList" resultMap="AuthzFeatureMap" parameterType="AuthzFeatureModel" useCache="false">
+	<select id="getPagedList" resultMap="AuthzFeatureMap" parameterType="AuthzFeatureEntity" useCache="false">
 		SELECT
 			t.f_id,
 			t.f_code,

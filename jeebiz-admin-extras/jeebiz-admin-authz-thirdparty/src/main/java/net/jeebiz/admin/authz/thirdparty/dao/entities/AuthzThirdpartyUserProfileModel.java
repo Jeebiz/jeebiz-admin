@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.authz.thirdparty.dao.entities;
 
@@ -27,7 +27,7 @@ import net.jeebiz.boot.api.dao.entities.BaseEntity;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class AuthzThirdpartyUserProfileModel extends BaseEntity<AuthzThirdpartyUserProfileModel> {
-	
+
 	/**
 	 * 用户详情Id
 	 */
@@ -51,7 +51,7 @@ public class AuthzThirdpartyUserProfileModel extends BaseEntity<AuthzThirdpartyU
 	/**
 	 * 手机号码国家码
 	 */
-	@TableField(value = "u_country_code")
+	@TableField(value = "u_region_code")
 	private String countryCode;
 	/**
 	 * 手机号码
@@ -143,5 +143,5 @@ public class AuthzThirdpartyUserProfileModel extends BaseEntity<AuthzThirdpartyU
 	 */
 	@TableField(value = "u_degree")
 	private int degree;
-	
+
 }
