@@ -1,5 +1,5 @@
-################################################################################################################  
-###Spring Boot 监控（安全、开放信息等）配置：  
+################################################################################################################
+###Spring Boot 监控（安全、开放信息等）配置：
 ################################################################################################################
 management:
   endpoints:
@@ -12,8 +12,8 @@ management:
     shutdown:
       enabled: true
 
-################################################################################################################  
-###内置应用容器（Tomcat、Jetty、Undertow）配置：  
+################################################################################################################
+###内置应用容器（Tomcat、Jetty、Undertow）配置：
 ################################################################################################################
 server:
   compression:
@@ -38,11 +38,11 @@ server:
     # Nthreads = Ncpu x Ucpu x (1 + W/C)
     # 《Programming Concurrency on the JVM Mastering》一书中，给出了估算线程池大小的公式：
     # Nthreads = Ncpu / (1 - 阻塞系数)
-    # 概念：    
+    # 概念：
     # Ncpu = CPU核心数
     # Ucpu = CPU使用率，0~1
     # W/C = 等待时间与计算时间的比率
-    # 实际： 
+    # 实际：
     # IO密集型 = 2Ncpu（可以测试后自己控制大小，2Ncpu一般没问题）（常出现于线程中：数据库数据交互、文件上传下载、网络数据传输等等）
     #   计算密集型 = Ncpu（常出现于线程中：复杂算法）
     threads:
@@ -52,9 +52,9 @@ server:
       # 阻塞任务线程池, 当执行类似servlet请求阻塞IO操作, undertow会从这个线程池中取得线程
       # 它的值设置取决于系统线程执行任务的阻塞系数，默认值是IO线程数*8
       worker: 32
-     
-################################################################################################################  
-###接口文档（Swagger UI）配置：  
+
+################################################################################################################
+###接口文档（Swagger UI）配置：
 ################################################################################################################
 swagger:
   enabled: true
@@ -164,7 +164,7 @@ resilience4j:
         exponential-backoff-multiplier: 2   # 指数退避算法的乘数
         enable-randomized-wait: false       # 是否允许使用随机的重试间隔
         randomized-wait-factor: 0.5         # 随机因子
-        result-predicate: net.jeebiz.admin.shadow.setup.RetryOnResultPredicate  
+        result-predicate: net.jeebiz.admin.shadow.setup.RetryOnResultPredicate
         #retry-exception-predicate: com.example.resilience4j.predicate.RetryOnExceptionPredicate
         retry-exceptions:
           - net.jeebiz.boot.api.exception.BizRuntimeException
@@ -191,16 +191,16 @@ resilience4j:
         base-config: default
         cancel-running-future: false
 
-################################################################################################################  
-###Shiro 权限控制基本配置：  
+################################################################################################################
+###Shiro 权限控制基本配置：
 ################################################################################################################
 shiro:
-  annotations: 
+  annotations:
     enabled: true
     proxy-target-class: true
   authentication-caching-enabled: false
   authentication-cache-name: SHIRO-AUTHC
-  authorization-caching-enabled: false 
+  authorization-caching-enabled: false
   authorization-cache-name: SHIRO-AUTHZ
   caching-enabled: false
   cache:
@@ -235,9 +235,9 @@ shiro:
   static-security-manager-enabled: true
   unauthorized-url: /error
   user-native-session-manager: false
-  web: 
+  web:
     enabled: true
-  filter-chain-definition-map: 
+  filter-chain-definition-map:
     '[/]' : anon
     '[/actuator*]' : anon
     '[/actuator/**]' : anon
@@ -253,7 +253,7 @@ shiro:
     '[/bycdao-ui/**]' : headers
     '[/v2/**]' : headers
     '[/kaptcha*]' : anon
-    '[/druid/**]' : anon    
+    '[/druid/**]' : anon
     '[/monitoring**]' : anon
     '[/jobapi/**]' : anon
     '[/admin]' : anon
@@ -271,13 +271,13 @@ shiro:
     '[/admin/external/**]' : anon
     '[/authz/thirdpt/weixin/ma/config]': headers
     '[/authz/thirdpt/weixin/ma/code2Session]': headers
-    '[/authz/thirdpt/weixin/ma/binding]': headers   
+    '[/authz/thirdpt/weixin/ma/binding]': headers
     '[/authz/thirdpt/weixin/mp/oauth2]': anon
-    '[/authz/thirdpt/weixin/mp/qrconnect]': anon             
-    '[/authz/thirdpt/weixin/mp/subscribe]': anon       
+    '[/authz/thirdpt/weixin/mp/qrconnect]': anon
+    '[/authz/thirdpt/weixin/mp/subscribe]': anon
     '[/authz/thirdpt/weixin/mp/config]': anon
-    '[/authz/thirdpt/weixin/mp/binding]': anon   
-    '[/authz/login/publicKey]': headers   
+    '[/authz/thirdpt/weixin/mp/binding]': anon
+    '[/authz/login/publicKey]': headers
     '[/authz/login/stateless]' : headers,jwt
     '[/authz/login/weixin/ma]' : headers,wxMa
     '[/authz/thirdparty/binding]' : headers
@@ -285,10 +285,10 @@ shiro:
     '[/profile]' : headers
     '[/logout]' : headers,logout
     '[/index]' : headers,jwt
-################################################################################################################  
-###Spring Boot 相关组件（SpringMVC、Freemarker、Session、Cache、DataSource）配置：  
 ################################################################################################################
-spring: 
+###Spring Boot 相关组件（SpringMVC、Freemarker、Session、Cache、DataSource）配置：
+################################################################################################################
+spring:
   # 应用信息配置
   application:
     name: jeebiz-admin
@@ -308,25 +308,25 @@ spring:
             detail: ${swagger.description}
             version: ${swagger.version}
   # 缓存配置：
-  cache: 
+  cache:
     type: none  #现在改为none,使用j2cache 去配置
-    ehcache: 
+    ehcache:
       config: classpath:/conf/ehcache/ehcache.xml
   # 数据源配置：
   datasource:
     # Druid的数据源配置：
-    druid: 
+    druid:
       enabled: true
       #配置这个属性的意义在于，如果存在多个数据源，监控的时候可以通过名字来区分开来。如果没有配置，将会生成一个名字，格式是：”DataSource-” + System.identityHashCode(this)
       #name: DataSource-Test
       #这一项可配可不配，如果不配置druid会根据url自动识别dbType，然后选择相应的driverClassName
-      #driver-class-name: oracle.jdbc.driver.OracleDriver         
-      #url: 
+      #driver-class-name: oracle.jdbc.driver.OracleDriver
+      #url:
       #username: xxx
-      #password: xxx 
+      #password: xxx
       #initialSize: 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时；默认 15
       initial-size: 5
-      #连接池最大连接数量 
+      #连接池最大连接数量
       max-active: 10
       #获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁
       max-wait: 60000
@@ -348,9 +348,9 @@ spring:
       test-on-borrow: false
       # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
       test-on-return: false
-      #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。 
+      #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。
       pool-prepared-statements: true
-      #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100 
+      #要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
       max-pool-prepared-statement-per-connection-size: 100
       #Druid的监控统计功能:属性类型是字符串，通过别名的方式配置扩展插件
       #filters: mergeStat,wall,slf4j
@@ -386,7 +386,7 @@ spring:
             comment-allow: true
             # 是否允许非以上基本语句的其他语句，缺省关闭，通过这个选项就能够屏蔽DDL
             none-base-statement-allow: true
-            # 是否允许一次执行多条语句，缺省关闭 
+            # 是否允许一次执行多条语句，缺省关闭
             multi-statement-allow: true
             # 解除union关键字检查
             select-union-check: false
@@ -409,19 +409,19 @@ spring:
     # 基于Lettuce客户端的Redis连接池配置
     lettuce:
       pool:
-        # 连接池最大连接数（使用负值表示没有限制） 
+        # 连接池最大连接数（使用负值表示没有限制）
         max-active: 200
-        # 连接池最大阻塞等待时间（使用负值表示没有限制）  
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1
         # 连接池中的最大空闲连接
         max-idle: 10
-        # 连接池中的最小空闲连接 
+        # 连接池中的最小空闲连接
         min-idle: 0
-    # 连接超时时间（毫秒）  
+    # 连接超时时间（毫秒）
     timeout: 50000
   # 会话配置（交个Shiro管理，此处不再指定）：
   session:
-    store-type: none 
+    store-type: none
 
   ################################################################################################################
   ###Flyway (FlywayMigrationProperties) 数据库迁移脚本版本管理（实现软件版本升级数据库自动升级）配置：
@@ -448,15 +448,15 @@ spring:
     placeholders:
       '[table-prefix]' : jeebiz_
 
-################################################################################################################  
-###mybatis-plus (MybatisPlusProperties) 基本配置：  
+################################################################################################################
+###mybatis-plus (MybatisPlusProperties) 基本配置：
 ###http://mp.baomidou.com/#/spring-boot
-################################################################################################################  
+################################################################################################################
 mybatis-plus:
   # Oracle数据库对应的Mybatis脚本
-  #mapper-locations: classpath*:net/jeebiz/**/dao/**/sqlmap/oracle/*.xml
+  #mapper-locations: classpath*:mapper/oracle/*.xml
   # MySQL数据库对应的Mybatis脚本
-  mapper-locations: classpath*:net/jeebiz/**/dao/**/sqlmap/mysql/*.xml
+  mapper-locations: classpath*:mapper/mysql/*.xml
   # package多个则用逗号或者分号分隔
   type-aliases-package: net.jeebiz.**.dao.entities
   configuration-properties:
@@ -465,15 +465,15 @@ mybatis-plus:
     # 指定MyBatis如何自动映射列到字段/属性。PARTIAL只会自动映射简单，没有嵌套的结果。
     # FULL会自动映射任意复杂的结果（嵌套的或其他情况）;有效值：NONE,PARTIAL,FULL,默认值：PARTIAL
     auto-mapping-behavior: partial
-    # 当检测出未知列（或未知属性）时，如何处理，    默认情况下没有任何提示，这在测试的时候很不方便，不容易找到错误 
+    # 当检测出未知列（或未知属性）时，如何处理，    默认情况下没有任何提示，这在测试的时候很不方便，不容易找到错误
     auto-mapping-unknown-column-behavior: failing
     # 当启用时，使用延迟加载属性的对象在发起任何延迟属性的调用时会被完全加载。否则，每个属性在请求时就加载。默认值：true
     aggressive-lazy-loading: true
     # 全局二级缓存开关：默认是true，如果它配成false，其余各个Mapper XML文件配成支持cache也没用
     cache-enabled: true
     call-setters-on-nulls: false
-    # database-id:  
-    # default-fetch-size: 
+    # database-id:
+    # default-fetch-size:
     # 设置超时时间，它决定驱动等待一个数据库响应的时间。有效值：Any，positive，integer ；默认值：Not Set(null)
     default-statement-timeout: 25
     # 配置默认的执行器。SIMPLE 执行器没有什么特别之处。REUSE执行器重用预处理语句。BATCH 执行器重用语句和批量更新
@@ -542,20 +542,20 @@ fdfs:
 file:
   # 指定存储配置
   storage: fdfs
-  
-################################################################################################################  
-###logging (log4j2) 基本配置：  
+
+################################################################################################################
+###logging (log4j2) 基本配置：
 ###http://www.cnblogs.com/yhtboke/p/Mybatis.html
 ################################################################################################################
-logging: 
+logging:
   config: classpath:conf/log4j2-dev.xml
-  log4j: 
+  log4j:
     jdbc:
       enabled: true
-      appenders: 
+      appenders:
       - table-name: sys_log_authz
         marker: Authz-Log
-        column-mappings: 
+        column-mappings:
         - column: LOG_OPT
           pattern: "%X{opt}"
         - column: LOG_PROTOCOL
@@ -563,7 +563,7 @@ logging:
         - column: LOG_ADDR
           pattern: "%X{remoteAddr}"
         - column: LOG_LOCATION
-          pattern: "%X{location}"  
+          pattern: "%X{location}"
         - column: LOg_status
           pattern: "%X{status}"
         - column: LOG_MSG
@@ -571,12 +571,12 @@ logging:
         - column: LOG_EXCP
           pattern: "%xEx"
         - column: CREATOR
-          pattern: "%X{uid}"          
+          pattern: "%X{uid}"
         - column: CREATE_TIME
           pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
       - table-name: sys_log_biz
         marker: Biz-Log
-        column-mappings: 
+        column-mappings:
         - column: LOG_MODULE
           pattern: "%X{module}"
         - column: LOG_BIZ
@@ -586,16 +586,16 @@ logging:
         - column: LOG_ADDR
           pattern: "%X{remoteAddr}"
         - column: LOG_LOCATION
-          pattern: "%X{location}"          
+          pattern: "%X{location}"
         - column: LOG_MSG
           pattern: "%msg"
         - column: LOG_EXCP
           pattern: "%xEx"
         - column: CREATOR
-          pattern: "%X{uid}"          
+          pattern: "%X{uid}"
         - column: CREATE_TIME
           pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS}"
-          
+
 javamelody:
   init-parameters:
     '[monitoring-path]' : /monitoring.html
