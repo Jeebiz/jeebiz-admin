@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.biz.web.Constants;
 import org.apache.shiro.session.Session;
@@ -18,6 +19,7 @@ import org.apache.shiro.session.mgt.SimpleOnlineSession;
 import org.apache.shiro.session.mgt.SimpleOnlineSession.OnlineStatus;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +32,6 @@ import net.jeebiz.admin.extras.monitor.service.IOnlineSessionService;
 import net.jeebiz.admin.extras.monitor.web.dto.OnlineSessionDTO;
 import net.jeebiz.admin.extras.monitor.web.param.SessionQueryParam;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
-import net.jeebiz.boot.extras.redis.setup.RedisKey;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Service
 public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionMapper, SessionEntity>
@@ -51,7 +51,7 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionMapper, Ses
 		}
 
 		Long curruentSequence = queryParam.getLastSequence() + 20;
-		String userSessionsKey = RedisKey.USER_SESSIONS.getKey();
+		String userSessionsKey = BizRedisKey.USER_SESSIONS.getKey();
 		Set<TypedTuple<Object>> zRevrangeWithScores = getRedisOperation().zRevrangeWithScores(userSessionsKey,
 				Math.max(0, queryParam.getLastSequence()), curruentSequence);
 		if(CollectionUtils.isEmpty(zRevrangeWithScores)) {
@@ -101,14 +101,14 @@ public class OnlineSessionServiceImpl extends BaseServiceImpl<SessionMapper, Ses
 
 	@Override
 	public int offline(String sessionId) {
-		String userSsoStateKey = RedisKey.USER_SSO_STATE.getKey();
+		String userSsoStateKey = BizRedisKey.USER_SSO_STATE.getKey();
 		getRedisOperation().setBit(userSsoStateKey, 0, false);
 		return 1;
 	}
 
 	@Override
 	public int online(SessionEntity onlineSession) {
-		String userSsoStateKey = RedisKey.USER_SSO_STATE.getKey();
+		String userSsoStateKey = BizRedisKey.USER_SSO_STATE.getKey();
 		getRedisOperation().setBit(userSsoStateKey, 0, true);
 
 		return 1;

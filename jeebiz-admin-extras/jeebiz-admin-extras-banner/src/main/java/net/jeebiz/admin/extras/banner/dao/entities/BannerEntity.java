@@ -1,7 +1,6 @@
 package net.jeebiz.admin.extras.banner.dao.entities;
 
 import com.baomidou.mybatisplus.annotation.*;
-import io.swagger.annotations.ApiModelProperty;
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;

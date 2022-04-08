@@ -23,6 +23,11 @@
             <artifactId>jeebiz-admin-api</artifactId>
             <version>${jeebiz-admin.version}</version>
         </dependency>
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-extras-redis</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>

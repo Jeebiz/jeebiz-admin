@@ -2,13 +2,15 @@ package net.jeebiz.admin.extras.filestore;
 
 import java.util.function.BiFunction;
 
+import org.springframework.data.redis.core.RedisKey;
+
 public enum FilestoreRedisKey {
 
 	/**
 	 * redis 文件上传黑名单缓存
 	 */
 	UPLOAD_BLACKLIST("文件上传黑名单", (mobile, type)->{
-		return FilestoreRedisKeyConstant.getKeyStr(FilestoreRedisKeyConstant.SET_UPLOAD_BLACK_LIST);
+		return RedisKey.getKeyStr(FilestoreRedisKeyConstant.SET_UPLOAD_BLACK_LIST);
     }),
 	;
 	

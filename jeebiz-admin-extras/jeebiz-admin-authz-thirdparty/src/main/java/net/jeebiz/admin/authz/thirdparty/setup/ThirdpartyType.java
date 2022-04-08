@@ -12,8 +12,9 @@ import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.redis.core.RedisKey;
 
-import net.jeebiz.admin.api.BizRedisKeyConstant;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKeyConstant;
 
 /**
  * 第三方账号类型
@@ -25,35 +26,35 @@ public enum ThirdpartyType {
 	 */
 	WXMA("微信小程序", (userId, userType) ->{
 		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_INFO_KEY, userId).getMessage();
-		return BizRedisKeyConstant.getKeyStr(keyStr, "00");
+		return RedisKey.getKeyStr(keyStr, "00");
     }),
 	/**
 	 * 微信小程序
 	 */
 	WXMP("微信公众号", (userId, userType) ->{
 		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_INFO_KEY, userId).getMessage();
-		return BizRedisKeyConstant.getKeyStr(keyStr, "00");
+		return RedisKey.getKeyStr(keyStr, "00");
     }),
 	/**
 	 * 腾讯QQ
 	 */
 	QQ("腾讯QQ", (userId, userType) ->{
 		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_INFO_KEY, userId).getMessage();
-		return BizRedisKeyConstant.getKeyStr(keyStr, "00");
+		return RedisKey.getKeyStr(keyStr, "00");
     }),
 	/**
 	 * 微信小程序
 	 */
 	WEIBO("新浪微博", (userId, userType) ->{
 		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_INFO_KEY, userId).getMessage();
-		return BizRedisKeyConstant.getKeyStr(keyStr, "00");
+		return RedisKey.getKeyStr(keyStr, "00");
     }),
 	/**
 	 * 易班
 	 */
 	YIBAN("易班", (userId, userType) ->{
 		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_INFO_KEY, userId).getMessage();
-		return BizRedisKeyConstant.getKeyStr(keyStr, "00");
+		return RedisKey.getKeyStr(keyStr, "00");
     });
 
 	private String vendor;

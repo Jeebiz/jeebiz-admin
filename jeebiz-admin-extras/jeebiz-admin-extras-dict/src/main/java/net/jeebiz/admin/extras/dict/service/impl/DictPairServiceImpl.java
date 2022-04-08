@@ -11,20 +11,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
 
 import hitool.core.collections.CollectionUtils;
-import net.jeebiz.admin.api.BizRedisKey;
 import net.jeebiz.admin.extras.dict.dao.DictPairMapper;
 import net.jeebiz.admin.extras.dict.dao.entities.DictPairEntity;
 import net.jeebiz.admin.extras.dict.service.IDictPairService;
 import net.jeebiz.admin.extras.dict.setup.event.DictPairDeletedEvent;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Service
 public class DictPairServiceImpl extends BaseServiceImpl<DictPairMapper, DictPairEntity> implements IDictPairService {

@@ -15,10 +15,12 @@
  */
 package net.jeebiz.admin.extras.monitor.setup.shiro;
 
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListenerAdapter;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.stereotype.Component;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -26,8 +28,6 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.extras.monitor.dao.SessionMapper;
 import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
-import net.jeebiz.boot.extras.redis.setup.RedisKey;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
  * 会话监听
@@ -51,7 +51,7 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 	public void onStart(Session session) {
 
 		log.info("创建session:(" + session.getId() + "," + session.getHost() + ")");
-		String userSessionsKey = RedisKey.USER_SESSIONS.getKey();
+		String userSessionsKey = BizRedisKey.USER_SESSIONS.getKey();
 		redisOperation.zAdd(userSessionsKey, session.getId(), session.getStartTimestamp().getTime());
 
 		SessionEntity sessionEntity = SessionEntity.builder()
@@ -86,7 +86,7 @@ public class ShiroSessionListener extends SessionListenerAdapter {
 	@Override
 	public void onExpiration(Session session) {
 		log.info("过期session:(" + session.getId() + "," + session.getHost() + ")");
-		String userSessionsKey = RedisKey.USER_SESSIONS.getKey();
+		String userSessionsKey = BizRedisKey.USER_SESSIONS.getKey();
 		redisOperation.zRem(userSessionsKey, session.getId());
 
 		SessionEntity sessionEntity = SessionEntity.builder()

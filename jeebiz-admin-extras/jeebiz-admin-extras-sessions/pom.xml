@@ -17,6 +17,11 @@
 			<artifactId>jeebiz-admin-api</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>net.jeebiz</groupId>
+			<artifactId>jeebiz-admin-extras-redis</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
 		<!-- For Shiro -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>

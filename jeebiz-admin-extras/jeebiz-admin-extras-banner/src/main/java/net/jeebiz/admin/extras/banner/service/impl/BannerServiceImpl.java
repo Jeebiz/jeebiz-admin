@@ -1,11 +1,13 @@
 package net.jeebiz.admin.extras.banner.service.impl;
 
-import net.jeebiz.admin.api.BizRedisKey;
 import net.jeebiz.admin.extras.banner.setup.BannerType;
 import net.jeebiz.admin.extras.banner.web.dto.BannerDTO;
-import net.jeebiz.boot.extras.redis.setup.RedisKeyConstant;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisKey;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +15,6 @@ import net.jeebiz.admin.extras.banner.dao.BannerMapper;
 import net.jeebiz.admin.extras.banner.dao.entities.BannerEntity;
 import net.jeebiz.admin.extras.banner.service.IBannerService;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 import java.io.Serializable;
 import java.util.*;
@@ -84,7 +85,7 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 	}
 
 	protected String getBannerListKey(String appId, String appChannel, String region, String language, Integer type){
-		String uniqueKey = new StringJoiner(RedisKeyConstant.DELIMITER)
+		String uniqueKey = new StringJoiner(RedisKey.DELIMITER)
 				.add(appId)
 				.add(appChannel)
 				.add(region)

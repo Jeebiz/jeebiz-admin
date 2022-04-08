@@ -1,6 +1,8 @@
 package net.jeebiz.admin.extras.filestore;
 
-public class FilestoreRedisKeyConstant extends net.jeebiz.boot.extras.redis.setup.RedisKeyConstant {
+import net.jeebiz.admin.extras.redis.setup.BizRedisKeyConstant;
+
+public class FilestoreRedisKeyConstant extends BizRedisKeyConstant {
 
 	/**
 	 * 文件上传黑名单

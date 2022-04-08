@@ -9,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,6 @@ import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.exception.BizRuntimeException;
 import net.jeebiz.boot.api.sequence.Sequence;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Slf4j
 public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, InitializingBean, ApplicationEventPublisherAware {
