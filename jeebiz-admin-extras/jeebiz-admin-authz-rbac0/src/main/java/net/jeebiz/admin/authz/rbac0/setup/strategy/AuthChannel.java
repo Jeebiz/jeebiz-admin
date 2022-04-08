@@ -43,29 +43,29 @@ public enum AuthChannel {
 		this.desc = desc;
 	}
 
-	public boolean equals(FilestoreChannel type){
+	public boolean equals(AuthChannel type){
 		return this.compareTo(type) == 0;
 	}
 
 	public boolean equals(String key){
-		return this.compareTo(FilestoreChannel.valueOfIgnoreCase(key)) == 0;
+		return this.compareTo(AuthChannel.valueOfIgnoreCase(key)) == 0;
 	}
 
-	public static FilestoreChannel valueOfIgnoreCase(String key) {
-		for (FilestoreChannel optType : FilestoreChannel.values()) {
-			if(optType.getKey().equalsIgnoreCase(key)) {
-				return optType;
+	public static AuthChannel valueOfIgnoreCase(String key) {
+		for (AuthChannel channel : AuthChannel.values()) {
+			if(channel.getKey().equalsIgnoreCase(key)) {
+				return channel;
 			}
 		}
-    	throw new NoSuchElementException("Cannot found AuthzOptEnum with key '" + key + "'.");
+    	throw new NoSuchElementException("Cannot found AuthChannel with key '" + key + "'.");
     }
 
 	public static List<Map<String, String>> toList() {
-		List<Map<String, String>> optList = new LinkedList<Map<String, String>>();
-		for (FilestoreChannel optEnum : FilestoreChannel.values()) {
-			optList.add(optEnum.toMap());
+		List<Map<String, String>> channelList = new LinkedList<Map<String, String>>();
+		for (AuthChannel channel : AuthChannel.values()) {
+			channelList.add(channel.toMap());
 		}
-		return optList;
+		return channelList;
 	}
 
 	public  Map<String, String> toMap() {
