@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
-@Alias(value = "InformTargetModel")
+@Alias(value = "InformTargetEntity")
 @TableName(value = "inform_targets", keepGlobalPrefix = true)
 @Builder
 @Data
@@ -33,12 +33,10 @@ public class InformTargetEntity extends PaginationEntity<InformTargetEntity> {
 	 */
 	@TableId(value="t_id",type= IdType.AUTO)
 	private String id;
-
-
 	/**
 	 * 消息通知模板id
 	 */
-	@TableId(value="tmp_id",type= IdType.AUTO)
+	@TableField(value="tmp_id")
 	private String tid;
 	/**
 	 * 消息通知接收人id

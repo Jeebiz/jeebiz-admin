@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.inform.dao.entities;
 
@@ -22,7 +22,7 @@ import net.jeebiz.admin.extras.inform.emums.InformSendChannel;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
-@Alias(value = "InformRecordModel")
+@Alias(value = "InformRecordEntity")
 @TableName(value = "inform_records", keepGlobalPrefix = true)
 @Builder
 @Data
@@ -61,7 +61,7 @@ public class InformRecordEntity extends PaginationEntity<InformRecordEntity> {
 	 */
 	@TableField(value = "flow_no")
 	private String flowNo;
-	
+
 	@TableField(exist = false)
 	private List<String> ids;
 	/**
@@ -73,7 +73,7 @@ public class InformRecordEntity extends PaginationEntity<InformRecordEntity> {
 	 * 消息通知发送人
 	 */
 	@TableField(exist = false)
-	private String uname;	
+	private String uname;
 	/**
 	 * 消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝）
 	 */
@@ -134,5 +134,5 @@ public class InformRecordEntity extends PaginationEntity<InformRecordEntity> {
 	 */
 	@TableField(exist = false)
 	private String keywords;
-	
+
 }

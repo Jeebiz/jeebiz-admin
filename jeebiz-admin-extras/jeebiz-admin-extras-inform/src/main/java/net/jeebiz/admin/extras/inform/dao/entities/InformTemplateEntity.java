@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.inform.dao.entities;
 
@@ -20,7 +20,7 @@ import net.jeebiz.admin.extras.inform.emums.InformTarget;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
-@Alias(value = "InformTemplateModel")
+@Alias(value = "InformTemplateEntity")
 @TableName(value = "inform_templates", keepGlobalPrefix = true)
 @Builder
 @Data
@@ -89,5 +89,5 @@ public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity>
 	 */
 	@TableField(exist = false)
 	private String keywords;
-	
+
 }
