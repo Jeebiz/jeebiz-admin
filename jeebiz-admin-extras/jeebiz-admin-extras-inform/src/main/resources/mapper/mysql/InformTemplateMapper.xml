@@ -3,7 +3,7 @@
 
 <mapper namespace="net.jeebiz.admin.extras.inform.dao.InformTemplateMapper" >
 
-	<resultMap id="InformTemplateMap" type="InformTemplateModel">
+	<resultMap id="InformTemplateMap" type="InformTemplateEntity">
 		<!-- 消息通知模板id -->
 		<id property="id" column="t_id" />
 		<!-- 消息通知模板创建人id -->
@@ -41,7 +41,7 @@
 		<result property="unread" column="t_unread" />
 	</resultMap>
 
-	<insert id="insert" parameterType="InformTemplateModel" flushCache="true"
+	<insert id="insert" parameterType="InformTemplateEntity" flushCache="true"
 		keyColumn="t_id" keyProperty="id" useGeneratedKeys="true">
 		insert into sys_inform_templates(t_uid,t_target,t_provider,t_title,t_content,t_tid,t_payload,t_status)
 		values(#{uid},#{target},#{provider},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},'0')
@@ -64,7 +64,7 @@
 		 WHERE t.t_id = #{id}
 	</update>
 
-	<update id="update" parameterType="InformTemplateModel">
+	<update id="update" parameterType="InformTemplateEntity">
 		UPDATE sys_inform_templates t
 		   SET t.t_target = #{target},
 		   	   t.t_provider = #{provider},
@@ -75,7 +75,7 @@
 		 WHERE t.t_id = #{id}
 	</update>
 
-	<select id="getCount" resultType="java.lang.Long" parameterType="InformTemplateModel" useCache="false">
+	<select id="getCount" resultType="java.lang.Long" parameterType="InformTemplateEntity" useCache="false">
 		SELECT count(t.t_id)
 		  FROM sys_inform_templates t
 		 WHERE t.t_title = #{title}
