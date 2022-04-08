@@ -29,43 +29,43 @@
 		<result property="time24" column="c_time24" />
     </resultMap>
 
-	<insert id="insert" parameterType="ArticleCommentModel" flushCache="true">
+	<insert id="insert" parameterType="ArticleCommentEntity" flushCache="true">
 		INSERT INTO sys_article_content_comments(c_cid,c_pid,c_uid,C_TYPE,C_TEXT,c_review,c_status,c_recommend,c_order)
 		VALUES (#{cid},#{pid,jdbcType=VARCHAR},#{uid},#{type},#{text,jdbcType=VARCHAR},0,1,0,IFNULL((SELECT MAX(x.c_order) FROM sys_article_content_comments x WHERE x.c_id = #{cid}),0))
-	</insert> 
-	
+	</insert>
+
 	<delete id="batchDelete" flushCache="true">
 		DELETE FROM sys_article_content_comments WHERE c_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+           #{item}
         </foreach>
 	</delete>
-	
+
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_content_comments t
 		   SET d_status = #{status}
 		 WHERE c_id = #{id}
 	</update>
-	
+
 	<update id="setRecommend" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_content_comments t
 		   SET c_recommend = #{recommend}
 		 WHERE c_id = #{id}
 	</update>
-	
+
 	<update id="setReview" parameterType="java.lang.String" flushCache="true">
 		UPDATE sys_article_content_comments t
 		   SET c_review = #{review}
 		 WHERE c_id = #{id}
 	</update>
-	
-	<update id="update" parameterType="ArticleCommentModel" flushCache="true">
+
+	<update id="update" parameterType="ArticleCommentEntity" flushCache="true">
 		UPDATE sys_article_content_comments t
 		   SET C_TEXT = #{text},
 		   	   c_time24 = to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss')
 		 WHERE c_id = #{id}
 	</update>
-    
+
 	<select id="getPagedList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
@@ -87,7 +87,7 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="getModel" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
@@ -124,7 +124,7 @@
 	  WHERE t.c_status != 0
 	    AND t.c_uid = #{uid}
 	</select>
-	
+
 	<select id="getTreeList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,

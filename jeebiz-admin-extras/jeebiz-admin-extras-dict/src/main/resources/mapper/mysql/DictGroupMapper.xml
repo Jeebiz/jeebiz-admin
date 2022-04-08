@@ -50,7 +50,7 @@
 		ORDER By t.g_order ASC
 	</select>
 
-	<select id="getDictGroupList" resultMap="DictGroupMap" parameterType="java.lang.String" useCache="false">
+	<select id="getKeyGroupList" resultMap="DictGroupMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.g_id,
 			t.g_key,

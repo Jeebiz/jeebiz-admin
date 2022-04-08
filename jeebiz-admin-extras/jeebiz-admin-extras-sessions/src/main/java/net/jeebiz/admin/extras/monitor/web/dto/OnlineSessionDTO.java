@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.monitor.web.dto;
 
@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.admin.extras.monitor.dao.entities.SessionEntity;
+import net.jeebiz.admin.extras.monitor.dao.entities.OnlineSessionEntity;
 
 /**
  * 在线会话信息
@@ -44,7 +44,7 @@ public class OnlineSessionDTO {
 	private long timeout;
 	/** 用户浏览器类型 */
 	@ApiModelProperty(value = "userAgent", dataType = "String", notes = "用户浏览器类型")
-	protected String userAgent; 
+	protected String userAgent;
 	/** 用户登录时系统IP */
 	@ApiModelProperty(value = "systemHost", dataType = "String", notes = "用户登录时系统IP")
 	protected String systemHost;
@@ -67,14 +67,14 @@ public class OnlineSessionDTO {
 		this.lastAccessTime = lastAccessTime;
 		this.timeout = timeout;
 	}
-	
+
 	public static OnlineSessionDTO fromSession(Session session) {
-		
+
 		OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(session.getId()), session.getHost(),
-				DateFormatUtils.format(session.getStartTimestamp(), DateFormats.DATE_LONGFORMAT), 
-				DateFormatUtils.format(session.getLastAccessTime(), DateFormats.DATE_LONGFORMAT), 
+				DateFormatUtils.format(session.getStartTimestamp(), DateFormats.DATE_LONGFORMAT),
+				DateFormatUtils.format(session.getLastAccessTime(), DateFormats.DATE_LONGFORMAT),
 				session.getTimeout());
-		
+
 		if(session instanceof SimpleOnlineSession) {
 			SimpleOnlineSession onlineSession = (SimpleOnlineSession) session;
 			sessionDTO.setStatus(onlineSession.getStatus().getInfo());
@@ -83,29 +83,29 @@ public class OnlineSessionDTO {
 		}
 		if(Boolean.TRUE.equals(session.getAttribute(Constants.SESSION_FORCE_LOGOUT_KEY))) {
 			sessionDTO.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
-		} 
-		
+		}
+
 		return sessionDTO;
 	}
-	
-	public static OnlineSessionDTO fromSessionEntity(SessionEntity sessionEntity) {
-		
-		OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(sessionEntity.getId()), sessionEntity.getHost(),
-				DateFormatUtils.format(sessionEntity.getStartTimestamp(), DateFormats.DATE_LONGFORMAT), 
-				DateFormatUtils.format(sessionEntity.getLastAccessTime(), DateFormats.DATE_LONGFORMAT), 
-				sessionEntity.getTimeout());
-	
-		sessionDTO.setStatus(sessionEntity.getStatus());
-		sessionDTO.setUserAgent(sessionEntity.getUserAgent());
-		sessionDTO.setSystemHost(sessionEntity.getHost());
-			
-		if(Boolean.TRUE.equals(Boolean.parseBoolean(sessionEntity.getForceLogout()))) {
+
+	public static OnlineSessionDTO fromSessionEntity(OnlineSessionEntity onlineSessionEntity) {
+
+		OnlineSessionDTO sessionDTO = new OnlineSessionDTO(String.valueOf(onlineSessionEntity.getId()), onlineSessionEntity.getHost(),
+				DateFormatUtils.format(onlineSessionEntity.getStartTimestamp(), DateFormats.DATE_LONGFORMAT),
+				DateFormatUtils.format(onlineSessionEntity.getLastAccessTime(), DateFormats.DATE_LONGFORMAT),
+				onlineSessionEntity.getTimeout());
+
+		sessionDTO.setStatus(onlineSessionEntity.getStatus());
+		sessionDTO.setUserAgent(onlineSessionEntity.getUserAgent());
+		sessionDTO.setSystemHost(onlineSessionEntity.getHost());
+
+		if(Boolean.TRUE.equals(Boolean.parseBoolean(onlineSessionEntity.getForceLogout()))) {
 			sessionDTO.setStatus(OnlineStatus.FORCE_LOGOUT.getInfo());
-		} 
-		
+		}
+
 		return sessionDTO;
 	}
-	
-	
+
+
 
 }

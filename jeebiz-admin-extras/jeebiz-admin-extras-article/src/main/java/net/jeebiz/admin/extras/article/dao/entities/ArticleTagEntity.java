@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "ArticleTagModel")
+@Alias(value = "ArticleTagEntity")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -40,7 +40,7 @@ public class ArticleTagEntity extends PaginationEntity<ArticleTagEntity> impleme
 	 */
 	@TableField(value = "t_time24")
 	private LocalDateTime time24;
-	
+
 	@Override
 	public int compareTo(ArticleTagEntity o) {
 		if (o == null || o.getTime24() == null) {
@@ -48,5 +48,5 @@ public class ArticleTagEntity extends PaginationEntity<ArticleTagEntity> impleme
 		}
 		return o.getTime24().compareTo(this.time24);
 	}
-	
+
 }

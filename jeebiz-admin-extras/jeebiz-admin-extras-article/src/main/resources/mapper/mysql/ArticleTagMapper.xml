@@ -13,23 +13,23 @@
 		<result property="time24" column="t_time24" />
     </resultMap>
 
-	<insert id="insert" parameterType="ArticleTagModel" flushCache="true">
+	<insert id="insert" parameterType="ArticleTagEntity" flushCache="true">
 		INSERT INTO sys_article_content_tags(t_cid,t_name) VALUES (#{cid},#{name})
 	</insert>
-	
+
 	<delete id="batchDelete" flushCache="true">
 		DELETE FROM sys_article_content_tags WHERE t_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
-           #{item} 
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+           #{item}
         </foreach>
 	</delete>
-	
-	<update id="update" parameterType="ArticleTagModel" flushCache="true">
+
+	<update id="update" parameterType="ArticleTagEntity" flushCache="true">
 		UPDATE sys_article_content_tags t
 		   SET t_name = #{name}
 		 WHERE t_id = #{id}
 	</update>
-	
+
 	<select id="getRowList" resultMap="ArticleTagMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.t_id,

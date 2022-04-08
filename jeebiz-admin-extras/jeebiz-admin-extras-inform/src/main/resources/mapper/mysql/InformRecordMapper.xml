@@ -3,7 +3,7 @@
 
 <mapper namespace="net.jeebiz.admin.extras.inform.dao.InformRecordMapper" >
 
-	<resultMap id="InformRecordMap" type="InformRecordModel">
+	<resultMap id="InformRecordMap" type="InformRecordEntity">
 		<!-- 消息通知记录id -->
 		<id property="id" column="r_id" />
 		<!-- 消息通知发送人id -->
@@ -41,7 +41,7 @@
 		<result property="unread" column="r_unread" />
 	</resultMap>
 
-	<insert id="insert" parameterType="InformRecordModel">
+	<insert id="insert" parameterType="InformRecordEntity">
 		insert into sys_inform_records(r_uid,r_provider,r_tag,r_to,r_title,r_content,r_tid,r_payload,r_status)
 		values(#{uid},#{provider},#{tag,jdbcType=VARCHAR},#{toUid},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},0)
 	</insert>
@@ -59,7 +59,7 @@
 		</if>
 	</delete>
 
-	<update id="update" parameterType="InformRecordModel">
+	<update id="update" parameterType="InformRecordEntity">
 		UPDATE sys_inform_records t
 		   SET t.r_status = #{status}
 		 WHERE t.r_to = #{toUid}
@@ -70,7 +70,7 @@
 		 </if>
 	</update>
 
-	<select id="getCount" resultType="java.lang.Long" parameterType="InformRecordModel">
+	<select id="getCount" resultType="java.lang.Long" parameterType="InformRecordEntity">
 		SELECT IFNULL(COUNT(t.r_id), 0) COUNT
 		FROM sys_inform_records t
 		WHERE t.r_to = #{toUid}
