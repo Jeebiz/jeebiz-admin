@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import com.github.hiwepy.jwt.time.JwtTimeProvider;
@@ -21,7 +22,6 @@ import net.jeebiz.admin.shadow.setup.shiro.jwt.DefaultJwtPayloadRepository;
 import net.jeebiz.admin.shadow.setup.shiro.jwt.JJwtAuthenticationFailureHandler;
 import net.jeebiz.admin.shadow.setup.shiro.jwt.JwtSigningKeyRedisResolver;
 import net.jeebiz.admin.shadow.setup.shiro.jwt.JwtTimeRedisProvider;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Configuration
 @AutoConfigureBefore(name = {

@@ -22,6 +22,7 @@ import org.apache.shiro.spring.boot.jwt.JwtPayloadRepository;
 import org.apache.shiro.spring.boot.jwt.token.JwtAccessToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
@@ -38,8 +39,7 @@ import com.google.common.collect.Maps;
 
 import hitool.core.collections.CollectionUtils;
 import net.jeebiz.admin.api.UserProfiles;
-import net.jeebiz.boot.extras.redis.setup.RedisKey;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 
 public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, InitializingBean {
 
@@ -104,7 +104,7 @@ public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, Initi
 		try {
 
 			// 1、签发Token并进行Redis缓存
-			String jwtId = RedisKey.USER_TOKEN.getKey(userId);
+			String jwtId = BizRedisKey.USER_TOKEN.getKey(userId);
 
 			String jwtString = getSecretKeyJWTRepository().issueJwt(secretKey, jwtId, userId,
 					issuer, userId, claims, algorithm, -1);
@@ -156,7 +156,7 @@ public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, Initi
 				throw new ExpiredJwtException("JWT has expired");
 			}
 			// 3、查询是否用户被禁用
-			String userKey = RedisKey.USER_INFO.getKey(payload.getSubject());
+			String userKey = BizRedisKey.USER_INFO.getKey(payload.getSubject());
 			Object disabled = redisOperationTemplate.hGet(userKey, UserProfiles.DISABLED );
 			if(Objects.nonNull(disabled) && Integer.parseInt(disabled.toString()) == 0) {
 				throw new DisabledAccountException("账号已被禁用，请联系管理员！");

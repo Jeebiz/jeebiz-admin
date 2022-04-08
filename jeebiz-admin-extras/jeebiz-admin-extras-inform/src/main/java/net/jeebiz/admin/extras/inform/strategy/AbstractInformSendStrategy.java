@@ -7,6 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
@@ -20,7 +21,6 @@ import net.jeebiz.admin.extras.inform.dao.InformRecordMapper;
 import net.jeebiz.admin.extras.inform.dao.InformTemplateMapper;
 import net.jeebiz.admin.extras.inform.dao.entities.InformRecordEntity;
 import net.jeebiz.boot.api.sequence.Sequence;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Slf4j
 public abstract class AbstractInformSendStrategy implements InformSendStrategy, InitializingBean, ApplicationEventPublisherAware {
@@ -37,9 +37,9 @@ public abstract class AbstractInformSendStrategy implements InformSendStrategy, 
 	private Sequence sequence;
     @Autowired
     private RedisOperationTemplate redisOperation;
-    
+
 	private ApplicationEventPublisher eventPublisher;
-	
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		// TODO Auto-generated method stub
@@ -64,12 +64,12 @@ public abstract class AbstractInformSendStrategy implements InformSendStrategy, 
 		// 5、返回上传结果
 		return uploadRt;
 	}
-	
+
 	protected <O extends InformSendBO> boolean preCheck(O sendBo) throws Exception {
-		 
+
 		return true;
 	}
-	
+
 	protected <O extends InformSendBO> void customizedMethod(O sendBo) throws Exception {
 		// TODO Auto-generated method stub
 	};
@@ -89,7 +89,7 @@ public abstract class AbstractInformSendStrategy implements InformSendStrategy, 
         getInformRecordMapper().insert(fileEntity);
         log.info(" Upload File : {}" , JSONObject.toJSONString(fileEntity));
 	}
-	 
+
 	public ApplicationEventPublisher getEventPublisher() {
 		return eventPublisher;
 	}
@@ -98,7 +98,7 @@ public abstract class AbstractInformSendStrategy implements InformSendStrategy, 
 	public void setApplicationEventPublisher(ApplicationEventPublisher eventPublisher) {
 		this.eventPublisher = eventPublisher;
 	}
-	 
+
 	protected ObjectMapper getObjectMapper() {
 		return objectMapper;
 	}
@@ -109,16 +109,16 @@ public abstract class AbstractInformSendStrategy implements InformSendStrategy, 
 
 	protected Sequence getSequence() {
 		return sequence;
-	} 
-	
+	}
+
 	public RedisOperationTemplate getRedisOperation() {
 		return redisOperation;
 	}
-	
+
 	public InformRecordMapper getInformRecordMapper() {
 		return informRecordMapper;
 	}
-	
+
 	public InformTemplateMapper getInformTemplateMapper() {
 		return informTemplateMapper;
 	}

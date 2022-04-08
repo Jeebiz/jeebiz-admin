@@ -1,8 +1,8 @@
 package net.jeebiz.admin.shadow.setup.shiro.jwt;
 
-import com.github.hiwepy.jwt.time.JwtTimeProvider;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
+import com.github.hiwepy.jwt.time.JwtTimeProvider;
 
 public class JwtTimeRedisProvider implements JwtTimeProvider {
 

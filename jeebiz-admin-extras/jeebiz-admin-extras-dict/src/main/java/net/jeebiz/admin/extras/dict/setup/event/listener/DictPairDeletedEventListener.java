@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.stereotype.Component;
 
-import net.jeebiz.admin.api.BizRedisKey;
 import net.jeebiz.admin.extras.dict.dao.DictPairMapper;
 import net.jeebiz.admin.extras.dict.setup.event.DictPairDeletedEvent;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.boot.api.dao.entities.PairModel;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 @Component
 public class DictPairDeletedEventListener implements ApplicationListener<DictPairDeletedEvent> {

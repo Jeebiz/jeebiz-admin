@@ -19,14 +19,14 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import org.springframework.biz.utils.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.http.MediaType;
 
 import com.alibaba.fastjson.JSONObject;
 
-import net.jeebiz.admin.api.BizRedisKey;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.XHeaders;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 public class HttpServletRequestBlacklistFilter extends AccessControlFilter {
 

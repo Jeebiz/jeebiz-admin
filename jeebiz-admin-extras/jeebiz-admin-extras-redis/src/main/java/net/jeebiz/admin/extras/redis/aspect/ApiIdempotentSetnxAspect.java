@@ -1,6 +1,7 @@
 package net.jeebiz.admin.extras.redis.aspect;
 
 import lombok.extern.slf4j.Slf4j;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.ApiIdempotentType;
@@ -8,14 +9,13 @@ import net.jeebiz.boot.api.exception.IdempotentException;
 import net.jeebiz.boot.api.subject.AuthPrincipal;
 import net.jeebiz.boot.api.subject.SubjectUtils;
 import net.jeebiz.boot.api.utils.IdempotentUtils;
-import net.jeebiz.boot.extras.redis.setup.RedisKey;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -63,7 +63,7 @@ public class ApiIdempotentSetnxAspect {
 			String idempotentKey = IdempotentUtils.getIdempotentKey(joinPoint, idempotent);
 			// 4.2、根据 key前缀 + @ApiIdempotent.value() + 方法签名 + 参数 构建缓存键值；确保幂等处理的操作对象是：同样的 @ApiIdempotent.value() + 方法签名 + 参数
 			String uid = SubjectUtils.isAuthenticated() ? SubjectUtils.getPrincipal(AuthPrincipal.class).getUid() : "guest";
-			String lockKey = RedisKey.IDEMPOTENT_ARGS_KEY.getKey(new StringJoiner("_").add(uid).add(idempotentKey).toString());
+			String lockKey = BizRedisKey.IDEMPOTENT_ARGS_KEY.getKey(new StringJoiner("_").add(uid).add(idempotentKey).toString());
 			try {
 				// 4.3、通过setnx确保只有一个接口能够正常访问
 				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {
@@ -91,7 +91,7 @@ public class ApiIdempotentSetnxAspect {
 				token = request.getParameter(idempotent.value());
 			}
 			// 5.3、根据 key前缀 + token
-			String lockKey = RedisKey.IDEMPOTENT_TOKEN_KEY.getKey(token);
+			String lockKey = BizRedisKey.IDEMPOTENT_TOKEN_KEY.getKey(token);
 			try {
 				// 5.4、通过setnx确保只有一个接口能够正常访问
 				if (redisOperationTemplate.tryLock(lockKey, idempotent.expireMillis())) {

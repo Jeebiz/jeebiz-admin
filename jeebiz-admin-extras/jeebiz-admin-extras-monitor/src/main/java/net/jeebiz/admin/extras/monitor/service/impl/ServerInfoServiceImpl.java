@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.extras.monitor.service.impl;
 
@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,6 @@ import com.google.common.collect.Lists;
 
 import hitool.core.collections.CollectionUtils;
 import hitool.core.format.ByteUnitFormat;
-import net.jeebiz.admin.api.BizRedisKey;
 import net.jeebiz.admin.extras.monitor.service.IServerInfoService;
 import net.jeebiz.admin.extras.monitor.utils.OshiUtils;
 import net.jeebiz.admin.extras.monitor.web.vo.CpuInfoVo;
@@ -24,13 +24,13 @@ import net.jeebiz.admin.extras.monitor.web.vo.JvmInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.MemInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.ServerInfoVo;
 import net.jeebiz.admin.extras.monitor.web.vo.SysDiskInfoVo;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import oshi.hardware.HardwareAbstractionLayer;
 
 @Service
 public class ServerInfoServiceImpl implements IServerInfoService {
 
-	@Autowired  
+	@Autowired
     private RedisOperationTemplate redisOperationTemplate;
 
 	@Override
