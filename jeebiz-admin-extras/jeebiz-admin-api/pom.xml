@@ -18,11 +18,6 @@
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-boot-extras-redis</artifactId>
-			<version>${jeebiz-boot.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>hitool-core</artifactId>
 		</dependency>

@@ -284,11 +284,11 @@ public class AliyunOssFilestoreStrategy extends AbstractFilestoreStrategy {
 		metadata.setObjectAcl(CannedAccessControlList.PublicRead);
 
     	// 上传并且生成缩略图
-        StringBuilder filePath = new StringBuilder();
-        	filePath.append(DateUtils.getDate());
-	        filePath.append(FOLDER_SEPARATOR);
-	        filePath.append(getSequence().nextId().toString());
-	        filePath.append(FilenameUtils.getFullExtension(file.getOriginalFilename()));
+        StringBuilder filePath = new StringBuilder()
+        	.append(DateUtils.getDate())
+	        .append(FOLDER_SEPARATOR)
+	        .append(getSequence().nextId().toString())
+	        .append(FilenameUtils.getFullExtension(file.getOriginalFilename()));
 
         StringBuilder thumbPath = new StringBuilder();
 
