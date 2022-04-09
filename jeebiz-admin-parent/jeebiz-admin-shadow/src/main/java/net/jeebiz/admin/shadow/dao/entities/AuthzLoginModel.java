@@ -24,35 +24,39 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
 public class AuthzLoginModel extends ShiroPrincipal {
 
 	/**
-	 * 用户id
+	 * 账号id
 	 */
 	private String id;
 	/**
-	 * 用户唯一Uid（用户编号）
+	 * 账号关联用户id
 	 */
 	private String uid;
 	/**
-	 * 用户唯一编号（内部工号）
+	 * 账号关联用户code（短号/工号）
 	 */
 	protected String ucode;
 	/**
-	 * 用户名
+	 * 登录方式（如：password：账号密码、weixin:微信登录...）
+	 */
+	protected String type;
+	/**
+	 * 账号名称
 	 */
 	private String username;
 	/**
-	 * 密码
+	 * 账号密码
 	 */
 	private String password;
 	/**
-	 * 用户密码盐：用于密码加解密
+	 * 账号密码盐：用于密码加解密
 	 */
 	private String salt;
 	/**
-	 * 用户秘钥：用于用户JWT加解密
+	 * 账号秘钥：用于用户JWT加解密
 	 */
 	private String secret;
 	/**
-	 * 用户状态（0:禁用|1:可用|2:锁定|3:密码过期）
+	 * 账号状态（0:禁用|1:可用|2:锁定|3:密码过期）
 	 */
 	private String status;
 	/**
@@ -60,7 +64,7 @@ public class AuthzLoginModel extends ShiroPrincipal {
 	 */
 	private String time24;
 	/**
-	 * 用户角色
+	 * 账号角色
 	 */
 	private List<AuthzRoleEntity> roleList = Lists.newArrayList();
 

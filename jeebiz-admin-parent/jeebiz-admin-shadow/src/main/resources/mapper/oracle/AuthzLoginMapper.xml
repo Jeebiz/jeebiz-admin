@@ -4,136 +4,138 @@
 <mapper namespace="net.jeebiz.admin.shadow.dao.AuthzLoginMapper">
 
 	<resultMap id="LoginMap" type="AuthzLoginModel">
-		<!-- 用户id -->
-		<result property="id" column="u_id" />
-		<!-- 用户唯一Uid（用户编号） -->
-		<result property="uid" column="u_uid" />
-		<!-- 用户唯一编号（内部工号） -->
-		<result property="ucode" column="u_code" />
-		<!-- 用户名称 -->
-		<result property="username" column="u_username"/>
-		<!-- 用户密码 -->
-		<result property="password" column="u_password"/>
-		<!-- 用户密码盐：用于密码加解密 -->
-		<result property="salt" column="u_salt"/>
-		<!-- 用户秘钥：用于用户JWT加解密 -->
-		<result property="secret" column="u_secret"/>
-		<!-- 用户状态(0:不可用|1:正常|2:锁定) -->
-		<result property="status" column="u_status"/>
+		<!-- 账号id -->
+		<result property="id" column="id" />
+		<!-- 账号关联用户id -->
+		<result property="uid" column="user_id" />
+		<!-- 账号关联用户code（短号/工号） -->
+		<result property="ucode" column="user_code" />
+		<!-- 账号名称 -->
+		<result property="username" column="username"/>
+		<!-- 账号密码 -->
+		<result property="password" column="password"/>
+		<!-- 登录方式（如：password：账号密码、weixin:微信登录...） -->
+		<result property="type" column="type"/>
+		<!-- 账号密码盐：用于密码加解密 -->
+		<result property="salt" column="salt"/>
+		<!-- 账号秘钥：用于用户JWT加解密 -->
+		<result property="secret" column="secret"/>
+		<!-- 账号状态(0:不可用|1:正常|2:锁定) -->
+		<result property="status" column="`status`"/>
 		<!-- 初始化时间 -->
 		<result property="time24" column="create_time"/>
 	</resultMap>
 
 	<resultMap id="LoginStatusMap" type="AuthzLoginStatusModel">
-		<result property="ucount" column="u_count" />
+		<result property="ucount" column="count" />
 		<result property="pcount" column="p_count" />
 		<result property="rcount" column="r_count" />
-		<result property="status" column="u_status" />
-		<result property="salt" column="u_salt" />
+		<result property="status" column="status" />
+		<result property="salt" column="salt" />
 	</resultMap>
 
 	<resultMap id="ProfileMap" type="net.jeebiz.boot.api.dao.entities.BaseMap">
-		<!-- 用户唯一Uid（用户编号） -->
-		<result property="uid" column="u_uid" />
+		<!-- 用户id -->
+		<result property="id" column="id" />
 		<!-- 用户唯一编号（内部工号） -->
-		<result property="ucode" column="u_code" />
+		<result property="ucode" column="code" />
 		<!-- 用户客户端应用id -->
-		<result property="appId" column="u_app_id"/>
+		<result property="appId" column="app_id"/>
 		<!-- 用户客户端应用渠道编码  -->
-		<result property="appChannel" column="u_app_channel" />
+		<result property="appChannel" column="app_channel" />
 		<!-- 用户客户端版本 -->
-		<result property="appVer" column="u_app_version"/>
+		<result property="appVer" column="app_version"/>
 		<!-- 用户是否在线（1：是，0：否） -->
-		<result property="online" column="u_online"/>
+		<result property="online" column="online"/>
 		<!-- 用户最近一次登录时间 -->
-		<result property="onlineLatest" column="u_latest_online" />
+		<result property="onlineLatest" column="latest_online" />
 		<!-- 用户别名（昵称） -->
-		<result property="nickname" column="u_nickname"/>
+		<result property="nickname" column="nickname"/>
 		<!-- 用户头像：图片路径或图标样式  -->
-		<result property="avatar" column="u_avatar" />
+		<result property="avatar" column="avatar" />
 		<!-- 手机号码国家码 -->
-		<result property="countryCode" column="u_region_code"/>
+		<result property="regionCode" column="region_code"/>
 		<!-- 手机号码 -->
-		<result property="phone" column="u_phone"/>
+		<result property="phone" column="phone"/>
 		<!-- 电子邮箱 -->
-		<result property="email" column="u_email"/>
+		<result property="email" column="email"/>
 		<!-- 性别：（M：男，F：女） -->
-		<result property="gender" column="u_gender" />
+		<result property="gender" column="gender" />
 		<!-- 出生日期 -->
-		<result property="birthday" column="u_birthday" />
+		<result property="birthday" column="birthday" />
 		<!-- 身份证号码 -->
-		<result property="idcard" column="u_idcard" />
+		<result property="idcard" column="idcard" />
 		<!-- 用户年龄 -->
-		<result property="age" column="u_age" />
+		<result property="age" column="age" />
 		<!-- 用户身高 -->
-		<result property="height" column="u_height" />
+		<result property="height" column="height" />
 		<!-- 用户体重 -->
-		<result property="weight" column="u_weight" />
+		<result property="weight" column="weight" />
 		<!-- 官方语言 -->
-		<result property="language" column="u_language" />
+		<result property="language" column="language" />
 		<!-- 用户备注 -->
-		<result property="intro" column="u_intro" />
+		<result property="intro" column="intro" />
 		<!-- 个人照片（包含是否封面标记、序号、地址的JSON字符串） -->
-		<result property="photos" column="u_photos" />
+		<result property="photos" column="photos" />
 		<!-- 用户位置：常驻省份 -->
-		<result property="province" column="u_province" />
+		<result property="province" column="province" />
 		<!-- 用户位置：常驻城市 -->
-		<result property="city" column="u_city" />
+		<result property="city" column="city" />
 		<!-- 用户位置：常驻区域 -->
-		<result property="area" column="u_area" />
+		<result property="area" column="area" />
 		<!-- 用户位置：常驻地经度 -->
-		<result property="longitude" column="u_wgs84_lng" />
+		<result property="longitude" column="wgs84_lng" />
 		<!-- 用户位置：常驻地纬度 -->
-		<result property="latitude" column="u_wgs84_lat" />
+		<result property="latitude" column="wgs84_lat" />
 		<!-- 用户信息完成度 -->
-		<result property="degree" column="u_degree" />
+		<result property="degree" column="degree" />
 		<!-- 初始化时间 -->
 		<result property="time24" column="create_time"/>
 	</resultMap>
 
 	<select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.u_username = #{username}) u_count,
-			   (select CAST(count('1') AS CHAR) from sys_authz_user_account b where b.u_username = #{username} and b.u_password = #{password,jdbcType=VARCHAR} ) p_count,
-			   (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.u_id = x.u_id and c.u_username = #{username}) r_count,
-			   IFNULL((select CAST(IFNULL(d.u_status,'0') AS CHAR) from sys_authz_user_account d where d.u_username = #{username}),'0') u_status,
-			   (select d.u_salt from sys_authz_user_account d where d.u_username = #{username}) as u_salt
+		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.username = #{username}) count,
+			   (select CAST(count('1') AS CHAR) from sys_authz_user_account b where b.username = #{username} and b.password = #{password,jdbcType=VARCHAR} ) p_count,
+			   (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.id = x.id and c.username = #{username}) r_count,
+			   IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.username = #{username}),'0') status,
+			   (select d.salt from sys_authz_user_account d where d.username = #{username}) as salt
 		from dual
 	</select>
 
 	<select id="getAccountStatusWithoutPwd" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.u_username = #{username}) u_count,
-			   (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.u_id = x.u_id and c.u_username = #{username}) r_count,
-			   IFNULL((select CAST(IFNULL(d.u_status,'0') AS CHAR) from sys_authz_user_account d where d.u_username = #{username}),'0') u_status,
-			   (select d.u_salt from sys_authz_user_account d where d.u_username = #{username}) as u_salt
+		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.username = #{username}) count,
+			   (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.username = #{username}) r_count,
+			   IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.username = #{username}),'0') status,
+			   (select d.salt from sys_authz_user_account d where d.username = #{username}) as salt
 		from dual
 	</select>
 
 	<select id="getAccountStatusById" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-		select (select count('1') from sys_authz_user_account a where a.u_id = #{id}) u_count,
-			   (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.u_id = x.u_id and c.u_id = #{id}) r_count,
-			   IFNULL((select IFNULL(d.u_status,'0') from sys_authz_user_account d where d.u_id = #{id}),'0') u_status,
-			   (select d.u_salt from sys_authz_user_account d where d.u_id = #{id}) as u_salt
+		select (select count('1') from sys_authz_user_account a where a.id = #{id}) count,
+			   (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.id = #{id}) r_count,
+			   IFNULL((select IFNULL(d.status,'0') from sys_authz_user_account d where d.id = #{id}),'0') status,
+			   (select d.salt from sys_authz_user_account d where d.id = #{id}) as salt
 		from dual
 	</select>
 
 	<sql id="AccountSQL">
-		select t.u_id,
-			   t.u_uid,
-			   t.u_code,
-			   t.u_username,
-			   t.u_password,
-			   t.u_salt,
-			   t.u_secret,
-			   t.u_status,
+		select t.id,
+			   t.uid,
+			   t.code,
+			   t.username,
+			   t.password,
+			   t.salt,
+			   t.secret,
+			   t.status,
 			   t.create_time
 		from sys_authz_user_account t
-		where t.u_username = #{username}
+		where t.username = #{username}
 	</sql>
 
 	<!-- 根据用户id和密码查询用户信息  -->
 	<select id="getAccount" parameterType="string" resultMap="LoginMap" useCache="false">
 		<include refid="AccountSQL"/>
-		and t.u_password = #{password}
+		and t.password = #{password}
 	</select>
 
 	<!-- 无密码根据用户id用户信息  -->
@@ -142,79 +144,80 @@
 	</select>
 
 	<select id="getAccountById" parameterType="string" resultMap="LoginMap" useCache="false">
-		select t.u_id,
-			   t.u_uid,
-			   t.u_code,
-			   t.u_username,
-			   t.u_password,
-			   t.u_salt,
-			   t.u_secret,
-			   t.u_status,
+		select t.id,
+			   t.user_id,
+			   t.user_code,
+			   t.username,
+			   t.password,
+			   t.salt,
+			   t.secret,
+			   t.status,
 			   t.create_time
 		from sys_authz_user_account t
-		where t.u_id = #{id}
+		where t.id = #{id}
 	</select>
 
 	<select id="getAccountByUcode" parameterType="string" resultMap="LoginMap" useCache="false">
-		select t.u_id,
-			   t.u_uid,
-			   t.u_code,
-			   t.u_username,
-			   t.u_password,
-			   t.u_salt,
-			   t.u_secret,
-			   t.u_status,
+		select t.id,
+			   t.user_id,
+			   t.user_code,
+			   t.username,
+			   t.password,
+			   t.salt,
+			   t.secret,
+			   t.status,
 			   t.create_time
 		from sys_authz_user_account t
-		where t.u_code = #{ucode}
+		where t.user_code = #{ucode}
 	</select>
 
 	<select id="getAccountByUid" parameterType="string" resultMap="LoginMap" useCache="false">
-		select t.u_id,
-			   t.u_uid,
-			   t.u_code,
-			   t.u_username,
-			   t.u_password,
-			   t.u_salt,
-			   t.u_secret,
-			   t.u_status,
+		select t.id,
+			   t.user_id,
+			   t.user_code,
+			   t.username,
+			   t.password,
+			   t.salt,
+			   t.secret,
+			   t.status,
 			   t.create_time
 		from sys_authz_user_account t
-		where t.u_uid = #{uid}
+		where t.user_id = #{uid}
 	</select>
 
 	<select id="getAccountProfile" parameterType="string" resultMap="ProfileMap">
 		SELECT
-			t.u_uid,
-			t.u_code,
-			t.u_app_id,
-			t.u_app_channel,
-			t.u_app_version,
-			t.u_online,
-			t.u_latest_online,
-			t2.u_nickname,
-			t2.u_avatar,
-			t2.u_region_code,
-			t2.u_phone,
-			t2.u_email,
-			t2.u_gender,
-			t2.u_birthday,
-			t2.u_idcard,
-			t2.u_age,
-			t2.u_height,
-			t2.u_weight,
-			t2.u_language,
-			t2.u_intro,
-			t2.u_photos,
-			t2.u_province,
-			t2.u_city,
-			t2.u_area,
-			t2.u_wgs84_lng,
-			t2.u_wgs84_lat,
-			t2.u_degree,
+			t.id,
+			t.user_id,
+			t.user_code,
+			t.app_id,
+			t.app_channel,
+			t.app_version,
+			t.is_online,
+			t.latest_online,
+			t2.nickname,
+			t2.avatar,
+			t2.region_code,
+			t2.phone,
+			t2.email,
+			t2.gender,
+			t2.birthday,
+			t2.idcard,
+			t2.age,
+			t2.height,
+			t2.weight,
+			t2.language,
+			t2.intro,
+			t2.photos,
+			t2.province,
+			t2.city,
+			t2.area,
+			t2.wgs84_lng,
+			t2.wgs84_lat,
+			t2.degree,
 			t2.create_time
-		FROM sys_authz_user_account t LEFT JOIN sys_authz_user_profile t2 ON t.u_id = t2.u_id
-		WHERE t.u_id = #{userid}
+		FROM sys_authz_user_account t LEFT JOIN sys_authz_user_profile t2 ON t.user_id = t2.id
+		WHERE t.id = #{userid}
 	</select>
 
 </mapper>
