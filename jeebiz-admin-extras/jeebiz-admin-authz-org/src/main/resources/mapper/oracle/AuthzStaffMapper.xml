@@ -52,7 +52,7 @@
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email
-		FROM sys_authz_org_staff t inner join sys_authz_user_list t2 on t2.u_id = t.staff_id
+		FROM sys_authz_org_staff t inner join sys_authz_user_account t2 on t2.u_id = t.staff_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
 				and t.org_id = #{model.orgId}
@@ -92,7 +92,7 @@
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email
-		FROM sys_authz_org_staff t inner join sys_authz_user_list t2 on t2.u_id = t.staff_id
+		FROM sys_authz_org_staff t inner join sys_authz_user_account t2 on t2.u_id = t.staff_id
 	   WHERE t.staff_id = #{id}
 	</select>
 

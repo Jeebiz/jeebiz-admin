@@ -31,7 +31,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
@@ -275,8 +274,7 @@ public class AuthzRoleController extends BaseApiController {
 	@RequiresPermissions("role:allot")
 	@ResponseBody
 	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzRoleAllotUserDTO allotDTO) throws Exception {
-		AuthzRoleAllotUserEntity model = getBeanMapper().map(allotDTO, AuthzRoleAllotUserEntity.class);
-		int total = getAuthzRoleService().doAllot(model);
+		int total = getAuthzRoleService().doAllot(allotDTO);
 		if(total > 0) {
 			return success("role.allot.success", total);
 		}
@@ -292,8 +290,7 @@ public class AuthzRoleController extends BaseApiController {
 	@RequiresPermissions("role:unallot")
 	@ResponseBody
 	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzRoleAllotUserDTO allotDTO) throws Exception {
-		AuthzRoleAllotUserEntity model = getBeanMapper().map(allotDTO, AuthzRoleAllotUserEntity.class);
-		int total = getAuthzRoleService().doUnAllot(model);
+		int total = getAuthzRoleService().doUnAllot(allotDTO);
 		if(total > 0) {
 			return success("role.unallot.success", total);
 		}

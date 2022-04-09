@@ -9,9 +9,9 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
 import net.jeebiz.boot.api.service.IBaseService;
 
@@ -25,14 +25,14 @@ public interface IAuthzRoleService extends IBaseService<AuthzRoleEntity>{
 	 * @param model
 	 * @return
 	 */
-	int doAllot(AuthzRoleAllotUserEntity model);
+	int doAllot(AuthzRoleAllotUserDTO model);
 
 	/**
 	 * 取消已分配给指定角色的用户
 	 * @param model
 	 * @return
 	 */
-	int doUnAllot(AuthzRoleAllotUserEntity model);
+	int doUnAllot(AuthzRoleAllotUserDTO model);
 
 	/**
 	 * 更新角色状态

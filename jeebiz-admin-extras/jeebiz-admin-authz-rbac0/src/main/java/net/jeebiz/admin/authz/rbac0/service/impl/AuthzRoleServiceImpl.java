@@ -21,11 +21,11 @@ import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRolePermsMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleAllotUserEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
+import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserDTO;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
@@ -133,7 +133,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doAllot(AuthzRoleAllotUserEntity model) {
+	public int doAllot(AuthzRoleAllotUserDTO model) {
 		int rt = 0;
 		for (String userId : model.getUserIds()) {
 			// 查询角色与用户是否已经有关联
@@ -147,7 +147,7 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doUnAllot(AuthzRoleAllotUserEntity model) {
+	public int doUnAllot(AuthzRoleAllotUserDTO model) {
 		return getBaseMapper().deleteUsers(model.getRoleId(), model.getUserIds());
 	}
 

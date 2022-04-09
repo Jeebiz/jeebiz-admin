@@ -165,7 +165,7 @@
 			t.t_devid,
 			t.t_rawdata,
 			t.t_time24
-		FROM sys_authz_user_thirdparty t INNER JOIN sys_authz_user_list t2 ON t.u_id = t2.u_id
+		FROM sys_authz_user_thirdparty t INNER JOIN sys_authz_user_account t2 ON t.u_id = t2.u_id
 	</select>
 
 </mapper>

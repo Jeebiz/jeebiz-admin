@@ -20,13 +20,13 @@
 		<!-- 文章访问时间 -->
 		<result property="time24" column="v_time24" />
     </resultMap>
-	
+
 	<select id="getPagedList" resultMap="ArticleVisitMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.v_id,
 			t.v_cid,
 			t.v_uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.v_uid) as v_uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.v_uid) as v_uname,
 			t.v_addr,
 			t.v_location,
 			t.v_agent,
@@ -42,13 +42,13 @@
 		</where>
 		ORDER By t.v_time24 ASC
 	</select>
-		
+
 	<select id="getRowList" resultMap="ArticleVisitMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.v_id,
 			t.v_cid,
 			t.v_uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.v_uid) as v_uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.v_uid) as v_uname,
 			t.v_addr,
 			t.v_location,
 			t.v_agent,

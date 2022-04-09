@@ -115,35 +115,35 @@
 	</resultMap>
 
 	<insert id="insert" parameterType="AuthzUserEntity" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-	    INSERT INTO sys_authz_user_list(u_uid, u_code, u_username, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
+	    INSERT INTO sys_authz_user_account(u_uid, u_code, u_username, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
 		VALUES(#{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{username},#{password},#{salt,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},
 		#{appId,jdbcType=VARCHAR},#{appChannel,jdbcType=VARCHAR},#{appVer,jdbcType=VARCHAR},#{online},'1')
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_user_list WHERE u_id = #{id} AND u_username != 'admin'
+		DELETE FROM sys_authz_user_account WHERE u_id = #{id} AND u_username != 'admin'
 	</delete>
 
 	<delete id="deleteRole" flushCache="true">
-    	DELETE FROM sys_authz_user_role_relation WHERE u_id = #{id} AND r_key != 'admin'
+    	DELETE FROM sys_authz_user_roles WHERE u_id = #{id} AND r_key != 'admin'
     </delete>
 
     <delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_authz_user_list WHERE u_username != 'admin' AND u_id IN
+		DELETE FROM sys_authz_user_account WHERE u_username != 'admin' AND u_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
            #{item}
         </foreach>
 	</delete>
 
 	<delete id="batchDeleteRole" flushCache="true">
-		DELETE FROM sys_authz_user_role_relation WHERE u_username != 'admin' AND u_id IN
+		DELETE FROM sys_authz_user_roles WHERE u_username != 'admin' AND u_id IN
 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
            #{item}
         </foreach>
 	</delete>
 
 	<update id="update" parameterType="AuthzUserEntity" flushCache="true">
-		update sys_authz_user_list t
+		update sys_authz_user_account t
 		<set>
 			<if test="ucode != null and ucode != ''">t.u_code = #{ucode},</if>
 			<if test="appId != null and appId != ''">t.u_app_id = #{appId},</if>
@@ -156,31 +156,31 @@
 	</update>
 
 	<update id="updateRole" parameterType="AuthzUserEntity" flushCache="true">
-    	update sys_authz_user_role_relation set r_id = #{roleId} WHERE u_id = #{id} AND r_key != 'admin'
+    	update sys_authz_user_roles set r_id = #{roleId} WHERE u_id = #{id} AND r_key != 'admin'
     </update>
 
 	<update id="updatePwd" parameterType="java.lang.String" flushCache="true">
-		update sys_authz_user_list t
+		update sys_authz_user_account t
 		   set t.u_password = #{password}
 		 where t.u_id = #{userId}
 	</update>
 
 	<update id="resetPwd" parameterType="java.lang.String" flushCache="true">
-		update sys_authz_user_list t
+		update sys_authz_user_account t
 		   set t.u_password = #{password}
 		where t.u_id = #{userId}
 		  AND t.u_password = #{oldPassword}
 	</update>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_authz_user_list t
+		UPDATE sys_authz_user_account t
 		   SET t.u_status = #{status}
 		 WHERE t.u_id = #{userId}
 	</update>
 
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
-		  FROM sys_authz_user_list t
+		  FROM sys_authz_user_account t
 		 WHERE t.u_username = #{name}
 		 <if test="origin != null and origin != ''">
 			AND t.u_id != #{origin}
@@ -189,7 +189,7 @@
 
 	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
-		  FROM sys_authz_user_list t
+		  FROM sys_authz_user_account t
 		 WHERE t.u_code = #{code}
 		<if test="origin != null and origin != ''">
 			AND t.u_id != #{origin}
@@ -197,7 +197,7 @@
 	</select>
 
 	<select id="getCountByRoleId" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.u_id) FROM sys_authz_user_role_relation t WHERE t.r_id = #{roleId} AND t.u_id = #{userId}
+		SELECT count(t.u_id) FROM sys_authz_user_roles t WHERE t.r_id = #{roleId} AND t.u_id = #{userId}
 	</select>
 
 	<select id="getUserById" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
@@ -216,7 +216,7 @@
 			t.u_latest_online,
 			t.u_status,
 			t.create_time
-		FROM sys_authz_user_list t
+		FROM sys_authz_user_account t
 	   WHERE t.u_id = #{id}
 	</select>
 
@@ -236,8 +236,8 @@
 			t.u_latest_online,
 			t.u_status,
 			t.create_time
-		FROM sys_authz_user_list t
-		LEFT JOIN sys_authz_user_role_relation y ON y.u_id = t.u_id
+		FROM sys_authz_user_account t
+		LEFT JOIN sys_authz_user_roles y ON y.u_id = t.u_id
 	   WHERE t.u_id = #{id}
 	</select>
 
@@ -257,7 +257,7 @@
 			t.u_latest_online,
 			t.u_status,
 			t.create_time
-		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
+		FROM sys_authz_user_account t INNER JOIN sys_authz_user_roles x ON t.u_id = x.u_id
 	   WHERE t.u_status = 1
 	</select>
 
@@ -277,12 +277,12 @@
 			t.u_latest_online,
 			t.u_status,
 			t.create_time
-		FROM sys_authz_user_list t
-		LEFT JOIN sys_authz_user_role_relation y ON y.u_id = t.u_id
+		FROM sys_authz_user_account t
+		LEFT JOIN sys_authz_user_roles y ON y.u_id = t.u_id
 	   WHERE t.u_username != 'admin'
 		<if test="model.roleId != null and model.roleId != ''">
 			and EXISTS (SELECT y.u_id
-				 FROM sys_authz_user_role_relation y
+				 FROM sys_authz_user_roles y
 				WHERE y.u_id = t.u_id
 				  AND y.r_id = #{model.roleId}
 			 )
@@ -303,9 +303,9 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_roles x WHERE x.r_id = t.r_id) as r_users,
 			t.create_time
-		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.r_id = x.r_id
 		WHERE x.u_id = #{id}
 		<if test="model.status != null and model.status != ''">
 			and t.r_status = #{model.status}
@@ -326,10 +326,10 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_roles x WHERE x.r_id = t.r_id) as r_users,
 			t.create_time
 		FROM sys_authz_role_list t
-		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.r_id = z.r_id and z.u_id = #{id})
+		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_roles z WHERE t.r_id = z.r_id and z.u_id = #{id})
 		<if test="model.status != null and model.status != ''">
 			and t.r_status = #{model.status}
 		</if>
@@ -343,7 +343,7 @@
 
 	<select id="getRoleKeys" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
 		  SELECT t.r_id
-			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.r_id = x.r_id
 		   WHERE t.r_status = '1'
 			 AND x.u_id = #{userId}
 		ORDER BY x.r_prty DESC
@@ -353,7 +353,7 @@
 			SELECT
 				t.r_id,
 				t.r_name
-			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.r_id = x.r_id
 		   WHERE t.r_status = '1'
 			 AND x.u_id = #{uid}
 		ORDER BY t.r_name ASC
@@ -368,7 +368,7 @@
 				t.r_intro,
 				t.r_status,
 				t.create_time
-			FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.r_id = x.r_id
 		   WHERE t.r_status = 1
 			 AND x.u_id = #{userId}
 		ORDER BY x.r_prty ASC
@@ -377,7 +377,7 @@
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
 		SELECT DISTINCT y.perms
 		FROM sys_authz_role_list t
-		INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		INNER JOIN sys_authz_user_roles x ON t.r_id = x.r_id
 		INNER JOIN sys_authz_role_perms y ON t.r_id = y.r_id
 		WHERE x.u_id = #{userId}
 		ORDER BY x.r_prty ASC

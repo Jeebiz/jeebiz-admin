@@ -25,27 +25,27 @@ public class AuthzRolePermsServiceImpl extends BaseServiceImpl<AuthzRolePermsMap
 	}
 
 	@Override
-	public int doPerms(AuthzRolePermsEntity model) {
+	public int doPerms(String roleId, List<String> perms) {
 		// 此次提交的授权标记
-		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
+		perms = AuthzPermsUtils.distinct(perms);
 		// 有授权
 		if( !CollectionUtils.isEmpty(perms)) {
 			// 执行授权
-			return getBaseMapper().setPerms(model.getId(), perms);
+			return getBaseMapper().setPerms(roleId, perms);
 		}
 		return 0;
 	}
 
 	@Override
-	public int unPerms(AuthzRolePermsEntity model) {
+	public int unPerms(String roleId, List<String> perms) {
 		// 查询已经授权标记
-		List<String> oldperms = getBaseMapper().getPermissions(model.getId());
+		List<String> oldperms = getBaseMapper().getPermissions(roleId);
 		// 此次提交的授权标记
-		List<String> perms = AuthzPermsUtils.distinct(model.getPerms());
+		perms = AuthzPermsUtils.distinct(perms);
 		// 之前没有权限
 		if(CollectionUtils.isEmpty(oldperms)) {
 			// 执行授权
-			return getBaseMapper().setPerms(model.getId(), perms);
+			return getBaseMapper().setPerms(roleId, perms);
 		}
 		// 之前有权限,这里需要筛选出新增的权限和取消的权限
 		else {
@@ -53,12 +53,12 @@ public class AuthzRolePermsServiceImpl extends BaseServiceImpl<AuthzRolePermsMap
 			// 授权标记增量
 			List<String> increments = AuthzPermsUtils.increment(perms, oldperms);
 			if(!CollectionUtils.isEmpty(increments)) {
-				count += getBaseMapper().setPerms(model.getId(), increments);
+				count += getBaseMapper().setPerms(roleId, increments);
 			}
 			// 授权标记减量
 			List<String> decrements = AuthzPermsUtils.decrement(perms, oldperms);
 			if(!CollectionUtils.isEmpty(decrements)) {
-				getBaseMapper().delPerms(model.getId(), decrements);
+				getBaseMapper().delPerms(roleId, decrements);
 			}
 			return count;
 		}

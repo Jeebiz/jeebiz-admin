@@ -9,8 +9,8 @@ import java.util.List;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
 import net.jeebiz.boot.api.service.IBaseService;
 
 
@@ -36,10 +36,11 @@ public interface IAuthzUserService extends IBaseService<AuthzUserEntity> {
 
 	/**
 	 * 更新用户状态
-	 * @param roleId 用户id
+	 * @param userId 用户id
 	 * @param status 用户状态（0:禁用|1:可用|2:锁定）
 	 * @return
 	 */
+	@Override
 	int setStatus( String userId, String status);
 
 	/**
@@ -48,7 +49,7 @@ public interface IAuthzUserService extends IBaseService<AuthzUserEntity> {
 	 * @param model
 	 * @return
 	 */
-	int doAllot(AuthzUserAllotRoleEntity model);
+	int doAllot(AuthzUserRoleEntity model);
 
 	/**
 	 * 取消已分配给指定用户的角色
@@ -56,7 +57,7 @@ public interface IAuthzUserService extends IBaseService<AuthzUserEntity> {
 	 * @param model
 	 * @return
 	 */
-	int doUnAllot(AuthzUserAllotRoleEntity model);
+	int doUnAllot(AuthzUserRoleEntity model);
 
 	/**
 	 * 获取用户已分配角色id

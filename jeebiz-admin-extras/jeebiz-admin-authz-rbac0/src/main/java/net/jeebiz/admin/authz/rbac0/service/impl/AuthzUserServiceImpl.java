@@ -23,8 +23,8 @@ import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
@@ -69,7 +69,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
  		while (getBaseMapper().getCountByUid(uid) != 0) {
  			uid = randomString.nextNumberString();
  		}
-        model.setUuid(uid);
+        model.setUserCode(uid);
 		int ct = getBaseMapper().insert(model);
 		getAuthzRoleMapper().setUsers(model.getRoleId(), Lists.newArrayList(model.getId()));
 		return ct > 0;
@@ -118,14 +118,14 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doAllot(AuthzUserAllotRoleEntity model) {
+	public int doAllot(AuthzUserRoleEntity model) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public int doUnAllot(AuthzUserAllotRoleEntity model) {
+	public int doUnAllot(AuthzUserRoleEntity model) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

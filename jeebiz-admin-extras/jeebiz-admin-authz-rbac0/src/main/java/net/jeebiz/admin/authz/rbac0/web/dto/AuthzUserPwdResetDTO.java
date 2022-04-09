@@ -4,11 +4,11 @@
  */
 package net.jeebiz.admin.authz.rbac0.web.dto;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
 
 @ApiModel(value = "AuthzUserPwdResetDTO", description = "个人密码更新参数DTO")
 @Data

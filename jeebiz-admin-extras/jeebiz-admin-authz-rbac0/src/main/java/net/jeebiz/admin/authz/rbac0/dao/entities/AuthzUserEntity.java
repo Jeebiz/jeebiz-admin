@@ -27,7 +27,7 @@ import net.jeebiz.boot.api.dao.entities.PairModel;
 
 @Alias(value = "AuthzUserEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_user_list")
+@TableName(value = "sys_authz_user_account")
 @Builder
 @Data
 @NoArgsConstructor

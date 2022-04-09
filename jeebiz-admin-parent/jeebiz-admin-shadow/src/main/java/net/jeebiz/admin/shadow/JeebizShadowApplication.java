@@ -4,6 +4,7 @@
  */
 package net.jeebiz.admin.shadow;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -26,7 +27,7 @@ import net.jeebiz.boot.autoconfigure.EnableJeebiz;
 @EnableWebMvc
 //@EnableAdminServer
 //其他路径可以单独添加注解
-//@MapperScan({"net.jeebiz.**.dao"})
+@MapperScan({"net.jeebiz.**.dao", "net.jeebiz.**repository"})
 //@ComponentScan({"net.jeebiz.**.setup", "net.jeebiz.**.service", "net.jeebiz.**.aspect", "net.jeebiz.**.task"})
 @SpringBootApplication
 public class JeebizShadowApplication implements CommandLineRunner {

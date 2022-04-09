@@ -92,27 +92,27 @@
 	</resultMap>
 
 	<select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-	    select (select CAST(count('1') AS CHAR) from sys_authz_user_list a where a.u_username = #{username}) u_count,
-		       (select CAST(count('1') AS CHAR) from sys_authz_user_list b where b.u_username = #{username} and b.u_password = #{password,jdbcType=VARCHAR} ) p_count,
-		       (select CAST(count('1') AS CHAR) from sys_authz_user_list c,sys_authz_user_role_relation x where c.u_id = x.u_id and c.u_username = #{username}) r_count,
-		       IFNULL((select CAST(IFNULL(d.u_status,'0') AS CHAR) from sys_authz_user_list d where d.u_username = #{username}),'0') u_status,
-		       (select d.u_salt from sys_authz_user_list d where d.u_username = #{username}) as u_salt
+	    select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.u_username = #{username}) u_count,
+		       (select CAST(count('1') AS CHAR) from sys_authz_user_account b where b.u_username = #{username} and b.u_password = #{password,jdbcType=VARCHAR} ) p_count,
+		       (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.u_id = x.u_id and c.u_username = #{username}) r_count,
+		       IFNULL((select CAST(IFNULL(d.u_status,'0') AS CHAR) from sys_authz_user_account d where d.u_username = #{username}),'0') u_status,
+		       (select d.u_salt from sys_authz_user_account d where d.u_username = #{username}) as u_salt
 		from dual
     </select>
 
     <select id="getAccountStatusWithoutPwd" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-	    select (select CAST(count('1') AS CHAR) from sys_authz_user_list a where a.u_username = #{username}) u_count,
-		       (select CAST(count('1') AS CHAR) from sys_authz_user_list c,sys_authz_user_role_relation x where c.u_id = x.u_id and c.u_username = #{username}) r_count,
-		       IFNULL((select CAST(IFNULL(d.u_status,'0') AS CHAR) from sys_authz_user_list d where d.u_username = #{username}),'0') u_status,
-		       (select d.u_salt from sys_authz_user_list d where d.u_username = #{username}) as u_salt
+	    select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.u_username = #{username}) u_count,
+		       (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.u_id = x.u_id and c.u_username = #{username}) r_count,
+		       IFNULL((select CAST(IFNULL(d.u_status,'0') AS CHAR) from sys_authz_user_account d where d.u_username = #{username}),'0') u_status,
+		       (select d.u_salt from sys_authz_user_account d where d.u_username = #{username}) as u_salt
 		from dual
     </select>
 
     <select id="getAccountStatusById" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-	    select (select count('1') from sys_authz_user_list a where a.u_id = #{id}) u_count,
-		       (select count('1') from sys_authz_user_list c,sys_authz_user_role_relation x where c.u_id = x.u_id and c.u_id = #{id}) r_count,
-		       IFNULL((select IFNULL(d.u_status,'0') from sys_authz_user_list d where d.u_id = #{id}),'0') u_status,
-		       (select d.u_salt from sys_authz_user_list d where d.u_id = #{id}) as u_salt
+	    select (select count('1') from sys_authz_user_account a where a.u_id = #{id}) u_count,
+		       (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.u_id = x.u_id and c.u_id = #{id}) r_count,
+		       IFNULL((select IFNULL(d.u_status,'0') from sys_authz_user_account d where d.u_id = #{id}),'0') u_status,
+		       (select d.u_salt from sys_authz_user_account d where d.u_id = #{id}) as u_salt
 		from dual
     </select>
 
@@ -126,7 +126,7 @@
 				t.u_secret,
 				t.u_status,
 				t.create_time
-		   from sys_authz_user_list t
+		   from sys_authz_user_account t
 		  where t.u_username = #{username}
 	</sql>
 
@@ -151,7 +151,7 @@
 				t.u_secret,
 				t.u_status,
 				t.create_time
-		  from sys_authz_user_list t
+		  from sys_authz_user_account t
 		 where t.u_id = #{id}
     </select>
 
@@ -165,7 +165,7 @@
 				t.u_secret,
 				t.u_status,
 				t.create_time
-		  from sys_authz_user_list t
+		  from sys_authz_user_account t
 		 where t.u_code = #{ucode}
     </select>
 
@@ -179,7 +179,7 @@
 				t.u_secret,
 				t.u_status,
 				t.create_time
-		   from sys_authz_user_list t
+		   from sys_authz_user_account t
 		  where t.u_uid = #{uid}
     </select>
 
@@ -213,7 +213,7 @@
 			t2.u_wgs84_lat,
 			t2.u_degree,
 			t2.create_time
-		FROM sys_authz_user_list t LEFT JOIN sys_authz_user_profile t2 ON t.u_id = t2.u_id
+		FROM sys_authz_user_account t LEFT JOIN sys_authz_user_profile t2 ON t.u_id = t2.u_id
 	   WHERE t.u_id = #{userid}
     </select>
 

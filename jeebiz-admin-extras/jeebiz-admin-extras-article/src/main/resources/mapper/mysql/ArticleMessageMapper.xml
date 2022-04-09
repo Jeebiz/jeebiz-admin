@@ -35,7 +35,7 @@
 			t.M_id,
 			t.M_Cid,
 			t.M_Uid,
-			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
+			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
@@ -56,7 +56,7 @@
 			t.M_id,
 			t.M_Cid,
 			t.M_Uid,
-			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
+			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
@@ -69,7 +69,7 @@
 			t.M_id,
 			t.M_Cid,
 			t.M_Uid,
-			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
+			(SELECT IFNULL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24

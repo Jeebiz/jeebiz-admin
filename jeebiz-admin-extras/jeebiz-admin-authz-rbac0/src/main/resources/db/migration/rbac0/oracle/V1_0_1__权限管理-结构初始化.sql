@@ -39,7 +39,7 @@ comment on column sys_authz_role_perms.r_id  is '角色id';
 comment on column sys_authz_role_perms.perms  is '权限标记：(等同sys_authz_feature_opts.opt_perms)';
 
 -- Create table
-create table sys_authz_user_list (
+create table sys_authz_user_account (
   u_id   			VARCHAR2(32) default sys_guid() not null,
   u_username 		VARCHAR2(100) not null,
   u_password 		VARCHAR2(100) not null,
@@ -59,22 +59,22 @@ create table sys_authz_user_list (
   CONSTRAINT PK_Uid PRIMARY KEY(u_id)
 );
 -- Add comments to the table
-comment on table sys_authz_user_list  is '用户账户信息表';
+comment on table sys_authz_user_account  is '用户账户信息表';
 -- Add comments to the columns
-comment on column sys_authz_user_list.u_id  is '用户id';
-comment on column sys_authz_user_list.u_username  is '用户名';
-comment on column sys_authz_user_list.u_password  is '用户密码';
-comment on column sys_authz_user_list.u_salt  is '用户密码盐：用于密码加解密';
-comment on column sys_authz_user_list.u_secret  is '用户秘钥：用于用户JWT加解密';
-comment on column sys_authz_user_list.u_status  is '用户状态（0:禁用|1:可用|2:锁定）';
-comment on column sys_authz_user_list.u_uid  is '用户唯一Uid（用户编号）';
-comment on column sys_authz_user_list.u_code  is '用户唯一编号（内部工号）';
-comment on column sys_authz_user_list.u_app_id  is '用户客户端应用id';
-comment on column sys_authz_user_list.u_app_channel  is '用户客户端应用渠道编码';
-comment on column sys_authz_user_list.u_app_version  is '用户客户端版本';
-comment on column sys_authz_user_list.u_online  is '用户是否在线（1：是，0：否）';
-comment on column sys_authz_user_list.u_latest_online  is '用户最近一次在线登录时间';
-comment on column sys_authz_user_list.create_time  is '初始化时间';
+comment on column sys_authz_user_account.u_id  is '用户id';
+comment on column sys_authz_user_account.u_username  is '用户名';
+comment on column sys_authz_user_account.u_password  is '用户密码';
+comment on column sys_authz_user_account.u_salt  is '用户密码盐：用于密码加解密';
+comment on column sys_authz_user_account.u_secret  is '用户秘钥：用于用户JWT加解密';
+comment on column sys_authz_user_account.u_status  is '用户状态（0:禁用|1:可用|2:锁定）';
+comment on column sys_authz_user_account.u_uid  is '用户唯一Uid（用户编号）';
+comment on column sys_authz_user_account.u_code  is '用户唯一编号（内部工号）';
+comment on column sys_authz_user_account.u_app_id  is '用户客户端应用id';
+comment on column sys_authz_user_account.u_app_channel  is '用户客户端应用渠道编码';
+comment on column sys_authz_user_account.u_app_version  is '用户客户端版本';
+comment on column sys_authz_user_account.u_online  is '用户是否在线（1：是，0：否）';
+comment on column sys_authz_user_account.u_latest_online  is '用户最近一次在线登录时间';
+comment on column sys_authz_user_account.create_time  is '初始化时间';
 
 -- Create table
 create table sys_authz_user_profile (
@@ -130,16 +130,16 @@ comment on column sys_authz_user_profile.u_degree  is '用户信息完成度';
 comment on column sys_authz_user_profile.create_time  is '初始化时间';
 
 -- Create table
-create table sys_authz_user_role_relation (
+create table sys_authz_user_roles (
   u_id   			VARCHAR2(32) not null,
   r_id   			VARCHAR2(32) not null,
   r_prty			VARCHAR2(2) default '0',
   CONSTRAINT UNIQUE_Uid_Rid UNIQUE(u_id, r_id)
 );
 -- Add comments to the table
-comment on table sys_authz_user_role_relation  is '用户-角色关系表';
+comment on table sys_authz_user_roles  is '用户-角色关系表';
 -- Add comments to the columns
-comment on column sys_authz_user_role_relation.u_id  is '用户id';
-comment on column sys_authz_user_role_relation.r_id  is '角色id';
-comment on column sys_authz_user_role_relation.r_prty  is '优先级：用于默认登录角色';
+comment on column sys_authz_user_roles.u_id  is '用户id';
+comment on column sys_authz_user_roles.r_id  is '角色id';
+comment on column sys_authz_user_roles.r_prty  is '优先级：用于默认登录角色';
 

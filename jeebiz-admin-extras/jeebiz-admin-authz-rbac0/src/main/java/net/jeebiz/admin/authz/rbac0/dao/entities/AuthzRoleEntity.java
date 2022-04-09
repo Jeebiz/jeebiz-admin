@@ -33,32 +33,32 @@ public class AuthzRoleEntity extends PaginationEntity<AuthzRoleEntity> {
 	/**
 	 * 角色id
 	 */
-	@TableId(value="r_id",type= IdType.AUTO)
+	@TableId(value="id",type= IdType.AUTO)
 	private String id;
 	/**
 	 * 角色编码
 	 */
-	@TableField(value = "r_key")
+	@TableField(value = "`key`")
 	private String key;
 	/**
 	 * 角色名称
 	 */
-	@TableField(value = "r_name")
+	@TableField(value = "`name`")
 	private String name;
 	/**
 	 * 角色简介
 	 */
-	@TableField(value = "r_intro")
+	@TableField(value = "intro")
 	private String intro;
 	/**
 	 * 角色类型（1:原生|2:继承|3:复制|4:自定义）
 	 */
-	@TableField(value = "r_type")
+	@TableField(value = "type")
 	private String type;
 	/**
 	 * 角色状态（0:禁用|1:可用）
 	 */
-	@TableField(value = "r_status")
+	@TableField(value = "`status`")
 	private String status;
 	/**
 	 * 角色授权的标记集合
@@ -70,5 +70,10 @@ public class AuthzRoleEntity extends PaginationEntity<AuthzRoleEntity> {
 	 */
 	@TableField(exist = false)
 	private int users;
+	/**
+	 * 用户id集合
+	 */
+	@TableField(exist = false)
+	private List<String> userIds;
 
 }

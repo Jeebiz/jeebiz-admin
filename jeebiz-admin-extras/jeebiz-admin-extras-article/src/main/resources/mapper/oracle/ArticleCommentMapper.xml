@@ -28,14 +28,14 @@
 		<!-- 文章评论时间 -->
 		<result property="time24" column="c_time24" />
     </resultMap>
-    
+
 	<select id="getPagedList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
 			t.c_cid,
 			t.c_pid,
 			t.c_uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.c_review,
@@ -50,14 +50,14 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="getModel" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
 			t.c_cid,
 			t.c_pid,
 			t.c_uid,
-		    (SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+		    (SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.c_review,
@@ -75,7 +75,7 @@
 			t.c_cid,
 			t.c_pid,
 			t.c_uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.c_review,
@@ -87,14 +87,14 @@
 	  WHERE t.c_status != 0
 	    AND t.c_uid = #{uid}
 	</select>
-	
+
 	<select id="getTreeList" resultMap="ArticleCommentMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.c_id,
 			t.c_cid,
 			t.c_pid,
 			t.c_uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.c_uid) as c_uname,
 			t.C_TYPE,
 			t.C_TEXT,
 			t.c_review,

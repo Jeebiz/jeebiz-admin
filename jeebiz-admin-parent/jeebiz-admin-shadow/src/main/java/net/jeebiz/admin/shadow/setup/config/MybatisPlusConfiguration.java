@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package net.jeebiz.admin.shadow.setup.config;
 
@@ -16,7 +16,6 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 
 @Configuration
-@MapperScan({"net.jeebiz.**.dao", "net.jeebiz.**repository"})
 public class MybatisPlusConfiguration {
 
 	/**
@@ -63,7 +62,7 @@ public class MybatisPlusConfiguration {
 	public ISqlInjector sqlInjector() {
 		return new DefaultSqlInjector();
 	}
-	
+
 	/**
 	 * 注入主键生成器
 	@Bean
@@ -76,14 +75,14 @@ public class MybatisPlusConfiguration {
 	 * oracle数据库配置JdbcTypeForNull
 	 * 参考：https://gitee.com/baomidou/mybatisplus-boot-starter/issues/IHS8X
 	 * 不需要这样配置了，参考 yml: mybatis-plus: confuguration dbc-type-for-null: 'null'
-	 * 
+	 *
 	 * @Bean public ConfigurationCustomizer configurationCustomizer(){ return new
 	 * MybatisPlusCustomizers(); }
-	 * 
+	 *
 	 * class MybatisPlusCustomizers implements ConfigurationCustomizer {
-	 * 
+	 *
 	 * @Override public void customize(org.apache.ibatis.session.Configuration
 	 * configuration) { configuration.setJdbcTypeForNull(JdbcType.NULL); } }
 	 */
-    
+
 }

@@ -25,20 +25,20 @@ public interface AuthzUserMapper extends BaseMapper<AuthzUserEntity>{
 	 * @param id
 	 * @return
 	 */
-	public AuthzUserEntity getUserById(String id);
+	AuthzUserEntity getUserById(String id);
 
 	/**
 	 * 查询系统所有用户
 	 * @return
 	 */
-	public List<AuthzUserEntity> getUserList();
+	List<AuthzUserEntity> getUserList();
 
 	/**
 	 * 删除用户角色记录
 	 * @param id
 	 * @return
 	 */
-	public int deleteRole(String id);
+	int deleteRole(String id);
 
 	/**
 	 * 批量删除用户角色

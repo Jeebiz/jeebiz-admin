@@ -43,7 +43,7 @@
 		SELECT
 			t.c_id,
 			t.c_uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.c_uid) as c_uname,
 			t.c_name,
 			t.c_grade,
 			t.c_intro,
@@ -72,7 +72,7 @@
 		SELECT
 			t.c_id,
 			t.c_uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.c_uid) as c_uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.c_uid) as c_uname,
 			t.c_name,
 			t.c_grade,
 			t.c_intro,

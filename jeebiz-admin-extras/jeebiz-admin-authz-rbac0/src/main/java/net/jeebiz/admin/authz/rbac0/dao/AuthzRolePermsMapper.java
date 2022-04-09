@@ -40,6 +40,6 @@ public interface AuthzRolePermsMapper extends BaseMapper<AuthzRolePermsEntity>{
 	 * @param roleId 角色id
 	 * @return 角色具备的权限信息
 	 */
-	public List<String> getPermissions(@Param(value="roleId")String roleId);
+	public List<String> getPermissions(@Param(value="roleId") String roleId);
 
 }

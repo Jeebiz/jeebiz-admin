@@ -28,13 +28,13 @@ public interface IAuthzRolePermsService extends IBaseService<AuthzRolePermsEntit
 	 * @param model
 	 * @return
 	 */
-	public int doPerms(AuthzRolePermsEntity model);
+	public int doPerms(String roleId, List<String> perms);
 
 	/**
 	 * 取消已分配给指定角色的权限
 	 * @param model
 	 * @return
 	 */
-	public int unPerms(AuthzRolePermsEntity model);
+	public int unPerms(String roleId, List<String> perms);
 
 }

@@ -36,10 +36,10 @@
 			AND t.team_id != #{teamId}
 		 </if>
 	</select>
-	
+
 	<select id="getStaffCount" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
-		  FROM sys_authz_user_list t
+		  FROM sys_authz_user_account t
 		 WHERE t.team_id = #{id}
 	</select>
 
@@ -103,7 +103,7 @@
 			WHERE t.team_id = #{key}
 		</if>
 	</select>
-	
+
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
 	   SELECT t.team_id,t.team_name
 		 FROM sys_authz_org_team t

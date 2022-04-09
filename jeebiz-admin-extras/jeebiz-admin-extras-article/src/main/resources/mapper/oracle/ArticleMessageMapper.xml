@@ -18,13 +18,13 @@
 		<!-- 文章消息发送时间 -->
 		<result property="time24" column="M_time24" />
     </resultMap>
- 
+
 	<select id="getPagedList" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.M_id,
 			t.M_Cid,
 			t.M_Uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
@@ -39,26 +39,26 @@
 		</where>
 		ORDER By t.M_time24 ASC
 	</select>
-	
+
 	<select id="getModel" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.M_id,
 			t.M_Cid,
 			t.M_Uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24
 		FROM sys_article_messages t
 	  WHERE t.M_id = #{id}
 	</select>
-	
+
 	<select id="getRowList" resultMap="ArticleMessageMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.M_id,
 			t.M_Cid,
 			t.M_Uid,
-			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_list x where x.u_id = t.M_Uid) as M_Uname,
+			(SELECT NVL(x.u_alias, x.u_username) from sys_authz_user_account x where x.u_id = t.M_Uid) as M_Uname,
 			t.M_MSG,
 			t.M_STATUS,
 			t.M_time24

@@ -75,11 +75,6 @@
 			<artifactId>jeebiz-admin-extras-filestore</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-extras-filestore-aliyun-oss</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
 		<!-- Jeebiz 消息通知（可选） -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>

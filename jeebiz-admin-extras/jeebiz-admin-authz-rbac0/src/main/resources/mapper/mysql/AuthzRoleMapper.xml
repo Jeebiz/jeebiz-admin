@@ -79,10 +79,10 @@
 	<update id="resetPrty" parameterType="java.lang.String" flushCache="true">
 	   	DECLARE
 	   	BEGIN
-			UPDATE sys_authz_user_role_relation
+			UPDATE sys_authz_user_roles
 			   SET r_prty = 0
 			 WHERE u_id = #{userId};
-			UPDATE sys_authz_user_role_relation
+			UPDATE sys_authz_user_roles
 			   SET r_prty = 1
 			 WHERE r_id = #{roleId}
 			   AND u_id = #{userId};
@@ -111,7 +111,7 @@
 	</select>
 
 	<select id="getCountByUid" resultType="java.lang.Long" parameterType="java.lang.String">
-		SELECT count(t.u_id) FROM sys_authz_user_role_relation t WHERE t.r_id = #{uid}
+		SELECT count(t.u_id) FROM sys_authz_user_roles t WHERE t.r_id = #{uid}
 	</select>
 
 	<select id="getRoles" resultMap="RoleMap" useCache="true">
@@ -135,7 +135,7 @@
 			t.r_intro,
 			t.r_status,
 			t.create_time
-		FROM sys_authz_role_list t INNER JOIN sys_authz_user_role_relation x ON t.r_id = x.r_id
+		FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.r_id = x.r_id
 		WHERE x.u_id = #{userId}
 	</select>
 
@@ -151,7 +151,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_roles x WHERE x.r_id = t.r_id) as r_users,
 			t.create_time
 		FROM sys_authz_role_list t
 	   WHERE t.r_id = #{id}
@@ -166,7 +166,7 @@
 			t.r_type,
 			t.r_intro,
 			t.r_status,
-			(SELECT COUNT(x.r_id) FROM sys_authz_user_role_relation x WHERE x.r_id = t.r_id) as r_users,
+			(SELECT COUNT(x.r_id) FROM sys_authz_user_roles x WHERE x.r_id = t.r_id) as r_users,
 			t.create_time
 		FROM sys_authz_role_list t
 	   WHERE t.r_key != 'admin'
@@ -182,21 +182,21 @@
 	</select>
 
 	<insert id="setUsers" flushCache="true">
-    	insert into sys_authz_user_role_relation(r_id,u_id)
+    	insert into sys_authz_user_roles(r_id,u_id)
     	values <foreach collection="userIds" item="item" separator =",">
 		(#{roleId},#{item})
         </foreach>
     </insert>
 
     <insert id="setUsersByKey" flushCache="true">
-    	insert into sys_authz_user_role_relation(r_id,u_id)
+    	insert into sys_authz_user_roles(r_id,u_id)
     	values <foreach collection="userIds" item="item" separator =",">
 		((SELECT x.r_id FROM sys_authz_role_list x WHERE x.r_key = #{roleKey}),#{item})
         </foreach>
     </insert>
 
     <delete id="deleteUsers" flushCache="true">
-    	DELETE FROM sys_authz_user_role_relation WHERE r_id = #{roleId} AND r_key != 'admin'
+    	DELETE FROM sys_authz_user_roles WHERE r_id = #{roleId} AND r_key != 'admin'
     	<foreach collection="userIds" item="item" separator =" OR " open=" AND ( " close=")">
 		u_id = #{item}
         </foreach>
@@ -213,7 +213,7 @@
 			t.U_REMARK,
 			t.u_status,
 			t.create_time
-		FROM sys_authz_user_list t INNER JOIN sys_authz_user_role_relation x ON t.u_id = x.u_id
+		FROM sys_authz_user_account t INNER JOIN sys_authz_user_roles x ON t.u_id = x.u_id
 		WHERE x.r_id = #{model.id}
 		<if test="model.status != null and model.status != ''">
 			and t.u_status = #{model.status}
@@ -234,8 +234,8 @@
 			t.U_REMARK,
 			t.u_status,
 			t.create_time
-		FROM sys_authz_user_list t
-		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_role_relation z WHERE t.u_id = z.u_id and z.r_id = #{id} )
+		FROM sys_authz_user_account t
+		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_roles z WHERE t.u_id = z.u_id and z.r_id = #{id} )
 		<if test="model.status != null and model.status != ''">
 			and t.u_status = #{model.status}
 		</if>

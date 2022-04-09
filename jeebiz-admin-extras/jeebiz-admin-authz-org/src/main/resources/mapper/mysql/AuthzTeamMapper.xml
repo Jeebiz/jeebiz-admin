@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.jeebiz.admin.authz.org.dao.AuthzTeamMapper">
-	
+
 	<resultMap id="AuthzTeamMap" type="AuthzTeamModel">
 		<id property="id" column="team_id" />
 		<result property="orgId" column="org_id" />
@@ -15,7 +15,7 @@
 		<result property="status" column="team_status" />
 		<result property="time24" column="time24" />
 	</resultMap>
-	
+
 	<resultMap id="PairMap" type="PairModel">
 		<result property="key" column="team_id" />
 		<result property="value" column="team_name" />
@@ -26,7 +26,7 @@
 		   SET team_status = #{status}
 		 WHERE team_id = #{id,jdbcType=INTEGER}
 	</update>
-	
+
 	<select id="getTeamCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.team_id)
 		  FROM sys_authz_org_team t
@@ -36,13 +36,13 @@
 			AND t.team_id != #{teamId,jdbcType=INTEGER}
 		 </if>
 	</select>
-	
+
 	<select id="getStaffCount" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
-		  FROM sys_authz_user_list t
+		  FROM sys_authz_user_account t
 		 WHERE t.team_id = #{id,jdbcType=INTEGER}
 	</select>
-	
+
 	<select id="getPagedList" resultMap="AuthzTeamMap" parameterType="AuthzTeamModel" useCache="false">
 		SELECT
 			t2.org_id,
@@ -85,7 +85,7 @@
 		FROM sys_authz_org_team t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
 	   WHERE t.team_id = #{id,jdbcType=INTEGER}
 	</select>
-	
+
 	<select id="getModelList" resultMap="AuthzTeamMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t2.org_id,
@@ -112,5 +112,5 @@
 			AND t.dept_id = #{key,jdbcType=INTEGER}
 		</if>
 	</select>
-    
+
 </mapper>

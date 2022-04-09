@@ -31,12 +31,12 @@ public class AuthzUserProfileEntity extends BaseEntity<AuthzUserProfileEntity> {
 	/**
 	 * 用户id
 	 */
-	@TableId(value="user_id",type= IdType.AUTO)
+	@TableId(value="id", type= IdType.AUTO)
 	private String userId;
 	/**
 	 * 用户code（短号/工号）
 	 */
-	@TableField(value = "user_code")
+	@TableField(value = "code")
 	private String userCode;
 	/**
 	 * 用户别名（昵称）

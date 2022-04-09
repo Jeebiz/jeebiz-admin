@@ -8,30 +8,32 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_role_list`;
 CREATE TABLE `sys_authz_role_list` (
-  `r_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '角色id',
-  `r_key` varchar(50) NOT NULL COMMENT '角色编码',
-  `r_name` varchar(50) NOT NULL COMMENT '角色名称',
-  `r_type` int(1) NOT NULL COMMENT '角色类型（1:原生|2:继承|3:复制|4:自定义）',
-  `r_intro` varchar(1000) NOT NULL COMMENT '角色简介',
-  `r_status` int(1) NOT NULL DEFAULT '1' COMMENT '角色状态（0:禁用|1:可用）',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `key` varchar(50) NOT NULL COMMENT '角色编码',
+  `name` varchar(50) NOT NULL COMMENT '角色名称',
+  `type` int(1) NOT NULL COMMENT '角色类型（1:原生|2:继承|3:复制|4:自定义）',
+  `intro` varchar(1000) NOT NULL COMMENT '角色简介',
+  `status` int(1) NOT NULL DEFAULT '1' COMMENT '角色状态（0:禁用|1:可用）',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`r_id`),
-  UNIQUE KEY (`r_key`)
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色信息表';
 
 -- ----------------------------
--- Table structure for SYS_AUTHZ_ROLE_PERMITS
+-- Table structure for sys_authz_role_perms
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_role_perms`;
 CREATE TABLE `sys_authz_role_perms` (
-  `r_id` bigint(12) NOT NULL COMMENT '角色id',
-  `r_key` varchar(64) DEFAULT NULL COMMENT '角色编码',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `role_id` bigint(12) NOT NULL COMMENT '角色id',
+  `role_key` varchar(64) DEFAULT NULL COMMENT '角色编码',
   `perms` varchar(50) NOT NULL COMMENT '权限标记：(等同sys_authz_feature_opts.opt_perms)',
-  PRIMARY KEY (`r_id`,`perms`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user_id`(`role_id`,`perms`) USING BTREE COMMENT '角色权限索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色-权限关系表（角色-菜单-按钮）';
 
 -- ----------------------------
@@ -58,9 +60,8 @@ CREATE TABLE `sys_authz_user_account` (
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_uname` (`username`),
-  UNIQUE KEY `idx_uuid` (`user_id`)
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user`(`user_id`,`user_code`,`username`) USING BTREE COMMENT '用户账号索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户账户信息表';
 
 -- ----------------------------
@@ -68,8 +69,8 @@ CREATE TABLE `sys_authz_user_account` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_authz_user_profile`;
 CREATE TABLE `sys_authz_user_profile` (
-  `user_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '用户id',
-  `user_code` varchar(50) COMMENT '用户code（短号/工号）',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+  `code` varchar(50) COMMENT '用户code（短号/工号）',
   `nickname` varchar(50) DEFAULT NULL COMMENT '用户昵称',
   `avatar` varchar(500) DEFAULT NULL COMMENT '用户头像：图片路径或图标样式',
   `region_code` varchar(20) DEFAULT NULL COMMENT '国家/地区编码',
@@ -99,18 +100,19 @@ CREATE TABLE `sys_authz_user_profile` (
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `idx_user` (`user_code`) USING BTREE,
-  UNIQUE KEY `idx_nickname` (`nickname`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user_profile`(`code`,`nickname`) USING BTREE COMMENT '用户详情索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户详情信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_user_role_relation
+-- Table structure for sys_authz_user_roles
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_user_role_relation`;
-CREATE TABLE `sys_authz_user_role_relation` (
-  `u_id` bigint(12) NOT NULL COMMENT '用户id',
-  `r_id` bigint(12) NOT NULL COMMENT '角色id',
-  `r_prty` int(2) NOT NULL DEFAULT 0 COMMENT '优先级：用于默认登录角色',
-  PRIMARY KEY (`u_id`,`r_id`) USING BTREE
+DROP TABLE IF EXISTS `sys_authz_user_roles`;
+CREATE TABLE `sys_authz_user_roles` (
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `user_id` bigint(12) NOT NULL COMMENT '用户id',
+  `role_id` bigint(12) NOT NULL COMMENT '角色id',
+  `priority` int(2) NOT NULL DEFAULT 0 COMMENT '优先级：用于默认登录角色',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_user_profile`(`user_id`,`role_id`,`priority`) USING BTREE COMMENT '用户角色关系索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户-角色关系表';

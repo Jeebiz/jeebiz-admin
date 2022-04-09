@@ -33,9 +33,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserAllotRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserProfileService;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzUserService;
@@ -294,7 +294,7 @@ public class AuthzUserController extends BaseMapperController {
 	@RequiresPermissions("user:allot")
 	@ResponseBody
 	public ApiRestResponse<String> allot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception {
-		AuthzUserAllotRoleEntity model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleEntity.class);
+		AuthzUserRoleEntity model = getBeanMapper().map(allotDTO, AuthzUserRoleEntity.class);
 		int total = getAuthzUserService().doAllot(model);
 		return success("user.allot.success", total);
 	}
@@ -308,7 +308,7 @@ public class AuthzUserController extends BaseMapperController {
 	@RequiresPermissions("user:unallot")
 	@ResponseBody
 	public ApiRestResponse<String> unallot(@Valid @RequestBody AuthzUserAllotRoleDTO allotDTO) throws Exception {
-		AuthzUserAllotRoleEntity model = getBeanMapper().map(allotDTO, AuthzUserAllotRoleEntity.class);
+		AuthzUserRoleEntity model = getBeanMapper().map(allotDTO, AuthzUserRoleEntity.class);
 		int total = getAuthzUserService().doUnAllot(model);
 		return success("user.unallot.success", total);
 	}

@@ -24,7 +24,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRolePermsEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRolePermsService;
 import net.jeebiz.admin.authz.rbac0.setup.Constants;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotPermsDTO;
@@ -67,17 +66,13 @@ public class AuthzRolePermsController extends BaseMapperController {
 	}
 
 	@ApiOperation(value = "给指定角色分配功能权限", notes = "给指定角色分配功能权限")
-	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "permsDTO", value = "角色分配的功能权限信息", dataType = "AuthzRoleAllotPermsDTO")
-	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE_PERMS, business = "给指定角色分配权限，角色Id：${roleid}", opt = BusinessType.DELETE)
 	@PostMapping("perms")
 	@RequiresPermissions("role:perms")
 	@ResponseBody
 	public ApiRestResponse<String> perms(@Valid @RequestBody AuthzRoleAllotPermsDTO permsDTO) throws Exception {
 
-		AuthzRolePermsEntity permsModel = getBeanMapper().map(permsDTO, AuthzRolePermsEntity.class);
-		int total = getAuthzRolePermsService().doPerms(permsModel);
+		int total = getAuthzRolePermsService().doPerms(permsDTO.getRoleId(), permsDTO.getPerms());
         // 删除菜单缓存
         //getRedisTemplate().delete(Redisc.AUTHZ_FEATURE_CACHE);
 		if(total > 0) {
@@ -87,16 +82,12 @@ public class AuthzRolePermsController extends BaseMapperController {
 	}
 
 	@ApiOperation(value = "取消已分配给指定角色的权限", notes = "取消已分配给指定角色的权限")
-	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "body", name = "permsDTO", value = "角色取消分配的权限信息", dataType = "AuthzRoleAllotPermsDTO")
-	})
 	@BusinessLog(module = Constants.AUTHZ_ROLE_PERMS, business = "取消已分配给指定角色的权限", opt = BusinessType.DELETE)
 	@PostMapping("unperms")
 	@RequiresPermissions("role:unperms")
 	@ResponseBody
 	public ApiRestResponse<String> unperms(@Valid @RequestBody AuthzRoleAllotPermsDTO permsDTO) throws Exception {
-		AuthzRolePermsEntity permsModel = getBeanMapper().map(permsDTO, AuthzRolePermsEntity.class);
-		int total = getAuthzRolePermsService().unPerms(permsModel);
+		int total = getAuthzRolePermsService().unPerms(permsDTO.getRoleId(), permsDTO.getPerms());
         // 删除菜单缓存
         //getRedisTemplate().delete(Constants.AUTHZ_FEATURE_CACHE);
 		if(total > 0) {

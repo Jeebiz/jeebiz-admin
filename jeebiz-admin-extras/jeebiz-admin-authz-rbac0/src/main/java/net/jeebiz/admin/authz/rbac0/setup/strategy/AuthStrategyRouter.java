@@ -1,15 +1,16 @@
 package net.jeebiz.admin.authz.rbac0.setup.strategy;
 
-import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.authz.rbac0.bo.AuthBO;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import net.jeebiz.admin.authz.rbac0.bo.AuthBO;
 
 @Component
 @Slf4j
