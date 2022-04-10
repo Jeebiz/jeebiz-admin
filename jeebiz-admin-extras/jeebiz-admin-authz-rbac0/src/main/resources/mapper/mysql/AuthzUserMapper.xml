@@ -34,9 +34,9 @@
 		<!-- 账号注册时间 -->
 		<result property="createTime" column="create_time"/>
 		<!-- 账号角色id（可能多个组合，如：1,2） -->
-		<result property="roleId" column="r_id" />
+		<result property="roleId" column="role_id" />
 		<!-- 账号角色名称（可能多个组合，如：角色1,角色2） -->
-		<result property="roleName" column="r_name" />
+		<result property="roleName" column="role_name" />
 		<!-- 账号用户详情 ：使用select引用,可以设置延迟加载方式 -->
 		<association property="profile" column="{userId=user_id}" select="getProfile" fetchType="lazy"/>
 		<!-- 账号角色信息 -->
@@ -118,8 +118,8 @@
 	</resultMap>
 
 	<resultMap id="PairMap" type="PairModel">
-		<result property="key" column="r_id" />
-		<result property="value" column="r_name" />
+		<result property="key" column="id" />
+		<result property="value" column="name" />
 	</resultMap>
 
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
