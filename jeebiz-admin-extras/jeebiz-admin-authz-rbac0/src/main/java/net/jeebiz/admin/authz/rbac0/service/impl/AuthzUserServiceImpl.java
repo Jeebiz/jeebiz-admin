@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -22,6 +23,7 @@ import hitool.core.lang3.RandomString;
 import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzUserRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
@@ -34,9 +36,11 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 	protected RandomString randomString = new RandomString(8);
 
 	@Autowired
-	private AuthzFeatureMapper authzFeatureMapper;
+	private AuthzFeatureMapper featureMapper;
 	@Autowired
-	private AuthzRoleMapper authzRoleMapper;
+	private AuthzRoleMapper roleMapper;
+	@Autowired
+	private AuthzUserRoleMapper userRoleMapper;
 
 	// 加密方式
 	private String algorithmName = "MD5";
@@ -71,7 +75,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
  		}
         model.setUserCode(uid);
 		int ct = getBaseMapper().insert(model);
-		getAuthzRoleMapper().setUsers(model.getRoleId(), Lists.newArrayList(model.getId()));
+		getRoleMapper().setUsers(model.getRoleId(), Lists.newArrayList(model.getId()));
 		return ct > 0;
 	}
 
@@ -88,7 +92,7 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int delete(String id) {
-		getBaseMapper().deleteRole(id);
+		getUserRoleMapper().delete(new QueryWrapper<AuthzUserRoleEntity>().eq("user_id", id));
 		return getBaseMapper().deleteById(id);
 	}
 
@@ -96,9 +100,6 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 	@Transactional(rollbackFor = Exception.class)
 	public int update(AuthzUserEntity model) {
 		int ct = getBaseMapper().updateById(model);
-		if(StringUtils.isNotBlank(model.getRoleId())) {
-			getBaseMapper().updateRole(model);
-		}
 		return ct;
 	}
 
@@ -106,14 +107,15 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 	@Transactional(rollbackFor = Exception.class)
 	public int resetPwd(String userId, String oldPassword, String password) {
 		// 查询用户信息
-		AuthzUserEntity model = getBaseMapper().selectById(userId);
+		AuthzUserEntity entity = getBaseMapper().selectById(userId);
         // 通过SimpleHash 来进行加密操作
-        SimpleHash oldHash = new SimpleHash(algorithmName, oldPassword, model.getSalt(), hashIterations);
-        if (!StringUtils.equals(oldHash.toBase64(), model.getPassword())) {
+        SimpleHash oldHash = new SimpleHash(algorithmName, oldPassword, entity.getSalt(), hashIterations);
+        if (!StringUtils.equals(oldHash.toBase64(), entity.getPassword())) {
         	return 0;
         }
-        SimpleHash newHash = new SimpleHash(algorithmName, password, model.getSalt(), hashIterations);
-		return getBaseMapper().updatePwd(userId, newHash.toBase64());
+        SimpleHash newHash = new SimpleHash(algorithmName, password, entity.getSalt(), hashIterations);
+        entity.setPassword(newHash.toBase64());
+		return getBaseMapper().updateById(entity);
 	}
 
 	@Override
@@ -173,12 +175,16 @@ public class AuthzUserServiceImpl extends BaseServiceImpl<AuthzUserMapper, Authz
 		return page;
 	}
 
-	public AuthzFeatureMapper getAuthzFeatureMapper() {
-		return authzFeatureMapper;
+	public AuthzFeatureMapper getFeatureMapper() {
+		return featureMapper;
 	}
-
-	public AuthzRoleMapper getAuthzRoleMapper() {
-		return authzRoleMapper;
+	
+	public AuthzRoleMapper getRoleMapper() {
+		return roleMapper;
+	}
+	
+	public AuthzUserRoleMapper getUserRoleMapper() {
+		return userRoleMapper;
 	}
 
 }

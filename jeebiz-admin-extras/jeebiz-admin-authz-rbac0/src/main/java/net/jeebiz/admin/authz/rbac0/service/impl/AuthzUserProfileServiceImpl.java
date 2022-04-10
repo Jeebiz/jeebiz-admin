@@ -20,7 +20,7 @@ public class AuthzUserProfileServiceImpl extends BaseServiceImpl<AuthzUserProfil
 
 	@Override
 	public AuthzUserProfileEntity getProfile(String uid) {
-		return getBaseMapper().getProfile(uid);
+		return getBaseMapper().selectById(uid);
 	}
 
 	@Override

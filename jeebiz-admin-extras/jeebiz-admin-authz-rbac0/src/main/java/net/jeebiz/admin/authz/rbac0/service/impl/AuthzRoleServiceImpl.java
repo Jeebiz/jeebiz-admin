@@ -8,6 +8,9 @@ package net.jeebiz.admin.authz.rbac0.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzUserRoleMapper;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,8 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 	private AuthzFeatureMapper authzFeatureMapper;
 	@Autowired
 	private AuthzUserMapper authzUserMapper;
+	@Autowired
+	private AuthzUserRoleMapper userRoleMapper;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -148,7 +153,9 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public int doUnAllot(AuthzRoleAllotUserDTO model) {
-		return getBaseMapper().deleteUsers(model.getRoleId(), model.getUserIds());
+		return getUserRoleMapper().delete(new QueryWrapper<AuthzUserRoleEntity>()
+				.eq("role_id", model.getRoleId())
+				.in("user_id", model.getUserIds()));
 	}
 
 	@Override
@@ -194,24 +201,15 @@ public class AuthzRoleServiceImpl extends BaseServiceImpl<AuthzRoleMapper, Authz
 		return authzRolePermsMapper;
 	}
 
-	public void setAuthzRolePermsMapper(AuthzRolePermsMapper authzRolePermsMapper) {
-		this.authzRolePermsMapper = authzRolePermsMapper;
-	}
-
 	public AuthzFeatureMapper getAuthzFeatureMapper() {
 		return authzFeatureMapper;
-	}
-
-	public void setAuthzFeatureMapper(AuthzFeatureMapper authzFeatureMapper) {
-		this.authzFeatureMapper = authzFeatureMapper;
 	}
 
 	public AuthzUserMapper getAuthzUserMapper() {
 		return authzUserMapper;
 	}
 
-	public void setAuthzUserMapper(AuthzUserMapper authzUserMapper) {
-		this.authzUserMapper = authzUserMapper;
+	public AuthzUserRoleMapper getUserRoleMapper() {
+		return userRoleMapper;
 	}
-
 }

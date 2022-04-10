@@ -46,15 +46,15 @@ public class AuthzRoleEntity extends PaginationEntity<AuthzRoleEntity> {
 	@TableField(value = "`name`")
 	private String name;
 	/**
-	 * 角色简介
-	 */
-	@TableField(value = "intro")
-	private String intro;
-	/**
 	 * 角色类型（1:原生|2:继承|3:复制|4:自定义）
 	 */
 	@TableField(value = "type")
 	private String type;
+	/**
+	 * 角色简介
+	 */
+	@TableField(value = "intro")
+	private String intro;
 	/**
 	 * 角色状态（0:禁用|1:可用）
 	 */

@@ -2,188 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.jeebiz.admin.authz.rbac0.dao.AuthzUserProfileMapper">
 
-	<resultMap id="UserProfileMap" type="AuthzUserProfileEntity">
-        <!-- 用户描述id -->
-		<result property="id" column="u_pid" />
-		<!-- 用户id -->
-		<result property="uid" column="u_id" />
-        <!-- 用户别名（昵称） -->
-        <result property="nickname" column="u_nickname"/>
-        <!-- 用户头像：图片路径或图标样式  -->
-		<result property="avatar" column="u_avatar" />
-        <!-- 手机号码国家码 -->
-        <result property="countryCode" column="u_region_code"/>
-        <!-- 手机号码 -->
-        <result property="phone" column="u_phone"/>
-        <!-- 电子邮箱 -->
-        <result property="email" column="u_email"/>
-        <!-- 性别：（M：男，F：女） -->
-        <result property="gender" column="u_gender" />
-        <!-- 出生日期 -->
-		<result property="birthday" column="u_birthday" />
-		<!-- 身份证号码 -->
-		<result property="idcard" column="u_idcard" />
-		<!-- 用户年龄 -->
-		<result property="age" column="u_age" />
-		<!-- 用户身高 -->
-		<result property="height" column="u_height" />
-		<!-- 用户体重 -->
-		<result property="weight" column="u_weight" />
-		<!-- 官方语言 -->
-		<result property="language" column="u_language" />
-		<!-- 用户备注 -->
-		<result property="intro" column="u_intro" />
-		<!-- 个人照片（包含是否封面标记、序号、地址的JSON字符串） -->
-		<result property="photos" column="u_photos" />
-		<!-- 用户位置：常驻省份 -->
-		<result property="province" column="u_province" />
-		<!-- 用户位置：常驻城市 -->
-		<result property="city" column="u_city" />
-		<!-- 用户位置：常驻区域 -->
-		<result property="area" column="u_area" />
-		<!-- 用户位置：常驻地经度 -->
-		<result property="longitude" column="u_wgs84_lng" />
-		<!-- 用户位置：常驻地纬度 -->
-		<result property="latitude" column="u_wgs84_lat" />
-		<!-- 用户信息完成度 -->
-		<result property="degree" column="u_degree" />
-        <!-- 初始化时间 -->
-        <result property="time24" column="create_time"/>
-	</resultMap>
-
-	<insert id="insert" parameterType="AuthzUserProfileEntity" flushCache="true">
-		<selectKey keyProperty="id" order="BEFORE" resultType="String">
-			SELECT sys_guid() FROM dual
-		</selectKey>
-		INSERT INTO sys_authz_user_profile(u_pid, u_id, u_nickname, u_avatar, u_region_code, u_phone,
-			u_email, u_birthday, u_gender, u_idcard,
-			u_age, u_height, u_weight, u_language, u_intro,
-			u_photos, u_province, u_city, u_area,
-			u_wgs84_lng, u_wgs84_lat, u_degree)
-		VALUES(#{id},#{uid},#{nickname},#{avatar},#{countryCode,jdbcType=VARCHAR}, #{phone},
-			#{email,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{gender}, #{idcard,jdbcType=VARCHAR},
-			#{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, #{language}, #{intro,jdbcType=VARCHAR},
-			#{photos,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR},#{area,jdbcType=VARCHAR},
-			#{longitude,jdbcType=DOUBLE},#{latitude,jdbcType=DOUBLE},#{degree,jdbcType=INTEGER})
-	</insert>
-
-	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_user_profile WHERE u_id = #{id}
-	</delete>
-
-	<update id="update" parameterType="AuthzUserProfileEntity" flushCache="true">
-		update sys_authz_user_profile t
-		<set>
-			<if test="nickname != null and nickname != ''">t.u_nickname = #{nickname},</if>
-			<if test="avatar != null and avatar != ''">t.u_avatar = #{avatar},</if>
-			<if test="countryCode != null and countryCode != ''">t.u_region_code = #{countryCode},</if>
-			<if test="phone != null and phone != ''">t.u_phone = #{phone},</if>
-			<if test="email != null and email != ''">t.u_email = #{email},</if>
-			<if test="gender != null and gender != ''">t.u_gender = #{gender},</if>
-			<if test="birthday != null and birthday != ''">t.u_birthday = #{birthday},</if>
-			<if test="idcard != null and idcard != ''">t.u_idcard = #{idcard},</if>
-			<if test="age > 0">t.u_age = #{age},</if>
-			<if test="height > 0">t.u_height = #{height},</if>
-			<if test="weight > 0">t.u_weight = #{weight},</if>
-			<if test="language != null and language != ''">t.u_language = #{language},</if>
-			<if test="intro != null and intro != ''">t.u_intro = #{intro},</if>
-			<if test="photos != null and photos != ''">t.u_photos = #{photos},</if>
-			<if test="province != null and province != ''">t.u_province = #{province},</if>
-			<if test="city != null and city != ''">t.u_city = #{city},</if>
-			<if test="area != null and area != ''">t.u_area = #{area},</if>
-			<if test="longitude > 0">t.u_wgs84_lng = #{longitude},</if>
-			<if test="latitude > 0">t.u_wgs84_lat = #{latitude},</if>
-			<if test="degree > 0">t.u_degree = #{degree}</if>
-		</set>
-		where t.u_id = #{id}
-	</update>
-
 	<select id="getCountByPhone" resultType="int" parameterType="java.lang.String" useCache="false">
 	   SELECT COUNT(1)
 		 FROM sys_authz_user_profile t
-		WHERE t.u_phone = #{phone}
+		WHERE t.phone = #{phone}
 		<if test="origin != null and origin != ''">
-		   AND t.u_pid != #{origin}
-		 </if>
-		  AND ROWNUM = 1
+		   AND t.id != #{origin}
+		</if>
+		AND ROWNUM = 1
 	</select>
 
 	<select id="getCountByEmail" resultType="int" parameterType="java.lang.String" useCache="false">
 	   SELECT COUNT(1)
 		 FROM sys_authz_user_profile t
-		WHERE t.u_email = #{email}
-		 <if test="origin != null and origin != ''">
-		   AND t.u_pid != #{origin}
-		 </if>
+		WHERE t.email = #{email}
+		<if test="origin != null and origin != ''">
+		  AND t.id != #{origin}
+		</if>
 		AND ROWNUM = 1
 	</select>
 
 	<select id="getCountByIdcard" resultType="int" parameterType="java.lang.String" useCache="false">
 	   SELECT COUNT(1)
 		 FROM sys_authz_user_profile t
-		WHERE t.u_idcard = #{idcard}
-		 <if test="origin != null and origin != ''">
-		   AND t.u_pid != #{origin}
-		 </if>
-		 AND ROWNUM = 1
-	</select>
-
-	<select id="getProfile" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
-		SELECT
-			t.u_pid,
-			t.u_id,
-			t.u_nickname,
-			t.u_avatar,
-			t.u_region_code,
-			t.u_phone,
-			t.u_email,
-			t.u_gender,
-			t.u_birthday,
-			t.u_idcard,
-			t.u_age,
-			t.u_height,
-			t.u_weight,
-			t.u_language,
-			t.u_intro,
-			t.u_photos,
-			t.u_province,
-			t.u_city,
-			t.u_area,
-			t.u_wgs84_lng,
-			t.u_wgs84_lat,
-			t.u_degree,
-			t.create_time
-		FROM sys_authz_user_profile t
-	   WHERE t.u_id = #{uid}
-	</select>
-
-	<select id="getModel" resultMap="UserProfileMap" parameterType="java.lang.String" useCache="false">
-		SELECT
-			t.u_pid,
-			t.u_id,
-			t.u_nickname,
-			t.u_avatar,
-			t.u_region_code,
-			t.u_phone,
-			t.u_email,
-			t.u_gender,
-			t.u_birthday,
-			t.u_idcard,
-			t.u_age,
-			t.u_height,
-			t.u_weight,
-			t.u_language,
-			t.u_intro,
-			t.u_photos,
-			t.u_province,
-			t.u_city,
-			t.u_area,
-			t.u_wgs84_lng,
-			t.u_wgs84_lat,
-			t.u_degree,
-			t.create_time
-		FROM sys_authz_user_profile t
-	   WHERE t.u_pid = #{id}
+		WHERE t.idcard = #{idcard}
+		<if test="origin != null and origin != ''">
+		  AND t.id != #{origin}
+		</if>
+		AND ROWNUM = 1
 	</select>
 
 </mapper>

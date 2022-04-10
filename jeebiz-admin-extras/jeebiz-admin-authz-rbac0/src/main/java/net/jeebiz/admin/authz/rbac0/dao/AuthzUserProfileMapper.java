@@ -18,20 +18,6 @@ import net.jeebiz.boot.api.dao.BaseMapper;
 public interface AuthzUserProfileMapper extends BaseMapper<AuthzUserProfileEntity>{
 
 	/**
-	 * 根据用户Id查询用户信息
-	 * @param uid
-	 * @return
-	 */
-	AuthzUserProfileEntity getProfile(@Param("uid") String uid);
-
-	/**
-	 * 根据用户Id查询用户信息
-	 * @param model 参数
-	 * @return
-	 */
-	int updateProfile(AuthzUserProfileEntity model);
-
-	/**
 	 * 根据手机号查询相同手机号数量
 	 * @param phone 手机号码
 	 * @return

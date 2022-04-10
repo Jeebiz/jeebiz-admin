@@ -61,17 +61,17 @@ public class AuthzUserEntity extends PaginationEntity<AuthzUserEntity> {
 	@TableField(value = "secret")
 	private String secret;
 	/**
-	 * 关联用户id
+	 * 账号关联用户id
 	 */
 	@TableField(value = "`user_id`")
 	private String userId;
 	/**
-	 * 关联用户code（短号/工号）
+	 * 账号关联用户code（短号/工号）
 	 */
 	@TableField(value = "user_code")
 	protected String userCode;
 	/**
-	 * 登录方式（如：password：账号密码、weixin:微信登录...）
+	 * 账号登录方式（如：password：账号密码、weixin:微信登录...）
 	 */
 	@TableField(value = "`type`")
 	private String type;
@@ -91,17 +91,17 @@ public class AuthzUserEntity extends PaginationEntity<AuthzUserEntity> {
 	@TableField(value = "app_version")
 	private String appVer;
 	/**
-	 * 用户是否在线（1：是，0：否）
+	 * 账号是否在线（1：是，0：否）
 	 */
 	@TableField(value = "is_online")
 	private boolean online;
 	/**
-	 * 用户最近一次登录时间
+	 * 账号最近一次登录时间
 	 */
 	@TableField(value = "latest_online")
 	private LocalDateTime onlineLatest;
 	/**
-	 * 用户状态（0:禁用|1:可用|2:锁定|3:密码过期）
+	 * 账号状态（0:禁用|1:可用|2:锁定|3:密码过期）
 	 */
 	@TableField(value = "`status`")
 	private String status;
