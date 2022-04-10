@@ -48,7 +48,7 @@
 				 FROM sys_authz_feature_opts t1
 				INNER JOIN sys_authz_role_perms x ON ( x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 				WHERE t1.f_id = t.f_id
-				  AND x.r_id = #{roleId}
+				  AND x.role_id = #{roleId}
 			 ) f_perms
 		FROM sys_authz_feature_list t
 		WHERE t.f_url != '#'
@@ -58,7 +58,7 @@
 			 FROM sys_authz_feature_opts t1
 			INNER JOIN sys_authz_role_perms x ON ( x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 			WHERE t1.f_id = t.f_id
-			  AND x.r_id = #{roleId}
+			  AND x.role_id = #{roleId}
 		)
 	</select>
 
@@ -73,7 +73,7 @@
 			t.opt_perms,
 			(CASE WHEN (SELECT COUNT(x.perms)
 				 FROM sys_authz_role_perms x
-				WHERE x.r_id = #{roleId,jdbcType=VARCHAR}
+				WHERE x.role_id = #{roleId,jdbcType=VARCHAR}
 				 AND ( x.perms = t.opt_perms or x.perms = '*' or x.perms = '*:*')
 			 ) > 0 THEN 1 ELSE 0 END) opt_checked
 		FROM sys_authz_feature_opts t
@@ -97,13 +97,13 @@
 		             FROM sys_feature_opts t1
 		            INNER JOIN sys_authz_role_perms x  ON (x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 		            WHERE t1.f_id = t.f_id
-		              AND x.r_id = #{roleId}
+		              AND x.role_id = #{roleId}
        	    ) > 0 THEN 1 ELSE 0 END) f_checked,
        	    (SELECT wm_concat(t1.opt_perms) perms
 				 FROM sys_feature_opts t1
 				INNER JOIN sys_authz_role_perms x ON ( x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 				WHERE t1.f_id = t.f_id
-				  AND x.r_id = #{roleId}
+				  AND x.role_id = #{roleId}
 		    ) f_perms
 		FROM SYS_FEATURE_LIST t
 	   WHERE t.f_visible = 1
@@ -120,12 +120,12 @@
 			t.opt_perms,
 			(CASE WHEN (SELECT COUNT(x.perms)
 				 FROM sys_authz_role_perms x
-				WHERE x.r_id = #{roleId}
+				WHERE x.role_id = #{roleId}
 				 AND ( x.perms = t.opt_perms or x.perms = '*' or x.perms = '*:*')
 			 ) > 0 THEN 1 ELSE 0 END) opt_checked
 		FROM sys_feature_opts t
        INNER JOIN sys_authz_role_perms t2 ON (t2.perms = t.opt_perms or t2.perms = '*' or t2.perms = '*:*')
-       WHERE t2.r_id = #{roleId}
+       WHERE t2.role_id = #{roleId}
 	</select>
 
 </mapper>
