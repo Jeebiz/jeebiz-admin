@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
-		<version>1.0.2-ce-SNAPSHOT</version>
+		<version>2.0.0-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-extras-dict</artifactId>
-	
+
 	<dependencies>
-		
+
 		<!-- For Jeebiz -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -37,7 +37,7 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>flyway-plus-spring-boot-starter</artifactId>
 		</dependency>
-		
+
 	</dependencies>
-	
+
 </project>

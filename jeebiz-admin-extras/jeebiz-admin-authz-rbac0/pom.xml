@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
-		<version>1.0.2-ce-SNAPSHOT</version>
+		<version>2.0.0-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-authz-rbac0</artifactId>
 
 	<dependencies>
-		
+
 		<!-- For Jeebiz API -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -41,7 +41,7 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>

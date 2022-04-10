@@ -5,19 +5,19 @@
 	<parent>
 		<groupId>net.jeebiz</groupId>
 		<artifactId>jeebiz-admin</artifactId>
-		<version>1.0.2-ce-SNAPSHOT</version>
+		<version>2.0.0-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-dependencies</artifactId>
 	<packaging>pom</packaging>
-	
+
 	<properties>
-		<jeebiz-admin.version>1.0.2-ce-SNAPSHOT</jeebiz-admin.version>
+		<jeebiz-admin.version>2.0.0-ce-SNAPSHOT</jeebiz-admin.version>
 		<jeebiz-fastxls.version>1.0.0-SNAPSHOT</jeebiz-fastxls.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			
+
 			<dependency>
 				<groupId>net.jeebiz</groupId>
 				<artifactId>fastxls-core</artifactId>
@@ -88,7 +88,7 @@
 				<artifactId>fastxls-spring-boot-starter</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
-			
+
 		</dependencies>
 	</dependencyManagement>
 
