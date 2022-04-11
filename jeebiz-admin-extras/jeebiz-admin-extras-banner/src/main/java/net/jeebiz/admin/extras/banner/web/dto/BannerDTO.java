@@ -1,9 +1,7 @@
 package net.jeebiz.admin.extras.banner.web.dto;
 
-import javax.validation.constraints.NotBlank;
-
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

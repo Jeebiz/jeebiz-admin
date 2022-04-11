@@ -4,15 +4,15 @@
  */
 package net.jeebiz.admin.authz.feature.web.dto;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 @ApiModel(value = "AuthzFeatureTreeNode", description = "功能树节点信息")
 @Getter

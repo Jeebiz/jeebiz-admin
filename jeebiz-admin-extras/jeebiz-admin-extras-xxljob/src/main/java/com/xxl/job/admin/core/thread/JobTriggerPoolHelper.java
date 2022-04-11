@@ -1,15 +1,20 @@
 package com.xxl.job.admin.core.thread;
 
-import com.xxl.job.admin.core.trigger.TriggerTypeEnum;
-import com.xxl.job.admin.core.trigger.XxlJobTrigger;
-
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import com.xxl.job.admin.core.trigger.TriggerTypeEnum;
+import com.xxl.job.admin.core.trigger.XxlJobTrigger;
+
+import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * job trigger thread pool helper

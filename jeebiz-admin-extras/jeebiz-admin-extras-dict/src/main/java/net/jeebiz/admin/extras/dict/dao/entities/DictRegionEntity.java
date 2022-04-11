@@ -1,17 +1,16 @@
 package net.jeebiz.admin.extras.dict.dao.entities;
 
+import org.apache.ibatis.type.Alias;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-
-import net.jeebiz.boot.api.dao.entities.PaginationEntity;
-import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 /**
  * <p>

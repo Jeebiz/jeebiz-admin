@@ -1,7 +1,6 @@
 package net.jeebiz.admin.extras.article.web.vo;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -9,7 +8,6 @@ import hitool.core.lang3.time.DateFormats;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import net.jeebiz.admin.api.Constants;
 
 @ApiModel(value = "ArticleCategoryVo", description = "文章分类Vo")
 @Data

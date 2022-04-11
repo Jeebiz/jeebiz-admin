@@ -1,11 +1,10 @@
 package net.jeebiz.admin.extras.banner.web.param;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import javax.validation.constraints.NotNull;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * 横幅配置查询参数

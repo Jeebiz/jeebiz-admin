@@ -1,14 +1,15 @@
 package net.jeebiz.admin.extras.xxljob.admin.dao;
 
-import net.jeebiz.admin.extras.xxljob.dao.XxlJobGroupMapper;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobGroup;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import net.jeebiz.admin.extras.xxljob.dao.XxlJobGroupMapper;
+import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobGroup;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class XxlJobGroupMapperTest {

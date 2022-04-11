@@ -7,7 +7,7 @@ package net.jeebiz.admin.extras.dict.setup.config;
 import org.flywaydb.spring.boot.ext.FlywayFluentConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 
 import net.jeebiz.admin.extras.dict.dao.DictMapper;
 import net.jeebiz.admin.extras.dict.service.IDictPairService;
@@ -28,9 +28,9 @@ public class JeebizDictConfiguration {
 	}
 
 	@Bean
-	public DictRedisTemplate dictRedisTemplate(RedisTemplate<String, Object> redisTemplate,
+	public DictRedisTemplate dictRedisTemplate(RedisOperationTemplate redisOperation,
 			DictMapper dictMapper) {
-		return new DictRedisTemplate(redisTemplate, dictMapper);
+		return new DictRedisTemplate(redisOperation, dictMapper);
 	}
 	
 	@Bean

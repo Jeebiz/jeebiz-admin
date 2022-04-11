@@ -1,8 +1,9 @@
 package net.jeebiz.admin.extras.xxljob.admin.util;
 
-import com.xxl.job.admin.core.util.I18nUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.xxl.job.admin.core.util.I18nUtil;
 
 /**
  * email util test

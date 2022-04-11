@@ -8,14 +8,12 @@ package net.jeebiz.admin.authz.rbac0.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import net.jeebiz.admin.authz.rbac0.dao.AuthzUserRoleMapper;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -24,8 +22,10 @@ import net.jeebiz.admin.authz.feature.dao.AuthzFeatureMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzRolePermsMapper;
 import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
+import net.jeebiz.admin.authz.rbac0.dao.AuthzUserRoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
 import net.jeebiz.admin.authz.rbac0.service.IAuthzRoleService;
 import net.jeebiz.admin.authz.rbac0.utils.AuthzPermsUtils;
 import net.jeebiz.admin.authz.rbac0.web.dto.AuthzRoleAllotUserDTO;

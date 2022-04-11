@@ -1,6 +1,5 @@
 package net.jeebiz.admin.extras.filestore.web.dto;
 
-import java.io.InputStream;
 import java.util.Set;
 
 import io.swagger.annotations.ApiModel;

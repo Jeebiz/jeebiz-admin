@@ -1,5 +1,16 @@
 package net.jeebiz.admin.extras.xxljob.web.mvc;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.glue.GlueTypeEnum;
@@ -8,16 +19,6 @@ import net.jeebiz.admin.extras.xxljob.dao.XxlJobInfoMapper;
 import net.jeebiz.admin.extras.xxljob.dao.XxlJobLogGlueMapper;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLogGlue;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
 
 /**
  * job code controller

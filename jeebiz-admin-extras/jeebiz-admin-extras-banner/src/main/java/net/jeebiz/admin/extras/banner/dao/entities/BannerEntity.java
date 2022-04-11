@@ -1,13 +1,17 @@
 package net.jeebiz.admin.extras.banner.dao.entities;
 
-import com.baomidou.mybatisplus.annotation.*;
+import java.time.LocalDateTime;
+
 import org.apache.ibatis.type.Alias;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
-
-import java.time.LocalDateTime;
 
 /**
  * @author wandl
