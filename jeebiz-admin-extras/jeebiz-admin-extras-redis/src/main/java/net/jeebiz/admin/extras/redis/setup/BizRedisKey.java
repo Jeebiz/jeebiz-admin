@@ -1,13 +1,14 @@
 package net.jeebiz.admin.extras.redis.setup;
 
-import org.slf4j.helpers.MessageFormatter;
-import org.springframework.data.redis.core.RedisKey;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.function.BiFunction;
-import java.util.function.Function;
+
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.slf4j.helpers.MessageFormatter;
+import org.springframework.data.redis.core.RedisKey;
 
 public enum BizRedisKey {
 
@@ -228,8 +229,65 @@ public enum BizRedisKey {
 		String prefix = MessageFormatter.format(BizRedisKeyConstant.SERVER_FREE_HISTORY_PREFIX, srType).getMessage();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(BizRedisKeyConstant.YYYYMMDD);
 		return RedisKey.getKeyStr(prefix, LocalDate.now().format(formatter));
-	})
+	}),
 
+
+    /**
+     * 活动配置缓存锁
+     */
+    ACTIVITY_CONFIG_LOCK("活动配置缓存锁", (activity, p2) -> {
+        return RedisKey.getKeyStr(BizRedisKeyConstant.ACTIVITY_CONFIG_LOCK, activity);
+    }),
+    /**
+     * 活动配置缓存
+     */
+    ACTIVITY_CONFIG_LIST("活动配置缓存", (activity, p2) -> {
+        return RedisKey.getKeyStr(BizRedisKeyConstant.ACTIVITY_CONFIG_LIST, activity);
+    }),
+    /**
+     * 活动配置使用限额
+     */
+    ACTIVITY_CONFIG_QUOTA("活动配置使用限额", (activity, confId) -> {
+        String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
+        return RedisKey.getKeyStr(BizRedisKeyConstant.ACTIVITY_CONFIG_QUOTA, activity, confId, date);
+    }),
+    /**
+     * 用户参与活动获得奖励
+     */
+    ACTIVITY_PLAY_INFO("用户参与活动获得奖励", (activity, userId) -> {
+        String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
+        return RedisKey.getKeyStr(BizRedisKeyConstant.ACTIVITY_PLAY_INFO, activity, date, userId);
+    }),
+    /**
+     * 用户参与活动要求
+     */
+    ACTIVITY_PLAY_REQUIRE("用户参与活动要求", (activity, p2) -> {
+        String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
+        return RedisKey.getKeyStr(BizRedisKeyConstant.ACTIVITY_PLAY_REQUIRE, activity, date);
+    }),
+    /**
+     * 每日首次赢得金豆达到10000的用户
+     */
+    ACTIVITY_PLAY_FIRST("每日首次赢得金豆达到10000的用户", (activity, p2) -> {
+        String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
+        return RedisKey.getKeyStr(BizRedisKeyConstant.ACTIVITY_PLAY_FIRST, activity, date);
+    }),
+
+    /**
+     * 每日用户游戏累计金豆数量
+     */
+    GAME_REWARD_DAY("每日用户游戏累计金豆数量", (gameId, p2) -> {
+        String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
+        return RedisKey.getKeyStr(BizRedisKeyConstant.GAME_REWARD_DAY, gameId, date);
+    }),
+    /**
+     * 每日首次游戏赢得金豆达到10000的用户
+     */
+    GAME_REWARD_10000("每日首次游戏赢得金豆达到10000的用户", (gameId, p2) -> {
+        String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
+        return RedisKey.getKeyStr(BizRedisKeyConstant.GAME_REWARD_10000, gameId, date);
+    }),
+	
 	;
 
 	private String desc;

@@ -1,16 +1,16 @@
 package com.xxl.job.admin.core.thread;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLogReport;
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLogReport;
+import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * job log report helper

@@ -1,17 +1,17 @@
 package com.xxl.job.admin.core.thread;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xxl.job.admin.core.trigger.TriggerTypeEnum;
 import com.xxl.job.admin.core.util.I18nUtil;
 
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
 import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * job monitor instance

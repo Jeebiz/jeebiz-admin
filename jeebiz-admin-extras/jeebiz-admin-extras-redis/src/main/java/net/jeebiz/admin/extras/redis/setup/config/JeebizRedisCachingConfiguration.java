@@ -1,13 +1,14 @@
 package net.jeebiz.admin.extras.redis.setup.config;
 
-import net.jeebiz.admin.extras.redis.setup.BizReactiveRedisTemplate;
-import net.jeebiz.admin.extras.redis.setup.BizRedisTemplate;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.ReactiveRedisOperationTemplate;
 import org.springframework.data.redis.core.RedisOperationTemplate;
+
+import net.jeebiz.admin.extras.redis.setup.BizReactiveRedisTemplate;
+import net.jeebiz.admin.extras.redis.setup.BizRedisTemplate;
 import redistpl.plus.spring.boot.RedisCachingConfiguration;
 
 @Configuration

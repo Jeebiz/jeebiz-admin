@@ -1,37 +1,34 @@
 package net.jeebiz.admin.extras.dict.web.mvc;
 
 
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.dict.dao.entities.DictPairEntity;
 import net.jeebiz.admin.extras.dict.dao.entities.DictRegionEntity;
-import net.jeebiz.admin.extras.dict.service.IDictPairService;
 import net.jeebiz.admin.extras.dict.service.IDictRegionService;
-import net.jeebiz.admin.extras.dict.web.dto.DictPairDTO;
-import net.jeebiz.admin.extras.dict.web.dto.DictPairPaginationDTO;
 import net.jeebiz.admin.extras.dict.web.dto.DictRegionDTO;
 import net.jeebiz.admin.extras.dict.web.dto.DictRegionPaginationDTO;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.dao.entities.PairModel;
 import net.jeebiz.boot.api.web.BaseApiController;
 import net.jeebiz.boot.api.web.Result;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.biz.utils.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>

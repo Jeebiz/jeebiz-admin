@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 
 import net.jeebiz.admin.extras.dict.dao.DictMapper;
 import net.jeebiz.boot.api.dao.entities.PairModel;
@@ -14,24 +14,24 @@ public class DictRedisTemplate {
 	
 	private static final String KEY_PREFIX = "Dict:";
 	
-	private final RedisTemplate<String, Object> redisTemplate;
+	private final RedisOperationTemplate redisOperation;
 	private final DictMapper dictMapper;
 	
-	public DictRedisTemplate(RedisTemplate<String, Object> redisTemplate, 
+	public DictRedisTemplate(RedisOperationTemplate redisOperation, 
 			DictMapper dictMapper) {
 		super();
-		this.redisTemplate = redisTemplate;
+		this.redisOperation = redisOperation;
 		this.dictMapper = dictMapper;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<PairModel> get(String key){
-		if(getRedisTemplate().hasKey(KEY_PREFIX + key)) {
-			List<Object> list =  getRedisTemplate().opsForList().range(KEY_PREFIX + key,0,-1);
+		if(redisOperation.hasKey(KEY_PREFIX + key)) {
+			List<Object> list = redisOperation.lRange(KEY_PREFIX + key, 0, -1);
 			return (List<PairModel>) list.get(0);
 		} else {
 			List<PairModel> retList = getDictMapper().getPairValues(key);
-			getRedisTemplate().opsForList().leftPush(KEY_PREFIX + key, retList);
+			redisOperation.lLeftPush(KEY_PREFIX + key, retList);
 			return retList;
 		}
 	}
@@ -43,10 +43,6 @@ public class DictRedisTemplate {
 			return optional.isPresent() ? optional.get().getValue() : null;
 		}
 		return null;
-	}
-	
-	public RedisTemplate<String, Object> getRedisTemplate() {
-		return redisTemplate;
 	}
 
 	public DictMapper getDictMapper() {

@@ -6,12 +6,13 @@ package net.jeebiz.admin.authz.feature.strategy;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
 import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
 import net.jeebiz.admin.authz.feature.enums.FeatureNodeType;
 import net.jeebiz.admin.authz.feature.utils.FeatureNavUtils;
 import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
-import org.springframework.stereotype.Component;
 
 @Component
 public class FeatureTreeDataStrategy implements FeatureStrategy {

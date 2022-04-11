@@ -159,4 +159,42 @@ public abstract class BizRedisKeyConstant {
 	public final static String DBMATA_CATALOG = "dbmata:catalog";
 	public final static String DBMATA_CATALOG_LODING = "dbmata:catalog:loding";
 
+
+	/**
+	 * 活动配置缓存更新锁
+	 */
+	public static final String ACTIVITY_CONFIG_LOCK = "activity:lock";
+
+	/**
+	 * 活动配置缓存
+	 */
+	public static final String ACTIVITY_CONFIG_LIST = "activity:config";
+	/**
+	 * 活动配置使用限额
+	 */
+	public static final String ACTIVITY_CONFIG_QUOTA = "activity:quota";
+	/**
+	 * 用户参与活动获得奖励、剩余开袋次数
+	 */
+	public static final String ACTIVITY_PLAY_INFO = "activity:play:info";
+	/**
+	 * 用户参与活动要求
+	 * 1、活动期间，参与任意直播间游戏可获得开袋机会
+	 * 2、每日首次赢得金豆数达到10000时可以获得一次开袋机会，之后每赢得100000金豆可以获得一次开袋机
+	 */
+	public static final String ACTIVITY_PLAY_REQUIRE = "activity:play:require";
+	/**
+	 * 每日首次赢得金豆达到10000的用户
+	 */
+	public static final String ACTIVITY_PLAY_FIRST = "activity:play:first";
+	/**
+	 * 每日用户游戏累计金豆数量
+	 */
+	public static final String GAME_REWARD_DAY = "game:reward:daily";
+	/**
+	 * 游戏遮罩引导确认缓存
+	 */
+	public static final String GAME_REWARD_10000 = "game:reward:10000";
+	
+	 
 }

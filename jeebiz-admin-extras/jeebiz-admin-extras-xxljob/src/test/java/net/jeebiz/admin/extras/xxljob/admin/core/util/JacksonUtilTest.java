@@ -1,14 +1,14 @@
 package net.jeebiz.admin.extras.xxljob.admin.core.util;
 
-import org.junit.jupiter.api.Test;
-
-import com.xxl.job.admin.core.util.JacksonUtil;
+import static com.xxl.job.admin.core.util.JacksonUtil.writeValueAsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.xxl.job.admin.core.util.JacksonUtil.writeValueAsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import com.xxl.job.admin.core.util.JacksonUtil;
 
 public class JacksonUtilTest {
 

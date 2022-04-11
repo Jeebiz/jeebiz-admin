@@ -1,11 +1,11 @@
 package net.jeebiz.admin.extras.xxljob.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLogGlue;
-
-import java.util.List;
 
 /**
  * job log for glue

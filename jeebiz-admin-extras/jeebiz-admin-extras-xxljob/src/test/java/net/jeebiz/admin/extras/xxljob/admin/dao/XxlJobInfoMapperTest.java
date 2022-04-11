@@ -1,17 +1,18 @@
 package net.jeebiz.admin.extras.xxljob.admin.dao;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import com.xxl.job.admin.core.scheduler.MisfireStrategyEnum;
 import com.xxl.job.admin.core.scheduler.ScheduleTypeEnum;
 
 import net.jeebiz.admin.extras.xxljob.dao.XxlJobInfoMapper;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class XxlJobInfoMapperTest {

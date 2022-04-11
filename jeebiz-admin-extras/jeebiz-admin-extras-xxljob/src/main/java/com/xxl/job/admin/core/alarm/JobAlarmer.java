@@ -1,5 +1,9 @@
 package com.xxl.job.admin.core.alarm;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -10,10 +14,6 @@ import org.springframework.stereotype.Component;
 
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class JobAlarmer implements ApplicationContextAware, InitializingBean {

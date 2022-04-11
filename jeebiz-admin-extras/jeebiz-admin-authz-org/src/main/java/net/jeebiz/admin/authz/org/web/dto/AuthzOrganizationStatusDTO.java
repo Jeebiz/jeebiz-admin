@@ -4,15 +4,11 @@
  */
 package net.jeebiz.admin.authz.org.web.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 @ApiModel(value = "AuthzOrganizationStatusDTO", description = "机构状态更新参数DTO")
 @SuppressWarnings("serial")

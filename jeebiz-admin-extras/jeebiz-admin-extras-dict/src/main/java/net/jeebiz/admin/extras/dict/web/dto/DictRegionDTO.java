@@ -4,13 +4,9 @@
  */
 package net.jeebiz.admin.extras.dict.web.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import hitool.core.lang3.time.DateFormats;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @ApiModel(value = "DictRegionDTO", description = "国家地区编码传输对象")
 @Data

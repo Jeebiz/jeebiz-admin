@@ -1,8 +1,5 @@
 package net.jeebiz.admin.extras.redis.setup;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +8,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.data.redis.core.ReactiveRedisOperationTemplate;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class BizReactiveRedisTemplate {
 

@@ -15,7 +15,6 @@
  */
 package net.jeebiz.admin.extras.monitor.setup.shiro;
 
-import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListenerAdapter;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
@@ -28,6 +27,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.extern.slf4j.Slf4j;
 import net.jeebiz.admin.extras.monitor.dao.OnlineSessionMapper;
 import net.jeebiz.admin.extras.monitor.dao.entities.OnlineSessionEntity;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 
 /**
  * 会话监听

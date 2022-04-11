@@ -1,10 +1,10 @@
 package net.jeebiz.admin.extras.banner.service;
 
+import java.util.List;
+
 import net.jeebiz.admin.extras.banner.dao.entities.BannerEntity;
 import net.jeebiz.admin.extras.banner.web.dto.BannerDTO;
 import net.jeebiz.boot.api.service.IBaseService;
-
-import java.util.List;
 
 public interface IBannerService extends IBaseService<BannerEntity> {
 

@@ -1,8 +1,13 @@
 package net.jeebiz.admin.extras.banner.service.impl;
 
-import net.jeebiz.admin.extras.banner.setup.BannerType;
-import net.jeebiz.admin.extras.banner.web.dto.BannerDTO;
-import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import net.jeebiz.admin.extras.banner.dao.BannerMapper;
 import net.jeebiz.admin.extras.banner.dao.entities.BannerEntity;
 import net.jeebiz.admin.extras.banner.service.IBannerService;
+import net.jeebiz.admin.extras.banner.setup.BannerType;
+import net.jeebiz.admin.extras.banner.web.dto.BannerDTO;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
-
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntity>

@@ -1,13 +1,13 @@
 package net.jeebiz.admin.extras.xxljob.dao;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * job log

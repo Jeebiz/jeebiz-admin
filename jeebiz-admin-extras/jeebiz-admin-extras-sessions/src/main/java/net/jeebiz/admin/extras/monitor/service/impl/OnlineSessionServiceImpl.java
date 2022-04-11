@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shiro.biz.web.Constants;
 import org.apache.shiro.session.Session;
@@ -31,6 +30,7 @@ import net.jeebiz.admin.extras.monitor.dao.entities.OnlineSessionEntity;
 import net.jeebiz.admin.extras.monitor.service.IOnlineSessionService;
 import net.jeebiz.admin.extras.monitor.web.dto.OnlineSessionDTO;
 import net.jeebiz.admin.extras.monitor.web.param.SessionQueryParam;
+import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service

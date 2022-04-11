@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,9 +45,6 @@ public class AuthzRolePermsController extends BaseMapperController {
      */
     @Autowired
     private IAuthzRolePermsService authzRolePermsService;
-
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
 
 	@ApiOperation(value = "指定角色已授权功能列表（键值对）", notes = "查询指定角色已授权功能列表")
 	@ApiImplicitParams({
@@ -99,9 +95,5 @@ public class AuthzRolePermsController extends BaseMapperController {
 	public IAuthzRolePermsService getAuthzRolePermsService() {
 		return authzRolePermsService;
     }
-
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
-	}
 
 }
