@@ -13,11 +13,11 @@ import lombok.Setter;
 import lombok.ToString;
 import net.jeebiz.boot.api.annotation.AllowableValues;
 
-@ApiModel(value = "AuthzRoleStatusRenewDTO", description = "角色状态更新参数DTO")
+@ApiModel(value = "RoleStatusRenewDTO", description = "角色状态更新参数DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzRoleStatusRenewDTO {
+public class RoleStatusRenewDTO {
 
 	/**
 	 * 角色id

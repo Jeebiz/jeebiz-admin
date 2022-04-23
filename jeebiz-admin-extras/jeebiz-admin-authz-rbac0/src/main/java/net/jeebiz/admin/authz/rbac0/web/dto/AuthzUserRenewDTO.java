@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value = "AuthzUserRenewDTO", description = "用户详细信息更新参数DTO")
+@ApiModel(value = "UserRenewDTO", description = "用户详细信息更新参数DTO")
 @Data
-public class AuthzUserRenewDTO {
+public class UserRenewDTO {
 
 	/**
 	 * 机构id编号
@@ -50,7 +50,7 @@ public class AuthzUserRenewDTO {
 	/**
 	 * 用户详情信息
 	 */
-	@ApiModelProperty(name = "profile", required = true, dataType = "AuthzUserProfileRenewDTO", value = "用户详情信息")
-	private AuthzUserProfileRenewDTO profile;
+	@ApiModelProperty(name = "profile", required = true, dataType = "UserProfileRenewDTO", value = "用户详情信息")
+	private UserProfileRenewDTO profile;
 
 }

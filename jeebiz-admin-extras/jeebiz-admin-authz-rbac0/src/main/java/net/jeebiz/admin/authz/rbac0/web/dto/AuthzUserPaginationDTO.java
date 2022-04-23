@@ -11,11 +11,11 @@ import lombok.Setter;
 import lombok.ToString;
 import net.jeebiz.boot.api.dto.AbstractPaginationDTO;
 
-@ApiModel(value = "AuthzUserPaginationDTO", description = "用户信息分页查询参数DTO")
+@ApiModel(value = "UserPaginationDTO", description = "用户信息分页查询参数DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzUserPaginationDTO extends AbstractPaginationDTO {
+public class UserPaginationDTO extends AbstractPaginationDTO {
 
 	/**
 	 * 部门id编号

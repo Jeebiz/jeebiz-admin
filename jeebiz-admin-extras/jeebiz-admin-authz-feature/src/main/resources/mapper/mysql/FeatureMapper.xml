@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.jeebiz.admin.authz.feature.dao.FeatureMapper">
+
+	<resultMap id="FeatureMap" type="FeatureEntity">
+		<result property="id" column="f_id" />
+		<result property="code" column="f_code" />
+		<result property="name" column="f_name" />
+		<result property="abb" column="f_abb" />
+		<result property="url" column="f_url" />
+		<result property="path" column="f_path" />
+		<result property="type" column="f_type" />
+		<result property="icon" column="f_icon" />
+		<result property="orderBy" column="f_order" />
+		<result property="parent" column="f_parent" />
+		<result property="visible" column="f_visible" />
+		<result property="root" column="f_root" />
+		<result property="perms" column="f_perms" />
+	</resultMap>
+
+	<select id="getCountByParent" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.f_id)
+		  FROM sys_authz_feature_list t
+		 WHERE t.f_parent = #{parent}
+	</select>
+
+	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.f_id)
+		  FROM sys_authz_feature_list t
+		 WHERE t.f_code = #{code}
+		<if test="origin != null and origin != ''">
+			AND t.f_id != #{origin}
+		 </if>
+	</select>
+
+	<select id="getFeature" resultMap="FeatureMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.f_id,
+			t.f_code,
+			t.f_name,
+			t.f_abb,
+			t.f_url,
+			t.f_path,
+			t.f_type,
+			t.f_icon,
+			t.f_order,
+			t.f_parent,
+			t.f_visible,
+			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
+			( SELECT GROUP_CONCAT(t1.opt_perms) FROM sys_authz_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
+		FROM sys_authz_feature_list t
+	   WHERE t.f_id = #{id}
+	</select>
+
+	<select id="getFeatureList" resultMap="FeatureMap" parameterType="java.lang.String" useCache="true">
+		SELECT
+			t.f_id,
+			t.f_code,
+			t.f_name,
+			t.f_abb,
+			t.f_url,
+			t.f_path,
+			t.f_type,
+			t.f_icon,
+			t.f_order,
+			t.f_parent,
+			t.f_visible,
+			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
+			( SELECT GROUP_CONCAT(t1.opt_perms) FROM sys_authz_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
+		FROM sys_authz_feature_list t
+	</select>
+
+	<select id="getPagedList" resultMap="FeatureMap" parameterType="FeatureEntity" useCache="true">
+		SELECT
+			t.f_id,
+			t.f_code,
+			t.f_name,
+			t.f_abb,
+			t.f_url,
+			t.f_path,
+			t.f_type,
+			t.f_icon,
+			t.f_order,
+			t.f_parent,
+			t.f_visible
+		FROM sys_authz_feature_list t
+		<where>
+			<if test="model.name != null and model.name != ''">
+				and t.f_name like CONCAT('%',#{model.name},'%')
+			</if>
+			<if test="model.type != null and model.type != ''">
+				and t.f_type = #{model.type}
+			</if>
+			<if test="model.visible != null and model.visible != ''">
+				and t.f_visible = #{model.visible}
+			</if>
+		</where>
+	</select>
+
+</mapper>

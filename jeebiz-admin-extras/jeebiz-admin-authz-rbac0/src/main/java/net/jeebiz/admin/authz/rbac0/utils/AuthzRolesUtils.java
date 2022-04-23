@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 
-public class AuthzRolesUtils {
+public class RolesUtils {
 	
 	/**
 	 * 获取角色id增量集合

@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value = "AuthzUserPwdResetDTO", description = "个人密码更新参数DTO")
+@ApiModel(value = "UserPwdResetDTO", description = "个人密码更新参数DTO")
 @Data
-public class AuthzUserPwdResetDTO {
+public class UserPwdResetDTO {
 
 	/**
 	 * 当前密码

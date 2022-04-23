@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.jeebiz.admin.authz.rbac0.dao.UserAccountMapper">
+
+	<resultMap id="UserMap" type="UserAccountEntity">
+		<!-- 账号id -->
+		<result property="id" column="id" />
+		<!-- 账号名称 -->
+		<result property="username" column="username"/>
+		<!-- 账号密码 -->
+		<result property="password" column="password"/>
+		<!-- 登录方式（如：password：账号密码、weixin:微信登录...） -->
+		<result property="type" column="type"/>
+		<!-- 账号密码盐：用于密码加解密 -->
+		<result property="salt" column="salt"/>
+		<!-- 账号秘钥：用于用户JWT加解密 -->
+		<result property="secret" column="secret"/>
+		<!-- 账号客户端应用id -->
+		<result property="appId" column="app_id"/>
+		<!-- 账号客户端应用渠道编码  -->
+		<result property="appChannel" column="app_channel" />
+		<!-- 账号客户端版本 -->
+		<result property="appVer" column="app_version"/>
+		<!-- 账号关联用户id -->
+		<result property="userId" column="user_id" />
+		<!-- 账号关联用户code（短号/工号） -->
+		<result property="userCode" column="user_code" />
+		<!-- 账号是否在线（1：是，0：否） -->
+		<result property="online" column="is_online"/>
+		<!-- 账号最近一次登录时间 -->
+		<result property="onlineLatest" column="latest_online" />
+		<!-- 账号状态(0:不可用|1:正常|2:锁定) -->
+		<result property="status" column="`status`"/>
+		<!-- 账号注册时间 -->
+		<result property="createTime" column="create_time"/>
+		<!-- 账号角色id（可能多个组合，如：1,2） -->
+		<result property="roleId" column="role_id" />
+		<!-- 账号角色名称（可能多个组合，如：角色1,角色2） -->
+		<result property="roleName" column="role_name" />
+		<!-- 账号用户详情 ：使用select引用,可以设置延迟加载方式 -->
+		<association property="profile" column="{userId=user_id}" select="getProfile" fetchType="lazy"/>
+		<!-- 账号角色信息 -->
+		<collection property="roleList" column="{userId=user_id}" select="getRoleList"></collection>
+	</resultMap>
+
+	<resultMap id="UserProfileMap" type="UserProfileEntity">
+		<!-- 用户id -->
+		<result property="userId" column="id" />
+		<!-- 用户唯一编号（内部工号） -->
+		<result property="userCode" column="code" />
+		<!-- 用户客户端应用id -->
+		<result property="appId" column="app_id"/>
+		<!-- 用户客户端应用渠道编码  -->
+		<result property="appChannel" column="app_channel" />
+		<!-- 用户客户端版本 -->
+		<result property="appVer" column="app_version"/>
+		<!-- 用户别名（昵称） -->
+		<result property="nickname" column="nickname"/>
+		<!-- 用户头像：图片路径或图标样式  -->
+		<result property="avatar" column="avatar" />
+		<!-- 手机号码国家码 -->
+		<result property="regionCode" column="region_code"/>
+		<!-- 手机号码 -->
+		<result property="phone" column="phone"/>
+		<!-- 电子邮箱 -->
+		<result property="email" column="email"/>
+		<!-- 性别：（M：男，F：女） -->
+		<result property="gender" column="gender" />
+		<!-- 出生日期 -->
+		<result property="birthday" column="birthday" />
+		<!-- 身份证号码 -->
+		<result property="idcard" column="idcard" />
+		<!-- 用户年龄 -->
+		<result property="age" column="age" />
+		<!-- 用户身高 -->
+		<result property="height" column="height" />
+		<!-- 用户体重 -->
+		<result property="weight" column="weight" />
+		<!-- 官方语言 -->
+		<result property="language" column="language" />
+		<!-- 用户备注 -->
+		<result property="intro" column="intro" />
+		<!-- 个人照片（包含是否封面标记、序号、地址的JSON字符串） -->
+		<result property="photos" column="photos" />
+		<!-- 用户位置：常驻省份 -->
+		<result property="province" column="province" />
+		<!-- 用户位置：常驻城市 -->
+		<result property="city" column="city" />
+		<!-- 用户位置：常驻区域 -->
+		<result property="area" column="area" />
+		<!-- 用户位置：常驻地经度 -->
+		<result property="longitude" column="wgs84_lng" />
+		<!-- 用户位置：常驻地纬度 -->
+		<result property="latitude" column="wgs84_lat" />
+		<!-- 用户信息完成度 -->
+		<result property="degree" column="degree" />
+		<!-- 初始化时间 -->
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+
+	<resultMap id="RoleMap" type="RoleEntity">
+		<!-- 角色id -->
+		<result property="id" column="id" />
+		<!-- 角色编码 -->
+		<result property="key" column="`key`" />
+		<!-- 角色名称 -->
+		<result property="name" column="`name`" />
+		<!-- 角色类型（1:原生|2:继承|3:复制|4:自定义） -->
+		<result property="type" column="type" />
+		<!-- 角色简介 -->
+		<result property="intro" column="intro" />
+		<!-- 角色状态（0:禁用|1:可用） -->
+		<result property="status" column="`status`" />
+		<!-- 角色已分配用户量 -->
+		<result property="users" column="users" />
+		<!-- 角色创建时间 -->
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+
+	<resultMap id="PairMap" type="PairModel">
+		<result property="key" column="id" />
+		<result property="value" column="name" />
+	</resultMap>
+
+	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.id)
+		  FROM sys_authz_user_account t
+		 WHERE t.username = #{name}
+		 <if test="origin != null and origin != ''">
+			AND t.id != #{origin}
+		 </if>
+	</select>
+
+	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.id)
+		  FROM sys_authz_user_account t
+		 WHERE t.user_code = #{code}
+		<if test="origin != null and origin != ''">
+			AND t.id != #{origin}
+		 </if>
+	</select>
+
+	<select id="getCountByRoleId" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
+		SELECT count(t.id) FROM sys_authz_user_roles t WHERE t.role_id = #{roleId} AND t.user_id = #{userId}
+	</select>
+
+	<select id="getUserList" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
+		SELECT
+			t.id,
+			t.username,
+			'******' AS password,
+			'******' AS salt,
+			'******' AS secret,
+			t.user_id,
+			t.user_code,
+			t.type,
+			t.app_id,
+			t.app_channel,
+			t.app_version,
+			t.is_online,
+			t.latest_online,
+			t.`status`,
+			t.create_time
+		FROM sys_authz_user_account t
+	   WHERE t.`status` = 1
+	</select>
+
+	<select id="getPagedList" resultMap="UserMap" parameterType="UserAccountEntity" useCache="false">
+		SELECT
+			t.id,
+			t.username,
+			'******' AS password,
+			'******' AS salt,
+			'******' AS secret,
+			t.user_id,
+			t.user_code,
+			t.type,
+			t.app_id,
+			t.app_channel,
+			t.app_version,
+			t.is_online,
+			t.latest_online,
+			t.`status`,
+			t.create_time
+		FROM sys_authz_user_account t
+	   WHERE t.username != 'admin'
+		<if test="model.roleId != null and model.roleId != ''">
+			and EXISTS (SELECT y.id
+				 FROM sys_authz_user_roles y
+				WHERE y.user_id = t.user_id
+				  AND y.role_id = #{model.roleId}
+			 )
+		</if>
+		<if test="model.status != null and model.status != ''">
+			and t.`status` = #{model.status}
+		</if>
+		<if test="model.keywords != null and model.keywords != ''">
+			and t.user_code like CONCAT('%',#{model.keywords},'%')
+		</if>
+	</select>
+
+	<select id="getPagedAllocatedList" resultMap="RoleMap" parameterType="UserAccountEntity" useCache="false">
+		SELECT
+			t.id,
+			t.`key`,
+			t.`name`,
+			t.type,
+			t.intro,
+			t.`status`,
+			(SELECT COUNT(x.id) FROM sys_authz_user_roles x WHERE x.role_id = t.id) as r_users,
+			t.create_time
+		FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+		WHERE x.user_id = #{id}
+		<if test="model.status != null and model.status != ''">
+			and t.`status` = #{model.status}
+		</if>
+		<if test="model.type != null and model.type != ''">
+			and t.type = #{model.type}
+		</if>
+		<if test="model.keywords != null and model.keywords != ''">
+			and t.`name` like CONCAT('%',#{model.keywords},'%')
+		</if>
+	</select>
+
+	<select id="getPagedUnAllocatedList" resultMap="RoleMap" parameterType="UserAccountEntity" useCache="false">
+		SELECT
+			t.id,
+			t.`key`,
+			t.`name`,
+			t.type,
+			t.intro,
+			t.`status`,
+			(SELECT COUNT(x.id) FROM sys_authz_user_roles x WHERE x.role_id = t.id) as r_users,
+			t.create_time
+		FROM sys_authz_role_list t
+		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_roles z WHERE t.role_id = z.role_id and z.user_id = #{userId})
+		<if test="model.status != null and model.status != ''">
+			and t.`status` = #{model.status}
+		</if>
+		<if test="model.type != null and model.type != ''">
+			and t.type = #{model.type}
+		</if>
+		<if test="model.keywords != null and model.keywords != ''">
+			and t.`name` like CONCAT('%',#{model.keywords},'%')
+		</if>
+	</select>
+
+	<select id="getRoleKeys" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
+		  SELECT t.id
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+		   WHERE t.`status` = 1
+			 AND x.user_id = #{userId}
+		ORDER BY x.priority DESC
+	</select>
+
+	<select id="getRoleList" resultMap="PairMap" useCache="false">
+		SELECT
+			t.id,
+			t.name
+		FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+		WHERE t.`status` = 1
+		  AND x.user_id = #{userId}
+		ORDER BY x.priority DESC
+	</select>
+
+	<select id="getRoles" resultMap="RoleMap" parameterType="java.lang.String" useCache="false">
+			SELECT
+				t.id,
+				t.`key`,
+				t.`name`,
+				t.type,
+				t.intro,
+				t.`status`,
+				t.create_time
+			FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+		   WHERE t.`status` = 1
+			 AND x.user_id = #{userId}
+		ORDER BY x.priority ASC
+	</select>
+
+	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
+		SELECT DISTINCT y.perms
+		FROM sys_authz_role_list t
+		INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+		INNER JOIN sys_authz_role_perms y ON t.id = y.role_id
+		WHERE x.user_id = #{userId}
+		ORDER BY x.priority ASC
+	</select>
+
+	<select id="getProfile" resultMap="UserProfileMap" useCache="false">
+		SELECT
+			t.id,
+			t.code,
+			t.nickname,
+			t.avatar,
+			t.region_code,
+			t.phone,
+			t.email,
+			t.gender,
+			t.birthday,
+			t.idcard,
+			t.age,
+			t.height,
+			t.weight,
+			t.language,
+			t.intro,
+			t.photos,
+			t.province,
+			t.city,
+			t.area,
+			t.wgs84_lng,
+			t.wgs84_lat,
+			t.degree,
+			t.app_id,
+			t.app_channel,
+			t.app_version,
+			t.create_time
+		FROM sys_authz_user_profile t
+		WHERE t.id = #{userId}
+	</select>
+
+</mapper>

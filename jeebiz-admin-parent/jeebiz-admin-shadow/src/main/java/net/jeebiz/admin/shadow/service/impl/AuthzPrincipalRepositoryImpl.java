@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletRequest;
 
+import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -52,10 +53,9 @@ import hitool.core.collections.CollectionUtils;
 import hitool.core.lang3.RandomString;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
-import net.jeebiz.admin.authz.rbac0.dao.AuthzRoleMapper;
-import net.jeebiz.admin.authz.rbac0.dao.AuthzRolePermsMapper;
-import net.jeebiz.admin.authz.rbac0.dao.AuthzUserMapper;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.RoleMapper;
+import net.jeebiz.admin.authz.rbac0.dao.RolePermsMapper;
+import net.jeebiz.admin.authz.rbac0.dao.UserAccountMapper;
 import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyMapper;
 import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyUserMapper;
 import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyUserProfileMapper;
@@ -86,11 +86,11 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	@Autowired
 	private AuthzLoginMapper authzLoginMapper;
 	@Autowired
-	private AuthzUserMapper authzUserMapper;
+	private UserAccountMapper userAccountMapper;
 	@Autowired
-	private AuthzRoleMapper authzRoleMapper;
+	private RoleMapper roleMapper;
 	@Autowired
-	private AuthzRolePermsMapper authzRolePermsMapper;
+	private RolePermsMapper rolePermsMapper;
 	@Autowired
 	private AuthzThirdpartyMapper authzThirdpartyMapper;
 	@Autowired
@@ -314,7 +314,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				getAuthzThirdpartyMapper().insert(thirdModel);
 
 				// 设置游客权限
-				getAuthzRoleMapper().setUsers("4", Arrays.asList(userModel.getId()));
+				getRoleMapper().setUsers("4", Arrays.asList(userModel.getId()));
 
 				// 账号状态
 				AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusById(userModel.getId());
@@ -449,7 +449,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 				getAuthzThirdpartyMapper().insert(thirdModel);
 
 				// 设置游客权限
-				getAuthzRoleMapper().setUsers("4", Arrays.asList(userModel.getId()));
+				getRoleMapper().setUsers("4", Arrays.asList(userModel.getId()));
 
 				// 账号状态
 				AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusById(userModel.getId());
@@ -497,9 +497,9 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 
 	protected SimpleAuthenticationInfo principal(AuthzLoginStatusModel statusModel, AuthzLoginModel model, String roleId, String password) {
 		// 用户角色信息集合
-   		List<AuthzRoleEntity> roleModels = getAuthzRoleMapper().getUserRoles(model.getId());
+   		List<RoleEntity> roleModels = getRoleMapper().getUserRoles(model.getId());
 
-   		Optional<AuthzRoleEntity> roleFirst = CollectionUtils.isEmpty(roleModels) ? Optional.empty()
+   		Optional<RoleEntity> roleFirst = CollectionUtils.isEmpty(roleModels) ? Optional.empty()
 				: roleModels.stream().findFirst();
 
    		// 用户权限标记集合
@@ -511,9 +511,9 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 
 			// 有设置角色：构造用户权限
 			if(roleFirst.isPresent()) {
-				AuthzRoleEntity role = roleFirst.get();
+				RoleEntity role = roleFirst.get();
 		   		// 	用户权限标记集合
-				perms.addAll(getAuthzRolePermsMapper().getPermissions(role.getId()));
+				perms.addAll(getRolePermsMapper().getPermissions(role.getId()));
 			}
 
 			model.setUserid(model.getId());
@@ -554,10 +554,10 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			if(principal instanceof AuthzLoginModel) {
 				AuthzLoginModel model = (AuthzLoginModel) principal;
 				// 用户角色信息集合
-		   		List<AuthzRoleEntity> roleModels = getAuthzRoleMapper().getUserRoles(model.getUserid());
+		   		List<RoleEntity> roleModels = getRoleMapper().getUserRoles(model.getUserid());
 				if(CollectionUtils.isNotEmpty(roleModels)) {
-					for (AuthzRoleEntity AuthzRoleEntity : roleModels) {
-						sets.add(AuthzRoleEntity.getKey());
+					for (RoleEntity RoleEntity : roleModels) {
+						sets.add(RoleEntity.getKey());
 					}
 				}
 			}
@@ -572,9 +572,9 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		for (Object principal : principals) {
 			if(principal instanceof AuthzLoginModel) {
 				AuthzLoginModel model = (AuthzLoginModel) principal;
-				set.addAll(getAuthzRolePermsMapper().getPermissions(model.getRoleid()));
-				for (AuthzRoleEntity roleModel : model.getRoleList()) {
-					set.addAll(getAuthzRolePermsMapper().getPermissions(roleModel.getId()));
+				set.addAll(getRolePermsMapper().getPermissions(model.getRoleid()));
+				for (RoleEntity roleModel : model.getRoleList()) {
+					set.addAll(getRolePermsMapper().getPermissions(roleModel.getId()));
 				}
 			}
 		}
@@ -595,16 +595,16 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		return authzLoginMapper;
 	}
 
-	public AuthzUserMapper getAuthzUserMapper() {
-		return authzUserMapper;
+	public UserAccountMapper getAuthzUserMapper() {
+		return userAccountMapper;
 	}
 
-	public AuthzRoleMapper getAuthzRoleMapper() {
-		return authzRoleMapper;
+	public RoleMapper getRoleMapper() {
+		return roleMapper;
 	}
 
-	public AuthzRolePermsMapper getAuthzRolePermsMapper() {
-		return authzRolePermsMapper;
+	public RolePermsMapper getRolePermsMapper() {
+		return rolePermsMapper;
 	}
 
 	public AuthzThirdpartyMapper getAuthzThirdpartyMapper() {

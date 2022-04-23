@@ -13,9 +13,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value = "AuthzUserProfileNewDTO", description = "用户详情信息新增DTO")
+@ApiModel(value = "UserProfileNewDTO", description = "用户详情信息新增DTO")
 @Data
-public class AuthzUserProfileNewDTO {
+public class UserProfileNewDTO {
  
 	/**
 	 * 用户别名（昵称）

@@ -12,11 +12,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ApiModel(value = "AuthzRoleAllotUserDTO", description = "角色分配用户参数DTO")
+@ApiModel(value = "RoleAllotUserDTO", description = "角色分配用户参数DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzRoleAllotUserDTO {
+public class RoleAllotUserDTO {
 
 	/**
 	 * 角色id

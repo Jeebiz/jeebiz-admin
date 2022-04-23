@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
-import net.jeebiz.admin.authz.feature.service.IAuthzFeatureOptService;
-import net.jeebiz.admin.authz.feature.service.IAuthzFeatureService;
+import net.jeebiz.admin.authz.feature.dao.entities.FeatureEntity;
+import net.jeebiz.admin.authz.feature.dao.entities.FeatureOptEntity;
+import net.jeebiz.admin.authz.feature.service.IFeatureOptService;
+import net.jeebiz.admin.authz.feature.service.IFeatureService;
 import net.jeebiz.admin.authz.feature.setup.Constants;
 import net.jeebiz.admin.shadow.utils.FeatureTreeUtils;
 import net.jeebiz.boot.api.ApiRestResponse;
@@ -30,12 +30,12 @@ import net.jeebiz.boot.api.web.BaseApiController;
 @Api(tags = "功能菜单：数据维护（Ok）")
 @RestController
 @RequestMapping(value = "/extras/feature/layui/")
-public class AuthzFeatureLayuiController extends BaseApiController{
+public class FeatureLayuiController extends BaseApiController{
 
 	@Autowired
-	protected IAuthzFeatureService authzFeatureService;
+	protected IFeatureService featureService;
 	@Autowired
-	protected IAuthzFeatureOptService authzFeatureOptService;
+	protected IFeatureOptService featureOptService;
 
 	@ApiOperation(value = "功能菜单-树形结构数据（全部数据）", notes = "查询功能菜单树形结构数据")
 	@BusinessLog(module = Constants.AUTHZ_FEATURE, business = "查询功能菜单树形结构数据", opt = BusinessType.SELECT)
@@ -44,9 +44,9 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 	@ResponseBody
 	public ApiRestResponse<List<Map<String, Object>>> tree(){
 		// 所有的功能菜单
-		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
+		List<FeatureEntity> featureList = getFeatureService().getFeatureList();
 		// 所有的功能操作按钮
-		List<AuthzFeatureOptEntity> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
+		List<FeatureOptEntity> featureOptList = getFeatureOptService().getFeatureOpts();
 		/*
 		{
 		  "code": 0,
@@ -80,9 +80,9 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 	@ResponseBody
 	public ApiRestResponse<List<Map<String, Object>>> flat(){
 		// 所有的功能菜单
-		List<AuthzFeatureEntity> featureList = getAuthzFeatureService().getFeatureList();
+		List<FeatureEntity> featureList = getFeatureService().getFeatureList();
 		// 所有的功能操作按钮
-		List<AuthzFeatureOptEntity> featureOptList = getAuthzFeatureOptService().getFeatureOpts();
+		List<FeatureOptEntity> featureOptList = getFeatureOptService().getFeatureOpts();
 		/*
 		{
 		  "code": 0,
@@ -110,20 +110,20 @@ public class AuthzFeatureLayuiController extends BaseApiController{
 	}
 
 
-	public IAuthzFeatureService getAuthzFeatureService() {
-		return authzFeatureService;
+	public IFeatureService getFeatureService() {
+		return featureService;
 	}
 
-	public void setAuthzFeatureService(IAuthzFeatureService authzFeatureService) {
-		this.authzFeatureService = authzFeatureService;
+	public void setFeatureService(IFeatureService featureService) {
+		this.featureService = featureService;
 	}
 
-	public IAuthzFeatureOptService getAuthzFeatureOptService() {
-		return authzFeatureOptService;
+	public IFeatureOptService getFeatureOptService() {
+		return featureOptService;
 	}
 
-	public void setAuthzFeatureOptService(IAuthzFeatureOptService authzFeatureOptService) {
-		this.authzFeatureOptService = authzFeatureOptService;
+	public void setFeatureOptService(IFeatureOptService featureOptService) {
+		this.featureOptService = featureOptService;
 	}
 
 }

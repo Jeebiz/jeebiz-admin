@@ -14,11 +14,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ApiModel(value = "AuthzRoleUserDTO", description = "角色用户信息参数DTO")
+@ApiModel(value = "RoleUserDTO", description = "角色用户信息参数DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzRoleUserDTO {
+public class RoleUserDTO {
 
 	/**
 	 * 角色id
@@ -70,6 +70,6 @@ public class AuthzRoleUserDTO {
 	 *角色下的用户
 	 */
 	@ApiModelProperty(name = "children",  dataType = "String", value = "角色下的用户")
-	private List<AuthzUserDTO> children = Lists.newArrayList();
+	private List<UserDTO> children = Lists.newArrayList();
 
 }

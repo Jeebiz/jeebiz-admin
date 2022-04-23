@@ -13,9 +13,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value = "AuthzUserDTO", description = "用户信息参数DTO")
+@ApiModel(value = "UserDTO", description = "用户信息参数DTO")
 @Data
-public class AuthzUserDTO {
+public class UserDTO {
 
 	/**
 	 * 用户id
@@ -103,7 +103,7 @@ public class AuthzUserDTO {
 	/**
 	 * 用户详情信息
 	 */
-	@ApiModelProperty(name = "profile", required = true, dataType = "AuthzUserProfileDTO", value = "用户详情信息")
-	private AuthzUserProfileDTO profile;
+	@ApiModelProperty(name = "profile", required = true, dataType = "UserProfileDTO", value = "用户详情信息")
+	private UserProfileDTO profile;
 	
 }

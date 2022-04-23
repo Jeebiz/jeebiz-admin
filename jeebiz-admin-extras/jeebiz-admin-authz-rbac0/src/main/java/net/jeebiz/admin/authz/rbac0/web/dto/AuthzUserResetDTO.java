@@ -10,11 +10,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ApiModel(value = "AuthzUserResetDTO", description = "个人信息更新参数DTO")
+@ApiModel(value = "UserResetDTO", description = "个人信息更新参数DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzUserResetDTO {
+public class UserResetDTO {
 
 	/**
 	 * 用户别名（昵称）

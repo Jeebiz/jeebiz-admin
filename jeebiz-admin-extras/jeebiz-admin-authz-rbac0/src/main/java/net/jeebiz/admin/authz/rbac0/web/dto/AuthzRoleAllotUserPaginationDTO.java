@@ -13,11 +13,11 @@ import lombok.Setter;
 import lombok.ToString;
 import net.jeebiz.boot.api.dto.AbstractOrderedPaginationDTO;
 
-@ApiModel(value = "AuthzRoleAllotUserPaginationDTO", description = "角色分配用户分页查询参数DTO")
+@ApiModel(value = "RoleAllotUserPaginationDTO", description = "角色分配用户分页查询参数DTO")
 @Getter
 @Setter
 @ToString
-public class AuthzRoleAllotUserPaginationDTO extends AbstractOrderedPaginationDTO {
+public class RoleAllotUserPaginationDTO extends AbstractOrderedPaginationDTO {
 
 	/**
 	 * 角色id

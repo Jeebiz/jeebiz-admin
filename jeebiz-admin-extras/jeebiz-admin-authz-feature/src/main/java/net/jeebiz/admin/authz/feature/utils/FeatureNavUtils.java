@@ -13,21 +13,21 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Lists;
 
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import net.jeebiz.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
-import net.jeebiz.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
+import net.jeebiz.admin.authz.feature.dao.entities.FeatureEntity;
+import net.jeebiz.admin.authz.feature.dao.entities.FeatureOptEntity;
+import net.jeebiz.admin.authz.feature.web.dto.FeatureTreeNode;
 
 public final class FeatureNavUtils {
 
-	protected static List<AuthzFeatureTreeNode> getFeatureOptList(AuthzFeatureEntity feature, List<AuthzFeatureOptEntity> featureOptList) {
-		List<AuthzFeatureTreeNode> featureOpts = Lists.newArrayList();
+	protected static List<FeatureTreeNode> getFeatureOptList(FeatureEntity feature, List<FeatureOptEntity> featureOptList) {
+		List<FeatureTreeNode> featureOpts = Lists.newArrayList();
 		// 筛选当前菜单对应的操作按钮
-		List<AuthzFeatureOptEntity> optList = featureOptList.stream()
+		List<FeatureOptEntity> optList = featureOptList.stream()
 				.filter(featureOpt -> StringUtils.equals(feature.getId(), featureOpt.getFeatureId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(optList)){
-			for (AuthzFeatureOptEntity opt : optList) {
-				AuthzFeatureTreeNode optDTO  = new AuthzFeatureTreeNode();
+			for (FeatureOptEntity opt : optList) {
+				FeatureTreeNode optDTO  = new FeatureTreeNode();
 				// 功能菜单id
 				optDTO.setId(feature.getId() + "_" + opt.getId());
 				// 功能操作简称
@@ -50,28 +50,28 @@ public final class FeatureNavUtils {
 
 				featureOpts.add(optDTO);
 			}
-			return featureOpts.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
+			return featureOpts.stream().sorted(Comparator.comparing(FeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return featureOpts;
 	}
 
-	protected static List<AuthzFeatureTreeNode> getSubFeatureList(AuthzFeatureEntity parentNav, List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
+	protected static List<FeatureTreeNode> getSubFeatureList(FeatureEntity parentNav, List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
 
-		List<AuthzFeatureTreeNode> features = Lists.newArrayList();
+		List<FeatureTreeNode> features = Lists.newArrayList();
 		//筛选当前父功能模块节点的子功能模块节点数据
-		List<AuthzFeatureEntity> childFeatureList = featureList.stream()
+		List<FeatureEntity> childFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParent()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(childFeatureList)){
-			for (AuthzFeatureEntity feature : childFeatureList) {
+			for (FeatureEntity feature : childFeatureList) {
 
-				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有子菜单
 				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 				featureDTO.setRoot(!hasChildren);
 				if(hasChildren){
 					// 子菜单
-					List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
+					List<FeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
 					if(CollectionUtils.isNotEmpty(subFeatures)) {
 						boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
@@ -84,7 +84,7 @@ public final class FeatureNavUtils {
 					}
 				} else {
 					// 当前菜单的操作按钮
-					List<AuthzFeatureTreeNode> featureOpts  = getFeatureOptList(feature, featureOptList);
+					List<FeatureTreeNode> featureOpts  = getFeatureOptList(feature, featureOptList);
 					if(CollectionUtils.isNotEmpty(featureOpts)) {
 						boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
@@ -98,27 +98,27 @@ public final class FeatureNavUtils {
 				}
 				features.add(featureDTO);
 			}
-			return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
+			return features.stream().sorted(Comparator.comparing(FeatureTreeNode::getPid).thenComparing(FeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return features;
 	}
 
-	protected static List<AuthzFeatureTreeNode> getSubFeatureList(AuthzFeatureEntity parentNav, List<AuthzFeatureEntity> featureList) {
+	protected static List<FeatureTreeNode> getSubFeatureList(FeatureEntity parentNav, List<FeatureEntity> featureList) {
 
-			List<AuthzFeatureTreeNode> features = Lists.newArrayList();
+			List<FeatureTreeNode> features = Lists.newArrayList();
 			//筛选当前父功能模块节点的子功能模块节点数据
-			List<AuthzFeatureEntity> childFeatureList = featureList.stream()
+			List<FeatureEntity> childFeatureList = featureList.stream()
 					.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParent()))
 					.collect(Collectors.toList());
 			if(CollectionUtils.isNotEmpty(childFeatureList)){
-				for (AuthzFeatureEntity feature : childFeatureList) {
-					AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+				for (FeatureEntity feature : childFeatureList) {
+					FeatureTreeNode featureDTO = toTreeNode(feature);
 					// 判断是否是有子菜单
 					boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 					featureDTO.setRoot(!hasChildren);
 					if(hasChildren){
 						// 子菜单
-						List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
+						List<FeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
 						if(CollectionUtils.isNotEmpty(subFeatures)) {
 							boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 							if(checked) {
@@ -132,15 +132,15 @@ public final class FeatureNavUtils {
 					}
 					features.add(featureDTO);
 				}
-				return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
+				return features.stream().sorted(Comparator.comparing(FeatureTreeNode::getPid).thenComparing(FeatureTreeNode::getOrder)).collect(Collectors.toList());
 			}
 			return features;
 
 		}
 
 
-	protected static AuthzFeatureTreeNode toTreeNode(AuthzFeatureEntity feature){
-		AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
+	protected static FeatureTreeNode toTreeNode(FeatureEntity feature){
+		FeatureTreeNode featureDTO = new FeatureTreeNode();
 		// 功能菜单id
 		featureDTO.setId(feature.getId());
 		// 功能菜单简称
@@ -176,25 +176,25 @@ public final class FeatureNavUtils {
 	 * @param featureList
 	 * @return
 	 */
-	public static List<AuthzFeatureTreeNode> getFeatureTreeList(List<AuthzFeatureEntity> featureList) {
+	public static List<FeatureTreeNode> getFeatureTreeList(List<FeatureEntity> featureList) {
 
 		// 优先获得最顶层的菜单集合
-		List<AuthzFeatureEntity> topFeatureList = featureList.stream()
+		List<FeatureEntity> topFeatureList = featureList.stream()
 				.filter(feature -> feature.isRoot())
 				.collect(Collectors.toList());
-		List<AuthzFeatureTreeNode> features = Lists.newArrayList();
+		List<FeatureTreeNode> features = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(topFeatureList)){
 
-			for (AuthzFeatureEntity feature : topFeatureList) {
+			for (FeatureEntity feature : topFeatureList) {
 
-				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+				FeatureTreeNode featureDTO = toTreeNode(feature);
 
 				// 判断是否是有子菜单
 				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 				featureDTO.setRoot(!hasChildren);
 				if(hasChildren){
 					// 子菜单
-					List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
+					List<FeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList);
 					// 有子菜单
 					if(CollectionUtils.isNotEmpty(subFeatures)) {
 						boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
@@ -210,7 +210,7 @@ public final class FeatureNavUtils {
 				features.add(featureDTO);
 			}
 
-			return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
+			return features.stream().sorted(Comparator.comparing(FeatureTreeNode::getPid).thenComparing(FeatureTreeNode::getOrder)).collect(Collectors.toList());
 		}
 		return features;
 	}
@@ -222,18 +222,18 @@ public final class FeatureNavUtils {
 	 * @param featureOptList
 	 * @return
 	 */
-	public static List<AuthzFeatureTreeNode> getFeatureTreeList(List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
+	public static List<FeatureTreeNode> getFeatureTreeList(List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
 
 		// 优先获得最顶层的菜单集合
-		List<AuthzFeatureEntity> topFeatureList = featureList.stream()
+		List<FeatureEntity> topFeatureList = featureList.stream()
 				.filter(feature -> feature.isRoot())
 				.collect(Collectors.toList());
-		List<AuthzFeatureTreeNode> features = Lists.newArrayList();
+		List<FeatureTreeNode> features = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(topFeatureList)){
 
-			for (AuthzFeatureEntity feature : topFeatureList) {
+			for (FeatureEntity feature : topFeatureList) {
 
-				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有子菜单
 				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
 				featureDTO.setRoot(!hasChildren);
@@ -241,7 +241,7 @@ public final class FeatureNavUtils {
 					featureDTO.setLeaf(false);
 					featureDTO.setLabel( feature.getName());
 					// 子菜单
-					List<AuthzFeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
+					List<FeatureTreeNode> subFeatures = getSubFeatureList(feature, featureList, featureOptList);
 					// 有子菜单
 					if(CollectionUtils.isNotEmpty(subFeatures)) {
 						boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
@@ -255,7 +255,7 @@ public final class FeatureNavUtils {
 				} else {
 					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 					// 当前菜单的操作按钮
-					List<AuthzFeatureTreeNode> featureOpts = getFeatureOptList(feature, featureOptList);
+					List<FeatureTreeNode> featureOpts = getFeatureOptList(feature, featureOptList);
 					if(CollectionUtils.isNotEmpty(featureOpts)) {
 						boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 						if(checked) {
@@ -274,26 +274,26 @@ public final class FeatureNavUtils {
 		return features;
 	}
 
-	public static List<AuthzFeatureTreeNode> getFeatureFlatList(List<AuthzFeatureEntity> featureList) {
-		List<AuthzFeatureTreeNode> features = Lists.newArrayList();
-		for (AuthzFeatureEntity feature : featureList) {
-			AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+	public static List<FeatureTreeNode> getFeatureFlatList(List<FeatureEntity> featureList) {
+		List<FeatureTreeNode> features = Lists.newArrayList();
+		for (FeatureEntity feature : featureList) {
+			FeatureTreeNode featureDTO = toTreeNode(feature);
 			features.add(featureDTO);
 		}
-		return features.stream().sorted(Comparator.comparing(AuthzFeatureTreeNode::getPid).thenComparing(AuthzFeatureTreeNode::getOrder)).collect(Collectors.toList());
+		return features.stream().sorted(Comparator.comparing(FeatureTreeNode::getPid).thenComparing(FeatureTreeNode::getOrder)).collect(Collectors.toList());
 	}
 
-	public static List<AuthzFeatureTreeNode> getFeatureFlatList(List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
-		List<AuthzFeatureTreeNode> features = Lists.newArrayList();
+	public static List<FeatureTreeNode> getFeatureFlatList(List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
+		List<FeatureTreeNode> features = Lists.newArrayList();
 		// 筛选菜单中的末节点的功能菜单
-		List<AuthzFeatureEntity> leafFeatureList = featureList.stream()
+		List<FeatureEntity> leafFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.isNotEmpty(feature.getParent())
 						&& !StringUtils.equals("0", feature.getParent()) && !StringUtils.equals("#", feature.getUrl()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(leafFeatureList)){
 
-			for (AuthzFeatureEntity feature : leafFeatureList) {
-				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+			for (FeatureEntity feature : leafFeatureList) {
+				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有父菜单
 				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 				if(isLeaf){
@@ -303,7 +303,7 @@ public final class FeatureNavUtils {
 					featureDTO.setLabel( feature.getName());
 				}
 				// 当前菜单的操作按钮
-				List<AuthzFeatureTreeNode> featureOpts  = getFeatureOptList(feature, featureOptList);
+				List<FeatureTreeNode> featureOpts  = getFeatureOptList(feature, featureOptList);
 				if(CollectionUtils.isNotEmpty(featureOpts)) {
 					boolean checked = featureOpts.stream().anyMatch(item -> item.isChecked());
 					if(checked) {
@@ -321,14 +321,14 @@ public final class FeatureNavUtils {
 		return features;
 	}
 
-	protected static StringBuilder getLabel(StringBuilder builder, AuthzFeatureEntity leaf, List<AuthzFeatureEntity> featureList) {
+	protected static StringBuilder getLabel(StringBuilder builder, FeatureEntity leaf, List<FeatureEntity> featureList) {
 		// 获取该菜单的父菜单
-		List<AuthzFeatureEntity> parentFeatureList = featureList.stream()
+		List<FeatureEntity> parentFeatureList = featureList.stream()
 				.filter(feature ->  StringUtils.equals(leaf.getParent(), feature.getId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(parentFeatureList)) {
 			// 只有一个父亲，只会循环一次
-			for (AuthzFeatureEntity feature : parentFeatureList) {
+			for (FeatureEntity feature : parentFeatureList) {
 				builder.insert(0, "/").insert(0, feature.getName());
 				// Url属性不为#表示有父级菜单
 				if(!StringUtils.equals("#", feature.getUrl())){
@@ -344,19 +344,19 @@ public final class FeatureNavUtils {
 	 * @param ownFeatures	： 用户/角色拥有的菜单
 	 * @return
 	 */
-	public static List<AuthzFeatureEntity> getFeatureMergedList(List<AuthzFeatureEntity> features,
-                                                                List<AuthzFeatureEntity> ownFeatures) {
+	public static List<FeatureEntity> getFeatureMergedList(List<FeatureEntity> features,
+                                                           List<FeatureEntity> ownFeatures) {
 		// 定义合并后的功能菜单集合对象
-		List<AuthzFeatureEntity> mergedFeatureList = Lists.newArrayList();
+		List<FeatureEntity> mergedFeatureList = Lists.newArrayList();
 		// 循环用户拥有的菜单
-		for (AuthzFeatureEntity feature : ownFeatures) {
+		for (FeatureEntity feature : ownFeatures) {
 			mergedFeatureList.add(feature);
 			// 从系统菜单中获取当前菜单的所有的父级菜单，并加入合并集合
 			getParants(mergedFeatureList, feature, features );
 		}
 		// 去除重复的菜单
-		List<AuthzFeatureEntity> mergedFeatures = Lists.newArrayList();
-		for (AuthzFeatureEntity feature : mergedFeatureList) {
+		List<FeatureEntity> mergedFeatures = Lists.newArrayList();
+		for (FeatureEntity feature : mergedFeatureList) {
 			 boolean b = mergedFeatures.stream().anyMatch(u -> u.getId().equals(feature.getId()));
 		     if (!b) {
 		    	 mergedFeatures.add(feature);
@@ -372,14 +372,14 @@ public final class FeatureNavUtils {
 	 * @param featureList		： 所有的功能菜单
 	 * @return
 	 */
-	protected static List<AuthzFeatureEntity> getParants(List<AuthzFeatureEntity> mergedFeatures, AuthzFeatureEntity currentFeature, List<AuthzFeatureEntity> featureList) {
+	protected static List<FeatureEntity> getParants(List<FeatureEntity> mergedFeatures, FeatureEntity currentFeature, List<FeatureEntity> featureList) {
 		// 获取该菜单的父菜单
-		List<AuthzFeatureEntity> parentFeatureList = featureList.stream()
+		List<FeatureEntity> parentFeatureList = featureList.stream()
 				.filter(feature ->  StringUtils.equals(currentFeature.getParent(), feature.getId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(parentFeatureList)) {
 			// 只有一个父亲，只会循环一次
-			for (AuthzFeatureEntity prentFeature : parentFeatureList) {
+			for (FeatureEntity prentFeature : parentFeatureList) {
 				mergedFeatures.add(prentFeature);
 				getParants(mergedFeatures, prentFeature, featureList );
 			}
@@ -393,18 +393,18 @@ public final class FeatureNavUtils {
 	 * @param featureOptList
 	 * @return
 	 */
-	public static List<AuthzFeatureTreeNode> getFeatureTree(List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
+	public static List<FeatureTreeNode> getFeatureTree(List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
 
 		//优先获得最顶层的菜单集合
-		List<AuthzFeatureEntity> topFeatureList = featureList.stream()
+		List<FeatureEntity> topFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.equals("#", feature.getUrl()))
 				.collect(Collectors.toList());
-		List<AuthzFeatureTreeNode> features = Lists.newArrayList();
+		List<FeatureTreeNode> features = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(topFeatureList)){
 
-			for (AuthzFeatureEntity feature : topFeatureList) {
+			for (FeatureEntity feature : topFeatureList) {
 
-				AuthzFeatureTreeNode featureDTO = toTreeNode(feature);
+				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有父菜单
 				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
 				featureDTO.setLeaf(isLeaf);
@@ -414,7 +414,7 @@ public final class FeatureNavUtils {
 					featureDTO.setLabel( feature.getName());
 				}
 				// 子菜单
-				List<AuthzFeatureTreeNode> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
+				List<FeatureTreeNode> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
 				if(CollectionUtils.isNotEmpty(subFeatures)) {
 					boolean checked = subFeatures.stream().anyMatch(item -> item.isChecked());
 					if(checked) {
@@ -431,15 +431,15 @@ public final class FeatureNavUtils {
 		return features;
 	}
 
-	public static AuthzFeatureTreeNode getFeatureTree(String servId, List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
+	public static FeatureTreeNode getFeatureTree(String servId, List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
 
-		AuthzFeatureTreeNode featureDTO = new AuthzFeatureTreeNode();
+		FeatureTreeNode featureDTO = new FeatureTreeNode();
 		if(CollectionUtils.isEmpty(featureList)) {
 			return featureDTO;
 		}
 
 		//优先获得最顶层的菜单集合
-		AuthzFeatureEntity feature = featureList.stream()
+		FeatureEntity feature = featureList.stream()
 				.filter(f -> StringUtils.equals(servId, f.getParent()))
 				.findFirst().get();
 
@@ -453,7 +453,7 @@ public final class FeatureNavUtils {
 			featureDTO.setLabel( feature.getName());
 		}
 		// 子菜单
-		List<AuthzFeatureTreeNode> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
+		List<FeatureTreeNode> subFeatures  = getSubFeatureList(feature, featureList, featureOptList);
 		if(CollectionUtils.isNotEmpty(subFeatures)) {
 			featureDTO.setChecked(true);
 			featureDTO.setChildren(subFeatures.stream().filter(item -> item.isChecked()).collect(Collectors.toList()));

@@ -14,7 +14,7 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import net.jeebiz.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
 
 @Alias(value = "AuthzLoginModel")
 @SuppressWarnings("serial")
@@ -66,7 +66,7 @@ public class AuthzLoginModel extends ShiroPrincipal {
 	/**
 	 * 账号角色
 	 */
-	private List<AuthzRoleEntity> roleList = Lists.newArrayList();
+	private List<RoleEntity> roleList = Lists.newArrayList();
 
 
 }
