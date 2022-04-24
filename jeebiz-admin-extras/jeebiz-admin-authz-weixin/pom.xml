@@ -7,10 +7,10 @@
 		<artifactId>jeebiz-admin-extras</artifactId>
 		<version>1.0.2-ce-SNAPSHOT</version>
 	</parent>
-	<artifactId>jeebiz-admin-authz-weixin</artifactId>
-	
+	<artifactId>jeebiz-admin-authz-login</artifactId>
+
 	<dependencies>
-		
+
 		<!-- For Jeebiz API -->
 		<dependency>
 			<groupId>net.jeebiz</groupId>
@@ -52,5 +52,5 @@
 		</dependency>
 
 	</dependencies>
-	
+
 </project>

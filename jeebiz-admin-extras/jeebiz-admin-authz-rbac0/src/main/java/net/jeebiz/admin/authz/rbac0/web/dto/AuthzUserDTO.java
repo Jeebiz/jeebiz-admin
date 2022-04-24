@@ -35,8 +35,8 @@ public class UserDTO {
 	/**
 	 * 用户名
 	 */
-	@ApiModelProperty(name = "username", required = true, dataType = "String", value = "用户名")
-	private String username;
+	@ApiModelProperty(name = "account", required = true, dataType = "String", value = "用户名")
+	private String account;
 	/**
 	 * 用户密码
 	 */

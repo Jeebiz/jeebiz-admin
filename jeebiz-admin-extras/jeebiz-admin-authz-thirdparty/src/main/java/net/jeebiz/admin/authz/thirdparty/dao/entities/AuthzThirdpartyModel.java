@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.authz.thirdparty.dao.entities;
+package net.jeebiz.admin.authz.login.dao.entities;
 
 import org.apache.ibatis.type.Alias;
 
@@ -16,7 +16,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
+import net.jeebiz.admin.authz.login.setup.ThirdpartyType;
 import net.jeebiz.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "AuthzThirdpartyModel")

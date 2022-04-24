@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved.
  */
-package net.jeebiz.admin.authz.thirdparty.service.impl;
+package net.jeebiz.admin.authz.login.service.impl;
 
 
 import java.util.List;
@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
-import net.jeebiz.admin.authz.thirdparty.dao.AuthzThirdpartyMapper;
-import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
-import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
-import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.setup.provider.ThirdpartyBindingProvider;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
+import net.jeebiz.admin.authz.login.dao.AuthzThirdpartyMapper;
+import net.jeebiz.admin.authz.login.dao.entities.AuthzThirdpartyModel;
+import net.jeebiz.admin.authz.login.service.IAuthzThirdpartyService;
+import net.jeebiz.admin.authz.login.setup.ThirdpartyType;
+import net.jeebiz.admin.authz.login.setup.provider.ThirdpartyBindingProvider;
+import net.jeebiz.admin.authz.login.web.dto.AbstractBindDTO;
+import net.jeebiz.admin.authz.login.web.dto.AuthzThirdpartyDTO;
 import net.jeebiz.boot.api.service.BaseServiceImpl;
 
 @Service

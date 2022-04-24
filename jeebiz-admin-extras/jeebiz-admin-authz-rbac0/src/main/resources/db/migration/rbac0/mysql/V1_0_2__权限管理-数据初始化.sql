@@ -15,14 +15,27 @@ VALUES ( '4', 'normal', '注册用户', '1', '系统注册用户', '1' );
 
 INSERT INTO sys_authz_role_perms ( id, role_id, role_key, perms)
 VALUES ( '1', '1', 'admin', '*');
+INSERT INTO sys_authz_role_perms ( id, role_id, role_key, perms)
+VALUES ( '2', '2', 'manager', '*');
+INSERT INTO sys_authz_role_perms ( id, role_id, role_key, perms)
+VALUES ( '3', '3', 'staff', '*');
+INSERT INTO sys_authz_role_perms ( id, role_id, role_key, perms)
+VALUES ( '4', '4', 'normal', '*');
 
-INSERT INTO sys_authz_user_account(id, username, password, type, salt, secret, status, user_id, user_code, app_id, app_channel, app_version, is_online, latest_online)
+INSERT INTO sys_authz_user_account(id, account, password, type, salt, secret, status, user_id, user_code, app_id, app_channel, app_version, is_online, latest_online)
 VALUES (1, 'admin', 'YHLXHSt+CS2gJDU50amvrw==', 'password', 'MTIzNDU2', '', 1, 1, '10000000', '1', 'ASO0001', '1.0.0', NULL, NULL);
+INSERT INTO sys_authz_user_account(id, account, password, type, salt, secret, status, user_id, user_code, app_id, app_channel, app_version, is_online, latest_online)
+VALUES (2, 'guest', 'YHLXHSt+CS2gJDU50amvrw==', 'password', 'MTIzNDU2', '', 2, 4, '10000000', '1', 'ASO0001', '1.0.0', NULL, NULL);
 
 INSERT INTO sys_authz_user_profile(id, code, nickname, avatar, region_code, phone, email, birthday, gender, idcard, age, height, weight, language, intro, photos, province, city, area, wgs84_lng, wgs84_lat, degree, app_id, app_channel, app_version)
 VALUES (1, '10000000', '超级管理员', '', '86', '13655896263', 'jeebiz@163.com', '1996-10-01', 1, '411526198910010001', 18, '170cm', '70kg', 'zh_CN', '默认最高权限管理员', '[]', '浙江省', '杭州市', '余杭区', 0.0, 0.0, 0, '1', 'ASO0001', '1.0.0');
+INSERT INTO sys_authz_user_profile(id, code, nickname, avatar, region_code, phone, email, birthday, gender, idcard, age, height, weight, language, intro, photos, province, city, area, wgs84_lng, wgs84_lat, degree, app_id, app_channel, app_version)
+VALUES (2, '10000001', '访客', '', '86', '13655896263', 'jeebiz@163.com', '1996-10-01', 1, '411526198910010001', 18, '170cm', '70kg', 'zh_CN', '访客', '[]', '浙江省', '杭州市', '余杭区', 0.0, 0.0, 0, '1', 'ASO0001', '1.0.0');
 
 INSERT INTO sys_authz_user_roles ( id, user_id, role_id, priority)
 VALUES ( '1', '1', '1', '1');
+INSERT INTO sys_authz_user_roles ( id, user_id, role_id, priority)
+VALUES ( '2', '2', '4', '1');
+
 
 COMMIT;

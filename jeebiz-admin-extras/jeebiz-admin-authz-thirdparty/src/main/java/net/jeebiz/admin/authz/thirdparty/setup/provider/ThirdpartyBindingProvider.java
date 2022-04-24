@@ -2,15 +2,15 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.authz.thirdparty.setup.provider;
+package net.jeebiz.admin.authz.login.setup.provider;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authc.AuthenticationException;
 
-import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
-import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AbstractBindDTO;
+import net.jeebiz.admin.authz.login.dao.entities.AuthzThirdpartyModel;
+import net.jeebiz.admin.authz.login.setup.ThirdpartyType;
+import net.jeebiz.admin.authz.login.web.dto.AbstractBindDTO;
 
 public interface ThirdpartyBindingProvider<T extends AbstractBindDTO> {
 

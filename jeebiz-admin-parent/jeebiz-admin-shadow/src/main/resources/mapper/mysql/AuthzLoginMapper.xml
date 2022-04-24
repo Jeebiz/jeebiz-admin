@@ -26,7 +26,7 @@
         <result property="time24" column="create_time"/>
 	</resultMap>
 
-	<resultMap id="LoginStatusMap" type="AuthzLoginStatusModel">
+	<resultMap id="AccountStatusMap" type="AuthzLoginStatusModel">
 		<result property="ucount" column="count" />
 		<result property="pcount" column="p_count" />
 		<result property="rcount" column="r_count" />
@@ -93,30 +93,30 @@
         <result property="time24" column="create_time"/>
 	</resultMap>
 
-	<select id="getAccountStatus" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-	    select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.username = #{username}) count,
-		       (select CAST(count('1') AS CHAR) from sys_authz_user_account b where b.username = #{username} and b.password = #{password,jdbcType=VARCHAR} ) p_count,
-		       (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.id = x.id and c.username = #{username}) r_count,
-		       IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.username = #{username}),'0') status,
-		       (select d.salt from sys_authz_user_account d where d.username = #{username}) as salt
+	<select id="getAccountStatus" resultMap="AccountStatusMap" useCache="false">
+		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.account = #{account}) count,
+		    (select CAST(count('1') AS CHAR) from sys_authz_user_account b where b.account = #{account} and b.password = #{password,jdbcType=VARCHAR} ) p_count,
+			(select CAST(count('1') AS CHAR) from sys_authz_user_account c, sys_authz_user_roles x where c.user_id = x.user_id and c.account = #{account}) r_count,
+			IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.account = #{account}),'0') status,
+			(select d.salt from sys_authz_user_account d where d.account = #{account}) as salt
 		from dual
-    </select>
+	</select>
 
-    <select id="getAccountStatusWithoutPwd" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-	    select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.username = #{username}) count,
-		       (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.username = #{username}) r_count,
-		       IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.username = #{username}),'0') status,
-		       (select d.salt from sys_authz_user_account d where d.username = #{username}) as salt
+	<select id="getAccountStatusWithoutPwd" resultMap="AccountStatusMap" useCache="false">
+		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.account = #{account}) count,
+		       (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.account = #{account}) r_count,
+			IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.account = #{account}),'0') status,
+			(select d.salt from sys_authz_user_account d where d.account = #{account}) as salt
 		from dual
-    </select>
+	</select>
 
-    <select id="getAccountStatusById" parameterType="string" resultMap="LoginStatusMap" useCache="false">
-	    select (select count('1') from sys_authz_user_account a where a.id = #{id}) count,
-		       (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.id = #{id}) r_count,
-		       IFNULL((select IFNULL(d.status,'0') from sys_authz_user_account d where d.id = #{id}),'0') status,
-		       (select d.salt from sys_authz_user_account d where d.id = #{id}) as salt
+	<select id="getAccountStatusByUid" resultMap="AccountStatusMap" useCache="false">
+		select (select count('1') from sys_authz_user_account a where a.user_id = #{userId}) count,
+		       (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.user_id = #{userId}) r_count,
+			IFNULL((select IFNULL(d.status,'0') from sys_authz_user_account d where d.user_id = #{userId}),'0') status,
+			(select d.salt from sys_authz_user_account d where d.id = #{id}) as salt
 		from dual
-    </select>
+	</select>
 
     <sql id="AccountSQL">
 		 select t.id,

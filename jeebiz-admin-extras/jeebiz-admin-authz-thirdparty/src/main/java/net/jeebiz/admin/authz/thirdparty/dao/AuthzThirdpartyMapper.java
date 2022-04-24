@@ -2,12 +2,12 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.authz.thirdparty.dao;
+package net.jeebiz.admin.authz.login.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
+import net.jeebiz.admin.authz.login.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.boot.api.dao.BaseMapper;
 
 /**

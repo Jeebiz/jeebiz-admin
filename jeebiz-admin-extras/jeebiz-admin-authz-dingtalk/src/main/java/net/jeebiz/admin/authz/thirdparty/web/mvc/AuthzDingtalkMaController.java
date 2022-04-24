@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved.
  */
-package net.jeebiz.admin.authz.thirdparty.web.mvc;
+package net.jeebiz.admin.authz.login.web.mvc;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,13 +32,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.authz.thirdparty.service.IAuthzThirdpartyService;
-import net.jeebiz.admin.authz.thirdparty.setup.Constants;
-import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkBindDTO;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkCode2SessionDTO;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkConfigDTO;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzThirdpartyDTO;
+import net.jeebiz.admin.authz.login.service.IAuthzThirdpartyService;
+import net.jeebiz.admin.authz.login.setup.Constants;
+import net.jeebiz.admin.authz.login.setup.ThirdpartyType;
+import net.jeebiz.admin.authz.login.web.dto.AuthzDingtalkBindDTO;
+import net.jeebiz.admin.authz.login.web.dto.AuthzDingtalkCode2SessionDTO;
+import net.jeebiz.admin.authz.login.web.dto.AuthzDingtalkConfigDTO;
+import net.jeebiz.admin.authz.login.web.dto.AuthzThirdpartyDTO;
 import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.BusinessLog;

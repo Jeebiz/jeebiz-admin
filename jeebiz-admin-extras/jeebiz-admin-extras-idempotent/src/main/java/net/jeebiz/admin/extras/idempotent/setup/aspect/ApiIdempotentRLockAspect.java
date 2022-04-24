@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
+import org.redisson.spring.boot.RedissonOperationTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.StringUtils;
@@ -24,7 +25,6 @@ import net.jeebiz.boot.api.ApiCode;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.ApiIdempotentType;
 import net.jeebiz.boot.api.exception.IdempotentException;
-import net.jeebiz.boot.extras.redis.setup.RedissonOperationTemplate;
 
 /**
  * 1、基于Redisson分布式锁实现的方法

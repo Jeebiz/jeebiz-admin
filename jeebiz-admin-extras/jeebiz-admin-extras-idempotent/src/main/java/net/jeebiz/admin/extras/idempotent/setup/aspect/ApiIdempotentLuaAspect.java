@@ -14,6 +14,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -26,7 +27,6 @@ import net.jeebiz.boot.api.annotation.ApiIdempotent;
 import net.jeebiz.boot.api.annotation.ApiIdempotentType;
 import net.jeebiz.boot.api.exception.IdempotentException;
 import net.jeebiz.boot.api.sequence.Sequence;
-import net.jeebiz.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
  * 1、基于Lua脚本实现分布式锁的方法

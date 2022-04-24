@@ -1,4 +1,4 @@
-package net.jeebiz.admin.authz.thirdparty.web.dto;
+package net.jeebiz.admin.authz.login.web.dto;
 
 import com.dingtalk.api.response.OapiUserGetResponse;
 

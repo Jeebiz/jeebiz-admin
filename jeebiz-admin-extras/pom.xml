@@ -13,12 +13,9 @@
 
 	<modules>
 		<module>jeebiz-admin-api</module>
-		<module>jeebiz-admin-authz-dingtalk</module>
 		<module>jeebiz-admin-authz-feature</module>
 		<module>jeebiz-admin-authz-org</module>
 		<module>jeebiz-admin-authz-rbac0</module>
-		<module>jeebiz-admin-authz-thirdparty</module>
-		<module>jeebiz-admin-authz-weixin</module>
 		<module>jeebiz-admin-extras-article</module>
 		<module>jeebiz-admin-extras-banner</module>
 		<module>jeebiz-admin-extras-cnarea</module>

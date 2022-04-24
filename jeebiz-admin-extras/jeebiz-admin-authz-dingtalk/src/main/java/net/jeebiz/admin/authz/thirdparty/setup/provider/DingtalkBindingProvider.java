@@ -2,16 +2,16 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.authz.thirdparty.setup.provider;
+package net.jeebiz.admin.authz.login.setup.provider;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
-import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.authz.thirdparty.web.dto.AuthzDingtalkBindDTO;
+import net.jeebiz.admin.authz.login.dao.entities.AuthzThirdpartyModel;
+import net.jeebiz.admin.authz.login.setup.ThirdpartyType;
+import net.jeebiz.admin.authz.login.web.dto.AuthzDingtalkBindDTO;
 
 @Component
 public class DingtalkBindingProvider implements ThirdpartyBindingProvider<AuthzDingtalkBindDTO> {

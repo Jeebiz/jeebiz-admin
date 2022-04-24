@@ -32,9 +32,9 @@ public class UserNewDTO {
 	/**
 	 * 用户名
 	 */
-	@ApiModelProperty(name = "username", required = true, dataType = "String", value = "用户名")
+	@ApiModelProperty(name = "account", required = true, dataType = "String", value = "用户名")
 	@NotBlank(message = "用户名必填")
-	private String username;
+	private String account;
 	/**
 	 * 默认密码
 	 */

@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.authz.thirdparty.dao.entities;
+package net.jeebiz.admin.authz.login.dao.entities;
 
 import org.apache.ibatis.type.Alias;
 
