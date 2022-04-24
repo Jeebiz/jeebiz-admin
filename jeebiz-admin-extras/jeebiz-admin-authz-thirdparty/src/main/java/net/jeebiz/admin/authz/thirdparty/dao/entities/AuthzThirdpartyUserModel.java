@@ -36,8 +36,8 @@ public class AuthzThirdpartyUserModel extends BaseEntity<AuthzThirdpartyUserMode
 	/**
 	 * 用户名
 	 */
-	@TableField(value = "u_username")
-	private String username;
+	@TableField(value = "u_account")
+	private String account;
 	/**
 	 * 密码
 	 */

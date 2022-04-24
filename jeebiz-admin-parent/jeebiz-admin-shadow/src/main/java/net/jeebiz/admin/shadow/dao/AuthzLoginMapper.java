@@ -21,43 +21,50 @@ import net.jeebiz.boot.api.dao.entities.BaseMap;
 public interface AuthzLoginMapper extends BaseMapper<AuthzLoginModel> {
 
 	/**
-	 * 根据用户id和密码查询用户可否登录，角色数量等信息
-	 * @param username : 用户名
+	 * 根据用户ID和密码查询用户可否登录，角色数量等信息
+	 * @param account : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户账号状态信息
 	 */
-	AuthzLoginStatusModel getAccountStatus(@Param(value = "username") String username,
-			@Param(value = "password") String password);
-	
+	AuthzLoginStatusModel getAccountStatus(@Param(value = "account") String account,
+										@Param(value = "password") String password);
+
 	/**
-	 * 根据用户id和密码查询用户可否登录，角色数量等信息
-	 * @param username : 用户名
+	 * 根据用户ID和密码查询用户可否登录，角色数量等信息
+	 * @param account : 用户名
 	 * @return 用户账号状态信息
 	 */
-	AuthzLoginStatusModel getAccountStatusWithoutPwd(@Param(value = "username") String username);
+	AuthzLoginStatusModel getAccountStatusWithoutPwd(@Param(value = "account") String account);
+
+	/**
+	 * 根据用户ID和密码查询用户可否登录，角色数量等信息
+	 * @param userId : 用户ID
+	 * @return 用户账号状态信息
+	 */
+	AuthzLoginStatusModel getAccountStatusByUid(@Param(value = "userId") String userId);
 
 	/**
 	 * 根据用户id和密码查询用户可否登录，角色数量等信息
-	 * @param username : 用户名
+	 * @param id : 用户名
 	 * @return 用户账号状态信息
 	 */
-    AuthzLoginStatusModel getAccountStatusById(@Param(value = "uid") String uid);
+    AuthzLoginStatusModel getAccountStatusById(@Param(value = "id") String uid);
     
 	/***
 	 *  根据用户id和密码查询用户信息
-	 * @param username : 用户名
+	 * @param account : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户登录信息
 	 */
-	AuthzLoginModel getAccount(@Param(value = "username") String username,
+	AuthzLoginModel getAccount(@Param(value = "account") String account,
 			@Param(value = "password") String password);
 
 	/***
 	 * 根据用户id无密码查询用户信息；用于单点登录
-	 * @param username : 用户名
+	 * @param account : 用户名
 	 * @return 用户登录信息
 	 */
-	AuthzLoginModel getAccountWithoutPwd(@Param(value = "username") String username);
+	AuthzLoginModel getAccountWithoutPwd(@Param(value = "account") String account);
 
 	/**
 	 * 根据用户表id查询当前系统对应的用户信息

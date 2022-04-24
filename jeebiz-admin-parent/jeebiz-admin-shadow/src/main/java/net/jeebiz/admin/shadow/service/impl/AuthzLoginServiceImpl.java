@@ -29,18 +29,18 @@ public class AuthzLoginServiceImpl extends BaseServiceImpl<AuthzLoginMapper, Aut
 	public static final String PRIVATE_KEY_ATTRIBUTE_name = "privateKey";
 	
 	@Override
-	public AuthzLoginStatusModel getAccountStatus(String username, String password) {
-		return getBaseMapper().getAccountStatus(username, password);
+	public AuthzLoginStatusModel getAccountStatus(String account, String password) {
+		return getBaseMapper().getAccountStatus(account, password);
 	}
 
 	@Override
-	public AuthzLoginModel getAccount(String username, String password) {
-		return getBaseMapper().getAccount(username, password);
+	public AuthzLoginModel getAccount(String account, String password) {
+		return getBaseMapper().getAccount(account, password);
 	}
 	
 	@Override
-	public AuthzLoginModel getAccountWithoutPwd(String username) {
-		return getBaseMapper().getAccountWithoutPwd(username);
+	public AuthzLoginModel getAccountWithoutPwd(String account) {
+		return getBaseMapper().getAccountWithoutPwd(account);
 	}
 	
 	@Override

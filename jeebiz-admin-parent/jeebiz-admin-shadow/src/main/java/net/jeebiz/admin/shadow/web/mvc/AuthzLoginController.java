@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
-import net.jeebiz.admin.shadow.service.IAuthzLoginService;
+import net.jeebiz.admin.shadow.service.IAuthService;
 import net.jeebiz.admin.shadow.setup.Constants;
 import net.jeebiz.boot.api.ApiRestResponse;
 import net.jeebiz.boot.api.annotation.ApiIdempotent;
@@ -58,7 +58,7 @@ public class AuthzLoginController extends BaseController {
 	private static final String DEFAULT_ERROr_key_ATTRIBUTE_name = "shiroLoginFailure";
 
 	@Autowired
-	private IAuthzLoginService authzLoginService;
+	private IAuthService authzLoginService;
 
 	/**
 	 * 
@@ -172,11 +172,11 @@ public class AuthzLoginController extends BaseController {
 		return "redirect:/index";
 	}
 
-	public IAuthzLoginService getAuthzLoginService() {
+	public IAuthService getAuthzLoginService() {
 		return authzLoginService;
 	}
 
-	public void setAuthzLoginService(IAuthzLoginService authzLoginService) {
+	public void setAuthzLoginService(IAuthService authzLoginService) {
 		this.authzLoginService = authzLoginService;
 	}
 

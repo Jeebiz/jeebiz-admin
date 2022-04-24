@@ -12,6 +12,10 @@ import org.springframework.data.redis.core.RedisKey;
 
 public enum BizRedisKey {
 
+	USER_LOCK_REG("用户注册锁", (account, other) -> {
+		String keyStr = MessageFormatter.format("user:lock:reg:{}", account).getMessage();
+		return RedisKey.getKeyStr(keyStr);
+	}),
 	/**
 	 * 用户任务列表
 	 */
@@ -287,7 +291,7 @@ public enum BizRedisKey {
         String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
         return RedisKey.getKeyStr(BizRedisKeyConstant.GAME_REWARD_10000, gameId, date);
     }),
-	
+
 	;
 
 	private String desc;

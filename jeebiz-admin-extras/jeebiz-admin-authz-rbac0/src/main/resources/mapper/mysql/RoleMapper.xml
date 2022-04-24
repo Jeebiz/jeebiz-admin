@@ -29,7 +29,7 @@
 		<!-- 账号id -->
 		<result property="id" column="id" />
 		<!-- 账号名称 -->
-		<result property="username" column="username"/>
+		<result property="account" column="account"/>
 		<!-- 账号密码 -->
 		<result property="password" column="password"/>
 		<!-- 登录方式（如：password：账号密码、weixin:微信登录...） -->

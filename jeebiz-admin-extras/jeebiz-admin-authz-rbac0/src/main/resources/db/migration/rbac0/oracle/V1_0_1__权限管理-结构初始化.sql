@@ -41,7 +41,7 @@ comment on column sys_authz_role_perms.perms  is '权限标记：(等同sys_auth
 -- Create table
 create table sys_authz_user_account (
   u_id   			VARCHAR2(32) default sys_guid() not null,
-  u_username 		VARCHAR2(100) not null,
+  u_account 		VARCHAR2(100) not null,
   u_password 		VARCHAR2(100) not null,
   u_salt			VARCHAR2(64),
   u_secret			VARCHAR2(128),
@@ -54,7 +54,7 @@ create table sys_authz_user_account (
   u_online			VARCHAR2(1),
   u_latest_online	VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
   create_time			VARCHAR2(32) default to_char(sysdate ,'yyyy-mm-dd hh24:mi:ss'),
-  CONSTRAINT idx_uname UNIQUE(u_username),
+  CONSTRAINT idx_uname UNIQUE(u_account),
   CONSTRAINT idx_uuid UNIQUE(u_uid),
   CONSTRAINT PK_Uid PRIMARY KEY(u_id)
 );
@@ -62,7 +62,7 @@ create table sys_authz_user_account (
 comment on table sys_authz_user_account  is '用户账户信息表';
 -- Add comments to the columns
 comment on column sys_authz_user_account.u_id  is '用户id';
-comment on column sys_authz_user_account.u_username  is '用户名';
+comment on column sys_authz_user_account.u_account  is '用户名';
 comment on column sys_authz_user_account.u_password  is '用户密码';
 comment on column sys_authz_user_account.u_salt  is '用户密码盐：用于密码加解密';
 comment on column sys_authz_user_account.u_secret  is '用户秘钥：用于用户JWT加解密';

@@ -41,10 +41,12 @@ public class UserAccountEntity extends PaginationEntity<UserAccountEntity> {
 	@TableId(value="id",type= IdType.AUTO)
 	private String id;
 	/**
-	 * 账号名称
+	 * 1、用户账号，如手机号
+	 * 2、第三方平台 Unionid（通常指第三方账号体系下用户的唯一id）
+	 * 3、第三方平台 Openid（通常指第三方账号体系下某应用中用户的唯一id）
 	 */
-	@TableField(value = "username")
-	private String username;
+	@TableField(value = "account")
+	private String account;
 	/**
 	 * 账号密码
 	 */
@@ -104,7 +106,7 @@ public class UserAccountEntity extends PaginationEntity<UserAccountEntity> {
 	 * 账号状态（0:禁用|1:可用|2:锁定|3:密码过期）
 	 */
 	@TableField(value = "`status`")
-	private String status;
+	private int status;
 	/**
 	 * 角色id（可能多个组合，如：1,2）
 	 */

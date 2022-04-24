@@ -42,7 +42,7 @@ public class AuthzLoginModel extends ShiroPrincipal {
 	/**
 	 * 账号名称
 	 */
-	private String username;
+	private String account;
 	/**
 	 * 账号密码
 	 */

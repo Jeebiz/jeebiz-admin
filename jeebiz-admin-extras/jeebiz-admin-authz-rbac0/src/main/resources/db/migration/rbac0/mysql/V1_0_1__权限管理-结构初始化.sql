@@ -42,13 +42,14 @@ CREATE TABLE `sys_authz_role_perms` (
 DROP TABLE IF EXISTS `sys_authz_user_account`;
 CREATE TABLE `sys_authz_user_account` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `username` varchar(100) NOT NULL COMMENT '账号名称',
+  `account` varchar(100) NOT NULL COMMENT '账号名称',
   `password` varchar(100) NOT NULL COMMENT '账号密码',
   `salt` varchar(64) DEFAULT NULL COMMENT '账号密码盐：用于密码加解密',
   `secret` varchar(128) DEFAULT NULL COMMENT '账号秘钥：用于用户JWT加解密',
   `user_id` varchar(16) COMMENT '关联用户id',
   `user_code` varchar(50) COMMENT '关联用户code（短号/工号）',
   `type` varchar(50) COMMENT '登录方式（如：password：账号密码、weixin:微信登录...）',
+  `rawdata` varchar(500) COMMENT '第三方认证账号扩展信息',
   `app_id` varchar(50) DEFAULT NULL COMMENT '账号最近一次登录客户端应用id',
   `app_channel` varchar(20) DEFAULT NULL COMMENT '账号最近一次登录客户端应用渠道编码',
   `app_version` varchar(20) DEFAULT NULL COMMENT '账号最近一次登录客户端版本',
@@ -61,7 +62,7 @@ CREATE TABLE `sys_authz_user_account` (
   `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
   `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_user`(`user_id`,`user_code`,`username`) USING BTREE COMMENT '用户账号索引'
+  INDEX `idx_user`(`user_id`,`user_code`,`account`) USING BTREE COMMENT '用户账号索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户账户信息表';
 
 -- ----------------------------
@@ -113,6 +114,11 @@ CREATE TABLE `sys_authz_user_roles` (
   `user_id` bigint(12) NOT NULL COMMENT '用户id',
   `role_id` bigint(12) NOT NULL COMMENT '角色id',
   `priority` int(2) NOT NULL DEFAULT 0 COMMENT '优先级：用于默认登录角色',
+  `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
+  `creator` bigint(12) DEFAULT '0' COMMENT '创建人ID',
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modifyer` bigint(12) DEFAULT NULL COMMENT '修改人ID',
+  `modify_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_user_profile`(`user_id`,`role_id`,`priority`) USING BTREE COMMENT '用户角色关系索引'
+  INDEX `idx_user_role`(`user_id`,`role_id`,`priority`) USING BTREE COMMENT '用户角色关系索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户-角色关系表';

@@ -19,25 +19,25 @@ public interface IAuthzLoginService extends IBaseService<AuthzLoginModel>{
 	
 	/**
 	 * 根据用户id和密码查询用户可否登录，角色数量等信息
-	 * @param username : 用户名
+	 * @param account : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户账号状态信息
 	 */
-	AuthzLoginStatusModel getAccountStatus(String username, String password);
+	AuthzLoginStatusModel getAccountStatus(String account, String password);
 
 	/***
 	 *  根据用户id和密码查询用户信息
-	 * @param username : 用户名
+	 * @param account : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户登录信息
 	 */
-	AuthzLoginModel getAccount(String username, String password);
+	AuthzLoginModel getAccount(String account, String password);
 
 	/***
 	 * 根据用户id无密码查询用户信息；用于单点登录
-	 * @param username : 用户名
+	 * @param account : 用户名
 	 * @return 用户登录信息
 	 */
-	AuthzLoginModel getAccountWithoutPwd(String username);
+	AuthzLoginModel getAccountWithoutPwd(String account);
 
 }

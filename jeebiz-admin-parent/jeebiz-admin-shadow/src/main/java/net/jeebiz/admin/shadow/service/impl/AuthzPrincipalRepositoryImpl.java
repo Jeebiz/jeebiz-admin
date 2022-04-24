@@ -161,8 +161,8 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 		DingTalkAuthenticationToken dingTalkToken = (DingTalkAuthenticationToken) token;
 
 		// 账号状态
-		String username = StringUtils.defaultString(dingTalkToken.getJobnumber(), dingTalkToken.getMobile());
-		AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusWithoutPwd(username);
+		String account = StringUtils.defaultString(dingTalkToken.getJobnumber(), dingTalkToken.getMobile());
+		AuthzLoginStatusModel statusModel = getAuthzLoginMapper().getAccountStatusWithoutPwd(account);
    		// 账号不存在 或 用户名或密码不正确
    		if(!statusModel.isHasAcc()){
    			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
@@ -181,7 +181,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
         SimpleHash hash = new SimpleHash(algorithmName, password, statusModel.getSalt(), hashIterations);
 
 		//	用户主体对象
-   		AuthzLoginModel model = getAuthzLoginMapper().getAccountWithoutPwd(username);
+   		AuthzLoginModel model = getAuthzLoginMapper().getAccountWithoutPwd(account);
    		//	系统没有钉钉userid对应的用户数据，表示第一次扫码登陆
 		if(model == null) {
 			/*
@@ -544,7 +544,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
    		// 认证信息
    		ByteSource credentialsSalt = ByteSource.Util.bytes(statusModel.getSalt());
    		return new SimpleAuthenticationInfo(model, password, credentialsSalt, "login");
-		//return new SimpleAuthenticationInfo("", userService.findUserByUsername(usernamePasswordToken.getUsername()).getPassword(), "");
+		//return new SimpleAuthenticationInfo("", userService.findUserByUsername(accountPasswordToken.getUsername()).getPassword(), "");
 	}
 
 	@Override

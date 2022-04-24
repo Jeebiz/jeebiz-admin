@@ -16,7 +16,7 @@ VALUES ( '4', 'normal', '注册用户', '1', '系统注册用户', '1' );
 INSERT INTO sys_authz_role_perms ( id, role_id, role_key, perms)
 VALUES ( '1', '1', 'admin', '*');
 
-INSERT INTO sys_authz_user_account(id, username, password, type, salt, secret, status, user_id, user_code, app_id, app_channel, app_version, is_online, latest_online)
+INSERT INTO sys_authz_user_account(id, account, password, type, salt, secret, status, user_id, user_code, app_id, app_channel, app_version, is_online, latest_online)
 VALUES (1, 'admin', 'YHLXHSt+CS2gJDU50amvrw==', 'password', 'MTIzNDU2', '', 1, 1, '10000000', '1', 'ASO0001', '1.0.0', NULL, NULL);
 
 INSERT INTO sys_authz_user_profile(id, code, nickname, avatar, region_code, phone, email, birthday, gender, idcard, age, height, weight, language, intro, photos, province, city, area, wgs84_lng, wgs84_lat, degree, app_id, app_channel, app_version)

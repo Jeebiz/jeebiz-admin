@@ -6,15 +6,15 @@
 		<selectKey keyProperty="id" order="BEFORE" resultType="String">
 	        SELECT sys_guid() FROM dual
 	    </selectKey>
-	    INSERT INTO sys_authz_user_account(u_id, u_uid, u_code, u_username, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
-		VALUES(#{id}, #{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{username},#{password},#{salt,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},
+	    INSERT INTO sys_authz_user_account(u_id, u_uid, u_code, u_account, u_password, u_salt, u_secret, u_app_id, u_app_channel, u_app_version, u_online, u_status)
+		VALUES(#{id}, #{uid,jdbcType=VARCHAR},#{ucode,jdbcType=VARCHAR},#{account},#{password},#{salt,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},
 			#{appId,jdbcType=VARCHAR},#{appChannel,jdbcType=VARCHAR},#{appVer,jdbcType=VARCHAR},#{online},'1')
 	</insert>
 
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
 		  FROM sys_authz_user_account t
-		 WHERE t.u_username = #{name}
+		 WHERE t.u_account = #{name}
 		 <if test="origin != null and origin != ''">
 			AND t.u_id != #{origin}
 		 </if>

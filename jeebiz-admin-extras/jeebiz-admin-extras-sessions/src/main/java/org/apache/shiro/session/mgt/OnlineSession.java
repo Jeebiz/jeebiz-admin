@@ -16,7 +16,7 @@ public class OnlineSession extends SimpleOnlineSession {
 	/** 当前登录的用户Id */
     private String userid;
     /** 当前登录的用户名称 */
-    private String username;
+    private String account;
     
     public String getUserid() {
 		return userid;
@@ -27,11 +27,11 @@ public class OnlineSession extends SimpleOnlineSession {
 	}
 
 	public String getUsername() {
-		return username;
+		return account;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String account) {
+		this.account = account;
 	}
 
 	/**
@@ -54,8 +54,8 @@ public class OnlineSession extends SimpleOnlineSession {
         if (status != null) {
             out.writeObject(status);
         }
-        if (username != null) {
-            out.writeObject(username);
+        if (account != null) {
+            out.writeObject(account);
         }
     }
 
@@ -81,7 +81,7 @@ public class OnlineSession extends SimpleOnlineSession {
             this.status = (OnlineStatus) in.readObject();
         }
         if (isFieldPresent(bitMask, USERname_BIT_MASK)) {
-            this.username = (String) in.readObject();
+            this.account = (String) in.readObject();
         }
     }
 
@@ -98,7 +98,7 @@ public class OnlineSession extends SimpleOnlineSession {
         bitMask = userid != null ? bitMask | USEr_id_BIT_MASK : bitMask;
         bitMask = userAgent != null ? bitMask | USER_AGENT_BIT_MASK : bitMask;
         bitMask = status != null ? bitMask | STATUS_BIT_MASK : bitMask;
-        bitMask = username != null ? bitMask | USERname_BIT_MASK : bitMask;
+        bitMask = account != null ? bitMask | USERname_BIT_MASK : bitMask;
         return (short) bitMask;
     }
 

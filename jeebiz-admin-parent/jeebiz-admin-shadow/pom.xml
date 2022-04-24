@@ -140,40 +140,77 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>docx4j-spring-boot-starter</artifactId>
 		</dependency>
-		<!-- PAC4J For
+
+		<!-- For Shiro Weixin （微信公共号、小程序登录） -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-weixin-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For Shiro Dingtalk （钉钉） -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>dingtalk-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For Shiro （扫码登录） -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-qrcode-spring-boot-starter</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>zxing-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For Shiro Cas （Cas认证登录） -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-cas-spring-boot-starter</artifactId>
+			<version>1.0.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+		</dependency>
+		<!-- For PAC4J -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-pac4j-spring-boot-starter</artifactId>
 		</dependency>
-
-        <dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-cas</artifactId>
-        </dependency>
+		<!-- PAC4J For CAS Protocol  -->
 		<dependency>
-		    <groupId>org.codehaus.woodstox</groupId>
-		    <artifactId>woodstox-core-asl</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-http</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-oauth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.hiwepy</groupId>
-            <artifactId>pac4j-oauth-ext</artifactId>
-        </dependency>
-        <dependency>
-		    <groupId>com.github.scribejava</groupId>
-		    <artifactId>scribejava-core</artifactId>
+			<groupId>org.pac4j</groupId>
+			<artifactId>pac4j-cas</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>com.github.scribejava</groupId>
-		    <artifactId>scribejava-apis</artifactId>
-		</dependency> -->
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>woodstox-core-asl</artifactId>
+		</dependency>
+		<!-- PAC4J For HTTP Protocol  -->
+		<dependency>
+			<groupId>org.pac4j</groupId>
+			<artifactId>pac4j-http</artifactId>
+		</dependency>
+		<!-- PAC4J For OAuth Protocol  -->
+		<dependency>
+			<groupId>org.pac4j</groupId>
+			<artifactId>pac4j-oauth</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.scribejava</groupId>
+			<artifactId>scribejava-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.scribejava</groupId>
+			<artifactId>scribejava-apis</artifactId>
+		</dependency>
 		<!-- For Google API -->
 		<dependency>
 			<groupId>com.google.api-client</groupId>

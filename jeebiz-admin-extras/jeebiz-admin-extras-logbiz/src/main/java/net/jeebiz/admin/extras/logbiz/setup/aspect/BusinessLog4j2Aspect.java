@@ -85,7 +85,7 @@ public class BusinessLog4j2Aspect {
 		// 登录报错,这里还拿不到ShiroPrincipal对象
 		if(bizLog.opt().equals(BusinessType.LOGIN)) {
 			//ServletRequest request = SubjectUtils.getWebSubject().getServletRequest();
-			//ThreadContext.put("userId", request.getParameter("username"));
+			//ThreadContext.put("userId", request.getParameter("account"));
 		} else {
 			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			ThreadContext.put("userId", principal.getUserid());
