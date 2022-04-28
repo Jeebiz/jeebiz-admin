@@ -1,7 +1,9 @@
 #FROM reg.hiwepy.com/base-image/openjdk-pinpont:1
 #FROM reg.hiwepy.com/base-image/openjdk-shanghai:8
-FROM openjdk:8
+#FROM openjdk:8
+FROM java:openjdk-8-jre-alpine
 VOLUME /tmp
+VOLUME /logs
 ADD ./target/jeebiz-admin-shadow-1.0.0-SNAPSHOT.jar /
 ADD ./libs/linux64/libarcsoft_face_engine_jni.so /lib/
 ADD ./libs/linux64/libarcsoft_face_engine.so /lib/
