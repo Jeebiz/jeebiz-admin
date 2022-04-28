@@ -30,7 +30,6 @@ interpolated*.xml
 logs
 manifest.yml
 overridedb.*
-settings.xml
 target
 transaction-logs
 .flattened-pom.xml
