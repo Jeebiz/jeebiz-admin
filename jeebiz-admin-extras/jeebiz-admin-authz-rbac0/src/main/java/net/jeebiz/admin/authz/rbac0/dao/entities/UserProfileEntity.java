@@ -18,6 +18,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.jeebiz.boot.api.dao.entities.BaseEntity;
 
+import java.time.LocalDate;
+
 @Alias(value = "UserProfileEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_profile")
@@ -67,7 +69,7 @@ public class UserProfileEntity extends BaseEntity<UserProfileEntity> {
 	 * 出生日期
 	 */
 	@TableField(value = "birthday")
-	private String birthday;
+	private LocalDate birthday;
 	/**
 	 * 性别：（1：男，2：女）
 	 */
@@ -98,6 +100,11 @@ public class UserProfileEntity extends BaseEntity<UserProfileEntity> {
 	 */
 	@TableField(value = "language")
 	private String language;
+	/**
+	 * 个人签名
+	 */
+	@TableField(value = "signature")
+	private String signature;
 	/**
 	 * 用户备注
 	 */

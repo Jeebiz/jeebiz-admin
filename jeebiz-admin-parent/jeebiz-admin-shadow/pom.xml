@@ -163,6 +163,7 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-qrcode-spring-boot-starter</artifactId>
+			<version>1.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -172,6 +173,7 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-cas-spring-boot-starter</artifactId>
+			<version>1.0.3.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>

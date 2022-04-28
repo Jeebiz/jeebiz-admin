@@ -28,8 +28,28 @@ public class AuthServiceImpl extends BaseServiceImpl<AuthzLoginMapper, AuthzLogi
 		implements IAuthService {
 
 	public static final String PRIVATE_KEY_ATTRIBUTE_name = "privateKey";
+<<<<<<<< HEAD:jeebiz-admin-parent/jeebiz-admin-shadow/src/main/java/net/jeebiz/admin/shadow/service/impl/AuthServiceImpl.java
 
 	@Override
+========
+	
+	@Override
+	public AuthzLoginStatusModel getAccountStatus(String account, String password) {
+		return getBaseMapper().getAccountStatus(account, password);
+	}
+
+	@Override
+	public AuthzLoginModel getAccount(String account, String password) {
+		return getBaseMapper().getAccount(account, password);
+	}
+	
+	@Override
+	public AuthzLoginModel getAccountWithoutPwd(String account) {
+		return getBaseMapper().getAccountWithoutPwd(account);
+	}
+	
+	@Override
+>>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-parent/jeebiz-admin-shadow/src/main/java/net/jeebiz/admin/shadow/service/impl/AuthzLoginServiceImpl.java
 	public RSAPublicKey genPublicKey(HttpServletRequest request) throws GeneralSecurityException {
 		
 		KeyPair keyPair = SecretKeyUtils.genKeyPair("RSA");

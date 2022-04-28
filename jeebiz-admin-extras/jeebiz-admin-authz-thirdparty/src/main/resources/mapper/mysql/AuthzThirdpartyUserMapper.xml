@@ -5,7 +5,7 @@
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
 		  FROM sys_authz_user_account t
-		 WHERE t.u_username = #{name}
+		 WHERE t.u_account = #{name}
 		 <if test="origin != null and origin != ''">
 			AND t.u_id != #{origin}
 		 </if>

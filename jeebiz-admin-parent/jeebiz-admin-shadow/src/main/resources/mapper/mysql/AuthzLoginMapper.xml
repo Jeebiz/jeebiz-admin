@@ -11,7 +11,7 @@
 		<!-- 账号关联用户code（短号/工号） -->
 		<result property="ucode" column="user_code" />
 		<!-- 账号名称 -->
-        <result property="username" column="username"/>
+        <result property="account" column="account"/>
         <!-- 账号密码 -->
         <result property="password" column="password"/>
 		<!-- 登录方式（如：password：账号密码、weixin:微信登录...） -->
@@ -122,14 +122,14 @@
 		 select t.id,
 				t.uid,
 				t.code,
-				t.username,
+				t.account,
 				t.password,
 				t.salt,
 				t.secret,
 				t.status,
 				t.create_time
 		   from sys_authz_user_account t
-		  where t.username = #{username}
+		  where t.account = #{account}
 	</sql>
 
     <!-- 根据用户id和密码查询用户信息  -->
@@ -147,7 +147,7 @@
          select t.id,
 				t.user_id,
 				t.user_code,
-				t.username,
+				t.account,
 				t.password,
 				t.salt,
 				t.secret,
@@ -161,7 +161,7 @@
          select t.id,
 				t.user_id,
 				t.user_code,
-				t.username,
+				t.account,
 				t.password,
 				t.salt,
 				t.secret,
@@ -175,7 +175,7 @@
          select t.id,
 				t.user_id,
 				t.user_code,
-				t.username,
+				t.account,
 				t.password,
 				t.salt,
 				t.secret,

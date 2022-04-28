@@ -52,19 +52,19 @@ public interface AuthzLoginMapper extends BaseMapper<AuthzLoginModel> {
     
 	/***
 	 *  根据用户id和密码查询用户信息
-	 * @param username : 用户名
+	 * @param account : 用户名
 	 * @param password : 密码，可不填
 	 * @return 用户登录信息
 	 */
-	AuthzLoginModel getAccount(@Param(value = "username") String username,
+	AuthzLoginModel getAccount(@Param(value = "account") String account,
 			@Param(value = "password") String password);
 
 	/***
 	 * 根据用户id无密码查询用户信息；用于单点登录
-	 * @param username : 用户名
+	 * @param account : 用户名
 	 * @return 用户登录信息
 	 */
-	AuthzLoginModel getAccountWithoutPwd(@Param(value = "username") String username);
+	AuthzLoginModel getAccountWithoutPwd(@Param(value = "account") String account);
 
 	/**
 	 * 根据用户表id查询当前系统对应的用户信息

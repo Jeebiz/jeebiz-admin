@@ -33,8 +33,8 @@ public abstract class AbstractBindDTO {
 	/**
 	 * 用户账号
 	 */
-	@ApiModelProperty(name = "username", required = true, dataType = "String", value = "用户账号")
-	private String username;
+	@ApiModelProperty(name = "account", required = true, dataType = "String", value = "用户账号")
+	private String account;
 	/**
 	 * 用户密码
 	 */

@@ -6,7 +6,7 @@
 		<!-- 账号id -->
 		<result property="id" column="id" />
 		<!-- 账号名称 -->
-		<result property="username" column="username"/>
+		<result property="account" column="account"/>
 		<!-- 账号密码 -->
 		<result property="password" column="password"/>
 		<!-- 登录方式（如：password：账号密码、weixin:微信登录...） -->
@@ -125,7 +125,7 @@
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.id)
 		  FROM sys_authz_user_account t
-		 WHERE t.username = #{name}
+		 WHERE t.account = #{name}
 		 <if test="origin != null and origin != ''">
 			AND t.id != #{origin}
 		 </if>
@@ -147,7 +147,7 @@
 	<select id="getUserList" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.id,
-			t.username,
+			t.account,
 			'******' AS password,
 			'******' AS salt,
 			'******' AS secret,
@@ -168,7 +168,7 @@
 	<select id="getPagedList" resultMap="UserMap" parameterType="UserAccountEntity" useCache="false">
 		SELECT
 			t.id,
-			t.username,
+			t.account,
 			'******' AS password,
 			'******' AS salt,
 			'******' AS secret,
@@ -183,7 +183,7 @@
 			t.`status`,
 			t.create_time
 		FROM sys_authz_user_account t
-	   WHERE t.username != 'admin'
+	   WHERE t.account != 'admin'
 		<if test="model.roleId != null and model.roleId != ''">
 			and EXISTS (SELECT y.id
 				 FROM sys_authz_user_roles y

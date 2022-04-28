@@ -1,9 +1,10 @@
 package net.jeebiz.admin.shadow.setup.strategy;
 
 import net.jeebiz.admin.shadow.bo.AuthBO;
-import org.springframework.security.boot.biz.userdetails.SecurityPrincipal;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 
 /**
  * 登录
@@ -21,7 +22,7 @@ public interface AuthStrategy<T> {
      * @param token
      * @return
      */
-	AuthBO<T> initInfo(Authentication token) throws AuthenticationException;
+	AuthBO<T> initInfo(AuthenticationToken token) throws AuthenticationException;
 
     /**
      * 统一登陆
@@ -29,14 +30,14 @@ public interface AuthStrategy<T> {
      * @return
      * @throws AuthenticationException
      */
-    SecurityPrincipal login(Authentication token) throws AuthenticationException;
-    
-    SecurityPrincipal login(AuthBO<T> authBO) throws AuthenticationException;
+    SimpleAuthenticationInfo login(AuthenticationToken token) throws AuthenticationException;
 
-    SecurityPrincipal getPrincipal(AuthBO<T> authBO) throws AuthenticationException;
+    SimpleAuthenticationInfo login(AuthBO<T> authBO) throws AuthenticationException;
 
-    void afterLogin(AuthBO<T> authBO, Long userId) throws AuthenticationException;
+    ShiroPrincipal getPrincipal(AuthBO<T> authBO) throws AuthenticationException;
 
-    void afterReg(AuthBO<T> authBO, Long userId) throws AuthenticationException;
-    
+    void afterLogin(AuthBO<T> authBO, String userId) throws AuthenticationException;
+
+    void afterReg(AuthBO<T> authBO, String userId) throws AuthenticationException;
+
 }

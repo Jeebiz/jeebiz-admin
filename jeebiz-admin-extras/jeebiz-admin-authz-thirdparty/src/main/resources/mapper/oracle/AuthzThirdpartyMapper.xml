@@ -158,7 +158,7 @@
 		SELECT
 			t.t_id,
 			t.u_id,
-			t2.u_username,
+			t2.u_account,
 			t.t_type,
 			t.t_unionid,
 			t.t_openid,

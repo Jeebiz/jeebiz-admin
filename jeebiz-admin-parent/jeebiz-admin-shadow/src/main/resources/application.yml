@@ -322,7 +322,7 @@ spring:
       #这一项可配可不配，如果不配置druid会根据url自动识别dbType，然后选择相应的driverClassName
       #driver-class-name: oracle.jdbc.driver.OracleDriver
       #url:
-      #username: xxx
+      #account: xxx
       #password: xxx
       #initialSize: 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时；默认 15
       initial-size: 5

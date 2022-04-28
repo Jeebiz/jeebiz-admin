@@ -13,7 +13,7 @@ import net.jeebiz.admin.shadow.setup.strategy.AuthChannel;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthBO<T> {
-	
+
 	/**
 	 * 登陆方式
 	 */
@@ -21,7 +21,7 @@ public class AuthBO<T> {
 	/**
 	 * 用户id
 	 */
-	private Long userId;
+	private String userId;
 	/**
 	 * 用户号
 	 */
@@ -136,5 +136,5 @@ public class AuthBO<T> {
 	private Long loginTime;
 
 	private T param;
- 
+
 }

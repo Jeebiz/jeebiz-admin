@@ -16,7 +16,7 @@ VALUES ( '4', 'normal', '注册用户', '1', '系统注册用户', '1' );
 INSERT INTO sys_authz_role_perms ( r_id, perms)
 VALUES ( '1', '*');
 
-INSERT INTO sys_authz_user_account(u_id, u_username, u_password, u_salt, u_secret, u_status, u_uid, u_code, u_app_id, u_app_channel, u_app_version, u_online, u_latest_online)
+INSERT INTO sys_authz_user_account(u_id, u_account, u_password, u_salt, u_secret, u_status, u_uid, u_code, u_app_id, u_app_channel, u_app_version, u_online, u_latest_online)
 VALUES (1, 'admin', 'MTIzNDU2', 'MTIzNDU2', '', 1, '666666', NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO sys_authz_user_profile(u_pid, u_id, u_nickname, u_avatar, u_region_code, u_phone, u_email, u_birthday, u_gender, u_idcard, u_age, u_height, u_weight, u_language, u_intro, u_photos, u_province, u_city, u_area, u_wgs84_lng, u_wgs84_lat, u_degree)

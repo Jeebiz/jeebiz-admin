@@ -30,8 +30,8 @@ public class AuthzWeixinMpBindDTO extends AbstractBindDTO {
 	/**
 	 * 绑定的账号
 	 */
-	@ApiModelProperty(name = "username", dataType = "String", value = "绑定的账号")
-	protected String username;
+	@ApiModelProperty(name = "account", dataType = "String", value = "绑定的账号")
+	protected String account;
 	/**
 	 * 绑定的账号密码
 	 */
