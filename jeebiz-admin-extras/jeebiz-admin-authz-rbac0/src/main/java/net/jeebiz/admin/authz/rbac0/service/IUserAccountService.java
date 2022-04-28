@@ -12,7 +12,9 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.AccountStatusModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.UserRoleEntity;
+import net.jeebiz.boot.api.dao.entities.BaseMap;
 import net.jeebiz.boot.api.service.IBaseService;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -120,5 +122,34 @@ public interface IUserAccountService extends IBaseService<UserAccountEntity> {
 	 * @return 用户账号状态信息
 	 */
 	AccountStatusModel getAccountStatusByUid(String userId);
+
+	/***
+	 * 根据用户id无密码查询用户信息；用于单点登录
+	 * @param type : 登录方式
+	 * @param account : 用户名
+	 * @return 用户登录信息
+	 */
+	UserAccountEntity getAccountByType(String type, String account);
+
+	/**
+	 * 根据用户表id查询当前系统对应的用户信息
+	 * @param id 账号表ID
+	 * @return
+	 */
+	UserAccountEntity getAccountById(String id);
+
+	/**
+	 * 根据用户业务id查询当前系统对应的用户信息
+	 * @param userCode 用户业务id
+	 * @return
+	 */
+	UserAccountEntity getAccountByUcode(String userCode);
+
+	/**
+	 * 根据用户id查询当前系统对应的用户信息
+	 * @param userId 用户ID
+	 * @return
+	 */
+	UserAccountEntity getAccountByUserId(String userId);
 
 }

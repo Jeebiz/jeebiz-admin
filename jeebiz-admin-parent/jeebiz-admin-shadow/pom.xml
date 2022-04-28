@@ -148,16 +148,20 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.binarywang</groupId>
+			<artifactId>wx-java-mp-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
 			<artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Shiro Dingtalk （钉钉） -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
-			<artifactId>dingtalk-spring-boot-starter</artifactId>
+			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
-			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
+			<artifactId>dingtalk-spring-boot-starter</artifactId>
 		</dependency>
 		<!-- For Shiro （扫码登录） -->
 		<dependency>

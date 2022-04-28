@@ -95,6 +95,10 @@ public class AuthBO<T> {
 	 */
 	private String password;
 	/**
+	 * 用户密码盐：用于密码加解密
+	 */
+	private String salt;
+	/**
 	 * 加密后的密码
 	 */
 	private String encodePassword;

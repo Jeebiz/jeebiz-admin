@@ -6,6 +6,7 @@ package net.jeebiz.admin.authz.rbac0.service;
 
 import net.jeebiz.admin.authz.rbac0.dao.entities.UserProfileEntity;
 import net.jeebiz.admin.authz.rbac0.web.dto.UserResetDTO;
+import net.jeebiz.boot.api.dao.entities.BaseMap;
 import net.jeebiz.boot.api.service.IBaseService;
 
 
@@ -13,13 +14,6 @@ import net.jeebiz.boot.api.service.IBaseService;
  * 用户详情管理Service接口
  */
 public interface IUserProfileService extends IBaseService<UserProfileEntity> {
-
-	/**
-	 * 根据用户Id查询用户信息
-	 * @param uid
-	 * @return
-	 */
-	UserProfileEntity getProfile(String uid);
 
 	/**
 	 * 根据手机号查询相同手机号数量

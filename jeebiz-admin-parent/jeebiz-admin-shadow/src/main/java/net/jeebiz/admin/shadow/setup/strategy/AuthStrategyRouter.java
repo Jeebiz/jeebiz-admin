@@ -3,7 +3,7 @@ package net.jeebiz.admin.shadow.setup.strategy;
 import net.jeebiz.admin.shadow.bo.AuthBO;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

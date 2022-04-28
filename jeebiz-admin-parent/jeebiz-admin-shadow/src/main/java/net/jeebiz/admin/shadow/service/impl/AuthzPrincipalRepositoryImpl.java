@@ -25,6 +25,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.biz.authc.exception.InvalidAccountException;
 import org.apache.shiro.biz.authc.exception.NoneRoleException;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipalRepositoryImpl;
 import org.apache.shiro.biz.utils.WebThreadContext;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -63,7 +64,7 @@ import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserModel;
 import net.jeebiz.admin.authz.thirdparty.dao.entities.AuthzThirdpartyUserProfileModel;
 import net.jeebiz.admin.authz.thirdparty.setup.ThirdpartyType;
-import net.jeebiz.admin.shadow.dao.AuthzLoginMapper;
+import net.jeebiz.admin.shadow.dao.AuthMapper;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
 import net.jeebiz.boot.api.XHeaders;
@@ -84,7 +85,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	@Autowired
 	private WxMaService wxMaService;
 	@Autowired
-	private AuthzLoginMapper authzLoginMapper;
+	private AuthMapper authMapper;
 	@Autowired
 	private UserAccountMapper userAccountMapper;
 	@Autowired
@@ -534,7 +535,7 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 			model.setInitial(model.isInitial());
 
 			// 查询用户个人信息
-			Map<String, Object> profile = getAuthzLoginMapper().getAccountProfile(model.getId());
+			Map<String, Object> profile = getAuthzLoginMapper().getAuthProfile(model.getId());
 			model.setProfile(profile);
 
 		} catch (Exception e) {
@@ -551,8 +552,8 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	public Set<String> getRoles(Set<Object> principals) {
 		Set<String> sets =  Sets.newHashSet();
 		for (Object principal : principals) {
-			if(principal instanceof AuthzLoginModel) {
-				AuthzLoginModel model = (AuthzLoginModel) principal;
+			if(principal instanceof ShiroPrincipal) {
+				ShiroPrincipal model = (ShiroPrincipal) principal;
 				// 用户角色信息集合
 		   		List<RoleEntity> roleModels = getRoleMapper().getUserRoles(model.getUserid());
 				if(CollectionUtils.isNotEmpty(roleModels)) {
@@ -570,11 +571,11 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	public Set<String> getPermissions(Set<Object> principals) {
 		Set<String> set =  Sets.newHashSet();
 		for (Object principal : principals) {
-			if(principal instanceof AuthzLoginModel) {
-				AuthzLoginModel model = (AuthzLoginModel) principal;
+			if(principal instanceof ShiroPrincipal) {
+				ShiroPrincipal model = (ShiroPrincipal) principal;
 				set.addAll(getRolePermsMapper().getPermissions(model.getRoleid()));
-				for (RoleEntity roleModel : model.getRoleList()) {
-					set.addAll(getRolePermsMapper().getPermissions(roleModel.getId()));
+				for (RolePair role : model.getRoles()) {
+					set.addAll(getRolePermsMapper().getPermissions(role.getId()));
 				}
 			}
 		}
@@ -585,14 +586,6 @@ public class AuthzPrincipalRepositoryImpl extends ShiroPrincipalRepositoryImpl {
 	public void doLock(Object principal) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public AuthzLoginMapper getAuthzLoginMapper() {
-		return authzLoginMapper;
 	}
 
 	public UserAccountMapper getAuthzUserMapper() {

@@ -19,11 +19,6 @@ import net.jeebiz.boot.api.service.BaseServiceImpl;
 public class UserProfileServiceImpl extends BaseServiceImpl<UserProfileMapper, UserProfileEntity> implements IUserProfileService {
 
 	@Override
-	public UserProfileEntity getProfile(String uid) {
-		return getBaseMapper().selectById(uid);
-	}
-
-	@Override
 	public int getCountByPhone(String phone, String origin) {
 		return getBaseMapper().getCountByPhone(phone, origin);
 	}

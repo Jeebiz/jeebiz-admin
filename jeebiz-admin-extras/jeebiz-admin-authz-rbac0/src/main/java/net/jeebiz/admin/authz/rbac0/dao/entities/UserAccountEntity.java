@@ -65,7 +65,7 @@ public class UserAccountEntity extends PaginationEntity<UserAccountEntity> {
 	/**
 	 * 账号关联用户id
 	 */
-	@TableField(value = "`user_id`")
+	@TableField(value = "user_id")
 	private String userId;
 	/**
 	 * 账号关联用户code（短号/工号）

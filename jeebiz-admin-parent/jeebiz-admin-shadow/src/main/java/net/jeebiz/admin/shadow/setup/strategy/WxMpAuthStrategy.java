@@ -9,8 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.boot.weixin.authentication.WxMpAuthenticationToken;
 import org.springframework.security.boot.weixin.authentication.WxMpLoginRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 /**

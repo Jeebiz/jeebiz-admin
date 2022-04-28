@@ -6,8 +6,8 @@ import net.jeebiz.admin.shadow.web.param.LoginByPasswordParam;
 import net.jeebiz.admin.shadow.web.param.RegisterParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.boot.jwt.authentication.JwtAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 /**

@@ -7,8 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import hitool.core.lang3.RandomString;
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
-import net.jeebiz.admin.authz.rbac0.dao.entities.UserProfileEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.*;
 import net.jeebiz.admin.authz.rbac0.service.*;
 import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.admin.extras.redis.setup.BizRedisKeyConstant;
@@ -17,11 +16,12 @@ import net.jeebiz.admin.shadow.service.IAuthService;
 import net.jeebiz.admin.shadow.web.param.RegisterParam;
 import net.jeebiz.boot.api.sequence.Sequence;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.biz.authc.exception.InvalidAccountException;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
+import org.pac4j.core.ext.exception.UsernameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.util.CollectionUtils;
@@ -139,12 +139,10 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 	 */
     protected String getUidByAccount(AuthBO<T> authBO) throws AuthenticationException {
     	// 1、账号查询
-        UserAccountEntity accountEntity = getAccountService().getOne(new QueryWrapper<UserAccountEntity>()
-                .eq("type", this.getChannel().getKey())
-                .eq("account", authBO.getAccount()));
+		UserAccountEntity accountEntity = getAccountService().getAccountByType(this.getChannel().getKey() , authBO.getAccount());
         // 未找到响应账号
-        if (accountEntity == null) {
-        	throw new UsernameNotFoundException("Username or password is incorrect, please re-enter.");
+        if (Objects.nonNull(accountEntity)) {
+			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
         }
 		authBO.setEncodePassword(accountEntity.getPassword());
 		//System.out.println(getPasswordEncoder().encode(authBO.getPassword()));
@@ -216,7 +214,7 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 			String value = String.valueOf(System.currentTimeMillis());
 			boolean lock = redisOperation.setNx(key, value, BizRedisKeyConstant.FIVE_SECONDS);
 			if (!lock) {
-				throw new LockedException("");
+				throw new DisabledAccountException("Account is disabled.");
 			}
 			// 2.3、注册
 			userId = register(authBO, registerParam);
@@ -227,12 +225,15 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 			authBO.setUserId(userId);
 		}
 		// 登陆
-		ShiroPrincipal login = getPrincipal(authBO);
-		login.setInitial(isFirst); // 首次注册登陆
+		ShiroPrincipal principal = getPrincipal(authBO);
+		principal.setInitial(isFirst); // 首次注册登陆
 
 		authBO.setLoginTime(System.currentTimeMillis());
 		afterLogin(authBO, userId);
-		return login;
+
+		// 认证信息
+		ByteSource credentialsSalt = ByteSource.Util.bytes(authBO.getSalt());
+		return new SimpleAuthenticationInfo(principal, authBO.getPassword(), credentialsSalt, "login");
 
 	}
 
@@ -251,10 +252,7 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 
 		// 账号状态
 		AccountStatusModel statusModel = getAccountService().getAccountStatusByUid(authBO.getUserId());
-		//	账号不存在 或 用户名或密码不正确
-   		if(!statusModel.isHasAcc()){
-   			throw new UsernameNotFoundException("Username or password is incorrect, please re-enter.");
-   		}
+
 
 		// 用户角色信息集合
 		List<UserRoleEntity> userRoles = getUserRoleService().list(new QueryWrapper<UserRoleEntity>().eq("user_id", authBO.getUserId()));
@@ -268,7 +266,6 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 			}
 		}
 
-		Set<GrantedAuthority> grantedAuthorities = Sets.newHashSet();
 		Set<String> perms = Sets.newHashSet();
 
 		ShiroPrincipal principal = null;
@@ -280,26 +277,12 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 
 				RoleEntity role = roleFirst.get();
 
-				// 角色必须是ROLE_开头，可以在数据库中设置
-				GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(
-						StringUtils.startsWithIgnoreCase(role.getKey(), "ROLE_") ? role.getKey()
-								: "ROLE_" + role.getKey());
-
-				grantedAuthorities.add(grantedAuthority);
-
 				// 用户权限标记集合
 				perms.addAll(getRolePermsService().getPermissions(role.getId()));
-				for (String perm : perms) {
-					GrantedAuthority authority = new SimpleGrantedAuthority(perm);
-					grantedAuthorities.add(authority);
-				}
-
 			}
 
 			// 用户状态（0:禁用|1:可用|2:锁定|3:密码过期）
-			principal = new ShiroPrincipal(authBO.getAccount(), authBO.getEncodePassword(), statusModel.isEnabled(),
-					statusModel.isAccountNonExpired(), statusModel.isCredentialsNonExpired(),
-					statusModel.isAccountNonLocked(), grantedAuthorities);
+			principal = new ShiroPrincipal(authBO.getAccount(), "");
 
 
 			// principal.setUserid(model.getUserid());
@@ -317,14 +300,14 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 				}
 
 				RoleEntity role = roleFirst.get();
-				principal.setRcode(role.getKey());
-				principal.setRid(role.getId());
+				principal.setRole(role.getKey());
+				principal.setRoleid(role.getId());
 
 			}
 			// principal.setInitial(model.isInitial());
 
 			// 查询用户个人信息
-			Map<String, Object> profile = getProfileService().getAccountProfile(authBO.getUserId());
+			Map<String, Object> profile = getAuthService().getAuthProfile(authBO.getUserId());
 			principal.setProfile(profile);
 
 			log.info("{} >> Login Principal : {}", authBO.getUserId(), JSONObject.toJSONString(principal));
@@ -332,8 +315,6 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return principal;
 	}
 
 	@Override

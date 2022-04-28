@@ -155,6 +155,15 @@
 		from dual
 	</select>
 
+	<select id="getAccountStatusById" resultMap="AccountStatusMap" useCache="false">
+		select (select count('1') from sys_authz_user_account a where a.id = #{id}) count,
+			   (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.id = #{id}) r_count,
+			   IFNULL((select IFNULL(d.status,'0') from sys_authz_user_account d where d.id = #{id}),'0') status,
+			   (select d.salt from sys_authz_user_account d where d.id = #{id}) as salt
+		from dual
+	</select>
+
+
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.id)
 		FROM sys_authz_user_account t

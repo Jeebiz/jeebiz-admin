@@ -4,8 +4,8 @@ import net.jeebiz.admin.shadow.bo.AuthBO;
 import net.jeebiz.admin.shadow.web.param.LoginByQrcodeParam;
 import net.jeebiz.admin.shadow.web.param.RegisterParam;
 import org.springframework.security.boot.qrcode.authentication.QrcodeAuthorizationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 /**

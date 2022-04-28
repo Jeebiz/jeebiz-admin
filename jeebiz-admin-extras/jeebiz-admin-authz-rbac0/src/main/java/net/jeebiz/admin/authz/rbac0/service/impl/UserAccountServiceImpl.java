@@ -9,6 +9,7 @@ import java.util.List;
 
 import net.jeebiz.admin.authz.rbac0.dao.entities.AccountStatusModel;
 import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
+import net.jeebiz.boot.api.dao.entities.BaseMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +147,31 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
 	@Override
 	public AccountStatusModel getAccountStatusByUid(String userId) {
 		return getBaseMapper().getAccountStatusByUid(userId);
+	}
+
+	@Override
+	public UserAccountEntity getAccountByType(String type, String account) {
+		return getBaseMapper().selectOne(new QueryWrapper<UserAccountEntity>().eq("type", type).eq("account", account));
+	}
+
+	@Override
+	public UserAccountEntity getAccountById(String id) {
+		return getBaseMapper().selectById(id);
+	}
+
+	@Override
+	public UserAccountEntity getAccountByUcode(String userCode) {
+		return getBaseMapper().selectOne(new QueryWrapper<UserAccountEntity>().eq("user_code", userCode));
+	}
+
+	@Override
+	public UserAccountEntity getAccountByUserId(String userId) {
+		return getBaseMapper().selectOne(new QueryWrapper<UserAccountEntity>().eq("user_id", userId));
+	}
+
+	@Override
+	public BaseMap getAccountProfile(String userId) {
+		return getBaseMapper().getAccountProfile(userId);
 	}
 
 	@Override
