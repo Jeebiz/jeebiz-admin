@@ -17,12 +17,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import net.jeebiz.boot.autoconfigure.EnableJeebiz;
+import net.jeebiz.boot.autoconfigure.EnableExtrasConfiguration;
 
 /**
  * 应用启动入口
  */
-@EnableJeebiz
+@EnableExtrasConfiguration
 @EnableScheduling
 @EnableWebMvc
 //@EnableAdminServer

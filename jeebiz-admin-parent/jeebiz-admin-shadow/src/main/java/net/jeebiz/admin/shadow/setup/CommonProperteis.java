@@ -28,4 +28,15 @@ public class CommonProperteis {
 	 */
 	@Value("${signOpen:true}")
 	private boolean signOpen;
+
+	@Value("${registerSwitch:true}")
+	public boolean registerSwitch;
+	
+	// 加密方式
+	private String algorithmName = "MD5";
+    // 加密的次数,可以进行多次的加密操作
+    private int hashIterations = 10;
+    // 默认密码
+ 	private String defaultPassword = "123456";
+ 	
 }

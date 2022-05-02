@@ -1,45 +1,55 @@
 package net.jeebiz.admin.shadow.setup.strategy;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.biz.authc.exception.NoneRoleException;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
+import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisOperationTemplate;
+import org.springframework.util.CollectionUtils;
+
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.hiwepy.jwt.JwtPayload;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
 import hitool.core.lang3.RandomString;
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.authz.rbac0.dao.entities.*;
-import net.jeebiz.admin.authz.rbac0.service.*;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AccountStatusModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.UserProfileEntity;
+import net.jeebiz.admin.authz.rbac0.dao.entities.UserRoleEntity;
+import net.jeebiz.admin.authz.rbac0.service.IRolePermsService;
+import net.jeebiz.admin.authz.rbac0.service.IRoleService;
+import net.jeebiz.admin.authz.rbac0.service.IUserAccountService;
+import net.jeebiz.admin.authz.rbac0.service.IUserProfileService;
+import net.jeebiz.admin.authz.rbac0.service.IUserRoleService;
 import net.jeebiz.admin.extras.redis.setup.BizRedisKey;
 import net.jeebiz.admin.extras.redis.setup.BizRedisKeyConstant;
 import net.jeebiz.admin.shadow.bo.AuthBO;
 import net.jeebiz.admin.shadow.service.IAuthService;
 import net.jeebiz.admin.shadow.web.param.RegisterParam;
 import net.jeebiz.boot.api.sequence.Sequence;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.biz.authc.exception.InvalidAccountException;
-import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
-import org.pac4j.core.ext.exception.UsernameNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisOperationTemplate;
-import org.springframework.util.CollectionUtils;
-
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 
-	protected RandomString randomString = new RandomString(8);
-	// 加密方式
-	private String algorithmName = "MD5";
-	// 加密的次数,可以进行多次的加密操作
-	private int hashIterations = 10;
-	// 默认密码
-	private String defaultPassword = "123456";
+	protected RandomString randomString = new RandomString();
+
 
 	@Autowired
 	private IAuthService authService;
@@ -54,9 +64,9 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 	@Autowired
 	private IRolePermsService rolePermsService;
 	@Autowired
-	private Sequence sequence;
-	@Autowired
 	private RedisOperationTemplate redisOperation;
+	@Autowired
+	private Sequence sequence;
 
 	@Override
 	public AuthBO<T> initInfo(AuthenticationToken token) throws AuthenticationException {
@@ -109,10 +119,7 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 
 		UserAccountEntity accountEntity = new UserAccountEntity();
 		accountEntity.setAccount(useUserCode() ? userCode : registerParam.getAccount());
-		String salt = randomString.nextString();
-		SimpleHash hash = new SimpleHash(algorithmName, new String(randomString.nextString()), salt, hashIterations);
-		accountEntity.setSalt(salt);
-		accountEntity.setPassword(hash.toBase64());
+		//accountEntity.setPassword(getPasswordEncoder().encode(randomString.nextString()));
 		accountEntity.setUserId(userId);
 		accountEntity.setType(registerParam.getChannel().getKey());
 		accountEntity.setStatus(1);
@@ -134,22 +141,24 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 	/**
 	 * 根据账号获取uid
 	 *
-	 * @param authBO
+	 * @param account
 	 * @return
 	 */
-    protected String getUidByAccount(AuthBO<T> authBO) throws AuthenticationException {
+    protected UserAccountEntity getAccountByType(AuthBO<T> account) throws AuthenticationException {
     	// 1、账号查询
-		UserAccountEntity accountEntity = getAccountService().getAccountByType(this.getChannel().getKey() , authBO.getAccount());
-        // 未找到响应账号
-        if (Objects.nonNull(accountEntity)) {
-			throw new InvalidAccountException("Username or password is incorrect, please re-enter.");
-        }
-		authBO.setEncodePassword(accountEntity.getPassword());
-		//System.out.println(getPasswordEncoder().encode(authBO.getPassword()));
-        if (!getPasswordEncoder().matches(accountEntity.getPassword(), authBO.getPassword())) {
-        	 //throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
-        }
-        return accountEntity.getUserId();
+		UserAccountEntity accountEntity = getAccountService().getAccountByType(this.getChannel().getKey(), account.getAccount());
+		if(Objects.nonNull(accountEntity)) {
+			AccountStatusModel statusModel = getAccountService().getAccountStatusByUserId(accountEntity.getUserId());
+			// 账号被禁用
+			if (!statusModel.isEnabled()) {
+				throw new DisabledAccountException("Account is disabled.");
+			}
+	   		// 用户无所属角色
+	   		else if(!statusModel.isHasRole()){
+	            throw new NoneRoleException();
+	   		}
+		}
+        return accountEntity;
     }
 
 	/**
@@ -180,14 +189,14 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 	 *
 	 * @return
 	 */
-	protected Boolean needReg() {
+	protected Boolean needReg(AuthBO<T> authBO) {
 		return false;
 	}
 
 	@Override
 	public final SimpleAuthenticationInfo login(AuthenticationToken token) throws AuthenticationException {
 		// 1、获取登录用的账号
-		AuthBO<T> authBO = initInfo(token);
+		AuthBO<T> authBO = this.initInfo(token);
 		// 2、执行登录
 		return this.login(authBO);
 	}
@@ -196,17 +205,19 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 	 * 登陆
 	 *
 	 * @param authBO
+	 * @param userId
 	 * @return
 	 * @throws AuthenticationException
 	 */
-	@Override
 	public final SimpleAuthenticationInfo login(AuthBO<T> authBO) throws AuthenticationException {
 
 		// 1、查询是否是已存在的账号
-		String userId = getUidByAccount(authBO);
+		UserAccountEntity userAccountEntity = getAccountByType(authBO);
+		String userId = userAccountEntity.getUserId();
+
 		boolean isFirst = false;
 		// 2、首次登录，如果需要注册账号则注册则自动注册账号
-		if (Objects.isNull(userId) && needReg()) {
+		if (Objects.isNull(userId) && needReg(authBO)) {
 			// 2.1、获取注册所需参数
 			RegisterParam registerParam = getRegisterParam(authBO);
 			// 2.2、加锁
@@ -214,16 +225,15 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 			String value = String.valueOf(System.currentTimeMillis());
 			boolean lock = redisOperation.setNx(key, value, BizRedisKeyConstant.FIVE_SECONDS);
 			if (!lock) {
-				throw new DisabledAccountException("Account is disabled.");
+				///throw new LockedException("");
 			}
 			// 2.3、注册
 			userId = register(authBO, registerParam);
 			redisOperation.unlock(key, value);
+			authBO.setUserId(userId);
 			isFirst = true;
 		}
-		if(Objects.nonNull(userId) ){
-			authBO.setUserId(userId);
-		}
+
 		// 登陆
 		ShiroPrincipal principal = getPrincipal(authBO);
 		principal.setInitial(isFirst); // 首次注册登陆
@@ -232,8 +242,8 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 		afterLogin(authBO, userId);
 
 		// 认证信息
-		ByteSource credentialsSalt = ByteSource.Util.bytes(authBO.getSalt());
-		return new SimpleAuthenticationInfo(principal, authBO.getPassword(), credentialsSalt, "login");
+   		ByteSource credentialsSalt = ByteSource.Util.bytes(userAccountEntity.getSalt());
+   		return new SimpleAuthenticationInfo(principal, authBO.getPassword(), credentialsSalt, this.getChannel().getKey());
 
 	}
 
@@ -242,6 +252,7 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 	 * 登陆
 	 *
 	 * @param authBO
+	 * @param userId
 	 * @return
 	 * @throws AuthenticationException
 	 */
@@ -250,22 +261,24 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 
 		log.info("{} >> Login AuthBo : {}", authBO.getUserId(), JSONObject.toJSONString(authBO));
 
-		// 账号状态
-		AccountStatusModel statusModel = getAccountService().getAccountStatusByUid(authBO.getUserId());
-
-
 		// 用户角色信息集合
 		List<UserRoleEntity> userRoles = getUserRoleService().list(new QueryWrapper<UserRoleEntity>().eq("user_id", authBO.getUserId()));
 		List<RoleEntity> roles = CollectionUtils.isEmpty(userRoles) ? Lists.newArrayList() : getRoleService().list(new QueryWrapper<RoleEntity>().in("id", userRoles.stream().map(UserRoleEntity::getRoleId).toArray()));
 		Optional<RoleEntity> roleFirst = null;
+		String userRolesKey = BizRedisKey.USER_ROLES.getKey(authBO.getUserId());
 		if(!CollectionUtils.isEmpty(roles)){
 			if(StringUtils.isNotBlank(authBO.getRoleId())){
 				roleFirst = roles.stream().filter(role -> StringUtils.equalsIgnoreCase(role.getId(), authBO.getRoleId())).findFirst();
 			} else {
 				roleFirst = Optional.of(roles.get(0));
 			}
+			for (RoleEntity roleEntity : roles) {
+				getRedisOperation().hSet(userRolesKey, roleEntity.getKey(), roleEntity );
+			}
+		} else {
+			getRedisOperation().del(userRolesKey);
 		}
-
+		
 		Set<String> perms = Sets.newHashSet();
 
 		ShiroPrincipal principal = null;
@@ -284,11 +297,14 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 			// 用户状态（0:禁用|1:可用|2:锁定|3:密码过期）
 			principal = new ShiroPrincipal(authBO.getAccount(), "");
 
-
+			String userPermsKey = BizRedisKey.USER_PERMS.getKey(authBO.getUserId());
 			// principal.setUserid(model.getUserid());
 			// principal.setAlias(model.getAlias());
+			
 			principal.setPerms(perms);
-
+			getRedisOperation().del(userPermsKey);
+			getRedisOperation().sAdd(userPermsKey, perms.toArray());
+			
 			// 有设置角色：构造角色信息
 			if (roleFirst.isPresent()) {
 
@@ -312,21 +328,24 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 
 			log.info("{} >> Login Principal : {}", authBO.getUserId(), JSONObject.toJSONString(principal));
 
+			return principal;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new AuthenticationException(e.getMessage(), e);
 		}
 	}
 
 	@Override
-	public void afterLogin(AuthBO<T> object, String userId) {
-		object.setUserId(userId);
-		authService.afterLogin(object);
+	public void afterLogin(AuthBO<T> authBO, String userId) {
+		authBO.setUserId(userId);
+		authService.afterLogin(authBO);
 	}
 
 	@Override
 	public void afterReg(AuthBO<T> authBO, String userId) throws AuthenticationException {
 		authBO.setUserId(userId);
 	}
+
 
 	public IUserAccountService getAccountService() {
 		return accountService;
@@ -344,16 +363,16 @@ public abstract class AbstractAuthStrategy<T> implements AuthStrategy<T> {
 		return userRoleService;
 	}
 
-	public RedisOperationTemplate getRedisOperation() {
-		return redisOperation;
-	}
-
 	public IRoleService getRoleService() {
 		return roleService;
 	}
 
 	public IRolePermsService getRolePermsService() {
 		return rolePermsService;
+	}
+
+	public RedisOperationTemplate getRedisOperation() {
+		return redisOperation;
 	}
 
 	public Sequence getSequence() {

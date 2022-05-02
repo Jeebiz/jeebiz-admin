@@ -74,6 +74,20 @@ public enum BizRedisKey {
 		return RedisKey.getKeyStr(keyStr);
     }),
 	/**
+	 * redis 用户角色
+	 */
+	USER_ROLES("用户角色", (userId, p2)->{
+		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_ROLES_KEY, userId).getMessage();
+		return RedisKey.getKeyStr(keyStr);
+    }),
+	/**
+	 * 用户权限缓存
+	 */
+	USER_PERMS("用户权限", (userId, p2)->{
+		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_PERMS_KEY, userId).getMessage();
+		return RedisKey.getKeyStr(keyStr);
+    }),
+	/**
 	 * redis 用户单点登录状态
 	 */
 	USER_SSO_STATE("用户单点登录状态", (userId, p2)->{

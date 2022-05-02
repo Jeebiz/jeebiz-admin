@@ -1,14 +1,16 @@
 package net.jeebiz.admin.shadow.web.param;
 
+import org.jasig.cas.client.validation.Assertion;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.jasig.cas.client.validation.Assertion;
 
 /**
  * Cas登录参数
  */
 @Data
 public class LoginByCasParam {
+	
 	/**
 	 * assertion
 	 */

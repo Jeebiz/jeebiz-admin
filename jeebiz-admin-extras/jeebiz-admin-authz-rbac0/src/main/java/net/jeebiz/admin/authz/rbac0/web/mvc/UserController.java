@@ -120,7 +120,7 @@ public class UserController extends BaseMapperController {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
 		UserDTO userDTO = getBeanMapper().map(model, UserDTO.class);
-		UserProfileEntity profileModel = getUserProfileService().getProfile(principal.getUserid());
+		UserProfileEntity profileModel = getUserProfileService().getById(principal.getUserid());
 		if(Objects.nonNull(profileModel)) {
 			userDTO.setProfile(getBeanMapper().map(profileModel, UserProfileDTO.class));
 		}
@@ -133,7 +133,7 @@ public class UserController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<UserProfileDTO> profile() throws Exception {
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		UserProfileEntity model = getUserProfileService().getProfile(principal.getUserid());
+		UserProfileEntity model = getUserProfileService().getById(principal.getUserid());
 		if(model == null) {
 			return ApiRestResponse.fail(getMessage("user.get.empty"));
 		}
@@ -149,7 +149,7 @@ public class UserController extends BaseMapperController {
     @RequiresPermissions("user:new")
 	public ApiRestResponse<String> newUser(@Valid @RequestBody UserNewDTO userDTO, @ApiIgnore HttpServletRequest request) throws Exception {
 
-		Long total = getUserService().getCountByName(userDTO.getUsername(), null);
+		Long total = getUserService().getCountByName(userDTO.getAccount(), null);
 		if(total > 0) {
 			return fail("user.new.exists");
 		}

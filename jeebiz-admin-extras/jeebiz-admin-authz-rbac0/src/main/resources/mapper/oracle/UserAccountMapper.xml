@@ -147,7 +147,7 @@
 		from dual
 	</select>
 
-	<select id="getAccountStatusByUid" resultMap="AccountStatusMap" useCache="false">
+	<select id="getAccountStatusByUserId" resultMap="AccountStatusMap" useCache="false">
 		select (select count('1') from sys_authz_user_account a where a.user_id = #{userId}) count,
 			   (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.user_id = #{userId}) r_count,
 			   IFNULL((select IFNULL(d.status,'0') from sys_authz_user_account d where d.user_id = #{userId}),'0') status,
@@ -162,7 +162,6 @@
 			   (select d.salt from sys_authz_user_account d where d.id = #{id}) as salt
 		from dual
 	</select>
-
 
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.id)

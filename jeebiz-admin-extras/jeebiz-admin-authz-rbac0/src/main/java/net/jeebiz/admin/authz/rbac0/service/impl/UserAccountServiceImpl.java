@@ -7,9 +7,6 @@ package net.jeebiz.admin.authz.rbac0.service.impl;
 import java.util.Collection;
 import java.util.List;
 
-import net.jeebiz.admin.authz.rbac0.dao.entities.AccountStatusModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
-import net.jeebiz.boot.api.dao.entities.BaseMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,8 @@ import net.jeebiz.admin.authz.feature.dao.FeatureMapper;
 import net.jeebiz.admin.authz.rbac0.dao.RoleMapper;
 import net.jeebiz.admin.authz.rbac0.dao.UserAccountMapper;
 import net.jeebiz.admin.authz.rbac0.dao.UserRoleMapper;
+import net.jeebiz.admin.authz.rbac0.dao.entities.AccountStatusModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.UserRoleEntity;
 import net.jeebiz.admin.authz.rbac0.service.IUserAccountService;
@@ -145,8 +144,8 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
 	}
 
 	@Override
-	public AccountStatusModel getAccountStatusByUid(String userId) {
-		return getBaseMapper().getAccountStatusByUid(userId);
+	public AccountStatusModel getAccountStatusByUserId(String userId) {
+		return getBaseMapper().getAccountStatusByUserId(userId);
 	}
 
 	@Override
@@ -167,11 +166,6 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccountMapper, U
 	@Override
 	public UserAccountEntity getAccountByUserId(String userId) {
 		return getBaseMapper().selectOne(new QueryWrapper<UserAccountEntity>().eq("user_id", userId));
-	}
-
-	@Override
-	public BaseMap getAccountProfile(String userId) {
-		return getBaseMapper().getAccountProfile(userId);
 	}
 
 	@Override

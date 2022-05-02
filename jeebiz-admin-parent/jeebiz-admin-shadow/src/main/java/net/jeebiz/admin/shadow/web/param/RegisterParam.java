@@ -7,7 +7,7 @@ import net.jeebiz.admin.shadow.setup.strategy.AuthChannel;
  */
 @Data
 public class RegisterParam {
-    /**
+	/**
      * 注册账号
      */
     private String account;
@@ -27,6 +27,11 @@ public class RegisterParam {
      * 手机号
      */
     private String mobile;
+
+    /**
+     * 邮箱
+     */
+    private String email;
     /**
      * 注册渠道(实际上是账号注册方式)
      */
@@ -39,4 +44,9 @@ public class RegisterParam {
      * 语言码
      */
     private String lang;
+
+    /**
+     * 用户id
+     */
+    private String userId;
 }

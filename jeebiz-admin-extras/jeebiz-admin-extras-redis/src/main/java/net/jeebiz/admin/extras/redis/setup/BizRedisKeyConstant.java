@@ -50,6 +50,15 @@ public abstract class BizRedisKeyConstant {
 	 */
 	public final static String USER_INFO_KEY = "user:info:{}";
 	/**
+	 * redis 用户角色信息
+	 */
+	public final static String USER_ROLES_KEY = "user:roles:{}";
+	/**
+	 * redis 用户角色信息
+	 */
+	public final static String USER_PERMS_KEY = "user:perms:{}";
+	/**
+	/**
 	 * redis 用户单点登录状态
 	 */
 	public final static String USER_SSO_STATE_KEY = "user:sso:{}";

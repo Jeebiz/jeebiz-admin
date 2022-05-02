@@ -29,7 +29,7 @@ import net.jeebiz.boot.api.web.BaseApiController;
 
 @Api(tags = "功能菜单：数据维护（Ok）")
 @RestController
-@RequestMapping(value = "/extras/feature/layui/")
+@RequestMapping(value = "/feature/layui/")
 public class FeatureLayuiController extends BaseApiController{
 
 	@Autowired

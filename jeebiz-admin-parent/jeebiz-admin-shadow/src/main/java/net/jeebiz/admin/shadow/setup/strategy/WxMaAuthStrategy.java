@@ -1,17 +1,18 @@
 package net.jeebiz.admin.shadow.setup.strategy;
 
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.spring.boot.weixin.authc.WxMaLoginRequest;
+import org.apache.shiro.spring.boot.weixin.token.WxMaAuthenticationToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import net.jeebiz.admin.shadow.bo.AuthBO;
 import net.jeebiz.admin.shadow.setup.CommonProperteis;
 import net.jeebiz.admin.shadow.web.param.LoginByThirdParam;
 import net.jeebiz.admin.shadow.web.param.RegisterParam;
-import org.apache.shiro.spring.boot.weixin.authc.WxMaLoginRequest;
-import org.apache.shiro.spring.boot.weixin.token.WxMaAuthenticationToken;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.AuthenticationException;
-import org.springframework.stereotype.Component;
 
 /**
  * 微信（小程序）登录
@@ -30,17 +31,17 @@ public class WxMaAuthStrategy extends AbstractAuthStrategy<LoginByThirdParam> {
     @Override
     public AuthBO<LoginByThirdParam> initInfo(AuthenticationToken token) throws AuthenticationException {
 
-		WxMaAuthenticationToken wxToken = (WxMaAuthenticationToken) token;
+    	WxMaAuthenticationToken wxToken = (WxMaAuthenticationToken) token;
     	WxMaLoginRequest loginRequest = (WxMaLoginRequest) wxToken.getPrincipal();
 		// 获取用户手机号信息
-		WxMaPhoneNumberInfo phoneNumberInfo = wxToken.getPhoneNumberInfo();
+		WxMaPhoneNumberInfo phoneNumberInfo = loginRequest.getPhoneNumberInfo();
 		// 获取用户信息
 		WxMaUserInfo userInfo = loginRequest.getUserInfo();
 
 		AuthBO<LoginByThirdParam> authBO = AuthBO.<LoginByThirdParam>builder()
-				// wxToken.getOpenid(): 第三方平台 Unionid（通常指第三方账号体系下用户的唯一id）
-				// wxToken.getUnionid(): 第三方平台 Openid（通常指第三方账号体系下某应用中用户的唯一id）
-				.account(wxToken.getOpenid())
+				// loginRequest.getOpenid(): 第三方平台 Unionid（通常指第三方账号体系下用户的唯一id）
+				// loginRequest.getUnionid(): 第三方平台 Openid（通常指第三方账号体系下某应用中用户的唯一id）
+				.account(loginRequest.getOpenid())
 				.nickname(userInfo.getNickName())
 				.avatar(userInfo.getAvatarUrl())
 				.country(userInfo.getCountry())
@@ -52,16 +53,16 @@ public class WxMaAuthStrategy extends AbstractAuthStrategy<LoginByThirdParam> {
 				.build();
 
 		LoginByThirdParam param = new LoginByThirdParam();
-		param.setOpenid(wxToken.getOpenid());
-		param.setUnionid(wxToken.getUnionid());
+		param.setOpenid(loginRequest.getOpenid());
+		param.setUnionid(loginRequest.getUnionid());
 		authBO.setParam(param);
 
 		return authBO;
 
-    }
-
+    } 
+    
     @Override
-    protected Boolean needReg() {
+    protected Boolean needReg(AuthBO<LoginByThirdParam> authBO) {
         return commonProperteis.isRegisterSwitch();
     }
 

@@ -18,6 +18,7 @@ import org.apache.shiro.biz.authc.exception.InvalidAccountException;
 import org.apache.shiro.biz.authc.exception.InvalidCaptchaException;
 import org.apache.shiro.biz.authc.exception.NoneCaptchaException;
 import org.apache.shiro.biz.authc.exception.NoneRoleException;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.apache.shiro.biz.web.filter.authc.PostLoginRequest;
 import org.apache.shiro.codec.Base64;
@@ -37,7 +38,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
 import net.jeebiz.admin.shadow.service.IAuthService;
 import net.jeebiz.admin.shadow.setup.Constants;
 import net.jeebiz.boot.api.ApiRestResponse;
@@ -149,7 +149,7 @@ public class AuthzLoginController extends BaseController {
 	public String switchRole(String roleid) {
 		try {
 
-			AuthzLoginModel principal = SubjectUtils.getPrincipal(AuthzLoginModel.class);
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			Session session = SubjectUtils.getSession();
 			
 			

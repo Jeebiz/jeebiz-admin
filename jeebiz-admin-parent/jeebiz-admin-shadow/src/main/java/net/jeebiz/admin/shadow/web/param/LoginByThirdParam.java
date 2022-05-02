@@ -33,6 +33,11 @@ public class LoginByThirdParam {
 	 */
 	@ApiModelProperty(value = "扩展信息", required = false)
 	private String rawdata;
+	/**
+	 * 绑定第三方时登陆人token
+	 */
+	@ApiModelProperty(name = "token", required = true, value = "绑定第三方时登陆人token")
+	private String token;
 	
 	
 }

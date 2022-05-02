@@ -1,12 +1,13 @@
 package net.jeebiz.admin.shadow.setup.strategy;
 
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.spring.boot.qrcode.token.QrcodeAuthenticationToken;
+import org.springframework.stereotype.Component;
+
 import net.jeebiz.admin.shadow.bo.AuthBO;
 import net.jeebiz.admin.shadow.web.param.LoginByQrcodeParam;
 import net.jeebiz.admin.shadow.web.param.RegisterParam;
-import org.springframework.security.boot.qrcode.authentication.QrcodeAuthorizationToken;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.AuthenticationException;
-import org.springframework.stereotype.Component;
 
 /**
  * 扫码登录
@@ -20,16 +21,17 @@ public class QrCodeAuthStrategy extends AbstractAuthStrategy<LoginByQrcodeParam>
     }
 
     @Override
-    public AuthBO<LoginByQrcodeParam> initInfo(Authentication token) throws AuthenticationException {
+    public AuthBO<LoginByQrcodeParam> initInfo(AuthenticationToken token) throws AuthenticationException {
     	
-    	QrcodeAuthorizationToken qrcodeToken = (QrcodeAuthorizationToken) token;
+    	QrcodeAuthenticationToken qrcodeToken = (QrcodeAuthenticationToken) token;
     	
 		AuthBO<LoginByQrcodeParam> authBO = AuthBO.<LoginByQrcodeParam>builder()
-				 
 				.channel(this.getChannel())
+				.account(qrcodeToken.getUuid())
 				.build();
-		 
+		
 		LoginByQrcodeParam param = new LoginByQrcodeParam();
+		param.setUuid(qrcodeToken.getUuid());
 		authBO.setParam(param);
         
 		return authBO;

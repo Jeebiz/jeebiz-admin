@@ -1,10 +1,11 @@
 package net.jeebiz.admin.shadow.setup.strategy;
 
-import net.jeebiz.admin.shadow.bo.AuthBO;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
+
+import net.jeebiz.admin.shadow.bo.AuthBO;
 
 /**
  * 登录
@@ -30,9 +31,9 @@ public interface AuthStrategy<T> {
      * @return
      * @throws AuthenticationException
      */
-    SimpleAuthenticationInfo login(AuthenticationToken token) throws AuthenticationException;
+	SimpleAuthenticationInfo login(AuthenticationToken token) throws AuthenticationException;
 
-    SimpleAuthenticationInfo login(AuthBO<T> authBO) throws AuthenticationException;
+	SimpleAuthenticationInfo login(AuthBO<T> authBO) throws AuthenticationException;
 
     ShiroPrincipal getPrincipal(AuthBO<T> authBO) throws AuthenticationException;
 

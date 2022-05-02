@@ -6,14 +6,13 @@ package net.jeebiz.admin.authz.rbac0.dao;
 
 import java.util.List;
 
-import net.jeebiz.admin.authz.rbac0.dao.entities.AccountStatusModel;
-import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
-import net.jeebiz.boot.api.dao.entities.BaseMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import net.jeebiz.admin.authz.rbac0.dao.entities.AccountStatusModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.RoleEntity;
 import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import net.jeebiz.boot.api.dao.BaseMapper;
 /**
@@ -43,7 +42,7 @@ public interface UserAccountMapper extends BaseMapper<UserAccountEntity>{
 	 * @param userId : 用户ID
 	 * @return 用户账号状态信息
 	 */
-	AccountStatusModel getAccountStatusByUid(@Param(value = "userId") String userId);
+	AccountStatusModel getAccountStatusByUserId(@Param(value = "userId") String userId);
 
 	/**
 	 * 根据用户id和密码查询用户可否登录，角色数量等信息

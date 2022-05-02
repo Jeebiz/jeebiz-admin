@@ -13,7 +13,6 @@ import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import net.jeebiz.admin.shadow.bo.AuthBO;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
 import net.jeebiz.boot.api.service.IBaseService;
-import org.apache.ibatis.annotations.Param;
 
 public interface IAuthService extends IBaseService<UserAccountEntity> {
 

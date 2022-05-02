@@ -2,9 +2,9 @@ package net.jeebiz.admin.shadow.setup.strategy;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.spring.boot.dingtalk.authc.DingTalkMaLoginRequest;
+import org.apache.shiro.spring.boot.dingtalk.authc.DingTalkTmpCodeLoginRequest;
 import org.apache.shiro.spring.boot.dingtalk.exception.DingTalkAuthenticationServiceException;
-import org.apache.shiro.spring.boot.dingtalk.token.DingTalkMaAuthenticationToken;
+import org.apache.shiro.spring.boot.dingtalk.token.DingTalkTmpCodeAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,10 +19,10 @@ import net.jeebiz.admin.shadow.web.param.LoginByThirdParam;
 import net.jeebiz.admin.shadow.web.param.RegisterParam;
 
 /**
- * 微信（小程序）登录
+ * 内部应用免登
  */
 @Component
-public class DingtalkMaAuthStrategy extends AbstractAuthStrategy<LoginByThirdParam> {
+public class DingtalkTmpCodeAuthStrategy extends AbstractAuthStrategy<LoginByThirdParam> {
 
 	@Autowired
 	private CommonProperteis commonProperteis;
@@ -31,18 +31,19 @@ public class DingtalkMaAuthStrategy extends AbstractAuthStrategy<LoginByThirdPar
 
     @Override
     public AuthChannel getChannel() {
-        return AuthChannel.DINGTALK_MA;
+        return AuthChannel.DINGTALK_TMPCODE;
     }
 
     @Override
     public AuthBO<LoginByThirdParam> initInfo(AuthenticationToken token) throws AuthenticationException {
 
-    	DingTalkMaAuthenticationToken ddToken = (DingTalkMaAuthenticationToken) token;
-        DingTalkMaLoginRequest loginRequest = (DingTalkMaLoginRequest) ddToken.getPrincipal();
+    	DingTalkTmpCodeAuthenticationToken ddToken = (DingTalkTmpCodeAuthenticationToken) token;
+
+        DingTalkTmpCodeLoginRequest loginRequest = (DingTalkTmpCodeLoginRequest) ddToken.getPrincipal();
 
         try {
 
-            OapiUserGetuserinfoResponse response = dingTalkTemplate.opsForUser().getUserinfoByCode(loginRequest.getAuthCode(), loginRequest.getAccessToken());
+            OapiUserGetuserinfoResponse response = dingTalkTemplate.opsForUser().getUserinfoByCode(loginRequest.getCode(), loginRequest.getAccessToken());
             if(!response.isSuccess()) {
                 throw new DingTalkAuthenticationServiceException(response.getErrmsg());
             }
@@ -55,7 +56,7 @@ public class DingtalkMaAuthStrategy extends AbstractAuthStrategy<LoginByThirdPar
             AuthBO<LoginByThirdParam> authBO = AuthBO.<LoginByThirdParam>builder()
                     // userInfoResponse.getOpenId(): 第三方平台 Unionid（通常指第三方账号体系下用户的唯一id）
                     // userInfoResponse.getUnionid(): 第三方平台 Openid（通常指第三方账号体系下某应用中用户的唯一id）
-                    .account(response.getUserid())
+                    .account(userInfoResponse.getOpenId())
                     .nickname(userInfoResponse.getNickname())
                     .avatar(userInfoResponse.getAvatar())
                     .userCode(userInfoResponse.getJobnumber())
@@ -78,14 +79,14 @@ public class DingtalkMaAuthStrategy extends AbstractAuthStrategy<LoginByThirdPar
     }
 
     @Override
-    protected Boolean needReg(AuthBO<LoginByThirdParam> authBO) {
+    protected Boolean needReg(AuthBO<LoginByThirdParam> authBO ) {
         return commonProperteis.isRegisterSwitch();
     }
 
     @Override
     protected RegisterParam getRegisterParam(AuthBO<LoginByThirdParam> authBO) {
         RegisterParam registerParam = super.getRegisterParam(authBO);
-        registerParam.setAccount(authBO.getParam().getOpenid());
+        registerParam.setAccount(authBO.getAccount());
         return registerParam;
     }
 

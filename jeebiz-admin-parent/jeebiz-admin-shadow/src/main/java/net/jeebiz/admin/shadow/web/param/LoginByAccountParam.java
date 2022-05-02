@@ -8,10 +8,16 @@ import lombok.Data;
  */
 @Data
 public class LoginByAccountParam {
+	
 	/**
 	 * 账号
 	 */
 	@ApiModelProperty(name = "account", required = true, value = "账号")
 	private String account;
+	/**
+	 * 密码
+	 */
+	@ApiModelProperty(name = "password", required = true, value = "密码")
+	private String password;
 
 }

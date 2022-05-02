@@ -110,7 +110,7 @@ public class OnlineSessionEntity extends PaginationEntity<OnlineSessionEntity> {
 
         online.setId(String.valueOf(session.getId()));
         online.setUserid(session.getUserid());
-        online.setUsername(session.getUsername());
+        online.setAccount(session.getUsername());
         online.setUserAgent(session.getUserAgent());
         online.setAddress(session.getSystemHost());
 

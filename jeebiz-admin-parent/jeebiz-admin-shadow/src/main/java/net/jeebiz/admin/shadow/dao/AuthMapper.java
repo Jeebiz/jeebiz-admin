@@ -4,12 +4,10 @@
  */
 package net.jeebiz.admin.shadow.dao;
 
-import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import net.jeebiz.admin.shadow.dao.entities.AuthzLoginModel;
-import net.jeebiz.admin.shadow.dao.entities.AuthzLoginStatusModel;
+import net.jeebiz.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import net.jeebiz.boot.api.dao.BaseMapper;
 import net.jeebiz.boot.api.dao.entities.BaseMap;
 

@@ -19,7 +19,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.spring.boot.jwt.JwtPayloadRepository;
-import org.apache.shiro.spring.boot.jwt.token.JwtAccessToken;
+import org.apache.shiro.spring.boot.jwt.token.JwtAuthorizationToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisOperationTemplate;
@@ -121,7 +121,7 @@ public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, Initi
 
 	@Override
 	public boolean verify(AuthenticationToken token, Subject subject, boolean checkExpiry) throws AuthenticationException {
-		JwtAccessToken jwtToken = (JwtAccessToken) token;
+		JwtAuthorizationToken jwtToken = (JwtAuthorizationToken) token;
 		String jwtString = String.valueOf(jwtToken.getCredentials());
 		return this.verify(jwtString, checkExpiry);
 	}
@@ -141,7 +141,7 @@ public class DefaultJwtPayloadRepository implements  JwtPayloadRepository, Initi
 	}
 
 	@Override
-	public JwtPayload getPayload(JwtAccessToken jwtToken, boolean checkExpiry) {
+	public JwtPayload getPayload(JwtAuthorizationToken jwtToken, boolean checkExpiry) {
 		return this.getPayload(jwtToken.getToken(), checkExpiry);
 	}
 
