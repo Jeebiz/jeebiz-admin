@@ -17,10 +17,15 @@
 			<artifactId>jeebiz-admin-api</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
+		<!-- For Spring Boot's Redis With Extension -->
 		<dependency>
-			<groupId>io.hiwepy</groupId>
-			<artifactId>jeebiz-admin-extras-redis</artifactId>
-			<version>${jeebiz-admin.version}</version>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>redistpl-plus-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For Redisson With Extension -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>redisson-plus-spring-boot-starter</artifactId>
 		</dependency>
 
 		<!-- For Shiro -->
