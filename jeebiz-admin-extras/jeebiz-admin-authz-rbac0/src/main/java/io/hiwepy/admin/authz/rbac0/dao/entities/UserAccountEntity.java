@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 
-@Alias(value = "UserEntity")
+@Alias(value = "UserAccountEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_user_account")
 @Builder

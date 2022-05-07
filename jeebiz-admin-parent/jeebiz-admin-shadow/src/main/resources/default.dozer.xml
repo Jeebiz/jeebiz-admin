@@ -4,7 +4,7 @@
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping https://dozermapper.github.io/schema/bean-mapping.xsd">
 
     <mapping>
-        <class-a>io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserProfileDTO</class-a>
+        <class-a>io.hiwepy.admin.authz.rbac0.web.dto.UserProfileDTO</class-a>
         <class-b>io.hiwepy.admin.authz.rbac0.dao.entities.UserProfileEntity</class-b>
         <field custom-converter="com.github.dozermapper.extra.converters.JSONArrayStringConverter">
             <a>photos</a>
