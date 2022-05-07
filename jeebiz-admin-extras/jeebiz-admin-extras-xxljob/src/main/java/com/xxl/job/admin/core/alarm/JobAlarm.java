@@ -1,7 +1,7 @@
 package com.xxl.job.admin.core.alarm;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobInfo;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobLog;
 
 /**
  * @author xuxueli 2020-01-19

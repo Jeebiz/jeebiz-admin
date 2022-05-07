@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.initializr.web.mvc;
+package io.hiwepy.admin.extras.initializr.web.mvc;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -14,10 +14,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.jeebiz.admin.extras.initializr.service.CodeGeneratorService;
-import net.jeebiz.boot.api.ApiRestResponse;
-import net.jeebiz.boot.api.annotation.AllowableValues;
-import net.jeebiz.boot.api.web.BaseApiController;
+import io.hiwepy.admin.extras.initializr.service.CodeGeneratorService;
+import io.hiwepy.boot.api.ApiRestResponse;
+import io.hiwepy.boot.api.annotation.AllowableValues;
+import io.hiwepy.boot.api.web.BaseApiController;
 
 /**
  * @ClassName GeneratorController

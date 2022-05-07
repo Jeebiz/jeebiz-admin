@@ -41,9 +41,9 @@
         </Root>
         
         <!-- 应用系统日志过滤 -->
-		<Logger name="net.jeebiz.authz" level="DEBUG" additivity="true"/>
-		<Logger name="net.jeebiz.biz" level="DEBUG" additivity="true"/>
-        <Logger name="[Mybatis]net.jeebiz" level="DEBUG" additivity="true"/>  
+		<Logger name="io.hiwepy.authz" level="DEBUG" additivity="true"/>
+		<Logger name="io.hiwepy.biz" level="DEBUG" additivity="true"/>
+        <Logger name="[Mybatis]io.hiwepy" level="DEBUG" additivity="true"/>
 
 	</Loggers>
 	

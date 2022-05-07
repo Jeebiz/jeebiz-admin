@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.jeebiz.admin.extras.inform.dao.InformRecordMapper" >
+<mapper namespace="io.hiwepy.admin.extras.inform.dao.InformRecordMapper" >
 
 	<resultMap id="InformRecordMap" type="InformRecordEntity">
 		<!-- 消息通知记录id -->
@@ -32,7 +32,7 @@
 		<result property="time24" column="time24"/>
 	</resultMap>
 
-	<resultMap id="InformRecordStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformRecordStatsDTO">
+	<resultMap id="InformRecordStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformRecordStatsDTO">
 		<!-- 消息通知的发送提供者 -->
 		<result property="provider" column="r_provider" />
 		<!-- 该类型通知总数 -->

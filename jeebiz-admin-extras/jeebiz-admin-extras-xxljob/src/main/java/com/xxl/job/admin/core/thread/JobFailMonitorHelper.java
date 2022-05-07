@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import com.xxl.job.admin.core.trigger.TriggerTypeEnum;
 import com.xxl.job.admin.core.util.I18nUtil;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobInfo;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobLog;
+import io.hiwepy.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * job monitor instance

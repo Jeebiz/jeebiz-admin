@@ -11,9 +11,9 @@ import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.context.XxlJobContext;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobInfo;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobLog;
+import io.hiwepy.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * @author xuxueli 2020-10-30 20:43:10

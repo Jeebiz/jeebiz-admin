@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.ops.dao.AppListMapper">
+<mapper namespace="io.hiwepy.admin.extras.ops.dao.AppListMapper">
     
     <resultMap type="AppList" id="AppListResult">
         <result property="appId"    column="app_id"    />

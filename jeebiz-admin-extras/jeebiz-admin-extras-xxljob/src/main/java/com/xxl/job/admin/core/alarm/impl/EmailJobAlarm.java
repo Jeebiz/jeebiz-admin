@@ -16,10 +16,10 @@ import com.xxl.job.admin.core.alarm.JobAlarm;
 import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.core.biz.model.ReturnT;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobGroup;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobGroup;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobInfo;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobLog;
+import io.hiwepy.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * job alarm by email

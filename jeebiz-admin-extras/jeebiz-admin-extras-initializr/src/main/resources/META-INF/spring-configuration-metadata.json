@@ -19,31 +19,31 @@
   {
     "name": "superEntityClass",
     "type": "java.lang.String",
-    "defaultValue": "net.jeebiz.boot.api.dao.entities.PaginationModel",
+    "defaultValue": "io.hiwepy.boot.api.dao.entities.PaginationModel",
     "description": "自定义继承的Entity类全称，带包名"
   },
   {
     "name": "superControllerClass",
     "type": "java.lang.String",
-    "defaultValue": "net.jeebiz.boot.api.webmvc.BaseApiController",
+    "defaultValue": "io.hiwepy.boot.api.webmvc.BaseApiController",
     "description": "自定义继承的Controller类全称，带包名"
   },
   {
     "name": "superServiceClass",
     "type": "java.lang.String",
-    "defaultValue": "net.jeebiz.boot.api.service.IBaseService",
+    "defaultValue": "io.hiwepy.boot.api.service.IBaseService",
     "description": "自定义继承的service类全称，带包名"
   },
   {
     "name": "superServiceImplClass",
     "type": "java.lang.String",
-    "defaultValue": "net.jeebiz.boot.api.service.BaseServiceImpl",
+    "defaultValue": "io.hiwepy.boot.api.service.BaseServiceImpl",
     "description": "自定义继承的serviceImpl类全称，带包名"
   },
   {
     "name": "superDaoClass",
     "type": "java.lang.String",
-    "defaultValue": "net.jeebiz.boot.api.dao.BaseMapper",
+    "defaultValue": "io.hiwepy.boot.api.dao.BaseMapper",
     "description": "自定义继承的Dao类全称，带包名"
   },
   {
@@ -55,7 +55,7 @@
   {
     "name": "parentPackageName",
     "type": "java.lang.String",
-    "defaultValue": "net.jeebiz",
+    "defaultValue": "io.hiwepy",
     "description": "父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名"
   }
 ]}

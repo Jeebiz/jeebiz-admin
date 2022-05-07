@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>net.jeebiz</groupId>
+		<groupId>io.hiwepy</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
 		<version>2.0.0-ce-SNAPSHOT</version>
 	</parent>
@@ -26,7 +26,7 @@
 			<artifactId>jwt-issuer-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-boot-webmvc-autoconfigure</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>

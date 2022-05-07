@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>net.jeebiz</groupId>
+		<groupId>io.hiwepy</groupId>
 		<artifactId>jeebiz-admin-parent</artifactId>
 		<version>2.0.0-ce-SNAPSHOT</version>
 	</parent>
@@ -13,95 +13,79 @@
 
 		<!-- For Jeebiz API -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-api</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 数据字典（必选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-dict</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 系统设置（必选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-settings</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 组织机构管理（必选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-authz-org</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz Rbac权限管理：此次选择了比较简单的rbac0的实现（必选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-authz-rbac0</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<!-- Jeebiz 第三方登录：提供接口实现openid等和账号的绑定 -->
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-thirdparty</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-dingtalk</artifactId>
-			<version>${jeebiz-admin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.jeebiz</groupId>
-			<artifactId>jeebiz-admin-authz-weixin</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 设备激活：记录客户端激活与账户对应关系（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-device</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 编辑器：富文本编辑器后台接口（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-editor</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 文件服务（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-filestore</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 消息通知（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-inform</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 通知公告（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-article</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 业务日志（可选）-->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-logbiz</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 回话管理（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-sessions</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 服务监控（可选） -->
 		<dependency>
-			<groupId>net.jeebiz</groupId>
+			<groupId>io.hiwepy</groupId>
 			<artifactId>jeebiz-admin-extras-monitor</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
@@ -337,7 +321,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<executable>true</executable>
-					<mainClass>net.jeebiz.admin.shadow.JeebizShadowApplication</mainClass>
+					<mainClass>io.hiwepy.admin.shadow.JeebizShadowApplication</mainClass>
 				</configuration>
 			</plugin>
 			<!-- 第一步：生成可执行的启动脚本 -->

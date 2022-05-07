@@ -4,8 +4,8 @@
           xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping https://dozermapper.github.io/schema/bean-mapping.xsd">
 
     <mapping>
-        <class-a>net.jeebiz.admin.authz.rbac0.web.dto.AuthzUserProfileDTO</class-a>
-        <class-b>net.jeebiz.admin.authz.rbac0.dao.entities.AuthzUserProfileEntity</class-b>
+        <class-a>AuthzUserProfileDTO</class-a>
+        <class-b>AuthzUserProfileEntity</class-b>
         <field custom-converter="com.github.dozermapper.extra.converters.JSONArrayStringConverter">
             <a>photos</a>
             <b>photos</b>

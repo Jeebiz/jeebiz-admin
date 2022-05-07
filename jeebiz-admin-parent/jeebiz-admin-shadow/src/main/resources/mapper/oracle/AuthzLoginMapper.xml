@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.jeebiz.admin.shadow.dao.AuthzLoginMapper">
+<mapper namespace="io.hiwepy.admin.shadow.dao.AuthzLoginMapper">
 
 	<resultMap id="LoginMap" type="AuthzLoginModel">
 		<!-- 账号id -->
@@ -34,7 +34,7 @@
 		<result property="salt" column="salt" />
 	</resultMap>
 
-	<resultMap id="ProfileMap" type="net.jeebiz.boot.api.dao.entities.BaseMap">
+	<resultMap id="ProfileMap" type="io.hiwepy.boot.api.dao.entities.BaseMap">
 		<!-- 用户id -->
 		<result property="id" column="id" />
 		<!-- 用户唯一编号（内部工号） -->

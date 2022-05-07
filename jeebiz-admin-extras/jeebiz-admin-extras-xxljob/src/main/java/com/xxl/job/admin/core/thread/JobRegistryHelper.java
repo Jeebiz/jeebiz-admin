@@ -19,9 +19,9 @@ import com.xxl.job.core.biz.model.RegistryParam;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobGroup;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobRegistry;
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobGroup;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobRegistry;
+import io.hiwepy.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * job registry instance

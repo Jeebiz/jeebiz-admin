@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.jeebiz.admin.watcher;
+package io.hiwepy.admin.watcher;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

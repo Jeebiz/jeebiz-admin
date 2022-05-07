@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.initializr.service;
+package io.hiwepy.admin.extras.initializr.service;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,9 +22,9 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
-import net.jeebiz.admin.extras.initializr.setup.CodeGeneratorProperties;
-import net.jeebiz.admin.extras.initializr.setup.Constants;
-import net.jeebiz.admin.extras.initializr.setup.CustomFreemarkerTemplateEngine;
+import io.hiwepy.admin.extras.initializr.setup.CodeGeneratorProperties;
+import io.hiwepy.admin.extras.initializr.setup.Constants;
+import io.hiwepy.admin.extras.initializr.setup.CustomFreemarkerTemplateEngine;
 
 /**
  * 代码生成具体实现类--目前只支持ORACLE

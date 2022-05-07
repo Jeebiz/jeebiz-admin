@@ -1,0 +1,24 @@
+/** 
+ * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
+ * All Rights Reserved. 
+ */
+package io.hiwepy.admin.extras.device.dao;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import io.hiwepy.admin.extras.device.dao.entities.DeviceActivateModel;
+import io.hiwepy.boot.api.dao.BaseMapper;
+
+@Mapper
+public interface DeviceActivateMapper extends BaseMapper<DeviceActivateModel> {
+
+	/**
+	 * 通过设备唯一标识查询主键id
+	 * 
+	 * @param deviceIMEI
+	 * @return
+	 */
+	DeviceActivateModel getActivatedByDeviceIMEI(@Param("deviceIMEI") String deviceIMEI);
+
+}

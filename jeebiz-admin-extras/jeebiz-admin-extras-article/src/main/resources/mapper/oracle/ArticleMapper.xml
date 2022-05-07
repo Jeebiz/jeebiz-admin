@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.extras.article.dao.ArticleMapper">
+<mapper namespace="io.hiwepy.admin.extras.article.dao.ArticleMapper">
 
 	<resultMap id="ArticleMap" type="ArticleEntity">
         <!-- 文章D -->
@@ -49,9 +49,9 @@
         <collection property="atts" column="{cid=c_id}" select="getAttachments"> </collection>
     </resultMap>
 
-    <resultMap id="ArticleDetailMap" extends="ArticleMap" type="net.jeebiz.admin.extras.article.web.dto.ArticleDetailDTO">
+    <resultMap id="ArticleDetailMap" extends="ArticleMap" type="io.hiwepy.admin.extras.article.web.dto.ArticleDetailDTO">
     	<!-- 文章作者信息 -->
-        <association property="author" javaType="net.jeebiz.admin.extras.article.web.dto.ArticleAuthorDTO"/>
+        <association property="author" javaType="io.hiwepy.admin.extras.article.web.dto.ArticleAuthorDTO"/>
         <!-- 文章评论信息 -->
         <collection property="comments" column="{cid=c_id}" select="getComments"> </collection>
     </resultMap>
