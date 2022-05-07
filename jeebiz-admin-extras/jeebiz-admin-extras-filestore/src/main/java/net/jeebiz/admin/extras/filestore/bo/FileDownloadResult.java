@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.bo;
+package io.hiwepy.admin.extras.filestore.bo;
 
 import java.io.InputStream;
 
@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
+import io.hiwepy.admin.extras.filestore.enums.FilestoreChannel;
 
 @ApiModel(value = "FileDownloadResult", description = "文件下载结果")
 @Data

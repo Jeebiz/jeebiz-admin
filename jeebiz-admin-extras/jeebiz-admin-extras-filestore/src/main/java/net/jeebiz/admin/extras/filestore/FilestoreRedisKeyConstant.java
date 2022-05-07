@@ -1,6 +1,6 @@
-package net.jeebiz.admin.extras.filestore;
+package io.hiwepy.admin.extras.filestore;
 
-import net.jeebiz.admin.extras.redis.setup.BizRedisKeyConstant;
+import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
 
 public class FilestoreRedisKeyConstant extends BizRedisKeyConstant {
 

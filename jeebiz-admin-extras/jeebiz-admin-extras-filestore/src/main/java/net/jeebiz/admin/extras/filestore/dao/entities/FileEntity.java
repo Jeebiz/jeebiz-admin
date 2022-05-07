@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.dao.entities;
+package io.hiwepy.admin.extras.filestore.dao.entities;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.Alias;
@@ -17,8 +17,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
-import net.jeebiz.boot.api.dao.entities.BaseEntity;
+import io.hiwepy.admin.extras.filestore.enums.FilestoreChannel;
+import io.hiwepy.boot.api.dao.entities.BaseEntity;
 
 @SuppressWarnings("serial")
 @Alias("FileEntity")

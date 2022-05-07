@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.jeebiz.admin.authz.rbac0.dao.UserProfileMapper">
+<mapper namespace="io.hiwepy.admin.authz.rbac0.dao.UserProfileMapper">
 
 	<select id="getCountByPhone" resultType="int" parameterType="java.lang.String" useCache="false">
 	   SELECT COUNT(1)

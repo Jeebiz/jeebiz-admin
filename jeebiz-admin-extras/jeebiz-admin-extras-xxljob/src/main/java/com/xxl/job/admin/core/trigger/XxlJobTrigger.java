@@ -15,10 +15,10 @@ import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.util.IpUtil;
 import com.xxl.job.core.util.ThrowableUtil;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobGroup;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobInfo;
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobGroup;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobInfo;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobLog;
+import io.hiwepy.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * xxl-job trigger

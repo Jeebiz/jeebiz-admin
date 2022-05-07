@@ -198,10 +198,10 @@
         <!--log4j2 自带过滤日志-->
         
 		<!-- 应用系统日志过滤 -->
-		<Logger name="net.jeebiz" level="INFO" additivity="true"/>
-		<Logger name="net.jeebiz.authz" level="INFO" additivity="true"/>
-		<Logger name="net.jeebiz.biz" level="INFO" additivity="true"/>
-        <Logger name="[Mybatis]net.jeebiz" level="INFO" additivity="true"/>
+		<Logger name="io.hiwepy" level="INFO" additivity="true"/>
+		<Logger name="io.hiwepy.authz" level="INFO" additivity="true"/>
+		<Logger name="io.hiwepy.biz" level="INFO" additivity="true"/>
+        <Logger name="[Mybatis]io.hiwepy" level="INFO" additivity="true"/>
 
 	</Loggers>
 </Configuration>

@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.strategy;
+package io.hiwepy.admin.extras.filestore.strategy;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,22 +22,22 @@ import com.google.common.collect.Lists;
 
 import hitool.core.collections.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.filestore.FilestoreRedisKey;
-import net.jeebiz.admin.extras.filestore.bo.FileData;
-import net.jeebiz.admin.extras.filestore.bo.FileDeleteBO;
-import net.jeebiz.admin.extras.filestore.bo.FileDownloadResult;
-import net.jeebiz.admin.extras.filestore.bo.FileReuploadBO;
-import net.jeebiz.admin.extras.filestore.bo.FileReuploadResult;
-import net.jeebiz.admin.extras.filestore.bo.FileStoreBO;
-import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
-import net.jeebiz.admin.extras.filestore.bo.FileUploadResult;
-import net.jeebiz.admin.extras.filestore.bo.FilesUploadBO;
-import net.jeebiz.admin.extras.filestore.bo.FilesUploadResult;
-import net.jeebiz.admin.extras.filestore.dao.FileMapper;
-import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
-import net.jeebiz.boot.api.ApiCode;
-import net.jeebiz.boot.api.exception.BizRuntimeException;
-import net.jeebiz.boot.api.sequence.Sequence;
+import io.hiwepy.admin.extras.filestore.FilestoreRedisKey;
+import io.hiwepy.admin.extras.filestore.bo.FileData;
+import io.hiwepy.admin.extras.filestore.bo.FileDeleteBO;
+import io.hiwepy.admin.extras.filestore.bo.FileDownloadResult;
+import io.hiwepy.admin.extras.filestore.bo.FileReuploadBO;
+import io.hiwepy.admin.extras.filestore.bo.FileReuploadResult;
+import io.hiwepy.admin.extras.filestore.bo.FileStoreBO;
+import io.hiwepy.admin.extras.filestore.bo.FileUploadBO;
+import io.hiwepy.admin.extras.filestore.bo.FileUploadResult;
+import io.hiwepy.admin.extras.filestore.bo.FilesUploadBO;
+import io.hiwepy.admin.extras.filestore.bo.FilesUploadResult;
+import io.hiwepy.admin.extras.filestore.dao.FileMapper;
+import io.hiwepy.admin.extras.filestore.dao.entities.FileEntity;
+import io.hiwepy.boot.api.ApiCode;
+import io.hiwepy.boot.api.exception.BizRuntimeException;
+import io.hiwepy.boot.api.sequence.Sequence;
 
 @Slf4j
 public abstract class AbstractFilestoreStrategy implements FilestoreStrategy, InitializingBean, ApplicationEventPublisherAware {

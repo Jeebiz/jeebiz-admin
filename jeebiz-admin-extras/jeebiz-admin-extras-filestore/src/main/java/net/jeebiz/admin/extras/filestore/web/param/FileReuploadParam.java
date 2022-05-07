@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.web.param;
+package io.hiwepy.admin.extras.filestore.web.param;
 
 import javax.validation.constraints.NotNull;
 
@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
+import io.hiwepy.admin.extras.filestore.enums.FilestoreChannel;
 
 @ApiModel(value = "FileReuploadParam", description = "文件上传参数")
 @Data

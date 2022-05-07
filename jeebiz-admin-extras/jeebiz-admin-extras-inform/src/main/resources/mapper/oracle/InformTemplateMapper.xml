@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.jeebiz.admin.extras.inform.dao.InformTemplateMapper" >
+<mapper namespace="io.hiwepy.admin.extras.inform.dao.InformTemplateMapper" >
 
 	<resultMap id="InformTemplateMap" type="InformTemplateEntity">
 		<!-- 消息通知模板id -->
@@ -32,7 +32,7 @@
 		<result property="createTime" column="create_time"/>
 	</resultMap>
 
-	<resultMap id="InformTemplateStatsMap" type="net.jeebiz.admin.extras.inform.web.dto.InformTemplateStatsDTO">
+	<resultMap id="InformTemplateStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformTemplateStatsDTO">
 		<!-- 消息通知模板的发送提供者 -->
 		<result property="provider" column="t_provider" />
 		<!-- 消息通知模板已发消息总数 -->

@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.strategy.local;
+package io.hiwepy.admin.extras.filestore.strategy.local;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,18 +17,18 @@ import org.springframework.web.multipart.MultipartFile;
 import hitool.core.io.FilenameUtils;
 import hitool.core.lang3.time.DateUtils;
 import net.coobird.thumbnailator.Thumbnails;
-import net.jeebiz.admin.extras.filestore.bo.FileData;
-import net.jeebiz.admin.extras.filestore.bo.FileDownloadResult;
-import net.jeebiz.admin.extras.filestore.bo.FileStoreBO;
-import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.dao.entities.FileEntity;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
-import net.jeebiz.admin.extras.filestore.setup.config.JeebizFilestoreProperties;
-import net.jeebiz.admin.extras.filestore.strategy.AbstractFilestoreStrategy;
-import net.jeebiz.admin.extras.filestore.strategy.ThumbImage;
-import net.jeebiz.admin.extras.filestore.utils.AttUtils;
-import net.jeebiz.admin.extras.filestore.utils.FilestoreUtils;
-import net.jeebiz.boot.api.exception.BizRuntimeException;
+import io.hiwepy.admin.extras.filestore.bo.FileData;
+import io.hiwepy.admin.extras.filestore.bo.FileDownloadResult;
+import io.hiwepy.admin.extras.filestore.bo.FileStoreBO;
+import io.hiwepy.admin.extras.filestore.bo.FilestoreConfig;
+import io.hiwepy.admin.extras.filestore.dao.entities.FileEntity;
+import io.hiwepy.admin.extras.filestore.enums.FilestoreChannel;
+import io.hiwepy.admin.extras.filestore.setup.config.JeebizFilestoreProperties;
+import io.hiwepy.admin.extras.filestore.strategy.AbstractFilestoreStrategy;
+import io.hiwepy.admin.extras.filestore.strategy.ThumbImage;
+import io.hiwepy.admin.extras.filestore.utils.AttUtils;
+import io.hiwepy.admin.extras.filestore.utils.FilestoreUtils;
+import io.hiwepy.boot.api.exception.BizRuntimeException;
 
 @Component
 public class LocalFilestoreStrategy extends AbstractFilestoreStrategy {

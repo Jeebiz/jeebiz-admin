@@ -17,8 +17,8 @@ import com.xxl.job.core.biz.model.HandleCallbackParam;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.util.DateUtil;
 
-import net.jeebiz.admin.extras.xxljob.dao.entities.XxlJobLog;
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import io.hiwepy.admin.extras.xxljob.dao.entities.XxlJobLog;
+import io.hiwepy.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * job lose-monitor instance

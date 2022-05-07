@@ -1,9 +1,9 @@
-package net.jeebiz.admin.extras.core;
+package io.hiwepy.admin.extras.core;
 
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalCoordinates;
 
-import net.jeebiz.boot.extras.redis.setup.geo.GeoTemplate;
+import io.hiwepy.boot.extras.redis.setup.geo.GeoTemplate;
 
 public class CaculateDistanceTest{
 

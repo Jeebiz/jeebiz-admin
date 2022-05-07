@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>net.jeebiz</groupId>
+		<groupId>io.hiwepy</groupId>
 		<artifactId>jeebiz-admin</artifactId>
 		<version>1.0.2-ce-SNAPSHOT</version>
 	</parent>
@@ -19,72 +19,72 @@
 		<dependencies>
 			
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-core</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-jexcel</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-poi</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-beetl</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-freemarker</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-httl</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-jetbrick</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-jxls1</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-jxls2</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-rythm</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-thymeleaf</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-velocity</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-template-webit</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.jeebiz</groupId>
+				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-spring-boot-starter</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>

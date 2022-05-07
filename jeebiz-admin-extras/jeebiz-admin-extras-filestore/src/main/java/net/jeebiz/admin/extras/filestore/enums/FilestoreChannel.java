@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.enums;
+package io.hiwepy.admin.extras.filestore.enums;
 
 import java.util.HashMap;
 import java.util.LinkedList;

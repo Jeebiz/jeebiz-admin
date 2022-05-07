@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.bo;
+package io.hiwepy.admin.extras.filestore.bo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
+import io.hiwepy.admin.extras.filestore.enums.FilestoreChannel;
 
 @ApiModel(value = "FileStoreBO", description = "文件存储BO")
 @Data

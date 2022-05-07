@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.initializr.setup;
+package io.hiwepy.admin.extras.initializr.setup;
 
 import java.io.File;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.initializr.setup;
+package io.hiwepy.admin.extras.initializr.setup;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import net.jeebiz.admin.extras.initializr.service.CodeGeneratorService;
+import io.hiwepy.admin.extras.initializr.service.CodeGeneratorService;
 
 /**
  * @ClassName CodeGeneratorServiceAutoConfiguration

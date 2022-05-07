@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore;
+package io.hiwepy.admin.extras.filestore;
 
 import java.util.function.BiFunction;
 

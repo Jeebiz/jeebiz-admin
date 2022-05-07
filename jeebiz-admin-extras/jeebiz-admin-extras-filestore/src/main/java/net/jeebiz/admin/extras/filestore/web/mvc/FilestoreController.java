@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.web.mvc;
+package io.hiwepy.admin.extras.filestore.web.mvc;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,32 +35,32 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.filestore.bo.FileData;
-import net.jeebiz.admin.extras.filestore.bo.FileDeleteBO;
-import net.jeebiz.admin.extras.filestore.bo.FileDownloadResult;
-import net.jeebiz.admin.extras.filestore.bo.FileReuploadBO;
-import net.jeebiz.admin.extras.filestore.bo.FileReuploadResult;
-import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
-import net.jeebiz.admin.extras.filestore.bo.FileUploadResult;
-import net.jeebiz.admin.extras.filestore.bo.FilesUploadBO;
-import net.jeebiz.admin.extras.filestore.bo.FilesUploadResult;
-import net.jeebiz.admin.extras.filestore.bo.FilestoreConfig;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
-import net.jeebiz.admin.extras.filestore.strategy.FilestoreStrategyRouter;
-import net.jeebiz.admin.extras.filestore.web.param.FileDeleteByPathParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileDeleteByUuidParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileDeleteParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileDownloadByPathParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileDownloadByUuidParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileListByPathParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileListByUuidParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileReuploadParam;
-import net.jeebiz.admin.extras.filestore.web.param.FileUploadParam;
-import net.jeebiz.admin.extras.filestore.web.param.FilesUploadParam;
-import net.jeebiz.boot.api.ApiCode;
-import net.jeebiz.boot.api.ApiRestResponse;
-import net.jeebiz.boot.api.XHeaders;
-import net.jeebiz.boot.api.web.BaseApiController;
+import io.hiwepy.admin.extras.filestore.bo.FileData;
+import io.hiwepy.admin.extras.filestore.bo.FileDeleteBO;
+import io.hiwepy.admin.extras.filestore.bo.FileDownloadResult;
+import io.hiwepy.admin.extras.filestore.bo.FileReuploadBO;
+import io.hiwepy.admin.extras.filestore.bo.FileReuploadResult;
+import io.hiwepy.admin.extras.filestore.bo.FileUploadBO;
+import io.hiwepy.admin.extras.filestore.bo.FileUploadResult;
+import io.hiwepy.admin.extras.filestore.bo.FilesUploadBO;
+import io.hiwepy.admin.extras.filestore.bo.FilesUploadResult;
+import io.hiwepy.admin.extras.filestore.bo.FilestoreConfig;
+import io.hiwepy.admin.extras.filestore.enums.FilestoreChannel;
+import io.hiwepy.admin.extras.filestore.strategy.FilestoreStrategyRouter;
+import io.hiwepy.admin.extras.filestore.web.param.FileDeleteByPathParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileDeleteByUuidParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileDeleteParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileDownloadByPathParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileDownloadByUuidParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileListByPathParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileListByUuidParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileReuploadParam;
+import io.hiwepy.admin.extras.filestore.web.param.FileUploadParam;
+import io.hiwepy.admin.extras.filestore.web.param.FilesUploadParam;
+import io.hiwepy.boot.api.ApiCode;
+import io.hiwepy.boot.api.ApiRestResponse;
+import io.hiwepy.boot.api.XHeaders;
+import io.hiwepy.boot.api.web.BaseApiController;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "文件服务：文件上传、下载（Ok）")

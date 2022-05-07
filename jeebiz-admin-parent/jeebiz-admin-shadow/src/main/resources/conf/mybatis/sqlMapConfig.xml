@@ -73,8 +73,8 @@
         <typeAlias alias="LinkedHashMap" type="java.util.LinkedHashMap" />
         <typeAlias alias="ArrayList" type="java.util.ArrayList" />
         <typeAlias alias="LinkedList" type="java.util.LinkedList" />
-        <typeAlias alias="PairModel" type="net.jeebiz.boot.api.model.PairModel" />
-        <typeAlias alias="BaseMap" type="net.jeebiz.boot.api.model.BaseMap" />
+        <typeAlias alias="PairModel" type="io.hiwepy.boot.api.model.PairModel" />
+        <typeAlias alias="BaseMap" type="io.hiwepy.boot.api.model.BaseMap" />
 	</typeAliases>
 	<!-- 此处配置需要特别注意：拦截器执行的顺序是配置顺序的倒叙执行 -->
     <!-- <plugins>

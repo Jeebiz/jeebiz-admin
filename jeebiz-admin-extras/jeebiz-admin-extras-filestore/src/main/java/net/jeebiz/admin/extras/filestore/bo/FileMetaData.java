@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.bo;
+package io.hiwepy.admin.extras.filestore.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

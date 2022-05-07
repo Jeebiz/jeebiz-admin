@@ -17,7 +17,7 @@ import com.xxl.job.core.biz.ExecutorBiz;
 import com.xxl.job.core.biz.client.ExecutorBizClient;
 import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 
-import net.jeebiz.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
+import io.hiwepy.admin.extras.xxljob.setup.config.XxlJobAdminConfiguration;
 
 /**
  * @author xuxueli 2018-10-28 00:18:17

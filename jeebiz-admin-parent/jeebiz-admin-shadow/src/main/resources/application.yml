@@ -67,7 +67,7 @@ swagger:
     name: 杭州极蚁网络科技有限公司
     email: hiwepy@163.com
     url: https://www.hiwepy.com/
-  base-package: net.jeebiz
+  base-package: io.hiwepy
   base-path-pattern: /**
   # 公共参数
   global-operation-parameters:
@@ -129,12 +129,12 @@ resilience4j:
         event-consumer-buffer-size: 10 # 事件缓冲区大小
         register-health-indicator: true # 健康监测
         automatic-transition-from-open-to-half-open-enabled: false # 是否自动从打开到半开，不需要触发
-        record-failure-predicate: net.jeebiz.admin.shadow.setup.RecordFailurePredicate # 谓词设置异常是否为失败
+        record-failure-predicate: io.hiwepy.admin.shadow.setup.RecordFailurePredicate # 谓词设置异常是否为失败
         record-exceptions: # 记录的异常
-          - net.jeebiz.boot.api.exception.BizRuntimeException
-          - net.jeebiz.boot.api.exception.BizIOException
+          - io.hiwepy.boot.api.exception.BizRuntimeException
+          - io.hiwepy.boot.api.exception.BizIOException
         ignore-exceptions: # 忽略的异常
-          - net.jeebiz.boot.api.exception.BizCheckedException
+          - io.hiwepy.boot.api.exception.BizCheckedException
     instances:
       backendA:
         base-config: default
@@ -164,13 +164,13 @@ resilience4j:
         exponential-backoff-multiplier: 2   # 指数退避算法的乘数
         enable-randomized-wait: false       # 是否允许使用随机的重试间隔
         randomized-wait-factor: 0.5         # 随机因子
-        result-predicate: net.jeebiz.admin.shadow.setup.RetryOnResultPredicate
+        result-predicate: io.hiwepy.admin.shadow.setup.RetryOnResultPredicate
         #retry-exception-predicate: com.example.resilience4j.predicate.RetryOnExceptionPredicate
         retry-exceptions:
-          - net.jeebiz.boot.api.exception.BizRuntimeException
-          - net.jeebiz.boot.api.exception.BizIOException
+          - io.hiwepy.boot.api.exception.BizRuntimeException
+          - io.hiwepy.boot.api.exception.BizIOException
         ignore-exceptions:
-          - net.jeebiz.boot.api.exception.BizCheckedException
+          - io.hiwepy.boot.api.exception.BizCheckedException
     instances:
       backendA:
         base-config: default
@@ -358,7 +358,7 @@ spring:
       routable: true
       # Druid监控配置
       aop-patterns:
-      - net.jeebiz.boot.demo.web.mvc
+      - io.hiwepy.boot.demo.web.mvc
       stat-view-servlet:
         enabled: true
         reset-enable: false
@@ -458,7 +458,7 @@ mybatis-plus:
   # MySQL数据库对应的Mybatis脚本
   mapper-locations: classpath*:mapper/mysql/*.xml
   # package多个则用逗号或者分号分隔
-  type-aliases-package: net.jeebiz.**.dao.entities
+  type-aliases-package: io.hiwepy.**.dao.entities
   configuration-properties:
     '[table-prefix]': jeebiz_ # 自定义sql中表名带前缀
   configuration:

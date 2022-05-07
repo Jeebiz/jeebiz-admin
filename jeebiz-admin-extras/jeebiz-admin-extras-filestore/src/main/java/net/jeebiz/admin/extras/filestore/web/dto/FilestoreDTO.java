@@ -1,11 +1,11 @@
-package net.jeebiz.admin.extras.filestore.web.dto;
+package io.hiwepy.admin.extras.filestore.web.dto;
 
 import java.util.Set;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
+import io.hiwepy.admin.extras.filestore.bo.FileMetaData;
 
 @ApiModel(value = "FilestoreDTO", description = "文件存储信息DTO")
 @Data

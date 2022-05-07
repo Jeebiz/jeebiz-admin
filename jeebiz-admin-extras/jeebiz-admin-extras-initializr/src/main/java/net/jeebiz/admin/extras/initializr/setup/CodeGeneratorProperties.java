@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.initializr.setup;
+package io.hiwepy.admin.extras.initializr.setup;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -17,7 +17,7 @@ public class CodeGeneratorProperties {
     /**
      * 自定义继承的Entity类全称，带包名
      */
-    private String superEntityClass = "net.jeebiz.boot.api.dao.entities.PaginationModel";
+    private String superEntityClass = "io.hiwepy.boot.api.dao.entities.PaginationModel";
 
     /**
      * 自定义继承的Controller类全称，带包名

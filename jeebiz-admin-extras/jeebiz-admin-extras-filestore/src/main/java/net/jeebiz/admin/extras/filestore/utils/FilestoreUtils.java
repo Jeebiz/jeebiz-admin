@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved. 
  */
-package net.jeebiz.admin.extras.filestore.utils;
+package io.hiwepy.admin.extras.filestore.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +28,7 @@ import com.google.common.collect.Sets;
 
 import hitool.core.format.ByteUnitFormat;
 import net.coobird.thumbnailator.Thumbnails;
-import net.jeebiz.admin.extras.filestore.bo.FileMetaData;
+import io.hiwepy.admin.extras.filestore.bo.FileMetaData;
 
 public class FilestoreUtils {
 

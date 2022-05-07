@@ -1,4 +1,4 @@
-package net.jeebiz.admin.extras.filestore.strategy;
+package io.hiwepy.admin.extras.filestore.strategy;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import lombok.extern.slf4j.Slf4j;
-import net.jeebiz.admin.extras.filestore.bo.FileDeleteBO;
-import net.jeebiz.admin.extras.filestore.bo.FileUploadBO;
-import net.jeebiz.admin.extras.filestore.bo.FilesUploadBO;
-import net.jeebiz.admin.extras.filestore.enums.FilestoreChannel;
+import io.hiwepy.admin.extras.filestore.bo.FileDeleteBO;
+import io.hiwepy.admin.extras.filestore.bo.FileUploadBO;
+import io.hiwepy.admin.extras.filestore.bo.FilesUploadBO;
+import io.hiwepy.admin.extras.filestore.enums.FilestoreChannel;
 
 @Component
 @Slf4j
