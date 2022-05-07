@@ -2,8 +2,7 @@ package io.hiwepy.admin.extras.core;
 
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalCoordinates;
-
-import io.hiwepy.boot.extras.redis.setup.geo.GeoTemplate;
+import org.springframework.data.redis.core.GeoTemplate;
 
 public class CaculateDistanceTest{
 
