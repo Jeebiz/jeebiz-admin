@@ -19,11 +19,11 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import lombok.extern.slf4j.Slf4j;
 import io.hiwepy.boot.api.ApiCode;
 import io.hiwepy.boot.api.annotation.ApiIdempotent;
 import io.hiwepy.boot.api.annotation.ApiIdempotentType;
 import io.hiwepy.boot.api.exception.IdempotentException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 1、基于Redis SETNX 命令实现的分布式锁（key不过期）

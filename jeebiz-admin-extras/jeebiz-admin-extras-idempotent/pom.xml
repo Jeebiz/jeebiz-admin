@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.hiwepy</groupId>
 		<artifactId>jeebiz-admin-extras</artifactId>
-		<version>1.0.2-ce-SNAPSHOT</version>
+		<version>2.0.0-ce-SNAPSHOT</version>
 	</parent>
 	<artifactId>jeebiz-admin-extras-idempotent</artifactId>
 
@@ -17,10 +17,16 @@
 			<artifactId>jeebiz-admin-api</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
+		
+		<!-- For Spring Boot's Redis With Extension -->
 		<dependency>
-			<groupId>io.hiwepy</groupId>
-			<artifactId>jeebiz-admin-extras-redis</artifactId>
-			<version>${jeebiz-admin.version}</version>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>redistpl-plus-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- For Redisson With Extension -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>redisson-plus-spring-boot-starter</artifactId>
 		</dependency>
 
 		<!-- For Shiro -->

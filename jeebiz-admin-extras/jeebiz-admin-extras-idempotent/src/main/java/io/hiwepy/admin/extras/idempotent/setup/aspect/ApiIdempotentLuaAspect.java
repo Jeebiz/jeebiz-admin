@@ -21,12 +21,12 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import lombok.extern.slf4j.Slf4j;
 import io.hiwepy.boot.api.ApiCode;
 import io.hiwepy.boot.api.annotation.ApiIdempotent;
 import io.hiwepy.boot.api.annotation.ApiIdempotentType;
 import io.hiwepy.boot.api.exception.IdempotentException;
 import io.hiwepy.boot.api.sequence.Sequence;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 1、基于Lua脚本实现分布式锁的方法
