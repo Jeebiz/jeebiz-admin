@@ -17,22 +17,23 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import io.hiwepy.boot.autoconfigure.EnableJeebiz;
+import io.hiwepy.boot.autoconfigure.EnableExtrasConfiguration;
 
 /**
  * 应用启动入口
  */
-@EnableJeebiz
+@EnableExtrasConfiguration
 @EnableScheduling
 @EnableWebMvc
 //@EnableAdminServer
+//其他路径可以单独添加注解
 @MapperScan({"io.hiwepy.**.dao", "io.hiwepy.**repository"})
 //@ComponentScan({"io.hiwepy.**.setup", "io.hiwepy.**.service", "io.hiwepy.**.aspect", "io.hiwepy.**.task"})
 @SpringBootApplication
 public class JeebizShadowApplication implements CommandLineRunner {
 
 	@Autowired
-	private RedisOperationTemplate redisOperation;
+	private RedisOperationTemplate redisOperationTemplate;
 
 	@Bean
     public MeterRegistryCustomizer<MeterRegistry> configurer(
@@ -50,16 +51,16 @@ public class JeebizShadowApplication implements CommandLineRunner {
 		try {
 
 			// 加库存
-			Long rtLong1 = redisOperation.luaIncr("test", 5000);
+			Long rtLong1 = redisOperationTemplate.luaIncr("test", 5000);
 			System.out.println(rtLong1);
 			// 减库存
-			Long rtLong2 = redisOperation.luaDecr("test", 500);
+			Long rtLong2 = redisOperationTemplate.luaDecr("test", 500);
 			System.out.println(rtLong2);
 			// 加库存
-			Long rtLong3 = redisOperation.luaHincr("test2", "coin", 3822);
+			Long rtLong3 = redisOperationTemplate.luaHincr("test2", "coin", 3822);
 			System.out.println(rtLong3);
 			// 减库存
-			Long rtLong4 = redisOperation.luaHdecr("test2", "coin", 451);
+			Long rtLong4 = redisOperationTemplate.luaHdecr("test2", "coin", 451);
 			System.out.println(rtLong4);
 
 		} catch (Exception e) {

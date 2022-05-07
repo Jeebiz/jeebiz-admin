@@ -79,8 +79,8 @@ public class AuthzStaffDTO implements Serializable {
 	/**
 	 * 用户名
 	 */
-	@ApiModelProperty(name = "username", dataType = "String", value = "用户名")
-	private String username;
+	@ApiModelProperty(name = "account", dataType = "String", value = "用户名")
+	private String account;
 	/**
 	 * 手机号码
 	 */

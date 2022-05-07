@@ -18,6 +18,7 @@ import org.apache.shiro.biz.authc.exception.InvalidAccountException;
 import org.apache.shiro.biz.authc.exception.InvalidCaptchaException;
 import org.apache.shiro.biz.authc.exception.NoneCaptchaException;
 import org.apache.shiro.biz.authc.exception.NoneRoleException;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.apache.shiro.biz.web.filter.authc.PostLoginRequest;
 import org.apache.shiro.codec.Base64;
@@ -37,8 +38,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.hiwepy.admin.shadow.dao.entities.AuthzLoginModel;
-import io.hiwepy.admin.shadow.service.IAuthzLoginService;
+import io.hiwepy.admin.shadow.service.IAuthService;
 import io.hiwepy.admin.shadow.setup.Constants;
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.ApiIdempotent;
@@ -58,7 +58,7 @@ public class AuthzLoginController extends BaseController {
 	private static final String DEFAULT_ERROr_key_ATTRIBUTE_name = "shiroLoginFailure";
 
 	@Autowired
-	private IAuthzLoginService authzLoginService;
+	private IAuthService authzLoginService;
 
 	/**
 	 * 
@@ -149,7 +149,7 @@ public class AuthzLoginController extends BaseController {
 	public String switchRole(String roleid) {
 		try {
 
-			AuthzLoginModel principal = SubjectUtils.getPrincipal(AuthzLoginModel.class);
+			ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 			Session session = SubjectUtils.getSession();
 			
 			
@@ -172,11 +172,11 @@ public class AuthzLoginController extends BaseController {
 		return "redirect:/index";
 	}
 
-	public IAuthzLoginService getAuthzLoginService() {
+	public IAuthService getAuthzLoginService() {
 		return authzLoginService;
 	}
 
-	public void setAuthzLoginService(IAuthzLoginService authzLoginService) {
+	public void setAuthzLoginService(IAuthService authzLoginService) {
 		this.authzLoginService = authzLoginService;
 	}
 

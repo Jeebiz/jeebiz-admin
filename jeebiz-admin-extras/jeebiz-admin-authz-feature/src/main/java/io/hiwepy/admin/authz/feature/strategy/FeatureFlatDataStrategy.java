@@ -8,11 +8,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
+import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
+import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
 import io.hiwepy.admin.authz.feature.enums.FeatureNodeType;
 import io.hiwepy.admin.authz.feature.utils.FeatureNavUtils;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
+import io.hiwepy.admin.authz.feature.web.dto.FeatureTreeNode;
 
 @Component
 public class FeatureFlatDataStrategy implements FeatureStrategy {
@@ -23,12 +23,12 @@ public class FeatureFlatDataStrategy implements FeatureStrategy {
 	}
 
 	@Override
-	public List<AuthzFeatureTreeNode> handle(List<AuthzFeatureEntity> featureList) {
+	public List<FeatureTreeNode> handle(List<FeatureEntity> featureList) {
 		return FeatureNavUtils.getFeatureFlatList(featureList);
 	}
 
 	@Override
-	public List<AuthzFeatureTreeNode> handle(List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
+	public List<FeatureTreeNode> handle(List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
 		return FeatureNavUtils.getFeatureFlatList(featureList, featureOptList);
 	}
 

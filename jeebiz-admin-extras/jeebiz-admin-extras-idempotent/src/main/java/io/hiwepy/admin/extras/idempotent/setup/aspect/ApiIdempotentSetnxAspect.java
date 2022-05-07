@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,7 +24,6 @@ import io.hiwepy.boot.api.ApiCode;
 import io.hiwepy.boot.api.annotation.ApiIdempotent;
 import io.hiwepy.boot.api.annotation.ApiIdempotentType;
 import io.hiwepy.boot.api.exception.IdempotentException;
-import io.hiwepy.boot.extras.redis.setup.RedisOperationTemplate;
 
 /**
  * 1、基于Redis SETNX 命令实现的分布式锁（key不过期）

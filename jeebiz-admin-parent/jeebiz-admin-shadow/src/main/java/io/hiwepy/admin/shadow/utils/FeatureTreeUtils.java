@@ -16,19 +16,19 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
+import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
+import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
 
 public final class FeatureTreeUtils {
 
-	protected static List<Map<String, Object>> getFeatureOptList(AuthzFeatureEntity feature, List<AuthzFeatureOptEntity> featureOptList) {
+	protected static List<Map<String, Object>> getFeatureOptList(FeatureEntity feature, List<FeatureOptEntity> featureOptList) {
 		List<Map<String, Object>> featureOpts = Lists.newArrayList();
 		// 筛选当前菜单对应的操作按钮
-		List<AuthzFeatureOptEntity> optList = featureOptList.stream()
+		List<FeatureOptEntity> optList = featureOptList.stream()
 				.filter(featureOpt -> StringUtils.equals(feature.getId(), featureOpt.getFeatureId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(optList)){
-			for (AuthzFeatureOptEntity opt : optList) {
+			for (FeatureOptEntity opt : optList) {
 				Map<String, Object> optMap  = Maps.newHashMap();
 				// 功能菜单id
 				optMap.put("id", feature.getId() + "_" + opt.getId());
@@ -60,15 +60,15 @@ public final class FeatureTreeUtils {
 		return featureOpts;
 	}
 
-	protected static List<Map<String, Object>> getSubFeatureList(AuthzFeatureEntity parentNav, List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
+	protected static List<Map<String, Object>> getSubFeatureList(FeatureEntity parentNav, List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
 
 		List<Map<String, Object>> features = Lists.newArrayList();
 		//筛选当前父功能模块节点的子功能模块节点数据
-		List<AuthzFeatureEntity> childFeatureList = featureList.stream()
+		List<FeatureEntity> childFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParent()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(childFeatureList)){
-			for (AuthzFeatureEntity feature : childFeatureList) {
+			for (FeatureEntity feature : childFeatureList) {
 
 				Map<String, Object> featureMap = Maps.newHashMap();
 				// 功能菜单id
@@ -116,16 +116,16 @@ public final class FeatureTreeUtils {
 		return features;
 	}
 
-	public static List<Map<String, Object>> getAuthTreeList(List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList) {
+	public static List<Map<String, Object>> getAuthTreeList(List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList) {
 
 		//优先获得最顶层的菜单集合
-		List<AuthzFeatureEntity> topFeatureList = featureList.stream()
+		List<FeatureEntity> topFeatureList = featureList.stream()
 				.filter(feature -> StringUtils.equals("0", feature.getParent()))
 				.collect(Collectors.toList());
 		List<Map<String, Object>> features = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(topFeatureList)){
 
-			for (AuthzFeatureEntity feature : topFeatureList) {
+			for (FeatureEntity feature : topFeatureList) {
 
 				Map<String, Object> featureMap = Maps.newHashMap();
 				// 功能菜单id

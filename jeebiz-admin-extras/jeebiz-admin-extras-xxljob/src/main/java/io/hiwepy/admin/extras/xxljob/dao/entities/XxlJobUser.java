@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 public class XxlJobUser {
 	
 	private int id;
-	private String username;		// 账号
+	private String account;		// 账号
 	private String password;		// 密码
 	private int role;				// 角色：0-普通用户、1-管理员
 	private String permission;	// 权限：执行器ID列表，多个逗号分割
@@ -22,11 +22,11 @@ public class XxlJobUser {
 	}
 
 	public String getUsername() {
-		return username;
+		return account;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String account) {
+		this.account = account;
 	}
 
 	public String getPassword() {

@@ -451,7 +451,7 @@ public class ConfigBuilder {
             //oracle数据库表太多，出现最大游标错误
             else if (DbType.ORACLE == dbQuery.dbType()) {
                 String schema = dataSourceConfig.getSchemaName();
-                //oracle 默认 schema=username
+                //oracle 默认 schema=account
                 if (schema == null) {
                     schema = dataSourceConfig.getUsername().toUpperCase();
                     dataSourceConfig.setSchemaName(schema);

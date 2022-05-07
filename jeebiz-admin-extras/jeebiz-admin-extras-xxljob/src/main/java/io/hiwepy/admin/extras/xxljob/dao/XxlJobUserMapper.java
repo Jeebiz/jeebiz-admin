@@ -15,14 +15,14 @@ public interface XxlJobUserMapper {
 
 	public List<XxlJobUser> pageList(@Param("offset") int offset,
                                      @Param("pagesize") int pagesize,
-                                     @Param("username") String username,
+                                     @Param("account") String account,
 									 @Param("role") int role);
 	public int pageListCount(@Param("offset") int offset,
 							 @Param("pagesize") int pagesize,
-							 @Param("username") String username,
+							 @Param("account") String account,
 							 @Param("role") int role);
 
-	public XxlJobUser loadByUserName(@Param("username") String username);
+	public XxlJobUser loadByUserName(@Param("account") String account);
 
 	public int save(XxlJobUser xxlJobUser);
 

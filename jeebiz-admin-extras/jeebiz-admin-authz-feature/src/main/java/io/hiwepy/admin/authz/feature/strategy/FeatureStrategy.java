@@ -2,10 +2,10 @@ package io.hiwepy.admin.authz.feature.strategy;
 
 import java.util.List;
 
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
+import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
+import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
 import io.hiwepy.admin.authz.feature.enums.FeatureNodeType;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
+import io.hiwepy.admin.authz.feature.web.dto.FeatureTreeNode;
 
 /**
  * 数据格式策略
@@ -18,8 +18,8 @@ public interface FeatureStrategy {
 	 */
 	FeatureNodeType getNodeType();
 
-	List<AuthzFeatureTreeNode> handle(List<AuthzFeatureEntity> featureList);
+	List<FeatureTreeNode> handle(List<FeatureEntity> featureList);
 
-	List<AuthzFeatureTreeNode> handle(List<AuthzFeatureEntity> featureList, List<AuthzFeatureOptEntity> featureOptList);
+	List<FeatureTreeNode> handle(List<FeatureEntity> featureList, List<FeatureOptEntity> featureOptList);
 
 }

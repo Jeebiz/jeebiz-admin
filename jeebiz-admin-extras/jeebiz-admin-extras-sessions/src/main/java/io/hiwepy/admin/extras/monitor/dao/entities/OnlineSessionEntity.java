@@ -41,7 +41,7 @@ public class OnlineSessionEntity extends PaginationEntity<OnlineSessionEntity> {
     private String userid;
     /** 当前登录的用户名称 */
 	@TableField(value = "s_uname")
-    private String username;
+    private String account;
 	/** 用户会话id编号 */
 	@TableField(value = "s_sessionId")
 	private String sessionId;
@@ -110,7 +110,7 @@ public class OnlineSessionEntity extends PaginationEntity<OnlineSessionEntity> {
 
         online.setId(String.valueOf(session.getId()));
         online.setUserid(session.getUserid());
-        online.setUsername(session.getUsername());
+        online.setAccount(session.getUsername());
         online.setUserAgent(session.getUserAgent());
         online.setAddress(session.getSystemHost());
 

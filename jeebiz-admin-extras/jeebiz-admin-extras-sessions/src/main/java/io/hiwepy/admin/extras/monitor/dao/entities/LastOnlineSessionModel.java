@@ -34,7 +34,7 @@ public class LastOnlineSessionModel extends PaginationEntity<LastOnlineSessionMo
 	/** 在线的用户Id */
 	private String userid;
 	/** 在线的用户名称 */
-	private String username;
+	private String account;
 	/** 用户主机地址 */
 	private String host;
 	/** 用户浏览器类型 */
