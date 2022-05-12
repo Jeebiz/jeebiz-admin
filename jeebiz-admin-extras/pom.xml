@@ -24,8 +24,8 @@
 		<module>jeebiz-admin-extras-editor</module>
 		<module>jeebiz-admin-extras-filestore</module>
 		<module>jeebiz-admin-extras-idempotent</module>
-		<module>jeebiz-admin-extras-inform</module><!--
-		<module>jeebiz-admin-extras-initializr</module> -->
+		<module>jeebiz-admin-extras-inform</module>
+		<module>jeebiz-admin-extras-generator</module>
 		<module>jeebiz-admin-extras-logbiz</module>
         <module>jeebiz-admin-extras-monitor</module>
 		<module>jeebiz-admin-extras-ops</module>

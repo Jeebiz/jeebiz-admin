@@ -9,7 +9,11 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.OutputFile; class MapperGenerator {
+import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.TemplateType;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+
+class MapperGenerator {
 
 	/**
 	 * 数据源配置
@@ -36,7 +40,11 @@ import com.baomidou.mybatisplus.generator.config.OutputFile; class MapperGenerat
 						.mapper("dao")
 						.controller("web.mvc")
 						.pathInfo(map))
-				//.templateConfig((scanner, builder) -> builder.disable(TemplateType.CONTROLLER, TemplateType.SERVICE, TemplateType.SERVICEIMPL))
+				.templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+				.templateConfig((scanner, builder) -> {
+					builder.serviceImpl()
+					builder.disable(TemplateType.CONTROLLER, TemplateType.SERVICE, TemplateType.SERVICEIMPL);
+				})
 				// 策略配置
 				.strategyConfig((scanner, builder) -> builder
 						.addInclude(getTables(scanner.apply("请输入表名，多个英文逗号分隔？所有输入 all"))).entityBuilder().enableLombok()

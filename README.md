@@ -30,23 +30,23 @@
 - [x] jeebiz-admin-authz-org		：组织机构
 - [x] jeebiz-admin-authz-rbac0		：认证授权服务RBAC0实现
 - [x] jeebiz-admin-authz-thirdparty	：第三方认证对接
-- [x] jeebiz-admin-authz-weixin	：xxx
-- [x] jeebiz-admin-extras-article		：通知公告
-- [x] jeebiz-admin-extras-cnarea		：通知公告
+  - [x] jeebiz-admin-authz-weixin	：xxx
+- [x] jeebiz-admin-extras-article	：通知公告
+- [x] jeebiz-admin-extras-cnarea	：通知公告
 - [x] jeebiz-admin-extras-core		：公共核心
-- [x] jeebiz-admin-extras-device		：嘻嘻嘻
+- [x] jeebiz-admin-extras-device	：嘻嘻嘻
 - [x] jeebiz-admin-extras-dict		：数据库元数据
 - [x] jeebiz-admin-extras-dict		：数据字典
-- [x] jeebiz-admin-extras-editor		：编辑器对接
+- [x] jeebiz-admin-extras-editor	：编辑器对接
 - [x] jeebiz-admin-extras-filestore	：文件存储
-- [x] jeebiz-admin-extras-inform		：消息通知
-- [x] jeebiz-admin-extras-initializr	：代码生成
-- [x] jeebiz-admin-extras-logbiz		：业务日志
-- [ ] jeebiz-admin-extras-monitor		：会话管理
+- [x] jeebiz-admin-extras-inform	：消息通知
+- [x] jeebiz-admin-extras-generator	：代码生成
+- [x] jeebiz-admin-extras-logbiz	：业务日志
+- [ ] jeebiz-admin-extras-monitor	：会话管理
 - [ ] jeebiz-admin-extras-ops		：会话管理
-- [ ] jeebiz-admin-extras-sessions		：会话管理
-- [x] jeebiz-admin-extras-settings		：系统设置
-- [x] jeebiz-admin-extras-xxljob		：系统设置
+- [ ] jeebiz-admin-extras-sessions	：会话管理
+- [x] jeebiz-admin-extras-settings	：系统设置
+- [x] jeebiz-admin-extras-xxljob	：系统设置
 
 ## 项目部署
 

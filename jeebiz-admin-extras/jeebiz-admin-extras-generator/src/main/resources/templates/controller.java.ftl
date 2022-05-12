@@ -19,7 +19,9 @@ import io.hiwepy.boot.api.webmvc.Result;
 import javax.validation.Valid;
 import java.util.List;
 import ${package.Service}.${cfg.serviceName};
+
 <#if restControllerStyle>
+import org.springframework.web.bind.annotation.RestController;
 <#else>
 import org.springframework.stereotype.Controller;
 </#if>
