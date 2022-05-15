@@ -7,11 +7,7 @@ package io.hiwepy.admin.authz.rbac0.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/AuthzUserProfileMapper.java
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserProfileEntity;
-========
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserProfileEntity;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/UserProfileMapper.java
 import io.hiwepy.boot.api.dao.BaseMapper;
 
 /**

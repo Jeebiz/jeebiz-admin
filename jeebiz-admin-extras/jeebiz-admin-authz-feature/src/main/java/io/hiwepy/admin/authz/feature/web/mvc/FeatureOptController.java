@@ -17,29 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-feature/src/main/java/io/hiwepy/admin/authz/feature/web/mvc/AuthzFeatureOptController.java
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
-import io.hiwepy.admin.authz.feature.service.IAuthzFeatureOptService;
-import io.hiwepy.admin.authz.feature.setup.Constants;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureOptDTO;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureOptNewDTO;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureOptRenewDTO;
-========
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
 import io.hiwepy.admin.authz.feature.service.IFeatureOptService;
 import io.hiwepy.admin.authz.feature.setup.Constants;
 import io.hiwepy.admin.authz.feature.web.dto.FeatureOptDTO;
 import io.hiwepy.admin.authz.feature.web.dto.FeatureOptNewDTO;
 import io.hiwepy.admin.authz.feature.web.dto.FeatureOptRenewDTO;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-feature/src/main/java/io/hiwepy/admin/authz/feature/web/mvc/FeatureOptController.java
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.web.BaseMapperController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "功能操作：数据维护（Ok）")
 @RestController

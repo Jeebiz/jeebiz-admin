@@ -8,7 +8,6 @@ package io.hiwepy.admin.authz.rbac0.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,32 +18,18 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/service/impl/AuthzRoleServiceImpl.java
-import io.hiwepy.admin.authz.feature.dao.AuthzFeatureMapper;
-import io.hiwepy.admin.authz.rbac0.dao.AuthzRoleMapper;
-import io.hiwepy.admin.authz.rbac0.dao.AuthzRolePermsMapper;
-import io.hiwepy.admin.authz.rbac0.dao.AuthzUserMapper;
-import io.hiwepy.admin.authz.rbac0.dao.AuthzUserRoleMapper;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzRoleService;
-import io.hiwepy.admin.authz.rbac0.utils.AuthzPermsUtils;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleAllotUserDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-========
 import io.hiwepy.admin.authz.feature.dao.FeatureMapper;
 import io.hiwepy.admin.authz.rbac0.dao.RoleMapper;
 import io.hiwepy.admin.authz.rbac0.dao.RolePermsMapper;
 import io.hiwepy.admin.authz.rbac0.dao.UserAccountMapper;
 import io.hiwepy.admin.authz.rbac0.dao.UserRoleMapper;
+import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserRoleEntity;
 import io.hiwepy.admin.authz.rbac0.service.IRoleService;
 import io.hiwepy.admin.authz.rbac0.utils.AuthzPermsUtils;
 import io.hiwepy.admin.authz.rbac0.web.dto.RoleAllotUserDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.RoleAllotUserPaginationDTO;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/service/impl/RoleServiceImpl.java
 import io.hiwepy.boot.api.service.BaseServiceImpl;
 
 @Service

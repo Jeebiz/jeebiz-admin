@@ -1,16 +1,11 @@
-/**
- * Copyright (C) 2022 杭州天音计算机系统工程有限公司
- * All Rights Reserved.
- */
-package io.hiwepy.admin.shadow.dao.entities;
+package io.hiwepy.admin.authz.rbac0.dao.entities;
 
 import java.io.Serializable;
-package io.hiwepy.admin.authz.rbac0.dao.entities;
-import lombok.Data;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.Alias;
 
-import java.io.Serializable;
+import lombok.Data;
 
 
 @Alias(value = "AccountStatusModel")

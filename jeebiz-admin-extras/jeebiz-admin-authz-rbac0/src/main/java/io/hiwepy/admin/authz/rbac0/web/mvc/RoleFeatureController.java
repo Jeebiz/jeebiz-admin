@@ -16,20 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/AuthorizedFeatureController.java
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
-import io.hiwepy.admin.authz.feature.enums.FeatureNodeType;
-import io.hiwepy.admin.authz.feature.service.IAuthzFeatureService;
-import io.hiwepy.admin.authz.feature.setup.Constants;
-import io.hiwepy.admin.authz.feature.strategy.FeatureStrategyRouter;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
-import io.hiwepy.admin.authz.rbac0.service.IAuthorizedFeatureService;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzRoleService;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzUserService;
-========
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
 import io.hiwepy.admin.authz.feature.enums.FeatureNodeType;
@@ -40,11 +26,12 @@ import io.hiwepy.admin.authz.feature.web.dto.FeatureTreeNode;
 import io.hiwepy.admin.authz.rbac0.service.IRoleFeatureService;
 import io.hiwepy.admin.authz.rbac0.service.IRoleService;
 import io.hiwepy.admin.authz.rbac0.service.IUserAccountService;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/RoleFeatureController.java
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.web.BaseApiController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "功能菜单：数据维护（Ok）")
 @RestController

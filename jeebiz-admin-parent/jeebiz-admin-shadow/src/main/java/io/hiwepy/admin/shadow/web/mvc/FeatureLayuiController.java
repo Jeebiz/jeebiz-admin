@@ -14,25 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-<<<<<<<< HEAD:jeebiz-admin-parent/jeebiz-admin-shadow/src/main/java/io/hiwepy/admin/shadow/web/mvc/AuthzFeatureLayuiController.java
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
-import io.hiwepy.admin.authz.feature.service.IAuthzFeatureOptService;
-import io.hiwepy.admin.authz.feature.service.IAuthzFeatureService;
-========
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
 import io.hiwepy.admin.authz.feature.service.IFeatureOptService;
 import io.hiwepy.admin.authz.feature.service.IFeatureService;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-parent/jeebiz-admin-shadow/src/main/java/io/hiwepy/admin/shadow/web/mvc/FeatureLayuiController.java
 import io.hiwepy.admin.authz.feature.setup.Constants;
 import io.hiwepy.admin.shadow.utils.FeatureTreeUtils;
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.web.BaseApiController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "功能菜单：数据维护（Ok）")
 @RestController

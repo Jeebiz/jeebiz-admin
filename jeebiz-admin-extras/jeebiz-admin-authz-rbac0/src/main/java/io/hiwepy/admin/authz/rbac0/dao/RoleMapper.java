@@ -11,15 +11,9 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/AuthzRoleMapper.java
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserEntity;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-========
 import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import io.hiwepy.admin.authz.rbac0.web.dto.RoleAllotUserPaginationDTO;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/RoleMapper.java
 import io.hiwepy.boot.api.dao.BaseMapper;
 
 /**

@@ -9,18 +9,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/AuthorizedFeatureMapper.java
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
-========
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/RoleFeatureMapper.java
 import io.hiwepy.boot.api.dao.BaseMapper;
-
-/**
- * 服务功能菜单
- */
+ 
 @Mapper
 public interface RoleFeatureMapper extends BaseMapper<FeatureEntity>{
 

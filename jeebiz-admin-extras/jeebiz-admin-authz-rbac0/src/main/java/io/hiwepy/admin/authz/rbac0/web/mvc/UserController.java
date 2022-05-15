@@ -10,7 +10,6 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
@@ -28,36 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/AuthzUserController.java
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserProfileEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzRoleService;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzUserProfileService;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzUserService;
-import io.hiwepy.admin.authz.rbac0.setup.Constants;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserAllotRoleDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserNewDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserPaginationDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserProfileDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserPwdResetDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserRenewDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserResetDTO;
-========
+import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserProfileEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserRoleEntity;
 import io.hiwepy.admin.authz.rbac0.service.IRoleService;
-import io.hiwepy.admin.authz.rbac0.service.IUserProfileService;
 import io.hiwepy.admin.authz.rbac0.service.IUserAccountService;
+import io.hiwepy.admin.authz.rbac0.service.IUserProfileService;
 import io.hiwepy.admin.authz.rbac0.setup.Constants;
 import io.hiwepy.admin.authz.rbac0.web.dto.RoleDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.UserAllotRoleDTO;
@@ -68,7 +44,6 @@ import io.hiwepy.admin.authz.rbac0.web.dto.UserProfileDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.UserPwdResetDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.UserRenewDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.UserResetDTO;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/UserController.java
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.XHeaders;
 import io.hiwepy.boot.api.annotation.AllowableValues;
@@ -76,6 +51,11 @@ import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.web.BaseMapperController;
 import io.hiwepy.boot.api.web.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**

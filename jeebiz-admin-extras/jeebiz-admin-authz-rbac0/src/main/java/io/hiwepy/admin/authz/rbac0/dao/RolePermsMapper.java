@@ -9,11 +9,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/AuthzRolePermsMapper.java
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzRolePermsEntity;
-========
 import io.hiwepy.admin.authz.rbac0.dao.entities.RolePermsEntity;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/dao/RolePermsMapper.java
 import io.hiwepy.boot.api.dao.BaseMapper;
 
 /**

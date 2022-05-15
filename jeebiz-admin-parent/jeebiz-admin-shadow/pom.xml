@@ -130,7 +130,6 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-weixin-spring-boot-starter</artifactId>
-			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.binarywang</groupId>
@@ -144,7 +143,6 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-dingtalk-spring-boot-starter</artifactId>
-			<version>1.0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
@@ -164,7 +162,6 @@
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>shiro-cas-spring-boot-starter</artifactId>
-			<version>1.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>

@@ -19,24 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/AuthzRolePermsController.java
-import io.hiwepy.admin.authz.rbac0.service.IAuthzRolePermsService;
-import io.hiwepy.admin.authz.rbac0.setup.Constants;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleAllotPermsDTO;
-========
 import io.hiwepy.admin.authz.rbac0.service.IRolePermsService;
 import io.hiwepy.admin.authz.rbac0.setup.Constants;
 import io.hiwepy.admin.authz.rbac0.web.dto.RoleAllotPermsDTO;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/RolePermsController.java
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 import io.hiwepy.boot.api.web.BaseMapperController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 权限管理：角色功能权限

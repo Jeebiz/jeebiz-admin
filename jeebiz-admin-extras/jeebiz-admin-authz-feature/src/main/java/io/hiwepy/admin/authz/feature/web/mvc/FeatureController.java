@@ -22,23 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Lists;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-feature/src/main/java/io/hiwepy/admin/authz/feature/web/mvc/AuthzFeatureController.java
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureEntity;
-import io.hiwepy.admin.authz.feature.dao.entities.AuthzFeatureOptEntity;
-import io.hiwepy.admin.authz.feature.enums.FeatureNodeType;
-import io.hiwepy.admin.authz.feature.service.IAuthzFeatureOptService;
-import io.hiwepy.admin.authz.feature.service.IAuthzFeatureService;
-import io.hiwepy.admin.authz.feature.setup.Constants;
-import io.hiwepy.admin.authz.feature.strategy.FeatureStrategyRouter;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureDTO;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureNewDTO;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureRenewDTO;
-import io.hiwepy.admin.authz.feature.web.dto.AuthzFeatureTreeNode;
-========
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureOptEntity;
 import io.hiwepy.admin.authz.feature.enums.FeatureNodeType;
@@ -50,11 +33,14 @@ import io.hiwepy.admin.authz.feature.web.dto.FeatureDTO;
 import io.hiwepy.admin.authz.feature.web.dto.FeatureNewDTO;
 import io.hiwepy.admin.authz.feature.web.dto.FeatureRenewDTO;
 import io.hiwepy.admin.authz.feature.web.dto.FeatureTreeNode;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-feature/src/main/java/io/hiwepy/admin/authz/feature/web/mvc/FeatureController.java
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.web.BaseMapperController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @Api(tags = "功能菜单：数据维护（Ok）")
 @RestController

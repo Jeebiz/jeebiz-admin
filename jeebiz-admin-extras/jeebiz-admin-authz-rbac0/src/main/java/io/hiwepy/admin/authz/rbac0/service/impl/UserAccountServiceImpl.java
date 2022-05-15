@@ -20,16 +20,6 @@ import com.google.common.collect.Lists;
 
 import hitool.core.collections.CollectionUtils;
 import hitool.core.lang3.RandomString;
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/service/impl/AuthzUserServiceImpl.java
-import io.hiwepy.admin.authz.feature.dao.AuthzFeatureMapper;
-import io.hiwepy.admin.authz.rbac0.dao.AuthzRoleMapper;
-import io.hiwepy.admin.authz.rbac0.dao.AuthzUserMapper;
-import io.hiwepy.admin.authz.rbac0.dao.AuthzUserRoleMapper;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserRoleEntity;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzUserService;
-========
 import io.hiwepy.admin.authz.feature.dao.FeatureMapper;
 import io.hiwepy.admin.authz.rbac0.dao.RoleMapper;
 import io.hiwepy.admin.authz.rbac0.dao.UserAccountMapper;
@@ -39,7 +29,6 @@ import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserRoleEntity;
 import io.hiwepy.admin.authz.rbac0.service.IUserAccountService;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/service/impl/UserAccountServiceImpl.java
 import io.hiwepy.boot.api.service.BaseServiceImpl;
 
 @Service

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -28,26 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import hitool.core.lang3.RandomString;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/AuthzRoleController.java
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzRoleEntity;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzUserEntity;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzRoleService;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzUserService;
-import io.hiwepy.admin.authz.rbac0.setup.Constants;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleAllotUserDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleAllotUserPaginationDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleNewDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRolePaginationDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleRenewDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleStatusRenewDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzRoleUserDTO;
-import io.hiwepy.admin.authz.rbac0.web.dto.AuthzUserDTO;
-========
+import io.hiwepy.admin.authz.rbac0.dao.entities.RoleEntity;
 import io.hiwepy.admin.authz.rbac0.dao.entities.UserAccountEntity;
 import io.hiwepy.admin.authz.rbac0.service.IRoleService;
 import io.hiwepy.admin.authz.rbac0.service.IUserAccountService;
@@ -61,13 +41,16 @@ import io.hiwepy.admin.authz.rbac0.web.dto.RoleRenewDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.RoleStatusRenewDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.RoleUserDTO;
 import io.hiwepy.admin.authz.rbac0.web.dto.UserDTO;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/web/mvc/RoleController.java
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 import io.hiwepy.boot.api.web.BaseApiController;
 import io.hiwepy.boot.api.web.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 权限管理：角色管理

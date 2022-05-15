@@ -9,15 +9,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-<<<<<<<< HEAD:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/service/impl/AuthzRolePermsServiceImpl.java
-import io.hiwepy.admin.authz.rbac0.dao.AuthzRolePermsMapper;
-import io.hiwepy.admin.authz.rbac0.dao.entities.AuthzRolePermsEntity;
-import io.hiwepy.admin.authz.rbac0.service.IAuthzRolePermsService;
-========
 import io.hiwepy.admin.authz.rbac0.dao.RolePermsMapper;
 import io.hiwepy.admin.authz.rbac0.dao.entities.RolePermsEntity;
 import io.hiwepy.admin.authz.rbac0.service.IRolePermsService;
->>>>>>>> origin/1.0.2-SNAPSHOT:jeebiz-admin-extras/jeebiz-admin-authz-rbac0/src/main/java/io/hiwepy/admin/authz/rbac0/service/impl/RolePermsServiceImpl.java
 import io.hiwepy.admin.authz.rbac0.utils.AuthzPermsUtils;
 import io.hiwepy.boot.api.service.BaseServiceImpl;
 
