@@ -1,7 +1,3 @@
-/**
- * Copyright (C) 2022 杭州天音计算机系统工程有限公司
- * All Rights Reserved.
- */
 package io.hiwepy.admin.shadow.setup.strategy;
 
 import java.util.HashMap;
@@ -66,7 +62,7 @@ public enum AuthChannel {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
+
 	public boolean equals(AuthChannel channel){
 		return this.compareTo(channel) == 0;
 	}
@@ -83,7 +79,7 @@ public enum AuthChannel {
 		}
     	throw new NoSuchElementException("Cannot found AuthChannel with token '" + token.getClass() + "'.");
     }
-	
+
 	public static AuthChannel valueOfIgnoreCase(String key) {
 		for (AuthChannel channel : AuthChannel.values()) {
 			if(channel.getKey().equalsIgnoreCase(key)) {
