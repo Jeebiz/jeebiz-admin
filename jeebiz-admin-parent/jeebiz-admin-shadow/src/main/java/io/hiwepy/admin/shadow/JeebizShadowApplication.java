@@ -4,6 +4,7 @@
  */
 package io.hiwepy.admin.shadow;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisOperationTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -22,10 +24,10 @@ import io.hiwepy.boot.autoconfigure.EnableExtrasConfiguration;
 /**
  * 应用启动入口
  */
+@EnableAdminServer
+@EnableCaching(proxyTargetClass = true)
 @EnableExtrasConfiguration
 @EnableScheduling
-@EnableWebMvc
-//@EnableAdminServer
 //其他路径可以单独添加注解
 @MapperScan({"io.hiwepy.**.dao", "io.hiwepy.**repository"})
 //@ComponentScan({"io.hiwepy.**.setup", "io.hiwepy.**.service", "io.hiwepy.**.aspect", "io.hiwepy.**.task"})

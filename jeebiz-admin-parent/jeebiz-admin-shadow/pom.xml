@@ -274,7 +274,19 @@
 		    <groupId>org.apache.dubbo</groupId>
 		    <artifactId>dubbo-spring-boot-actuator</artifactId>
 		</dependency> -->
-
+		<!-- For Spring Boot Admin -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-server-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jolokia</groupId>
+			<artifactId>jolokia-core</artifactId>
+		</dependency>
 		<!-- For Javamelody -->
 		<dependency>
 		    <groupId>net.bull.javamelody</groupId>
@@ -289,6 +301,10 @@
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-engine-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
 		<!-- For Druid -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -298,15 +314,6 @@
 			<groupId>com.github.hiwepy</groupId>
 			<artifactId>druid-plus-spring-boot-starter</artifactId>
 		</dependency>
-		<!-- For Druid
-		<dependency>
-		    <groupId>de.codecentric</groupId>
-		    <artifactId>spring-boot-admin-starter-server</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-client</artifactId>
-		</dependency> -->
 		<!-- For Flyway -->
 		<dependency>
 			<groupId>com.github.hiwepy</groupId>

@@ -3,14 +3,23 @@
 ################################################################################################################
 management:
   endpoints:
+    enabled-by-default: true
     web:
       exposure:
-        include: "*"
+        include:
+          - env
+          - health
+          - httptrace
+          - info
+          - metrics
   endpoint:
     health:
       show-details: ALWAYS
-    shutdown:
-      enabled: true
+  health:
+    rabbit:
+      enabled: false
+    redis:
+      enabled: false
 
 ################################################################################################################
 ###内置应用容器（Tomcat、Jetty、Undertow）配置：
