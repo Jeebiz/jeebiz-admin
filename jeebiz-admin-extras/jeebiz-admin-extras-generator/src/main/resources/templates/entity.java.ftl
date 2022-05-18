@@ -16,11 +16,11 @@ import org.apache.ibatis.type.Alias;
  */
 <#if entityLombokModel>
 @Data
-    <#if superEntityClass??>
+<#if superEntityClass??>
 @EqualsAndHashCode(callSuper = true)
-    <#else>
+<#else>
 @EqualsAndHashCode(callSuper = false)
-    </#if>
+</#if>
 @Accessors(chain = true)
 </#if>
 @Alias(value = "${cfg.entityName}")
@@ -83,7 +83,6 @@ public class ${cfg.entityName} implements Serializable {
 <#if entityColumnConstant>
     <#list table.fields as field>
     public static final String ${field.name?upper_case} = "${field.name}";
-
     </#list>
 </#if>
 <#if !entityLombokModel>

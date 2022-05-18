@@ -74,7 +74,7 @@
 		<!-- Jeebiz 业务日志（可选）-->
 		<dependency>
 			<groupId>io.hiwepy</groupId>
-			<artifactId>jeebiz-admin-extras-logbiz</artifactId>
+			<artifactId>jeebiz-admin-extras-logs</artifactId>
 			<version>${jeebiz-admin.version}</version>
 		</dependency>
 		<!-- Jeebiz 回话管理（可选） -->

@@ -1,19 +1,14 @@
-package io.hiwepy.admin.shadow;
-
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package io.hiwepy.admin.extras.generator;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.google.common.collect.Maps;
+
+import java.sql.SQLException;
+import java.util.*;
 
 class MapperGenerator {
 

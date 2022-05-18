@@ -41,7 +41,7 @@
 - [x] jeebiz-admin-extras-filestore	：文件存储
 - [x] jeebiz-admin-extras-inform	：消息通知
 - [x] jeebiz-admin-extras-generator	：代码生成
-- [x] jeebiz-admin-extras-logbiz	：业务日志
+- [x] jeebiz-admin-extras-logs	：业务日志
 - [ ] jeebiz-admin-extras-monitor	：会话管理
 - [ ] jeebiz-admin-extras-ops		：会话管理
 - [ ] jeebiz-admin-extras-sessions	：会话管理
