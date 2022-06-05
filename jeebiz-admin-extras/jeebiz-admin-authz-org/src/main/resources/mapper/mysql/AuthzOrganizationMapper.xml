@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.hiwepy.admin.authz.org.dao.AuthzOrganizationMapper">
+<mapper namespace="io.hiwepy.admin.authz.org.dao.OrganizationMapper">
 
-	<resultMap id="AuthzOrganizationMap" type="AuthzOrganizationModel">
+	<resultMap id="OrganizationMap" type="OrganizationModel">
 		<id property="id" column="org_id" />
 		<result property="code" column="org_code" />
 		<result property="name" column="org_name" />
@@ -63,7 +63,7 @@
 		 </if>
 	</select>
 
-	<select id="getPagedList" resultMap="AuthzOrganizationMap" parameterType="AuthzDepartmentModel" useCache="false">
+	<select id="getPagedList" resultMap="OrganizationMap" parameterType="DepartmentModel" useCache="false">
 		SELECT
 			t.org_id,
 			t.org_code,
@@ -84,7 +84,7 @@
 		ORDER By t.org_id DESC
 	</select>
 
-	<select id="getModel" resultMap="AuthzOrganizationMap" parameterType="java.lang.String" useCache="false">
+	<select id="getModel" resultMap="OrganizationMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.org_id,
 			t.org_code,
@@ -100,7 +100,7 @@
 	   WHERE t.org_id = #{id,jdbcType=INTEGER}
 	</select>
 
-	<select id="getOrgList" resultMap="AuthzOrganizationMap" useCache="false">
+	<select id="getOrgList" resultMap="OrganizationMap" useCache="false">
 		SELECT
 			t.org_id,
 			t.org_code,
@@ -115,7 +115,7 @@
 		FROM sys_authz_org_list t
 	</select>
 
-	<select id="getModelList" resultMap="AuthzOrganizationMap" parameterType="java.lang.String" useCache="false">
+	<select id="getModelList" resultMap="OrganizationMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t.org_id,
 			t.org_code,

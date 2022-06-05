@@ -13,21 +13,21 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 
-import io.hiwepy.admin.authz.org.dao.entities.AuthzOrganizationModel;
-import io.hiwepy.admin.authz.org.web.dto.AuthzOrganizationTreeDTO;
+import io.hiwepy.admin.authz.org.dao.entities.OrganizationModel;
+import io.hiwepy.admin.authz.org.web.dto.OrganizationTreeDTO;
 
 public class OrgUtils {
 	
-	protected static List<AuthzOrganizationTreeDTO> getSubOrgList(AuthzOrganizationModel parentNav,List<AuthzOrganizationModel> orgList) {
+	protected static List<OrganizationTreeDTO> getSubOrgList(OrganizationModel parentNav,List<OrganizationModel> orgList) {
 		
-		List<AuthzOrganizationTreeDTO> orgs = Lists.newArrayList();
+		List<OrganizationTreeDTO> orgs = Lists.newArrayList();
 		//筛选当前父功能模块节点的子功能模块节点数据
-		List<AuthzOrganizationModel> childOrgList = orgList.stream()
+		List<OrganizationModel> childOrgList = orgList.stream()
 				.filter(org -> StringUtils.equals(parentNav.getId(), org.getParent()))
 				.collect(Collectors.toList());
 		if(!CollectionUtils.isEmpty(childOrgList)){
-			for (AuthzOrganizationModel org : childOrgList) {
-				AuthzOrganizationTreeDTO orgDTO = new AuthzOrganizationTreeDTO();
+			for (OrganizationModel org : childOrgList) {
+				OrganizationTreeDTO orgDTO = new OrganizationTreeDTO();
 				// 组织机构id
 				orgDTO.setId(org.getId());
 				// 组织机构编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
@@ -44,7 +44,7 @@ public class OrgUtils {
 				boolean isParent = orgList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), org.getId()));
 				if(isParent){
 					// 子组织机构
-					List<AuthzOrganizationTreeDTO> subOrgs = getSubOrgList(org, orgList);
+					List<OrganizationTreeDTO> subOrgs = getSubOrgList(org, orgList);
 					if(!CollectionUtils.isEmpty(subOrgs)) {
 						orgDTO.setChildren(subOrgs);
 					}
@@ -63,20 +63,20 @@ public class OrgUtils {
 	 * @param orgList
 	 * @return
 	 */
-	public static List<AuthzOrganizationTreeDTO> getOrgTreeList(List<AuthzOrganizationModel> orgList) {
+	public static List<OrganizationTreeDTO> getOrgTreeList(List<OrganizationModel> orgList) {
 		if(CollectionUtils.isEmpty(orgList)) {
-			return new ArrayList<AuthzOrganizationTreeDTO>();
+			return new ArrayList<OrganizationTreeDTO>();
 		}
 		// 优先获得最顶层的组织机构集合
-		List<AuthzOrganizationModel> topList = orgList.stream()
+		List<OrganizationModel> topList = orgList.stream()
 				.filter(org -> StringUtils.equalsIgnoreCase(org.getParent(), "0"))
 				.collect(Collectors.toList());
-		List<AuthzOrganizationTreeDTO> orgs = Lists.newArrayList();
+		List<OrganizationTreeDTO> orgs = Lists.newArrayList();
 		if(!CollectionUtils.isEmpty(topList)){
 			
-			for (AuthzOrganizationModel org : topList) {
+			for (OrganizationModel org : topList) {
 				
-				AuthzOrganizationTreeDTO orgDTO = new AuthzOrganizationTreeDTO();
+				OrganizationTreeDTO orgDTO = new OrganizationTreeDTO();
 				// 组织机构id
 				orgDTO.setId(org.getId());
 				// 组织机构编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
@@ -94,7 +94,7 @@ public class OrgUtils {
 				if(isParent){
 					orgDTO.setLeaf(false);
 					// 子组织机构
-					List<AuthzOrganizationTreeDTO> subOrgs = getSubOrgList(org, orgList);
+					List<OrganizationTreeDTO> subOrgs = getSubOrgList(org, orgList);
 					// 有子组织机构
 					if(!CollectionUtils.isEmpty(subOrgs)) {
 						orgDTO.setChildren(subOrgs);

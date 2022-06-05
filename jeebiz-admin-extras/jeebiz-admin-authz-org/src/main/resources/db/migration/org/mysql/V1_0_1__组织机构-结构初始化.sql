@@ -105,3 +105,27 @@ CREATE TABLE `sys_authz_org_team` (
   PRIMARY KEY (`team_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='团队信息表';
 
+
+-- ----------------------------
+-- Table structure for sys_tree_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_tree_config`;
+CREATE TABLE `sys_tree_config`  (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `tree_id` bigint(20) DEFAULT NULL COMMENT '树ID（区分不同的数据）',
+    `tree_parent_id` bigint(20) DEFAULT NULL COMMENT '上级节点配置ID',
+    `tree_type` int(2) DEFAULT NULL COMMENT '树节点类型（1：虚拟节点，2：数据节点）',
+    `tree_label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '树节点名称（虚拟节点主用）',
+    `tree_data_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '树节点数据类型（对应字典t_tree_type中的value)',
+    `tree_data_source` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '树节点数据来源',
+    `tree_expanded` int(2) DEFAULT 0 COMMENT '树节点展开状态（1：展开，0：关闭）',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_tree_config
+-- ----------------------------
+INSERT INTO `sys_tree_config` VALUES (1, 1, 0, 1, '根节点', '01', NULL);
+INSERT INTO `sys_tree_config` VALUES (2, 1, 1, 2, 'xd', '02', 'tree_xd');
+INSERT INTO `sys_tree_config` VALUES (3, 1, 2, 2, 'xx', '03', 'tree_xx');
+INSERT INTO `sys_tree_config` VALUES (4, 1, 3, 2, 'xq', '04', 'tree_xq');

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.hiwepy.admin.authz.org.dao.AuthzStaffMapper">
+<mapper namespace="io.hiwepy.admin.authz.org.dao.StaffMapper">
 
-	<resultMap id="AuthzStaffMap" type="AuthzStaffModel">
+	<resultMap id="StaffMap" type="StaffModel">
 		<id property="id" column="staff_id" />
 		<result property="orgId" column="org_id" />
 		<result property="orgName" column="org_name" />
@@ -33,7 +33,7 @@
 		SELECT count(t.staff_id) FROM sys_authz_org_staff t WHERE t.staff_id = #{uid}
 	</select>
 
-	<select id="getPagedList" resultMap="AuthzStaffMap" parameterType="AuthzStaffModel" useCache="false">
+	<select id="getPagedList" resultMap="StaffMap" parameterType="StaffModel" useCache="false">
 		SELECT
 			t.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
@@ -73,7 +73,7 @@
 		ORDER By t.time24 ASC
 	</select>
 
-	<select id="getModel" resultMap="AuthzStaffMap" parameterType="java.lang.String" useCache="true">
+	<select id="getModel" resultMap="StaffMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
