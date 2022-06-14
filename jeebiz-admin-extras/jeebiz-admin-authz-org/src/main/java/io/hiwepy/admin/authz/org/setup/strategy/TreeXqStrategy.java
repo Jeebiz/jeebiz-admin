@@ -1,9 +1,9 @@
 package io.hiwepy.admin.authz.org.setup.strategy;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.tianyin.boot.api.sequence.Sequence;
-import com.tianyin.cloud.user.dao.entities.SjZxxxXqjbsjzlbEntity;
-import com.tianyin.cloud.user.service.SjZxxxXqjbsjzlbService;
+import io.hiwepy.boot.api.sequence.Sequence;
+import io.hiwepy.cloud.user.dao.entities.SjZxxxXqjbsjzlbEntity;
+import io.hiwepy.cloud.user.service.SjZxxxXqjbsjzlbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

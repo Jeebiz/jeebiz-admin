@@ -24,42 +24,53 @@ import io.hiwepy.admin.extras.inform.emums.InformTarget;
 public class InformTemplateNewDTO {
 
 	/**
-	 * 消息通知推送对象
+	 * 消息通知模板名称
 	 */
-	@ApiModelProperty(name = "target", required = true, dataType = "InformTarget", value = "消息通知推送对象")
-	@NotEmpty(message = "消息通知推送对象不能为空")
-	private InformTarget target;
+	@ApiModelProperty(required = true, value = "消息模板名称")
+	@NotEmpty(message = "消息模板名称不能为空")
+	private String name;
+
 	/**
-	 * 发送该消息通知的提供者
+	 * 消息通知模板类型
 	 */
-	@ApiModelProperty(name = "channel", required = true, value = "发送该消息通知的提供者")
-	@NotNull(message = "消息通知的提供者不能为空")
+	@ApiModelProperty(required = true, value = "消息通知模板类型")
+	@NotNull(message = "消息通知模板类型不能为空")
 	private InformSendChannel channel;
-	/**
-	 * 消息通知接收人id集合
-	 */
-	@ApiModelProperty(name = "toList", dataType = "java.util.List<String>", value = "消息通知接收人id集合")
-	private List<String> toList;
-	
+
 	/**
 	 * 消息通知标题（可能包含变量）
 	 */
-	@ApiModelProperty(name = "title", dataType = "String", value = "消息通知标题（可能包含变量）")
+	@ApiModelProperty(value = "消息通知标题（可能包含变量）")
 	private String title;
+
+	/**
+	 * 消息通知签名（短信消息模板需要使用）
+	 */
+	@ApiModelProperty(value = "消息通知签名（短信消息模板需要使用）")
+	private String signature;
+
 	/**
 	 * 消息通知内容（可能包含变量）
 	 */
-	@ApiModelProperty(name = "content", dataType = "String", value = "消息通知内容（可能包含变量）")
+	@ApiModelProperty(required = true, value = "消息通知内容（可能包含变量）")
+	@NotEmpty(message = "消息通知内容不能为空")
 	private String content;
+
 	/**
 	 * 模板消息通知对应第三方平台内的模板id
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "模板消息通知对应第三方平台内的模板id")
-	private String tid;
+	@ApiModelProperty(value = "模板消息通知对应第三方平台内的模板id")
+	private String templateId;
+
 	/**
 	 * 模板消息通知变量载体,JOSN格式的数据
 	 */
-	@ApiModelProperty(name = "payload", dataType = "String", value = "模板消息通知变量载体,JOSN格式的数据")
+	@ApiModelProperty(value = "模板消息通知变量载体,JOSN格式的数据")
 	private String payload;
+	/**
+	 * 消息通知模板状态：（0:停用、1:启用）
+	 */
+	@ApiModelProperty(value = "消息通知模板状态：（0:停用、1:启用）", allowableValues="0,1", example = "1")
+	private Integer status;
 	
 }

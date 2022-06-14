@@ -16,11 +16,11 @@ import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
 @Setter
 @ToString
 public class InformTemplateStatsDTO {
-	
+
 	/**
-	 * 发送该消息通知的提供者
+	 * 消息通知模板类型
 	 */
-	@ApiModelProperty(name = "channel", value = "发送该消息通知的提供者")
+	@ApiModelProperty(value = "消息通知模板类型")
 	private InformSendChannel channel;
 	/**
 	 * 消息通知模板已发消息总数

@@ -1,7 +1,10 @@
 package io.hiwepy.admin.extras.inform.emums;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import io.hiwepy.boot.api.dao.entities.PairModel;
 import io.hiwepy.boot.api.utils.DateUtils;
 
 public enum InformSendChannel {
@@ -99,6 +102,21 @@ public enum InformSendChannel {
 			}
 		}
 		throw new NoSuchElementException("Cannot found Inform Send Channel with key '" + key + "'.");
+	}
+
+	public PairModel toPair() {
+		PairModel pair = new PairModel();
+		pair.setKey(this.getCode());
+		pair.setValue(this.getDesc());
+		return pair;
+	}
+
+	public static List<PairModel> toList() {
+		List<PairModel> pairList = new LinkedList<PairModel>();
+		for (InformSendChannel sendChannel : InformSendChannel.values()) {
+			pairList.add(sendChannel.toPair());
+		}
+		return pairList;
 	}
 
 }

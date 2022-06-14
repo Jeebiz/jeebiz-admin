@@ -5,7 +5,13 @@
 package io.hiwepy.admin.extras.inform.dao.entities;
 
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 import org.apache.ibatis.type.Alias;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -17,12 +23,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import io.hiwepy.admin.extras.inform.emums.InformTarget;
-import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
 @Alias(value = "InformTemplateEntity")
-@TableName(value = "inform_templates", keepGlobalPrefix = true)
+@TableName("sys_inform_templates")
 @Builder
 @Data
 @NoArgsConstructor
@@ -41,10 +45,15 @@ public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity>
 	@TableField(value = "channel")
 	private InformSendChannel channel;
 	/**
-	 * 消息通知模板标题（可能包含变量）
+	 * 消息通知标题（可能包含变量）
 	 */
 	@TableField(value = "title")
 	private String title;
+	/**
+	 * 消息通知签名（短信消息模板需要使用）
+	 */
+	@TableField(value = "sign")
+	private String signature;
 	/**
 	 * 消息通知模板内容（可能包含变量）
 	 */
@@ -64,7 +73,7 @@ public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity>
 	 * 消息通知模板状态：（0:停用、1:启用）
 	 */
 	@TableField(value = "status")
-	private String status;
+	private Integer status;
 	/**
 	 * 消息通知模板创建人id
 	 */

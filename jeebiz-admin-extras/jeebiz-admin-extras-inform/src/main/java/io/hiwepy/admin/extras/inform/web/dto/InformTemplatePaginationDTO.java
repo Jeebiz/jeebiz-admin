@@ -20,14 +20,9 @@ import io.hiwepy.boot.api.dto.AbstractPaginationDTO;
 public class InformTemplatePaginationDTO extends AbstractPaginationDTO {
 
 	/**
-	 * 消息通知推送对象
+	 * 消息通知模板类型
 	 */
-	@ApiModelProperty(name = "target", value = "消息通知推送对象")
-	private InformTarget target;
-	/**
-	 * 发送该消息通知的提供者
-	 */
-	@ApiModelProperty(name = "channel", value = "发送该消息通知的提供者")
+	@ApiModelProperty(value = "消息通知模板类型")
 	private InformSendChannel channel;
 	/**
 	 * 模糊搜索关键字

@@ -1,8 +1,8 @@
 package io.hiwepy.admin.authz.org.setup.strategy;
 
-import com.tianyin.boot.api.sequence.Sequence;
-import com.tianyin.cloud.user.dao.entities.TDictCodeStandardEntity;
-import com.tianyin.cloud.user.service.ITDictCodeStandardService;
+import io.hiwepy.boot.api.sequence.Sequence;
+import io.hiwepy.cloud.user.dao.entities.TDictCodeStandardEntity;
+import io.hiwepy.cloud.user.service.ITDictCodeStandardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -57,9 +57,9 @@
 		<!--
 			日志名称前缀：该值会影响log4j对mybatis输出日志；
 			增加了该前缀后，日志的名称将会变成类似以下结构：
-			[Mybatis]com.tianyin.dao.daointerface.xxx.xxx
+			[Mybatis]io.hiwepy.dao.daointerface.xxx.xxx
 			故如果需要输出SQL日志，配置需改为：			
-			log4j.logger.[Mybatis]com.tianyin = DEBUG
+			log4j.logger.[Mybatis]io.hiwepy = DEBUG
 		 -->
 		<setting name="logPrefix" value="[Mybatis]"/>
 		<!-- <setting name="logImpl" value="LOG4J"/> -->
@@ -78,7 +78,7 @@
 	</typeAliases>
 	<!-- 此处配置需要特别注意：拦截器执行的顺序是配置顺序的倒叙执行 -->
     <!-- <plugins>
-		<plugin interceptor="com.tianyin.orm.mybatis.interceptor.PartitionPaginationInterceptor">
+		<plugin interceptor="io.hiwepy.orm.mybatis.interceptor.PartitionPaginationInterceptor">
 			<property name="dialect" value="oracle"/>
 			<property name="methodRegexp" value=".*getPaged*.*"/>分页拦截,配置以*getPaged*开始的Id
 		</plugin>
