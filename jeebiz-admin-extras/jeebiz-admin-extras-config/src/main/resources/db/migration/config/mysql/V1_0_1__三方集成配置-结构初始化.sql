@@ -2,7 +2,7 @@
 -- Table structure for sys_config
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_data_config`;
-CREATE TABLE `sys_config_list` (
+CREATE TABLE `sys_data_config` (
     `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '配置消息主键ID',
     `corp_id`     varchar(200) NOT NULL COMMENT ' 钉钉机构 CropId ',
     `dept_id`     bigint(11) NOT NULL COMMENT ' 组织机构ID ',
@@ -19,7 +19,7 @@ CREATE TABLE `sys_config_list` (
 -- Table structure for sys_data_config_item
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_data_config_item`;
-CREATE TABLE `sys_config_item`  (
+CREATE TABLE `sys_data_config_item`  (
      `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '配置项主键ID',
      `config_id` varchar(200) NOT NULL COMMENT '配置信息 ID',
      `config_type` varchar(200) DEFAULT NULL COMMENT '配置项分类',

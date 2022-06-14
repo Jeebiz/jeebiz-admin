@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.hiwepy.admin.extras.config.utils.enums.ConfigItemType;
+import io.hiwepy.boot.api.dao.entities.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("t_thirdparty_config_item")
-public class ConfigItemEntity implements Serializable {
+@TableName("sys_data_config_item")
+public class ConfigItemEntity extends BaseEntity<ConfigItemEntity> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
