@@ -4,6 +4,7 @@
  */
 package io.hiwepy.admin.extras.inform.dao.entities;
 
+import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
 import org.apache.ibatis.type.Alias;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -32,48 +33,48 @@ public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity>
 	/**
 	 * 消息通知模板id
 	 */
-	@TableId(value="id",type= IdType.AUTO)
+	@TableId(value="id",type= IdType.ASSIGN_ID)
 	private String id;
 	/**
-	 * 消息通知模板面向对象
+	 * 消息通知模板类型
 	 */
-	@TableField(value = "t_target")
-	private InformTarget target;
+	@TableField(value = "channel")
+	private InformSendChannel channel;
 	/**
 	 * 消息通知模板标题（可能包含变量）
 	 */
-	@TableField(value = "t_title")
+	@TableField(value = "title")
 	private String title;
 	/**
 	 * 消息通知模板内容（可能包含变量）
 	 */
-	@TableField(value = "t_content")
+	@TableField(value = "content")
 	private String content;
 	/**
 	 * 消息通知模板对应第三方平台内的模板id
 	 */
-	@TableField(value = "t_tid")
-	private String tid;
+	@TableField(value = "template_id")
+	private String templateId;
 	/**
 	 * 消息通知模板变量载体,JOSN格式的数据
 	 */
-	@TableField(value = "t_payload")
+	@TableField(value = "payload")
 	private String payload;
 	/**
 	 * 消息通知模板状态：（0:停用、1:启用）
 	 */
-	@TableField(value = "t_status")
+	@TableField(value = "status")
 	private String status;
 	/**
 	 * 消息通知模板创建人id
 	 */
 	@TableField(exist = false)
-	private String uid;
+	private String userId;
 	/**
 	 * 消息通知模板创建人
 	 */
 	@TableField(exist = false)
-	private String uname;
+	private String userName;
 	/**
 	 * 消息通知模板已发消息总数
 	 */

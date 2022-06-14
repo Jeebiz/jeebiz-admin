@@ -4,20 +4,19 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_inform_templates`;
 CREATE TABLE `sys_inform_templates` (
-  `t_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '消息模板id',
-  `t_target` varchar(10) DEFAULT 'ALL' COMMENT '消息模板面向对象',
-  `t_provider` varchar(50) NOT NULL COMMENT '消息模板的发送提供者',
-  `t_title` varchar(200) NOT NULL COMMENT '消息模板标题（可能包含变量）',
-  `t_content` varchar(2000) COMMENT '消息模板内容（可能包含变量）',
-  `t_tid` varchar(200) COMMENT '消息模板对应第三方平台内的模板id',
-  `t_payload` varchar(2000) COMMENT '消息模板变量载体,JOSN格式的数据',
-  `t_status` varchar(1) DEFAULT '0' COMMENT '消息模板状态：（0:停用、1:启用）',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '消息模板id',
+  `channel` varchar(50) NOT NULL COMMENT '消息通知模板类型',
+  `title` varchar(200) NOT NULL COMMENT '消息模板标题（可能包含变量）',
+  `content` varchar(2000) COMMENT '消息模板内容（可能包含变量）',
+  `template_id` varchar(200) COMMENT '消息模板对应第三方平台内的模板id',
+  `payload` varchar(2000) COMMENT '消息模板变量载体,JOSN格式的数据',
+  `status` varchar(1) DEFAULT '0' COMMENT '消息模板状态：（0:停用、1:启用）',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人id',
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '更新人id',
   `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`t_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息模板信息表';
 
 -- ----------------------------

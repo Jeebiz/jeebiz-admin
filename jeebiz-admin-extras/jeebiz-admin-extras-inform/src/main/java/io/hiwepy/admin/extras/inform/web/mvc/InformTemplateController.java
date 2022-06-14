@@ -65,7 +65,7 @@ public class InformTemplateController extends BaseMapperController {
 		InformTemplateEntity model = getBeanMapper().map(paginationDTO, InformTemplateEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		if(!principal.isAdmin()) {
-			model.setUid(principal.getUserid());
+			model.setUserId(principal.getUserid());
 		}
 		Page<InformTemplateEntity> pageResult = getInformTemplateService().getPagedList(model);
 		List<InformTemplateDTO> retList = new ArrayList<InformTemplateDTO>();
