@@ -24,16 +24,16 @@ CREATE TABLE `sys_inform_templates` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_inform_targets`;
 CREATE TABLE `sys_inform_targets` (
-  `t_id` bigint(12) NOT NULL COMMENT '消息通知id',
-  `t_uid` bigint(12) NOT NULL COMMENT '消息通知接收人id',
-  `t_status` varchar(1) DEFAULT '0' COMMENT '消息通知发送状态：（0:待发送、1:已发送）',
-  `time24` timestamp COMMENT '消息通知发送时间',
+  `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '消息通知对象主键id',
+  `from_id` bigint(12) NOT NULL COMMENT '消息通知事件id',
+  `to_type` varchar(50) NOT NULL COMMENT '消息通知事件通知对象类型：（ORG:组织机构、ROLE:角色、POST：岗位、USER：人员）',
+  `to_id` bigint(12) NOT NULL COMMENT '消息通知接收对象id',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT NULL COMMENT '创建人id',
   `create_time` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '交易时间',
   `modifyer` bigint(12) DEFAULT NULL COMMENT '更新人id',
   `modify_time` timestamp DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  UNIQUE KEY (`t_id`,`t_uid`)
+  UNIQUE KEY (`from_id`,`to_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='消息通知对象表';
 
 -- ----------------------------

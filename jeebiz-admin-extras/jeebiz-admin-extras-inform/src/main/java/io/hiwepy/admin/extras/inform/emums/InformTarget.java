@@ -19,9 +19,6 @@ import io.hiwepy.boot.api.dao.entities.PairModel;
 /**
  * 消息通知对象
  */
-/**
- * 消息通知对象
- */
 public enum InformTarget {
 
 	/**
@@ -38,9 +35,9 @@ public enum InformTarget {
 		return RedisKey.getKeyStr(keyStr);
 	}),
 	/**
-	 * 指定用户
+	 * 部分对象
 	 */
-	SPECIFIC("specific","指定用户",  (groupKey, userId)->{
+	SPECIFIC("specific","部分对象",  (groupKey, userId)->{
 		String keyStr = MessageFormatter.format(BizRedisKeyConstant.USER_SPECIFIC_KEY, groupKey).getMessage();
 		return RedisKey.getKeyStr(keyStr);
 	});

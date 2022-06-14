@@ -5,6 +5,7 @@
 package io.hiwepy.admin.extras.inform.web.dto;
 
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.admin.extras.inform.emums.InformTarget;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -52,6 +53,12 @@ public class InformEventDTO {
      */
     @ApiModelProperty(value = "消息通知事件状态：（0:停用、1:启用）", allowableValues="0,1", example = "1")
     private Integer status;
+
+    /**
+     * 消息通知事件通知对象：（ALL:全部、TRIGGER:触发人、SPECIFIC：部分对象）
+     */
+    @ApiModelProperty(value = "消息通知事件通知对象：（ALL:全部、TRIGGER:触发人、SPECIFIC：部分对象）")
+    private InformTarget target;
 
     /**
      * 消息通知事件已发消息总数

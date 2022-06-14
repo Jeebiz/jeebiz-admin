@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.admin.extras.inform.emums.InformTarget;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 import lombok.*;
 import org.apache.ibatis.type.Alias;
@@ -52,7 +53,12 @@ public class InformEventEntity extends PaginationEntity<InformEventEntity> {
 	 * 消息通知事件状态：（0:停用、1:启用）
 	 */
 	@TableField(value = "status")
-	private String status;
+	private Integer status;
+	/**
+	 * 消息通知事件通知对象：（ALL:全部、TRIGGER:触发人、SPECIFIC：部分对象）
+	 */
+	@TableField(value = "target")
+	private InformTarget target;
 	/**
 	 * 消息通知事件已发消息总数
 	 */

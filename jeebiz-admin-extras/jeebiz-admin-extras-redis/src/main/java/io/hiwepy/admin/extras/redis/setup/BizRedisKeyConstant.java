@@ -217,5 +217,10 @@ public abstract class BizRedisKeyConstant {
 	 * redis 系统配置缓存
 	 */
 	public final static String CONFIG_KEY = "config";
+
+	/**
+	 * redis 用户信息前缀
+	 */
+	public final static String INFORM_TARGET_KEY = "inform:target";
 	 
 }
