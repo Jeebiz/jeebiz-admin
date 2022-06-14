@@ -212,6 +212,10 @@ public abstract class BizRedisKeyConstant {
 	 * 游戏遮罩引导确认缓存
 	 */
 	public static final String GAME_REWARD_10000 = "game:reward:10000";
-	
+
+	/**
+	 * redis 系统配置缓存
+	 */
+	public final static String CONFIG_KEY = "config";
 	 
 }
