@@ -96,11 +96,6 @@ public class InformTemplateController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformTemplateNewDTO newDTO) throws Exception {
 		InformTemplateEntity model = getBeanMapper().map(newDTO, InformTemplateEntity.class);
-		
-		Long ct = getInformTemplateService().getCount(model);
-		if(ct > 0) {
-			return fail("inform.template.new.conflict");
-		}
 		// 新增一条数据库配置记录
 		boolean result = getInformTemplateService().save(model);
 		if(result) {
@@ -139,10 +134,6 @@ public class InformTemplateController extends BaseMapperController {
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody InformTemplateRenewDTO renewDTO) throws Exception {
 		InformTemplateEntity model = getBeanMapper().map(renewDTO, InformTemplateEntity.class);
-		Long ct = getInformTemplateService().getCount(model);
-		if(ct > 0) {
-			return fail("inform.template.renew.conflict");
-		}
 		boolean result = getInformTemplateService().updateById(model);
 		if(result) {
 			return success("inform.template.renew.success", result);

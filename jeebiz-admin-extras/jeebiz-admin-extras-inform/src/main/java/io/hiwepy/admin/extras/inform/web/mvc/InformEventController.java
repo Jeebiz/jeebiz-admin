@@ -76,9 +76,9 @@ public class InformEventController extends BaseMapperController {
 	@ApiOperation(value = "创建消息通知事件", notes = "增加一个新的消息通知事件")
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "创建消息通知事件", opt = BusinessType.INSERT)
 	@PostMapping("new")
-	//@RequiresPermissions("inform-tmpl:new")
+	//@RequiresPermissions("inform-event:new")
 	@ResponseBody
-	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformEventNewDTO newDTO) throws Exception {
+	public ApiRestResponse<String> newEvent(@Valid @RequestBody InformEventNewDTO newDTO) throws Exception {
 		InformEventEntity model = getBeanMapper().map(newDTO, InformEventEntity.class);
 		
 		Long ct = getInformEventService().getCount(model);
@@ -100,7 +100,7 @@ public class InformEventController extends BaseMapperController {
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "删除消息通知事件", opt = BusinessType.DELETE)
 	@GetMapping("delete")
-	//@RequiresPermissions("inform-tmpl:delete")
+	//@RequiresPermissions("inform-event:delete")
 	@ResponseBody
 	public ApiRestResponse<String> delete(@RequestParam("ids") String ids) throws Exception {
 		// 执行消息通知事件删除操作
@@ -116,7 +116,7 @@ public class InformEventController extends BaseMapperController {
 	@ApiOperation(value = "更新消息通知事件", notes = "更新消息通知事件")
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "更新消息通知事件", opt = BusinessType.UPDATE)
 	@PostMapping("renew")
-	//@RequiresPermissions("inform-tmpl:renew")
+	//@RequiresPermissions("inform-event:renew")
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody InformEventRenewDTO renewDTO) throws Exception {
 		InformEventEntity model = getBeanMapper().map(renewDTO, InformEventEntity.class);
@@ -138,7 +138,7 @@ public class InformEventController extends BaseMapperController {
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "查询指定id的消息通知事件信息", opt = BusinessType.SELECT)
 	@GetMapping("detail")
-	//@RequiresPermissions("inform-tmpl:detail")
+	//@RequiresPermissions("inform-event:detail")
 	@ResponseBody
 	public ApiRestResponse<InformEventDTO> detail(@RequestParam("id") String id) throws Exception {
 		
