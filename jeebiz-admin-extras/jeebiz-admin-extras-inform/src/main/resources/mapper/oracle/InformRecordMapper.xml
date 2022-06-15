@@ -80,14 +80,14 @@
 	<select id="getPagedList" resultMap="InformRecordMap" >
 		SELECT t.r_id,
 			   t.r_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
 		   	   t.r_provider,
 		   	   t.r_tag,
 			   t.r_title,
 			   t.r_content,
 			   t.r_tid,
 			   t.r_to,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
 			   t.r_payload,
 			   t.r_status,
 			   t.time24
@@ -112,14 +112,14 @@
 	<select id="getModel" resultMap="InformRecordMap" parameterType="String" >
 		SELECT t.r_id,
 			   t.r_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
 		   	   t.r_provider,
 		   	   t.r_tag,
 			   t.r_title,
 			   t.r_content,
 			   t.r_tid,
 			   t.r_to,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
 			   t.r_payload,
 			   t.r_status,
 			   t.time24

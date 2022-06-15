@@ -16,7 +16,7 @@ import org.apache.ibatis.type.Alias;
 
 @SuppressWarnings("serial")
 @Alias(value = "InformEventEntity")
-@TableName("sys_inform_event")
+@TableName("sys_inform_events")
 @Builder
 @Data
 @NoArgsConstructor
@@ -59,6 +59,16 @@ public class InformEventEntity extends PaginationEntity<InformEventEntity> {
 	 */
 	@TableField(value = "target")
 	private InformTarget target;
+	/**
+	 * 消息通知模板创建人id
+	 */
+	@TableField(exist = false)
+	private String userId;
+	/**
+	 * 消息通知模板创建人
+	 */
+	@TableField(exist = false)
+	private String userName;
 	/**
 	 * 消息通知事件已发消息总数
 	 */

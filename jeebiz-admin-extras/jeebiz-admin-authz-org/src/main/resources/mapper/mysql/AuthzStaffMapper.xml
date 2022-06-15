@@ -16,7 +16,7 @@
 		<result property="intro" column="staff_intro" />
 		<result property="status" column="staff_status" />
 		<result property="createTime" column="create_time" />
-		<result property="nickname" column="u_nickname" />
+		<result property="nickname" column="nickname" />
 		<result property="avatar" column="u_avatar" />
 		<result property="phone" column="u_phone" />
 		<result property="email" column="u_email" />
@@ -46,7 +46,7 @@
 			t.staff_intro,
 			t.staff_status,
 			t.create_time,
-			t2.u_nickname,
+			t2.nickname,
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email
@@ -68,7 +68,7 @@
 				and t.post_name like CONCAT('%',#{postName},'%')
 			</if>
 			<if test="model.nickname != null and model.nickname != ''">
-				and t2.u_nickname like CONCAT('%',#{model.nickname},'%')
+				and t2.nickname like CONCAT('%',#{model.nickname},'%')
 			</if>
 		</where>
 		ORDER By t.staff_id DESC
@@ -88,7 +88,7 @@
 			t.staff_intro,
 			t.staff_status,
 			t.create_time,
-			t2.u_nickname,
+			t2.nickname,
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email

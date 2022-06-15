@@ -33,7 +33,7 @@
 			t.log_excp,
 			t.create_time as log_timestamp,
 			t.creator as log_userid,
-			t2.u_nickname as log_nickname,
+			t2.nickname as log_nickname,
 			t.device_id,
 			t.u_app_id,
 			t.u_app_channel,
@@ -47,7 +47,7 @@
 				AND t.log_opt = #{model.opt}
 			</if>
 			<if test="model.nickname != null and model.nickname != '' ">
-				AND t2.u_nickname like CONCAT('%',#{model.nickname},'%')
+				AND t2.nickname like CONCAT('%',#{model.nickname},'%')
 			</if>
 			<if test="model.begintime != null and model.begintime != ''
 					  and model.endtime != null and model.endtime != '' ">

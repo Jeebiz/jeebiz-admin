@@ -20,16 +20,6 @@ public interface InformRecordMapper extends BaseMapper<InformRecordEntity> {
 	/**
 	 * 消息通知统计信息
 	 */
-	List<InformRecordStatsDTO> getStats(@Param("uid") String uid);
+	List<InformRecordStatsDTO> getStats(@Param("userId") String userId);
 
-	int deleteByTid(@Param("tid") String tid);
-	
-	/**
-	 * 删除用户的通知信息
-	 * @param userid
-	 * @param ids
-	 * @return
-	 */
-	int deleteByUid(@Param("uid") String uid, @Param("ids") List<String> ids);
-	
 }

@@ -80,7 +80,7 @@ comment on column sys_authz_user_account.create_time  is '初始化时间';
 create table sys_authz_user_profile (
   u_pid   			VARCHAR2(32) default sys_guid() not null,
   u_id   			VARCHAR2(32) not null,
-  u_nickname		VARCHAR2(100) not null,
+  nickname		VARCHAR2(100) not null,
   u_avatar			VARCHAR2(300),
   u_region_code	VARCHAR2(20),
   u_phone			VARCHAR2(11),
@@ -108,7 +108,7 @@ comment on table sys_authz_user_profile  is '用户描述信息表';
 -- Add comments to the columns
 comment on column sys_authz_user_profile.u_pid  is '用户描述id';
 comment on column sys_authz_user_profile.u_id  is '用户id';
-comment on column sys_authz_user_profile.u_nickname  is '用户昵称';
+comment on column sys_authz_user_profile.nickname  is '用户昵称';
 comment on column sys_authz_user_profile.u_avatar  is '用户头像：图片路径或图标样式';
 comment on column sys_authz_user_profile.u_phone  is '手机号码';
 comment on column sys_authz_user_profile.u_email  is '邮箱地址';

@@ -87,7 +87,7 @@
 	<select id="getPagedList" resultMap="InformTemplateMap" >
 		SELECT t.t_id,
 			   t.creator as t_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
 			   t.t_target,
 			   t.t_provider,
 			   t.t_title,
@@ -121,7 +121,7 @@
 	<select id="getModel" resultMap="InformTemplateMap" parameterType="String" >
 		SELECT t.t_id,
 			   t.creator as t_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
 			   t.t_target,
 			   t.t_provider,
 			   t.t_title,
