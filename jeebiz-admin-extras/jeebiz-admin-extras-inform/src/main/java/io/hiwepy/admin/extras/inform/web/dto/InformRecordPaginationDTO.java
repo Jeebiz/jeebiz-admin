@@ -22,7 +22,6 @@ public class InformRecordPaginationDTO extends AbstractPaginationDTO {
 	 * 消息通知阅读状态：（0:未阅读、1:已阅读）
 	 */
 	@ApiModelProperty(value = "消息通知阅读状态：（0:未阅读、1:已阅读）", allowableValues = "0,1")
-	@AllowableValues(allows = "0,1", message = "阅读状态：（0:未阅读、1:已阅读）", nullable = true)
 	private Integer status;
 	/**
 	 * 模糊搜索关键字

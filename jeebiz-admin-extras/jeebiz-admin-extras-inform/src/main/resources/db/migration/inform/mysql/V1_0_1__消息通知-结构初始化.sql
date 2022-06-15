@@ -80,7 +80,7 @@ CREATE TABLE `sys_inform_records` (
   `app_id` varchar(50) COMMENT '客户端应用ID',
   `app_channel` varchar(50) COMMENT '客户端应用渠道',
   `app_version` varchar(50) COMMENT '客户端版本',
-  `route` varchar(500) NOT NULL COMMENT '消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]）',
+  `route` varchar(500) COMMENT '消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]）',
   `is_delete` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否删除（0:未删除,1:已删除）',
   `creator` bigint(12) DEFAULT NULL COMMENT '消息通知创建人id',
   `create_time` timestamp(0) DEFAULT CURRENT_TIMESTAMP COMMENT '消息通知创建时间',

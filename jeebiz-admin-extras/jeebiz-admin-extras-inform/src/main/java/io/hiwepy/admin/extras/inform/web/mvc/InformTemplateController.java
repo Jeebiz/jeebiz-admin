@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.boot.api.dao.entities.PairModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -75,6 +77,14 @@ public class InformTemplateController extends BaseMapperController {
 		
 		return new Result<InformTemplateDTO>(pageResult, retList);
 		
+	}
+
+	@ApiOperation(value = "模板类型", notes = "模板类型列表")
+	@GetMapping("types")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<List<PairModel>> types() throws Exception {
+		return ApiRestResponse.success(InformSendChannel.toList());
 	}
 
 	@ApiOperation(value = "消息通知模板统计信息", notes = "查询消息通知模板统计信息")

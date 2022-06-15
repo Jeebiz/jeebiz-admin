@@ -106,7 +106,7 @@ public enum InformSendChannel {
 
 	public PairModel toPair() {
 		PairModel pair = new PairModel();
-		pair.setKey(this.getCode());
+		pair.setKey(this.name());
 		pair.setValue(this.getDesc());
 		return pair;
 	}

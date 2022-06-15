@@ -6,6 +6,8 @@
 	<resultMap id="InformTemplateMap" type="InformTemplateEntity">
 		<!-- 消息通知模板id -->
 		<id property="id" column="id" />
+		<!-- 消息通知模板名称 -->
+		<result property="name" column="name" />
 		<!-- 消息通知模板类型 -->
 		<result property="channel" column="channel" />
 		<!-- 通知信息标题（可能包含变量） -->
@@ -43,6 +45,7 @@
 
 	<select id="getPagedList" resultMap="InformTemplateMap" >
 		SELECT t.id,
+			   t.name,
 			   t.channel,
 			   t.title,
 		       t.sign,
@@ -75,6 +78,7 @@
 
 	<select id="getModel" resultMap="InformTemplateMap" parameterType="String" >
 		SELECT t.id,
+			   t.name,
 			   t.channel,
 			   t.title,
 			   t.sign,

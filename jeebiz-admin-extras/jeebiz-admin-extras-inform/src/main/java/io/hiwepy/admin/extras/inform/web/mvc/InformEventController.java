@@ -6,6 +6,7 @@ package io.hiwepy.admin.extras.inform.web.mvc;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import io.hiwepy.admin.extras.inform.emums.InformEventType;
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
@@ -58,11 +59,19 @@ public class InformEventController extends BaseMapperController {
 		
 	}
 
-	@ApiOperation(value = "事件类型", notes = "事件类型列表")
+	@ApiOperation(value = "事件类型", notes = "事件类型列表（示例，应该去查询字典数据）")
 	@GetMapping("types")
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<List<PairModel>> types() throws Exception {
+		return ApiRestResponse.success(InformEventType.toList());
+	}
+
+	@ApiOperation(value = "事件行为", notes = "事件行为列表")
+	@GetMapping("actions")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<List<PairModel>> actions() throws Exception {
 		return ApiRestResponse.success(InformSendChannel.toList());
 	}
 

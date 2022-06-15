@@ -10,13 +10,8 @@ import java.util.*;
 
 public enum InformEventType {
 
-	NOTICE("notice", "通知"),
-	LETTER("direct", "私信"),
-	COMMIT_DEPLOY("commit_deploy", "提交发布"),
-	AUDIT_AGREE("audit_agree", "审批通过"),
-	AUDIT_REFUSE("audit_refuse", "审批拒绝"),
-	DEPLOY_SUCESS("deploy_sucess", "发布成功"),
-	DEPLOY_FAIL("deploy_fail", "发布失败");
+	LOGIN("login", "系统登录"),
+	LOGOUT("logout", "注销登录");
 
 	private String key;
 	private String desc;
@@ -56,7 +51,7 @@ public enum InformEventType {
 				return optType;
 			}
 		}
-    	throw new NoSuchElementException("Cannot found AuthzOptEnum with key '" + key + "'.");
+    	throw new NoSuchElementException("Cannot found InformEventType with key '" + key + "'.");
     }
 
 	public PairModel toPair() {
@@ -68,8 +63,8 @@ public enum InformEventType {
 
 	public static List<PairModel> toList() {
 		List<PairModel> pairList = new LinkedList<PairModel>();
-		for (InformSendChannel sendChannel : InformSendChannel.values()) {
-			pairList.add(sendChannel.toPair());
+		for (InformSendChannel type : InformSendChannel.values()) {
+			pairList.add(type.toPair());
 		}
 		return pairList;
 	}
