@@ -16,13 +16,5 @@ public interface IInformRecordService extends IBaseService<InformRecordEntity> {
 	 * 消息通知统计信息
 	 */
 	List<InformRecordStatsDTO> getStats(String uid);
-
-	/**
-	 * 删除用户的通知信息
-	 * @param userId
-	 * @param ids
-	 * @return
-	 */
-	int deleteByUid( String uid,  List<String> ids);
 	
 }

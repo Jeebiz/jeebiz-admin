@@ -32,9 +32,4 @@ public class InformRecordServiceImpl extends BaseServiceImpl<InformRecordMapper,
 		return getBaseMapper().getStats(uid);
 	}
 
-	@Override
-	public int deleteByUid(String uid, List<String> ids) {
-		return getBaseMapper().deleteByUid(uid, ids);
-	}
-
 }
