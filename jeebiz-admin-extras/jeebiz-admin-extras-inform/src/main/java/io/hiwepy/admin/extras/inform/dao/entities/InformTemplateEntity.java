@@ -55,7 +55,7 @@ public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity>
 	@TableField(value = "sign")
 	private String signature;
 	/**
-	 * 消息通知模板内容（可能包含变量）
+	 * 消息通知内容（可能包含变量）
 	 */
 	@TableField(value = "content")
 	private String content;

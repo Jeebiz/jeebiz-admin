@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
@@ -54,17 +55,13 @@ public class InformRecordController extends BaseMapperController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<Long> pending() throws Exception {
-		InformRecordEntity model = new InformRecordEntity();
+		InformRecordEntity entity = new InformRecordEntity();
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setToUid(principal.getUserid());   
-		
-		return ApiRestResponse.success(getInformService().getCount(model));
+		entity.setReceiverId(principal.getUserid());
+		return ApiRestResponse.success(getInformService().getCount(entity));
 	}
 	
 	@ApiOperation(value = "查询消息通知", notes = "分页查询消息通知")
-	@ApiImplicitParams({ 
-		@ApiImplicitParam(paramType = "body", name = "paginationDTO", value = "消息筛选条件", dataType = "InformRecordPaginationDTO")
-	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "分页查询消息通知", opt = BusinessType.SELECT)
 	@PostMapping("list")
 	@RequiresAuthentication
@@ -73,7 +70,7 @@ public class InformRecordController extends BaseMapperController {
 		
 		InformRecordEntity model = getBeanMapper().map(paginationDTO, InformRecordEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setToUid(principal.getUserid());
+		model.setReceiverId(principal.getUserid());
 		
 		Page<InformRecordEntity> pageResult = getInformService().getPagedList(model);
 		List<InformRecordDTO> retList = new ArrayList<InformRecordDTO>();
@@ -120,22 +117,23 @@ public class InformRecordController extends BaseMapperController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<String> read(@RequestParam("ids") String ids) throws Exception {
-		
-		InformRecordEntity model = new InformRecordEntity();
-		model.setIds(Lists.newArrayList(StringUtils.split(ids, ",")));
+
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setToUid(principal.getUserid());
-		model.setStatus("1");
-		
+
+		InformRecordEntity entity = new InformRecordEntity();
+		entity.setStatus(Constants.Normal.IS_READ_YES);
+
 		// 执行消息通知阅读操作
-		boolean result = getInformService().updateById(model);
+		boolean result = getInformService().update(entity, new LambdaQueryWrapper<InformRecordEntity>()
+				.eq(InformRecordEntity::getReceiverId, principal.getUserid())
+				.eq(InformRecordEntity::getStatus, Constants.Normal.IS_READ_NO)
+				.in(InformRecordEntity::getId, Lists.newArrayList(StringUtils.split(ids, ","))));
 		if(result) {
-			return success("inform.read.success", result);
+			return success("inform.read.success");
 		}
 		// 逻辑代码，如果发生异常将不会被执行
-		return success("inform.read.error", result);
+		return success("inform.read.error");
 	}
-	
 
 	@ApiOperation(value = "阅读消息通知", notes = "阅读消息通知")
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "阅读消息通知", opt = BusinessType.UPDATE)
@@ -143,19 +141,18 @@ public class InformRecordController extends BaseMapperController {
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<String> readall() throws Exception {
-		
-		InformRecordEntity model = new InformRecordEntity();
+		InformRecordEntity entity = new InformRecordEntity();
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		model.setToUid(principal.getUserid());
-		model.setStatus("1");
-		
+		entity.setStatus(Constants.Normal.IS_READ_YES);
 		// 执行消息通知阅读操作
-		boolean result = getInformService().updateById(model);
+		boolean result = getInformService().update(entity, new LambdaQueryWrapper<InformRecordEntity>()
+				.eq(InformRecordEntity::getReceiverId, principal.getUserid())
+				.eq(InformRecordEntity::getStatus, Constants.Normal.IS_READ_NO));
 		if(result) {
-			return success("inform.readall.success", result);
+			return success("inform.readall.success");
 		}
 		// 逻辑代码，如果发生异常将不会被执行
-		return success("inform.readall.error", result);
+		return success("inform.readall.error");
 	}
 	
 	@ApiOperation(value = "删除消息通知", notes = "删除消息通知")
@@ -169,8 +166,8 @@ public class InformRecordController extends BaseMapperController {
 	public ApiRestResponse<String> delete(@RequestParam String ids) throws Exception {
 		// 执行消息通知删除操作
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		int result = getInformService().deleteByUid(principal.getUserid(), Lists.newArrayList(StringUtils.split(ids, ",")));
-		if(result > 0) {
+		boolean result = getInformService().removeBatchByIds(Lists.newArrayList(StringUtils.split(ids, ",")));
+		if(result) {
 			return success("inform.delete.success", result);
 		}
 		// 逻辑代码，如果发生异常将不会被执行

@@ -11,55 +11,52 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
 
 @ApiModel(value = "InformRecordSendDTO", description = "消息通知发送对象")
-@Getter
-@Setter
-@ToString
+@Data
 public class InformRecordSendDTO {
 
 	/**
+	 * 消息通知发送通道
+	 */
+	@ApiModelProperty(name = "channel", required = true, value = "消息通知发送通道")
+	@NotNull(message = "消息通知发送通道不能为空")
+	private InformSendChannel channel;
+	/**
 	 * 消息通知接收人ID集合
 	 */
-	@ApiModelProperty(name = "toList", required = true, dataType = "java.util.List<String>", value = "消息通知接收人ID集合")
+	@ApiModelProperty(required = true, value = "消息通知接收人ID集合")
 	@NotNull(message = "至少需要指定一个消息通知接收人")
 	private List<String> toList;
 	/**
-	 * 发送该消息通知的提供者
+	 * 消息通知对应平台内的模板id
 	 */
-	@ApiModelProperty(name = "channel", required = true, value = "发送该消息通知的提供者")
-	@NotNull(message = "消息通知的提供者不能为空")
-	private InformSendChannel channel;
-	/**
-	 * 消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝）
-	 */
-	@ApiModelProperty(name = "tag", dataType = "String", value = "消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝）")
-	private String tag;
+	@ApiModelProperty(value = "消息通知对应平台内的模板id")
+	@NotBlank(message = "模板id不能为空")
+	private String templateId;
 	/**
 	 * 消息通知标题
 	 */
-	@ApiModelProperty(name = "title", required = true, dataType = "String", value = "消息通知标题")
+	@ApiModelProperty(required = true, value = "消息通知标题")
 	@NotBlank(message = "消息通知标题不能为空")
 	private String title;
 	/**
 	 * 消息通知内容
 	 */
-	@ApiModelProperty(name = "content", required = true, dataType = "String", value = "消息通知内容")
+	@ApiModelProperty(required = true, value = "消息通知内容")
 	@NotBlank(message = "消息通知内容不能为空")
 	private String content;
 	/**
-	 * 消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）
+	 * 消息通知变量载体,JOSN格式的数据
 	 */
-	@ApiModelProperty(name = "tid", dataType = "String", value = "消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）")
-	private String tid;
-	/**
-	 * 通知信息关联数据载体,JOSN格式的数据
-	 */
-	@ApiModelProperty(name = "payload", dataType = "String", value = "通知信息关联数据载体,JOSN格式的数据")
+	@ApiModelProperty(value = "消息通知变量载体,JOSN格式的数据")
 	private String payload;
+	/**
+	 * 消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]）
+	 */
+	@ApiModelProperty(value = "消息通知内容中包含的路由跳转信息")
+	private List<InformRecordRouteDTO> routes;
 
 }
