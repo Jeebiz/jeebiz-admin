@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import io.hiwepy.admin.extras.inform.dao.entities.InformRecordEntity;
 import io.hiwepy.admin.extras.inform.service.IInformRecordService;
+import io.hiwepy.admin.extras.inform.service.IInformSendService;
 import io.hiwepy.admin.extras.inform.setup.Constants;
 import io.hiwepy.admin.extras.inform.web.dto.InformRecordDTO;
 import io.hiwepy.admin.extras.inform.web.dto.InformRecordPaginationDTO;
@@ -34,26 +35,23 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(tags = "消息通知：我的消息")
+@Api(tags = "消息通知：发送站内消息")
 @RestController
 @RequestMapping("/inform/")
 public class InformSendController extends BaseMapperController {
 	
 	@Autowired
-	private IInformRecordService informService;
+	private IInformSendService informSendService;
 
 	@ApiOperation(value = "查询消息通知", notes = "分页查询消息通知")
 	@PostMapping("send")
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<String> send(@Valid @RequestBody InformRecordSendDTO sendDTO) throws Exception {
-
-
-		
+		return getInformSendService().send(sendDTO);
 	}
 
-	public IInformRecordService getInformService() {
-		return informService;
+	public IInformSendService getInformSendService() {
+		return informSendService;
 	}
-	
 }
