@@ -6,6 +6,7 @@ package io.hiwepy.admin.extras.inform.dao.entities;
 
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.ibatis.type.Alias;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -24,6 +25,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+
 @SuppressWarnings("serial")
 @Alias(value = "InformTemplateEntity")
 @TableName("sys_inform_templates")
@@ -37,8 +40,13 @@ public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity>
 	/**
 	 * 消息通知模板id
 	 */
-	@TableId(value="id",type= IdType.ASSIGN_ID)
+	@TableId(value="id",type= IdType.AUTO)
 	private String id;
+	/**
+	 * 消息通知模板名称
+	 */
+	@TableField(value = "name")
+	private String name;
 	/**
 	 * 消息通知模板类型
 	 */

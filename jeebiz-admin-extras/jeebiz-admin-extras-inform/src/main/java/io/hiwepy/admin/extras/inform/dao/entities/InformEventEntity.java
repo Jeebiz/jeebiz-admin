@@ -27,7 +27,7 @@ public class InformEventEntity extends PaginationEntity<InformEventEntity> {
 	/**
 	 * 消息通知事件id
 	 */
-	@TableId(value="id",type= IdType.ASSIGN_ID)
+	@TableId(value="id",type= IdType.AUTO)
 	private String id;
 	/**
 	 * 消息通知事件类型
