@@ -95,9 +95,11 @@ public class InformTemplateController extends BaseMapperController {
 	@RequiresPermissions("inform-tmpl:new")
 	@ResponseBody
 	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformTemplateNewDTO newDTO) throws Exception {
-		InformTemplateEntity model = getBeanMapper().map(newDTO, InformTemplateEntity.class);
+		InformTemplateEntity entity = getBeanMapper().map(newDTO, InformTemplateEntity.class);
+        ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+        entity.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
-		boolean result = getInformTemplateService().save(model);
+		boolean result = getInformTemplateService().save(entity);
 		if(result) {
 			return success("inform.template.new.success", result);
 		}
@@ -133,8 +135,10 @@ public class InformTemplateController extends BaseMapperController {
 	@RequiresPermissions("inform-tmpl:renew")
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody InformTemplateRenewDTO renewDTO) throws Exception {
-		InformTemplateEntity model = getBeanMapper().map(renewDTO, InformTemplateEntity.class);
-		boolean result = getInformTemplateService().updateById(model);
+		InformTemplateEntity entity = getBeanMapper().map(renewDTO, InformTemplateEntity.class);
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		entity.setModifyer(principal.getUserid());
+		boolean result = getInformTemplateService().updateById(entity);
 		if(result) {
 			return success("inform.template.renew.success", result);
 		}

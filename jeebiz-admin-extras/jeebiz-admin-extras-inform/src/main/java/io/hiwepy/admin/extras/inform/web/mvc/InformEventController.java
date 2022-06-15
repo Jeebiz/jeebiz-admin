@@ -23,6 +23,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
+import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,14 +81,15 @@ public class InformEventController extends BaseMapperController {
 	//@RequiresPermissions("inform-event:new")
 	@ResponseBody
 	public ApiRestResponse<String> newEvent(@Valid @RequestBody InformEventNewDTO newDTO) throws Exception {
-		InformEventEntity model = getBeanMapper().map(newDTO, InformEventEntity.class);
-		
-		Long ct = getInformEventService().getCount(model);
+		InformEventEntity entity = getBeanMapper().map(newDTO, InformEventEntity.class);
+		Long ct = getInformEventService().getCount(entity);
 		if(ct > 0) {
 			return fail("inform.event.new.conflict");
 		}
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		entity.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
-		boolean result = getInformEventService().save(model);
+		boolean result = getInformEventService().save(entity);
 		if(result) {
 			return success("inform.event.new.success", result);
 		}
@@ -119,12 +122,14 @@ public class InformEventController extends BaseMapperController {
 	//@RequiresPermissions("inform-event:renew")
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody InformEventRenewDTO renewDTO) throws Exception {
-		InformEventEntity model = getBeanMapper().map(renewDTO, InformEventEntity.class);
-		Long ct = getInformEventService().getCount(model);
+		InformEventEntity entity = getBeanMapper().map(renewDTO, InformEventEntity.class);
+		Long ct = getInformEventService().getCount(entity);
 		if(ct > 0) {
 			return fail("inform.event.renew.conflict");
 		}
-		boolean result = getInformEventService().updateById(model);
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		entity.setModifyer(principal.getUserid());
+		boolean result = getInformEventService().updateById(entity);
 		if(result) {
 			return success("inform.event.renew.success", result);
 		}
