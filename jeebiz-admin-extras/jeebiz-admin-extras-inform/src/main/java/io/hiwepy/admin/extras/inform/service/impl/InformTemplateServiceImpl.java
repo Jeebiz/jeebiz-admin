@@ -27,6 +27,7 @@ import org.springframework.util.CollectionUtils;
 public class InformTemplateServiceImpl extends BaseServiceImpl<InformTemplateMapper, InformTemplateEntity>
 		implements IInformTemplateService {
 
+	@Override
 	public List<InformTemplatePairDTO> getPairs() {
 
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
