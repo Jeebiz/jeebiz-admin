@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Api(tags = "消息通知：消息事件")
 @RestController
@@ -163,6 +164,36 @@ public class InformEventController extends BaseMapperController {
 			return ApiRestResponse.fail(getMessage("inform.event.get.empty"));
 		}
 		return ApiRestResponse.success(getBeanMapper().map(model, InformEventDTO.class));
+	}
+
+	@ApiOperation(value = "设置消息通知事件接收对象", notes = "设置指定消息通知事件设置的接收对象")
+	@PostMapping("target")
+	//@RequiresPermissions("inform-event:target")
+	@ResponseBody
+	public ApiRestResponse<String> setTargets(@Valid @RequestBody InformEventTargetsDTO targetsDto) throws Exception {
+		// 新增一条数据库配置记录
+		boolean result = getInformEventService().setTargets(targetsDto);
+		if(result) {
+			return success("inform.event.target.success", result);
+		}
+		// 逻辑代码，如果发生异常将不会被执行
+		return fail("inform.event.target.fail", result);
+	}
+
+	@ApiOperation(value = "查询消息通知事件接收对象", notes = "查询指定消息通知事件设置的接收对象")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType = "query", name = "id", value = "消息通知事件id", required = true, dataType = "String"),
+	})
+	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "查询指定id的消息通知事件信息", opt = BusinessType.SELECT)
+	@GetMapping("target")
+	//@RequiresPermissions("inform-event:target")
+	@ResponseBody
+	public ApiRestResponse<InformEventTargetsDTO> getTargets(@RequestParam("eventId") String eventId) throws Exception {
+		InformEventTargetsDTO targetsDto = getInformEventService().getTargets(eventId);
+		if(Objects.isNull(targetsDto)) {
+			return ApiRestResponse.fail(null);
+		}
+		return ApiRestResponse.success(targetsDto);
 	}
 
 	public IInformEventService getInformEventService() {
