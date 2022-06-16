@@ -9,7 +9,7 @@
 		<!-- 消息通知模板名称 -->
 		<result property="name" column="name" />
 		<!-- 消息通知模板类型 -->
-		<result property="channel" column="channel" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result property="channel" column="channel"/>
 		<!-- 通知信息标题（可能包含变量） -->
 		<result property="title" column="title" />
 		<!-- 消息通知签名（短信消息模板需要使用） -->
@@ -36,7 +36,7 @@
 
 	<resultMap id="InformTemplateStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformTemplateStatsDTO">
 		<!-- 消息通知模板类型 -->
-		<result property="channel" column="channel" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result property="channel" column="channel"/>
 		<!-- 消息通知模板已发消息总数 -->
 		<result property="total" column="t_total" />
 		<!-- 消息通知模板已发消息未读总数 -->
@@ -76,7 +76,7 @@
 		ORDER BY t.id DESC
 	</select>
 
-	<select id="getModel" resultMap="InformTemplateMap" parameterType="String" >
+	<select id="getModel" resultMap="InformTemplateMap" >
 		SELECT t.id,
 			   t.name,
 			   t.channel,

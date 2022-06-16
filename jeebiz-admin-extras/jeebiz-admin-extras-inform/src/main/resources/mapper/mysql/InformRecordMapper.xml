@@ -13,7 +13,7 @@
 		<!-- 消息通知发送人 -->
 		<result property="fromUname" column="from_uname" />
 		<!-- 消息通知发送通道 -->
-		<result property="channel" column="channel" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result property="channel" column="channel"/>
 		<!-- 消息通知标题（变量处理后的标题） -->
 		<result property="title" column="title" />
 		<!-- 消息通知内容（变量处理后的内容） -->
@@ -46,7 +46,7 @@
 
 	<resultMap id="InformRecordStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformRecordStatsDTO">
 		<!-- 消息通知发送通道 -->
-		<result property="channel" column="channel" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
+		<result property="channel" column="channel"/>
 		<!-- 该类型通知总数 -->
 		<result property="total" column="t_total" />
 		<!-- 该类型未读通知总数 -->
@@ -94,7 +94,7 @@
 		ORDER BY t.id DESC
 	</select>
 
-	<select id="getModel" resultMap="InformRecordMap" parameterType="String" >
+	<select id="getModel" resultMap="InformRecordMap" >
 		SELECT t.id,
 			   t.from_type,
 			   t.from_id,
