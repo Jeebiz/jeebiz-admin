@@ -9,7 +9,7 @@
 		<!-- 消息通知事件类型 -->
 		<result property="type" column="type" />
 		<!-- 消息通知事件行为 -->
-		<result property="channel" column="channel" />
+		<result property="channel" column="channel" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<!-- 消息通知事件关联模板id -->
 		<result property="templateId" column="template_id" />
 		<!-- 消息通知事件说明 -->
@@ -32,7 +32,7 @@
 
 	<resultMap id="InformEventStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformEventStatsDTO">
 		<!-- 消息通知事件行为 -->
-		<result property="channel" column="channel" />
+		<result property="channel" column="channel" typeHandler="org.apache.ibatis.type.EnumTypeHandler" />
 		<!-- 消息通知事件已发消息总数 -->
 		<result property="total" column="t_total" />
 		<!-- 消息通知事件已发消息未读总数 -->

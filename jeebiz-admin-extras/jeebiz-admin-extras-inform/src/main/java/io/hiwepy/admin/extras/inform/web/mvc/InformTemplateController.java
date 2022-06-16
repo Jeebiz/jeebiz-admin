@@ -10,6 +10,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.admin.extras.inform.emums.InformTarget;
 import io.hiwepy.admin.extras.inform.web.dto.*;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 import org.apache.commons.lang3.StringUtils;
@@ -18,13 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -76,7 +71,7 @@ public class InformTemplateController extends BaseMapperController {
 	}
 
 	@ApiOperation(value = "消息通知模板下拉列表", notes = "消息通知模板下拉列表")
-	@PostMapping("pairs")
+	@GetMapping("pairs")
 	@RequiresAuthentication
 	@ResponseBody
 	public ApiRestResponse<List<InformTemplatePairDTO>> list() throws Exception {
@@ -127,7 +122,7 @@ public class InformTemplateController extends BaseMapperController {
 		@ApiImplicitParam(paramType = "query", name = "ids", value = "消息通知模板id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "删除消息通知模板", opt = BusinessType.DELETE)
-	@GetMapping("delete")
+	@DeleteMapping("delete")
 	@RequiresPermissions("inform-tmpl:delete")
 	@ResponseBody
 	public ApiRestResponse<String> delete(@RequestParam("ids") String ids) throws Exception {

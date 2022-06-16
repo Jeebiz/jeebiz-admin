@@ -7,6 +7,7 @@ package io.hiwepy.admin.extras.inform.web.mvc;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import io.hiwepy.admin.extras.inform.emums.InformEventType;
+import io.hiwepy.admin.extras.inform.emums.InformTarget;
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
@@ -97,6 +98,7 @@ public class InformEventController extends BaseMapperController {
 		}
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		entity.setCreator(principal.getUserid());
+		entity.setTarget(InformTarget.ALL);
 		// 新增一条数据库配置记录
 		boolean result = getInformEventService().save(entity);
 		if(result) {
@@ -111,7 +113,7 @@ public class InformEventController extends BaseMapperController {
 		@ApiImplicitParam(paramType = "query", name = "ids", value = "消息通知事件id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "删除消息通知事件", opt = BusinessType.DELETE)
-	@GetMapping("delete")
+	@DeleteMapping("delete")
 	//@RequiresPermissions("inform-event:delete")
 	@ResponseBody
 	public ApiRestResponse<String> delete(@RequestParam("ids") String ids) throws Exception {
