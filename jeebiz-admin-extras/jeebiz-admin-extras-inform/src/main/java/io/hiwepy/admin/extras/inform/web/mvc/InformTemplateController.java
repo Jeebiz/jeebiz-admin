@@ -10,6 +10,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.admin.extras.inform.web.dto.*;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -35,11 +36,6 @@ import io.swagger.annotations.ApiOperation;
 import io.hiwepy.admin.extras.inform.dao.entities.InformTemplateEntity;
 import io.hiwepy.admin.extras.inform.service.IInformTemplateService;
 import io.hiwepy.admin.extras.inform.setup.Constants;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateNewDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplatePaginationDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateRenewDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateStatsDTO;
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
@@ -77,6 +73,15 @@ public class InformTemplateController extends BaseMapperController {
 		
 		return new Result<InformTemplateDTO>(pageResult, retList);
 		
+	}
+
+	@ApiOperation(value = "消息通知模板下拉列表", notes = "消息通知模板下拉列表")
+	@PostMapping("pairs")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<List<InformTemplatePairDTO>> list() throws Exception {
+		List<InformTemplatePairDTO> retList = getInformTemplateService().getPairs();
+		return ApiRestResponse.success(retList);
 	}
 
 	@ApiOperation(value = "模板类型", notes = "模板类型列表")
