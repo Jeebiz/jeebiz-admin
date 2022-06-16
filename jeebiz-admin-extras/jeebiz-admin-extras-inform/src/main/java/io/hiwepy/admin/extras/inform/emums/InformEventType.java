@@ -63,8 +63,8 @@ public enum InformEventType {
 
 	public static List<PairModel> toList() {
 		List<PairModel> pairList = new LinkedList<PairModel>();
-		for (InformSendChannel type : InformSendChannel.values()) {
-			pairList.add(type.toPair());
+		for (InformEventType eventType : InformEventType.values()) {
+			pairList.add(eventType.toPair());
 		}
 		return pairList;
 	}
