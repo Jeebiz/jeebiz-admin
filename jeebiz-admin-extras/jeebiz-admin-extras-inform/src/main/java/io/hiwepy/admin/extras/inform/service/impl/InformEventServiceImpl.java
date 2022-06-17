@@ -62,7 +62,7 @@ public class InformEventServiceImpl extends BaseServiceImpl<InformEventMapper, I
 	public boolean setTargets(InformEventTargetsDTO targetsDto) {
 
 		// 1、如果提交的列表没有数据，表示全部删除
-		if(CollectionUtils.isEmpty(targetsDto.getTargets())){
+		if(!InformTarget.SPECIFIC.equals(targetsDto.getTarget()) || CollectionUtils.isEmpty(targetsDto.getTargets())){
 			informTargetService.remove(new LambdaQueryWrapper<InformTargetEntity>()
 					.eq(InformTargetEntity::getEventId, targetsDto.getEventId()));
 		}
