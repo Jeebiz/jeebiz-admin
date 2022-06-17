@@ -13,7 +13,7 @@ import java.util.function.Function;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.redis.core.RedisKey;
 
-import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
+import io.hiwepy.admin.extras.redis.setup.<result property="channel" column="channel"/>RedisKeyConstant;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 
 /**

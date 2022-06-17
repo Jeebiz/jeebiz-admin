@@ -4,6 +4,7 @@
  */
 package io.hiwepy.admin.extras.inform.emums;
 
+import io.hiwepy.admin.extras.redis.setup.BizRedisKey;
 import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 import org.springframework.data.redis.core.RedisKey;
@@ -22,25 +23,25 @@ public enum InformToType {
 	 * 组织机构
 	 */
 	ORG("org", "组织机构", (eventId)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_TARGET_KEY, "org", eventId);
+		return BizRedisKey.INFORM_TARGET.getKey("org", eventId);
 	}),
 	/**
 	 * 角色
 	 */
 	ROLE("role", "角色", (eventId)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_TARGET_KEY, "role", eventId);
+		return BizRedisKey.INFORM_TARGET.getKey("role", eventId);
 	}),
 	/**
 	 * 岗位
 	 */
 	POST("post","岗位",  (eventId)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_TARGET_KEY, "post", eventId);
+		return BizRedisKey.INFORM_TARGET.getKey("post", eventId);
 	}),
 	/**
 	 * 人员
 	 */
 	USER("user","人员",  (eventId)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_TARGET_KEY, "user", eventId);
+		return BizRedisKey.INFORM_TARGET.getKey("user", eventId);
 	});
 
 	private String key;

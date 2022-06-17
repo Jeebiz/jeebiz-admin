@@ -219,8 +219,16 @@ public abstract class BizRedisKeyConstant {
 	public final static String CONFIG_KEY = "config";
 
 	/**
-	 * redis 用户信息前缀
+	 * redis 消息通知模板缓存Key前缀
+	 */
+	public final static String INFORM_TEMPLATE_KEY = "inform:template";
+	/**
+	 * redis 消息通知对象缓存Key前缀
 	 */
 	public final static String INFORM_TARGET_KEY = "inform:target";
+	/**
+	 * redis 消息通知限制缓存Key前缀
+	 */
+	public final static String INFORM_SEND_LIMIT_KEY = "inform:send:limit";
 	 
 }

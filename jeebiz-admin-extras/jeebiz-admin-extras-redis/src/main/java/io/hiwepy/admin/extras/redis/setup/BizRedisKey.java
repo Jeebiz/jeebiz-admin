@@ -305,6 +305,24 @@ public enum BizRedisKey {
         String date = DateFormatUtils.format(Calendar.getInstance(), BizRedisKeyConstant.YYYYMMDD);
         return RedisKey.getKeyStr(BizRedisKeyConstant.GAME_REWARD_10000, gameId, date);
     }),
+	/**
+	 * redis 消息通知模板缓存
+	 */
+	INFORM_TEMPLATE("消息通知模板缓存", (templateId, p2) -> {
+		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_TEMPLATE_KEY, templateId);
+	}),
+	/**
+	 * redis 消息通知对象缓存
+	 */
+	INFORM_TARGET("消息通知对象缓存", (type, eventId) -> {
+		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_TARGET_KEY, type, eventId);
+	}),
+	/**
+	 * redis 消息通知限制缓存
+	 */
+	INFORM_SEND_LIMIT("消息通知限制缓存", (type, userId) -> {
+		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_SEND_LIMIT_KEY, type, userId);
+	}),
 
 	;
 

@@ -61,15 +61,25 @@ public class InformEventServiceImpl extends BaseServiceImpl<InformEventMapper, I
 	@Transactional(rollbackFor = Exception.class)
 	public boolean setTargets(InformEventTargetsDTO targetsDto) {
 
-		// 1、如果提交的列表没有数据，表示全部删除
-		if(!InformTarget.SPECIFIC.equals(targetsDto.getTarget()) || CollectionUtils.isEmpty(targetsDto.getTargets())){
-			informTargetService.remove(new LambdaQueryWrapper<InformTargetEntity>()
-					.eq(InformTargetEntity::getEventId, targetsDto.getEventId()));
-		}
-		// 2、否则就是新增或者更新操作
-		else {
+		// 1、设置消息事件的通知对象类型
+		InformEventEntity eventEntity = new InformEventEntity();
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		eventEntity.setId(targetsDto.getEventId());
+		eventEntity.setModifyer(principal.getUserid());
+		eventEntity.setTarget(targetsDto.getTarget());
+		getBaseMapper().updateById(eventEntity);
 
-			// 2.1、查询角色已经设置的授权机构
+		// 2、如果设置的是部分通知，则进行通知对象处理
+		if(InformTarget.SPECIFIC.equals(targetsDto.getTarget())){
+
+			// 2.1、如果提交的列表没有数据，表示全部删除
+			if(CollectionUtils.isEmpty(targetsDto.getTargets())){
+				informTargetService.remove(new LambdaQueryWrapper<InformTargetEntity>()
+						.eq(InformTargetEntity::getEventId, targetsDto.getEventId()));
+				return true;
+			}
+
+			// 2.2、查询角色已经设置的授权机构
 			List<InformTargetEntity> targets = informTargetService.list(new LambdaQueryWrapper<InformTargetEntity>()
 					.select(InformTargetEntity::getId, InformTargetEntity::getToType, InformTargetEntity::getTargetId)
 					.eq(InformTargetEntity::getEventId, targetsDto.getEventId())
@@ -102,17 +112,16 @@ public class InformEventServiceImpl extends BaseServiceImpl<InformEventMapper, I
 				});
 
 			}
+
+			return true;
+
+		} else {
+			// 其他情况，如果有原始数据则进行清理
+			informTargetService.remove(new LambdaQueryWrapper<InformTargetEntity>()
+					.eq(InformTargetEntity::getEventId, targetsDto.getEventId()));
+			return true;
 		}
 
-		// 设置消息事件的通知对象类型
-		InformEventEntity entity = new InformEventEntity();
-		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
-		entity.setId(targetsDto.getEventId());
-		entity.setModifyer(principal.getUserid());
-		entity.setTarget(InformTarget.ALL);
-		getBaseMapper().updateById(entity);
-
-		return true;
 	}
 
 	@Override

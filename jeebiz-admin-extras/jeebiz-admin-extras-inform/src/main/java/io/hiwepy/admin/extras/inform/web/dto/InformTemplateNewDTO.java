@@ -67,6 +67,13 @@ public class InformTemplateNewDTO {
 	 */
 	@ApiModelProperty(value = "模板消息通知变量载体,JOSN格式的数据")
 	private String payload;
+
+	/**
+	 * 消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]）
+	 */
+	@ApiModelProperty(value = "消息通知内容中包含的路由跳转信息")
+	private List<InformRecordRouteDTO> routes;
+
 	/**
 	 * 消息通知模板状态：（0:停用、1:启用）
 	 */
