@@ -10,10 +10,10 @@ import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.redis.core.RedisKey;
 
-import io.hiwepy.admin.extras.redis.setup.<result property="channel" column="channel"/>RedisKeyConstant;
 import io.hiwepy.boot.api.dao.entities.PairModel;
 
 /**
