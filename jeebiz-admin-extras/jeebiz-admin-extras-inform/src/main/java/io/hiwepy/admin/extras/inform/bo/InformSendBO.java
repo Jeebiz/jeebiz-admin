@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
 
+import java.util.List;
 import java.util.Map;
 
 @ApiModel(value = "InformSendBO", description = "发起推送信息BO")
@@ -81,6 +82,10 @@ public class InformSendBO {
 	 * 消息通知变量载体,JOSN格式的数据
 	 */
 	private String payload;
+	/**
+	 * 消息通知接收人ID集合（接口只提供发送到人的能力）
+	 */
+	private List<String> toList;
 	/**
 	 * 流水编号
 	 */

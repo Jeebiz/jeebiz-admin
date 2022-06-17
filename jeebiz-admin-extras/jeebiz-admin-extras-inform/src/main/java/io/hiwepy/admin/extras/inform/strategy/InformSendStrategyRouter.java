@@ -31,7 +31,12 @@ public class InformSendStrategyRouter implements InitializingBean {
     	}
         log.info("payStrategyMap:{}", map);
     }
-    
+
+    public <O extends InformSendBO> InformSendStrategy routeFor(InformSendChannel channel) {
+        InformSendStrategy orderStrategy = map.get(channel);
+        return orderStrategy;
+    }
+
 	public <O extends InformSendBO> InformSendStrategy routeFor(O payBo) {
         InformSendStrategy orderStrategy = map.get(payBo.getChannel());
         return orderStrategy;

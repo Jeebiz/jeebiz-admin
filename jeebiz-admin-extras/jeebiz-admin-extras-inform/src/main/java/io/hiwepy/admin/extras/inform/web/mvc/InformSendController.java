@@ -30,7 +30,9 @@ import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +45,12 @@ public class InformSendController extends BaseMapperController {
 	@Autowired
 	private IInformSendService informSendService;
 
-	@ApiOperation(value = "查询消息通知", notes = "分页查询消息通知")
+	@ApiOperation(value = "发送消息通知", notes = "发送消息通知")
 	@PostMapping("send")
-	@RequiresAuthentication
 	@ResponseBody
-	public ApiRestResponse<String> send(@Valid @RequestBody InformRecordSendDTO sendDTO) throws Exception {
-		return getInformSendService().send(sendDTO);
+	public ApiRestResponse<String> send(@Valid @RequestBody InformRecordSendDTO sendDTO,
+										@ApiIgnore HttpServletRequest request) throws Exception {
+		return getInformSendService().send(sendDTO, request);
 	}
 
 	public IInformSendService getInformSendService() {
