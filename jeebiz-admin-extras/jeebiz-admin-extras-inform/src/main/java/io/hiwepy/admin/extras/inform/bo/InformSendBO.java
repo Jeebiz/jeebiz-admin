@@ -4,6 +4,8 @@
  */
 package io.hiwepy.admin.extras.inform.bo;
 
+import io.hiwepy.admin.extras.inform.emums.InformType;
+import io.hiwepy.admin.extras.inform.web.dto.InformRecordRouteDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -59,6 +61,10 @@ public class InformSendBO {
 	 */
 	private InformSendChannel channel;
 	/**
+	 * 消息通知类型
+	 */
+	private InformType type;
+	/**
 	 * 消息通知标题（可能包含变量）
 	 */
 	private String title;
@@ -86,6 +92,10 @@ public class InformSendBO {
 	 * 消息通知接收人ID集合（接口只提供发送到人的能力）
 	 */
 	private List<String> toList;
+	/**
+	 * 消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]）
+	 */
+	private List<InformRecordRouteDTO> routes;
 	/**
 	 * 流水编号
 	 */
