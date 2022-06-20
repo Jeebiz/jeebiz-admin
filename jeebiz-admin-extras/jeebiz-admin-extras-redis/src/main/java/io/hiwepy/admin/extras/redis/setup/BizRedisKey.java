@@ -312,6 +312,12 @@ public enum BizRedisKey {
 		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_TEMPLATE_KEY, templateId);
 	}),
 	/**
+	 * redis 消息通知事件缓存
+	 */
+	INFORM_EVENT("消息通知事件缓存", (eventId, p2) -> {
+		return RedisKey.getKeyStr(BizRedisKeyConstant.INFORM_EVENT_KEY, eventId);
+	}),
+	/**
 	 * redis 消息通知对象缓存
 	 */
 	INFORM_TARGET("消息通知对象缓存", (type, eventId) -> {

@@ -223,6 +223,10 @@ public abstract class BizRedisKeyConstant {
 	 */
 	public final static String INFORM_TEMPLATE_KEY = "inform:template";
 	/**
+	 * redis 消息通知事件缓存Key前缀
+	 */
+	public final static String INFORM_EVENT_KEY = "inform:event";
+	/**
 	 * redis 消息通知对象缓存Key前缀
 	 */
 	public final static String INFORM_TARGET_KEY = "inform:target";
