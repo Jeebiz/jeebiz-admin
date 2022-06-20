@@ -21,22 +21,30 @@ public enum ConfigType {
 	/**
 	 * 钉钉配置
 	 */
-	DINGTALK("dingtalk", "钉钉配置"),
+	DINGTALK("dingtalk", "钉钉配置", (configType, groupId)->{
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, groupId);
+	}),
 	/**
 	 * 微信配置
 	 */
-	WEXIN("wexin", "微信配置"),
+	WEXIN("wexin", "微信配置", (configType, groupId)->{
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, groupId);
+	}),
 	/**
 	 * 短信配置
 	 */
-	SMS("sms","短信配置");
+	SMS("sms","短信配置",  (configType, groupId)->{
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, groupId);
+	});
 
 	private String key;
 	private String desc;
+	private BiFunction<Object, Object, String> function;
 
-	ConfigType(String key, String desc) {
+	ConfigType(String key, String desc, BiFunction<Object, Object, String> function) {
 		this.key = key;
 		this.desc = desc;
+		this.function = function;
 	}
 	public String getKey() {
 		return key;
@@ -68,7 +76,7 @@ public enum ConfigType {
 				return optType;
 			}
 		}
-		throw new NoSuchElementException("Cannot found AuthzOptEnum with key '" + key + "'.");
+		throw new NoSuchElementException("Cannot found ConfigType with key '" + key + "'.");
 	}
 
 	public static List<Map<String, String>> toList() {
@@ -84,6 +92,14 @@ public enum ConfigType {
 		optMap.put("key", this.getKey());
 		optMap.put("desc", this.getDesc());
 		return optMap;
+	}
+
+	/**
+	 * @param groupId
+	 * @return
+	 */
+	public String getKey(Object groupId) {
+		return this.function.apply(this.getKey(), groupId);
 	}
 
 }

@@ -308,8 +308,14 @@ public enum BizRedisKey {
 	/**
 	 * redis 三方集成配置缓存
 	 */
-	THIRD_CONFIG("三方集成配置缓存", (configType, itemType) -> {
-		return RedisKey.getKeyStr(BizRedisKeyConstant.THIRD_CONFIG_KEY, configType, itemType);
+	THIRD_CONFIG("三方集成配置缓存", (configType, groupId) -> {
+		return RedisKey.getKeyStr(BizRedisKeyConstant.THIRD_CONFIG_KEY, configType, groupId);
+	}),
+	/**
+	 * redis 三方集成配置项缓存
+	 */
+	THIRD_CONFIG_ITEM("三方集成配置项缓存", (configType, itemType) -> {
+		return RedisKey.getKeyStr(BizRedisKeyConstant.THIRD_CONFIG_ITEM_KEY, configType, itemType);
 	}),
 	/**
 	 * redis 消息通知模板缓存

@@ -218,6 +218,10 @@ public abstract class BizRedisKeyConstant {
 	 */
 	public final static String THIRD_CONFIG_KEY = "third:config";
 	/**
+	 * redis 三方集成配置项缓存Key前缀
+	 */
+	public final static String THIRD_CONFIG_ITEM_KEY = "third:config-item";
+	/**
 	 * redis 消息通知模板缓存Key前缀
 	 */
 	public final static String INFORM_TEMPLATE_KEY = "inform:template";

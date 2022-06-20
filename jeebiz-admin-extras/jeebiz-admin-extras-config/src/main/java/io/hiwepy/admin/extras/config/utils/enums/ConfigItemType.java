@@ -17,31 +17,31 @@ public enum ConfigItemType {
 	 * 企业内部开发：小程序、H5配置
 	 */
 	DINGTALK_INTERNAL("dingtalk-internal", "企业内部开发：小程序、H5配置", (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
+		return BizRedisKey.THIRD_CONFIG_ITEM.getKey(configType, itemType);
 	}),
 	/**
 	 * 第三方个人应用：小程序配置
 	 */
 	DINGTALK_PERSONAL("dingtalk-personal", "第三方个人应用：小程序配置", (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
+		return BizRedisKey.THIRD_CONFIG_ITEM.getKey(configType, itemType);
 	}),
 	/**
 	 * 第三方企业应用：小程序、H5配置
 	 */
 	DINGTALK_ENTERPRISE("dingtalk-enterprise","第三方企业应用：小程序、H5配置",  (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
+		return BizRedisKey.THIRD_CONFIG_ITEM.getKey(configType, itemType);
 	}),
 	/**
 	 * 移动接入应用：扫码登录配置
 	 */
-	DINGTALK_LOGIN("sms","移动接入应用：扫码登录配置",  (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
+	DINGTALK_LOGIN("dingtalk-login","移动接入应用：扫码登录配置",  (configType, itemType)->{
+		return BizRedisKey.THIRD_CONFIG_ITEM.getKey(configType, itemType);
 	}),
 	/**
 	 * 短信配置
 	 */
-	DINGTALK_ROBOT("sms","Dingtalk：机器人配置",  (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
+	DINGTALK_ROBOT("dingtalk-robot","Dingtalk：机器人配置",  (configType, itemType)->{
+		return BizRedisKey.THIRD_CONFIG_ITEM.getKey(configType, itemType);
 	});
 
 	private String key;
