@@ -4,6 +4,7 @@
  */
 package io.hiwepy.admin.extras.config.utils.enums;
 
+import io.hiwepy.admin.extras.redis.setup.BizRedisKey;
 import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.data.redis.core.RedisKey;
@@ -21,19 +22,19 @@ public enum ConfigType {
 	 * 钉钉配置
 	 */
 	DINGTALK("dingtalk", "钉钉配置", (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	}),
 	/**
 	 * 微信配置
 	 */
 	WEXIN("wexin", "微信配置", (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	}),
 	/**
 	 * 短信配置
 	 */
 	SMS("sms","短信配置",  (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	});
 
 	private String key;

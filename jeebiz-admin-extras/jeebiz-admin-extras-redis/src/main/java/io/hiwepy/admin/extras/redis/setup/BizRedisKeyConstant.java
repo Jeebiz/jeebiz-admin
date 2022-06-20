@@ -214,10 +214,9 @@ public abstract class BizRedisKeyConstant {
 	public static final String GAME_REWARD_10000 = "game:reward:10000";
 
 	/**
-	 * redis 系统配置缓存
+	 * redis 三方集成配置缓存Key前缀
 	 */
-	public final static String CONFIG_KEY = "config";
-
+	public final static String THIRD_CONFIG_KEY = "third:config";
 	/**
 	 * redis 消息通知模板缓存Key前缀
 	 */

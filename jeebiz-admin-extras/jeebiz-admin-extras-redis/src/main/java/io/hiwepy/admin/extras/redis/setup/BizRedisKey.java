@@ -306,6 +306,12 @@ public enum BizRedisKey {
         return RedisKey.getKeyStr(BizRedisKeyConstant.GAME_REWARD_10000, gameId, date);
     }),
 	/**
+	 * redis 三方集成配置缓存
+	 */
+	THIRD_CONFIG("三方集成配置缓存", (configType, itemType) -> {
+		return RedisKey.getKeyStr(BizRedisKeyConstant.THIRD_CONFIG_KEY, configType, itemType);
+	}),
+	/**
 	 * redis 消息通知模板缓存
 	 */
 	INFORM_TEMPLATE("消息通知模板缓存", (templateId, p2) -> {

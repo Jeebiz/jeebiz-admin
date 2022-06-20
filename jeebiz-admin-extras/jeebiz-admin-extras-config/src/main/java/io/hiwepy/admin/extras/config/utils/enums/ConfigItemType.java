@@ -4,6 +4,7 @@
  */
 package io.hiwepy.admin.extras.config.utils.enums;
 
+import io.hiwepy.admin.extras.redis.setup.BizRedisKey;
 import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
 import org.springframework.data.redis.core.RedisKey;
 
@@ -16,31 +17,31 @@ public enum ConfigItemType {
 	 * 企业内部开发：小程序、H5配置
 	 */
 	DINGTALK_INTERNAL("dingtalk-internal", "企业内部开发：小程序、H5配置", (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	}),
 	/**
 	 * 第三方个人应用：小程序配置
 	 */
 	DINGTALK_PERSONAL("dingtalk-personal", "第三方个人应用：小程序配置", (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	}),
 	/**
 	 * 第三方企业应用：小程序、H5配置
 	 */
 	DINGTALK_ENTERPRISE("dingtalk-enterprise","第三方企业应用：小程序、H5配置",  (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	}),
 	/**
 	 * 移动接入应用：扫码登录配置
 	 */
 	DINGTALK_LOGIN("sms","移动接入应用：扫码登录配置",  (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	}),
 	/**
 	 * 短信配置
 	 */
 	DINGTALK_ROBOT("sms","Dingtalk：机器人配置",  (configType, itemType)->{
-		return RedisKey.getKeyStr(BizRedisKeyConstant.CONFIG_KEY, configType, itemType);
+		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
 	});
 
 	private String key;
