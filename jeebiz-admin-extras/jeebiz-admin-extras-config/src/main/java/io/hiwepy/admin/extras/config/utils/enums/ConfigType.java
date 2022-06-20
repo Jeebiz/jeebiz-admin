@@ -21,30 +21,22 @@ public enum ConfigType {
 	/**
 	 * 钉钉配置
 	 */
-	DINGTALK("dingtalk", "钉钉配置", (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
-	}),
+	DINGTALK("dingtalk", "钉钉配置"),
 	/**
 	 * 微信配置
 	 */
-	WEXIN("wexin", "微信配置", (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
-	}),
+	WEXIN("wexin", "微信配置"),
 	/**
 	 * 短信配置
 	 */
-	SMS("sms","短信配置",  (configType, itemType)->{
-		return BizRedisKey.THIRD_CONFIG.getKey(configType, itemType);
-	});
+	SMS("sms","短信配置");
 
 	private String key;
 	private String desc;
-	private BiFunction<Object, Object, String> function;
 
-	ConfigType(String key, String desc, BiFunction<Object, Object, String> function) {
+	ConfigType(String key, String desc) {
 		this.key = key;
 		this.desc = desc;
-		this.function = function;
 	}
 	public String getKey() {
 		return key;
@@ -61,24 +53,24 @@ public enum ConfigType {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
+
 	public boolean equals(ConfigType type){
 		return this.compareTo(type) == 0;
 	}
-	
+
 	public boolean equals(String key){
 		return this.compareTo(ConfigType.valueOfIgnoreCase(key)) == 0;
 	}
-	
+
 	public static ConfigType valueOfIgnoreCase(String key) {
 		for (ConfigType optType : ConfigType.values()) {
 			if(optType.getKey().equalsIgnoreCase(key)) {
 				return optType;
 			}
 		}
-    	throw new NoSuchElementException("Cannot found AuthzOptEnum with key '" + key + "'.");
-    }
-	
+		throw new NoSuchElementException("Cannot found AuthzOptEnum with key '" + key + "'.");
+	}
+
 	public static List<Map<String, String>> toList() {
 		List<Map<String, String>> optList = new LinkedList<Map<String, String>>();
 		for (ConfigType optEnum : ConfigType.values()) {

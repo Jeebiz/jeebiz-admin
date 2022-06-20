@@ -101,4 +101,14 @@ public enum ConfigItemType {
 		return optMap;
 	}
 
+	/**
+	 * 1、获取全名称key
+	 * @param configType
+	 * @param itemType
+	 * @return
+	 */
+	public String getRedisKey(Object configType, Object itemType) {
+		return this.function.apply(configType, itemType);
+	}
+
 }
