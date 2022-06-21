@@ -108,77 +108,28 @@ public class InformEventServiceImpl extends BaseServiceImpl<InformEventMapper, I
 		String redisKey = BizRedisKey.INFORM_EVENT.getKey(eventEntity.getId());
 		redisOperation.hSet(redisKey, "target", targetsDto.getTarget());
 
-		// 2、如果设置的是部分通知，则进行通知对象处理
-		if(InformTarget.SPECIFIC.equals(targetsDto.getTarget())){
+		// 2、查询已经设置的通知对象并删除旧的通知对象
+		this.removeTargetsByEventId(targetsDto.getEventId());
 
-			// 2.1、如果提交的列表没有数据，表示全部删除
-			if(CollectionUtils.isEmpty(targetsDto.getTargets())){
-				this.removeTargetByEventId(targetsDto.getEventId());
-				return true;
-			}
+		// 3、如果设置的是部分通知，则进行通知对象处理
+		if(InformTarget.SPECIFIC.equals(targetsDto.getTarget()) && !CollectionUtils.isEmpty(targetsDto.getTargets())){
+			targetsDto.getTargets().stream().forEach(targetDto -> {
+				InformTargetEntity entity = new InformTargetEntity();
+				entity.setEventId(targetsDto.getEventId());
+				entity.setToType(targetDto.getToType());
+				entity.setTargetId(targetDto.getTargetId());
+				informTargetService.save(entity);
 
-			// 2.2、查询角色已经设置的授权机构
-			List<InformTargetEntity> targets = informTargetService.list(new LambdaQueryWrapper<InformTargetEntity>()
-					.select(InformTargetEntity::getId, InformTargetEntity::getToType, InformTargetEntity::getTargetId)
-					.eq(InformTargetEntity::getEventId, targetsDto.getEventId())
-					.eq(InformTargetEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
-			// 2.2、如果历史没数据，则表示全部为新增
-			if(CollectionUtils.isEmpty(targets)){
-				targetsDto.getTargets().stream().forEach(targetDto -> {
-					InformTargetEntity entity = new InformTargetEntity();
-					entity.setEventId(targetsDto.getEventId());
-					entity.setToType(targetDto.getToType());
-					entity.setTargetId(targetDto.getTargetId());
-					informTargetService.save(entity);
+				String targetRedisKey = BizRedisKey.INFORM_TARGET.getKey(targetDto.getToType(), eventEntity.getId());
+				redisOperation.zAdd(targetRedisKey, targetDto.getTargetId(), System.currentTimeMillis());
 
-					String targetRedisKey = BizRedisKey.INFORM_TARGET.getKey(targetDto.getToType(), eventEntity.getId());
-					redisOperation.zAdd(targetRedisKey, targetDto.getTargetId(), System.currentTimeMillis());
-
-				});
-			} else {
-				// 删除移除的
-				List<String> deleteIds = targets.stream().filter(target -> targetsDto.getTargets().stream().noneMatch(targetDto -> {
-					return target.getToType().equals(targetDto.getToType()) && targetDto.getTargetId().equals( target.getTargetId());
-				})).map(InformTargetEntity::getId).collect(Collectors.toList());
-				informTargetService.removeBatchByIds(deleteIds);
-				// 保存或者更新新的设置
-				List<InformTargetEntity> saveOrUpdates = targetsDto.getTargets().stream().map(targetDto -> {
-					InformTargetEntity entity = new InformTargetEntity();
-					entity.setId(targetDto.getId());
-					entity.setEventId(targetsDto.getEventId());
-					entity.setToType(targetDto.getToType());
-					entity.setTargetId(targetDto.getTargetId());
-					return entity;
-				}).collect(Collectors.toList());
-				saveOrUpdates.forEach(entity -> {
-					// 保存或更新数据库
-					informTargetService.saveOrUpdate(entity);
-				});
-
-				// 同步更新缓存
-				targets.stream().filter(targetEntity -> targetsDto.getTargets().stream().noneMatch(targetDto -> {
-					return targetEntity.getToType().equals(targetDto.getToType()) && targetDto.getTargetId().equals( targetEntity.getTargetId());
-				})).forEach(targetEntity -> {
-					String targetRedisKey = BizRedisKey.INFORM_TARGET.getKey(targetEntity.getToType(), eventEntity.getId());
-					redisOperation.zRem(targetRedisKey, targetEntity.getTargetId());
-				});
-				saveOrUpdates.forEach(targetEntity -> {
-					// 保存或更新数据库
-					String targetRedisKey = BizRedisKey.INFORM_TARGET.getKey(targetEntity.getToType(), eventEntity.getId());
-					redisOperation.zAdd(targetRedisKey, targetEntity.getTargetId(), System.currentTimeMillis());
-				});
-			}
-
-			return true;
-
-		} else {
-			// 其他情况，如果有原始数据则进行清理
-			this.removeTargetByEventId(targetsDto.getEventId());
-			return true;
+			});
 		}
+
+		return true;
 	}
 
-	protected void removeTargetByEventId(String eventId){
+	protected List<InformTargetEntity> removeTargetsByEventId(String eventId){
 		List<InformTargetEntity> targets = informTargetService.list(new LambdaQueryWrapper<InformTargetEntity>()
 				.select(InformTargetEntity::getId, InformTargetEntity::getToType, InformTargetEntity::getTargetId)
 				.eq(InformTargetEntity::getEventId, eventId));
@@ -189,6 +140,7 @@ public class InformEventServiceImpl extends BaseServiceImpl<InformEventMapper, I
 			});
 			informTargetService.remove(new LambdaQueryWrapper<InformTargetEntity>().eq(InformTargetEntity::getEventId, eventId));
 		}
+		return targets;
 	}
 
 	@Override
