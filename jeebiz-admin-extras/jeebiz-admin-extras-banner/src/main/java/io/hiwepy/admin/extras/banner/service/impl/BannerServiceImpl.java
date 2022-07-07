@@ -1,6 +1,7 @@
 package io.hiwepy.admin.extras.banner.service.impl;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -9,6 +10,9 @@ import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
+import com.alibaba.fastjson.JSONObject;
+import io.hiwepy.admin.extras.banner.web.dto.BannerExtendProperty;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisKey;
@@ -34,8 +38,10 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 	@Override
 	@Transactional(rollbackFor = Throwable.class)
 	public boolean save(BannerEntity entity) {
+		// 先在数据库中进行保存
 		boolean rt = super.save(entity);
-		if(rt){
+		// 保存成功，则在缓存中保存
+		if(rt && Objects.isNull(entity.getStatus()) && entity.getStatus() == 1){
 			String bannerListKey = this.getBannerListKey( entity.getAppId(), entity.getAppChannel(), entity.getRegion(), entity.getLanguage(), entity.getType());
 			redisOperation.hSet(bannerListKey, entity.getId(), entity);
 		}
@@ -43,9 +49,13 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public boolean removeById(Serializable id) {
+		// 获取要被删除的实体类
 		BannerEntity entity = super.getById(id);
+		// 先从数据库删除
 		boolean rt = super.removeById(id);
+		// 如果删除成功，则去缓存里删除
 		if(rt){
 			String bannerListKey = this.getBannerListKey( entity.getAppId(), entity.getAppChannel(), entity.getRegion(), entity.getLanguage(), entity.getType());
 			redisOperation.hDel(bannerListKey, entity.getId());
@@ -54,16 +64,20 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public boolean updateById(BannerEntity entity) {
+		// 获取要被更新的实体类
 		BannerEntity oldEntity = super.getById(entity.getId());
+		// 先将数据库的Banner对象进行更新
 		boolean rt = super.updateById(entity);
+		// 更新成功，则更新缓存
 		if(rt){
 			String oldBannerListKey = this.getBannerListKey( oldEntity.getAppId(), oldEntity.getAppChannel(), oldEntity.getRegion(), oldEntity.getLanguage(), oldEntity.getType());
 			String bannerListKey = this.getBannerListKey( entity.getAppId(), entity.getAppChannel(), entity.getRegion(), entity.getLanguage(), entity.getType());
 			if(!StringUtils.equalsIgnoreCase(oldBannerListKey, bannerListKey)){
 				redisOperation.hDel(oldBannerListKey, entity.getId());
 				redisOperation.hSet(bannerListKey, entity.getId(), entity);
-			} else if(entity.getStatus() == 0){
+			} else if(Objects.isNull(entity.getStatus()) || entity.getStatus() == 0){
 				redisOperation.hDel(bannerListKey, entity.getId());
 			} else{
 				redisOperation.hSet(bannerListKey, entity.getId(), entity);
@@ -78,10 +92,32 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 		List<BannerDTO> bannerList = new ArrayList<>();
 		String bannerListKey = this.getBannerListKey( appId, appChannel, region, language, type);
 		Map<String, Object> bannerConfig = redisOperation.hmGet(bannerListKey);
+		List<BannerEntity> bannerEntityList = bannerConfig.values().stream().map(o -> JSONObject.parseObject(JSONObject.toJSONString(o), BannerEntity.class)).collect(Collectors.toList());
+		if (CollectionUtils.isNotEmpty(bannerEntityList)) {
 		if (Objects.nonNull(bannerConfig)) {
-			bannerList = bannerConfig.values().stream()
+			bannerList = bannerEntityList.stream()
 					//.map(obj -> JSON.parseObject((String) obj, BannerDTO.class))
-					.map(obj -> getBeanMapper().map(obj, BannerDTO.class))
+					.map(obj -> {
+						BannerDTO dto = getBeanMapper().map(obj, BannerDTO.class);
+						BannerExtendProperty extendProperty = JSONObject.parseObject(obj.getExtend(), BannerExtendProperty.class);
+						dto.setIntervalTime(extendProperty.getIntervalTime());
+						return dto;
+					}).filter(bannerDTO -> {
+						LocalDateTime nowTime = LocalDateTime.now();
+						if(Objects.nonNull(bannerDTO.getOpenTime())){
+//							LocalDateTime openTime = LocalDateTime.parse(bannerDTO.getOpenTime(), DateTimeFormatter.ofPattern(DateFormats.DATE_LONGFORMAT));
+							if(nowTime.isBefore(bannerDTO.getOpenTime())){
+								return false;
+							}
+						}
+						if(Objects.nonNull(bannerDTO.getCloseTime())){
+//							LocalDateTime closeTime = LocalDateTime.parse(bannerDTO.getCloseTime(), DateTimeFormatter.ofPattern(DateFormats.DATE_LONGFORMAT));
+							if(nowTime.isAfter(bannerDTO.getCloseTime())){
+								return false;
+							}
+						}
+						return Objects.nonNull(bannerDTO.getStatus()) && bannerDTO.getStatus() == 1;
+					})
 					.sorted(Comparator.comparing(BannerDTO::getPriority))
 					.collect(Collectors.toList());
 		}

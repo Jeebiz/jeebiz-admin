@@ -2,9 +2,13 @@ package io.hiwepy.admin.extras.banner.web.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * 横幅配置信息DTO
@@ -80,13 +84,42 @@ public class BannerDTO {
 	@ApiModelProperty(notes = "链接类型（0:H5网页、1:客户端、2:仅图片、3:内联网页）")
 	private Integer linkType;
 	/**
-	 * 扩展字段：过期时间、等待时间
+	 * 间隔时间
 	 */
-	@ApiModelProperty(notes = "扩展字段：过期时间、等待时间")
-	private String extend;
+	@ApiModelProperty(value = "间隔时间")
+	private Integer intervalTime;
+	/**
+	 * 过期时间
+	 */
+	@ApiModelProperty(value = "过期时间")
+	private Integer expireTime;
+	/**
+	 * 等待时间
+	 */
+	@ApiModelProperty(value = "等待时间")
+	private Integer waitTime;
 	/**
 	 * 权重值，数字越小越靠前
 	 */
 	@ApiModelProperty(notes = "权重值，数字越小越靠前")
 	private Integer priority;
+	/**
+	 * 扩展字段：过期时间、等待时间
+	 */
+	@ApiModelProperty(notes = "扩展字段：过期时间、等待时间")
+	@JsonIgnore
+	private String extend;
+	/**
+	 * 开放时间
+	 */
+	@ApiModelProperty(notes = "开放时间")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
+	private LocalDateTime openTime;
+	/**
+	 * 关闭时间
+	 */
+	@ApiModelProperty(notes = "关闭时间")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
+	private LocalDateTime closeTime;
+
 }
