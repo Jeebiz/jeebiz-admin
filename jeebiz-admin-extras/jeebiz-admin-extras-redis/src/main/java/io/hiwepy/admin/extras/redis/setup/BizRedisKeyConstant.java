@@ -50,6 +50,14 @@ public abstract class BizRedisKeyConstant {
 	 */
 	public final static String USER_INFO_KEY = "user:info:{}";
 	/**
+	 * redis 所有用户ID信息前缀
+	 */
+	public final static String USER_LIST_KEY = "user:info:list";
+	/**
+	 * redis 指定用户组前缀
+	 */
+	public final static String USER_SPECIFIC_KEY = "user:specific:{}";
+	/**
 	 * redis 用户角色信息
 	 */
 	public final static String USER_ROLES_KEY = "user:roles:{}";
@@ -204,6 +212,30 @@ public abstract class BizRedisKeyConstant {
 	 * 游戏遮罩引导确认缓存
 	 */
 	public static final String GAME_REWARD_10000 = "game:reward:10000";
-	
+
+	/**
+	 * redis 三方集成配置缓存Key前缀
+	 */
+	public final static String THIRD_CONFIG_KEY = "third:config";
+	/**
+	 * redis 三方集成配置项缓存Key前缀
+	 */
+	public final static String THIRD_CONFIG_ITEM_KEY = "third:config-item";
+	/**
+	 * redis 消息通知模板缓存Key前缀
+	 */
+	public final static String INFORM_TEMPLATE_KEY = "inform:template";
+	/**
+	 * redis 消息通知事件缓存Key前缀
+	 */
+	public final static String INFORM_EVENT_KEY = "inform:event";
+	/**
+	 * redis 消息通知对象缓存Key前缀
+	 */
+	public final static String INFORM_TARGET_KEY = "inform:target";
+	/**
+	 * redis 消息通知限制缓存Key前缀
+	 */
+	public final static String INFORM_SEND_LIMIT_KEY = "inform:send:limit";
 	 
 }

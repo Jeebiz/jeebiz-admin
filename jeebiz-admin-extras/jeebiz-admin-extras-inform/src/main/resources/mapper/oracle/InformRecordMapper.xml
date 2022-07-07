@@ -5,135 +5,126 @@
 
 	<resultMap id="InformRecordMap" type="InformRecordEntity">
 		<!-- 消息通知记录id -->
-		<id property="id" column="r_id" />
-		<!-- 消息通知发送人id -->
-		<result property="uid" column="r_uid" />
+		<id property="id" column="id" />
+		<!-- 消息通知记录来源类型：（EVENT:消息通知事件、SEND:用户主动发送） -->
+		<result property="fromType" column="from_type" />
+		<!-- 消息通知发送人id/事件Id -->
+		<result property="fromId" column="from_id" />
 		<!-- 消息通知发送人 -->
-		<result property="uname" column="r_uname" />
-		<!-- 消息通知的发送提供者 -->
-		<result property="provider" column="r_provider" />
-		<!-- 消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝） -->
-		<result property="tag" column="r_tag" />
-		<!-- 消息通知接收人id -->
-		<result property="toUid" column="r_to" />
-		<!-- 消息通知接收人 -->
-		<result property="toUname" column="r_to_uname" />
+		<result property="fromUname" column="from_uname" />
+		<!-- 消息通知发送通道 -->
+		<result property="channel" column="channel"/>
 		<!-- 消息通知标题（变量处理后的标题） -->
-		<result property="title" column="r_title" />
+		<result property="title" column="title" />
 		<!-- 消息通知内容（变量处理后的内容） -->
-		<result property="content" column="r_content" />
-		<!-- 消息通知模板id（系统内信息模板、微信订阅消息等模板id） -->
-		<result property="tid" column="r_tid" />
-		<!-- 通知信息关联数据载体,JOSN格式的数据 -->
-		<result property="payload" column="r_payload" />
+		<result property="content" column="content" />
+		<!-- 消息通知对应平台内的模板id -->
+		<result property="templateId" column="template_id" />
+		<!-- 消息通知变量载体,JOSN格式的数据 -->
+		<result property="payload" column="payload" />
+		<!-- 消息通知接收人id -->
+		<result property="receiverId" column="receiver_id" />
+		<!-- 消息通知接收人 -->
+		<result property="receiverUname" column="receiver_uname" />
+		<!-- 消息通知处理流水编号 -->
+		<result property="flowNo" column="flow_no" />
+		<!-- 消息通知关联业务id -->
+		<result property="bizId" column="biz_id" />
 		<!-- 消息通知阅读状态：（0:未阅读、1:已阅读） -->
-		<result property="status" column="r_status" />
+		<result property="status" column="status" />
 		<!-- 消息通知创建时间 -->
-		<result property="createTime" column="create_time"/>
+		<result property="appId" column="app_id"/>
+		<!-- 消息通知创建时间 -->
+		<result property="appChannel" column="app_channel"/>
+		<!-- 消息通知创建时间 -->
+		<result property="appVer" column="app_version"/>
+		<!-- 消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]） -->
+		<result property="route" column="route"/>
+		<!-- 消息通知创建时间 -->
+		<result property="time24" column="create_time"/>
 	</resultMap>
 
-	<resultMap id="InformStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformRecordStatsDTO">
-		<!-- 消息通知的发送提供者 -->
-		<result property="provider" column="r_provider" />
+	<resultMap id="InformRecordStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformRecordStatsDTO">
+		<!-- 消息通知发送通道 -->
+		<result property="channel" column="channel"/>
 		<!-- 该类型通知总数 -->
-		<result property="total" column="r_total" />
+		<result property="total" column="t_total" />
 		<!-- 该类型未读通知总数 -->
-		<result property="unread" column="r_unread" />
+		<result property="unread" column="t_unread" />
 	</resultMap>
-
-	<insert id="insert" parameterType="InformRecordEntity">
-		insert into sys_inform_records(r_uid,r_provider,r_tag,r_to,r_title,r_content,r_tid,r_payload,r_status)
-		values(#{uid},#{provider},#{tag,jdbcType=VARCHAR},#{toUid},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},0)
-	</insert>
-
-	<delete id="deleteByTid">
-		delete from sys_inform_records where r_tid = #{tid}
-	</delete>
-
-	<delete id="deleteByUid">
-		delete from sys_inform_records where r_to = #{toUid}
-		<if test="ids != null">
-		<foreach collection="ids" item="id" open=" AND (" separator=" OR " close=")" >
-			r_id = #{id}
-		</foreach>
-		</if>
-	</delete>
-
-	<update id="update" parameterType="InformRecordEntity">
-		UPDATE sys_inform_records t
-		   SET t.r_status = #{status}
-		 WHERE t.r_to = #{toUid}
-		 <if test="ids != null">
-			 <foreach collection="ids" item="item" open=" AND (" separator=" OR " close=")" >
-				t.r_id = #{item}
-			 </foreach>
-		 </if>
-	</update>
-
-	<select id="getCount" resultType="java.lang.Long" parameterType="InformRecordEntity">
-		SELECT NVL(COUNT(t.r_id), 0) COUNT
-		FROM sys_inform_records t
-		WHERE t.r_to = #{toUid}
-		  AND t.r_status = 0
-	</select>
 
 	<select id="getPagedList" resultMap="InformRecordMap" >
-		SELECT t.r_id,
-			   t.r_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
-		   	   t.r_provider,
-		   	   t.r_tag,
-			   t.r_title,
-			   t.r_content,
-			   t.r_tid,
-			   t.r_to,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
-			   t.r_payload,
-			   t.r_status,
-			   t.time24
+		SELECT t.id,
+			   t.from_type,
+		       t.from_id,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.from_id) as from_uname,
+			   t.channel,
+		       t.title,
+			   t.content,
+		   	   t.template_id,
+			   t.payload,
+			   t.receiver_id,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.receiver_id) as receiver_uname,
+			   t.flow_no,
+			   t.biz_id,
+			   t.app_id,
+			   t.app_channel,
+			   t.app_version,
+			   t.route,
+			   t.status,
+			   t.create_time
 		  FROM sys_inform_records t
 	   <where>
-		   <if test="model.toUid != null and model.toUid != '' ">
-				AND t.r_to = #{model.toUid}
+		   <if test="model.receiverId != null and model.receiverId != '' ">
+				AND t.receiver_id = #{model.receiverId}
 			</if>
-			<if test="model.provider != null and model.provider != '' ">
-				AND t.t_provider = #{model.provider}
+		   <if test="model.fromType != null">
+			   AND t.from_type = #{model.fromType}
+		   </if>
+			<if test="model.channel != null">
+				AND t.channel = #{model.channel}
 			</if>
 			<if test="model.status != null and model.status != '' ">
-				AND t.r_status = #{model.status}
+				AND t.status = #{model.status}
 			</if>
 			<if test="model.keywords != null and model.keywords != '' ">
-				AND t.r_title like '%'|| #{model.keywords} ||'%'
+				AND t.title like '%'|| #{model.keywords} ||'%'
 			</if>
 	   </where>
-		ORDER BY t.time24 DESC
+		ORDER BY t.id DESC
 	</select>
 
-	<select id="getModel" resultMap="InformRecordMap" parameterType="String" >
-		SELECT t.r_id,
-			   t.r_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_uid) as r_uname,
-		   	   t.r_provider,
-		   	   t.r_tag,
-			   t.r_title,
-			   t.r_content,
-			   t.r_tid,
-			   t.r_to,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.r_to) as r_to_uname,
-			   t.r_payload,
-			   t.r_status,
-			   t.time24
-		  FROM sys_inform_records t
-	     WHERE t.r_id = #{id}
+	<select id="getModel" resultMap="InformRecordMap" >
+		SELECT t.id,
+			   t.from_type,
+			   t.from_id,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.from_id) as from_uname,
+			   t.channel,
+			   t.title,
+			   t.content,
+			   t.template_id,
+			   t.payload,
+			   t.receiver_id,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.receiver_id) as receiver_uname,
+			   t.flow_no,
+			   t.biz_id,
+			   t.app_id,
+			   t.app_channel,
+			   t.app_version,
+			   t.route,
+			   t.status,
+			   t.create_time
+		FROM sys_inform_records t
+	   WHERE t.id = #{id}
 	</select>
 
 	<select id="getStats" resultMap="InformRecordStatsMap">
-		SELECT t.r_provider,
-			   COUNT( t.r_id ) as r_total,
-		   	   SUM( CASE WHEN t.r_status = '0' THEN 1 ELSE 0 END ) as r_unread
+		SELECT t.channel,
+			   COUNT( t.id ) as t_total,
+		   	   SUM( CASE WHEN t.status = '0' THEN 1 ELSE 0 END ) as t_unread
 		FROM sys_inform_records t
-	   WHERE t.r_to = #{toUid}
-	   GROUP BY t.r_provider
+	   WHERE t.receiver_id = #{userId}
+	   GROUP BY t.channel
 	</select>
 
 </mapper>

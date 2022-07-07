@@ -82,7 +82,7 @@ public abstract class AbstractInformSendStrategy implements InformSendStrategy, 
     			.appChannel(sendBo.getAppChannel())
     			.appVer(sendBo.getAppVer())
     			.channel(this.getChannel())
-    			.userId(sendBo.getUserId())
+    			.receiverId(sendBo.getUserId())
     			.build();
         fileEntity.setCreateTime(LocalDateTime.now());
         fileEntity.setCreator(sendBo.getUserId());

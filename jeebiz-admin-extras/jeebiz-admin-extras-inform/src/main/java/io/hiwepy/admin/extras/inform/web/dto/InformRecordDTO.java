@@ -4,102 +4,101 @@
  */
 package io.hiwepy.admin.extras.inform.web.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.hiwepy.admin.extras.inform.emums.InformFromType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
 
 @ApiModel(value = "InformRecordDTO", description = "消息通知内容DTO")
-@Getter
-@Setter
-@ToString
+@Data
 public class InformRecordDTO {
 
 	/**
 	 * 消息通知ID
 	 */
-	@ApiModelProperty(name = "id", value = "消息通知ID")
+	@ApiModelProperty(value = "消息通知ID")
 	private String id;
 	/**
-	 * 消息通知创建人ID
+	 * 消息通知记录来源类型：（EVENT:消息通知事件、SEND:用户主动发送）
 	 */
-	@ApiModelProperty(name = "uid", value = "消息通知创建人ID")
-	private String uid;
+	@ApiModelProperty(value = "消息通知记录来源类型：（EVENT:消息通知事件、SEND:用户主动发送）")
+	private InformFromType fromType;
 	/**
-	 * 消息通知创建人
+	 * 消息通知发送人id/事件Id
 	 */
-	@ApiModelProperty(name = "uname", value = "消息通板创建人")
-	private String uname;
+	@ApiModelProperty(value = "消息通知发送人id/事件Id")
+	private String fromId;
 	/**
-	 * 发送该消息通知的提供者
+	 * 消息通知发送人
 	 */
-	@ApiModelProperty(name = "channel", required = true, value = "发送该消息通知的提供者")
+	@ApiModelProperty(value = "消息通知发送人")
+	private String fromUname;
+	/**
+	 * 消息通知发送通道
+	 */
+	@ApiModelProperty(value = "消息通知发送通道")
 	private InformSendChannel channel;
 	/**
-	 * 消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝）
+	 * 消息通知标题
 	 */
-	@ApiModelProperty(name = "tag", value = "消息通知标签（自定义的通知标签，用于判断逻辑，如：1：信息通知、2：发起审批、3：审批通过、4：审批拒绝）")
-	private String tag;
-	/**
-	 * 消息通知类型：（1：信息通知、2：发起审批、3：审批通过、4：审批拒绝）
-	 */
-	private String type;
-	/**
-	 * 消息通知接收人ID
-	 */
-	@ApiModelProperty(name = "toUid", value = "消息通知接收人ID")
-	private String toUid;
-	/**
-	 * 消息通知接收人工号
-	 */
-	@ApiModelProperty(name = "toUkey", value = "消息通知接收人工号")
-	private String toUkey;
-	/**
-	 * 消息通知接收人姓名
-	 */
-	@ApiModelProperty(name = "toUname", value = "消息通知接收人姓名")
-	private String toUname;
-	/**
-	 * 消息通知接手机号码
-	 */
-	@ApiModelProperty(name = "toPhone", value = "消息通知接手机号码")
-	private String toPhone;
-	/**
-	 * 消息通知接邮件
-	 */
-	@ApiModelProperty(name = "toEmail", value = "消息通知接邮件")
-	private String toEmail;
-	/**
-	 * 消息通知标题（可能包含变量）
-	 */
-	@ApiModelProperty(name = "title", value = "消息通知标题（可能包含变量）")
+	@ApiModelProperty(value = "消息通知标题")
 	private String title;
 	/**
-	 * 消息通知内容（可能包含变量）
+	 * 消息通知签名（短信消息模板需要使用）
 	 */
-	@ApiModelProperty(name = "content", value = "消息通知内容（可能包含变量）")
+	@ApiModelProperty(value = "消息通知签名（短信消息模板需要使用）")
+	private String signature;
+	/**
+	 * 消息通知内容
+	 */
+	@ApiModelProperty(value = "消息通知内容")
 	private String content;
 	/**
-	 * 消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）
+	 * 消息通知对应平台内的模板id
 	 */
-	@ApiModelProperty(name = "tid", value = "消息通知模板ID（系统内信息模板、微信订阅消息等模板ID）")
-	private String tid;
+	@ApiModelProperty(value = "消息通知对应平台内的模板id")
+	private String templateId;
 	/**
-	 * 通知信息关联数据载体,JOSN格式的数据
+	 * 消息通知变量载体,JOSN格式的数据
 	 */
-	@ApiModelProperty(name = "payload", value = "通知信息关联数据载体,JOSN格式的数据")
+	@ApiModelProperty(value = "消息通知变量载体,JOSN格式的数据")
 	private String payload;
+	/**
+	 * 消息通知接收人id
+	 */
+	@ApiModelProperty(value = "消息通知接收人id")
+	private String receiverId;
+	/**
+	 * 消息通知接收人
+	 */
+	@ApiModelProperty(value = "消息通知接收人")
+	private String receiverUname;
+	/**
+	 * 消息通知处理流水编号
+	 */
+	@ApiModelProperty(value = "消息通知处理流水编号")
+	private String flowNo;
+	/**
+	 * 消息通知关联业务id
+	 */
+	@ApiModelProperty(value = "消息通知关联业务id")
+	private String bizId;
 	/**
 	 * 消息通知阅读状态：（0:未阅读、1:已阅读）
 	 */
-	@ApiModelProperty(name = "status", value = "消息通知阅读状态：（0:未阅读、1:已阅读）")
-	private String status;
+	@ApiModelProperty(value = "消息通知阅读状态：（0:未阅读、1:已阅读）")
+	private Integer status;
+	/**
+	 * 消息通知内容中包含的路由跳转信息（JSON格式：[{"name":"路由名称","word":"路由文字","link":"路由跳转地址"}]）
+	 */
+	@ApiModelProperty(value = "消息通知内容中包含的路由跳转信息（JSON格式：[{\"name\":\"路由名称\",\"word\":\"路由文字\",\"link\":\"路由跳转地址\"}]）")
+	private String route;
 	/**
 	 * 消息通知创建时间
 	 */
-	@ApiModelProperty(name = "time24", value = "消息通知创建时间")
+	@ApiModelProperty(value = "消息通知创建时间")
 	private String time24;
 
 }

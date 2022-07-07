@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.hiwepy.admin.extras.inform.dao.InformEventMapper" >
+
+	<resultMap id="InformEventMap" type="InformEventEntity">
+		<!-- 消息通知事件id -->
+		<id property="id" column="id" />
+		<!-- 消息通知事件类型 -->
+		<result property="type" column="type" />
+		<!-- 消息通知事件行为 -->
+		<result property="channel" column="channel"/>
+		<!-- 消息通知事件关联模板id -->
+		<result property="templateId" column="template_id" />
+		<!-- 消息通知事件说明 -->
+		<result property="intro" column="intro" />
+		<!-- 消息通知事件通知对象：（ALL:全部、TRIGGER:触发人、SPECIFIC：部分对象） -->
+		<result property="target" column="target" />
+		<!-- 消息通知事件状态：（0:停用、1:启用） -->
+		<result property="status" column="status" />
+		<!-- 消息通知事件创建人id -->
+		<result property="userId" column="creator" />
+		<!-- 消息通知事件创建人 -->
+		<result property="userName" column="t_uname" />
+		<!-- 消息通知事件已发消息总数 -->
+		<result property="total" column="t_total" />
+		<!-- 消息通知事件已发消息未读总数 -->
+		<result property="unread" column="t_total" />
+		<!-- 消息通知事件创建时间 -->
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+
+	<resultMap id="InformEventStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformEventStatsDTO">
+		<!-- 消息通知事件行为 -->
+		<result property="channel" column="channel"/>
+		<!-- 消息通知事件已发消息总数 -->
+		<result property="total" column="t_total" />
+		<!-- 消息通知事件已发消息未读总数 -->
+		<result property="unread" column="t_unread" />
+	</resultMap>
+
+	<select id="getPagedList" resultMap="InformEventMap" >
+		SELECT t.id,
+			   t.type,
+			   t.channel,
+		       t.template_id,
+		       t.intro,
+		       t.status,
+			   t.target,
+			   t.creator,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.creator) as t_uname,
+			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT'),0) AS t_total,
+			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT' AND x.status = 0 ),0) AS t_unread,
+			   t.create_time
+		  FROM sys_inform_events t
+	   	<where>
+			<if test="model.userId != null and model.userId != '' ">
+				AND t.creator = #{model.userId}
+			</if>
+			<if test="model.channel != null and model.channel != '' ">
+				AND t.channel = #{model.channel}
+			</if>
+			<if test="model.status != null and model.status != '' ">
+				AND t.status = #{model.status}
+			</if>
+		</where>
+	</select>
+
+	<select id="getModel" resultMap="InformEventMap" >
+		SELECT t.id,
+			   t.type,
+			   t.channel,
+			   t.template_id,
+			   t.intro,
+			   t.status,
+			   t.target,
+			   t.creator,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.creator) as t_uname,
+			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT'),0) AS t_total,
+			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT' AND x.status = 0 ),0) AS t_unread,
+			   t.create_time
+		FROM sys_inform_events t
+	   WHERE t.id = #{id}
+	</select>
+
+	<select id="getStats" resultMap="InformEventStatsMap">
+		SELECT t.channel as t_channel,
+			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel),0) AS t_total,
+			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.status = 0 ),0) AS t_unread
+		FROM sys_inform_events t
+	   GROUP BY t.channel
+	</select>
+
+</mapper>

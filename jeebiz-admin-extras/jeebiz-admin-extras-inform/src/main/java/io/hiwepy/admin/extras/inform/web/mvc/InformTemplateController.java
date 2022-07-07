@@ -9,19 +9,17 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.admin.extras.inform.emums.InformTarget;
+import io.hiwepy.admin.extras.inform.web.dto.*;
+import io.hiwepy.boot.api.dao.entities.PairModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;
 import org.apache.shiro.biz.utils.SubjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -33,11 +31,6 @@ import io.swagger.annotations.ApiOperation;
 import io.hiwepy.admin.extras.inform.dao.entities.InformTemplateEntity;
 import io.hiwepy.admin.extras.inform.service.IInformTemplateService;
 import io.hiwepy.admin.extras.inform.setup.Constants;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateNewDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplatePaginationDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateRenewDTO;
-import io.hiwepy.admin.extras.inform.web.dto.InformTemplateStatsDTO;
 import io.hiwepy.boot.api.ApiRestResponse;
 import io.hiwepy.boot.api.annotation.BusinessLog;
 import io.hiwepy.boot.api.annotation.BusinessType;
@@ -65,7 +58,7 @@ public class InformTemplateController extends BaseMapperController {
 		InformTemplateEntity model = getBeanMapper().map(paginationDTO, InformTemplateEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		if(!principal.isAdmin()) {
-			model.setUid(principal.getUserid());
+			model.setUserId(principal.getUserid());
 		}
 		Page<InformTemplateEntity> pageResult = getInformTemplateService().getPagedList(model);
 		List<InformTemplateDTO> retList = new ArrayList<InformTemplateDTO>();
@@ -75,6 +68,23 @@ public class InformTemplateController extends BaseMapperController {
 		
 		return new Result<InformTemplateDTO>(pageResult, retList);
 		
+	}
+
+	@ApiOperation(value = "消息通知模板下拉列表", notes = "消息通知模板下拉列表")
+	@GetMapping("pairs")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<List<InformTemplatePairDTO>> list() throws Exception {
+		List<InformTemplatePairDTO> retList = getInformTemplateService().getPairs();
+		return ApiRestResponse.success(retList);
+	}
+
+	@ApiOperation(value = "模板类型", notes = "模板类型列表")
+	@GetMapping("types")
+	@RequiresAuthentication
+	@ResponseBody
+	public ApiRestResponse<List<PairModel>> types() throws Exception {
+		return ApiRestResponse.success(InformSendChannel.toList());
 	}
 
 	@ApiOperation(value = "消息通知模板统计信息", notes = "查询消息通知模板统计信息")
@@ -95,14 +105,11 @@ public class InformTemplateController extends BaseMapperController {
 	@RequiresPermissions("inform-tmpl:new")
 	@ResponseBody
 	public ApiRestResponse<String> newTmpl(@Valid @RequestBody InformTemplateNewDTO newDTO) throws Exception {
-		InformTemplateEntity model = getBeanMapper().map(newDTO, InformTemplateEntity.class);
-		
-		Long ct = getInformTemplateService().getCount(model);
-		if(ct > 0) {
-			return fail("inform.template.new.conflict");
-		}
+		InformTemplateEntity entity = getBeanMapper().map(newDTO, InformTemplateEntity.class);
+        ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+        entity.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
-		boolean result = getInformTemplateService().save(model);
+		boolean result = getInformTemplateService().save(entity);
 		if(result) {
 			return success("inform.template.new.success", result);
 		}
@@ -115,7 +122,7 @@ public class InformTemplateController extends BaseMapperController {
 		@ApiImplicitParam(paramType = "query", name = "ids", value = "消息通知模板id,多个用,拼接", required = true, dataType = "String")
 	})
 	@BusinessLog(module = Constants.EXTRAS_INFORM, business = "删除消息通知模板", opt = BusinessType.DELETE)
-	@GetMapping("delete")
+	@DeleteMapping("delete")
 	@RequiresPermissions("inform-tmpl:delete")
 	@ResponseBody
 	public ApiRestResponse<String> delete(@RequestParam("ids") String ids) throws Exception {
@@ -138,12 +145,10 @@ public class InformTemplateController extends BaseMapperController {
 	@RequiresPermissions("inform-tmpl:renew")
 	@ResponseBody
 	public ApiRestResponse<String> renew(@Valid @RequestBody InformTemplateRenewDTO renewDTO) throws Exception {
-		InformTemplateEntity model = getBeanMapper().map(renewDTO, InformTemplateEntity.class);
-		Long ct = getInformTemplateService().getCount(model);
-		if(ct > 0) {
-			return fail("inform.template.renew.conflict");
-		}
-		boolean result = getInformTemplateService().updateById(model);
+		InformTemplateEntity entity = getBeanMapper().map(renewDTO, InformTemplateEntity.class);
+		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
+		entity.setModifyer(principal.getUserid());
+		boolean result = getInformTemplateService().updateById(entity);
 		if(result) {
 			return success("inform.template.renew.success", result);
 		}

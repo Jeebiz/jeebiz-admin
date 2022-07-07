@@ -4,7 +4,15 @@
  */
 package io.hiwepy.admin.extras.inform.dao.entities;
 
+import io.hiwepy.admin.extras.inform.emums.InformSendChannel;
+import io.hiwepy.boot.api.dao.entities.PaginationEntity;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.ibatis.type.Alias;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -16,12 +24,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import io.hiwepy.admin.extras.inform.emums.InformTarget;
-import io.hiwepy.boot.api.dao.entities.PaginationEntity;
+
+import javax.validation.constraints.NotEmpty;
 
 @SuppressWarnings("serial")
 @Alias(value = "InformTemplateEntity")
-@TableName(value = "inform_templates", keepGlobalPrefix = true)
+@TableName("sys_inform_templates")
 @Builder
 @Data
 @NoArgsConstructor
@@ -35,45 +43,55 @@ public class InformTemplateEntity extends PaginationEntity<InformTemplateEntity>
 	@TableId(value="id",type= IdType.AUTO)
 	private String id;
 	/**
-	 * 消息通知模板面向对象
+	 * 消息通知模板名称
 	 */
-	@TableField(value = "t_target")
-	private InformTarget target;
+	@TableField(value = "name")
+	private String name;
 	/**
-	 * 消息通知模板标题（可能包含变量）
+	 * 消息通知模板类型
 	 */
-	@TableField(value = "t_title")
+	@TableField(value = "channel")
+	private InformSendChannel channel;
+	/**
+	 * 消息通知标题（可能包含变量）
+	 */
+	@TableField(value = "title")
 	private String title;
 	/**
-	 * 消息通知模板内容（可能包含变量）
+	 * 消息通知签名（短信消息模板需要使用）
 	 */
-	@TableField(value = "t_content")
+	@TableField(value = "sign")
+	private String signature;
+	/**
+	 * 消息通知内容（可能包含变量）
+	 */
+	@TableField(value = "content")
 	private String content;
 	/**
 	 * 消息通知模板对应第三方平台内的模板id
 	 */
-	@TableField(value = "t_tid")
-	private String tid;
+	@TableField(value = "template_id")
+	private String templateId;
 	/**
 	 * 消息通知模板变量载体,JOSN格式的数据
 	 */
-	@TableField(value = "t_payload")
+	@TableField(value = "payload")
 	private String payload;
 	/**
 	 * 消息通知模板状态：（0:停用、1:启用）
 	 */
-	@TableField(value = "t_status")
-	private String status;
+	@TableField(value = "status")
+	private Integer status;
 	/**
 	 * 消息通知模板创建人id
 	 */
 	@TableField(exist = false)
-	private String uid;
+	private String userId;
 	/**
 	 * 消息通知模板创建人
 	 */
 	@TableField(exist = false)
-	private String uname;
+	private String userName;
 	/**
 	 * 消息通知模板已发消息总数
 	 */

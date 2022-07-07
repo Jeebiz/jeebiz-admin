@@ -5,144 +5,102 @@
 
 	<resultMap id="InformTemplateMap" type="InformTemplateEntity">
 		<!-- 消息通知模板id -->
-		<id property="id" column="t_id" />
-		<!-- 消息通知模板创建人id -->
-		<result property="uid" column="t_uid" />
-		<!-- 消息通知模板创建人 -->
-		<result property="uname" column="t_uname" />
-		<!-- 消息通知模板面向对象 -->
-		<result property="target" column="t_target" />
-		<!-- 消息通知模板的发送提供者 -->
-		<result property="provider" column="t_provider" />
+		<id property="id" column="id" />
+		<!-- 消息通知模板名称 -->
+		<result property="name" column="name" />
+		<!-- 消息通知模板类型 -->
+		<result property="channel" column="channel"/>
 		<!-- 通知信息标题（可能包含变量） -->
-		<result property="title" column="t_title" />
+		<result property="title" column="title" />
+		<!-- 消息通知签名（短信消息模板需要使用） -->
+		<result property="signature" column="sign" />
 		<!-- 通知信息内容（可能包含变量） -->
-		<result property="content" column="t_content" />
+		<result property="content" column="content" />
 		<!-- 消息通知模板对应第三方平台内的模板id -->
-		<result property="tid" column="t_tid" />
+		<result property="templateId" column="template_id" />
 		<!-- 消息通知模板变量载体,JOSN格式的数据 -->
-		<result property="payload" column="t_payload" />
-		<!-- 消息通知状态：（0:停用、1:启用） -->
-		<result property="status" column="t_status" />
+		<result property="payload" column="payload" />
+		<!-- 消息通知模板状态：（0:停用、1:启用） -->
+		<result property="status" column="status" />
+		<!-- 消息通知模板创建人id -->
+		<result property="userId" column="creator" />
+		<!-- 消息通知模板创建人 -->
+		<result property="userName" column="t_uname" />
 		<!-- 消息通知模板已发消息总数 -->
 		<result property="total" column="t_total" />
 		<!-- 消息通知模板已发消息未读总数 -->
-		<result property="unread" column="t_unread" />
+		<result property="unread" column="t_total" />
 		<!-- 消息通知模板创建时间 -->
 		<result property="createTime" column="create_time"/>
 	</resultMap>
 
 	<resultMap id="InformTemplateStatsMap" type="io.hiwepy.admin.extras.inform.web.dto.InformTemplateStatsDTO">
-		<!-- 消息通知模板的发送提供者 -->
-		<result property="provider" column="t_provider" />
+		<!-- 消息通知模板类型 -->
+		<result property="channel" column="channel"/>
 		<!-- 消息通知模板已发消息总数 -->
 		<result property="total" column="t_total" />
 		<!-- 消息通知模板已发消息未读总数 -->
 		<result property="unread" column="t_unread" />
 	</resultMap>
 
-	<insert id="insert" parameterType="InformTemplateEntity" flushCache="true" >
-		<selectKey keyProperty="id" order="BEFORE" resultType="String">
-	        SELECT sys_guid() FROM dual
-	    </selectKey>
-		insert into sys_inform_templates(t_id,t_uid,t_target,t_provider,t_title,t_content,t_tid,t_payload,t_status)
-		values(#{id},#{uid},#{target},#{provider},#{title},#{content,jdbcType=VARCHAR},#{tid,jdbcType=VARCHAR},#{payload,jdbcType=VARCHAR},'0')
-	</insert>
-
-	<delete id="delete" parameterType="java.lang.String">
-		DELETE FROM sys_inform_templates WHERE t_id = #{id}
-	</delete>
-
-	<delete id="batchDelete" flushCache="true">
-		DELETE FROM sys_inform_templates WHERE t_id IN
-		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-           #{item}
-        </foreach>
-	</delete>
-
-	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_inform_templates t
-		   SET t.t_status = #{status}
-		 WHERE t.t_id = #{id}
-	</update>
-
-	<update id="update" parameterType="InformTemplateEntity">
-		UPDATE sys_inform_templates t
-		   SET t.t_target = #{target},
-		   	   t.t_provider = #{provider},
-		   	   t.t_title = #{title},
-		   	   t.t_content = #{content,jdbcType=VARCHAR},
-		   	   t.t_tid = #{tid,jdbcType=VARCHAR},
-		   	   t.t_payload = #{payload,jdbcType=VARCHAR}
-		 WHERE t.t_id = #{id}
-	</update>
-
-	<select id="getCount" resultType="java.lang.Long" parameterType="InformTemplateEntity" useCache="false">
-		SELECT count(t.t_id)
-		  FROM sys_inform_templates t
-		 WHERE t.t_title = #{title}
-		   AND t.t_uid = #{uid}
-	</select>
-
 	<select id="getPagedList" resultMap="InformTemplateMap" >
-		SELECT t.t_id,
-			   t.creator as t_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
-			   t.t_target,
-			   t.t_provider,
-			   t.t_title,
-			   t.t_content,
-			   t.t_tid,
-			   t.t_payload,
-			   t.t_status,
-			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS t_total,
-			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND x.r_status = 0 ),0) AS t_unread,
+		SELECT t.id,
+			   t.name,
+			   t.channel,
+			   t.title,
+		       t.sign,
+			   t.content,
+		       t.template_id,
+		       t.payload,
+		       t.status,
+			   t.creator,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.creator) as t_uname,
+			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel),0) AS t_total,
+			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.status = 0 ),0) AS t_unread,
 			   t.create_time
 		  FROM sys_inform_templates t
 	   	<where>
-			<if test="model.uid != null and model.uid != '' ">
-				AND t.creator = #{model.uid}
+			<if test="model.userId != null and model.userId != '' ">
+				AND t.creator = #{model.userId}
 			</if>
-			<if test="model.provider != null and model.provider != '' ">
-				AND t.t_provider = #{model.provider}
-			</if>
-			<if test="model.target != null and model.target != '' ">
-				AND t.t_target = #{model.target}
+			<if test="model.channel != null and model.channel != '' ">
+				AND t.channel = #{model.channel}
 			</if>
 			<if test="model.status != null and model.status != '' ">
-				AND t.t_status = #{model.status}
+				AND t.status = #{model.status}
 			</if>
 			<if test="model.keywords != null and model.keywords != '' ">
-				AND t.t_title like '%'|| #{model.keywords} ||'%'
+				AND t.title like '%'|| #{model.keywords} ||'%'
 			</if>
 		</where>
+		ORDER BY t.id DESC
 	</select>
 
-	<select id="getModel" resultMap="InformTemplateMap" parameterType="String" >
-		SELECT t.t_id,
-			   t.creator as t_uid,
-			   (SELECT x.u_nickname FROM sys_authz_user_profile x WHERE x.u_id = t.creator) as t_uname,
-			   t.t_target,
-			   t.t_provider,
-			   t.t_title,
-			   t.t_content,
-			   t.t_tid,
-			   t.t_payload,
-			   t.t_status,
-			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS t_total,
-			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND x.r_status = 0 ),0) AS t_unread,
+	<select id="getModel" resultMap="InformTemplateMap" >
+		SELECT t.id,
+			   t.name,
+			   t.channel,
+			   t.title,
+			   t.sign,
+			   t.content,
+			   t.template_id,
+			   t.payload,
+			   t.status,
+			   t.creator,
+			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.creator) as t_uname,
+			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel),0) AS t_total,
+			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.status = 0 ),0) AS t_unread,
 			   t.create_time
-		  FROM sys_inform_templates t
-	   WHERE t.t_id = #{id}
+		FROM sys_inform_templates t
+	   WHERE t.id = #{id}
 	</select>
 
 	<select id="getStats" resultMap="InformTemplateStatsMap">
-		SELECT t.t_provider,
-			   IFNULL(( SELECT COUNT( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id ),0) AS t_total,
-			   IFNULL(( SELECT count( x.r_id ) FROM sys_inform_records x WHERE x.r_tid = t.t_id AND x.r_status = 0 ),0) AS t_unread
-		FROM sys_inform_templates t, sys_inform_targets t2
-	   WHERE t.t_id = t2.t_id
-	   GROUP BY t.t_provider
+		SELECT t.channel,
+			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel),0) AS t_total,
+			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.status = 0 ),0) AS t_unread
+		FROM sys_inform_templates t
+	   GROUP BY t.channel
 	</select>
 
 </mapper>

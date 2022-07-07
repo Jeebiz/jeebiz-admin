@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="io.hiwepy.admin.authz.org.dao.AuthzTeamMapper">
+<mapper namespace="io.hiwepy.admin.authz.org.dao.TeamMapper">
 
-	<resultMap id="AuthzTeamMap" type="AuthzTeamModel">
+	<resultMap id="TeamMap" type="TeamModel">
 		<id property="id" column="team_id" />
 		<result property="orgId" column="org_id" />
 		<result property="orgName" column="org_name" />
@@ -43,7 +43,7 @@
 		 WHERE t.team_id = #{id}
 	</select>
 
-	<select id="getPagedList" resultMap="AuthzTeamMap" parameterType="AuthzTeamModel" useCache="false">
+	<select id="getPagedList" resultMap="TeamMap" parameterType="TeamModel" useCache="false">
 		SELECT
 			t2.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
@@ -70,7 +70,7 @@
 		ORDER By t.time24 ASC
 	</select>
 
-	<select id="getModel" resultMap="AuthzTeamMap" parameterType="java.lang.String" useCache="true">
+	<select id="getModel" resultMap="TeamMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t2.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
@@ -86,7 +86,7 @@
 	   WHERE t.team_id = #{id}
 	</select>
 
-	<select id="getModelList" resultMap="AuthzTeamMap" parameterType="java.lang.String" useCache="false">
+	<select id="getModelList" resultMap="TeamMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t2.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,

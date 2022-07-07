@@ -6,6 +6,8 @@ package io.hiwepy.admin.extras.inform.service.impl;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.hiwepy.admin.extras.inform.setup.Constants;
 import org.springframework.stereotype.Service;
 
 import io.hiwepy.admin.extras.inform.dao.InformRecordMapper;
@@ -19,13 +21,15 @@ public class InformRecordServiceImpl extends BaseServiceImpl<InformRecordMapper,
 		implements IInformRecordService {
 
 	@Override
-	public List<InformRecordStatsDTO> getStats(String uid) {
-		return getBaseMapper().getStats(uid);
+	public Long getCount(InformRecordEntity entity) {
+		return getBaseMapper().selectCount(new LambdaQueryWrapper<InformRecordEntity>()
+				.eq(InformRecordEntity::getReceiverId, entity.getReceiverId())
+				.eq(InformRecordEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
 	}
 
 	@Override
-	public int deleteByUid(String uid, List<String> ids) {
-		return getBaseMapper().deleteByUid(uid, ids);
+	public List<InformRecordStatsDTO> getStats(String uid) {
+		return getBaseMapper().getStats(uid);
 	}
 
 }
