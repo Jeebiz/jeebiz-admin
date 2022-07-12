@@ -66,7 +66,6 @@ public class BannerNewDTO {
 	/**
 	 * 显示状态（0：不显示、1：显示）
 	 */
-	@TableField(value = "status")
 	@ApiModelProperty(required = true, notes = "显示状态（0：不显示、1：显示）")
 	private Integer status;
 	/**
@@ -75,10 +74,20 @@ public class BannerNewDTO {
 	@ApiModelProperty(required = true, notes = "链接类型（0:H5网页、1:客户端、2:仅图片、3:内联网页）")
 	private Integer linkType;
 	/**
-	 * 扩展字段：过期时间、等待时间
+	 * 间隔时间
 	 */
-	@ApiModelProperty(notes = "扩展字段：过期时间、等待时间")
-	private String extend;
+	@ApiModelProperty(value = "间隔时间")
+	private Integer intervalTime;
+	/**
+	 * 过期时间
+	 */
+	@ApiModelProperty(value = "过期时间")
+	private Integer expireTime;
+	/**
+	 * 等待时间
+	 */
+	@ApiModelProperty(value = "等待时间")
+	private Integer waitTime;
 	/**
 	 * 权重值，数字越小越靠前
 	 */
