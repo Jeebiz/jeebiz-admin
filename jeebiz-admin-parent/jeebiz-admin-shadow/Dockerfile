@@ -1,7 +1,8 @@
 #FROM reg.hiwepy.com/base-image/openjdk-pinpont:1
 #FROM reg.hiwepy.com/base-image/openjdk-shanghai:8
 #FROM openjdk:8
-FROM java:openjdk-8-jre-alpine
+#FROM java:openjdk-8-jre-alpine
+FROM openjdk:11.0.15-jre-slim
 VOLUME /tmp
 VOLUME /logs
 ADD ./target/jeebiz-admin-shadow-1.0.0-SNAPSHOT.jar /
