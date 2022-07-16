@@ -43,29 +43,7 @@ public enum BizExceptionCode implements CustomApiCode {
 	SIGN_EXPIRED("login.token.expired", 20018, "Sign expired,Please log in again", "签名过期"),
 
 	DATA_NOT_EXISTS("data.not.exists", 8888, "未找到数据", "未找到数据"),
-	
-	// 用户相关 30000-40000
-	SAVE_USER_INFO_FAIL("user.info.save.fail", 30000, "", "保存用户信息失败"),
-	USER_INFO_IS_NOT_EXSIT("user.info.is.not.exsit", 30001, "", "用户信息不存在"),
-	SFZJH_ALREADY_EXIST("user.sfzjh.is.already.exsit", 30002, "身份证号已存在", "身份证号已存在"),
 
-	//树节点相关 40000-41000
-	PARENT_NODE_NOT_EXISTS("parent.node.not.exists", 40000, "父级节点不存在", "父级节点不存在"),
-    TREE_ALREADY_EXIST("tree.already.exist", 40001, "树已存在", "树已存在"),
-
-    //部门相关 41000-42000
-    DEPT_NOT_EXISTS("dept.not.exists", 41000, "部门不存在", "部门不存在"),
-
-	//角色相关 42000-43000
-	ROLE_NOT_EXISTS("role.not.exists", 42000, "角色不存在", "角色不存在"),
-	ROLE_USER_NOT_EXISTS("role.user.not.exists", 42001, "用户不存在", "用户不存在"),
-	ROLE_USER_EXPORT_FAIL("role.user.export.fail", 42002, "导出用户失败", "导出用户失败"),
-
-	 //年级相关 51
-	NJ_NOT_EXISTS("NJ.not.exists", 51000, "年级不存在", "年级不存在"),
-	NJ_ERROR("nj.error", 51001, "年级错误", "年级错误"),
-	NJ_TIME_ERROR("nj.time.error", 51001, "入学时间错误", "入学时间错误"),
-	NJ_ALREADY_EXIST("nj.already.exist", 51002, "年级已存在", "年级已存在"),
 	;
 
 	/**
