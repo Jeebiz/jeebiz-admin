@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS `sys_data_config`;
 CREATE TABLE `sys_data_config` (
     `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '配置消息主键ID',
     `corp_id`     varchar(200) NOT NULL COMMENT ' 钉钉机构 CropId ',
+    `corp_secret` varchar(200) NOT NULL COMMENT ' 钉钉机构密钥 ',
     `dept_id`     bigint(11) NOT NULL COMMENT ' 组织机构ID ',
     `config_type` varchar(255) DEFAULT NULL COMMENT ' 配置类型 ',
     `is_delete` tinyint(2) NOT NULL DEFAULT 0 COMMENT '是否删除（0:未删除,1:已删除）',
