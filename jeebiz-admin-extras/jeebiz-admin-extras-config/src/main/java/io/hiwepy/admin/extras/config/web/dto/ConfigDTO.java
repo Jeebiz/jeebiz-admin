@@ -31,6 +31,12 @@ public class ConfigDTO {
 	private String corpId;
 
 	/**
+	 *  钉钉机构密钥
+	 */
+	@ApiModelProperty(value = "钉钉机构密钥")
+	private String corpSecret;
+
+	/**
 	 *  组织机构ID
 	 */
 	@ApiModelProperty(value = "组织机构ID")
