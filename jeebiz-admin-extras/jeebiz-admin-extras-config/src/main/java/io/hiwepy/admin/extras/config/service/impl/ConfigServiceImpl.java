@@ -115,10 +115,7 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, ConfigEntit
 
     @Override
     public ConfigEntity getByAppId(String appId) {
-        ConfigItemEntity itemEntity = configItemService.getOne(new LambdaQueryWrapper<ConfigItemEntity>()
-                .eq(ConfigItemEntity::getConfigValue, appId)
-                .eq(ConfigItemEntity::getIsDelete, Constants.Normal.IS_DELETE_0)
-                .last(" limit 1"));
+        ConfigItemEntity itemEntity = configItemService.getByAppId(appId);
         if(Objects.isNull(itemEntity)){
             return null;
         }
@@ -165,10 +162,7 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, ConfigEntit
         if(Objects.isNull(entity)){
             return null;
         }
-        List<ConfigItemEntity> list = configItemService.list(new LambdaQueryWrapper<ConfigItemEntity>()
-                .eq(ConfigItemEntity::getConfigId, entity.getId())
-                .eq(ConfigItemEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
-
+        List<ConfigItemEntity> list = configItemService.getByConfigId(entity.getId());
         ConfigDTO configDTO = getBeanMapper().map(entity, ConfigDTO.class);
         if(!CollectionUtils.isEmpty(list)){
             configDTO.setConfigList(list.stream().map(itemEntity -> getBeanMapper().map(itemEntity, ConfigItemDTO.class)).collect(Collectors.toList()));

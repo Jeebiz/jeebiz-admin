@@ -5,6 +5,8 @@ import io.hiwepy.admin.extras.config.dao.entities.ConfigEntity;
 import io.hiwepy.admin.extras.config.dao.entities.ConfigItemEntity;
 import io.hiwepy.admin.extras.config.web.dto.ConfigDTO;
 
+import java.util.List;
+
 /**
  * <p>
  * 三方集成配置信息 服务类
@@ -14,5 +16,9 @@ import io.hiwepy.admin.extras.config.web.dto.ConfigDTO;
  * @since 2022-06-14
  */
 public interface IConfigItemService extends IService<ConfigItemEntity> {
+
+    ConfigItemEntity getByAppId(String appId);
+
+    List<ConfigItemEntity> getByConfigId(Long configId);
 
 }
