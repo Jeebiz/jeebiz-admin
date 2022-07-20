@@ -43,7 +43,10 @@ public class ConfigItemServiceImpl extends BaseServiceImpl<ConfigItemMapper, Con
         if(Objects.isNull(itemEntity)){
             return null;
         }
-        return this.getListByConfigId(itemEntity.getConfigId());
+        return getBaseMapper().selectList(new LambdaQueryWrapper<ConfigItemEntity>()
+                .eq(ConfigItemEntity::getConfigId, itemEntity.getConfigId())
+                .eq(ConfigItemEntity::getConfigType, itemEntity.getConfigType())
+                .eq(ConfigItemEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
     }
 
     @Override
