@@ -18,6 +18,18 @@ public interface IConfigService extends IBaseService<ConfigEntity> {
 
     boolean saveOrUpdate(ConfigNewDTO config);
 
+    ConfigEntity getByDeptId(String deptId);
+
+    ConfigEntity getByCorpId(String corpId);
+
+    ConfigEntity getByAppId(String appId);
+
     ConfigDTO getConfigById(String id);
+
+    ConfigDTO getConfigByDeptId(String deptId);
+
+    ConfigDTO getConfigByCorpId(String corpId);
+
+    ConfigDTO getConfigByAppId(String appId);
 
 }
