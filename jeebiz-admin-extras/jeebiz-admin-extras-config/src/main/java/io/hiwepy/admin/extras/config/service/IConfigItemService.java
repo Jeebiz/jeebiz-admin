@@ -3,6 +3,7 @@ package io.hiwepy.admin.extras.config.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.hiwepy.admin.extras.config.dao.entities.ConfigEntity;
 import io.hiwepy.admin.extras.config.dao.entities.ConfigItemEntity;
+import io.hiwepy.admin.extras.config.utils.enums.ConfigItemType;
 import io.hiwepy.admin.extras.config.web.dto.ConfigDTO;
 
 import java.util.List;
@@ -22,5 +23,7 @@ public interface IConfigItemService extends IService<ConfigItemEntity> {
     List<ConfigItemEntity> getListByAppId(String appId);
 
     List<ConfigItemEntity> getListByConfigId(Long configId);
+
+    List<ConfigItemEntity> getListByConfigId(Long configId, ConfigItemType configType);
 
 }

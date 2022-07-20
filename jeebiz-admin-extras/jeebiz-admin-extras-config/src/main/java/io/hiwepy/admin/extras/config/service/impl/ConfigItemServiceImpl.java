@@ -8,6 +8,7 @@ import io.hiwepy.admin.extras.config.dao.entities.ConfigItemEntity;
 import io.hiwepy.admin.extras.config.service.IConfigItemService;
 import io.hiwepy.admin.extras.config.service.IConfigService;
 import io.hiwepy.admin.extras.config.setup.Constants;
+import io.hiwepy.admin.extras.config.utils.enums.ConfigItemType;
 import io.hiwepy.admin.extras.config.web.dto.ConfigDTO;
 import io.hiwepy.boot.api.service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,16 +44,21 @@ public class ConfigItemServiceImpl extends BaseServiceImpl<ConfigItemMapper, Con
         if(Objects.isNull(itemEntity)){
             return null;
         }
-        return getBaseMapper().selectList(new LambdaQueryWrapper<ConfigItemEntity>()
-                .eq(ConfigItemEntity::getConfigId, itemEntity.getConfigId())
-                .eq(ConfigItemEntity::getConfigType, itemEntity.getConfigType())
-                .eq(ConfigItemEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
+        return this.getListByConfigId(itemEntity.getConfigId(), itemEntity.getConfigType());
     }
 
     @Override
     public List<ConfigItemEntity> getListByConfigId(Long configId) {
         return getBaseMapper().selectList(new LambdaQueryWrapper<ConfigItemEntity>()
                 .eq(ConfigItemEntity::getConfigId, configId)
+                .eq(ConfigItemEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
+    }
+
+    @Override
+    public List<ConfigItemEntity> getListByConfigId(Long configId, ConfigItemType configType) {
+        return getBaseMapper().selectList(new LambdaQueryWrapper<ConfigItemEntity>()
+                .eq(ConfigItemEntity::getConfigId, configId)
+                .eq(ConfigItemEntity::getConfigType, configType)
                 .eq(ConfigItemEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
     }
 
