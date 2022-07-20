@@ -19,6 +19,8 @@ public interface IConfigItemService extends IService<ConfigItemEntity> {
 
     ConfigItemEntity getByAppId(String appId);
 
-    List<ConfigItemEntity> getByConfigId(Long configId);
+    List<ConfigItemEntity> getListByAppId(String appId);
+
+    List<ConfigItemEntity> getListByConfigId(Long configId);
 
 }

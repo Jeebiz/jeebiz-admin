@@ -162,7 +162,7 @@ public class ConfigServiceImpl extends BaseServiceImpl<ConfigMapper, ConfigEntit
         if(Objects.isNull(entity)){
             return null;
         }
-        List<ConfigItemEntity> list = configItemService.getByConfigId(entity.getId());
+        List<ConfigItemEntity> list = configItemService.getListByConfigId(entity.getId());
         ConfigDTO configDTO = getBeanMapper().map(entity, ConfigDTO.class);
         if(!CollectionUtils.isEmpty(list)){
             configDTO.setConfigList(list.stream().map(itemEntity -> getBeanMapper().map(itemEntity, ConfigItemDTO.class)).collect(Collectors.toList()));

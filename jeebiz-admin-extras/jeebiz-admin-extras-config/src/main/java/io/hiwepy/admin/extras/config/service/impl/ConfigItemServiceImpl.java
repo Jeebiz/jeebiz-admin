@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -37,7 +38,16 @@ public class ConfigItemServiceImpl extends BaseServiceImpl<ConfigItemMapper, Con
     }
 
     @Override
-    public List<ConfigItemEntity> getByConfigId(Long configId) {
+    public List<ConfigItemEntity> getListByAppId(String appId) {
+        ConfigItemEntity itemEntity = this.getById(appId);
+        if(Objects.isNull(itemEntity)){
+            return null;
+        }
+        return this.getListByConfigId(itemEntity.getConfigId());
+    }
+
+    @Override
+    public List<ConfigItemEntity> getListByConfigId(Long configId) {
         return getBaseMapper().selectList(new LambdaQueryWrapper<ConfigItemEntity>()
                 .eq(ConfigItemEntity::getConfigId, configId)
                 .eq(ConfigItemEntity::getIsDelete, Constants.Normal.IS_DELETE_0));
