@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class JeebizLogbizConfiguration implements WebMvcConfigurer {
+public class JeebizConfigConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	public FlywayFluentConfiguration flywayLogbizConfiguration() {
 
-		FlywayFluentConfiguration configuration = new FlywayFluentConfiguration("logbiz",
+		FlywayFluentConfiguration configuration = new FlywayFluentConfiguration("config",
 				"日志管理-模块初始化（功能操作日志、系统异常日志、认证授权日志）", "1.0.0");
 
 		return configuration;
