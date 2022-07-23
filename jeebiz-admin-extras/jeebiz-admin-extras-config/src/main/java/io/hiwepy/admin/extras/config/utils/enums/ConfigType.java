@@ -1,13 +1,10 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package io.hiwepy.admin.extras.config.utils.enums;
 
 import io.hiwepy.admin.extras.redis.setup.BizRedisKey;
-import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
-import org.slf4j.helpers.MessageFormatter;
-import org.springframework.data.redis.core.RedisKey;
 
 import java.util.HashMap;
 import java.util.LinkedList;

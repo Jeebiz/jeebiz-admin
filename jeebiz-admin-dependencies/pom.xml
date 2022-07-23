@@ -9,15 +9,17 @@
 	</parent>
 	<artifactId>jeebiz-admin-dependencies</artifactId>
 	<packaging>pom</packaging>
-	
+
 	<properties>
 		<jeebiz-admin.version>1.0.2-ce-SNAPSHOT</jeebiz-admin.version>
 		<jeebiz-fastxls.version>1.0.0-SNAPSHOT</jeebiz-fastxls.version>
+		<shiro-uaa.version>1.0.6</shiro-uaa.version>
+		<oltu.version>1.0.2</oltu.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			
+
 			<dependency>
 				<groupId>io.hiwepy</groupId>
 				<artifactId>fastxls-core</artifactId>
@@ -88,7 +90,7 @@
 				<artifactId>fastxls-spring-boot-starter</artifactId>
 				<version>${jeebiz-fastxls.version}</version>
 			</dependency>
-			
+
 		</dependencies>
 	</dependencyManagement>
 

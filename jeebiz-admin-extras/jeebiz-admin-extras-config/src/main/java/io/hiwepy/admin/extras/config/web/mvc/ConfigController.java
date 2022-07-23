@@ -1,22 +1,15 @@
 package io.hiwepy.admin.extras.config.web.mvc;
 
 
-import io.hiwepy.admin.extras.config.dao.entities.ConfigEntity;
 import io.hiwepy.admin.extras.config.service.IConfigService;
 import io.hiwepy.admin.extras.config.web.dto.ConfigDTO;
 import io.hiwepy.admin.extras.config.web.dto.ConfigNewDTO;
 import io.hiwepy.boot.api.ApiRestResponse;
-import io.hiwepy.boot.api.annotation.BusinessLog;
-import io.hiwepy.boot.api.annotation.BusinessType;
 import io.hiwepy.boot.api.web.BaseMapperController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
