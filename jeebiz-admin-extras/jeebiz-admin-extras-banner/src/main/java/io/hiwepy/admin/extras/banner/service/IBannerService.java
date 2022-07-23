@@ -1,10 +1,10 @@
 package io.hiwepy.admin.extras.banner.service;
 
-import java.util.List;
-
 import io.hiwepy.admin.extras.banner.dao.entities.BannerEntity;
 import io.hiwepy.admin.extras.banner.web.dto.BannerDTO;
 import io.hiwepy.boot.api.service.IBaseService;
+
+import java.util.List;
 
 public interface IBannerService extends IBaseService<BannerEntity> {
 
