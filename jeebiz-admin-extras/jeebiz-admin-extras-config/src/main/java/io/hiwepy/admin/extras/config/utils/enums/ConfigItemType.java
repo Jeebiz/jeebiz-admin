@@ -1,12 +1,10 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package io.hiwepy.admin.extras.config.utils.enums;
 
 import io.hiwepy.admin.extras.redis.setup.BizRedisKey;
-import io.hiwepy.admin.extras.redis.setup.BizRedisKeyConstant;
-import org.springframework.data.redis.core.RedisKey;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -68,15 +66,15 @@ public enum ConfigItemType {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
+
 	public boolean equals(ConfigItemType type){
 		return this.compareTo(type) == 0;
 	}
-	
+
 	public boolean equals(String key){
 		return this.compareTo(ConfigItemType.valueOfIgnoreCase(key)) == 0;
 	}
-	
+
 	public static ConfigItemType valueOfIgnoreCase(String key) {
 		for (ConfigItemType optType : ConfigItemType.values()) {
 			if(optType.getKey().equalsIgnoreCase(key)) {
@@ -85,7 +83,7 @@ public enum ConfigItemType {
 		}
     	throw new NoSuchElementException("Cannot found AuthzOptEnum with key '" + key + "'.");
     }
-	
+
 	public static List<Map<String, String>> toList() {
 		List<Map<String, String>> optList = new LinkedList<Map<String, String>>();
 		for (ConfigItemType optEnum : ConfigItemType.values()) {

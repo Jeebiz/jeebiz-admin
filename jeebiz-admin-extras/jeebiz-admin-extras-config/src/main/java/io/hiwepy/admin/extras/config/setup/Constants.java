@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package io.hiwepy.admin.extras.config.setup;
 
@@ -8,7 +8,7 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 public class Constants {
-	
+
 	public static Marker authzLogMarker = MarkerFactory.getMarker("Authz-Log");
 	public static Marker bizLogMarker = MarkerFactory.getMarker("Biz-Log");
 	public static Marker bizExcpMarker = MarkerFactory.getMarker("Biz-Excp");

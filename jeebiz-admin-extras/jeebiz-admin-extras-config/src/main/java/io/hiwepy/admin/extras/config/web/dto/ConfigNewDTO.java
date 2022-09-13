@@ -1,6 +1,6 @@
-/** 
+/**
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
- * All Rights Reserved. 
+ * All Rights Reserved.
  */
 package io.hiwepy.admin.extras.config.web.dto;
 
@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -59,5 +58,5 @@ public class ConfigNewDTO {
 	@ApiModelProperty(value = "配置项集合")
 	@NotNull(message = "配置项不能为空")
 	private List<ConfigItemNewDTO> configList;
-	
+
 }

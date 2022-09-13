@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.hiwepy</groupId>
+		<artifactId>jeebiz-admin-extras</artifactId>
+		<version>1.0.2-ce-SNAPSHOT</version>
+	</parent>
+	<artifactId>jeebiz-admin-extras-oauth2</artifactId>
+
+	<dependencies>
+
+		<!-- For Jeebiz API -->
+		<dependency>
+			<groupId>io.hiwepy</groupId>
+			<artifactId>jeebiz-admin-api</artifactId>
+			<version>${jeebiz-admin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.hiwepy</groupId>
+			<artifactId>jeebiz-boot-extras-external</artifactId>
+			<version>${jeebiz-boot.version}</version>
+		</dependency>
+		<!-- For Shiro -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>shiro-biz-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.xfslove/shiro-uaa-auth-server -->
+		<dependency>
+			<groupId>com.github.xfslove</groupId>
+			<artifactId>shiro-uaa-auth-server</artifactId>
+			<version>${shiro-uaa.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.xfslove/shiro-uaa-resource-server -->
+		<dependency>
+			<groupId>com.github.xfslove</groupId>
+			<artifactId>shiro-uaa-resource-server</artifactId>
+			<version>${shiro-uaa.version}</version>
+		</dependency>
+		<!-- For Apache Oltu  -->
+		<!-- https://mvnrepository.com/artifact/org.apache.oltu.oauth2 -->
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.authzserver</artifactId>
+			<version>${oltu.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.resourceserver</artifactId>
+			<version>${oltu.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.resourceserver-filter</artifactId>
+			<version>${oltu.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.dynamicreg.server</artifactId>
+			<version>${oltu.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.dynamicreg.client</artifactId>
+			<version>${oltu.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.oltu.oauth2</groupId>
+			<artifactId>org.apache.oltu.oauth2.jwt</artifactId>
+			<version>${oltu.version}</version>
+		</dependency>
+		<!-- For Mybatis -->
+		<dependency>
+		    <groupId>com.baomidou</groupId>
+		    <artifactId>mybatis-plus-boot-starter</artifactId>
+		</dependency>
+		<!-- For Flyway -->
+		<dependency>
+			<groupId>com.github.hiwepy</groupId>
+			<artifactId>flyway-plus-spring-boot-starter</artifactId>
+		</dependency>
+
+    </dependencies>
+
+</project>

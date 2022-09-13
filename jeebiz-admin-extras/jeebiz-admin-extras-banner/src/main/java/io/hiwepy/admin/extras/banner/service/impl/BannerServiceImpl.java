@@ -92,9 +92,11 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 		List<BannerDTO> bannerList = new ArrayList<>();
 		String bannerListKey = this.getBannerListKey( appId, appChannel, region, language, type);
 		Map<String, Object> bannerConfig = redisOperation.hmGet(bannerListKey);
+		if (Objects.isNull(bannerConfig)) {
+			return bannerList;
+		}
 		List<BannerEntity> bannerEntityList = bannerConfig.values().stream().map(o -> JSONObject.parseObject(JSONObject.toJSONString(o), BannerEntity.class)).collect(Collectors.toList());
 		if (CollectionUtils.isNotEmpty(bannerEntityList)) {
-		if (Objects.nonNull(bannerConfig)) {
 			bannerList = bannerEntityList.stream()
 					//.map(obj -> JSON.parseObject((String) obj, BannerDTO.class))
 					.map(obj -> {
@@ -132,6 +134,5 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, BannerEntit
 				.add(language).toString();
 		return BizRedisKey.BANNER_LIST.getKey(uniqueKey, BannerType.getByCode(type).getRedisKey());
 	}
-
 
 }

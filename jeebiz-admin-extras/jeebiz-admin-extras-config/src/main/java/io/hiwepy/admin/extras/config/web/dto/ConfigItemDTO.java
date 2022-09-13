@@ -8,11 +8,6 @@ import io.hiwepy.admin.extras.config.utils.enums.ConfigItemType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.util.List;
 
 @ApiModel(value = "ConfigItemDTO", description = "配置项DTO")
 @Data

@@ -2,19 +2,12 @@ package io.hiwepy.admin.extras.config.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.hiwepy.admin.extras.config.dao.ConfigItemMapper;
-import io.hiwepy.admin.extras.config.dao.ConfigMapper;
-import io.hiwepy.admin.extras.config.dao.entities.ConfigEntity;
 import io.hiwepy.admin.extras.config.dao.entities.ConfigItemEntity;
 import io.hiwepy.admin.extras.config.service.IConfigItemService;
-import io.hiwepy.admin.extras.config.service.IConfigService;
 import io.hiwepy.admin.extras.config.setup.Constants;
 import io.hiwepy.admin.extras.config.utils.enums.ConfigItemType;
-import io.hiwepy.admin.extras.config.web.dto.ConfigDTO;
 import io.hiwepy.boot.api.service.BaseServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,6 +1,5 @@
 package io.hiwepy.admin.extras.config.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import io.hiwepy.admin.extras.config.dao.entities.ConfigEntity;
 import io.hiwepy.admin.extras.config.web.dto.ConfigDTO;
 import io.hiwepy.admin.extras.config.web.dto.ConfigNewDTO;

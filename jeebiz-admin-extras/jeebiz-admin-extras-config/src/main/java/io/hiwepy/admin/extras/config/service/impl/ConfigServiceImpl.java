@@ -1,8 +1,6 @@
 package io.hiwepy.admin.extras.config.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.hiwepy.admin.extras.config.dao.ConfigItemMapper;
 import io.hiwepy.admin.extras.config.dao.ConfigMapper;
 import io.hiwepy.admin.extras.config.dao.entities.ConfigEntity;
 import io.hiwepy.admin.extras.config.dao.entities.ConfigItemEntity;
