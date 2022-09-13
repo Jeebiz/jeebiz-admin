@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.hiwepy.admin.authz.org.dao.entities.StaffModel;
+import io.hiwepy.admin.authz.org.dao.entities.StaffEntity;
 import io.hiwepy.admin.authz.org.service.IStaffService;
 import io.hiwepy.admin.authz.org.setup.Constants;
 import io.hiwepy.admin.authz.org.web.dto.StaffDTO;
@@ -50,11 +50,11 @@ public class StaffController extends BaseApiController {
 	@RequiresPermissions("authz-staff:list")
 	public Result<StaffDTO> list(@Valid @RequestBody StaffPaginationDTO paginationDTO) throws Exception {
 		
-		StaffModel model = getBeanMapper().map(paginationDTO, StaffModel.class);
-		Page<StaffModel> pageResult = getStaffService().getPagedList(model);
+		StaffEntity model = getBeanMapper().map(paginationDTO, StaffEntity.class);
+		Page<StaffEntity> pageResult = getStaffService().getPagedList(model);
 		List<StaffDTO> retList = Lists.newArrayList();
-		for (StaffModel staffModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(staffModel, StaffDTO.class));
+		for (StaffEntity StaffEntity : pageResult.getRecords()) {
+			retList.add(getBeanMapper().map(StaffEntity, StaffDTO.class));
 		}
 		
 		return new Result<StaffDTO>(pageResult, retList);
@@ -69,7 +69,7 @@ public class StaffController extends BaseApiController {
 	@PostMapping("new")
 	@RequiresPermissions("authz-staff:new")
 	public ApiRestResponse<String> staff(@Valid @RequestBody StaffNewDTO staffDTO) throws Exception {
-		StaffModel model = getBeanMapper().map(staffDTO, StaffModel.class);
+		StaffEntity model = getBeanMapper().map(staffDTO, StaffEntity.class);
 		boolean result = getStaffService().save(model);
 		if(result) {
 			return success("authz.staff.new.success", result);
@@ -85,7 +85,7 @@ public class StaffController extends BaseApiController {
 	@PostMapping("renew")
 	@RequiresPermissions("authz-staff:renew")
 	public ApiRestResponse<String> renew(@Valid @RequestBody StaffRenewDTO staffDTO) throws Exception {
-		StaffModel model = getBeanMapper().map(staffDTO, StaffModel.class);
+		StaffEntity model = getBeanMapper().map(staffDTO, StaffEntity.class);
 		boolean result = getStaffService().updateById(model);
 		if(result) {
 			return success("authz.staff.renew.success", result);
@@ -136,7 +136,7 @@ public class StaffController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresPermissions("authz-staff:detail")
 	public ApiRestResponse<StaffDTO> detail(@RequestParam("id") String id) throws Exception { 
-		StaffModel model = getStaffService().getModel(id);
+		StaffEntity model = getStaffService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.staff.get.empty"));
 		}

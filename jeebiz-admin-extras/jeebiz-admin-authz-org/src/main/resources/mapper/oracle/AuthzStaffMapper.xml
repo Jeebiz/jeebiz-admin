@@ -3,7 +3,7 @@
 
 <mapper namespace="io.hiwepy.admin.authz.org.dao.StaffMapper">
 
-	<resultMap id="StaffMap" type="StaffModel">
+	<resultMap id="StaffMap" type="StaffEntity">
 		<id property="id" column="staff_id" />
 		<result property="orgId" column="org_id" />
 		<result property="orgName" column="org_name" />
@@ -33,7 +33,7 @@
 		SELECT count(t.staff_id) FROM sys_authz_org_staff t WHERE t.staff_id = #{uid}
 	</select>
 
-	<select id="getPagedList" resultMap="StaffMap" parameterType="StaffModel" useCache="false">
+	<select id="getPagedList" resultMap="StaffMap" parameterType="StaffEntity" useCache="false">
 		SELECT
 			t.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,

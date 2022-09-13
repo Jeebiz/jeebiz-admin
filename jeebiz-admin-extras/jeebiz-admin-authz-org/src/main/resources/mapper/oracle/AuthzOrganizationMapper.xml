@@ -3,7 +3,7 @@
 
 <mapper namespace="io.hiwepy.admin.authz.org.dao.OrganizationMapper">
 
-	<resultMap id="OrganizationMap" type="OrganizationModel">
+	<resultMap id="OrganizationMap" type="OrganizationEntity">
 		<id property="id" column="org_id" />
 		<result property="code" column="org_code" />
 		<result property="name" column="org_name" />
@@ -63,7 +63,7 @@
 		 </if>
 	</select>
 
-	<select id="getPagedList" resultMap="OrganizationMap" parameterType="DepartmentModel" useCache="false">
+	<select id="getPagedList" resultMap="OrganizationMap" parameterType="DepartmentEntity" useCache="false">
 		SELECT
 			t.org_id,
 			t.org_code,

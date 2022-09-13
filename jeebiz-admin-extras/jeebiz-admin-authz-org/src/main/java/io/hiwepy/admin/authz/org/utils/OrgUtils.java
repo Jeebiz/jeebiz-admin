@@ -13,20 +13,20 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 
-import io.hiwepy.admin.authz.org.dao.entities.OrganizationModel;
+import io.hiwepy.admin.authz.org.dao.entities.OrganizationEntity;
 import io.hiwepy.admin.authz.org.web.dto.OrganizationTreeDTO;
 
 public class OrgUtils {
 	
-	protected static List<OrganizationTreeDTO> getSubOrgList(OrganizationModel parentNav,List<OrganizationModel> orgList) {
+	protected static List<OrganizationTreeDTO> getSubOrgList(OrganizationEntity parentNav,List<OrganizationEntity> orgList) {
 		
 		List<OrganizationTreeDTO> orgs = Lists.newArrayList();
 		//筛选当前父功能模块节点的子功能模块节点数据
-		List<OrganizationModel> childOrgList = orgList.stream()
+		List<OrganizationEntity> childOrgList = orgList.stream()
 				.filter(org -> StringUtils.equals(parentNav.getId(), org.getParent()))
 				.collect(Collectors.toList());
 		if(!CollectionUtils.isEmpty(childOrgList)){
-			for (OrganizationModel org : childOrgList) {
+			for (OrganizationEntity org : childOrgList) {
 				OrganizationTreeDTO orgDTO = new OrganizationTreeDTO();
 				// 组织机构id
 				orgDTO.setId(org.getId());
@@ -63,18 +63,18 @@ public class OrgUtils {
 	 * @param orgList
 	 * @return
 	 */
-	public static List<OrganizationTreeDTO> getOrgTreeList(List<OrganizationModel> orgList) {
+	public static List<OrganizationTreeDTO> getOrgTreeList(List<OrganizationEntity> orgList) {
 		if(CollectionUtils.isEmpty(orgList)) {
 			return new ArrayList<OrganizationTreeDTO>();
 		}
 		// 优先获得最顶层的组织机构集合
-		List<OrganizationModel> topList = orgList.stream()
+		List<OrganizationEntity> topList = orgList.stream()
 				.filter(org -> StringUtils.equalsIgnoreCase(org.getParent(), "0"))
 				.collect(Collectors.toList());
 		List<OrganizationTreeDTO> orgs = Lists.newArrayList();
 		if(!CollectionUtils.isEmpty(topList)){
 			
-			for (OrganizationModel org : topList) {
+			for (OrganizationEntity org : topList) {
 				
 				OrganizationTreeDTO orgDTO = new OrganizationTreeDTO();
 				// 组织机构id

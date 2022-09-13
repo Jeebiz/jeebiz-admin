@@ -3,11 +3,11 @@ package io.hiwepy.admin.authz.org.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import io.hiwepy.admin.authz.org.dao.entities.TeamModel;
+import io.hiwepy.admin.authz.org.dao.entities.TeamEntity;
 import io.hiwepy.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface TeamMapper extends BaseMapper<TeamModel> {
+public interface TeamMapper extends BaseMapper<TeamEntity> {
 
 	/**
 	 * 根据名称获取记录数

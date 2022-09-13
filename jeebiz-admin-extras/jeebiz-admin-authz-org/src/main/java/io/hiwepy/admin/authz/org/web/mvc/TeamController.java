@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.hiwepy.admin.authz.org.dao.entities.TeamModel;
+import io.hiwepy.admin.authz.org.dao.entities.TeamEntity;
 import io.hiwepy.admin.authz.org.service.ITeamService;
 import io.hiwepy.admin.authz.org.setup.Constants;
 import io.hiwepy.admin.authz.org.web.dto.TeamDTO;
@@ -55,11 +55,11 @@ public class TeamController extends BaseApiController {
 	@RequiresPermissions("authz-team:list")
 	public Result<TeamDTO> list(@Valid @RequestBody TeamPaginationDTO paginationDTO) throws Exception {
 		
-		TeamModel model = getBeanMapper().map(paginationDTO, TeamModel.class);
-		Page<TeamModel> pageResult = getTeamService().getPagedList(model);
+		TeamEntity model = getBeanMapper().map(paginationDTO, TeamEntity.class);
+		Page<TeamEntity> pageResult = getTeamService().getPagedList(model);
 		List<TeamDTO> retList = Lists.newArrayList();
-		for (TeamModel teamModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(teamModel, TeamDTO.class));
+		for (TeamEntity TeamEntity : pageResult.getRecords()) {
+			retList.add(getBeanMapper().map(TeamEntity, TeamDTO.class));
 		}
 		
 		return new Result<TeamDTO>(pageResult, retList);
@@ -74,12 +74,12 @@ public class TeamController extends BaseApiController {
 	@GetMapping("list")
 	@RequiresAuthentication
 	public ApiRestResponse<List<TeamDTO>> list(@RequestParam(required = false) String deptId) throws Exception {
-		List<TeamModel> resultList = getTeamService().getModelList(deptId);
+		List<TeamEntity> resultList = getTeamService().getModelList(deptId);
 		if( CollectionUtils.isEmpty(resultList)) {
 			return ApiRestResponse.fail(getMessage("authz.team.not-found"));
 		}
 		List<TeamDTO> retList = Lists.newArrayList();
-		for (TeamModel model : resultList) {
+		for (TeamEntity model : resultList) {
 			retList.add(getBeanMapper().map(model, TeamDTO.class));
 		}
 		return ApiRestResponse.success(retList);
@@ -109,7 +109,7 @@ public class TeamController extends BaseApiController {
 		if(count1 > 0) {
 			return fail("authz.team.new.name-exists");
 		}
-		TeamModel model = getBeanMapper().map(teamDTO, TeamModel.class);
+		TeamEntity model = getBeanMapper().map(teamDTO, TeamEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
@@ -132,7 +132,7 @@ public class TeamController extends BaseApiController {
 		if(count1 > 0) {
 			return fail("authz.team.renew.name-exists");
 		}
-		TeamModel model = getBeanMapper().map(teamDTO, TeamModel.class);
+		TeamEntity model = getBeanMapper().map(teamDTO, TeamEntity.class);
 		boolean result = getTeamService().updateById(model);
 		if(result) {
 			return success("authz.team.renew.success", result);
@@ -188,7 +188,7 @@ public class TeamController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresPermissions("authz-team:detail")
 	public ApiRestResponse<TeamDTO> detail(@RequestParam("id") String id) throws Exception { 
-		TeamModel model = getTeamService().getModel(id);
+		TeamEntity model = getTeamService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.team.not-found"));
 		}

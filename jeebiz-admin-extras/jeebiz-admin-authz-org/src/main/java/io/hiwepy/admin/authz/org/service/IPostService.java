@@ -4,9 +4,9 @@
  */
 package io.hiwepy.admin.authz.org.service;
 
-import io.hiwepy.admin.authz.org.dao.entities.PostModel;
+import io.hiwepy.admin.authz.org.dao.entities.PostEntity;
 import io.hiwepy.boot.api.service.IBaseService;
 
-public interface IPostService extends IBaseService<PostModel> {
+public interface IPostService extends IBaseService<PostEntity> {
 	
 }

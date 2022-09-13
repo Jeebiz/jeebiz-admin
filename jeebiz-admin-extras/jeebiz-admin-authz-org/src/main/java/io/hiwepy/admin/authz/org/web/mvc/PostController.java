@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.hiwepy.admin.authz.org.dao.entities.PostModel;
+import io.hiwepy.admin.authz.org.dao.entities.PostEntity;
 import io.hiwepy.admin.authz.org.service.IPostService;
 import io.hiwepy.admin.authz.org.setup.Constants;
 import io.hiwepy.admin.authz.org.web.dto.PostDTO;
@@ -55,11 +55,11 @@ public class PostController extends BaseApiController {
 	@RequiresPermissions("authz-post:list")
 	public Result<PostDTO> list(@Valid @RequestBody PostPaginationDTO paginationDTO) throws Exception {
 		
-		PostModel model = getBeanMapper().map(paginationDTO, PostModel.class);
-		Page<PostModel> pageResult = getPostService().getPagedList(model);
+		PostEntity model = getBeanMapper().map(paginationDTO, PostEntity.class);
+		Page<PostEntity> pageResult = getPostService().getPagedList(model);
 		List<PostDTO> retList = Lists.newArrayList();
-		for (PostModel postModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(postModel, PostDTO.class));
+		for (PostEntity PostEntity : pageResult.getRecords()) {
+			retList.add(getBeanMapper().map(PostEntity, PostDTO.class));
 		}
 		
 		return new Result<PostDTO>(pageResult, retList);
@@ -86,12 +86,12 @@ public class PostController extends BaseApiController {
 	@RequiresAuthentication
 	public ApiRestResponse<List<PostDTO>> list(@RequestParam(required = false) String deptId) throws Exception {
 		
-		List<PostModel> resultList = getPostService().getModelList(deptId);
+		List<PostEntity> resultList = getPostService().getModelList(deptId);
 		if( CollectionUtils.isEmpty(resultList)) {
 			return ApiRestResponse.fail(getMessage("authz.post.not-found"));
 		}
 		List<PostDTO> retList = Lists.newArrayList();
-		for (PostModel model : resultList) {
+		for (PostEntity model : resultList) {
 			retList.add(getBeanMapper().map(model, PostDTO.class));
 		}
 		return ApiRestResponse.success(retList);
@@ -106,7 +106,7 @@ public class PostController extends BaseApiController {
 	@PostMapping("new")
 	@RequiresPermissions("authz-post:new")
 	public ApiRestResponse<String> post(@Valid @RequestBody PostNewDTO postDTO) throws Exception {
-		PostModel model = getBeanMapper().map(postDTO, PostModel.class);
+		PostEntity model = getBeanMapper().map(postDTO, PostEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
@@ -125,7 +125,7 @@ public class PostController extends BaseApiController {
 	@PostMapping("renew")
 	@RequiresPermissions("authz-post:renew")
 	public ApiRestResponse<String> renew(@Valid @RequestBody PostRenewDTO postDTO) throws Exception {
-		PostModel model = getBeanMapper().map(postDTO, PostModel.class);
+		PostEntity model = getBeanMapper().map(postDTO, PostEntity.class);
 		boolean result = getPostService().updateById(model);
 		if(result) {
 			return success("authz.post.renew.success", result);
@@ -176,7 +176,7 @@ public class PostController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresPermissions("authz-post:detail")
 	public ApiRestResponse<PostDTO> detail(@RequestParam("id") String id) throws Exception { 
-		PostModel model = getPostService().getModel(id);
+		PostEntity model = getPostService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.post.not-found"));
 		}

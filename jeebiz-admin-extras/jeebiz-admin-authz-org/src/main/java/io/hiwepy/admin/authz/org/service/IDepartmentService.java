@@ -4,10 +4,10 @@
  */
 package io.hiwepy.admin.authz.org.service;
 
-import io.hiwepy.admin.authz.org.dao.entities.DepartmentModel;
+import io.hiwepy.admin.authz.org.dao.entities.DepartmentEntity;
 import io.hiwepy.boot.api.service.IBaseService;
 
-public interface IDepartmentService extends IBaseService<DepartmentModel> {
+public interface IDepartmentService extends IBaseService<DepartmentEntity> {
 	
 	/**
 	 * 根据编码获取记录数

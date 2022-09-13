@@ -6,15 +6,15 @@ package io.hiwepy.admin.authz.org.service;
 
 import java.util.List;
 
-import io.hiwepy.admin.authz.org.dao.entities.OrganizationModel;
+import io.hiwepy.admin.authz.org.dao.entities.OrganizationEntity;
 import io.hiwepy.boot.api.service.IBaseService;
 
-public interface IOrganizationService extends IBaseService<OrganizationModel> {
+public interface IOrganizationService extends IBaseService<OrganizationEntity> {
 	
 	int getRootCount();
 
 	int getDeptCount(String id);
 
-	List<OrganizationModel> getOrgList();
+	List<OrganizationEntity> getOrgList();
 	
 }

@@ -3,7 +3,7 @@
 
 <mapper namespace="io.hiwepy.admin.authz.org.dao.TeamMapper">
 
-	<resultMap id="TeamMap" type="TeamModel">
+	<resultMap id="TeamMap" type="TeamEntity">
 		<id property="id" column="team_id" />
 		<result property="orgId" column="org_id" />
 		<result property="orgName" column="org_name" />
@@ -43,7 +43,7 @@
 		 WHERE t.team_id = #{id,jdbcType=INTEGER}
 	</select>
 
-	<select id="getPagedList" resultMap="TeamMap" parameterType="TeamModel" useCache="false">
+	<select id="getPagedList" resultMap="TeamMap" parameterType="TeamEntity" useCache="false">
 		SELECT
 			t2.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,

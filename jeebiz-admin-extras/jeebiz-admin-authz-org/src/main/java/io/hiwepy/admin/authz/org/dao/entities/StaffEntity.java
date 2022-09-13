@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "StaffModel")
+@Alias(value = "StaffEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_org_staff")
 @Builder
@@ -26,7 +26,7 @@ import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class StaffModel extends PaginationEntity<StaffModel> {
+public class StaffEntity extends PaginationEntity<StaffEntity> {
 
 	/**
 	 * 机构id编号

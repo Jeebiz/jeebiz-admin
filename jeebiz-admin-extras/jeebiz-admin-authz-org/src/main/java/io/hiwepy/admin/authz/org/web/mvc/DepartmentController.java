@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.hiwepy.admin.authz.org.dao.entities.DepartmentModel;
+import io.hiwepy.admin.authz.org.dao.entities.DepartmentEntity;
 import io.hiwepy.admin.authz.org.service.IDepartmentService;
 import io.hiwepy.admin.authz.org.setup.Constants;
 import io.hiwepy.admin.authz.org.web.dto.DepartmentDTO;
@@ -55,12 +55,12 @@ public class DepartmentController extends BaseApiController {
 	@RequiresPermissions("authz-dept:list")
 	public Result<DepartmentDTO> list(@Valid @RequestBody DepartmentPaginationDTO paginationDTO) throws Exception {
 		
-		DepartmentModel model = getBeanMapper().map(paginationDTO, DepartmentModel.class);
+		DepartmentEntity model = getBeanMapper().map(paginationDTO, DepartmentEntity.class);
 		
-		Page<DepartmentModel> pageResult = getDepartmentService().getPagedList(model);
+		Page<DepartmentEntity> pageResult = getDepartmentService().getPagedList(model);
 		List<DepartmentDTO> retList = Lists.newArrayList();
-		for (DepartmentModel departmentModel : pageResult.getRecords()) {
-			retList.add(getBeanMapper().map(departmentModel, DepartmentDTO.class));
+		for (DepartmentEntity DepartmentEntity : pageResult.getRecords()) {
+			retList.add(getBeanMapper().map(DepartmentEntity, DepartmentDTO.class));
 		}
 		
 		return new Result<DepartmentDTO>(pageResult, retList);
@@ -75,12 +75,12 @@ public class DepartmentController extends BaseApiController {
 	@RequiresAuthentication
 	public Object list(@RequestParam(required = false) String orgId) throws Exception {
 		
-		List<DepartmentModel> resultList = getDepartmentService().getModelList(orgId);
+		List<DepartmentEntity> resultList = getDepartmentService().getModelList(orgId);
 		if( CollectionUtils.isEmpty(resultList)) {
 			return ApiRestResponse.fail(getMessage("authz.dept.not-found"));
 		}
 		List<DepartmentDTO> retList = Lists.newArrayList();
-		for (DepartmentModel model : resultList) {
+		for (DepartmentEntity model : resultList) {
 			retList.add(getBeanMapper().map(model, DepartmentDTO.class));
 		}
 		return ApiRestResponse.success(retList);
@@ -116,7 +116,7 @@ public class DepartmentController extends BaseApiController {
 			return fail("authz.dept.new.name-exists");
 		}
 		
-		DepartmentModel model = getBeanMapper().map(deptDTO, DepartmentModel.class);
+		DepartmentEntity model = getBeanMapper().map(deptDTO, DepartmentEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
@@ -145,7 +145,7 @@ public class DepartmentController extends BaseApiController {
 			return fail("authz.dept.renew.name-exists");
 		}
 		
-		DepartmentModel model = getBeanMapper().map(deptDTO, DepartmentModel.class);
+		DepartmentEntity model = getBeanMapper().map(deptDTO, DepartmentEntity.class);
 		boolean result = getDepartmentService().updateById(model);
 		if(result) {
 			return success("authz.dept.renew.success", result);
@@ -205,7 +205,7 @@ public class DepartmentController extends BaseApiController {
 	@GetMapping("detail")
 	@RequiresPermissions("authz-dept:detail")
 	public ApiRestResponse<DepartmentDTO> detail(@RequestParam("id") String id) throws Exception { 
-		DepartmentModel model = getDepartmentService().getModel(id);
+		DepartmentEntity model = getDepartmentService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.dept.not-found"));
 		}

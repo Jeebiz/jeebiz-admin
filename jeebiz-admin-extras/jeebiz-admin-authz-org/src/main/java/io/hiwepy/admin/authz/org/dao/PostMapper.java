@@ -6,10 +6,10 @@ package io.hiwepy.admin.authz.org.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import io.hiwepy.admin.authz.org.dao.entities.PostModel;
+import io.hiwepy.admin.authz.org.dao.entities.PostEntity;
 import io.hiwepy.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface PostMapper extends BaseMapper<PostModel> {
+public interface PostMapper extends BaseMapper<PostEntity> {
 
 }

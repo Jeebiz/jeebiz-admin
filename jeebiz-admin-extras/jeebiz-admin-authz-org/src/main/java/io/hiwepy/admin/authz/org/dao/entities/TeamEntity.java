@@ -4,7 +4,6 @@
  */
 package io.hiwepy.admin.authz.org.dao.entities;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.Alias;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -19,15 +18,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "DepartmentModel")
+@Alias(value = "TeamEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_org_dept")
+@TableName(value = "sys_authz_org_team")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class DepartmentModel extends PaginationEntity<DepartmentModel> {
+public class TeamEntity extends PaginationEntity<TeamEntity> {
 
 	/**
 	 * 机构id编号
@@ -42,41 +41,37 @@ public class DepartmentModel extends PaginationEntity<DepartmentModel> {
 	/**
 	 * 部门id编号
 	 */
-	@TableId(value="dept_id",type= IdType.AUTO)
-	private String id;
-	/**
-	 * 部门编码
-	 */
-	@TableField(value = "dept_code")
-	private String code;
+	@TableField(value = "dept_id")
+	private String deptId;
 	/**
 	 * 部门名称
 	 */
-	@TableField(value = "dept_name")
+	@TableField(exist = false)
+	private String deptName;
+	/**
+	 * 团队id编号
+	 */
+	@TableId(value="team_id", type= IdType.AUTO)
+	private String id;
+	/**
+	 * 团队名称
+	 */
+	@TableField(value = "team_name")
 	private String name;
 	/**
-	 * 部门说明
+	 * 团队简介
 	 */
-	@TableField(value = "dept_intro")
+	@TableField(value = "team_intro")
 	private String intro;
 	/**
-	 * 父级部门id编号
-	 */
-	@TableField(value = "dept_parent")
-	private String parent;
-	/**
-	 * 部门创建人名称
+	 * 团队创建人名称
 	 */
 	@TableField(exist = false)
 	private String uname;
 	/**
-	 * 部门状态（0:禁用|1:可用）
+	 * 团队状态（0:禁用|1:可用）
 	 */
-	@TableField(value = "dept_status")
+	@TableField(value = "team_status")
 	private String status;
- 
-	public String getParent() {
-		return StringUtils.defaultString(parent, "0");
-	} 
 
 }

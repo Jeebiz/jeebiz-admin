@@ -7,11 +7,11 @@ package io.hiwepy.admin.authz.org.service.impl;
 import org.springframework.stereotype.Service;
 
 import io.hiwepy.admin.authz.org.dao.StaffMapper;
-import io.hiwepy.admin.authz.org.dao.entities.StaffModel;
+import io.hiwepy.admin.authz.org.dao.entities.StaffEntity;
 import io.hiwepy.admin.authz.org.service.IStaffService;
 import io.hiwepy.boot.api.service.BaseServiceImpl;
 
 @Service
-public class StaffServiceImpl extends BaseServiceImpl<StaffMapper, StaffModel> implements IStaffService{
+public class StaffServiceImpl extends BaseServiceImpl<StaffMapper, StaffEntity> implements IStaffService{
 	
 }

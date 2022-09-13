@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "OrganizationModel")
+@Alias(value = "OrganizationEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_org_list")
 @Builder
@@ -27,7 +27,7 @@ import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class OrganizationModel extends PaginationEntity<OrganizationModel> {
+public class OrganizationEntity extends PaginationEntity<OrganizationEntity> {
 
 	/**
 	 * 机构id编号

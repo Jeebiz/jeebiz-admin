@@ -7,12 +7,12 @@ package io.hiwepy.admin.authz.org.service.impl;
 import org.springframework.stereotype.Service;
 
 import io.hiwepy.admin.authz.org.dao.TeamMapper;
-import io.hiwepy.admin.authz.org.dao.entities.TeamModel;
+import io.hiwepy.admin.authz.org.dao.entities.TeamEntity;
 import io.hiwepy.admin.authz.org.service.ITeamService;
 import io.hiwepy.boot.api.service.BaseServiceImpl;
 
 @Service
-public class TeamServiceImpl extends BaseServiceImpl<TeamMapper, TeamModel> implements ITeamService{
+public class TeamServiceImpl extends BaseServiceImpl<TeamMapper, TeamEntity> implements ITeamService{
 
 	@Override
 	public int getTeamCountByName(String name, String deptId, String teamId) {

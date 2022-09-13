@@ -9,15 +9,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import io.hiwepy.admin.authz.org.dao.entities.OrganizationModel;
+import io.hiwepy.admin.authz.org.dao.entities.OrganizationEntity;
 import io.hiwepy.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface OrganizationMapper extends BaseMapper<OrganizationModel> {
+public interface OrganizationMapper extends BaseMapper<OrganizationEntity> {
 
 	int getRootCount();
 	
 	int getDeptCount(@Param("id")String id);
 	
-	List<OrganizationModel> getOrgList();
+	List<OrganizationEntity> getOrgList();
 }

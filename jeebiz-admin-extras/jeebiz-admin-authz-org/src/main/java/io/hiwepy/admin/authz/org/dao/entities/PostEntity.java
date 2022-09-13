@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
-@Alias(value = "PostModel")
+@Alias(value = "PostEntity")
 @SuppressWarnings("serial")
 @TableName(value = "sys_authz_org_post")
 @Builder
@@ -26,7 +26,7 @@ import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class PostModel extends PaginationEntity<PostModel> {
+public class PostEntity extends PaginationEntity<PostEntity> {
 
 	/**
 	 * 机构id编号

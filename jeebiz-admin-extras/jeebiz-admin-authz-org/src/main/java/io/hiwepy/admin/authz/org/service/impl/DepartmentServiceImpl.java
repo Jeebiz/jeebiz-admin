@@ -7,12 +7,12 @@ package io.hiwepy.admin.authz.org.service.impl;
 import org.springframework.stereotype.Service;
 
 import io.hiwepy.admin.authz.org.dao.DepartmentMapper;
-import io.hiwepy.admin.authz.org.dao.entities.DepartmentModel;
+import io.hiwepy.admin.authz.org.dao.entities.DepartmentEntity;
 import io.hiwepy.admin.authz.org.service.IDepartmentService;
 import io.hiwepy.boot.api.service.BaseServiceImpl;
 
 @Service
-public class DepartmentServiceImpl extends BaseServiceImpl< DepartmentMapper, DepartmentModel> implements IDepartmentService{
+public class DepartmentServiceImpl extends BaseServiceImpl< DepartmentMapper, DepartmentEntity> implements IDepartmentService{
 
 	@Override
 	public int getCountByCode(String code, String orgId, String deptId) {

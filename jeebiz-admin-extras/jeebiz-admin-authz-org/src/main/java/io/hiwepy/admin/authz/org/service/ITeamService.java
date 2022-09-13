@@ -4,10 +4,10 @@
  */
 package io.hiwepy.admin.authz.org.service;
 
-import io.hiwepy.admin.authz.org.dao.entities.TeamModel;
+import io.hiwepy.admin.authz.org.dao.entities.TeamEntity;
 import io.hiwepy.boot.api.service.IBaseService;
 
-public interface ITeamService extends IBaseService<TeamModel> {
+public interface ITeamService extends IBaseService<TeamEntity> {
 	
 	/**
 	 * 根据名称获取记录数

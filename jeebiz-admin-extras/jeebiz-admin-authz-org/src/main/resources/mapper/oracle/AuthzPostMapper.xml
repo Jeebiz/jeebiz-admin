@@ -3,7 +3,7 @@
 
 <mapper namespace="io.hiwepy.admin.authz.org.dao.PostMapper">
 
-	<resultMap id="PostMap" type="PostModel">
+	<resultMap id="PostMap" type="PostEntity">
 		<id property="id" column="post_id" />
 		<result property="orgId" column="org_id" />
 		<result property="orgName" column="org_name" />
@@ -46,7 +46,7 @@
 		 </if>
 	</select>
 
-	<select id="getPagedList" resultMap="PostMap" parameterType="PostModel" useCache="false">
+	<select id="getPagedList" resultMap="PostMap" parameterType="PostEntity" useCache="false">
 		SELECT
 			t2.org_id,
 			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,

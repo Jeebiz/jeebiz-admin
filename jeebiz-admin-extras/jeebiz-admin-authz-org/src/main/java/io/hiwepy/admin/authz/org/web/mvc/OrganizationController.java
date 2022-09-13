@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.hiwepy.admin.authz.org.dao.entities.OrganizationModel;
+import io.hiwepy.admin.authz.org.dao.entities.OrganizationEntity;
 import io.hiwepy.admin.authz.org.service.IOrganizationService;
 import io.hiwepy.admin.authz.org.setup.Constants;
 import io.hiwepy.admin.authz.org.utils.OrgUtils;
@@ -59,10 +59,10 @@ public class OrganizationController extends BaseMapperController {
 	@RequiresPermissions("authz-org:list")
 	public Result<OrganizationDTO> list(@Valid @RequestBody OrganizationPaginationDTO paginationDTO) throws Exception {
 		
-		OrganizationModel model = getBeanMapper().map(paginationDTO, OrganizationModel.class);
-		Page<OrganizationModel> pageResult = getOrganizationService().getPagedList(model);
+		OrganizationEntity model = getBeanMapper().map(paginationDTO, OrganizationEntity.class);
+		Page<OrganizationEntity> pageResult = getOrganizationService().getPagedList(model);
 		List<OrganizationDTO> retList = Lists.newArrayList();
-		for (OrganizationModel orgModel : pageResult.getRecords()) {
+		for (OrganizationEntity orgModel : pageResult.getRecords()) {
 			retList.add(getBeanMapper().map(orgModel, OrganizationDTO.class));
 		}
 		
@@ -101,7 +101,7 @@ public class OrganizationController extends BaseMapperController {
 		if(count3 == 1 && StringUtils.equalsIgnoreCase("0", orgDTO.getCode())) {
 			return fail("authz.org.new.root-exists");
 		}
-		OrganizationModel model = getBeanMapper().map(orgDTO, OrganizationModel.class);
+		OrganizationEntity model = getBeanMapper().map(orgDTO, OrganizationEntity.class);
 		ShiroPrincipal principal = SubjectUtils.getPrincipal(ShiroPrincipal.class);
 		model.setCreator(principal.getUserid());
 		// 新增一条数据库配置记录
@@ -128,7 +128,7 @@ public class OrganizationController extends BaseMapperController {
 			return fail("authz.org.renew.name-exists");
 		}
 		
-		OrganizationModel model = getBeanMapper().map(orgDTO, OrganizationModel.class);
+		OrganizationEntity model = getBeanMapper().map(orgDTO, OrganizationEntity.class);
 		boolean result = getOrganizationService().updateById(model);
 		if(result) {
 			return success("authz.org.renew.success", result);
@@ -182,7 +182,7 @@ public class OrganizationController extends BaseMapperController {
 	@GetMapping("detail")
 	@RequiresPermissions("authz-org:detail")
 	public ApiRestResponse<OrganizationDTO> detail(@RequestParam("id") String id) throws Exception { 
-		OrganizationModel model = getOrganizationService().getModel(id);
+		OrganizationEntity model = getOrganizationService().getModel(id);
 		if( model == null) {
 			return ApiRestResponse.fail(getMessage("authz.org.not-found"));
 		}
@@ -194,7 +194,7 @@ public class OrganizationController extends BaseMapperController {
 	@RequiresAuthentication
 	public ApiRestResponse<List<OrganizationTreeDTO>> tree(){
 		// 所有的组织机构
-		List<OrganizationModel> orgList = getOrganizationService().getOrgList();
+		List<OrganizationEntity> orgList = getOrganizationService().getOrgList();
 		// 返回组织机构树形结构
 		return ApiRestResponse.success(OrgUtils.getOrgTreeList(orgList));
 	}

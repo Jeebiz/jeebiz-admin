@@ -7,11 +7,11 @@ package io.hiwepy.admin.authz.org.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import io.hiwepy.admin.authz.org.dao.entities.DepartmentModel;
+import io.hiwepy.admin.authz.org.dao.entities.DepartmentEntity;
 import io.hiwepy.boot.api.dao.BaseMapper;
 
 @Mapper
-public interface DepartmentMapper extends BaseMapper<DepartmentModel> {
+public interface DepartmentMapper extends BaseMapper<DepartmentEntity> {
 
 	/**
 	 * 根据编码获取记录数
