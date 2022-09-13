@@ -5,7 +5,7 @@
 	<resultMap id="FeatureMap" type="FeatureEntity">
 		<result property="id" column="f_id" />
 		<result property="name" column="f_name" />
-		<result property="abb" column="f_abb" />
+		<result property="abb" column="f_abbr" />
 		<result property="code" column="f_code" />
 		<result property="url" column="f_url" />
 		<result property="path" column="f_path" />
@@ -34,7 +34,7 @@
 		SELECT
 			t.f_id,
 			t.f_name,
-			t.f_abb,
+			t.f_abbr,
 			t.f_code,
 			t.f_url,
 			t.f_path,
@@ -83,7 +83,7 @@
 		SELECT
 			t.f_id,
 			t.f_name,
-			t.f_abb,
+			t.f_abbr,
 			t.f_code,
 			t.f_url,
 			t.f_path,

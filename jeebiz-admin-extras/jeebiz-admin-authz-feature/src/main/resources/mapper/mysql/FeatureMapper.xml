@@ -7,7 +7,7 @@
 		<result property="id" column="f_id" />
 		<result property="code" column="f_code" />
 		<result property="name" column="f_name" />
-		<result property="abb" column="f_abb" />
+		<result property="abb" column="f_abbr" />
 		<result property="url" column="f_url" />
 		<result property="path" column="f_path" />
 		<result property="type" column="f_type" />
@@ -39,7 +39,7 @@
 			t.f_id,
 			t.f_code,
 			t.f_name,
-			t.f_abb,
+			t.f_abbr,
 			t.f_url,
 			t.f_path,
 			t.f_type,
@@ -58,7 +58,7 @@
 			t.f_id,
 			t.f_code,
 			t.f_name,
-			t.f_abb,
+			t.f_abbr,
 			t.f_url,
 			t.f_path,
 			t.f_type,
@@ -76,7 +76,7 @@
 			t.f_id,
 			t.f_code,
 			t.f_name,
-			t.f_abb,
+			t.f_abbr,
 			t.f_url,
 			t.f_path,
 			t.f_type,

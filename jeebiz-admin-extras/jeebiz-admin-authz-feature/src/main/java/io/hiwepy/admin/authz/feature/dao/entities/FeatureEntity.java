@@ -4,6 +4,7 @@
  */
 package io.hiwepy.admin.authz.feature.dao.entities;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.ibatis.type.Alias;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -44,23 +45,23 @@ public class FeatureEntity extends Model<FeatureEntity> {
 	/**
 	 * 功能菜单简称
 	 */
-	@TableField(value = "f_abb")
-	private String abb;
+	@TableField(value = "f_abbr")
+	private String abbr;
 	/**
 	 * 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
 	 */
 	@TableField(value = "f_code")
 	private String code;
 	/**
-	 * 功能菜单URL
-	 */
-	@TableField(value = "f_url")
-	private String url;
-	/**
-	 * 功能组件相对路径
+	 * 功能菜单路径
 	 */
 	@TableField(value = "f_path")
 	private String path;
+	/**
+	 * 功能组件路径
+	 */
+	@TableField(value = "f_component")
+	private String component;
 	/**
 	 * 菜单类型(1:原生|2:自定义)
 	 */
@@ -80,7 +81,7 @@ public class FeatureEntity extends Model<FeatureEntity> {
 	 * 父级功能菜单id
 	 */
 	@TableField(value = "f_parent")
-	private String parent;
+	private String parentId;
 	/**
 	 * 菜单是否可见(1:可见|0:不可见)
 	 */

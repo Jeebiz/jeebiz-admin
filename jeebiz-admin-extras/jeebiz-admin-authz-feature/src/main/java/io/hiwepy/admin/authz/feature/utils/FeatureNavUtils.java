@@ -31,7 +31,7 @@ public final class FeatureNavUtils {
 				// 功能菜单id
 				optDTO.setId(feature.getId() + "_" + opt.getId());
 				// 功能操作简称
-				optDTO.setAbb(opt.getName());
+				optDTO.setAbbr(opt.getName());
 				// 功能操作名称
 				optDTO.setName(opt.getName());
 				optDTO.setLabel(opt.getName());
@@ -60,14 +60,14 @@ public final class FeatureNavUtils {
 		List<FeatureTreeNode> features = Lists.newArrayList();
 		//筛选当前父功能模块节点的子功能模块节点数据
 		List<FeatureEntity> childFeatureList = featureList.stream()
-				.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParent()))
+				.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParentId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(childFeatureList)){
 			for (FeatureEntity feature : childFeatureList) {
 
 				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有子菜单
-				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParentId(), feature.getId()));
 				featureDTO.setRoot(!hasChildren);
 				if(hasChildren){
 					// 子菜单
@@ -108,13 +108,13 @@ public final class FeatureNavUtils {
 			List<FeatureTreeNode> features = Lists.newArrayList();
 			//筛选当前父功能模块节点的子功能模块节点数据
 			List<FeatureEntity> childFeatureList = featureList.stream()
-					.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParent()))
+					.filter(feature -> StringUtils.equals(parentNav.getId(), feature.getParentId()))
 					.collect(Collectors.toList());
 			if(CollectionUtils.isNotEmpty(childFeatureList)){
 				for (FeatureEntity feature : childFeatureList) {
 					FeatureTreeNode featureDTO = toTreeNode(feature);
 					// 判断是否是有子菜单
-					boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+					boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParentId(), feature.getId()));
 					featureDTO.setRoot(!hasChildren);
 					if(hasChildren){
 						// 子菜单
@@ -144,7 +144,7 @@ public final class FeatureNavUtils {
 		// 功能菜单id
 		featureDTO.setId(feature.getId());
 		// 功能菜单简称
-		featureDTO.setAbb(feature.getAbb());
+		featureDTO.setAbbr(feature.getAbbr());
 		// 功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
 		featureDTO.setCode(feature.getCode());
 		// 功能菜单名称
@@ -160,11 +160,11 @@ public final class FeatureNavUtils {
 		// 菜单显示顺序
 		featureDTO.setOrder(Integer.parseInt(StringUtils.trim(feature.getOrderBy())));
 		// 父级功能菜单id
-		featureDTO.setPid(Integer.parseInt(StringUtils.trim(feature.getParent())));
+		featureDTO.setPid(Integer.parseInt(StringUtils.trim(feature.getParentId())));
 		// 功能菜单地址
-		featureDTO.setPath(feature.getUrl());
+		featureDTO.setPath(feature.getPath());
 		// 功能菜单对应页面相对路径
-		featureDTO.setComponent(feature.getPath());
+		featureDTO.setComponent(feature.getComponent());
 		// 菜单所拥有的权限标记
 		featureDTO.setPerms(feature.getPerms());
 
@@ -190,7 +190,7 @@ public final class FeatureNavUtils {
 				FeatureTreeNode featureDTO = toTreeNode(feature);
 
 				// 判断是否是有子菜单
-				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParentId(), feature.getId()));
 				featureDTO.setRoot(!hasChildren);
 				if(hasChildren){
 					// 子菜单
@@ -235,7 +235,7 @@ public final class FeatureNavUtils {
 
 				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有子菜单
-				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParent(), feature.getId()));
+				boolean hasChildren = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getParentId(), feature.getId()));
 				featureDTO.setRoot(!hasChildren);
 				if(hasChildren){
 					featureDTO.setLeaf(false);
@@ -287,15 +287,15 @@ public final class FeatureNavUtils {
 		List<FeatureTreeNode> features = Lists.newArrayList();
 		// 筛选菜单中的末节点的功能菜单
 		List<FeatureEntity> leafFeatureList = featureList.stream()
-				.filter(feature -> StringUtils.isNotEmpty(feature.getParent())
-						&& !StringUtils.equals("0", feature.getParent()) && !StringUtils.equals("#", feature.getUrl()))
+				.filter(feature -> StringUtils.isNotEmpty(feature.getParentId())
+						&& !StringUtils.equals("0", feature.getParentId()) && !StringUtils.equals("#", feature.getPath()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(leafFeatureList)){
 
 			for (FeatureEntity feature : leafFeatureList) {
 				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有父菜单
-				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
+				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParentId()));
 				if(isLeaf){
 					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
 				} else {
@@ -324,14 +324,14 @@ public final class FeatureNavUtils {
 	protected static StringBuilder getLabel(StringBuilder builder, FeatureEntity leaf, List<FeatureEntity> featureList) {
 		// 获取该菜单的父菜单
 		List<FeatureEntity> parentFeatureList = featureList.stream()
-				.filter(feature ->  StringUtils.equals(leaf.getParent(), feature.getId()))
+				.filter(feature ->  StringUtils.equals(leaf.getParentId(), feature.getId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(parentFeatureList)) {
 			// 只有一个父亲，只会循环一次
 			for (FeatureEntity feature : parentFeatureList) {
 				builder.insert(0, "/").insert(0, feature.getName());
 				// Url属性不为#表示有父级菜单
-				if(!StringUtils.equals("#", feature.getUrl())){
+				if(!StringUtils.equals("#", feature.getPath())){
 					getLabel(builder , feature, featureList);
 				}
 			}
@@ -375,7 +375,7 @@ public final class FeatureNavUtils {
 	protected static List<FeatureEntity> getParants(List<FeatureEntity> mergedFeatures, FeatureEntity currentFeature, List<FeatureEntity> featureList) {
 		// 获取该菜单的父菜单
 		List<FeatureEntity> parentFeatureList = featureList.stream()
-				.filter(feature ->  StringUtils.equals(currentFeature.getParent(), feature.getId()))
+				.filter(feature ->  StringUtils.equals(currentFeature.getParentId(), feature.getId()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isNotEmpty(parentFeatureList)) {
 			// 只有一个父亲，只会循环一次
@@ -397,7 +397,7 @@ public final class FeatureNavUtils {
 
 		//优先获得最顶层的菜单集合
 		List<FeatureEntity> topFeatureList = featureList.stream()
-				.filter(feature -> StringUtils.equals("#", feature.getUrl()))
+				.filter(feature -> StringUtils.equals("#", feature.getPath()))
 				.collect(Collectors.toList());
 		List<FeatureTreeNode> features = Lists.newArrayList();
 		if(CollectionUtils.isNotEmpty(topFeatureList)){
@@ -406,7 +406,7 @@ public final class FeatureNavUtils {
 
 				FeatureTreeNode featureDTO = toTreeNode(feature);
 				// 判断是否是有父菜单
-				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
+				boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParentId()));
 				featureDTO.setLeaf(isLeaf);
 				if(isLeaf){
 					featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());
@@ -440,12 +440,12 @@ public final class FeatureNavUtils {
 
 		//优先获得最顶层的菜单集合
 		FeatureEntity feature = featureList.stream()
-				.filter(f -> StringUtils.equals(servId, f.getParent()))
+				.filter(f -> StringUtils.equals(servId, f.getParentId()))
 				.findFirst().get();
 
 		featureDTO = toTreeNode(feature);
 		// 判断是否是有父菜单
-		boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParent()));
+		boolean isLeaf = featureList.stream().anyMatch(item -> StringUtils.equalsIgnoreCase(item.getId(), feature.getParentId()));
 		featureDTO.setLeaf(isLeaf);
 		if(isLeaf){
 			featureDTO.setLabel(getLabel(new StringBuilder(feature.getName()) , feature, featureList).toString());

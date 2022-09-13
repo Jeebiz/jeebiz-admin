@@ -5,7 +5,7 @@
 create table sys_authz_feature_list (
 	f_id   		VARCHAR2(32) default sys_guid() not null,
   	f_name   	VARCHAR2(50) not null,
-  	f_abb 		VARCHAR2(50),
+  	f_abbr 		VARCHAR2(50),
   	f_code 		VARCHAR2(100),
   	f_url     	VARCHAR2(500),
   	f_path     	VARCHAR2(500),
@@ -21,7 +21,7 @@ comment on table sys_authz_feature_list  is '功能菜单信息表';
 -- Add comments to the columns 
 comment on column sys_authz_feature_list.f_id  is '功能菜单id';
 comment on column sys_authz_feature_list.f_name  is '功能菜单名称';
-comment on column sys_authz_feature_list.f_abb  is '功能菜单简称';
+comment on column sys_authz_feature_list.f_abbr  is '功能菜单简称';
 comment on column sys_authz_feature_list.f_code  is '功能菜单编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据';
 comment on column sys_authz_feature_list.f_url  is '功能菜单URL';
 comment on column sys_authz_feature_list.f_path  is '功能菜单对应页面相对路径';

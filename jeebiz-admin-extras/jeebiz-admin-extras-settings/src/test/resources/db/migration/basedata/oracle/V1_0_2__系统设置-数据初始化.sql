@@ -32,9 +32,9 @@ VALUES ('email', 'Socks代理地址', 'socksProxyHost', '127.0.0.1', 'text', 're
 INSERT INTO sys_data_settings (d_group, d_label, d_key, d_text, d_type, d_rules, d_remark, d_placeholder, d_source, d_status, d_order)
 VALUES ('email', 'Socks代理端口', 'socksProxyPort', '1080', 'text', 'required', '', '', '', 1, 8);
 
-INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_type, f_icon, f_parent, f_visible, f_order)
+INSERT INTO sys_authz_feature_list (f_id, f_name, f_abbr, f_code, f_url, f_type, f_icon, f_parent, f_visible, f_order)
 VALUES ('2', '基础设置', '基础设置', 'sets', '', '1', '', '0', '1', '4');
-INSERT INTO sys_authz_feature_list (f_id, f_name, f_abb, f_code, f_url, f_type, f_icon, f_parent, f_visible, f_order)
+INSERT INTO sys_authz_feature_list (f_id, f_name, f_abbr, f_code, f_url, f_type, f_icon, f_parent, f_visible, f_order)
 VALUES ('3', '系统设置', '系统设置', 'appsets', '', '1', '', '2', '1', '4');
 INSERT INTO sys_authz_feature_opts (f_id, opt_name, opt_icon, opt_visible, opt_perms, opt_order)
 VALUES ('3', '查看', '', '0', 'sets:list', 1);

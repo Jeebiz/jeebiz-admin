@@ -38,8 +38,8 @@ public class FeatureTreeNode implements Comparable<FeatureTreeNode>{
 	/**
 	 * 功能菜单或功能按钮简称
 	 */
-	@ApiModelProperty(name = "abb", value = "功能菜单或功能按钮简称")
-	private String abb;
+	@ApiModelProperty(value = "功能菜单或功能按钮简称")
+	private String abbr;
 	/**
 	 * 功能菜单或功能按钮编码：用于与功能操作代码组合出权限标记以及作为前段判断的依据
 	 */
