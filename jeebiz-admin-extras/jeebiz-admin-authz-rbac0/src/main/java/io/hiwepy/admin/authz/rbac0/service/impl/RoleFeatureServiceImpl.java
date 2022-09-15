@@ -6,12 +6,13 @@ package io.hiwepy.admin.authz.rbac0.service.impl;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.toolkit.JdbcUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.util.JdbcConstants;
-import com.alibaba.druid.util.JdbcUtils;
 
 import io.hiwepy.admin.authz.feature.dao.FeatureMapper;
 import io.hiwepy.admin.authz.feature.dao.entities.FeatureEntity;
@@ -34,11 +35,11 @@ public class RoleFeatureServiceImpl extends BaseServiceImpl<RoleFeatureMapper, F
 	@Override
 	public List<FeatureEntity> getFeatures(String roleId) {
 		// 数据库类型
-		String dbType = JdbcUtils.getDbType(dataSourceProperties.getUrl(), null);
+		DbType dbType = JdbcUtils.getDbType(dataSourceProperties.getUrl());
 		// 角色拥有的功能菜单
 		List<FeatureEntity> ownFeatures = getBaseMapper().getFeatures(roleId);
 		// MySQL数据源，则手动构建树形结构数据
-		if (JdbcConstants.MYSQL.equals(dbType)) {
+		if (DbType.MYSQL.getDb().equals(dbType.getDb())) {
 			// 所有的功能菜单
 			List<FeatureEntity> features = getFeatureMapper().getFeatureList();
 			// 为用户拥有的功能菜单指定父级菜单
