@@ -65,7 +65,7 @@ public class SettingsController extends BaseApiController {
 		SettingsModel model = new SettingsModel();
 		model.setGkey(gkey);
 		
-		List<SettingsModel> records = getSettingsService().getModelList(model);
+		List<SettingsModel> records = getSettingsService().getEntityList(model);
 		List<SettingsDTO> retList = Lists.newArrayList();
 		for (SettingsModel settingsModel : records) {
 			retList.add(getBeanMapper().map(settingsModel, SettingsDTO.class));
