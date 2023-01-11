@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved.
  */
-package io.hiwepy.admin.extras.logs.setup.event.listener;
+package io.hiwepy.admin.extras.oauth2.setup.event.listener;
 
 import org.apache.logging.log4j.ThreadContext;
 import org.apache.logging.log4j.spring.boot.utils.Log4jUtils;

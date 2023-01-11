@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved.
  */
-package io.hiwepy.admin.extras.logs.setup.shiro.listener;
+package io.hiwepy.admin.extras.oauth2.setup.shiro.listener;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
