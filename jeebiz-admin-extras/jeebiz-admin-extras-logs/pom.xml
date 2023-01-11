@@ -19,7 +19,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.hiwepy</groupId>
-			<artifactId>jeebiz-boot-extras-external</artifactId>
+			<artifactId>jeebiz-boot-external-autoconfigure</artifactId>
 			<version>${jeebiz-boot.version}</version>
 		</dependency>
 		<!-- For AOP -->
