@@ -2,10 +2,10 @@
 /* 组织机构核心表：组织机构信息表（上下级关联）、组织机构部门表、组织机构岗位表、组织机构用户关系表、组织机构用户关系表*/
 
 -- ----------------------------
--- Table structure for sys_authz_org_list
+-- Table structure for t_org_list
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_org_list`;
-CREATE TABLE `sys_authz_org_list` (
+DROP TABLE IF EXISTS `t_org_list`;
+CREATE TABLE `t_org_list` (
   `org_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '机构id编号',
   `org_code` varchar(30) DEFAULT NULL COMMENT '机构编码',
   `org_name` varchar(100) DEFAULT NULL COMMENT '机构名称',
@@ -22,10 +22,10 @@ CREATE TABLE `sys_authz_org_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='机构信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_org_dept
+-- Table structure for t_org_dept
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_org_dept`;
-CREATE TABLE `sys_authz_org_dept` (
+DROP TABLE IF EXISTS `t_org_dept`;
+CREATE TABLE `t_org_dept` (
   `org_id` bigint(12) NOT NULL COMMENT '机构id编号',
   `dept_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '部门id编号',
   `dept_code` varchar(30) DEFAULT NULL COMMENT '部门编码',
@@ -43,10 +43,10 @@ CREATE TABLE `sys_authz_org_dept` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_org_post
+-- Table structure for t_org_post
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_org_post`;
-CREATE TABLE `sys_authz_org_post` (
+DROP TABLE IF EXISTS `t_org_post`;
+CREATE TABLE `t_org_post` (
   `org_id` bigint(12) NOT NULL COMMENT '机构id编号',
   `dept_id` bigint(12) NOT NULL COMMENT '部门id编号',
   `post_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '岗位id编号',
@@ -64,10 +64,10 @@ CREATE TABLE `sys_authz_org_post` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='岗位信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_org_staff
+-- Table structure for t_org_staff
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_org_staff`;
-CREATE TABLE `sys_authz_org_staff` (
+DROP TABLE IF EXISTS `t_org_staff`;
+CREATE TABLE `t_org_staff` (
   `org_id` bigint(12) NOT NULL COMMENT '机构id编号',
   `dept_id` bigint(12) NOT NULL COMMENT '部门id编号',
   `post_id` bigint(12) NOT NULL COMMENT '岗位id编号',
@@ -85,10 +85,10 @@ CREATE TABLE `sys_authz_org_staff` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组织机构关联表';
 
 -- ----------------------------
--- Table structure for sys_authz_org_team
+-- Table structure for t_org_team
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_org_team`;
-CREATE TABLE `sys_authz_org_team` (
+DROP TABLE IF EXISTS `t_org_team`;
+CREATE TABLE `t_org_team` (
   `org_id` bigint(12) NOT NULL COMMENT '机构id编号',
   `dept_id` bigint(12) NOT NULL COMMENT '部门id编号',
   `team_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '团队id编号',

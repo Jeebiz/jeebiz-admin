@@ -27,7 +27,7 @@ import io.hiwepy.boot.api.dao.entities.PairModel;
 
 @Alias(value = "UserAccountEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_user_account")
+@TableName(value = "t_user_account")
 @Builder
 @Data
 @NoArgsConstructor

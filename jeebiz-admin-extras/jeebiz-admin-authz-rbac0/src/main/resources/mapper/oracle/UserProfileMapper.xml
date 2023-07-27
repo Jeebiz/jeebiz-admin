@@ -4,7 +4,7 @@
 
 	<select id="getCountByPhone" resultType="int" parameterType="java.lang.String" useCache="false">
 	   SELECT COUNT(1)
-		 FROM sys_authz_user_profile t
+		 FROM t_user_profile t
 		WHERE t.phone = #{phone}
 		<if test="origin != null and origin != ''">
 		   AND t.id != #{origin}
@@ -14,7 +14,7 @@
 
 	<select id="getCountByEmail" resultType="int" parameterType="java.lang.String" useCache="false">
 	   SELECT COUNT(1)
-		 FROM sys_authz_user_profile t
+		 FROM t_user_profile t
 		WHERE t.email = #{email}
 		<if test="origin != null and origin != ''">
 		  AND t.id != #{origin}
@@ -24,7 +24,7 @@
 
 	<select id="getCountByIdcard" resultType="int" parameterType="java.lang.String" useCache="false">
 	   SELECT COUNT(1)
-		 FROM sys_authz_user_profile t
+		 FROM t_user_profile t
 		WHERE t.idcard = #{idcard}
 		<if test="origin != null and origin != ''">
 		  AND t.id != #{origin}

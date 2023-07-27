@@ -48,7 +48,7 @@
 		       t.status,
 			   t.target,
 			   t.creator,
-			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.creator) as t_uname,
+			   (SELECT x.nickname FROM t_user_profile x WHERE x.id = t.creator) as t_uname,
 			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT'),0) AS t_total,
 			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT' AND x.status = 0 ),0) AS t_unread,
 			   t.create_time
@@ -75,7 +75,7 @@
 			   t.status,
 			   t.target,
 			   t.creator,
-			   (SELECT x.nickname FROM sys_authz_user_profile x WHERE x.id = t.creator) as t_uname,
+			   (SELECT x.nickname FROM t_user_profile x WHERE x.id = t.creator) as t_uname,
 			   IFNULL(( SELECT COUNT( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT'),0) AS t_total,
 			   IFNULL(( SELECT count( x.id ) FROM sys_inform_records x WHERE x.template_id = t.id AND x.channel = t.channel AND x.from_type = 'EVENT' AND x.status = 0 ),0) AS t_unread,
 			   t.create_time

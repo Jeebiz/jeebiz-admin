@@ -38,7 +38,7 @@
 			t.u_app_id,
 			t.u_app_channel,
 			t.u_app_version
-		FROM sys_log_biz t INNER JOIN sys_authz_user_profile t2 ON t.creator = t2.u_id
+		FROM sys_log_biz t INNER JOIN t_user_profile t2 ON t.creator = t2.u_id
 		<where>
 			<if test="model.userId != null and model.userId != '' ">
 				AND t.creator = #{model.userId}

@@ -35,7 +35,7 @@
 			t.v_location,
 			t.v_agent,
 			t.v_time24
-		FROM sys_article_visits t inner join sys_authz_user_profile x on x.u_id = t.v_uid
+		FROM sys_article_visits t inner join t_user_profile x on x.u_id = t.v_uid
 		<where>
 			<if test="model.cid != null and model.cid != ''">
 				and t.v_cid = #{model.cid}
@@ -57,7 +57,7 @@
 			t.v_location,
 			t.v_agent,
 			t.v_time24
-		FROM sys_article_visits t inner join sys_authz_user_profile x on x.u_id = t.v_uid
+		FROM sys_article_visits t inner join t_user_profile x on x.u_id = t.v_uid
 	   WHERE t.v_cid = #{cid}
 	ORDER By t.v_time24 ASC
 	</select>

@@ -21,13 +21,13 @@
 
 	<select id="getCountByParent" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.f_id)
-		  FROM sys_authz_feature_list t
+		  FROM t_feature_list t
 		 WHERE t.f_parent = #{parent}
 	</select>
 
 	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.f_id)
-		  FROM sys_authz_feature_list t
+		  FROM t_feature_list t
 		 WHERE t.f_code = #{code}
 		<if test="origin != null and origin != ''">
 			AND t.f_id != #{origin}
@@ -48,8 +48,8 @@
 			t.f_parent,
 			t.f_visible,
 			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
-			( SELECT wm_concat(t1.opt_perms) FROM sys_authz_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
-		FROM sys_authz_feature_list t
+			( SELECT wm_concat(t1.opt_perms) FROM t_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
+		FROM t_feature_list t
 	   WHERE t.f_id = #{id}
 	</select>
 
@@ -67,8 +67,8 @@
 			t.f_parent,
 			t.f_visible,
 			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
-			( SELECT wm_concat(t1.opt_perms) FROM sys_authz_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
-		FROM sys_authz_feature_list t
+			( SELECT wm_concat(t1.opt_perms) FROM t_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
+		FROM t_feature_list t
 	   WHERE t.f_visible = 1
        START WITH t.f_url = '#' CONNECT BY t.f_parent = PRIOR t.f_id
 	</select>
@@ -87,8 +87,8 @@
 			t.f_parent,
 			t.f_visible,
 			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
-			( SELECT wm_concat(t1.opt_perms) FROM sys_authz_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
-		FROM sys_authz_feature_list t
+			( SELECT wm_concat(t1.opt_perms) FROM t_feature_opts t1 WHERE t1.f_id = t.f_id) f_perms
+		FROM t_feature_list t
 	   WHERE t.f_visible = 1
 		START WITH t.f_parent = #{id} CONNECT BY t.f_parent = PRIOR t.f_id
 	</select>
@@ -106,7 +106,7 @@
 			t.f_order,
 			t.f_parent,
 			t.f_visible
-		FROM sys_authz_feature_list t
+		FROM t_feature_list t
 		<where>
 			<if test="name != null and name != ''">
 				and t.f_name like '%'|| #{name} ||'%'

@@ -13,7 +13,7 @@
 			begin
 		]]>
 			<foreach collection="perms" item="item" separator =";" close=";">
-				insert into sys_authz_role_perms(role_id,perms) VALUES(#{roleId},#{item})
+				insert into t_role_perms(role_id,perms) VALUES(#{roleId},#{item})
 	        </foreach>
 		<![CDATA[
 			end;
@@ -21,7 +21,7 @@
     </insert>
 
 	<delete id="delPerms" flushCache="true">
-		DELETE FROM sys_authz_role_perms WHERE role_id = #{roleId} AND role_key != 'admin'
+		DELETE FROM t_role_perms WHERE role_id = #{roleId} AND role_key != 'admin'
 		<if test="perms != null and perms.size() > 0">
 		<foreach collection="perms" item="item" separator =" OR " open=" AND ( " close=")">
 		perms = #{item}
@@ -31,7 +31,7 @@
 
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="true">
 		SELECT t.perms AS perms
-		FROM sys_authz_role_perms t
+		FROM t_role_perms t
 		WHERE t.role_id = #{roleId}
 	</select>
 

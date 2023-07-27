@@ -23,25 +23,25 @@
 	</resultMap>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_authz_org_staff t
+		UPDATE t_org_staff t
 		   SET staff_status = #{status}
 		 WHERE staff_id = #{id}
 	</update>
 
 	<select id="getCountByUid" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.staff_id) FROM sys_authz_org_staff t WHERE t.staff_id = #{uid}
+		SELECT count(t.staff_id) FROM t_org_staff t WHERE t.staff_id = #{uid}
 	</select>
 
 	<select id="getPagedList" resultMap="StaffMap" parameterType="StaffEntity" useCache="false">
 		SELECT
 			t.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t.org_id) as org_name,
 			t.dept_id,
-			(select x.dept_name from sys_authz_org_dept x where x.dept_id = t.dept_id) as dept_name,
+			(select x.dept_name from t_org_dept x where x.dept_id = t.dept_id) as dept_name,
 			t.post_id,
-			(select x.post_name from sys_authz_org_post x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
+			(select x.post_name from t_org_post x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
 			t.team_id,
-			(select x.team_name from sys_authz_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
+			(select x.team_name from t_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
 			t.staff_id,
 			t.staff_intro,
 			t.staff_status,
@@ -50,7 +50,7 @@
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email
-		FROM sys_authz_org_staff t inner join sys_authz_user_profile t2 on t2.u_id = t.staff_id
+		FROM t_org_staff t inner join t_user_profile t2 on t2.u_id = t.staff_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
 				and t.org_id = #{model.orgId}
@@ -77,13 +77,13 @@
 	<select id="getModel" resultMap="StaffMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t.org_id) as org_name,
 			t.dept_id,
-			(select x.dept_name from sys_authz_org_dept x where x.dept_id = t.dept_id) as dept_name,
+			(select x.dept_name from t_org_dept x where x.dept_id = t.dept_id) as dept_name,
 			t.post_id,
-			(select x.post_name from sys_authz_org_post x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
+			(select x.post_name from t_org_post x where x.dept_id = t.dept_id AND x.post_id = t.post_id) as post_name,
 			t.team_id,
-			(select x.team_name from sys_authz_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
+			(select x.team_name from t_org_team x where x.dept_id = t.dept_id AND x.team_id = t.team_id) as team_name,
 			t.staff_id,
 			t.staff_intro,
 			t.staff_status,
@@ -92,7 +92,7 @@
 			t2.u_avatar,
 			t2.u_phone,
 			t2.u_email
-		FROM sys_authz_org_staff t inner join sys_authz_user_profile t2 on t2.u_id = t.staff_id
+		FROM t_org_staff t inner join t_user_profile t2 on t2.u_id = t.staff_id
 	   WHERE t.staff_id = #{id}
 	</select>
 
