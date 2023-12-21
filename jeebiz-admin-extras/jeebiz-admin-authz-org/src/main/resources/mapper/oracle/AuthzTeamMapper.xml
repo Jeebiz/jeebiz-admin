@@ -22,14 +22,14 @@
 	</resultMap>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_authz_org_team t
+		UPDATE t_org_team t
 		   SET team_status = #{status}
 		 WHERE team_id = #{id}
 	</update>
 
 	<select id="getTeamCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.team_id)
-		  FROM sys_authz_org_team t
+		  FROM t_org_team t
 		 WHERE t.team_name = #{name}
 		   AND t.dept_id = #{deptId}
 		 <if test="teamId != null and teamId != ''">
@@ -39,14 +39,14 @@
 
 	<select id="getStaffCount" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.u_id)
-		  FROM sys_authz_user_account t
+		  FROM t_user_account t
 		 WHERE t.team_id = #{id}
 	</select>
 
 	<select id="getPagedList" resultMap="TeamMap" parameterType="TeamEntity" useCache="false">
 		SELECT
 			t2.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t2.org_id) as org_name,
 			t.dept_id,
 			t2.dept_name,
 			t.team_id,
@@ -55,7 +55,7 @@
 			t.team_uid,
 			t.team_status,
 			t.time24
-		FROM sys_authz_org_team t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM t_org_team t inner join t_org_dept t2 on t2.dept_id = t.dept_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
 				and t2.org_id = #{model.orgId}
@@ -73,7 +73,7 @@
 	<select id="getModel" resultMap="TeamMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t2.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t2.org_id) as org_name,
 			t.dept_id,
 			t2.dept_name,
 			t.team_id,
@@ -82,14 +82,14 @@
 			t.team_uid,
 			t.team_status,
 			t.time24
-		FROM sys_authz_org_team t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM t_org_team t inner join t_org_dept t2 on t2.dept_id = t.dept_id
 	   WHERE t.team_id = #{id}
 	</select>
 
 	<select id="getModelList" resultMap="TeamMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t2.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t2.org_id) as org_name,
 			t.dept_id,
 			t2.dept_name,
 			t.team_id,
@@ -98,7 +98,7 @@
 			t.team_uid,
 			t.team_status,
 			t.time24
-		FROM sys_authz_org_team t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM t_org_team t inner join t_org_dept t2 on t2.dept_id = t.dept_id
 		<if test="key != null and key != ''">
 			WHERE t.team_id = #{key}
 		</if>
@@ -106,7 +106,7 @@
 
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
 	   SELECT t.team_id,t.team_name
-		 FROM sys_authz_org_team t
+		 FROM t_org_team t
 		WHERE t.team_status = 1
 		<if test="key != null and key != ''">
 			AND t.dept_id = #{key}

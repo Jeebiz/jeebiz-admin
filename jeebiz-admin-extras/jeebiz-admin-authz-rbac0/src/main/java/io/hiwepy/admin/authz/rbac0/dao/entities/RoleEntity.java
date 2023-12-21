@@ -22,7 +22,7 @@ import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "RoleEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_role_list")
+@TableName(value = "t_role_list")
 @Builder
 @Data
 @NoArgsConstructor

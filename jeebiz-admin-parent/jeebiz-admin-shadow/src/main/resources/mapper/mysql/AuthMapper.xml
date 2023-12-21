@@ -93,7 +93,7 @@
 			t2.wgs84_lat,
 			t2.degree,
 			t2.create_time
-		FROM sys_authz_user_account t LEFT JOIN sys_authz_user_profile t2 ON t.user_id = t2.id
+		FROM t_user_account t LEFT JOIN t_user_profile t2 ON t.user_id = t2.id
 	   WHERE t.id = #{userid}
     </select>
 

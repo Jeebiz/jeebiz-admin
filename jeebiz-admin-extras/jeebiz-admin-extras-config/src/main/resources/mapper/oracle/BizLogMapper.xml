@@ -38,7 +38,7 @@
 			t.u_app_id,
 			t.u_app_channel,
 			t.u_app_version
-		FROM sys_log_biz t, sys_authz_user_profile t2
+		FROM sys_log_biz t, t_user_profile t2
 		WHERE t.creator = t2.u_id
 		<if test="model.userId != null and model.userId != '' ">
 			AND t.creator = #{model.userId}

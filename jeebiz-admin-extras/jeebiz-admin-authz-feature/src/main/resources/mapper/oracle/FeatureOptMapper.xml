@@ -14,20 +14,20 @@
 	</resultMap>
 
 	<insert id="insert" parameterType="FeatureOptEntity" flushCache="true">
-		insert into sys_authz_feature_opts(f_id,opt_name,opt_icon,opt_order,opt_visible,opt_perms)
+		insert into t_feature_opts(f_id,opt_name,opt_icon,opt_order,opt_visible,opt_perms)
 		values(#{featureId},#{name},#{icon},#{order},#{visible},#{perms})
 	</insert>
 
 	<delete id="delete" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_feature_opts WHERE opt_id = #{id}
+		DELETE FROM t_feature_opts WHERE opt_id = #{id}
 	</delete>
 
 	<delete id="deleteByParent" parameterType="java.lang.String" flushCache="true">
-		DELETE FROM sys_authz_feature_opts WHERE f_id = #{id}
+		DELETE FROM t_feature_opts WHERE f_id = #{id}
 	</delete>
 
 	<update id="update" parameterType="FeatureOptEntity" flushCache="true">
-		update sys_authz_feature_opts t
+		update t_feature_opts t
 		<set>
 			<if test="name != null and name != ''">t.opt_name = #{name},</if>
 			<if test="icon != null and icon != ''">t.opt_icon = #{icon},</if>
@@ -40,7 +40,7 @@
 
 	<select id="getOptCountByName" resultType="int" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.opt_id)
-		  FROM sys_authz_feature_opts t
+		  FROM t_feature_opts t
 		 WHERE t.opt_name = #{name}
 		   AND t.f_id = #{featureId}
 		 <if test="optId != null and optId != ''">
@@ -57,7 +57,7 @@
 			NVL(t.opt_order,'0') opt_order,
 			t.opt_visible,
 			t.opt_perms
-		FROM sys_authz_feature_opts t
+		FROM t_feature_opts t
 	</select>
 
 	<select id="getFeatureOpt" resultMap="FeatureOptMap" parameterType="java.lang.String" useCache="false">
@@ -69,7 +69,7 @@
 			t.opt_order,
 			t.opt_visible,
 			t.opt_perms
-		FROM sys_authz_feature_opts t
+		FROM t_feature_opts t
 		WHERE t.opt_id = #{id}
 	</select>
 
@@ -82,7 +82,7 @@
 			NVL(t.opt_order,'0') opt_order,
 			t.opt_visible,
 			t.opt_perms
-		FROM sys_authz_feature_opts t
+		FROM t_feature_opts t
 	   <where>
 			<if test="featureId != null and featureId != ''">
 				and t.f_id = #{featureId}

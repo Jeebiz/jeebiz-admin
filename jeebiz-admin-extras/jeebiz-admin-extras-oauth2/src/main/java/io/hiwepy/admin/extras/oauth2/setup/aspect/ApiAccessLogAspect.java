@@ -1,9 +1,9 @@
-package io.hiwepy.admin.extras.logs.setup.aspect;
+package io.hiwepy.admin.extras.oauth2.setup.aspect;
 
 import io.hiwepy.boot.api.Constants;
 import io.hiwepy.boot.api.annotation.ApiModule;
 import io.hiwepy.boot.api.utils.WebUtils;
-import io.hiwepy.boot.extras.external.region.NestedRegionTemplate;
+import io.hiwepy.boot.autoconfigure.region.NestedRegionTemplate;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.biz.authz.principal.ShiroPrincipal;

@@ -22,7 +22,7 @@ import java.time.LocalDate;
 
 @Alias(value = "UserProfileEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_user_profile")
+@TableName(value = "t_user_profile")
 @Builder
 @Data
 @NoArgsConstructor

@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 @Alias(value = "RolePermEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_role_perms")
+@TableName(value = "t_role_perms")
 @Builder
 @Data
 @NoArgsConstructor

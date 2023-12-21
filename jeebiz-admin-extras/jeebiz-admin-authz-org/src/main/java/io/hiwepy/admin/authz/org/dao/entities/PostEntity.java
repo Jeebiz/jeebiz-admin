@@ -20,7 +20,7 @@ import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "PostEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_org_post")
+@TableName(value = "t_org_post")
 @Builder
 @Data
 @NoArgsConstructor

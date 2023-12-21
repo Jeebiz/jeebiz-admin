@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_session")
+@TableName(value = "t_session")
 @Builder
 @Data
 @NoArgsConstructor

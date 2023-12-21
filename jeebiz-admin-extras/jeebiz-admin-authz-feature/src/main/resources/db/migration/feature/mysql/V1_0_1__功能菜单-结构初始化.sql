@@ -2,9 +2,9 @@
 /* 菜单核心表：功能菜单信息表、功能操作信息表、功能菜单-功能操作关系表*/
 
 -- ----------------------------
--- Table structure for sys_authz_feature_list
+-- Table structure for t_feature_list
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `sys_authz_feature_list` (
+CREATE TABLE IF NOT EXISTS `t_feature_list` (
   `f_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '功能菜单id',
   `f_name` varchar(50) NOT NULL COMMENT '功能菜单名称',
   `f_abbr` varchar(50) DEFAULT NULL COMMENT '功能菜单简称',
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `sys_authz_feature_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='功能菜单信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_feature_opts
+-- Table structure for t_feature_opts
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `sys_authz_feature_opts` (
+CREATE TABLE IF NOT EXISTS `t_feature_opts` (
   `f_id` bigint(12) NOT NULL COMMENT '功能菜单id',
   `opt_id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '功能操作信息表id',
   `opt_name` varchar(50) NOT NULL COMMENT '功能操作名称',

@@ -4,10 +4,10 @@
  */
 
 -- ----------------------------
--- Table structure for sys_authz_role_list
+-- Table structure for t_role_list
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_role_list`;
-CREATE TABLE `sys_authz_role_list` (
+DROP TABLE IF EXISTS `t_role_list`;
+CREATE TABLE `t_role_list` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '角色id',
   `key` varchar(50) NOT NULL COMMENT '角色编码',
   `name` varchar(50) NOT NULL COMMENT '角色名称',
@@ -24,23 +24,23 @@ CREATE TABLE `sys_authz_role_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_role_perms
+-- Table structure for t_role_perms
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_role_perms`;
-CREATE TABLE `sys_authz_role_perms` (
+DROP TABLE IF EXISTS `t_role_perms`;
+CREATE TABLE `t_role_perms` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `role_id` bigint(12) NOT NULL COMMENT '角色id',
   `role_key` varchar(64) DEFAULT NULL COMMENT '角色编码',
-  `perms` varchar(50) NOT NULL COMMENT '权限标记：(等同sys_authz_feature_opts.opt_perms)',
+  `perms` varchar(50) NOT NULL COMMENT '权限标记：(等同t_feature_opts.opt_perms)',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_id`(`role_id`,`perms`) USING BTREE COMMENT '角色权限索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色-权限关系表（角色-菜单-按钮）';
 
 -- ----------------------------
--- Table structure for sys_authz_user_account
+-- Table structure for t_user_account
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_user_account`;
-CREATE TABLE `sys_authz_user_account` (
+DROP TABLE IF EXISTS `t_user_account`;
+CREATE TABLE `t_user_account` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `account` varchar(100) NOT NULL COMMENT '账号名称',
   `password` varchar(100) NOT NULL COMMENT '账号密码',
@@ -66,10 +66,10 @@ CREATE TABLE `sys_authz_user_account` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户账户信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_user_profile
+-- Table structure for t_user_profile
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_user_profile`;
-CREATE TABLE `sys_authz_user_profile` (
+DROP TABLE IF EXISTS `t_user_profile`;
+CREATE TABLE `t_user_profile` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `code` varchar(50) COMMENT '用户code（短号/工号）',
   `nickname` varchar(50) DEFAULT NULL COMMENT '用户昵称',
@@ -106,10 +106,10 @@ CREATE TABLE `sys_authz_user_profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户详情信息表';
 
 -- ----------------------------
--- Table structure for sys_authz_user_roles
+-- Table structure for t_user_roles
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_user_roles`;
-CREATE TABLE `sys_authz_user_roles` (
+DROP TABLE IF EXISTS `t_user_roles`;
+CREATE TABLE `t_user_roles` (
   `id` bigint(12) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` bigint(12) NOT NULL COMMENT '用户id',
   `role_id` bigint(12) NOT NULL COMMENT '角色id',

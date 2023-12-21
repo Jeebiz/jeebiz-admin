@@ -20,7 +20,7 @@ import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "TeamEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_org_team")
+@TableName(value = "t_org_team")
 @Builder
 @Data
 @NoArgsConstructor

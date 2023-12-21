@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Jeebiz (http://jeebiz.net).
  * All Rights Reserved.
  */
-package io.hiwepy.admin.extras.logs.setup.shiro;
+package io.hiwepy.admin.extras.oauth2.setup.shiro;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.ThreadContext;
-import org.apache.logging.log4j.spring.boot.utils.RemoteAddrUtils;
 import org.apache.shiro.biz.utils.WebUtils;
 import org.apache.shiro.web.filter.AccessControlFilter;
 

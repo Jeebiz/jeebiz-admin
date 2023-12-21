@@ -66,13 +66,13 @@
 		       (CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
 		       (CASE WHEN (SELECT COUNT(t1.f_id)
 		             FROM sys_feature_opts t1
-		            INNER JOIN sys_authz_role_perms x  ON (x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
+		            INNER JOIN t_role_perms x  ON (x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 		            WHERE t1.f_id = t.f_id
 		              AND x.role_id = #{roleId}
 	       	   ) > 0 THEN 1 ELSE 0 END) f_checked,
 			   (SELECT wm_concat(t1.opt_perms) perms
 					 FROM sys_feature_opts t1
-					INNER JOIN sys_authz_role_perms x ON ( x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
+					INNER JOIN t_role_perms x ON ( x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 					WHERE t1.f_id = t.f_id
 					  AND x.role_id = #{roleId}
 			   ) f_perms
@@ -81,7 +81,7 @@
 		 START WITH t.f_id IN (
 		       SELECT DISTINCT t1.f_id
 		         FROM sys_feature_opts t1
-		        INNER JOIN sys_authz_role_perms x  ON (x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
+		        INNER JOIN t_role_perms x  ON (x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 		        WHERE t1.f_id = t.f_id
 		          AND x.role_id = #{roleId}
 		  )
@@ -99,7 +99,7 @@
 			t.opt_visible,
 			t.opt_perms,
 			(CASE WHEN (SELECT COUNT(x.perms)
-				 FROM sys_authz_role_perms x
+				 FROM t_role_perms x
 				WHERE x.role_id = #{roleId,jdbcType=VARCHAR}
 				 AND ( x.perms = t.opt_perms or x.perms = '*' or x.perms = '*:*')
 			 ) > 0 THEN 1 ELSE 0 END) opt_checked
@@ -122,13 +122,13 @@
 			(CASE WHEN (t.f_parent = '#' OR t.f_parent = '0') THEN 1 ELSE 0 END) as f_root,
 			(CASE WHEN (SELECT COUNT(t1.f_id)
 		             FROM sys_feature_opts t1
-		            INNER JOIN sys_authz_role_perms x  ON (x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
+		            INNER JOIN t_role_perms x  ON (x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 		            WHERE t1.f_id = t.f_id
 		              AND x.role_id = #{roleId}
        	    ) > 0 THEN 1 ELSE 0 END) f_checked,
        	    (SELECT wm_concat(t1.opt_perms) perms
 				 FROM sys_feature_opts t1
-				INNER JOIN sys_authz_role_perms x ON ( x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
+				INNER JOIN t_role_perms x ON ( x.perms = t1.opt_perms or x.perms = '*' or x.perms = '*:*')
 				WHERE t1.f_id = t.f_id
 				  AND x.role_id = #{roleId}
 		    ) f_perms
@@ -147,12 +147,12 @@
 			t.opt_visible,
 			t.opt_perms,
 			(CASE WHEN (SELECT COUNT(x.perms)
-				 FROM sys_authz_role_perms x
+				 FROM t_role_perms x
 				WHERE x.role_id = #{roleId}
 				 AND ( x.perms = t.opt_perms or x.perms = '*' or x.perms = '*:*')
 			 ) > 0 THEN 1 ELSE 0 END) opt_checked
 		FROM sys_feature_opts t
-       INNER JOIN sys_authz_role_perms t2 ON (t2.perms = t.opt_perms or t2.perms = '*' or t2.perms = '*:*')
+       INNER JOIN t_role_perms t2 ON (t2.perms = t.opt_perms or t2.perms = '*' or t2.perms = '*:*')
        WHERE t2.role_id = #{roleId}
 	</select>
 

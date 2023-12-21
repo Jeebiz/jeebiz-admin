@@ -131,41 +131,41 @@
 	</resultMap>
 
 	<select id="getAccountStatus" resultMap="AccountStatusMap" useCache="false">
-		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.account = #{account}) count,
-			   (select CAST(count('1') AS CHAR) from sys_authz_user_account b where b.account = #{account} and b.password = #{password,jdbcType=VARCHAR} ) p_count,
-			   (select CAST(count('1') AS CHAR) from sys_authz_user_account c, sys_authz_user_roles x where c.user_id = x.user_id and c.account = #{account}) r_count,
-			   IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.account = #{account}),'0') status,
-			   (select d.salt from sys_authz_user_account d where d.account = #{account}) as salt
+		select (select CAST(count('1') AS CHAR) from t_user_account a where a.account = #{account}) count,
+			   (select CAST(count('1') AS CHAR) from t_user_account b where b.account = #{account} and b.password = #{password,jdbcType=VARCHAR} ) p_count,
+			   (select CAST(count('1') AS CHAR) from t_user_account c, t_user_roles x where c.user_id = x.user_id and c.account = #{account}) r_count,
+			   IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from t_user_account d where d.account = #{account}),'0') status,
+			   (select d.salt from t_user_account d where d.account = #{account}) as salt
 		from dual
 	</select>
 
 	<select id="getAccountStatusWithoutPwd" resultMap="AccountStatusMap" useCache="false">
-		select (select CAST(count('1') AS CHAR) from sys_authz_user_account a where a.account = #{account}) count,
-			   (select CAST(count('1') AS CHAR) from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.account = #{account}) r_count,
-			   IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from sys_authz_user_account d where d.account = #{account}),'0') status,
-			   (select d.salt from sys_authz_user_account d where d.account = #{account}) as salt
+		select (select CAST(count('1') AS CHAR) from t_user_account a where a.account = #{account}) count,
+			   (select CAST(count('1') AS CHAR) from t_user_account c,t_user_roles x where c.user_id = x.user_id and c.account = #{account}) r_count,
+			   IFNULL((select CAST(IFNULL(d.status,'0') AS CHAR) from t_user_account d where d.account = #{account}),'0') status,
+			   (select d.salt from t_user_account d where d.account = #{account}) as salt
 		from dual
 	</select>
 
 	<select id="getAccountStatusByUserId" resultMap="AccountStatusMap" useCache="false">
-		select (select count('1') from sys_authz_user_account a where a.user_id = #{userId}) count,
-			   (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.user_id = #{userId}) r_count,
-			   IFNULL((select IFNULL(d.status,'0') from sys_authz_user_account d where d.user_id = #{userId}),'0') status,
-			   (select d.salt from sys_authz_user_account d where d.user_id = #{userId}) as salt
+		select (select count('1') from t_user_account a where a.user_id = #{userId}) count,
+			   (select count('1') from t_user_account c,t_user_roles x where c.user_id = x.user_id and c.user_id = #{userId}) r_count,
+			   IFNULL((select IFNULL(d.status,'0') from t_user_account d where d.user_id = #{userId}),'0') status,
+			   (select d.salt from t_user_account d where d.user_id = #{userId}) as salt
 		from dual
 	</select>
 
 	<select id="getAccountStatusById" resultMap="AccountStatusMap" useCache="false">
-		select (select count('1') from sys_authz_user_account a where a.id = #{id}) count,
-			   (select count('1') from sys_authz_user_account c,sys_authz_user_roles x where c.user_id = x.user_id and c.id = #{id}) r_count,
-			   IFNULL((select IFNULL(d.status,'0') from sys_authz_user_account d where d.id = #{id}),'0') status,
-			   (select d.salt from sys_authz_user_account d where d.id = #{id}) as salt
+		select (select count('1') from t_user_account a where a.id = #{id}) count,
+			   (select count('1') from t_user_account c,t_user_roles x where c.user_id = x.user_id and c.id = #{id}) r_count,
+			   IFNULL((select IFNULL(d.status,'0') from t_user_account d where d.id = #{id}),'0') status,
+			   (select d.salt from t_user_account d where d.id = #{id}) as salt
 		from dual
 	</select>
 	
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.id)
-		  FROM sys_authz_user_account t
+		  FROM t_user_account t
 		 WHERE t.account = #{name}
 		 <if test="origin != null and origin != ''">
 			AND t.id != #{origin}
@@ -174,7 +174,7 @@
 
 	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.id)
-		  FROM sys_authz_user_account t
+		  FROM t_user_account t
 		 WHERE t.user_code = #{code}
 		<if test="origin != null and origin != ''">
 			AND t.id != #{origin}
@@ -182,7 +182,7 @@
 	</select>
 
 	<select id="getCountByRoleId" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
-		SELECT count(t.id) FROM sys_authz_user_roles t WHERE t.role_id = #{roleId} AND t.user_id = #{userId}
+		SELECT count(t.id) FROM t_user_roles t WHERE t.role_id = #{roleId} AND t.user_id = #{userId}
 	</select>
 
 	<select id="getUserList" resultMap="UserMap" parameterType="java.lang.String" useCache="false">
@@ -202,7 +202,7 @@
 			t.latest_online,
 			t.`status`,
 			t.create_time
-		FROM sys_authz_user_account t
+		FROM t_user_account t
 	   WHERE t.`status` = 1
 	</select>
 
@@ -223,11 +223,11 @@
 			t.latest_online,
 			t.`status`,
 			t.create_time
-		FROM sys_authz_user_account t
+		FROM t_user_account t
 	   WHERE t.account != 'admin'
 		<if test="model.roleId != null and model.roleId != ''">
 			and EXISTS (SELECT y.id
-				 FROM sys_authz_user_roles y
+				 FROM t_user_roles y
 				WHERE y.user_id = t.user_id
 				  AND y.role_id = #{model.roleId}
 			 )
@@ -248,9 +248,9 @@
 			t.type,
 			t.intro,
 			t.`status`,
-			(SELECT COUNT(x.id) FROM sys_authz_user_roles x WHERE x.role_id = t.id) as r_users,
+			(SELECT COUNT(x.id) FROM t_user_roles x WHERE x.role_id = t.id) as r_users,
 			t.create_time
-		FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+		FROM t_role_list t INNER JOIN t_user_roles x ON t.id = x.role_id
 		WHERE x.user_id = #{id}
 		<if test="model.status != null and model.status != ''">
 			and t.`status` = #{model.status}
@@ -271,10 +271,10 @@
 			t.type,
 			t.intro,
 			t.`status`,
-			(SELECT COUNT(x.id) FROM sys_authz_user_roles x WHERE x.role_id = t.id) as r_users,
+			(SELECT COUNT(x.id) FROM t_user_roles x WHERE x.role_id = t.id) as r_users,
 			t.create_time
-		FROM sys_authz_role_list t
-		WHERE NOT EXISTS ( SELECT '1' FROM sys_authz_user_roles z WHERE t.role_id = z.role_id and z.user_id = #{userId})
+		FROM t_role_list t
+		WHERE NOT EXISTS ( SELECT '1' FROM t_user_roles z WHERE t.role_id = z.role_id and z.user_id = #{userId})
 		<if test="model.status != null and model.status != ''">
 			and t.`status` = #{model.status}
 		</if>
@@ -288,7 +288,7 @@
 
 	<select id="getRoleKeys" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
 		  SELECT t.id
-			FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+			FROM t_role_list t INNER JOIN t_user_roles x ON t.id = x.role_id
 		   WHERE t.`status` = 1
 			 AND x.user_id = #{userId}
 		ORDER BY x.priority DESC
@@ -298,7 +298,7 @@
 		SELECT
 			t.id,
 			t.name
-		FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+		FROM t_role_list t INNER JOIN t_user_roles x ON t.id = x.role_id
 		WHERE t.`status` = 1
 		  AND x.user_id = #{userId}
 		ORDER BY x.priority DESC
@@ -313,7 +313,7 @@
 				t.intro,
 				t.`status`,
 				t.create_time
-			FROM sys_authz_role_list t INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
+			FROM t_role_list t INNER JOIN t_user_roles x ON t.id = x.role_id
 		   WHERE t.`status` = 1
 			 AND x.user_id = #{userId}
 		ORDER BY x.priority ASC
@@ -321,9 +321,9 @@
 
 	<select id="getPermissions" resultType="java.lang.String" parameterType="java.lang.String" useCache="false">
 		SELECT DISTINCT y.perms
-		FROM sys_authz_role_list t
-		INNER JOIN sys_authz_user_roles x ON t.id = x.role_id
-		INNER JOIN sys_authz_role_perms y ON t.id = y.role_id
+		FROM t_role_list t
+		INNER JOIN t_user_roles x ON t.id = x.role_id
+		INNER JOIN t_role_perms y ON t.id = y.role_id
 		WHERE x.user_id = #{userId}
 		ORDER BY x.priority ASC
 	</select>
@@ -356,7 +356,7 @@
 			t.app_channel,
 			t.app_version,
 			t.create_time
-		FROM sys_authz_user_profile t
+		FROM t_user_profile t
 		WHERE t.id = #{userId}
 	</select>
 

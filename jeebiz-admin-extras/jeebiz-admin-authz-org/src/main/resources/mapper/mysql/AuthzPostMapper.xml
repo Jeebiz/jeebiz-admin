@@ -23,14 +23,14 @@
 	</resultMap>
 
 	<update id="setStatus" parameterType="java.lang.String" flushCache="true">
-		UPDATE sys_authz_org_post t
+		UPDATE t_org_post t
 		   SET post_status = #{status}
 		 WHERE post_id = #{id}
 	</update>
 
 	<select id="getCountByCode" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.post_id)
-		  FROM sys_authz_org_post t
+		  FROM t_org_post t
 		 WHERE t.post_code = #{code}
 		<if test="origin != null and origin != ''">
 			AND t.post_id != #{origin}
@@ -39,7 +39,7 @@
 
 	<select id="getCountByName" resultType="java.lang.Long" parameterType="java.lang.String" useCache="false">
 		SELECT count(t.post_id)
-		  FROM sys_authz_org_post t
+		  FROM t_org_post t
 		 WHERE t.post_name = #{name}
 		 <if test="origin != null and origin != ''">
 			AND t.post_id != #{origin}
@@ -49,7 +49,7 @@
 	<select id="getPagedList" resultMap="PostMap" parameterType="PostEntity" useCache="false">
 		SELECT
 			t2.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t2.org_id) as org_name,
 			t.dept_id,
 			t2.dept_name,
 			t.post_id,
@@ -59,7 +59,7 @@
 			t.post_uid,
 			t.post_status,
 			t.time24
-		FROM sys_authz_org_post t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM t_org_post t inner join t_org_dept t2 on t2.dept_id = t.dept_id
 		<where>
 			<if test="model.orgId != null and model.orgId != ''">
 				and t2.org_id = #{model.orgId}
@@ -77,7 +77,7 @@
 	<select id="getModel" resultMap="PostMap" parameterType="java.lang.String" useCache="true">
 		SELECT
 			t2.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t2.org_id) as org_name,
 			t.dept_id,
 			t2.dept_name,
 			t.post_id,
@@ -87,14 +87,14 @@
 			t.post_uid,
 			t.post_status,
 			t.time24
-		FROM sys_authz_org_post t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM t_org_post t inner join t_org_dept t2 on t2.dept_id = t.dept_id
 	   WHERE t.post_id = #{id}
 	</select>
 
 	<select id="getModelList" resultMap="PostMap" parameterType="java.lang.String" useCache="false">
 		SELECT
 			t2.org_id,
-			(select x.org_name from sys_authz_org_list x where x.org_id = t2.org_id) as org_name,
+			(select x.org_name from t_org_list x where x.org_id = t2.org_id) as org_name,
 			t.dept_id,
 			t2.dept_name,
 			t.post_id,
@@ -104,7 +104,7 @@
 			t.post_uid,
 			t.post_status,
 			t.time24
-		FROM sys_authz_org_post t inner join sys_authz_org_dept t2 on t2.dept_id = t.dept_id
+		FROM t_org_post t inner join t_org_dept t2 on t2.dept_id = t.dept_id
 		<if test="key != null and key != ''">
 			WHERE t.post_id = #{key}
 		</if>
@@ -112,7 +112,7 @@
 
 	<select id="getPairValues" resultMap="PairMap" parameterType="java.lang.String" useCache="true">
 	   SELECT t.post_id,t.post_name
-		 FROM sys_authz_org_post t
+		 FROM t_org_post t
 		WHERE t.post_status = 1
 		<if test="key != null and key != ''">
 			AND t.dept_id = #{key}

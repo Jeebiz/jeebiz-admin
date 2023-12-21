@@ -21,7 +21,7 @@ import io.hiwepy.boot.api.dao.entities.PaginationEntity;
 
 @Alias(value = "OrganizationEntity")
 @SuppressWarnings("serial")
-@TableName(value = "sys_authz_org_list")
+@TableName(value = "t_org_list")
 @Builder
 @Data
 @NoArgsConstructor

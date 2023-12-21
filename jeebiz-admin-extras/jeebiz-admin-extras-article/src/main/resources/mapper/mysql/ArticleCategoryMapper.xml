@@ -55,7 +55,7 @@
 			t.c_status,
 			t.c_order,
 			t.creator,
-			(SELECT x.nickname from sys_authz_user_profile x where x.u_id = t.creator) as c_uname,
+			(SELECT x.nickname from t_user_profile x where x.u_id = t.creator) as c_uname,
 			t.create_time
 		FROM sys_article_category t
 		<where>
@@ -84,7 +84,7 @@
 			t.c_status,
 			t.c_order,
 			t.creator,
-			(SELECT x.nickname from sys_authz_user_profile x where x.u_id = t.creator) as c_uname,
+			(SELECT x.nickname from t_user_profile x where x.u_id = t.creator) as c_uname,
 			t.create_time
 		FROM sys_article_category t
 	   WHERE t.c_id = #{id}

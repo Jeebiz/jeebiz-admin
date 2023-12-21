@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
  */
 @SuppressWarnings("serial")
 @Alias(value = "FeatureEntity")
-@TableName(value = "sys_authz_feature_list")
+@TableName(value = "t_feature_list")
 @Builder
 @Data
 @NoArgsConstructor

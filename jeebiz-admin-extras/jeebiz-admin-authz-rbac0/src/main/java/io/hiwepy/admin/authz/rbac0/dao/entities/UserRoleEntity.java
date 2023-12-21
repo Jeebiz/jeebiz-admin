@@ -17,7 +17,7 @@ import lombok.ToString;
 import io.hiwepy.boot.api.dao.entities.BaseEntity;
 
 @Alias(value = "UserRoleEntity")
-@TableName(value = "sys_authz_user_roles")
+@TableName(value = "t_user_roles")
 @SuppressWarnings("serial")
 @Getter
 @Setter

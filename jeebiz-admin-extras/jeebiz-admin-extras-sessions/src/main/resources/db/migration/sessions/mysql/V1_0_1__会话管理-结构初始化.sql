@@ -1,10 +1,10 @@
 
 
 -- ----------------------------
--- Table structure for sys_authz_session
+-- Table structure for t_session
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_authz_session`;
-CREATE TABLE `sys_authz_session` (
+DROP TABLE IF EXISTS `t_session`;
+CREATE TABLE `t_session` (
   `s_id` varchar(50) NOT NULL COMMENT '用户会话id编号',
   `s_uid` varchar(32) NOT NULL COMMENT '当前登录的用户Id',
   `s_uname` varchar(100) NOT NULL COMMENT '当前登录的用户名称',
